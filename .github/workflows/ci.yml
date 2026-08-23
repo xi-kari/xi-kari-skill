@@ -1,0 +1,127 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+  schedule:
+    - cron: "17 3 3 * *"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  PYTHONUTF8: "1"
+
+jobs:
+  integrity:
+    name: integrity (${{ matrix.os }}, py${{ matrix.python }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        python: ["3.11", "3.13"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - name: install checker dependencies
+        run: python -m pip install --quiet "jsonschema>=4.23,<5"
+      - name: byte-compile scripts and runtime
+        run: python -m compileall -q scripts
+      - name: source snapshot
+        run: python scripts/check_source_snapshot.py --all
+      - name: knowledge index
+        run: python scripts/build_knowledge_index.py --check
+      - name: ontology
+        run: python scripts/check_ontology.py --all
+      - name: skill contract
+        run: python scripts/check_xi_kari_skill.py --all
+      - name: runtime contract
+        run: python scripts/check_xi_kari_runtime.py --all
+
+  hygiene:
+    name: public hygiene
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: document metadata and personal-path guard
+        shell: python
+        run: |
+          import re
+          import sys
+          import zipfile
+          from pathlib import Path
+
+          errors = []
+
+          # Document metadata must stay in the scrubbed state established at
+          # publication: a generic creator, everything person-shaped empty.
+          ALLOWED_CREATORS = {"", "v8.2 revision"}
+          for docx in sorted(Path(".").rglob("*.docx")):
+              if ".git" in docx.parts:
+                  continue
+              with zipfile.ZipFile(docx) as bundle:
+                  for name in bundle.namelist():
+                      if not name.startswith("docProps/"):
+                          continue
+                      text = bundle.read(name).decode("utf-8", "replace")
+                      for tag in ("dc:creator", "cp:lastModifiedBy", "Manager", "Company"):
+                          for match in re.finditer(rf"<{tag}[^>]*>([^<]*)</{tag}>", text):
+                              value = match.group(1).strip()
+                              if tag == "dc:creator":
+                                  if value not in ALLOWED_CREATORS:
+                                      errors.append(
+                                          f"{docx}: {tag} must stay generic, found {value!r}"
+                                      )
+                              elif value:
+                                  errors.append(
+                                      f"{docx}: {tag} must stay empty, found {value!r}"
+                                  )
+
+          # Personal machine paths, sync-drive paths, and private mail domains
+          # must never enter the tree; <你> is the documented placeholder.
+          SELF = Path(".github/workflows/ci.yml")
+          leak = re.compile(
+              r"[A-Za-z]:[\\/]Users[\\/](?!<你>)[A-Za-z0-9._-]+"
+              r"|/(?:home|Users)/(?!<你>)[A-Za-z0-9._-]+"
+              r"|@qq\.com"
+              r"|OneDrive"
+              r"|\.local-evidence"
+          )
+          for path in sorted(Path(".").rglob("*")):
+              if (
+                  not path.is_file()
+                  or ".git" in path.parts
+                  or path == SELF
+                  or path.suffix == ".docx"
+              ):
+                  continue
+              raw = path.read_bytes()
+              if b"\x00" in raw:
+                  continue
+              for line_number, line in enumerate(
+                  raw.decode("utf-8", "replace").splitlines(), start=1
+              ):
+                  if leak.search(line):
+                      errors.append(
+                          f"{path}:{line_number}: personal path, sync-drive path,"
+                          " or private mail must not enter the repository"
+                      )
+
+          if errors:
+              print("public hygiene: FAIL", file=sys.stderr)
+              for error in errors:
+                  print(f"ERROR: {error}", file=sys.stderr)
+              sys.exit(1)
+          print("public hygiene: PASS")

@@ -18,6 +18,7 @@
 <img src="https://img.shields.io/badge/%E5%85%A8%E6%BA%90%E9%98%85%E8%AF%BB-21%20%E5%8D%B7-8f641b?style=flat-square&labelColor=3a301e" alt="全源阅读 21 卷">
 <img src="https://img.shields.io/badge/%E6%8E%A8%E6%BC%94%E9%98%B6%E6%AE%B5-XK0%E2%80%93XK12-7ce1ff?style=flat-square&labelColor=0d1117" alt="推演阶段 XK0–XK12">
 <img src="https://img.shields.io/badge/%E5%85%81%E8%AE%B8%E8%B7%B3%E6%AD%A5-0-99cfbc?style=flat-square&labelColor=3a301e" alt="允许跳步 0">
+<a href="https://github.com/xi-kari/xi-kari-skill/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/xi-kari/xi-kari-skill/ci.yml?style=flat-square&labelColor=0d1117&label=%E5%AE%8C%E6%95%B4%E6%80%A7%E8%87%AA%E6%A3%80" alt="完整性自检"></a>
 
 </div>
 
@@ -85,7 +86,7 @@ python scripts/check_xi_kari_skill.py --all
 python scripts/check_xi_kari_runtime.py --all
 ```
 
-五条全部退出码 0，说明包完整、未被改动。
+五条全部退出码 0，说明包完整、未被改动。同样的检查由 GitHub Actions 在每次 push 与 pull request 上自动运行（Linux 与 Windows 双平台），另附一条公开卫生检查。
 
 ## 进阶：封存运行（默认关闭）
 
