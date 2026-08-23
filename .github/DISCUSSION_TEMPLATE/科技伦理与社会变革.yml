@@ -1,0 +1,74 @@
+title: "运行实录 "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        感谢分享 xi-kari-skill 的真实运行实录。
+        本分区对应十五问 01–03：01 数字永生的伦理困境 · 02 算法治理的民主悖论 · 03 注意力经济的异化。
+        标题建议格式：「运行实录 NN · 题名（指令层 · 日期）」。
+        注意：讨论区内容不经过本仓库 CI 的公开卫生检查，发出即公开、可被搜索引擎索引。请先完成末尾的隐私自查，再点发布。
+  - type: input
+    id: question
+    attributes:
+      label: 问题
+      description: 交给 skill 的原始问题
+    validations:
+      required: true
+  - type: input
+    id: host-model
+    attributes:
+      label: 宿主与模型
+      description: 例如 Codex CLI + gpt-5.6-sol、Claude Code + Opus 5
+    validations:
+      required: true
+  - type: dropdown
+    id: mode
+    attributes:
+      label: 运行方式
+      options:
+        - 指令层 open-world
+        - 指令层 closed-input
+        - 封存运行（runtime execute ＋ validate 复验）
+    validations:
+      required: true
+  - type: textarea
+    id: process
+    attributes:
+      label: 过程概要
+      description: 用自己的话概括：读源方式（亲读／分段／子代理）、检索方向、大致耗时、压缩或断流等插曲、自检结果。不要整段粘贴宿主转录。
+  - type: textarea
+    id: delivery
+    attributes:
+      label: 交付全文或结论摘录
+      description: 建议至少包含中心判断、最强反方与撤回条件；全文粘贴亦可
+    validations:
+      required: true
+  - type: textarea
+    id: receipt
+    attributes:
+      label: 21 卷读取回执表
+      description: 从交付末尾原样粘贴（亲读全文／分段／子代理／未读）
+    validations:
+      required: true
+  - type: textarea
+    id: self-review
+    attributes:
+      label: 运行者自评
+      description: 哪里超出预期、哪里降档、哪里存疑
+  - type: textarea
+    id: artifacts
+    attributes:
+      label: 配套工件（可选）
+      description: 建议把 run 目录中的 analysis／validation 工件放进 `<details>` 折叠块原样转载；工件内容同样要过下方隐私自查。
+  - type: checkboxes
+    id: privacy
+    attributes:
+      label: 隐私自查
+      description: 逐项确认后再发布
+      options:
+        - label: 已替换或移除真实用户名与机器路径（示例统一用 <你> 占位）
+          required: true
+        - label: 已移除同步盘路径、本机端口、内网地址与网关信息
+          required: true
+        - label: 已移除私人邮箱、密钥与宿主私有配置痕迹
+          required: true
