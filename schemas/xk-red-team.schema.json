@@ -1,0 +1,94 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://xi-kari.local/schemas/xi-kari.v2.red-team-report.schema.json",
+  "title": "Xi-Kari v2 red-team report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_id", "schema_version", "run_id"],
+  "properties": {
+    "schema_id": {"const": "xi-kari.v2.red-team-report"},
+    "schema_version": {"const": 3},
+    "run_id": {"type": "string"},
+    "strongest_attack": {"type": "string"},
+    "attacked_evidence_refs": {"type": "array"},
+    "attacked_claim_ids": {"type": "array"},
+    "attacked_mechanism_ids": {"type": "array"},
+    "attacked_explanation_ids": {"type": "array"},
+    "attacked_action_option_ids": {"type": "array"},
+    "reverse_signals": {"type": "array"},
+    "surviving_claims": {"type": "array"},
+    "repair_required": {"type": "boolean"},
+    "repair": {"$ref": "#/$defs/verifiedRepair"},
+    "dynamic_applicability": {"enum": ["applicable", "not_applicable"]},
+    "status": {"type": "string"}
+  },
+  "oneOf": [
+    {"required": ["strongest_attack", "attacked_evidence_refs", "attacked_claim_ids", "attacked_mechanism_ids", "attacked_explanation_ids", "attacked_action_option_ids", "reverse_signals", "surviving_claims", "repair_required"]},
+    {
+      "required": ["dynamic_applicability", "status"],
+      "properties": {
+        "dynamic_applicability": {"const": "not_applicable"},
+        "status": {"const": "not_run"}
+      }
+    }
+  ],
+  "allOf": [
+    {
+      "if": {
+        "properties": {"repair_required": {"const": true}},
+        "required": ["repair_required"]
+      },
+      "then": {"required": ["repair"]}
+    }
+  ],
+  "$defs": {
+    "verifiedRepair": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["repair_id", "description", "repaired_claim_ids", "claim_outcomes", "repair_evidence_refs", "verification_status", "verification_evidence_refs", "verified_at"],
+      "properties": {
+        "repair_id": {"type": "string", "minLength": 1},
+        "description": {"type": "string", "minLength": 1},
+        "repaired_claim_ids": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "claim_outcomes": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/claimOutcome"}},
+        "repair_evidence_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "verification_status": {"const": "verified"},
+        "verification_evidence_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "verified_at": {"type": "string", "format": "date-time"}
+      }
+    },
+    "claimOutcome": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["claim_id", "disposition", "replacement_claim_id", "bounds"],
+      "properties": {
+        "claim_id": {"type": "string", "minLength": 1},
+        "disposition": {"enum": ["downgrade", "withdraw", "replace", "retain-with-bounds"]},
+        "replacement_claim_id": {
+          "oneOf": [
+            {"type": "string", "minLength": 1},
+            {"type": "null"}
+          ]
+        },
+        "bounds": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}}
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {"disposition": {"const": "replace"}},
+            "required": ["disposition"]
+          },
+          "then": {"properties": {"replacement_claim_id": {"type": "string", "minLength": 1}}},
+          "else": {"properties": {"replacement_claim_id": {"type": "null"}}}
+        },
+        {
+          "if": {
+            "properties": {"disposition": {"const": "retain-with-bounds"}},
+            "required": ["disposition"]
+          },
+          "then": {"properties": {"bounds": {"minItems": 1}}}
+        }
+      ]
+    }
+  }
+}

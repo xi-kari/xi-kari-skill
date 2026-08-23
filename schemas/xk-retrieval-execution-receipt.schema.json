@@ -1,0 +1,237 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://xi-kari.local/schemas/xi-kari.v2.retrieval-execution-receipt.schema.json",
+  "title": "Xi-Kari v2 runtime retrieval execution receipt",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "schema_version",
+    "protocol",
+    "run_id",
+    "execution_context_id",
+    "provider_binding_sha256",
+    "adapter_executable_sha256",
+    "adapter_input_sha256",
+    "parent_pid",
+    "child_pid",
+    "started_at",
+    "completed_at",
+    "exit_status",
+    "stdout_sha256",
+    "stderr_sha256",
+    "event_stream_sha256",
+    "event_count",
+    "thread_id",
+    "web_events",
+    "semantic_retrieval_sha256",
+    "retrieval_sha256",
+    "query_bindings",
+    "source_bindings",
+    "directional_evidence",
+    "receipt_sha256"
+  ],
+  "properties": {
+    "schema_id": {"const": "xi-kari.v2.retrieval-execution-receipt"},
+    "schema_version": {"const": 1},
+    "protocol": {"const": "xi-kari.v2.codex-jsonl-web-execution/v1"},
+    "run_id": {"type": "string", "minLength": 1},
+    "execution_context_id": {"type": "string", "minLength": 1},
+    "provider_binding_sha256": {"$ref": "#/$defs/sha256"},
+    "adapter_executable_sha256": {"$ref": "#/$defs/sha256"},
+    "adapter_input_sha256": {"$ref": "#/$defs/sha256"},
+    "parent_pid": {"type": "integer", "minimum": 1},
+    "child_pid": {"type": "integer", "minimum": 1},
+    "started_at": {"type": "string", "format": "date-time"},
+    "completed_at": {"type": "string", "format": "date-time"},
+    "exit_status": {"const": 0},
+    "stdout_sha256": {"$ref": "#/$defs/sha256"},
+    "stderr_sha256": {"$ref": "#/$defs/sha256"},
+    "event_stream_sha256": {"$ref": "#/$defs/sha256"},
+    "event_count": {"type": "integer", "minimum": 1, "maximum": 10000},
+    "thread_id": {"type": "string", "minLength": 1},
+    "web_events": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/web_event"}
+    },
+    "semantic_retrieval_sha256": {"$ref": "#/$defs/sha256"},
+    "retrieval_sha256": {"$ref": "#/$defs/sha256"},
+    "query_bindings": {
+      "type": "array",
+      "minItems": 5,
+      "maxItems": 5,
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/query_binding"}
+    },
+    "source_bindings": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/source_binding"}
+    },
+    "directional_evidence": {
+      "type": "array",
+      "minItems": 5,
+      "maxItems": 5,
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/directional_evidence"}
+    },
+    "receipt_sha256": {"$ref": "#/$defs/sha256"}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "string_list": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "web_event": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["sequence", "event_id", "event_sha256", "query", "action"],
+      "properties": {
+        "sequence": {"type": "integer", "minimum": 0},
+        "event_id": {"type": "string", "minLength": 1},
+        "event_sha256": {"$ref": "#/$defs/sha256"},
+        "query": {"type": "string", "minLength": 1},
+        "action": {"$ref": "#/$defs/web_action"}
+      }
+    },
+    "web_action": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["type"],
+          "properties": {
+            "type": {"const": "search"},
+            "query": {"type": "string", "minLength": 1},
+            "queries": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": {"type": "string", "minLength": 1}
+            }
+          },
+          "anyOf": [{"required": ["query"]}, {"required": ["queries"]}]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["type", "url"],
+          "properties": {
+            "type": {"const": "open_page"},
+            "url": {"type": "string", "format": "uri", "pattern": "^https://"}
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["type", "url"],
+          "properties": {
+            "type": {"const": "find_in_page"},
+            "url": {"type": "string", "format": "uri", "pattern": "^https://"},
+            "pattern": {"type": "string", "minLength": 1}
+          }
+        }
+      ]
+    },
+    "query_binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["query_id", "query_sha256", "purpose_sha256", "search_event_ids", "result_source_ids"],
+      "properties": {
+        "query_id": {"type": "string", "minLength": 1},
+        "query_sha256": {"$ref": "#/$defs/sha256"},
+        "purpose_sha256": {"$ref": "#/$defs/sha256"},
+        "search_event_ids": {"$ref": "#/$defs/string_list"},
+        "result_source_ids": {"$ref": "#/$defs/string_list"}
+      }
+    },
+    "source_binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_id", "url", "content_sha256", "content_authority", "accessed_at", "open_event_ids", "host_observation"],
+      "properties": {
+        "source_id": {"type": "string", "minLength": 1},
+        "url": {"type": "string", "format": "uri"},
+        "content_sha256": {"$ref": "#/$defs/sha256"},
+        "content_authority": {"enum": ["model-authored-excerpt", "host-observed", "unknown"]},
+        "accessed_at": {"type": "string", "format": "date-time"},
+        "open_event_ids": {"$ref": "#/$defs/string_list"},
+        "host_observation": {"$ref": "#/$defs/host_observation"}
+      }
+    },
+    "host_observation": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["status", "event_stream_sha256", "open_event_ids"],
+          "properties": {
+            "status": {"const": "unbound"},
+            "event_stream_sha256": {"$ref": "#/$defs/sha256"},
+            "open_event_ids": {"$ref": "#/$defs/string_list"}
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["status", "binding_sha256", "event_stream_sha256", "open_event_ids"],
+          "properties": {
+            "status": {"const": "bound"},
+            "binding_sha256": {"$ref": "#/$defs/sha256"},
+            "event_stream_sha256": {"$ref": "#/$defs/sha256"},
+            "open_event_ids": {"$ref": "#/$defs/string_list"}
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["status", "binding_sha256", "event_stream_sha256", "open_event_ids", "capture_id", "requested_url", "final_url", "peer_ip", "response_status", "content_type", "charset", "body_sha256", "text_sha256", "body_byte_count", "text_character_count", "redirect_chain", "excerpt_sha256", "excerpt_start", "excerpt_end"],
+          "properties": {
+            "status": {"const": "bound"},
+            "binding_sha256": {"$ref": "#/$defs/sha256"},
+            "event_stream_sha256": {"$ref": "#/$defs/sha256"},
+            "open_event_ids": {"$ref": "#/$defs/string_list"},
+            "capture_id": {"type": "string", "minLength": 1},
+            "requested_url": {"type": "string", "format": "uri", "pattern": "^https://"},
+            "final_url": {"type": "string", "format": "uri", "pattern": "^https://"},
+            "peer_ip": {"type": ["string", "null"]},
+            "response_status": {"type": "integer", "minimum": 200, "maximum": 299},
+            "content_type": {"type": "string", "minLength": 1},
+            "charset": {"type": "string", "minLength": 1},
+            "body_sha256": {"$ref": "#/$defs/sha256"},
+            "text_sha256": {"$ref": "#/$defs/sha256"},
+            "body_byte_count": {"type": "integer", "minimum": 1},
+            "text_character_count": {"type": "integer", "minimum": 1},
+            "redirect_chain": {"type": "array", "maxItems": 5, "uniqueItems": true, "items": {"type": "string", "format": "uri", "pattern": "^https://"}},
+            "excerpt_sha256": {"$ref": "#/$defs/sha256"},
+            "excerpt_start": {"type": "integer", "minimum": 0},
+            "excerpt_end": {"type": "integer", "minimum": 1}
+          }
+        }
+      ]
+    },
+    "directional_evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["direction", "search_event_id", "stop_boundary", "source_urls", "source_ids", "distinct_url_count", "distinct_source_count", "distinct_content_count", "distinct_independence_count", "new_information_count", "stop_reason"],
+      "properties": {
+        "direction": {"enum": ["current_baseline", "mechanism_support", "counterevidence", "comparable_case", "affected_low_power_position"]},
+        "search_event_id": {"type": "string", "minLength": 1},
+        "stop_boundary": {"type": "string", "minLength": 1},
+        "source_urls": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "format": "uri", "pattern": "^https://"}},
+        "source_ids": {"$ref": "#/$defs/string_list"},
+        "distinct_url_count": {"type": "integer", "minimum": 1},
+        "distinct_source_count": {"type": "integer", "minimum": 1},
+        "distinct_content_count": {"type": "integer", "minimum": 1},
+        "distinct_independence_count": {"type": "integer", "minimum": 1},
+        "new_information_count": {"type": "integer", "minimum": 0},
+        "stop_reason": {"enum": ["next_direction_search", "turn_completed"]}
+      }
+    }
+  }
+}

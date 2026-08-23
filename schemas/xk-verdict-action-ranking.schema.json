@@ -1,0 +1,113 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://xi-kari.local/schemas/xi-kari.v2.xk.action-ranking.schema.json",
+  "x-namespace": "xi-kari.v2.xk",
+  "title": "Xi-Kari v2 six-option action ranking",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_id", "source_version", "ontology_refs", "source_anchors", "considered_verdict_ids", "requested_choice", "selection_status", "options", "ranking", "display_order", "preferred_option_id", "second_option_id", "switch_conditions", "stop_conditions", "no_action_consequences"],
+  "properties": {
+    "schema_id": {"const": "xi-kari.v2.xk.action-ranking"},
+    "source_version": {"const": "v8.2"},
+    "ontology_refs": {"$ref": "#/$defs/ontologyRefs"},
+    "source_anchors": {"$ref": "#/$defs/sourceAnchors"},
+    "considered_verdict_ids": {"type": "array", "minItems": 7, "maxItems": 7, "uniqueItems": true, "items": {"$ref": "#/$defs/id"}},
+    "requested_choice": {"type": "boolean"},
+    "selection_status": {"enum": ["selected", "undecided", "not-requested"]},
+    "options": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/option"}},
+    "ranking": {
+      "oneOf": [
+        {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/$defs/id"}},
+        {"type": "null"}
+      ]
+    },
+    "display_order": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/$defs/id"}},
+    "preferred_option_id": {"oneOf": [{"$ref": "#/$defs/id"}, {"type": "null"}]},
+    "second_option_id": {"oneOf": [{"$ref": "#/$defs/id"}, {"type": "null"}]},
+    "switch_conditions": {"$ref": "#/$defs/nonemptyStrings"},
+    "stop_conditions": {"$ref": "#/$defs/nonemptyStrings"},
+    "no_action_consequences": {"$ref": "#/$defs/nonemptyStrings"}
+  },
+  "$defs": {
+    "id": {"type": "string", "minLength": 1, "pattern": "^[A-Z][A-Z0-9_.:-]*$"},
+    "nonempty": {"type": "string", "minLength": 1},
+    "strings": {"type": "array", "items": {"$ref": "#/$defs/nonempty"}},
+    "nonemptyStrings": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/nonempty"}},
+    "ids": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/id"}},
+    "nonemptyIds": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/$defs/id"}},
+    "ontologyRefs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "pattern": "^V82-(?:CANON|CANDIDATE|HEADING)-[A-Z0-9-]+$"}},
+    "sourceAnchors": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "pattern": "^V82-(?:P[0-9]{4}|T[0-9]{3})$"}},
+    "option": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["option_id", "kind", "description", "target_object", "territory", "validity_interval", "affected_positions", "costs", "lock_in_risks", "reversibility", "information_value", "executor", "authorized", "execution_status", "authorization_verdict_id", "stop_conditions", "rollback", "appeal", "remedy"],
+      "properties": {
+        "option_id": {"$ref": "#/$defs/id"},
+        "kind": {"enum": ["active", "delay", "probe", "exit-or-transfer", "maintain-status-quo", "no-action"]},
+        "description": {"$ref": "#/$defs/nonempty"},
+        "target_object": {"$ref": "#/$defs/nonempty"},
+        "territory": {"$ref": "#/$defs/nonempty"},
+        "validity_interval": {"$ref": "#/$defs/validityInterval"},
+        "affected_positions": {"$ref": "#/$defs/nonemptyIds"},
+        "costs": {"$ref": "#/$defs/nonemptyStrings"},
+        "lock_in_risks": {"$ref": "#/$defs/nonemptyStrings"},
+        "reversibility": {"enum": ["none", "low", "medium", "high"]},
+        "information_value": {"$ref": "#/$defs/nonempty"},
+        "executor": {"$ref": "#/$defs/nonempty"},
+        "authorized": {"type": "boolean"},
+        "execution_status": {"enum": ["executable", "analysis_only", "not_executable"]},
+        "authorization_verdict_id": {"oneOf": [{"$ref": "#/$defs/id"}, {"type": "null"}]},
+        "stop_conditions": {"$ref": "#/$defs/nonemptyStrings"},
+        "rollback": {"$ref": "#/$defs/nonempty"},
+        "appeal": {"$ref": "#/$defs/nonempty"},
+        "remedy": {"$ref": "#/$defs/nonempty"},
+        "control_bindings": {"$ref": "#/$defs/controlBindings"}
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {"authorized": {"const": true}},
+            "required": ["authorized"]
+          },
+          "then": {
+            "required": ["control_bindings"],
+            "properties": {"execution_status": {"const": "executable"}}
+          },
+          "else": {
+            "properties": {"execution_status": {"enum": ["analysis_only", "not_executable"]}}
+          }
+        }
+      ]
+    },
+    "controlBindings": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["stop_conditions", "rollback", "appeal", "remedy"],
+      "properties": {
+        "stop_conditions": {"$ref": "#/$defs/controlBinding"},
+        "rollback": {"$ref": "#/$defs/controlBinding"},
+        "appeal": {"$ref": "#/$defs/controlBinding"},
+        "remedy": {"$ref": "#/$defs/controlBinding"}
+      }
+    },
+    "controlBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["authorization_verdict_id", "evidence_refs", "content_sha256"],
+      "properties": {
+        "authorization_verdict_id": {"$ref": "#/$defs/id"},
+        "evidence_refs": {"$ref": "#/$defs/nonemptyIds"},
+        "content_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      }
+    },
+    "validityInterval": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["starts_at", "ends_at"],
+      "properties": {
+        "starts_at": {"type": "string", "format": "date-time"},
+        "ends_at": {"type": "string", "format": "date-time"}
+      }
+    }
+  }
+}

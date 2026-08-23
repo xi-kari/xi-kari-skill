@@ -1,0 +1,91 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://xi-kari.local/schemas/xi-kari.v2.semantic-authoring-request.schema.json",
+  "title": "Xi-Kari v2 runtime-owned semantic authoring request",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_id", "schema_version", "variant_kind", "generation_context_id", "mode", "requested_stance", "time_window", "problem_contract", "source_inputs"],
+  "properties": {
+    "schema_id": {"const": "xi-kari.v2.semantic-authoring-request"},
+    "schema_version": {"const": 1},
+    "variant_kind": {"enum": ["stance-support", "stance-oppose", "time-window-shift"]},
+    "generation_context_id": {"type": "string", "minLength": 1},
+    "mode": {"enum": ["open-world", "closed-input"]},
+    "requested_stance": {"enum": ["support", "oppose"]},
+    "time_window": {"type": "string", "minLength": 1},
+    "problem_contract": {"$ref": "#/$defs/problem_contract"},
+    "source_inputs": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_version", "validator_set_sha256", "repository_root", "reader_root", "source_manifest_path", "source_lock", "read_plan", "retrieval", "evidence", "concept_authority", "facts"],
+      "properties": {
+        "source_version": {"const": "v8.2"},
+        "validator_set_sha256": {"$ref": "#/$defs/sha256"},
+        "repository_root": {"type": "string", "minLength": 1},
+        "reader_root": {"type": "string", "minLength": 1},
+        "source_manifest_path": {"type": "string", "minLength": 1},
+        "source_lock": {
+          "type": "object",
+          "required": ["source_manifest_sha256", "validator_set_sha256", "source_unit_count", "reader_unit_count", "complete"],
+          "properties": {
+            "source_manifest_sha256": {"$ref": "#/$defs/sha256"},
+            "validator_set_sha256": {"$ref": "#/$defs/sha256"},
+            "source_unit_count": {"const": 4753},
+            "reader_unit_count": {"const": 21},
+            "complete": {"const": true}
+          }
+        },
+        "read_plan": {
+          "type": "object",
+          "required": ["source_unit_count", "reader_unit_count", "requires_complete_semantic_read"],
+          "properties": {
+            "source_unit_count": {"const": 4753},
+            "reader_unit_count": {"const": 21},
+            "requires_complete_semantic_read": {"const": true}
+          }
+        },
+        "retrieval": {"type": "object"},
+        "evidence": {"type": "object"},
+        "concept_authority": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["schema_id", "schema_version", "source_candidate_count", "source_candidate_index_sha256", "candidate_census_sha256", "concept_disposition_ledger_sha256", "ontology_concept_count", "concept_registry_sha256", "concept_relations_sha256"],
+          "properties": {
+            "schema_id": {"const": "xi-kari.v2.concept-authority-binding"},
+            "schema_version": {"const": 1},
+            "source_candidate_count": {"type": "integer", "minimum": 1},
+            "source_candidate_index_sha256": {"$ref": "#/$defs/sha256"},
+            "candidate_census_sha256": {"$ref": "#/$defs/sha256"},
+            "concept_disposition_ledger_sha256": {"$ref": "#/$defs/sha256"},
+            "ontology_concept_count": {"type": "integer", "minimum": 1},
+            "concept_registry_sha256": {"$ref": "#/$defs/sha256"},
+            "concept_relations_sha256": {"$ref": "#/$defs/sha256"}
+          }
+        },
+        "facts": {"type": "object"}
+      }
+    }
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "problem_contract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["question", "object_of_analysis", "boundary", "identity_criterion", "spatial_scale", "organizational_scale", "time_window", "evidence_cutoff", "retrieval_profile", "requested_stance", "problem_action", "advice_requested"],
+      "properties": {
+        "question": {"type": "string", "minLength": 1},
+        "object_of_analysis": {"type": "string", "minLength": 1},
+        "boundary": {"type": "string", "minLength": 1},
+        "identity_criterion": {"type": "string", "minLength": 1},
+        "spatial_scale": {"type": "string", "minLength": 1},
+        "organizational_scale": {"type": "string", "minLength": 1},
+        "time_window": {"type": "string", "minLength": 1},
+        "evidence_cutoff": {"type": "string", "format": "date-time"},
+        "retrieval_profile": {"enum": ["authority-first", "five-direction", "closed-input"]},
+        "requested_stance": {"enum": ["support", "oppose"]},
+        "problem_action": {"enum": ["explain", "compare", "infer", "choose", "express"]},
+        "advice_requested": {"type": "boolean"}
+      }
+    }
+  }
+}

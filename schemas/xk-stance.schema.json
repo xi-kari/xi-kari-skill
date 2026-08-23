@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://xi-kari.local/schemas/xi-kari.v2.stance-pair.schema.json",
+  "title": "Xi-Kari v2 paired stance",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_id", "schema_version", "run_id"],
+  "properties": {
+    "schema_id": {"const": "xi-kari.v2.stance-pair"},
+    "schema_version": {"const": 3},
+    "run_id": {"type": "string", "minLength": 1},
+    "neutrality_key": {"type": "string", "minLength": 1},
+    "position": {"$ref": "#/$defs/stance"},
+    "counterposition": {"$ref": "#/$defs/stance"},
+    "preferred": {"enum": ["position", "counterposition", "undecided"]},
+    "selection_reason": {"type": "string", "minLength": 1},
+    "switch_conditions": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+    "evidence_invariant": {"const": true},
+    "dynamic_applicability": {"enum": ["applicable", "not_applicable"]},
+    "status": {"type": "string", "minLength": 1}
+  },
+  "oneOf": [
+    {"required": ["neutrality_key", "position", "counterposition", "preferred", "selection_reason", "switch_conditions", "evidence_invariant"]},
+    {
+      "required": ["dynamic_applicability", "status"],
+      "properties": {
+        "dynamic_applicability": {"const": "not_applicable"},
+        "status": {"const": "not_run"}
+      }
+    }
+  ],
+  "$defs": {
+    "stance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["stance_id", "explanation_id", "claim", "support_refs"],
+      "properties": {
+        "stance_id": {"enum": ["position", "counterposition"]},
+        "explanation_id": {"type": "string", "minLength": 1},
+        "claim": {"type": "string", "minLength": 1},
+        "support_refs": {"type": "array", "items": {"type": "string"}},
+        "limits": {"type": "array", "items": {"type": "string"}}
+      }
+    }
+  }
+}

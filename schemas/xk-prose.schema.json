@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://xi-kari.local/schemas/xi-kari.v2.prose-plan.schema.json",
+  "title": "Xi-Kari v2 prose plan",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_id", "schema_version", "run_id", "formats", "reader_beats", "direct_answer", "coverage", "jargon_dump_forbidden", "input_packet_sha256"],
+  "properties": {
+    "schema_id": {"const": "xi-kari.v2.prose-plan"},
+    "schema_version": {"const": 3},
+    "run_id": {"type": "string", "minLength": 1},
+    "formats": {"type": "array", "const": ["answer", "dossier", "atlas", "casebook"]},
+    "reader_beats": {"type": "array", "minItems": 4, "items": {"type": "string"}},
+    "direct_answer": {"type": "string", "minLength": 1},
+    "coverage": {"type": "object"},
+    "jargon_dump_forbidden": {"const": true},
+    "input_packet_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+  }
+}

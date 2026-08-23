@@ -1,0 +1,175 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://xi-kari.local/schemas/xi-kari.v2.xk.claim-mechanism-graph.schema.json",
+  "x-namespace": "xi-kari.v2.xk",
+  "title": "Xi-Kari v2 claim, mechanism, case, and explanation graph",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_id", "source_version", "ontology_refs", "source_anchors", "world_volume_id", "central_claim_id", "evidence", "claims", "mechanisms", "explanations", "cases", "countercases"],
+  "properties": {
+    "schema_id": {"const": "xi-kari.v2.xk.claim-mechanism-graph"},
+    "source_version": {"const": "v8.2"},
+    "ontology_refs": {"$ref": "#/$defs/ontologyRefs"},
+    "source_anchors": {"$ref": "#/$defs/sourceAnchors"},
+    "world_volume_id": {"$ref": "#/$defs/id"},
+    "central_claim_id": {"$ref": "#/$defs/id"},
+    "evidence": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/evidence"}},
+    "claims": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/claim"}},
+    "mechanisms": {"type": "array", "minItems": 2, "items": {"$ref": "#/$defs/mechanism"}},
+    "explanations": {"type": "array", "minItems": 5, "items": {"$ref": "#/$defs/explanation"}},
+    "cases": {"type": "array", "items": {"$ref": "#/$defs/case"}},
+    "countercases": {"type": "array", "items": {"$ref": "#/$defs/countercase"}}
+  },
+  "$defs": {
+    "id": {"type": "string", "minLength": 1, "pattern": "^[A-Z][A-Z0-9_.:-]*$"},
+    "nonempty": {"type": "string", "minLength": 1},
+    "ids": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/id"}},
+    "nonemptyIds": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/$defs/id"}},
+    "strings": {"type": "array", "items": {"$ref": "#/$defs/nonempty"}},
+    "nonemptyStrings": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/nonempty"}},
+    "ontologyRefs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "pattern": "^V82-(?:CANON|CANDIDATE|HEADING)-[A-Z0-9-]+$"}},
+    "sourceAnchors": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "pattern": "^V82-(?:P[0-9]{4}|T[0-9]{3})$"}},
+    "evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["evidence_id", "identity", "source_refs", "xk3_evidence_refs"],
+      "properties": {
+        "evidence_id": {"$ref": "#/$defs/id"},
+        "identity": {"enum": ["observed", "reported", "user-material", "model-candidate", "simulated-result", "unknown"]},
+        "source_refs": {"$ref": "#/$defs/ids"},
+        "xk3_evidence_refs": {"$ref": "#/$defs/nonemptyStrings"}
+      }
+    },
+    "claim": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["claim_id", "kind", "statement", "evidence_refs", "mechanism_ids", "withdrawal_conditions", "authorization_boundary"],
+      "properties": {
+        "claim_id": {"$ref": "#/$defs/id"},
+        "kind": {"enum": ["factual", "structural", "mechanism", "prediction", "value", "responsibility", "authorization"]},
+        "statement": {"$ref": "#/$defs/nonempty"},
+        "evidence_refs": {"$ref": "#/$defs/ids"},
+        "mechanism_ids": {"$ref": "#/$defs/ids"},
+        "withdrawal_conditions": {"$ref": "#/$defs/nonemptyStrings"}
+        ,"authorization_boundary": {
+          "oneOf": [
+            {"$ref": "#/$defs/authorizationBoundary"},
+            {"type": "null"}
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"kind": {"const": "authorization"}}, "required": ["kind"]},
+          "then": {"properties": {"authorization_boundary": {"$ref": "#/$defs/authorizationBoundary"}}},
+          "else": {"properties": {"authorization_boundary": {"type": "null"}}}
+        }
+      ]
+    },
+    "transitionRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["event_id", "state_diff_id"],
+      "properties": {
+        "event_id": {"$ref": "#/$defs/id"},
+        "state_diff_id": {"$ref": "#/$defs/id"}
+      }
+    },
+    "mechanism": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["mechanism_id", "name", "input_state", "carrier", "channel", "clock", "conditions", "output_state", "evidence_refs", "transition_refs", "transformation_ids", "discriminating_observations", "countermechanism", "failure_condition"],
+      "properties": {
+        "mechanism_id": {"$ref": "#/$defs/id"},
+        "name": {"$ref": "#/$defs/nonempty"},
+        "input_state": {"$ref": "#/$defs/nonempty"},
+        "carrier": {"$ref": "#/$defs/nonempty"},
+        "channel": {"$ref": "#/$defs/nonempty"},
+        "clock": {"$ref": "#/$defs/nonempty"},
+        "conditions": {"$ref": "#/$defs/nonemptyStrings"},
+        "output_state": {"$ref": "#/$defs/nonempty"},
+        "evidence_refs": {"$ref": "#/$defs/ids"},
+        "transition_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/$defs/transitionRef"}},
+        "transformation_ids": {"$ref": "#/$defs/nonemptyIds"},
+        "discriminating_observations": {"$ref": "#/$defs/nonemptyStrings"},
+        "countermechanism": {"$ref": "#/$defs/nonempty"},
+        "failure_condition": {"$ref": "#/$defs/nonempty"}
+      }
+    },
+    "explanation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["explanation_id", "kind", "claim_ids", "mechanism_ids", "residual_ids", "rationale"],
+      "properties": {
+        "explanation_id": {"$ref": "#/$defs/id"},
+        "kind": {"enum": ["simple-baseline", "main", "strongest-rival", "mixture", "residual"]},
+        "claim_ids": {"$ref": "#/$defs/nonemptyIds"},
+        "mechanism_ids": {"$ref": "#/$defs/ids"},
+        "residual_ids": {"$ref": "#/$defs/ids"},
+        "rationale": {"$ref": "#/$defs/nonempty"}
+      }
+    },
+    "case": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["case_id", "kind", "title", "tests_claim_ids", "source_refs", "conditions", "stop_conditions", "cannot_prove"],
+      "properties": {
+        "case_id": {"$ref": "#/$defs/id"},
+        "kind": {"enum": ["documented-real", "user-material", "conditional-scenario", "structural-analogy"]},
+        "title": {"$ref": "#/$defs/nonempty"},
+        "tests_claim_ids": {"$ref": "#/$defs/nonemptyIds"},
+        "source_refs": {"$ref": "#/$defs/ids"},
+        "conditions": {"$ref": "#/$defs/strings"},
+        "stop_conditions": {"$ref": "#/$defs/strings"},
+        "cannot_prove": {"$ref": "#/$defs/nonemptyStrings"}
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"kind": {"const": "conditional-scenario"}}, "required": ["kind"]},
+          "then": {
+            "properties": {
+              "conditions": {"minItems": 1},
+              "stop_conditions": {"minItems": 1}
+            }
+          }
+        }
+      ]
+    },
+    "authorizationBoundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["decision_subject", "target_object", "single_action", "territory", "validity_interval"],
+      "properties": {
+        "decision_subject": {"$ref": "#/$defs/nonempty"},
+        "target_object": {"$ref": "#/$defs/nonempty"},
+        "single_action": {"$ref": "#/$defs/nonempty"},
+        "territory": {"$ref": "#/$defs/nonempty"},
+        "validity_interval": {"$ref": "#/$defs/validityInterval"}
+      }
+    },
+    "validityInterval": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["starts_at", "ends_at"],
+      "properties": {
+        "starts_at": {"type": "string", "format": "date-time"},
+        "ends_at": {"type": "string", "format": "date-time"}
+      }
+    },
+    "countercase": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["countercase_id", "attacks_claim_ids", "attacks_mechanism_ids", "conditions", "expected_signal", "reverse_signal", "decision_impact", "source_refs"],
+      "properties": {
+        "countercase_id": {"$ref": "#/$defs/id"},
+        "attacks_claim_ids": {"$ref": "#/$defs/nonemptyIds"},
+        "attacks_mechanism_ids": {"$ref": "#/$defs/nonemptyIds"},
+        "conditions": {"$ref": "#/$defs/nonemptyStrings"},
+        "expected_signal": {"$ref": "#/$defs/nonempty"},
+        "reverse_signal": {"$ref": "#/$defs/nonempty"},
+        "decision_impact": {"$ref": "#/$defs/nonempty"},
+        "source_refs": {"$ref": "#/$defs/ids"}
+      }
+    }
+  }
+}

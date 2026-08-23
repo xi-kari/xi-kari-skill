@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://xi-kari.local/schemas/xi-kari.v2.xk.framework-gap-ledger.schema.json",
+  "x-namespace": "xi-kari.v2.xk",
+  "title": "Xi-Kari v2 isolated framework-gap candidates",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_id", "source_version", "ontology_refs", "source_anchors", "candidates", "isolated_from_current_reasoning"],
+  "properties": {
+    "schema_id": {"const": "xi-kari.v2.xk.framework-gap-ledger"},
+    "source_version": {"const": "v8.2"},
+    "ontology_refs": {"$ref": "#/$defs/ontologyRefs"},
+    "source_anchors": {"$ref": "#/$defs/sourceAnchors"},
+    "candidates": {"type": "array", "items": {"$ref": "#/$defs/gap"}},
+    "isolated_from_current_reasoning": {"const": true}
+  },
+  "$defs": {
+    "id": {"type": "string", "minLength": 1, "pattern": "^[A-Z][A-Z0-9_.:-]*$"},
+    "nonempty": {"type": "string", "minLength": 1},
+    "ids": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/id"}},
+    "nonemptyIds": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/$defs/id"}},
+    "ontologyRefs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "pattern": "^V82-(?:CANON|CANDIDATE|HEADING)-[A-Z0-9-]+$"}},
+    "sourceAnchors": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "pattern": "^V82-(?:P[0-9]{4}|T[0-9]{3})$"}},
+    "gap": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["gap_id", "description", "originating_residual_ids", "evidence_refs", "current_claim_ids", "current_mechanism_ids", "recursive_node_ids", "provisional_variable_ids", "future_revision_proposal", "status"],
+      "properties": {
+        "gap_id": {"type": "string", "pattern": "^XK-GAP-[A-Z0-9_.:-]+$"},
+        "description": {"$ref": "#/$defs/nonempty"},
+        "originating_residual_ids": {"$ref": "#/$defs/nonemptyIds"},
+        "evidence_refs": {"$ref": "#/$defs/ids"},
+        "current_claim_ids": {"$ref": "#/$defs/ids"},
+        "current_mechanism_ids": {"$ref": "#/$defs/ids"},
+        "recursive_node_ids": {"$ref": "#/$defs/ids"},
+        "provisional_variable_ids": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "pattern": "^XK-PROV-[A-Z0-9_.:-]+$"}},
+        "future_revision_proposal": {"$ref": "#/$defs/nonempty"},
+        "status": {"enum": ["candidate", "rejected", "deferred"]}
+      }
+    }
+  }
+}

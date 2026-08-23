@@ -1,0 +1,118 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://xi-kari.local/schemas/xi-kari.v2.semantic-read-trace.schema.json",
+  "title": "Xi-Kari v2 production semantic read trace",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_id", "schema_version", "run_id", "contract_profile", "source_manifest_sha256", "reader_unit_count", "import_receipt", "import_receipt_sha256", "records", "complete"],
+  "properties": {
+    "schema_id": {"const": "xi-kari.v2.semantic-read-trace"},
+    "schema_version": {"const": 1},
+    "run_id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,95}$"},
+    "contract_profile": {"const": "production-authoring-v2"},
+    "source_manifest_sha256": {"$ref": "#/$defs/sha256"},
+    "reader_unit_count": {"const": 21},
+    "import_receipt": {"$ref": "#/$defs/import_receipt"},
+    "import_receipt_sha256": {"$ref": "#/$defs/sha256"},
+    "records": {
+      "type": "array",
+      "minItems": 21,
+      "maxItems": 21,
+      "items": {"$ref": "#/$defs/record"}
+    },
+    "complete": {"const": true},
+    "base_authoring_execution": {"$ref": "https://xi-kari.local/schemas/xi-kari.v2.base-authoring-execution.schema.json"}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "import_receipt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["protocol", "receipt_id", "run_id", "problem_contract_sha256", "source_manifest_sha256", "xk0_record_sha256", "semantic_payload_sha256", "input_file_sha256", "input_byte_count", "input_path", "runtime_importer_pid", "imported_at"],
+      "properties": {
+        "protocol": {"const": "xi-kari.v2.semantic-read-import-receipt/v1"},
+        "receipt_id": {"type": "string", "pattern": "^XK01-SR-[0-9a-f]{32}$"},
+        "run_id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,95}$"},
+        "problem_contract_sha256": {"$ref": "#/$defs/sha256"},
+        "source_manifest_sha256": {"$ref": "#/$defs/sha256"},
+        "xk0_record_sha256": {"$ref": "#/$defs/sha256"},
+        "semantic_payload_sha256": {"$ref": "#/$defs/sha256"},
+        "input_file_sha256": {"$ref": "#/$defs/sha256"},
+        "input_byte_count": {"type": "integer", "minimum": 2},
+        "input_path": {"type": "string", "minLength": 1},
+        "runtime_importer_pid": {"type": "integer", "minimum": 1},
+        "imported_at": {"type": "string", "format": "date-time"}
+      }
+    },
+    "record": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["index", "sequence", "reader_unit", "source_binding", "synthesis", "semantic_observations", "continuity_with_previous", "problem_relation", "source_undefined_refs"],
+      "properties": {
+        "index": {"type": "integer", "minimum": 0, "maximum": 20},
+        "sequence": {"type": "integer", "minimum": 1, "maximum": 21},
+        "reader_unit": {"type": "string", "minLength": 1},
+        "source_binding": {"$ref": "#/$defs/source_binding"},
+        "synthesis": {"type": "string", "minLength": 1},
+        "semantic_observations": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/observation"}
+        },
+        "continuity_with_previous": {"$ref": "#/$defs/continuity"},
+        "problem_relation": {"$ref": "#/$defs/problem_relation"},
+        "source_undefined_refs": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "source_binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "source_file", "expected_sha256", "observed_sha256", "source_manifest_sha256"],
+      "properties": {
+        "path": {"type": "string", "pattern": "^references/source/v8\\.2/reader/"},
+        "source_file": {"type": "string", "pattern": "^reader/"},
+        "expected_sha256": {"$ref": "#/$defs/sha256"},
+        "observed_sha256": {"$ref": "#/$defs/sha256"},
+        "source_manifest_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "observation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["proposition", "role", "source_anchor_refs"],
+      "properties": {
+        "proposition": {"type": "string", "minLength": 1},
+        "role": {"type": "string", "minLength": 1},
+        "source_anchor_refs": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "pattern": "^V82-(?:P[0-9]{4}|T[0-9]{3})$"}
+        }
+      }
+    },
+    "continuity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["previous_reader_unit", "relation", "explanation"],
+      "properties": {
+        "previous_reader_unit": {"type": ["string", "null"]},
+        "relation": {"enum": ["root", "extends", "qualifies", "limits", "instantiates"]},
+        "explanation": {"type": "string", "minLength": 1}
+      }
+    },
+    "problem_relation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "rationale"],
+      "properties": {
+        "status": {"enum": ["applied", "boundary_only", "not_applicable"]},
+        "rationale": {"type": "string", "minLength": 1}
+      }
+    }
+  }
+}

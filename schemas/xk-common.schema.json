@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://xi-kari.local/schemas/xi-kari.v2.xk.common.schema.json",
+  "title": "Xi-Kari v2 common definitions",
+  "type": "object",
+  "additionalProperties": false,
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "identifier": {"type": "string", "minLength": 1, "maxLength": 128},
+    "timestamp": {"type": "string", "format": "date-time"},
+    "mode": {"enum": ["open-world", "closed-input"]},
+    "phase": {"enum": ["XK0", "XK1", "XK2", "XK3", "XK4", "XK5", "XK6", "XK7", "XK8", "XK9", "XK10", "XK11", "XK12"]},
+    "string_list": {"type": "array", "items": {"type": "string"}},
+    "artifact_binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "bytes": {"type": "integer", "minimum": 0}
+      }
+    }
+  }
+}

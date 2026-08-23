@@ -1,0 +1,96 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://xi-kari.local/schemas/xi-kari.v2.codex-semantic-authoring-output.schema.json",
+  "title": "Xi-Kari v2 Codex semantic-only authoring output",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "problem_contract",
+    "dynamic_applicability",
+    "facts",
+    "case_ledger",
+    "cases",
+    "answer",
+    "local_world_model",
+    "transformation_ledger",
+    "cascade",
+    "claim_mechanism_graph",
+    "recursive_lineage",
+    "recursive_states",
+    "order_evaluation",
+    "red_team",
+    "stance_pair",
+    "verdict",
+    "action_ranking",
+    "forecast",
+    "framework_gap",
+    "mechanisms",
+    "orders"
+  ],
+  "properties": {
+    "problem_contract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "question",
+        "object_of_analysis",
+        "boundary",
+        "identity_criterion",
+        "spatial_scale",
+        "organizational_scale",
+        "time_window",
+        "evidence_cutoff",
+        "retrieval_profile",
+        "requested_stance",
+        "problem_action",
+        "advice_requested",
+        "dynamic_applicability",
+        "applicability_rationale"
+      ],
+      "properties": {
+        "question": {"type": "string", "minLength": 1},
+        "object_of_analysis": {"type": "string", "minLength": 1},
+        "boundary": {"type": "string", "minLength": 1},
+        "identity_criterion": {"type": "string", "minLength": 1},
+        "spatial_scale": {"type": "string", "minLength": 1},
+        "organizational_scale": {"type": "string", "minLength": 1},
+        "time_window": {"type": "string", "minLength": 1},
+        "evidence_cutoff": {"type": "string", "format": "date-time"},
+        "retrieval_profile": {
+          "enum": ["authority-first", "five-direction", "closed-input"]
+        },
+        "requested_stance": {"enum": ["support", "oppose"]},
+        "problem_action": {
+          "enum": ["explain", "compare", "infer", "choose", "express"]
+        },
+        "advice_requested": {"type": "boolean"},
+        "dynamic_applicability": {
+          "enum": ["applicable", "not_applicable"]
+        },
+        "applicability_rationale": {"type": "string", "minLength": 1}
+      }
+    },
+    "dynamic_applicability": {
+      "enum": ["applicable", "not_applicable"]
+    },
+    "facts": {"type": "object"},
+    "case_ledger": {"type": "object"},
+    "cases": {"type": "array"},
+    "answer": {"type": "object"},
+    "local_world_model": {"type": "object"},
+    "transformation_ledger": {"type": "object"},
+    "cascade": {"type": "object"},
+    "claim_mechanism_graph": {"type": "object"},
+    "recursive_lineage": {"type": "object"},
+    "recursive_states": {"type": "object"},
+    "order_evaluation": {"type": "object"},
+    "red_team": {"type": "object"},
+    "stance_pair": {"type": "object"},
+    "verdict": {"type": "object"},
+    "action_ranking": {"type": "object"},
+    "forecast": {"type": "object"},
+    "framework_gap": {"type": "object"},
+    "mechanisms": {"type": "array"},
+    "orders": {"type": "array"}
+  }
+}

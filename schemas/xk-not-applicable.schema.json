@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://xi-kari.local/schemas/xi-kari.v2.not-applicable.schema.json",
+  "title": "Xi-Kari v2 explicit dynamic non-applicability",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_id", "schema_version", "run_id", "dynamic_applicability", "status"],
+  "properties": {
+    "schema_id": {"const": "xi-kari.v2.not-applicable"},
+    "schema_version": {"const": 3},
+    "run_id": {"type": "string", "minLength": 1},
+    "dynamic_applicability": {"const": "not_applicable"},
+    "status": {"const": "not_run"},
+    "reason": {"type": "string", "minLength": 1}
+  }
+}

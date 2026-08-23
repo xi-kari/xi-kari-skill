@@ -1,0 +1,228 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://xi-kari.local/schemas/source-candidate.schema.json",
+  "title": "Xi-Kari v8.2 deterministic source candidate",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "schema_version",
+    "framework_version",
+    "candidate_ruleset_version",
+    "candidate_id",
+    "previous_candidate_id",
+    "next_candidate_id",
+    "ordinal",
+    "source_anchor",
+    "source_anchors",
+    "source_span",
+    "source_unit_type",
+    "source_style",
+    "source_text",
+    "source_numbering",
+    "text_sha256",
+    "semantic_fingerprint_sha256",
+    "candidate_kinds",
+    "matched_signals",
+    "source_undefined_fields",
+    "source_raw_sha256",
+    "source_semantic_sha256",
+    "source_list_structure_sha256"
+  ],
+  "properties": {
+    "schema_id": {"const": "xi-kari.v8.2.source-candidate"},
+    "schema_version": {"const": 1},
+    "framework_version": {"const": "v8.2"},
+    "candidate_ruleset_version": {"type": "integer", "minimum": 1},
+    "candidate_id": {"$ref": "#/$defs/candidate_id"},
+    "previous_candidate_id": {
+      "oneOf": [
+        {"$ref": "#/$defs/candidate_id"},
+        {"type": "null"}
+      ]
+    },
+    "next_candidate_id": {
+      "oneOf": [
+        {"$ref": "#/$defs/candidate_id"},
+        {"type": "null"}
+      ]
+    },
+    "ordinal": {"type": "integer", "minimum": 1},
+    "source_anchor": {
+      "type": "string",
+      "pattern": "^V82-(P[0-9]{4}|T[0-9]{3}(?:-R[0-9]{3})?)$"
+    },
+    "source_anchors": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^V82-(P[0-9]{4}|T[0-9]{3})$"
+      }
+    },
+    "source_span": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["start_anchor", "end_anchor", "paragraph_anchors"],
+      "properties": {
+        "start_anchor": {"$ref": "#/$defs/paragraph_anchor"},
+        "end_anchor": {"$ref": "#/$defs/paragraph_anchor"},
+        "paragraph_anchors": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/paragraph_anchor"}
+        }
+      }
+    },
+    "source_unit_type": {"enum": ["paragraph", "table", "table_row"]},
+    "source_table_anchor": {
+      "type": "string",
+      "pattern": "^V82-T[0-9]{3}$"
+    },
+    "source_table_row_index": {"type": "integer", "minimum": 1},
+    "source_style": {"type": "string"},
+    "source_text": {"type": "string", "minLength": 1},
+    "source_numbering": {
+      "oneOf": [
+        {"$ref": "#/$defs/numbering"},
+        {"type": "null"}
+      ]
+    },
+    "text_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "semantic_fingerprint_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "candidate_kinds": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "heading",
+          "definition",
+          "table",
+          "variable",
+          "operator",
+          "constraint",
+          "undefined_field"
+        ]
+      }
+    },
+    "matched_signals": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": false,
+      "properties": {
+        "heading": {"$ref": "#/$defs/signals"},
+        "definition": {"$ref": "#/$defs/signals"},
+        "table": {"$ref": "#/$defs/signals"},
+        "variable": {"$ref": "#/$defs/signals"},
+        "operator": {"$ref": "#/$defs/signals"},
+        "constraint": {"$ref": "#/$defs/signals"},
+        "undefined_field": {"$ref": "#/$defs/signals"}
+      }
+    },
+    "source_undefined_fields": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "source_raw_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "source_semantic_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "source_list_structure_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {"source_unit_type": {"const": "table_row"}},
+        "required": ["source_unit_type"]
+      },
+      "then": {
+        "required": ["source_table_anchor", "source_table_row_index"]
+      },
+      "else": {
+        "not": {
+          "anyOf": [
+            {"required": ["source_table_anchor"]},
+            {"required": ["source_table_row_index"]}
+          ]
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "candidate_id": {
+      "type": "string",
+      "pattern": "^V82-CANDIDATE-(P[0-9]{4}|T[0-9]{3}(?:-R[0-9]{3})?)$"
+    },
+    "paragraph_anchor": {
+      "type": "string",
+      "pattern": "^V82-P[0-9]{4}$"
+    },
+    "numbering": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "num_id",
+        "abstract_num_id",
+        "ilvl",
+        "num_fmt",
+        "lvl_text",
+        "abstract_num_template",
+        "start",
+        "start_override",
+        "effective_start",
+        "lvl_restart",
+        "restart_numbering_after_break",
+        "sequence_ordinal",
+        "rendered_marker"
+      ],
+      "properties": {
+        "num_id": {"type": "integer", "minimum": 1},
+        "abstract_num_id": {"type": "integer", "minimum": 0},
+        "ilvl": {"type": "integer", "minimum": 0, "maximum": 8},
+        "num_fmt": {"enum": ["bullet", "decimal"]},
+        "lvl_text": {"type": "string", "minLength": 1},
+        "abstract_num_template": {
+          "type": "string",
+          "pattern": "^[0-9A-F]{8}$"
+        },
+        "start": {"type": "integer", "minimum": 0},
+        "start_override": {
+          "oneOf": [
+            {"type": "integer", "minimum": 0},
+            {"type": "null"}
+          ]
+        },
+        "effective_start": {"type": "integer", "minimum": 0},
+        "lvl_restart": {
+          "oneOf": [
+            {"type": "integer", "minimum": 0},
+            {"type": "null"}
+          ]
+        },
+        "restart_numbering_after_break": {"type": "boolean"},
+        "sequence_ordinal": {"type": "integer", "minimum": 0},
+        "rendered_marker": {"type": "string", "minLength": 1}
+      }
+    },
+    "signals": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    }
+  }
+}

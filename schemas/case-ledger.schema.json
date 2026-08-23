@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://xi-kari.local/schemas/case-ledger.schema.json",
+  "title": "Xi-Kari case ledger entry",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["case_id", "case_type", "claim", "mechanism_role", "failure_or_limit"],
+  "properties": {
+    "case_id": {"type": "string", "minLength": 1},
+    "case_type": {"enum": ["documented_real_case", "user_material_case", "conditional_scenario", "structural_analogy"]},
+    "claim": {"type": "string", "minLength": 1},
+    "mechanism_role": {"enum": ["support", "counterexample", "comparison", "boundary"]},
+    "source_ids": {"type": "array", "items": {"type": "string"}},
+    "failure_or_limit": {"type": "string", "minLength": 1}
+  }
+}

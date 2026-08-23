@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://xi-kari.local/schemas/xi-kari.v2.read-plan.schema.json",
+  "title": "Xi-Kari v2 full source read plan",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_id", "schema_version", "run_id", "framework_version", "reader_sequence", "reader_unit_count", "paragraph_count", "table_count", "source_unit_count", "requires_complete_semantic_read"],
+  "properties": {
+    "schema_id": {"const": "xi-kari.v2.read-plan"},
+    "schema_version": {"const": 3},
+    "run_id": {"type": "string"},
+    "framework_version": {"const": "v8.2"},
+    "reader_sequence": {"type": "array", "minItems": 21, "maxItems": 21, "items": {"type": "string"}},
+    "reader_unit_count": {"const": 21},
+    "paragraph_count": {"const": 4631},
+    "table_count": {"const": 122},
+    "source_unit_count": {"const": 4753},
+    "requires_complete_semantic_read": {"const": true}
+  }
+}

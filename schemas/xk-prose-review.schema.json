@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://xi-kari.local/schemas/xi-kari.v2.prose-review.schema.json",
+  "title": "Xi-Kari v2 prose review",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_id", "schema_version", "run_id", "check_method", "independent_reviewer", "required_reader_beats", "errors", "valid"],
+  "properties": {
+    "schema_id": {"const": "xi-kari.v2.prose-review"},
+    "schema_version": {"const": 3},
+    "run_id": {"type": "string"},
+    "check_method": {"const": "deterministic-plain-language-rules"},
+    "independent_reviewer": {"const": false},
+    "required_reader_beats": {"type": "array", "minItems": 6},
+    "errors": {"type": "array", "maxItems": 0},
+    "valid": {"const": true}
+  }
+}

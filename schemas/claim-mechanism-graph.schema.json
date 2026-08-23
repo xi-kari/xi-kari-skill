@@ -1,0 +1,104 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://xi-kari.local/schemas/claim-mechanism-graph.schema.json",
+  "title": "Xi-Kari claim and mechanism graph",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "central_claim_id", "claims", "mechanisms", "cases", "countercases", "paths"],
+  "properties": {
+    "schema_version": { "type": "string", "const": "xk-claim-mechanism-graph-1" },
+    "central_claim_id": { "type": "string", "minLength": 1 },
+    "central_claim_type": {
+      "type": "string",
+      "enum": ["factual", "structural", "mechanistic", "path", "forecast", "normative", "authorization"]
+    },
+    "claims": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/claim" } },
+    "mechanisms": { "type": "array", "minItems": 2, "items": { "$ref": "#/$defs/mechanism" } },
+    "cases": { "type": "array", "items": { "$ref": "#/$defs/case" } },
+    "countercases": { "type": "array", "items": { "$ref": "#/$defs/countercase" } },
+    "paths": { "type": "array", "items": { "$ref": "#/$defs/path" } },
+    "withdrawal_conditions": { "type": "array", "items": { "type": "string" } },
+    "action_ceiling": { "type": "array", "items": { "type": "string" } }
+  },
+  "$defs": {
+    "claim": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "type", "statement", "evidence_refs", "judgment_strength"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "type": { "type": "string", "enum": ["factual", "structural", "mechanistic", "path", "forecast", "normative", "authorization"] },
+        "statement": { "type": "string", "minLength": 1 },
+        "evidence_refs": { "type": "array", "items": { "type": "string" } },
+        "concept_refs": { "type": "array", "items": { "type": "string" } },
+        "mechanism_refs": { "type": "array", "items": { "type": "string" } },
+        "judgment_strength": { "type": "string", "enum": ["verified_fact", "strong_structural", "conditional", "provisional", "undecided", "not_applicable"] },
+        "runner_up_explanation": { "type": "string" },
+        "withdrawal_conditions": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "mechanism": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "name", "input_state", "carrier", "channel", "transition", "conditions", "discriminating_observations", "failure_condition"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "name": { "type": "string", "minLength": 1 },
+        "input_state": { "type": "string", "minLength": 1 },
+        "carrier": { "type": "string", "minLength": 1 },
+        "channel": { "type": "string", "minLength": 1 },
+        "transition": { "type": "string", "minLength": 1 },
+        "output_state": { "type": "string" },
+        "conditions": { "type": "array", "items": { "type": "string" } },
+        "evidence_refs": { "type": "array", "items": { "type": "string" } },
+        "discriminating_observations": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+        "countermechanism": { "type": "string" },
+        "failure_condition": { "type": "string", "minLength": 1 },
+        "early_signals": { "type": "array", "items": { "type": "string" } },
+        "stop_boundary": { "type": "string" }
+      }
+    },
+    "case": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "type", "title", "supports_or_tests", "source_refs", "cannot_prove"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "type": { "type": "string", "enum": ["documented_real_case", "user_material_case", "conditional_scenario", "structural_analogy"] },
+        "title": { "type": "string", "minLength": 1 },
+        "description": { "type": "string" },
+        "supports_or_tests": { "type": "array", "items": { "type": "string" } },
+        "source_refs": { "type": "array", "items": { "type": "string" } },
+        "cannot_prove": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+        "failure_condition": { "type": "string" }
+      }
+    },
+    "countercase": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "attacks", "conditions", "expected_signal", "decision_impact"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "attacks": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+        "conditions": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+        "expected_signal": { "type": "string", "minLength": 1 },
+        "decision_impact": { "type": "string", "minLength": 1 },
+        "source_refs": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "path": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "baseline", "start_state", "orders", "stop_condition"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "baseline": { "type": "string", "minLength": 1 },
+        "start_state": { "type": "string", "minLength": 1 },
+        "orders": { "type": "array", "items": { "type": "integer", "minimum": 1, "maximum": 3 } },
+        "mechanism_refs": { "type": "array", "items": { "type": "string" } },
+        "stop_condition": { "type": "string", "minLength": 1 },
+        "status": { "type": "string", "enum": ["conditional", "supported", "stopped", "undecided"] }
+      }
+    }
+  }
+}

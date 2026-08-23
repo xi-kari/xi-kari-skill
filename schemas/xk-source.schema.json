@@ -1,0 +1,174 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://xi-kari.local/schemas/xi-kari.v2.source-artifact.schema.json",
+  "title": "Xi-Kari v2 source artifacts",
+  "type": "object",
+  "oneOf": [
+    {"$ref": "#/$defs/source_lock"},
+    {"$ref": "#/$defs/source_record"},
+    {"$ref": "#/$defs/source_assessment"},
+    {"$ref": "#/$defs/read_event"}
+  ],
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "source_lock": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_id", "schema_version", "run_id", "framework_version", "source_manifest_sha256", "source_raw_sha256", "source_semantic_sha256", "validator_set_sha256", "paragraph_count", "table_count", "source_unit_count", "reader_unit_count", "reader_sequence", "reader_receipts", "source_unit_event_sha256", "complete"],
+      "properties": {
+        "schema_id": {"const": "xi-kari.v2.source-lock"},
+        "schema_version": {"const": 3},
+        "run_id": {"type": "string"},
+        "framework_version": {"const": "v8.2"},
+        "source_manifest_sha256": {"$ref": "#/$defs/sha256"},
+        "source_raw_sha256": {"const": "670e90e0073eb1a7575a75c4e0a410630ce16bd5a10f2456b83c82480333de3f"},
+        "source_semantic_sha256": {"const": "4b63a6455cf73c136ae18d124aeed4301267fd2da78cca79c74e2850fb2728b0"},
+        "validator_set_sha256": {"$ref": "#/$defs/sha256"},
+        "paragraph_count": {"const": 4631},
+        "table_count": {"const": 122},
+        "source_unit_count": {"const": 4753},
+        "reader_unit_count": {"const": 21},
+        "reader_sequence": {"type": "array", "minItems": 21, "maxItems": 21, "items": {"type": "string"}},
+        "reader_receipts": {"type": "array", "minItems": 21, "maxItems": 21, "items": {"$ref": "#/$defs/reader_receipt"}},
+        "source_unit_event_sha256": {"$ref": "#/$defs/sha256"},
+        "complete": {"const": true}
+      }
+    },
+    "reader_receipt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["receipt_id", "sequence", "unit", "path", "bytes_read", "expected_sha256", "observed_sha256", "read_complete"],
+      "properties": {
+        "receipt_id": {"type": "string"},
+        "sequence": {"type": "integer", "minimum": 1, "maximum": 21},
+        "unit": {"type": "string"},
+        "path": {"type": "string"},
+        "bytes_read": {"type": "integer", "minimum": 1},
+        "expected_sha256": {"$ref": "#/$defs/sha256"},
+        "observed_sha256": {"$ref": "#/$defs/sha256"},
+        "read_complete": {"const": true}
+      }
+    },
+    "source_record": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_id", "schema_version", "run_id", "source_id", "origin", "title", "url", "publisher", "published_at", "event_at", "accessed_at", "content_sha256", "content", "content_authority"],
+      "properties": {
+        "schema_id": {"const": "xi-kari.v2.source-record"},
+        "schema_version": {"const": 3},
+        "run_id": {"type": "string"},
+        "source_id": {"type": "string", "minLength": 1},
+        "origin": {"type": "string", "minLength": 1},
+        "title": {"type": "string", "minLength": 1},
+        "url": {"type": ["string", "null"]},
+        "publisher": {"type": ["string", "null"]},
+        "published_at": {"type": ["string", "null"]},
+        "event_at": {"type": ["string", "null"]},
+        "accessed_at": {"type": ["string", "null"]},
+        "content_sha256": {"$ref": "#/$defs/sha256"},
+        "content": {"type": ["string", "null"]},
+        "content_authority": {"enum": ["model-authored-excerpt", "host-observed", "unknown"]},
+        "host_observation": {"$ref": "#/$defs/host_observation"}
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"content_authority": {"const": "host-observed"}}, "required": ["content_authority"]},
+          "then": {"required": ["host_observation"]}
+        }
+      ]
+    },
+    "host_observation": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["status", "event_stream_sha256", "open_event_ids"],
+          "properties": {
+            "status": {"const": "unbound"},
+            "event_stream_sha256": {"$ref": "#/$defs/sha256"},
+            "open_event_ids": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}}
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["status", "binding_sha256", "event_stream_sha256", "open_event_ids"],
+          "properties": {
+            "status": {"const": "bound"},
+            "binding_sha256": {"$ref": "#/$defs/sha256"},
+            "event_stream_sha256": {"$ref": "#/$defs/sha256"},
+            "open_event_ids": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}}
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["status", "binding_sha256", "event_stream_sha256", "open_event_ids", "capture_id", "requested_url", "final_url", "peer_ip", "response_status", "content_type", "charset", "body_sha256", "text_sha256", "body_byte_count", "text_character_count", "redirect_chain", "excerpt_sha256", "excerpt_start", "excerpt_end"],
+          "properties": {
+            "status": {"const": "bound"},
+            "binding_sha256": {"$ref": "#/$defs/sha256"},
+            "event_stream_sha256": {"$ref": "#/$defs/sha256"},
+            "open_event_ids": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+            "capture_id": {"type": "string", "minLength": 1},
+            "requested_url": {"type": "string", "format": "uri", "pattern": "^https://"},
+            "final_url": {"type": "string", "format": "uri", "pattern": "^https://"},
+            "peer_ip": {"type": ["string", "null"]},
+            "response_status": {"type": "integer", "minimum": 200, "maximum": 299},
+            "content_type": {"type": "string", "minLength": 1},
+            "charset": {"type": "string", "minLength": 1},
+            "body_sha256": {"$ref": "#/$defs/sha256"},
+            "text_sha256": {"$ref": "#/$defs/sha256"},
+            "body_byte_count": {"type": "integer", "minimum": 1},
+            "text_character_count": {"type": "integer", "minimum": 1},
+            "redirect_chain": {"type": "array", "maxItems": 5, "uniqueItems": true, "items": {"type": "string", "format": "uri", "pattern": "^https://"}},
+            "excerpt_sha256": {"$ref": "#/$defs/sha256"},
+            "excerpt_start": {"type": "integer", "minimum": 0},
+            "excerpt_end": {"type": "integer", "minimum": 1}
+          }
+        }
+      ]
+    },
+    "source_assessment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_id", "schema_version", "run_id", "source_id", "source_sha256", "authority", "independence", "independence_identity", "freshness", "relevance", "verdict", "limitations", "cannot_prove", "source_lineage", "interest_relevance", "affected_positions", "low_power_positions", "conflict_source_ids"],
+      "properties": {
+        "schema_id": {"const": "xi-kari.v2.source-assessment"},
+        "schema_version": {"const": 3},
+        "run_id": {"type": "string"},
+        "source_id": {"type": "string"},
+        "source_sha256": {"$ref": "#/$defs/sha256"},
+        "authority": {"type": "string"},
+        "independence": {"type": "string"},
+        "independence_identity": {"type": "string", "minLength": 1},
+        "freshness": {"type": "string"},
+        "relevance": {"type": "string"},
+        "verdict": {"enum": ["admitted", "usable_with_limits", "rejected", "nonprobative"]},
+        "limitations": {"type": "array", "items": {"type": "string"}},
+        "cannot_prove": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+        "source_lineage": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "interest_relevance": {"type": "string", "minLength": 1},
+        "affected_positions": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+        "low_power_positions": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+        "conflict_source_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}}
+      }
+    },
+    "read_event": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_id", "schema_version", "run_id", "event_id", "ordinal", "source_anchor", "source_unit_type", "reader_unit", "source_sha256", "status"],
+      "properties": {
+        "schema_id": {"const": "xi-kari.v2.source-read-event"},
+        "schema_version": {"const": 3},
+        "run_id": {"type": "string"},
+        "event_id": {"type": "string"},
+        "ordinal": {"type": "integer", "minimum": 1, "maximum": 4753},
+        "source_anchor": {"type": "string", "pattern": "^V82-(?:P[0-9]{4}|T[0-9]{3})$"},
+        "source_unit_type": {"enum": ["paragraph", "table"]},
+        "reader_unit": {"type": "string"},
+        "source_sha256": {"$ref": "#/$defs/sha256"},
+        "status": {"const": "read"}
+      }
+    }
+  }
+}

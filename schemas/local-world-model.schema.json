@@ -1,0 +1,139 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://xi-kari.local/schemas/local-world-model.schema.json",
+  "title": "Xi-Kari local world model",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "task_kind",
+    "question",
+    "object_candidate",
+    "scale_profile",
+    "clocks",
+    "event_window",
+    "evidence_cutoff",
+    "unknowns",
+    "residuals",
+    "action_limits",
+    "authorization_limits"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "xk-local-world-model-1" },
+    "task_kind": {
+      "type": "string",
+      "enum": ["explain", "compare", "forecast", "choose", "express", "static", "audit"]
+    },
+    "question": { "type": "string", "minLength": 1 },
+    "object_candidate": { "$ref": "#/$defs/object_candidate" },
+    "actors": { "type": "array", "items": { "$ref": "#/$defs/actor" } },
+    "circles": { "type": "array", "items": { "$ref": "#/$defs/circle" } },
+    "scale_profile": { "type": "array", "items": { "$ref": "#/$defs/scale" } },
+    "clocks": { "type": "array", "items": { "$ref": "#/$defs/clock" } },
+    "event_window": { "$ref": "#/$defs/event_window" },
+    "evidence_cutoff": { "type": "string", "minLength": 1 },
+    "evidence_items": { "type": "array", "items": { "$ref": "#/$defs/evidence_item" } },
+    "unknowns": { "type": "array", "items": { "type": "string" } },
+    "residuals": { "type": "array", "items": { "type": "string" } },
+    "action_limits": { "type": "array", "items": { "type": "string" } },
+    "authorization_limits": { "type": "array", "items": { "type": "string" } },
+    "source_anchors": { "type": "array", "items": { "type": "string" } },
+    "status": {
+      "type": "string",
+      "enum": ["draft", "frozen", "conditional", "insufficient_evidence"]
+    }
+  },
+  "$defs": {
+    "object_candidate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "boundary", "interfaces", "identity_criterion"],
+      "properties": {
+        "name": { "type": "string", "minLength": 1 },
+        "boundary": { "type": "string", "minLength": 1 },
+        "interfaces": { "type": "array", "items": { "type": "string" } },
+        "identity_criterion": { "type": "string", "minLength": 1 },
+        "state_variables": { "type": "array", "items": { "type": "string" } },
+        "baseline": { "type": "string" }
+      }
+    },
+    "actor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "position", "evidence_status"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "position": { "type": "string", "minLength": 1 },
+        "roles": { "type": "array", "items": { "type": "string" } },
+        "interests": { "type": "array", "items": { "type": "string" } },
+        "evidence_status": { "type": "string", "minLength": 1 },
+        "privacy_limit": { "type": "string" }
+      }
+    },
+    "circle": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "membership_boundary", "status"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "membership_boundary": { "type": "string", "minLength": 1 },
+        "roles": { "type": "array", "items": { "type": "string" } },
+        "bridges": { "type": "array", "items": { "type": "string" } },
+        "representation_evidence": { "type": "array", "items": { "type": "string" } },
+        "status": { "type": "string", "enum": ["candidate", "observed", "mixed", "unknown"] }
+      }
+    },
+    "scale": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "window", "observables"],
+      "properties": {
+        "name": { "type": "string", "minLength": 1 },
+        "window": { "type": "string", "minLength": 1 },
+        "observables": { "type": "array", "items": { "type": "string" } },
+        "preserved": { "type": "array", "items": { "type": "string" } },
+        "changed": { "type": "array", "items": { "type": "string" } },
+        "lost_or_unknown": { "type": "array", "items": { "type": "string" } },
+        "authorization_note": { "type": "string" }
+      }
+    },
+    "clock": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "window", "lag", "update_rule"],
+      "properties": {
+        "name": { "type": "string", "minLength": 1 },
+        "window": { "type": "string", "minLength": 1 },
+        "lag": { "type": "string" },
+        "update_rule": { "type": "string", "minLength": 1 },
+        "recovery": { "type": "string" }
+      }
+    },
+    "event_window": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["start", "end", "timezone"],
+      "properties": {
+        "start": { "type": "string" },
+        "end": { "type": "string" },
+        "timezone": { "type": "string" },
+        "event": { "type": "string" }
+      }
+    },
+    "evidence_item": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "identity", "statement"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "identity": {
+          "type": "string",
+          "enum": ["user_material", "external_fact", "source_claim", "v82_definition", "inference", "analogy", "conditional_scenario", "unknown"]
+        },
+        "statement": { "type": "string", "minLength": 1 },
+        "source_refs": { "type": "array", "items": { "type": "string" } },
+        "cannot_prove": { "type": "array", "items": { "type": "string" } }
+      }
+    }
+  }
+}

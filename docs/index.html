@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Xi-Kari Skill — 一条不能跳步的语义推演链</title>
+<meta name="description" content="Xi-Kari 是一个 AI 代理技能包：强制完整读取内置推演框架、检索现实证据、比较竞争机制、执行带失败条件的三阶递归，并把完整推理还原成普通人能读懂的答案。">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0b0e14;--panel:#121826;--panel2:#0e1320;--line:#232b3d;
+  --text:#e8ecf4;--muted:#98a2b8;--acc1:#6ee7d8;--acc2:#7aa2ff;
+  --radius:14px;--mono:ui-monospace,SFMono-Regular,Consolas,"Courier New",monospace;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);line-height:1.85;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;}
+.wrap{max-width:1060px;margin:0 auto;padding:0 24px}
+a{color:var(--acc2);text-decoration:none}
+a:hover{text-decoration:underline}
+header{padding:104px 0 56px;position:relative;overflow:hidden}
+header::before{content:"";position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(640px 320px at 72% 8%,rgba(122,162,255,.16),transparent 62%),
+             radial-gradient(520px 280px at 16% 0%,rgba(110,231,216,.12),transparent 60%);}
+.eyebrow{font-family:var(--mono);letter-spacing:.38em;color:var(--acc1);font-size:12px}
+h1{font-size:clamp(30px,5vw,52px);line-height:1.22;margin:18px 0 20px;font-weight:800}
+.grad{background:linear-gradient(92deg,var(--acc1),var(--acc2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.lead{color:var(--muted);font-size:17px;max-width:760px}
+.btns{margin-top:32px;display:flex;gap:14px;flex-wrap:wrap}
+.btn{display:inline-block;padding:11px 22px;border-radius:10px;font-weight:600;font-size:15px;border:1px solid var(--line);color:var(--text)}
+.btn.primary{background:linear-gradient(92deg,var(--acc1),var(--acc2));color:#0b0e14;border:none}
+.btn.primary:hover,.btn:hover{text-decoration:none;filter:brightness(1.08)}
+.stats{display:flex;gap:0;flex-wrap:wrap;margin-top:52px;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
+.stat{flex:1 1 200px;padding:18px 22px;background:var(--panel2);border-right:1px solid var(--line)}
+.stat:last-child{border-right:none}
+.stat b{display:block;font-size:22px;background:linear-gradient(92deg,var(--acc1),var(--acc2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.stat span{color:var(--muted);font-size:13px}
+section{padding:56px 0;border-top:1px solid var(--line)}
+h2{font-size:26px;margin-bottom:10px}
+.sub{color:var(--muted);max-width:720px;margin-bottom:32px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:22px 24px}
+.card h3{font-size:16px;margin-bottom:8px}
+.card p{color:var(--muted);font-size:14.5px}
+.fails{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:10px}
+.fail{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:12px 16px;color:var(--muted);font-size:14.5px}
+.fail s{color:#e07b7b;text-decoration-thickness:2px;margin-right:6px}
+.rail{display:flex;flex-wrap:wrap;gap:10px;margin-top:8px}
+.chip{background:var(--panel2);border:1px solid var(--line);border-radius:999px;padding:7px 15px;font-size:13.5px;white-space:nowrap}
+.chip em{font-style:normal;font-family:var(--mono);color:var(--acc1);font-size:11.5px;margin-right:7px}
+pre{background:#0a0d13;border:1px solid var(--line);border-radius:12px;padding:18px 20px;overflow-x:auto;font-family:var(--mono);font-size:13.5px;line-height:1.7;color:#cfe3ff;margin:14px 0}
+code{font-family:var(--mono)}
+.note{border-left:3px solid var(--acc1);background:var(--panel2);border-radius:0 10px 10px 0;padding:14px 18px;color:var(--muted);font-size:14.5px;margin-top:22px}
+footer{padding:44px 0 60px;border-top:1px solid var(--line);color:var(--muted);font-size:14px}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="eyebrow">XI-KARI SKILL</div>
+    <h1>一条<span class="grad">不能跳步</span>的语义推演链</h1>
+    <p class="lead">强制 AI 完整读取内置的结构推演框架、检索并分型现实证据、比较竞争机制、执行带失败条件的一至三阶递归——然后把全部推理还原成普通人能读懂的答案，并附上可核对的读取回执。</p>
+    <div class="btns">
+      <a class="btn primary" href="https://github.com/xi-kari/xi-kari-skill">GitHub 仓库</a>
+      <a class="btn" href="#quickstart">快速开始</a>
+    </div>
+    <div class="stats">
+      <div class="stat"><b>21 卷</b><span>框架原文全源阅读</span></div>
+      <div class="stat"><b>13 个</b><span>强制推演阶段</span></div>
+      <div class="stat"><b>3,318</b><span>候选概念逐项处置</span></div>
+      <div class="stat"><b>0</b><span>允许跳过的步骤</span></div>
+    </div>
+  </div>
+</header>
+
+<section id="why">
+  <div class="wrap">
+    <h2>为什么需要它</h2>
+    <p class="sub">把理论文档塞进上下文，无法证明模型真的按理论推理。它可能只挑几个术语装点答案。Xi-Kari 把下面这些常见失败方式写进了不可协商的合同：</p>
+    <div class="fails">
+      <div class="fail"><s>禁止</s>只引用概念，不使用概念之间的关系</div>
+      <div class="fail"><s>禁止</s>把相关性写成因果性</div>
+      <div class="fail"><s>禁止</s>把"短中长期"换名冒充一二三阶递归</div>
+      <div class="fail"><s>禁止</s>上一阶已被击穿仍硬写下一阶</div>
+      <div class="fail"><s>禁止</s>把模型模拟或条件情景写成现实事实</div>
+      <div class="fail"><s>禁止</s>从影响力、规模或预测能力推出行动授权</div>
+    </div>
+  </div>
+</section>
+
+<section id="how">
+  <div class="wrap">
+    <h2>十三个阶段，一步不少</h2>
+    <p class="sub">每次调用都按固定顺序走完整条链。回答不再只是"发生了什么"，而是：什么对象发生了什么变化、走哪条真实通道、改变了谁的状态和行动集、在什么条件下会失败或逆转。</p>
+    <div class="rail">
+      <span class="chip"><em>XK0</em>冻结问题</span>
+      <span class="chip"><em>XK1</em>全源阅读</span>
+      <span class="chip"><em>XK2</em>现实检索</span>
+      <span class="chip"><em>XK3</em>证据冻结</span>
+      <span class="chip"><em>XK4</em>候选闭包</span>
+      <span class="chip"><em>XK5</em>世界模型</span>
+      <span class="chip"><em>XK6</em>三类变换</span>
+      <span class="chip"><em>XK7</em>竞争机制</span>
+      <span class="chip"><em>XK8</em>三阶递归</span>
+      <span class="chip"><em>XK9</em>红队立场</span>
+      <span class="chip"><em>XK10</em>裁决选择</span>
+      <span class="chip"><em>XK11</em>读者投影</span>
+      <span class="chip"><em>XK12</em>磁盘验证</span>
+    </div>
+  </div>
+</section>
+
+<section id="features">
+  <div class="wrap">
+    <h2>它交付什么</h2>
+    <div class="grid">
+      <div class="card"><h3>全源阅读，有回执</h3><p>21 卷框架原文必须逐卷读完；交付末尾附读取方式表（亲读全文／分段／子代理／未读），读没读可以核对，而不是靠它自称。</p></div>
+      <div class="card"><h3>证据先分型再使用</h3><p>观察、来源主张、用户材料、模型推断、模拟、结构类比、条件情景、未知——身份不得互换，来源逐条评估权威性与利益关系。</p></div>
+      <div class="card"><h3>竞争机制强制在场</h3><p>简单基线、主解释、最强反方、混合解释与残差解释同时保留，每条都带支持条件、失败条件、可区分观察和反向信号。</p></div>
+      <div class="card"><h3>三阶递归不是三段未来</h3><p>每一阶必须继承上一阶的状态差并改变行动集与反馈条件；上一阶不成立时，下一阶诚实标注 not_run，不编宏大叙事。</p></div>
+      <div class="card"><h3>红队与立场稳定性</h3><p>主动攻击最强解释、检查反例与敏感变量；把用户立场换成反方向，同一份证据不得自动翻转结论。</p></div>
+      <div class="card"><h3>说人话交付</h3><p>先结论后机制，术语出现即用日常语言解释；删掉全部术语后，普通读者仍能复述中心判断、因果链、最强反方和停止条件。</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="quickstart">
+  <div class="wrap">
+    <h2>快速开始</h2>
+    <p class="sub">克隆到你所用代理的技能目录（Claude Code 为 <code>~/.claude/skills/</code>，Codex CLI 为 <code>~/.codex/skills/</code>），文件夹名保持 <code>xi-kari-skill</code>：</p>
+    <pre>git clone https://github.com/xi-kari/xi-kari-skill ~/.claude/skills/xi-kari-skill</pre>
+    <p class="sub" style="margin-bottom:0">使用时精确点名＋问题本身，一行即可：</p>
+    <pre>/xi-kari-skill 你的问题</pre>
+    <div class="note">一次完整运行通常需要 30–60 分钟，最大时间块是逐卷阅读框架原文——长时间安静不等于卡住。它的价值区是动态推演类问题；静态问题会被诚实告知"三阶推演不适用"。指令层运行不需要 Python。</div>
+  </div>
+</section>
+
+<section id="honesty">
+  <div class="wrap">
+    <h2>诚实边界</h2>
+    <div class="grid">
+      <div class="card"><h3>默认：指令层运行</h3><p>靠合同与读取回执表约束，产物可抽查核对；交付末尾明确声明未经机器封存。</p></div>
+      <div class="card"><h3>进阶：封存运行（默认关闭）</h3><p>由独立作者子进程＋哈希链＋磁盘重验产出签名终态，适合多模型对比与需要机器防伪的场合，用法见仓库 README。</p></div>
+      <div class="card"><h3>模型政策照常生效</h3><p>话题本身不设限，但底层模型自己的内容政策不会被绕开；证据不足时它会停在"未知"，而不是替你编一个答案。</p></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    Xi-Kari Skill · 内置《跨尺度多圈层结构推演框架》完整原文 · <a href="https://github.com/xi-kari/xi-kari-skill">GitHub</a>
+  </div>
+</footer>
+
+</body>
+</html>

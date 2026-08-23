@@ -1,0 +1,242 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://xi-kari.local/schemas/xi-kari.v2.run-contract.schema.json",
+  "title": "Xi-Kari v2 run contract",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_id", "schema_version", "runtime_version", "run_id", "question", "problem_contract", "problem_contract_sha256", "mode", "source_version", "repository_root", "validator_set_sha256", "created_at", "evidence_cutoff", "dynamic_applicability", "privacy_contract", "continuation", "capability_snapshot", "stance_neutrality_key", "terminal_authority"],
+  "allOf": [
+    {
+      "if": {
+        "required": ["contract_profile"],
+        "properties": {
+          "contract_profile": {"const": "production-authoring-v2"}
+        }
+      },
+      "then": {
+        "properties": {
+          "capability_snapshot": {
+            "required": ["execute_owned_binding"],
+            "properties": {
+              "semantic_authoring_adapter": {
+                "type": "object",
+                "required": ["protocol", "profile"],
+                "properties": {
+                  "protocol": {"const": "xi-kari.v2.semantic-authoring-adapter/v2"},
+                  "profile": {"const": "production-codex"}
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "required": ["contract_profile"],
+        "properties": {
+          "contract_profile": {"const": "legacy-fixture-v3"}
+        }
+      },
+      "then": {
+        "properties": {
+          "capability_snapshot": {
+            "not": {"required": ["execute_owned_binding"]},
+            "properties": {
+              "semantic_authoring_adapter": {
+                "oneOf": [
+                  {"type": "null"},
+                  {
+                    "type": "object",
+                    "required": ["protocol"],
+                    "properties": {
+                      "protocol": {"const": "xi-kari.v2.semantic-authoring-adapter/v1"}
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "properties": {
+    "schema_id": {"const": "xi-kari.v2.run-contract"},
+    "schema_version": {"const": 3},
+    "runtime_version": {"type": "string", "pattern": "^2\\."},
+    "run_id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,95}$"},
+    "question": {"type": "string", "minLength": 1},
+    "problem_contract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["question", "object_of_analysis", "boundary", "identity_criterion", "spatial_scale", "organizational_scale", "time_window", "evidence_cutoff", "retrieval_profile", "requested_stance", "problem_action", "advice_requested"],
+      "properties": {
+        "question": {"type": "string", "minLength": 1},
+        "object_of_analysis": {"type": "string", "minLength": 1},
+        "boundary": {"type": "string", "minLength": 1},
+        "identity_criterion": {"type": "string", "minLength": 1},
+        "spatial_scale": {"type": "string", "minLength": 1},
+        "organizational_scale": {"type": "string", "minLength": 1},
+        "time_window": {"type": "string", "minLength": 1},
+        "evidence_cutoff": {"type": "string", "format": "date-time"},
+        "retrieval_profile": {"enum": ["authority-first", "five-direction", "closed-input"]},
+        "requested_stance": {"enum": ["neutral", "support", "oppose"]},
+        "problem_action": {"enum": ["explain", "compare", "infer", "choose", "express"]},
+        "advice_requested": {"type": "boolean"}
+      }
+    },
+    "problem_contract_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "mode": {"enum": ["open-world", "closed-input"]},
+    "source_version": {"const": "v8.2"},
+    "contract_profile": {"enum": ["legacy-fixture-v3", "production-authoring-v2"]},
+    "natural_request": {
+      "$ref": "https://xi-kari.local/schemas/xi-kari.v2.natural-request.schema.json"
+    },
+    "repository_root": {"type": "string", "minLength": 1},
+    "validator_set_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "created_at": {"type": "string", "format": "date-time"},
+    "evidence_cutoff": {"type": "string", "format": "date-time"},
+    "dynamic_applicability": {"const": "pending"},
+    "privacy_contract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["purpose", "delivery_audience", "classification_scheme", "fail_closed"],
+      "properties": {
+        "purpose": {"type": "string", "minLength": 1},
+        "delivery_audience": {"type": "string", "minLength": 1},
+        "classification_scheme": {
+          "const": ["public", "context_limited", "sensitive", "highly_sensitive", "refused_disclosure"]
+        },
+        "fail_closed": {"const": true}
+      }
+    },
+    "stance_neutrality_key": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "terminal_authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["algorithm", "domain", "public_key_commitment_sha256"],
+      "properties": {
+        "algorithm": {"const": "lamport-sha256-v1"},
+        "domain": {"const": "xi-kari.v2.terminal-record/v1"},
+        "public_key_commitment_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      }
+    },
+    "continuation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "generation", "parent_run_id", "parent_chain_head_sha256"],
+      "properties": {
+        "kind": {"enum": ["original", "fork", "repair"]},
+        "generation": {"type": "integer", "minimum": 0},
+        "parent_run_id": {"oneOf": [{"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,95}$"}, {"type": "null"}]},
+        "parent_chain_head_sha256": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"}
+      }
+    },
+    "capability_snapshot": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["network_retrieval", "full_source_read_required", "source_unit_count", "reader_unit_count", "semantic_authoring_adapter"],
+      "properties": {
+        "contract_profile": {"enum": ["legacy-fixture-v3", "production-authoring-v2"]},
+        "network_retrieval": {"type": "boolean"},
+        "full_source_read_required": {"const": true},
+        "source_unit_count": {"const": 4753},
+        "reader_unit_count": {"const": 21},
+        "execute_owned_binding": {"$ref": "#/$defs/execute_owned_binding"},
+        "semantic_authoring_adapter": {
+          "oneOf": [
+            {"type": "null"},
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["protocol", "argv", "argv_sha256", "executable_path", "executable_sha256", "timeout_seconds"],
+              "properties": {
+                "protocol": {"const": "xi-kari.v2.semantic-authoring-adapter/v1"},
+                "argv": {"type": "array", "minItems": 1, "maxItems": 1, "items": {"type": "string", "minLength": 1}},
+                "argv_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+                "executable_path": {"type": "string", "minLength": 1},
+                "executable_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+                "timeout_seconds": {"type": "integer", "minimum": 1, "maximum": 600}
+              }
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["protocol", "argv", "argv_sha256", "executable_path", "executable_sha256", "timeout_seconds", "profile", "provider_binding", "provider_binding_sha256"],
+              "properties": {
+                "protocol": {"const": "xi-kari.v2.semantic-authoring-adapter/v2"},
+                "argv": {"type": "array", "minItems": 1, "maxItems": 1, "items": {"type": "string", "minLength": 1}},
+                "argv_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+                "executable_path": {"type": "string", "minLength": 1},
+                "executable_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+                "timeout_seconds": {"type": "integer", "minimum": 1, "maximum": 600},
+                "profile": {"const": "production-codex"},
+                "provider_binding": {"$ref": "#/$defs/codex_provider_binding"},
+                "provider_binding_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  "$defs": {
+    "execute_owned_binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["protocol", "owner", "run_id", "parent_pid", "child_pid", "exit_status", "provider_binding_sha256", "provider_executable_sha256", "provider_argv_sha256", "adapter_executable_sha256", "command_sha256", "input_sha256", "prompt_sha256", "stdout_sha256", "stderr_sha256", "semantic_output_sha256", "semantic_read_trace_sha256", "ontology_read_plan_sha256", "ontology_read_trace_sha256", "base_receipt_sha256", "retrieval_receipt_sha256", "retrieval_sha256"],
+      "properties": {
+        "protocol": {"const": "xi-kari.v2.execute-owned-binding/v1"},
+        "owner": {"const": "execute_authored_run"},
+        "run_id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,95}$"},
+        "parent_pid": {"type": "integer", "minimum": 1},
+        "child_pid": {"type": "integer", "minimum": 1},
+        "exit_status": {"const": 0},
+        "provider_binding_sha256": {"$ref": "#/$defs/sha256"},
+        "provider_executable_sha256": {"$ref": "#/$defs/sha256"},
+        "provider_argv_sha256": {"$ref": "#/$defs/sha256"},
+        "adapter_executable_sha256": {"$ref": "#/$defs/sha256"},
+        "command_sha256": {"$ref": "#/$defs/sha256"},
+        "input_sha256": {"$ref": "#/$defs/sha256"},
+        "prompt_sha256": {"$ref": "#/$defs/sha256"},
+        "stdout_sha256": {"$ref": "#/$defs/sha256"},
+        "stderr_sha256": {"$ref": "#/$defs/sha256"},
+        "semantic_output_sha256": {"$ref": "#/$defs/sha256"},
+        "semantic_read_trace_sha256": {"$ref": "#/$defs/sha256"},
+        "ontology_read_plan_sha256": {"$ref": "#/$defs/sha256"},
+        "ontology_read_trace_sha256": {"$ref": "#/$defs/sha256"},
+        "base_receipt_sha256": {"$ref": "#/$defs/sha256"},
+        "retrieval_receipt_sha256": {"$ref": "#/$defs/sha256"},
+        "retrieval_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "codex_provider_binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["protocol", "repository_root", "executable_path", "executable_sha256", "argv", "argv_sha256", "model", "reasoning_effort", "approval_policy", "sandbox", "ephemeral", "ignore_user_config", "strict_config", "web_search", "timeout_seconds"],
+      "properties": {
+        "protocol": {"const": "xi-kari.v2.codex-provider-binding/v1"},
+        "repository_root": {"type": "string", "minLength": 1},
+        "executable_path": {"type": "string", "minLength": 1},
+        "executable_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "argv": {
+          "type": "array",
+          "minItems": 8,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "argv_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "model": {"type": "string", "minLength": 1},
+        "reasoning_effort": {"type": "string"},
+        "approval_policy": {"const": "never"},
+        "sandbox": {"const": "read-only"},
+        "ephemeral": {"const": true},
+        "ignore_user_config": {"const": true},
+        "strict_config": {"type": "boolean"},
+        "web_search": {"enum": ["live", "disabled"]},
+        "timeout_seconds": {"type": "integer", "minimum": 1, "maximum": 3600}
+      }
+    }
+  }
+}

@@ -1,0 +1,140 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://xi-kari.local/schemas/xi-kari.v2.terminal.schema.json",
+  "title": "Xi-Kari v2 run-local terminal authority",
+  "type": "object",
+  "oneOf": [
+    {"$ref": "#/$defs/privateKey"},
+    {"$ref": "#/$defs/terminalRecord"},
+    {"$ref": "#/$defs/completion"},
+    {"$ref": "#/$defs/transaction"}
+  ],
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "runId": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,95}$"},
+    "keyPair": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "items": {"$ref": "#/$defs/sha256"}
+    },
+    "publicKey": {
+      "type": "array",
+      "minItems": 256,
+      "maxItems": 256,
+      "items": {"$ref": "#/$defs/keyPair"}
+    },
+    "privateKey": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_id", "schema_version", "run_id", "algorithm", "domain", "authority_key_id", "public_key", "private_key"],
+      "properties": {
+        "schema_id": {"const": "xi-kari.v2.terminal-authority-key"},
+        "schema_version": {"const": 3},
+        "run_id": {"$ref": "#/$defs/runId"},
+        "algorithm": {"const": "lamport-sha256-v1"},
+        "domain": {"const": "xi-kari.v2.terminal-record/v1"},
+        "authority_key_id": {"$ref": "#/$defs/sha256"},
+        "public_key": {"$ref": "#/$defs/publicKey"},
+        "private_key": {"$ref": "#/$defs/publicKey"}
+      }
+    },
+    "cancelPayload": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["run_id", "terminal_state", "terminal_at", "phase_count", "chain_head_sha256", "reason"],
+      "properties": {
+        "run_id": {"$ref": "#/$defs/runId"},
+        "terminal_state": {"const": "cancelled"},
+        "terminal_at": {"type": "string", "format": "date-time"},
+        "phase_count": {"type": "integer", "minimum": 0, "maximum": 12},
+        "chain_head_sha256": {"oneOf": [{"$ref": "#/$defs/sha256"}, {"type": "null"}]},
+        "reason": {"type": "string", "minLength": 1}
+      }
+    },
+    "completePayload": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["run_id", "terminal_state", "terminal_at", "phase_count", "chain_head_sha256", "completion_sha256"],
+      "properties": {
+        "run_id": {"$ref": "#/$defs/runId"},
+        "terminal_state": {"const": "complete"},
+        "terminal_at": {"type": "string", "format": "date-time"},
+        "phase_count": {"const": 13},
+        "chain_head_sha256": {"$ref": "#/$defs/sha256"},
+        "completion_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "terminalRecord": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_id", "schema_version", "authority_key_id", "public_key", "signed_payload", "payload_sha256", "signature"],
+      "properties": {
+        "schema_id": {"const": "xi-kari.v2.terminal-record"},
+        "schema_version": {"const": 3},
+        "authority_key_id": {"$ref": "#/$defs/sha256"},
+        "public_key": {"$ref": "#/$defs/publicKey"},
+        "signed_payload": {"oneOf": [{"$ref": "#/$defs/cancelPayload"}, {"$ref": "#/$defs/completePayload"}]},
+        "payload_sha256": {"$ref": "#/$defs/sha256"},
+        "signature": {
+          "type": "array",
+          "minItems": 256,
+          "maxItems": 256,
+          "items": {"$ref": "#/$defs/sha256"}
+        }
+      }
+    },
+    "completion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_id", "schema_version", "run_id", "official_validation_path", "official_validation_sha256", "chain_head_sha256", "phase_count", "validator_set_sha256", "manifest_sha256", "final_chat_sha256", "xk12_transaction_sha256", "completed_at"],
+      "properties": {
+        "schema_id": {"const": "xi-kari.v2.completion"},
+        "schema_version": {"const": 3},
+        "run_id": {"$ref": "#/$defs/runId"},
+        "official_validation_path": {"const": "validation/attempts/official/validator-report.json"},
+        "official_validation_sha256": {"$ref": "#/$defs/sha256"},
+        "chain_head_sha256": {"$ref": "#/$defs/sha256"},
+        "phase_count": {"const": 13},
+        "validator_set_sha256": {"$ref": "#/$defs/sha256"},
+        "manifest_sha256": {"$ref": "#/$defs/sha256"},
+        "final_chat_sha256": {"$ref": "#/$defs/sha256"},
+        "xk12_transaction_sha256": {"$ref": "#/$defs/sha256"},
+        "completed_at": {"type": "string", "format": "date-time"}
+      }
+    },
+    "transactionTarget": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "before_exists", "before_sha256", "before_text", "after_sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "before_exists": {"type": "boolean"},
+        "before_sha256": {"oneOf": [{"$ref": "#/$defs/sha256"}, {"type": "null"}]},
+        "before_text": {"type": ["string", "null"]},
+        "after_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "transaction": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_id", "schema_version", "run_id", "transaction_id", "candidate_name", "original_phase_events", "original_phase_events_sha256", "original_state", "original_state_sha256", "targets", "phase_events_after_sha256", "state", "created_at", "updated_at"],
+      "properties": {
+        "schema_id": {"const": "xi-kari.v2.xk12-transaction"},
+        "schema_version": {"const": 3},
+        "run_id": {"$ref": "#/$defs/runId"},
+        "transaction_id": {"type": "string", "pattern": "^XK12-TXN-[a-f0-9]{32}$"},
+        "candidate_name": {"type": "string", "pattern": "^\\.[A-Za-z0-9._-]+\\.xk12-[a-f0-9]+$"},
+        "original_phase_events": {"type": "string", "minLength": 1},
+        "original_phase_events_sha256": {"$ref": "#/$defs/sha256"},
+        "original_state": {"type": "string", "minLength": 1},
+        "original_state_sha256": {"$ref": "#/$defs/sha256"},
+        "targets": {"type": "array", "minItems": 3, "items": {"$ref": "#/$defs/transactionTarget"}},
+        "phase_events_after_sha256": {"$ref": "#/$defs/sha256"},
+        "state": {"enum": ["promoting", "promoted", "official_validated", "rolled_back"]},
+        "created_at": {"type": "string", "format": "date-time"},
+        "updated_at": {"type": "string", "format": "date-time"}
+      }
+    }
+  }
+}

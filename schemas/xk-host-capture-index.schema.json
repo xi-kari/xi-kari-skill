@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://xi-kari.local/schemas/xi-kari.v2.host-capture-index.schema.json",
+  "title": "Xi-Kari v2 replayable host source capture index",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_id", "schema_version", "protocol", "run_id", "event_stream_sha256", "captures", "capture_count", "index_sha256"],
+  "properties": {
+    "schema_id": {"const": "xi-kari.v2.host-capture-index"},
+    "schema_version": {"const": 1},
+    "protocol": {"const": "xi-kari.v2.host-source-capture/v1"},
+    "run_id": {"type": "string", "minLength": 1},
+    "event_stream_sha256": {"$ref": "#/$defs/sha256"},
+    "captures": {"type": "array", "items": {"$ref": "#/$defs/capture"}},
+    "capture_count": {"type": "integer", "minimum": 1},
+    "index_sha256": {"$ref": "#/$defs/sha256"}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "https_url": {"type": "string", "format": "uri", "pattern": "^https://"},
+    "ip_address": {"oneOf": [{"type": "string", "format": "ipv4"}, {"type": "string", "format": "ipv6"}]},
+    "capture": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["capture_id", "source_id", "requested_url", "final_url", "status", "content_type", "charset", "peer_ip", "redirect_chain", "body_path", "body_sha256", "body_byte_count", "text_sha256", "text_character_count", "excerpt_sha256", "excerpt_start", "excerpt_end", "event_stream_sha256", "open_event_ids"],
+      "properties": {
+        "capture_id": {"type": "string", "minLength": 1},
+        "source_id": {"type": "string", "minLength": 1},
+        "requested_url": {"$ref": "#/$defs/https_url"},
+        "final_url": {"$ref": "#/$defs/https_url"},
+        "status": {"type": "integer", "minimum": 200, "maximum": 299},
+        "content_type": {"type": "string", "minLength": 1},
+        "charset": {"type": "string", "minLength": 1},
+        "peer_ip": {"anyOf": [{"type": "null"}, {"$ref": "#/$defs/ip_address"}]},
+        "redirect_chain": {"type": "array", "maxItems": 5, "uniqueItems": true, "items": {"$ref": "#/$defs/https_url"}},
+        "body_path": {"type": "string", "pattern": "^retrieval/captures/[A-Z0-9_-]+\\.bin$"},
+        "body_sha256": {"$ref": "#/$defs/sha256"},
+        "body_byte_count": {"type": "integer", "minimum": 1, "maximum": 2097152},
+        "text_sha256": {"$ref": "#/$defs/sha256"},
+        "text_character_count": {"type": "integer", "minimum": 1},
+        "excerpt_sha256": {"$ref": "#/$defs/sha256"},
+        "excerpt_start": {"type": "integer", "minimum": 0},
+        "excerpt_end": {"type": "integer", "minimum": 1},
+        "event_stream_sha256": {"$ref": "#/$defs/sha256"},
+        "open_event_ids": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}}
+      }
+    }
+  }
+}

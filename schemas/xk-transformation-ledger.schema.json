@@ -1,0 +1,188 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://xi-kari.local/schemas/xi-kari.v2.xk.transformation-ledger.schema.json",
+  "x-namespace": "xi-kari.v2.xk",
+  "title": "Xi-Kari v2 three-kind transformation ledger",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_id", "source_version", "ontology_refs", "source_anchors", "world_volume_id", "transformations"],
+  "properties": {
+    "schema_id": {"const": "xi-kari.v2.xk.transformation-ledger"},
+    "source_version": {"const": "v8.2"},
+    "ontology_refs": {"$ref": "#/$defs/ontologyRefs"},
+    "source_anchors": {"$ref": "#/$defs/sourceAnchors"},
+    "world_volume_id": {"$ref": "#/$defs/id"},
+    "transformations": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/transformation"}}
+  },
+  "$defs": {
+    "id": {"type": "string", "minLength": 1, "pattern": "^[A-Z][A-Z0-9_.:-]*$"},
+    "nonempty": {"type": "string", "minLength": 1},
+    "ids": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/id"}},
+    "nonemptyIds": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/$defs/id"}},
+    "strings": {"type": "array", "items": {"$ref": "#/$defs/nonempty"}},
+    "nonemptyStrings": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/nonempty"}},
+    "ontologyRefs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "pattern": "^V82-(?:CANON|CANDIDATE|HEADING)-[A-Z0-9-]+$"}},
+    "sourceAnchors": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "pattern": "^V82-(?:P[0-9]{4}|T[0-9]{3})$"}},
+    "identity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["location_ref", "identity_criteria"],
+      "properties": {
+        "location_ref": {"$ref": "#/$defs/id"},
+        "identity_criteria": {"$ref": "#/$defs/nonempty"}
+      }
+    },
+    "component": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["component_id", "location_ref", "description"],
+      "properties": {
+        "component_id": {"$ref": "#/$defs/id"},
+        "location_ref": {"$ref": "#/$defs/id"},
+        "description": {"$ref": "#/$defs/nonempty"}
+      }
+    },
+    "effectiveVariable": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["variable_id", "location_ref", "definition", "status"],
+      "properties": {
+        "variable_id": {"$ref": "#/$defs/id"},
+        "location_ref": {"$ref": "#/$defs/id"},
+        "definition": {"$ref": "#/$defs/nonempty"},
+        "status": {"enum": ["effective", "candidate", "unknown", "not-applicable"]}
+      }
+    },
+    "loss": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["loss_id", "location_ref", "description", "consequence"],
+      "properties": {
+        "loss_id": {"$ref": "#/$defs/id"},
+        "location_ref": {"$ref": "#/$defs/id"},
+        "description": {"$ref": "#/$defs/nonempty"},
+        "consequence": {"$ref": "#/$defs/nonempty"}
+      }
+    },
+    "locationEffect": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["location_ref", "benefits", "harms", "exit_costs", "spillovers"],
+      "properties": {
+        "location_ref": {"$ref": "#/$defs/id"},
+        "benefits": {"$ref": "#/$defs/strings"},
+        "harms": {"$ref": "#/$defs/strings"},
+        "exit_costs": {"$ref": "#/$defs/strings"},
+        "spillovers": {"$ref": "#/$defs/strings"}
+      }
+    },
+    "axisDifference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["axis_id", "relation", "preserved", "changed", "lost_or_unknown", "error", "applicability", "evidence_refs"],
+      "properties": {
+        "axis_id": {"enum": ["A", "X", "T", "O", "C", "R", "I", "N", "J"]},
+        "relation": {"enum": ["equal", "expands", "contracts", "incomparable", "unknown"]},
+        "preserved": {"$ref": "#/$defs/strings"},
+        "changed": {"$ref": "#/$defs/strings"},
+        "lost_or_unknown": {"$ref": "#/$defs/strings"},
+        "error": {"$ref": "#/$defs/nonempty"},
+        "applicability": {"$ref": "#/$defs/nonempty"},
+        "evidence_refs": {"$ref": "#/$defs/ids"}
+      }
+    },
+    "transitionRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["event_id", "state_diff_id"],
+      "properties": {
+        "event_id": {"$ref": "#/$defs/id"},
+        "state_diff_id": {"$ref": "#/$defs/id"}
+      }
+    },
+    "transformation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "transform_id", "kind", "input_identity", "output_identity",
+        "preserved", "changed", "folded", "omitted", "unknown",
+        "effective_variables", "task_relative_losses", "closure_status",
+        "residual_ids", "return_conditions", "affected_location_refs",
+        "location_effects", "evidence_refs", "transition_refs", "source_anchors",
+        "axis_differences", "transformation_class", "circle_relation_id",
+        "representation_parent_state_id", "representation_output_state_id"
+      ],
+      "properties": {
+        "transform_id": {"$ref": "#/$defs/id"},
+        "kind": {"enum": ["scale", "circle-relation", "representation-translation"]},
+        "input_identity": {"$ref": "#/$defs/identity"},
+        "output_identity": {"$ref": "#/$defs/identity"},
+        "preserved": {"type": "array", "items": {"$ref": "#/$defs/component"}},
+        "changed": {"type": "array", "items": {"$ref": "#/$defs/component"}},
+        "folded": {"type": "array", "items": {"$ref": "#/$defs/component"}},
+        "omitted": {"type": "array", "items": {"$ref": "#/$defs/component"}},
+        "unknown": {"type": "array", "items": {"$ref": "#/$defs/component"}},
+        "effective_variables": {"type": "array", "items": {"$ref": "#/$defs/effectiveVariable"}},
+        "task_relative_losses": {"type": "array", "items": {"$ref": "#/$defs/loss"}},
+        "closure_status": {"enum": ["closed", "conditional", "open", "unknown"]},
+        "residual_ids": {"$ref": "#/$defs/ids"},
+        "return_conditions": {"$ref": "#/$defs/nonemptyStrings"},
+        "affected_location_refs": {"$ref": "#/$defs/nonemptyIds"},
+        "location_effects": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/locationEffect"}},
+        "evidence_refs": {"$ref": "#/$defs/ids"},
+        "transition_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/$defs/transitionRef"}},
+        "source_anchors": {"$ref": "#/$defs/sourceAnchors"},
+        "axis_differences": {"type": "array", "items": {"$ref": "#/$defs/axisDifference"}},
+        "transformation_class": {
+          "oneOf": [
+            {"enum": ["all-equal", "elevation", "reduction", "mixed", "horizontal-or-incomparable", "unresolved"]},
+            {"type": "null"}
+          ]
+        },
+        "circle_relation_id": {"oneOf": [{"$ref": "#/$defs/id"}, {"type": "null"}]},
+        "representation_parent_state_id": {"oneOf": [{"$ref": "#/$defs/id"}, {"type": "null"}]},
+        "representation_output_state_id": {"oneOf": [{"$ref": "#/$defs/id"}, {"type": "null"}]}
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"kind": {"const": "scale"}}, "required": ["kind"]},
+          "then": {
+            "properties": {
+              "axis_differences": {"minItems": 9, "maxItems": 9},
+              "transformation_class": {"enum": ["all-equal", "elevation", "reduction", "mixed", "horizontal-or-incomparable", "unresolved"]},
+              "circle_relation_id": {"type": "null"},
+              "representation_parent_state_id": {"type": "null"},
+              "representation_output_state_id": {"type": "null"}
+            }
+          },
+          "else": {
+            "properties": {
+              "axis_differences": {"maxItems": 0},
+              "transformation_class": {"type": "null"}
+            }
+          }
+        },
+        {
+          "if": {"properties": {"kind": {"const": "circle-relation"}}, "required": ["kind"]},
+          "then": {
+            "properties": {
+              "circle_relation_id": {"$ref": "#/$defs/id"},
+              "representation_parent_state_id": {"type": "null"},
+              "representation_output_state_id": {"type": "null"}
+            }
+          }
+        },
+        {
+          "if": {"properties": {"kind": {"const": "representation-translation"}}, "required": ["kind"]},
+          "then": {
+            "properties": {
+              "circle_relation_id": {"type": "null"},
+              "representation_parent_state_id": {"$ref": "#/$defs/id"},
+              "representation_output_state_id": {"$ref": "#/$defs/id"}
+            }
+          }
+        }
+      ]
+    }
+  }
+}

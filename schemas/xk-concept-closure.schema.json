@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://xi-kari.local/schemas/xi-kari.v2.concept-closure-report.schema.json",
+  "title": "Xi-Kari v2 concept closure report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_id", "schema_version", "run_id", "candidate_census_sha256", "source_candidate_count", "disposition_counts", "unresolved_count", "concept_registry_sha256", "concept_relations_sha256", "continuity_map_sha256", "concept_count", "concept_count_semantics", "relation_edge_count", "dangling_neighbor_count", "semantic_without_neighbors_count", "bundle_count", "bundle_bindings", "complete"],
+  "properties": {
+    "schema_id": {"const": "xi-kari.v2.concept-closure-report"},
+    "schema_version": {"const": 3},
+    "run_id": {"type": "string"},
+    "candidate_census_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "source_candidate_count": {"type": "integer", "minimum": 1},
+    "disposition_counts": {"type": "object", "additionalProperties": {"type": "integer", "minimum": 0}},
+    "unresolved_count": {"const": 0},
+    "concept_registry_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "concept_relations_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "continuity_map_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "concept_count": {"type": "integer", "minimum": 1},
+    "concept_count_semantics": {"const": "inventory record count; not a complete ontology concept count"},
+    "relation_edge_count": {"type": "integer", "minimum": 1},
+    "dangling_neighbor_count": {"const": 0},
+    "semantic_without_neighbors_count": {"const": 0},
+    "bundle_count": {"type": "integer", "minimum": 1},
+    "ontology_read_plan_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "ontology_read_trace_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "ontology_read_record_count": {"type": "integer", "minimum": 1},
+    "ontology_read_complete": {"const": true},
+    "bundle_bindings": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["path", "sha256", "registry_sha256", "source_anchors", "route_kind"],
+        "properties": {
+          "path": {"type": "string", "pattern": "^references/ontology/bundles/[a-z0-9-]+\\.md$"},
+          "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+          "registry_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+          "source_anchors": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {"type": "string", "pattern": "^V82-(?:P[0-9]{4}|T[0-9]{3})$"}
+          },
+          "route_kind": {"const": "curated_semantic_closure"}
+        }
+      }
+    },
+    "complete": {"const": true}
+  },
+  "dependentRequired": {
+    "ontology_read_plan_sha256": ["ontology_read_trace_sha256", "ontology_read_record_count", "ontology_read_complete"],
+    "ontology_read_trace_sha256": ["ontology_read_plan_sha256", "ontology_read_record_count", "ontology_read_complete"],
+    "ontology_read_record_count": ["ontology_read_plan_sha256", "ontology_read_trace_sha256", "ontology_read_complete"],
+    "ontology_read_complete": ["ontology_read_plan_sha256", "ontology_read_trace_sha256", "ontology_read_record_count"]
+  }
+}

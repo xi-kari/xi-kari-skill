@@ -1,0 +1,232 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://xi-kari.local/schemas/concept-candidate-semantic-scopes.schema.json",
+  "title": "Xi-Kari exact candidate semantic reviews",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "schema_version",
+    "framework_version",
+    "review_count_semantics",
+    "reviews"
+  ],
+  "properties": {
+    "schema_id": {"const": "xi-kari.v8.2.candidate-semantic-scopes"},
+    "schema_version": {"const": 3},
+    "framework_version": {"const": "v8.2"},
+    "review_count_semantics": {
+      "const": "authored exact candidate decisions; not an ontology cardinality claim"
+    },
+    "reviews": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "candidate_id",
+          "source_anchor",
+          "semantic_fingerprint_sha256",
+          "disposition",
+          "bound_concept_ids",
+          "parent_concept_ids",
+          "source_basis",
+          "review_note"
+        ],
+        "properties": {
+          "candidate_id": {
+            "type": "string",
+            "pattern": "^V82-CANDIDATE-(P[0-9]{4}|T[0-9]{3}(?:-R[0-9]{3})?)$"
+          },
+          "source_anchor": {
+            "type": "string",
+            "pattern": "^V82-(P[0-9]{4}|T[0-9]{3}(?:-R[0-9]{3})?)$"
+          },
+          "semantic_fingerprint_sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "disposition": {
+            "enum": [
+              "canonical_concept",
+              "structural_rule",
+              "subordinate_value",
+              "alias",
+              "example_only",
+              "heading_only",
+              "source_undefined"
+            ]
+          },
+          "bound_concept_ids": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "pattern": "^V82-CANON(-[A-Z0-9]+)+$"
+            }
+          },
+          "parent_concept_ids": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "pattern": "^V82-CANON(-[A-Z0-9]+)+$"
+            }
+          },
+          "source_basis": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "source_excerpt",
+              "disposition",
+              "context_evidence",
+              "decision_note",
+              "parent_relations"
+            ],
+            "properties": {
+              "source_excerpt": {"type": "string", "minLength": 1},
+              "disposition": {
+                "enum": [
+                  "canonical_concept",
+                  "structural_rule",
+                  "subordinate_value",
+                  "alias",
+                  "example_only",
+                  "heading_only",
+                  "source_undefined"
+                ]
+              },
+              "context_evidence": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": ["source_anchor", "source_excerpt"],
+                  "properties": {
+                    "source_anchor": {
+                      "type": "string",
+                      "pattern": "^V82-(P[0-9]{4}|T[0-9]{3}(?:-R[0-9]{3})?)$"
+                    },
+                    "source_excerpt": {"type": "string", "minLength": 1}
+                  }
+                }
+              },
+              "decision_note": {"type": "string", "minLength": 1},
+              "parent_relations": {
+                "type": "array",
+                "uniqueItems": true,
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "parent_concept_id",
+                    "parent_card_path",
+                    "evidence_kind",
+                    "evidence_anchor",
+                    "evidence_excerpt",
+                    "relation_note"
+                  ],
+                  "properties": {
+                    "parent_concept_id": {
+                      "type": "string",
+                      "pattern": "^V82-CANON(-[A-Z0-9]+)+$"
+                    },
+                    "parent_card_path": {
+                      "type": "string",
+                      "pattern": "^references/ontology/cards/.+\\.md$"
+                    },
+                    "evidence_kind": {
+                      "enum": ["source_card_match", "authored_relation"]
+                    },
+                    "evidence_anchor": {
+                      "type": "string",
+                      "pattern": "^V82-(P[0-9]{4}|T[0-9]{3}(?:-R[0-9]{3})?)$"
+                    },
+                    "evidence_excerpt": {"type": "string", "minLength": 1},
+                    "card_excerpt": {"type": "string", "minLength": 1},
+                    "relation_note": {"type": "string", "minLength": 1}
+                  },
+                  "allOf": [
+                    {
+                      "if": {
+                        "properties": {
+                          "evidence_kind": {"const": "source_card_match"}
+                        },
+                        "required": ["evidence_kind"]
+                      },
+                      "then": {"required": ["card_excerpt"]}
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "review_note": {"type": "string", "minLength": 1}
+        },
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "disposition": {"enum": ["canonical_concept", "structural_rule"]}
+              },
+              "required": ["disposition"]
+            },
+            "then": {
+              "properties": {
+                "bound_concept_ids": {"minItems": 1},
+                "parent_concept_ids": {"maxItems": 0},
+                "source_basis": {
+                  "properties": {
+                    "parent_relations": {"maxItems": 0}
+                  }
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "disposition": {"enum": ["subordinate_value", "alias"]}
+              },
+              "required": ["disposition"]
+            },
+            "then": {
+              "properties": {
+                "bound_concept_ids": {"maxItems": 0},
+                "parent_concept_ids": {"minItems": 1},
+                "source_basis": {
+                  "properties": {
+                    "parent_relations": {"minItems": 1}
+                  }
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "disposition": {
+                  "enum": ["example_only", "heading_only", "source_undefined"]
+                }
+              },
+              "required": ["disposition"]
+            },
+            "then": {
+              "properties": {
+                "bound_concept_ids": {"maxItems": 0},
+                "parent_concept_ids": {"maxItems": 0},
+                "source_basis": {
+                  "properties": {
+                    "parent_relations": {"maxItems": 0}
+                  }
+                }
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}

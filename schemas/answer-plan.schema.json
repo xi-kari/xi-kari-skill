@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://xi-kari.local/schemas/answer-plan.schema.json",
+  "title": "Xi-Kari answer plan",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "answer_mode",
+    "direct_conclusion",
+    "fact_boundary",
+    "structural_judgment",
+    "mechanism_applicability",
+    "mechanism_refs",
+    "case_refs",
+    "three_order_status",
+    "judgment",
+    "source_refs"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "xk-answer-plan-1" },
+    "answer_mode": { "type": "string", "enum": ["natural", "deep_analysis", "three_order", "brief", "optional_audit"] },
+    "direct_conclusion": { "type": "string", "minLength": 1 },
+    "fact_boundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["known", "claimed", "inferred", "unknown"],
+      "properties": {
+        "known": { "type": "array", "items": { "type": "string" } },
+        "claimed": { "type": "array", "items": { "type": "string" } },
+        "inferred": { "type": "array", "items": { "type": "string" } },
+        "unknown": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "structural_judgment": { "type": "string", "minLength": 1 },
+    "mechanism_applicability": { "type": "string", "enum": ["applicable", "not_applicable"] },
+    "mechanism_non_applicability_reason": { "type": "string", "minLength": 1 },
+    "mechanism_refs": { "type": "array", "minItems": 0, "items": { "type": "string" } },
+    "case_refs": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+    "countercase_refs": { "type": "array", "items": { "type": "string" } },
+    "three_order_status": { "type": "string", "enum": ["included", "not_applicable", "conditional", "undecided"] },
+    "three_order_ref": { "type": "string" },
+    "judgment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["position", "strength", "runner_up", "strongest_counterposition", "withdrawal_conditions"],
+      "properties": {
+        "position": { "type": "string", "minLength": 1 },
+        "strength": { "type": "string", "minLength": 1 },
+        "runner_up": { "type": "string", "minLength": 1 },
+        "strongest_counterposition": { "type": "string", "minLength": 1 },
+        "withdrawal_conditions": { "type": "array", "minItems": 1, "items": { "type": "string" } }
+      }
+    },
+    "action_boundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "status": { "type": "string", "enum": ["not_requested", "options_compared", "professional_transfer_required", "insufficient_authorization"] },
+        "allowed": { "type": "array", "items": { "type": "string" } },
+        "prohibited": { "type": "array", "items": { "type": "string" } },
+        "stop_conditions": { "type": "array", "items": { "type": "string" } },
+        "rollback_or_remedy": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "source_refs": { "type": "array", "items": { "type": "string" } },
+    "v82_anchors": { "type": "array", "items": { "type": "string" } },
+    "audit_requested": { "type": "boolean", "default": false }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "mechanism_applicability": { "const": "applicable" } } },
+      "then": { "properties": { "mechanism_refs": { "minItems": 2 } } }
+    },
+    {
+      "if": { "properties": { "mechanism_applicability": { "const": "not_applicable" } } },
+      "then": {
+        "required": ["mechanism_non_applicability_reason"],
+        "properties": { "mechanism_refs": { "maxItems": 0 } }
+      }
+    }
+  ]
+}

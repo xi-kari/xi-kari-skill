@@ -1,0 +1,13 @@
+[project]
+name = "xi-kari-skill"
+version = "2.0.0"
+description = "Xi-Kari Skill: a structural inference skill with verifiable full-source reading"
+requires-python = ">=3.11"
+dependencies = []
+
+[dependency-groups]
+dev = [
+  "jsonschema>=4.23,<5",
+  "pyyaml>=6.0,<7",
+  "pytest>=8.3,<9"
+]

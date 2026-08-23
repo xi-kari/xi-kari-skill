@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://xi-kari.local/schemas/xi-kari.v2.coverage.schema.json",
+  "title": "Xi-Kari v2 coverage",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_id", "schema_version", "run_id", "source_read", "source_assessment", "claim_support", "outputs", "complete"],
+  "properties": {
+    "schema_id": {"const": "xi-kari.v2.coverage"},
+    "schema_version": {"const": 3},
+    "run_id": {"type": "string"},
+    "source_read": {"type": "object", "additionalProperties": false, "required": ["expected", "observed", "source_units_expected", "source_units_observed", "mismatched", "complete"], "properties": {"expected": {"type": "integer"}, "observed": {"type": "integer"}, "source_units_expected": {"const": 4753}, "source_units_observed": {"const": 4753}, "mismatched": {"type": "array", "items": {"type": "string"}}, "complete": {"const": true}}},
+    "source_assessment": {"type": "object", "additionalProperties": false, "required": ["sources", "assessments", "unassessed"], "properties": {"sources": {"type": "integer"}, "assessments": {"type": "integer"}, "unassessed": {"type": "array", "items": {"type": "string"}}}},
+    "claim_support": {"type": "object", "additionalProperties": false, "required": ["claims", "supported", "unsupported"], "properties": {"claims": {"type": "integer"}, "supported": {"type": "integer"}, "unsupported": {"type": "array", "items": {"type": "string"}}}},
+    "outputs": {"type": "object", "additionalProperties": false, "required": ["required", "planned", "missing"], "properties": {"required": {"type": "array", "items": {"type": "string"}}, "planned": {"type": "array", "items": {"type": "string"}}, "missing": {"type": "array", "items": {"type": "string"}}}},
+    "complete": {"const": true}
+  }
+}

@@ -1,0 +1,86 @@
+{
+  "bundles": {
+    "references/ontology/bundles/core-appendix-integrity.md": {
+      "route_kind": "curated_semantic_closure",
+      "sha256": "da2c61947d3b6c2052f92c36cfe772dc7092cc88b9499ff2f5fab76fd17c4bc1",
+      "source_anchors": ["V82-P4479", "V82-P4572", "V82-P4588", "V82-P4631"]
+    },
+    "references/ontology/bundles/core-event-path.md": {
+      "route_kind": "curated_semantic_closure",
+      "sha256": "9fc9c84051f32d5cc7a081651cf642422a477a57d58baef529b003be419aa38e",
+      "source_anchors": ["V82-P0401", "V82-P0405", "V82-P1933", "V82-P2131", "V82-P2566", "V82-P2600"]
+    },
+    "references/ontology/bundles/core-feedback-learning.md": {
+      "route_kind": "curated_semantic_closure",
+      "sha256": "01446800a33dc532927a946fe64e1e99f4a3b6716126c1fe8e6119ea0019c56d",
+      "source_anchors": ["V82-P0572", "V82-P0581", "V82-P1085", "V82-P1159", "V82-P1931", "V82-P2086"]
+    },
+    "references/ontology/bundles/core-forecast-choice.md": {
+      "route_kind": "curated_semantic_closure",
+      "sha256": "c261b125d0e55b102017c3627093ea89476bc49b9ed93570fd7ef39f5e088e60",
+      "source_anchors": ["V82-P2134", "V82-P2329", "V82-P2350", "V82-P2565"]
+    },
+    "references/ontology/bundles/core-human-empirical-instance.md": {
+      "route_kind": "curated_semantic_closure",
+      "sha256": "1cdda7d404b7b61485a6736162f43fe9f870625077e015a2a19b76d63a73b7b6",
+      "source_anchors": ["V82-P0587", "V82-P0626", "V82-P0628", "V82-P0647", "V82-P0683", "V82-P0684"]
+    },
+    "references/ontology/bundles/core-object-evidence.md": {
+      "route_kind": "curated_semantic_closure",
+      "sha256": "8c31545a6858489c58c6f20d3130e1293195a7a0570c30a162c02a34cc137a13",
+      "source_anchors": ["V82-P0428", "V82-P0444", "V82-P0484", "V82-P0510", "V82-P0525", "V82-P0553", "V82-P0587", "V82-P0680"]
+    },
+    "references/ontology/bundles/core-phase-threshold.md": {
+      "route_kind": "curated_semantic_closure",
+      "sha256": "1de55f7b62ee1deced9f6f5dce39ce3728fe86514985baf54af45e117300ec1a",
+      "source_anchors": ["V82-P0568", "V82-P0581", "V82-P1085", "V82-P1159", "V82-P1991", "V82-P2033"]
+    },
+    "references/ontology/bundles/core-scale-dynamics.md": {
+      "route_kind": "curated_semantic_closure",
+      "sha256": "8d5343ad34be84cb110a2c3bae3b25656cb966623baf97bfd7c9d267088dfdc2",
+      "source_anchors": ["V82-P0524", "V82-P0584", "V82-P0865", "V82-P1080", "V82-P1085", "V82-P1159"]
+    },
+    "references/ontology/bundles/governance-institutionalization.md": {
+      "route_kind": "curated_semantic_closure",
+      "sha256": "f83dfbad91f475623e56524fb0d420a918e2ae2840f1b1f5c536f662fc53d880",
+      "source_anchors": ["V82-P2034", "V82-P2131", "V82-P2777", "V82-P2905"]
+    },
+    "references/ontology/bundles/human-actor-closure.md": {
+      "route_kind": "curated_semantic_closure",
+      "sha256": "6b46d444b251a47ddc5e186abf9b9b1143d2c415c5e7b2e955fc6e56fa79f9e7",
+      "source_anchors": ["V82-P1161", "V82-P1244", "V82-P1551", "V82-P1739", "V82-P2906", "V82-P4477"]
+    },
+    "references/ontology/bundles/human-choice-protection.md": {
+      "route_kind": "curated_semantic_closure",
+      "sha256": "408ea2ec46644ff3549dcb241c61438b9fd43ef3076528ad66d39b7f507db6d1",
+      "source_anchors": ["V82-P2245", "V82-P2301", "V82-P2602", "V82-P2776"]
+    },
+    "references/ontology/bundles/human-circle-closure.md": {
+      "route_kind": "curated_semantic_closure",
+      "sha256": "92dc47cd50bffb852fbd2ab9199d3af6234d48b95d5feda0d8790415ce4482d6",
+      "source_anchors": ["V82-P1268", "V82-P1550", "V82-P1740", "V82-P1930"]
+    },
+    "references/ontology/bundles/human-forecast-closure.md": {
+      "route_kind": "curated_semantic_closure",
+      "sha256": "ac0d3eb4b1a785e75dc49eaaf6a178296cec9371e3363c62d689aa6ff79f5603",
+      "source_anchors": ["V82-P1931", "V82-P2348", "V82-P2601", "V82-P2776"]
+    },
+    "references/ontology/bundles/human-governance-closure.md": {
+      "route_kind": "curated_semantic_closure",
+      "sha256": "53d7c79a3fdd5ae12b98638566fc2d843450eeb6436df0105e2f0938ce6387b8",
+      "source_anchors": ["V82-P2648", "V82-P2660", "V82-P2777", "V82-P2905"]
+    },
+    "references/ontology/bundles/human-three-order-closure.md": {
+      "route_kind": "curated_semantic_closure",
+      "sha256": "5f54213cb93c63c4edfec4b8cd09478886b51c026f42e57c7398af74bc844814",
+      "source_anchors": ["V82-P1932", "V82-P2131", "V82-P2187", "V82-P2244", "V82-P2640", "V82-P2647"]
+    },
+    "references/ontology/bundles/human-variable-interface-complete.md": {
+      "route_kind": "curated_semantic_closure",
+      "sha256": "71481db2a17731bd49257590f5b2eb61b4cac11af29955daa1d66ddbdeeb16ed",
+      "source_anchors": ["V82-P1215", "V82-P1216", "V82-P1217", "V82-P1218", "V82-P1244", "V82-P2906", "V82-P2907", "V82-P2908", "V82-P4477"]
+    }
+  },
+  "schema_id": "xi-kari.v2.continuity-bundle-registry",
+  "schema_version": 1
+}

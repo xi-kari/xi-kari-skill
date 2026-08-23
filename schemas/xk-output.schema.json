@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://xi-kari.local/schemas/xi-kari.v2.final-chat.schema.json",
+  "title": "Xi-Kari v2 final chat projection",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_id", "schema_version", "run_id", "answer_path", "validation_authority_path"],
+  "properties": {
+    "schema_id": {"const": "xi-kari.v2.final-chat"},
+    "schema_version": {"const": 3},
+    "run_id": {"type": "string", "minLength": 1},
+    "answer_path": {"const": "delivery/xi-kari-answer.md"},
+    "validation_authority_path": {"const": "continuation/completion.json"}
+  }
+}

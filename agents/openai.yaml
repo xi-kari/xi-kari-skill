@@ -1,0 +1,6 @@
+interface:
+  display_name: "Xi-Kari Skill"
+  short_description: "全源阅读、竞争机制与可验证三阶推演的结构分析技能"
+  default_prompt: "使用 $xi-kari-skill，完整读取框架原文、检索现实材料并完成可验证的一至三阶推演。"
+policy:
+  allow_implicit_invocation: false

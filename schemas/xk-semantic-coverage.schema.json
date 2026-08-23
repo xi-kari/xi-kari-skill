@@ -1,0 +1,140 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://xi-kari.local/schemas/xi-kari.v2.semantic-coverage.schema.json",
+  "title": "Xi-Kari v2 semantic reader coverage",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_id", "schema_version", "run_id", "dynamic_applicability", "not_applicable_reason", "conclusion_units", "typed_atom_ledger", "projection_checks", "reader_trace", "stance_projection", "unprojected_unit_ids", "source_read_complete", "candidate_closure_complete", "main_answer_complete", "reader_projection_complete"],
+  "properties": {
+    "schema_id": {"const": "xi-kari.v2.semantic-coverage"},
+    "schema_version": {"const": 3},
+    "run_id": {"type": "string"},
+    "dynamic_applicability": {"enum": ["applicable", "not_applicable"]},
+    "not_applicable_reason": {"type": ["string", "null"]},
+    "conclusion_units": {"type": "object"},
+    "typed_atom_ledger": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["canonical_path", "value_type", "visibility", "projection_status", "reader_unit_ids"],
+        "properties": {
+          "canonical_path": {"type": "string", "minLength": 1},
+          "value_type": {"enum": ["boolean", "number", "null", "enum", "reference", "string"]},
+          "visibility": {"enum": ["public", "context_limited", "sensitive", "highly_sensitive", "refused_disclosure"]},
+          "projection_status": {"enum": ["projected", "audit_only", "withheld_for_protection"]},
+          "reader_unit_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}}
+        }
+      }
+    },
+    "projection_checks": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["unit_id", "unit_kind", "fragments", "required_outputs", "atom_statuses", "projected_outputs", "missing_fragments", "complete"],
+        "properties": {
+          "unit_id": {"type": "string", "minLength": 1},
+          "unit_kind": {"type": "string", "minLength": 1},
+          "fragments": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+          "required_outputs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"enum": ["answer", "dossier", "atlas", "casebook"]}},
+          "atom_statuses": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["canonical_path", "visibility", "projection_status"],
+              "properties": {
+                "canonical_path": {"type": "string", "minLength": 1},
+                "visibility": {"enum": ["public", "context_limited", "sensitive", "highly_sensitive", "refused_disclosure"]},
+                "projection_status": {"enum": ["projected", "withheld_for_protection"]}
+              }
+            }
+          },
+          "projected_outputs": {"type": "array", "uniqueItems": true, "items": {"enum": ["answer", "dossier", "atlas", "casebook"]}},
+          "missing_fragments": {"type": "array", "maxItems": 0},
+          "complete": {"const": true}
+        }
+      }
+    },
+    "reader_trace": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_id", "schema_version", "run_id", "outputs", "entries", "missing_renderer_fragments"],
+      "properties": {
+        "schema_id": {"const": "xi-kari.v2.reader-trace"},
+        "schema_version": {"const": 3},
+        "run_id": {"type": "string", "minLength": 1},
+        "outputs": {
+          "type": "array",
+          "minItems": 4,
+          "maxItems": 4,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["output", "bytes", "sha256", "observed_sha256", "matches_observed"],
+            "properties": {
+              "output": {"enum": ["answer", "dossier", "atlas", "casebook"]},
+              "bytes": {"type": "integer", "minimum": 0},
+              "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+              "observed_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+              "matches_observed": {"const": true}
+            }
+          }
+        },
+        "entries": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["output", "unit_id", "unit_kind", "fragment_index", "start_byte", "end_byte", "fragment_sha256", "output_sha256", "exact_source_paths"],
+            "properties": {
+              "output": {"enum": ["answer", "dossier", "atlas", "casebook"]},
+              "unit_id": {"type": "string", "minLength": 1},
+              "unit_kind": {"type": "string", "minLength": 1},
+              "fragment_index": {"type": "integer", "minimum": 0},
+              "start_byte": {"type": "integer", "minimum": 0},
+              "end_byte": {"type": "integer", "minimum": 1},
+              "fragment_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+              "output_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+              "exact_source_paths": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}}
+            }
+          }
+        },
+        "missing_renderer_fragments": {"type": "array", "maxItems": 0}
+      }
+    },
+    "stance_projection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["preferred", "required_fragments", "missing_required_fragments", "forbidden_fragments", "present_forbidden_fragments", "complete"],
+      "properties": {
+        "preferred": {"type": ["string", "null"], "enum": ["position", "counterposition", "undecided", null]},
+        "required_fragments": {"type": "array", "items": {"$ref": "#/$defs/roleFragment"}},
+        "missing_required_fragments": {"type": "array", "maxItems": 0},
+        "forbidden_fragments": {"type": "array", "items": {"$ref": "#/$defs/roleFragment"}},
+        "present_forbidden_fragments": {"type": "array", "maxItems": 0},
+        "complete": {"const": true}
+      }
+    },
+    "unprojected_unit_ids": {"type": "array", "maxItems": 0},
+    "source_read_complete": {"const": true},
+    "candidate_closure_complete": {"const": true},
+    "main_answer_complete": {"const": true},
+    "reader_projection_complete": {"const": true}
+  },
+  "$defs": {
+    "roleFragment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["output", "fragment"],
+      "properties": {
+        "output": {"enum": ["answer", "dossier", "atlas", "casebook"]},
+        "fragment": {"type": "string", "minLength": 1}
+      }
+    }
+  }
+}

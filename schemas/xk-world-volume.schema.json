@@ -1,0 +1,466 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://xi-kari.local/schemas/xi-kari.v2.xk.world-volume.schema.json",
+  "x-namespace": "xi-kari.v2.xk",
+  "title": "Xi-Kari v2 local multi-circle world volume Omega",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "source_version",
+    "ontology_refs",
+    "source_anchors",
+    "volume_id",
+    "evidence_state",
+    "object_boundary",
+    "actors",
+    "circles",
+    "positions",
+    "memberships",
+    "containment_relations",
+    "containment_closure",
+    "circle_relations",
+    "clocks",
+    "channels",
+    "events",
+    "local_distributions",
+    "unknowns",
+    "residuals"
+  ],
+  "properties": {
+    "schema_id": {"const": "xi-kari.v2.xk.world-volume"},
+    "source_version": {"const": "v8.2"},
+    "problem_contract_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "ontology_refs": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"type": "string", "pattern": "^V82-(?:CANON|CANDIDATE|HEADING)-[A-Z0-9-]+$"}
+    },
+    "source_anchors": {"$ref": "#/$defs/sourceAnchors"},
+    "volume_id": {"$ref": "#/$defs/id"},
+    "evidence_state": {"$ref": "#/$defs/evidenceState"},
+    "object_boundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["object_ids", "boundary_rule", "evidence_refs"],
+      "properties": {
+        "object_ids": {"$ref": "#/$defs/nonemptyIds"},
+        "boundary_rule": {"$ref": "#/$defs/nonempty"},
+        "evidence_refs": {"$ref": "#/$defs/nonemptyIds"}
+      }
+    },
+    "actors": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/actor"}},
+    "circles": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/circle"}},
+    "positions": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/position"}},
+    "memberships": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/membership"}},
+    "containment_relations": {"type": "array", "items": {"$ref": "#/$defs/containment"}},
+    "containment_closure": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/containmentClosure"}},
+    "circle_relations": {"type": "array", "items": {"$ref": "#/$defs/circleRelation"}},
+    "clocks": {
+      "type": "array",
+      "minItems": 5,
+      "items": {"$ref": "#/$defs/clock"},
+      "allOf": [
+        {"contains": {"properties": {"kind": {"const": "immediate"}}, "required": ["kind"]}, "minContains": 1},
+        {"contains": {"properties": {"kind": {"const": "interaction"}}, "required": ["kind"]}, "minContains": 1},
+        {"contains": {"properties": {"kind": {"const": "organizational"}}, "required": ["kind"]}, "minContains": 1},
+        {"contains": {"properties": {"kind": {"const": "institutional"}}, "required": ["kind"]}, "minContains": 1},
+        {"contains": {"properties": {"kind": {"const": "long-term"}}, "required": ["kind"]}, "minContains": 1}
+      ]
+    },
+    "channels": {"type": "array", "items": {"$ref": "#/$defs/channel"}},
+    "events": {"type": "array", "items": {"$ref": "#/$defs/event"}},
+    "local_distributions": {"type": "array", "items": {"$ref": "#/$defs/localDistribution"}},
+    "unknowns": {"type": "array", "items": {"$ref": "#/$defs/unknown"}},
+    "residuals": {"type": "array", "items": {"$ref": "#/$defs/residual"}}
+  },
+  "$defs": {
+    "id": {"type": "string", "minLength": 1, "pattern": "^[A-Z][A-Z0-9_.:-]*$"},
+    "nonempty": {"type": "string", "minLength": 1},
+    "ids": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/id"}},
+    "nonemptyIds": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/$defs/id"}},
+    "sourceAnchors": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"type": "string", "pattern": "^V82-(?:P[0-9]{4}|T[0-9]{3})$"}
+    },
+    "localVariable": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "value", "unit", "clock_id", "evidence_refs"],
+      "properties": {
+        "name": {"$ref": "#/$defs/nonempty"},
+        "value": {"type": ["string", "number", "boolean", "null"]},
+        "unit": {"$ref": "#/$defs/nonempty"},
+        "clock_id": {"$ref": "#/$defs/id"},
+        "evidence_refs": {"$ref": "#/$defs/nonemptyIds"}
+      }
+    },
+    "localState": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["state_id", "variables"],
+      "properties": {
+        "state_id": {"$ref": "#/$defs/id"},
+        "variables": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/localVariable"}}
+      }
+    },
+    "scaleProfile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["A", "X", "T", "O", "C", "R", "I", "N", "J"],
+      "properties": {
+        "A": {"$ref": "#/$defs/nonempty"},
+        "X": {"$ref": "#/$defs/nonempty"},
+        "T": {"$ref": "#/$defs/nonempty"},
+        "O": {"$ref": "#/$defs/nonempty"},
+        "C": {"$ref": "#/$defs/nonempty"},
+        "R": {"$ref": "#/$defs/nonempty"},
+        "I": {"$ref": "#/$defs/nonempty"},
+        "N": {"$ref": "#/$defs/nonempty"},
+        "J": {"$ref": "#/$defs/nonempty"}
+      }
+    },
+    "represented": {
+      "type": "object",
+      "required": ["identity_criteria", "M_state", "Psi_state", "scale_profile", "evidence_refs"],
+      "properties": {
+        "identity_criteria": {"$ref": "#/$defs/nonempty"},
+        "M_state": {"$ref": "#/$defs/localState"},
+        "Psi_state": {"$ref": "#/$defs/localState"},
+        "scale_profile": {"$ref": "#/$defs/scaleProfile"},
+        "evidence_refs": {"$ref": "#/$defs/nonemptyIds"}
+      }
+    },
+    "actor": {
+      "allOf": [
+        {"$ref": "#/$defs/represented"},
+        {"type": "object", "additionalProperties": false, "required": ["actor_id", "identity_criteria", "M_state", "Psi_state", "scale_profile", "evidence_refs"], "properties": {"actor_id": {"$ref": "#/$defs/id"}, "identity_criteria": true, "M_state": true, "Psi_state": true, "scale_profile": true, "evidence_refs": true}}
+      ]
+    },
+    "circle": {
+      "allOf": [
+        {"$ref": "#/$defs/represented"},
+        {"type": "object", "additionalProperties": false, "required": ["circle_id", "identity_criteria", "M_state", "Psi_state", "scale_profile", "evidence_refs"], "properties": {"circle_id": {"$ref": "#/$defs/id"}, "identity_criteria": true, "M_state": true, "Psi_state": true, "scale_profile": true, "evidence_refs": true}}
+      ]
+    },
+    "position": {
+      "allOf": [
+        {"$ref": "#/$defs/represented"},
+        {"type": "object", "additionalProperties": false, "required": ["position_id", "actor_id", "circle_id", "role_id", "identity_criteria", "M_state", "Psi_state", "scale_profile", "evidence_refs"], "properties": {"position_id": {"$ref": "#/$defs/id"}, "actor_id": {"$ref": "#/$defs/id"}, "circle_id": {"$ref": "#/$defs/id"}, "role_id": {"$ref": "#/$defs/id"}, "identity_criteria": true, "M_state": true, "Psi_state": true, "scale_profile": true, "evidence_refs": true}}
+      ]
+    },
+    "membership": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["actor_ref", "circle_ref", "roles", "membership_basis", "evidence_refs"],
+      "properties": {
+        "actor_ref": {"$ref": "#/$defs/id"},
+        "circle_ref": {"$ref": "#/$defs/id"},
+        "roles": {"$ref": "#/$defs/nonemptyIds"},
+        "membership_basis": {"$ref": "#/$defs/nonempty"},
+        "evidence_refs": {"$ref": "#/$defs/nonemptyIds"}
+      }
+    },
+    "containment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["child_circle_id", "parent_circle_id", "basis", "evidence_refs"],
+      "properties": {
+        "child_circle_id": {"$ref": "#/$defs/id"},
+        "parent_circle_id": {"$ref": "#/$defs/id"},
+        "basis": {"enum": ["成员", "角色", "合同", "资源会计", "制度管辖", "空间"]},
+        "evidence_refs": {"$ref": "#/$defs/nonemptyIds"}
+      }
+    },
+    "containmentClosure": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["circle_id", "ancestor_circle_ids"],
+      "properties": {
+        "circle_id": {"$ref": "#/$defs/id"},
+        "ancestor_circle_ids": {"$ref": "#/$defs/ids"}
+      }
+    },
+    "circleRelation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["relation_id", "source_circle_ref", "target_circle_ref", "relation_type", "direction", "channel_id", "evidence_refs"],
+      "properties": {
+        "relation_id": {"$ref": "#/$defs/id"},
+        "source_circle_ref": {"$ref": "#/$defs/id"},
+        "target_circle_ref": {"$ref": "#/$defs/id"},
+        "relation_type": {"enum": ["平行", "嵌套", "重叠", "桥接", "竞争", "临时"]},
+        "direction": {"const": "directed"},
+        "channel_id": {"oneOf": [{"$ref": "#/$defs/id"}, {"type": "null"}]},
+        "evidence_refs": {"$ref": "#/$defs/nonemptyIds"}
+      }
+    },
+    "clock": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["clock_id", "scope_id", "kind", "current_time", "horizon", "evidence_refs"],
+      "properties": {
+        "clock_id": {"$ref": "#/$defs/id"},
+        "scope_id": {"$ref": "#/$defs/id"},
+        "kind": {"enum": ["immediate", "interaction", "organizational", "institutional", "long-term"]},
+        "current_time": {"type": "string", "format": "date-time"},
+        "horizon": {"type": "string", "pattern": "^P.+$"},
+        "evidence_refs": {"$ref": "#/$defs/nonemptyIds"}
+      }
+    },
+    "identityMapping": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_k_ref", "target_k_ref", "mapping_rule", "preserves_identity"],
+      "properties": {
+        "source_k_ref": {"$ref": "#/$defs/id"},
+        "target_k_ref": {"$ref": "#/$defs/id"},
+        "mapping_rule": {"$ref": "#/$defs/nonempty"},
+        "preserves_identity": {"type": "boolean"}
+      }
+    },
+    "acl": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["authorized_position_ids", "authorization_evidence_refs", "authorization_scope"],
+      "properties": {
+        "authorized_position_ids": {"$ref": "#/$defs/nonemptyIds"},
+        "authorization_evidence_refs": {"$ref": "#/$defs/nonemptyIds"},
+        "authorization_scope": {"$ref": "#/$defs/authorizationBoundary"}
+      }
+    },
+    "channel": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["channel_id", "from_position_id", "to_position_id", "active", "capacity", "delay", "threshold", "blocking_conditions", "identity_mapping", "acl", "evidence_refs"],
+      "properties": {
+        "channel_id": {"$ref": "#/$defs/id"},
+        "from_position_id": {"$ref": "#/$defs/id"},
+        "to_position_id": {"$ref": "#/$defs/id"},
+        "active": {"type": "boolean"},
+        "capacity": {"$ref": "#/$defs/channelCapacity"},
+        "delay": {"$ref": "#/$defs/nonempty"},
+        "threshold": {"$ref": "#/$defs/channelPredicate"},
+        "blocking_conditions": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/channelPredicate"}},
+        "identity_mapping": {"$ref": "#/$defs/identityMapping"},
+        "acl": {"$ref": "#/$defs/acl"},
+        "evidence_refs": {"$ref": "#/$defs/nonemptyIds"}
+      }
+    },
+    "channelCapacity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["max_updates", "window", "unit"],
+      "properties": {
+        "max_updates": {"type": "integer", "minimum": 1},
+        "window": {"type": "string", "pattern": "^P(?=.*[1-9]).+$"},
+        "unit": {"const": "state-or-relation-update"}
+      }
+    },
+    "channelPredicate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["position_id", "state_id", "variable_name", "clock_id", "operator", "value", "unit", "evidence_refs"],
+      "properties": {
+        "position_id": {"$ref": "#/$defs/id"},
+        "state_id": {"$ref": "#/$defs/id"},
+        "variable_name": {"$ref": "#/$defs/nonempty"},
+        "clock_id": {"$ref": "#/$defs/id"},
+        "operator": {"enum": ["eq", "ne", "lt", "lte", "gt", "gte"]},
+        "value": {"type": ["string", "number", "boolean", "null"]},
+        "unit": {"$ref": "#/$defs/nonempty"},
+        "evidence_refs": {"$ref": "#/$defs/nonemptyIds"}
+      }
+    },
+    "channelCondition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["channel_id", "threshold_met", "identity_preserved", "acl_authorized", "evidence_refs"],
+      "properties": {
+        "channel_id": {"$ref": "#/$defs/id"},
+        "threshold_met": {"type": "boolean"},
+        "identity_preserved": {"type": "boolean"},
+        "acl_authorized": {"type": "boolean"},
+        "evidence_refs": {"$ref": "#/$defs/nonemptyIds"}
+      }
+    },
+    "variableChange": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "source_value", "target_value", "unit", "clock_id"],
+      "properties": {
+        "name": {"$ref": "#/$defs/nonempty"},
+        "source_value": {"type": ["string", "number", "boolean", "null"]},
+        "target_value": {"type": ["string", "number", "boolean", "null"]},
+        "unit": {"$ref": "#/$defs/nonempty"},
+        "clock_id": {"$ref": "#/$defs/id"}
+      }
+    },
+    "stateUpdate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["position_id", "state_id", "via_channel_id", "variable_changes"],
+      "properties": {
+        "position_id": {"$ref": "#/$defs/id"},
+        "state_id": {"$ref": "#/$defs/id"},
+        "via_channel_id": {"$ref": "#/$defs/id"},
+        "variable_changes": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/variableChange"}}
+      }
+    },
+    "relationUpdate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["relation_id", "field_name", "source_value", "target_value", "via_channel_id"],
+      "properties": {
+        "relation_id": {"$ref": "#/$defs/id"},
+        "field_name": {"$ref": "#/$defs/nonempty"},
+        "source_value": {"type": ["string", "number", "boolean", "null"]},
+        "target_value": {"type": ["string", "number", "boolean", "null"]},
+        "via_channel_id": {"$ref": "#/$defs/id"}
+      }
+    },
+    "clockDelta": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["clock_id", "delta"],
+      "properties": {
+        "clock_id": {"$ref": "#/$defs/id"},
+        "delta": {"type": "string", "pattern": "^P.+$"}
+      }
+    },
+    "event": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["event_id", "target_volume_id", "origin_kind", "source_position_id", "target_position_ids", "channel_ids", "channel_conditions", "M_updates", "Psi_updates", "relation_updates", "clock_deltas", "evidence_refs"],
+      "properties": {
+        "event_id": {"$ref": "#/$defs/id"},
+        "target_volume_id": {"$ref": "#/$defs/id"},
+        "origin_kind": {"enum": ["endogenous", "exogenous"]},
+        "source_position_id": {"oneOf": [{"$ref": "#/$defs/id"}, {"type": "null"}]},
+        "target_position_ids": {"$ref": "#/$defs/ids"},
+        "channel_ids": {"$ref": "#/$defs/ids"},
+        "channel_conditions": {"type": "array", "items": {"$ref": "#/$defs/channelCondition"}},
+        "M_updates": {"type": "array", "items": {"$ref": "#/$defs/stateUpdate"}},
+        "Psi_updates": {"type": "array", "items": {"$ref": "#/$defs/stateUpdate"}},
+        "relation_updates": {"type": "array", "items": {"$ref": "#/$defs/relationUpdate"}},
+        "clock_deltas": {"type": "array", "items": {"$ref": "#/$defs/clockDelta"}},
+        "evidence_refs": {"$ref": "#/$defs/nonemptyIds"}
+      }
+    },
+    "localDistribution": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["distribution_id", "kind", "location_ref", "description", "evidence_refs"],
+      "properties": {
+        "distribution_id": {"$ref": "#/$defs/id"},
+        "kind": {"enum": ["power", "constraint", "exit", "burden", "spillover"]},
+        "location_ref": {"$ref": "#/$defs/id"},
+        "description": {"$ref": "#/$defs/nonempty"},
+        "evidence_refs": {"$ref": "#/$defs/nonemptyIds"}
+      }
+    },
+    "unknown": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["unknown_id", "location_ref", "description", "evidence_refs"],
+      "properties": {
+        "unknown_id": {"$ref": "#/$defs/id"},
+        "location_ref": {"$ref": "#/$defs/id"},
+        "description": {"$ref": "#/$defs/nonempty"},
+        "evidence_refs": {"$ref": "#/$defs/nonemptyIds"}
+      }
+    },
+    "residual": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["residual_id", "location_ref", "description", "evidence_refs"],
+      "properties": {
+        "residual_id": {"$ref": "#/$defs/id"},
+        "location_ref": {"$ref": "#/$defs/id"},
+        "description": {"$ref": "#/$defs/nonempty"},
+        "evidence_refs": {"$ref": "#/$defs/nonemptyIds"}
+      }
+    },
+    "evidenceState": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_id", "schema_version", "bindings"],
+      "properties": {
+        "schema_id": {"const": "xi-kari.v2.xk.evidence-state"},
+        "schema_version": {"const": 1},
+        "run_id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,95}$"},
+        "xk3_evidence_ledger_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "bindings": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/evidenceBinding"}
+        }
+      },
+      "dependentRequired": {
+        "run_id": ["xk3_evidence_ledger_sha256"],
+        "xk3_evidence_ledger_sha256": ["run_id"]
+      }
+    },
+    "evidenceBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["evidence_ref", "support_edges"],
+      "properties": {
+        "evidence_ref": {"$ref": "#/$defs/id"},
+        "support_edges": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/supportEdge"}
+        },
+        "targets": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/worldTarget"}
+        }
+      }
+    },
+    "supportEdge": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["claim_id", "evidence_id", "source_id"],
+      "properties": {
+        "claim_id": {"$ref": "#/$defs/nonempty"},
+        "evidence_id": {"$ref": "#/$defs/nonempty"},
+        "source_id": {"$ref": "#/$defs/nonempty"}
+      }
+    },
+    "authorizationBoundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["decision_subject", "target_object", "single_action", "territory", "validity_interval"],
+      "properties": {
+        "decision_subject": {"$ref": "#/$defs/nonempty"},
+        "target_object": {"$ref": "#/$defs/nonempty"},
+        "single_action": {"$ref": "#/$defs/nonempty"},
+        "territory": {"$ref": "#/$defs/nonempty"},
+        "validity_interval": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["starts_at", "ends_at"],
+          "properties": {
+            "starts_at": {"type": "string", "format": "date-time"},
+            "ends_at": {"type": "string", "format": "date-time"}
+          }
+        }
+      }
+    },
+    "worldTarget": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["target_path", "target_sha256", "relation"],
+      "properties": {
+        "target_path": {"$ref": "#/$defs/nonempty"},
+        "target_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "relation": {"enum": ["context", "authorization"]}
+      }
+    }
+  }
+}

@@ -1,0 +1,103 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://xi-kari.local/schemas/xi-kari.v2.xk.recursive-state.schema.json",
+  "x-namespace": "xi-kari.v2.xk",
+  "title": "Xi-Kari v2 inherited recursive state",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id", "source_version", "ontology_refs", "source_anchors",
+    "state_id", "node_id", "path_id", "parent_state_ids", "parent_node_ids", "parent_state_bindings",
+    "order", "status", "input_state", "state_delta", "carrier",
+    "scale_or_circle", "clock", "conditions", "evidence_refs",
+    "countermechanism", "failure_condition", "early_signal", "reverse_signal",
+    "writeback", "inherited_fact_ids", "inherited_evidence_ids",
+    "inherited_unknown_ids", "inherited_loss_ids", "inherited_residual_ids",
+    "event_id", "mechanism_ids", "transformation_ids", "state_diff_id", "signal_ids",
+    "evidence_identity", "declared_evidence_grade", "stop_reason"
+  ],
+  "properties": {
+    "schema_id": {"const": "xi-kari.v2.xk.recursive-state"},
+    "source_version": {"const": "v8.2"},
+    "ontology_refs": {"$ref": "#/$defs/ontologyRefs"},
+    "source_anchors": {"$ref": "#/$defs/sourceAnchors"},
+    "state_id": {"$ref": "#/$defs/id"},
+    "node_id": {"$ref": "#/$defs/id"},
+    "path_id": {"$ref": "#/$defs/id"},
+    "parent_state_ids": {"$ref": "#/$defs/ids"},
+    "parent_node_ids": {"$ref": "#/$defs/ids"},
+    "parent_state_bindings": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/parentStateBinding"}},
+    "order": {"type": "integer", "minimum": 1, "maximum": 3},
+    "status": {"enum": ["supported", "conditional", "stopped", "not-applicable"]},
+    "input_state": {"$ref": "#/$defs/nonempty"},
+    "state_delta": {"$ref": "#/$defs/nonempty"},
+    "carrier": {"$ref": "#/$defs/nonempty"},
+    "scale_or_circle": {"$ref": "#/$defs/nonempty"},
+    "clock": {"$ref": "#/$defs/nonempty"},
+    "conditions": {"$ref": "#/$defs/nonemptyStrings"},
+    "evidence_refs": {"$ref": "#/$defs/nonemptyIds"},
+    "countermechanism": {"$ref": "#/$defs/nonempty"},
+    "failure_condition": {"$ref": "#/$defs/nonempty"},
+    "early_signal": {"$ref": "#/$defs/nonemptyStrings"},
+    "reverse_signal": {"$ref": "#/$defs/strings"},
+    "writeback": {"$ref": "#/$defs/nonempty"},
+    "inherited_fact_ids": {"$ref": "#/$defs/ids"},
+    "inherited_evidence_ids": {"$ref": "#/$defs/ids"},
+    "inherited_unknown_ids": {"$ref": "#/$defs/ids"},
+    "inherited_loss_ids": {"$ref": "#/$defs/ids"},
+    "inherited_residual_ids": {"$ref": "#/$defs/ids"},
+    "event_id": {"$ref": "#/$defs/id"},
+    "mechanism_ids": {"$ref": "#/$defs/ids"},
+    "transformation_ids": {"$ref": "#/$defs/nonemptyIds"},
+    "state_diff_id": {"$ref": "#/$defs/id"},
+    "signal_ids": {"$ref": "#/$defs/ids"},
+    "evidence_identity": {"enum": ["observed", "reported", "inferred-from-material", "competing-explanation", "user-claim", "model-candidate", "simulated-result", "unknown"]},
+    "declared_evidence_grade": {"enum": ["unknown", "low", "medium", "high"]},
+    "stop_reason": {"oneOf": [{"$ref": "#/$defs/nonempty"}, {"type": "null"}]}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"order": {"const": 1}}, "required": ["order"]},
+      "then": {
+        "properties": {
+          "parent_state_ids": {"maxItems": 0},
+          "parent_node_ids": {"maxItems": 0},
+          "parent_state_bindings": {"maxItems": 0}
+        }
+      },
+      "else": {
+        "properties": {
+          "parent_state_ids": {"minItems": 1},
+          "parent_node_ids": {"minItems": 1},
+          "parent_state_bindings": {"minItems": 1}
+        }
+      }
+    },
+    {
+      "if": {"properties": {"status": {"const": "stopped"}}, "required": ["status"]},
+      "then": {"properties": {"stop_reason": {"$ref": "#/$defs/nonempty"}}},
+      "else": {"properties": {"stop_reason": {"type": "null"}}}
+    }
+  ],
+  "$defs": {
+    "id": {"type": "string", "minLength": 1, "pattern": "^[A-Z][A-Z0-9_.:-]*$"},
+    "nonempty": {"type": "string", "minLength": 1},
+    "ids": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/id"}},
+    "nonemptyIds": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/$defs/id"}},
+    "strings": {"type": "array", "items": {"$ref": "#/$defs/nonempty"}},
+    "nonemptyStrings": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/nonempty"}},
+    "parentStateBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["state_id", "state_sha256", "output_sha256", "writeback_sha256"],
+      "properties": {
+        "state_id": {"$ref": "#/$defs/id"},
+        "state_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "output_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "writeback_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      }
+    },
+    "ontologyRefs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "pattern": "^V82-(?:CANON|CANDIDATE|HEADING)-[A-Z0-9-]+$"}},
+    "sourceAnchors": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "pattern": "^V82-(?:P[0-9]{4}|T[0-9]{3})$"}}
+  }
+}

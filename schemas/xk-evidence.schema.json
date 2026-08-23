@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://xi-kari.local/schemas/xi-kari.v2.evidence-ledger.schema.json",
+  "title": "Xi-Kari v2 evidence ledger",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_id", "schema_version", "run_id", "claims", "evidence", "support_edges", "unsupported_claims"],
+  "properties": {
+    "schema_id": {"const": "xi-kari.v2.evidence-ledger"},
+    "schema_version": {"const": 3},
+    "run_id": {"type": "string", "minLength": 1},
+    "claims": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["claim_id", "text", "kind", "evidence_refs", "authorization_boundary", "world_targets"],
+        "properties": {
+          "claim_id": {"type": "string"},
+          "text": {"type": "string"},
+          "kind": {"type": "string"},
+          "evidence_refs": {"type": "array", "items": {"type": "string"}},
+          "authorization_boundary": {
+            "oneOf": [
+              {"$ref": "#/$defs/authorizationBoundary"},
+              {"type": "null"}
+            ]
+          },
+          "world_targets": {
+            "type": "array",
+            "items": {"$ref": "#/$defs/worldTarget"}
+          }
+        }
+      }
+    },
+    "evidence": {"type": "array", "items": {"type": "object", "additionalProperties": false, "required": ["evidence_id", "claim_id", "source_id", "status", "summary", "cannot_prove"], "properties": {"evidence_id": {"type": "string"}, "claim_id": {"type": "string"}, "source_id": {"type": "string"}, "status": {"enum": ["supports", "partially_supports", "refutes", "nonprobative"]}, "summary": {"type": "string"}, "cannot_prove": {"type": "array", "items": {"type": "string"}}}}},
+    "support_edges": {"type": "array", "items": {"type": "object", "additionalProperties": false, "required": ["claim_id", "evidence_id", "source_id"], "properties": {"claim_id": {"type": "string"}, "evidence_id": {"type": "string"}, "source_id": {"type": "string"}}}},
+    "unsupported_claims": {"type": "array", "items": {"type": "string"}}
+  },
+  "$defs": {
+    "nonempty": {"type": "string", "minLength": 1},
+    "authorizationBoundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["decision_subject", "target_object", "single_action", "territory", "validity_interval"],
+      "properties": {
+        "decision_subject": {"$ref": "#/$defs/nonempty"},
+        "target_object": {"$ref": "#/$defs/nonempty"},
+        "single_action": {"$ref": "#/$defs/nonempty"},
+        "territory": {"$ref": "#/$defs/nonempty"},
+        "validity_interval": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["starts_at", "ends_at"],
+          "properties": {
+            "starts_at": {"type": "string", "format": "date-time"},
+            "ends_at": {"type": "string", "format": "date-time"}
+          }
+        }
+      }
+    },
+    "worldTarget": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["target_path", "target_sha256", "relation"],
+      "properties": {
+        "target_path": {"$ref": "#/$defs/nonempty"},
+        "target_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "relation": {"enum": ["descriptive", "authorization"]}
+      }
+    }
+  }
+}

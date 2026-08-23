@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://xi-kari.local/schemas/xi-kari.v2.unknown-register.schema.json",
+  "title": "Xi-Kari v2 frozen unknown register",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_id", "schema_version", "run_id", "evidence_cutoff", "unknowns", "unsupported_claim_ids", "frozen"],
+  "properties": {
+    "schema_id": {"const": "xi-kari.v2.unknown-register"},
+    "schema_version": {"const": 3},
+    "run_id": {"type": "string"},
+    "evidence_cutoff": {"type": "string", "format": "date-time"},
+    "unknowns": {"type": "array", "items": {"type": "object"}},
+    "unsupported_claim_ids": {"type": "array", "items": {"type": "string"}},
+    "frozen": {"const": true}
+  }
+}

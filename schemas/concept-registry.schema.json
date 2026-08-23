@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://xi-kari.local/schemas/concept-registry.schema.json",
+  "title": "Xi-Kari generated concept registry",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_id", "schema_version", "framework_version", "concept_count", "concept_count_semantics", "candidate_count", "candidate_count_semantics", "unresolved_candidate_count", "candidate_disposition_counts", "candidate_census_sha256", "disposition_counts", "neighbor_policy", "concepts"],
+  "properties": {
+    "schema_id": {"const": "xi-kari.concept-registry"},
+    "schema_version": {"const": 1},
+    "framework_version": {"const": "v8.2"},
+    "concept_count": {"type": "integer", "minimum": 1},
+    "concept_count_semantics": {"const": "inventory record count; not a claim of complete ontology concept count"},
+    "candidate_count": {"type": "integer", "minimum": 0},
+    "candidate_count_semantics": {"const": "reviewed source candidates under the current extraction rules; not an ontology cardinality claim"},
+    "unresolved_candidate_count": {"const": 0},
+    "candidate_disposition_counts": {"type": "object", "additionalProperties": {"type": "integer", "minimum": 0}},
+    "candidate_census_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "disposition_counts": {"type": "object", "additionalProperties": {"type": "integer", "minimum": 0}},
+    "neighbor_policy": {"const": "semantic-only; shared-card or family fallback; max 16 per record"},
+    "concepts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["concept_id", "disposition", "inventory_path", "source_anchors", "required_neighbors", "hashes", "validation"],
+        "properties": {
+          "concept_id": {"type": "string", "pattern": "^V82-(CANON|CANDIDATE|HEADING|PROVISIONAL|SOURCE)(-[A-Z0-9]+)+$"},
+          "disposition": {"enum": ["canonical_concept", "structural_rule", "subordinate_value", "alias", "example_only", "heading_only", "source_undefined", "unresolved"]},
+          "inventory_path": {"type": "string", "minLength": 1},
+          "card_path": {"type": ["string", "null"]},
+          "source_anchors": {"type": "array", "minItems": 1, "items": {"type": "string", "pattern": "^V82-(P[0-9]{4}|T[0-9]{3})$"}},
+          "required_neighbors": {"type": "array", "maxItems": 16, "items": {"type": "string", "pattern": "^V82-(CANON|CANDIDATE|HEADING|PROVISIONAL|SOURCE)(-[A-Z0-9]+)+$"}},
+          "hashes": {
+            "type": "object",
+            "additionalProperties": false,
+            "minProperties": 1,
+            "properties": {
+              "raw_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+              "semantic_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+              "card_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+            }
+          },
+          "validation": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["status", "source_anchor_binding", "card_binding", "relation_binding"],
+            "properties": {
+              "status": {"enum": ["passed", "failed"]},
+              "source_anchor_binding": {"enum": ["declared", "missing"]},
+              "card_binding": {"enum": ["declared", "not_applicable", "missing"]},
+              "relation_binding": {"enum": ["bounded", "not_applicable", "missing"]}
+            }
+          }
+        }
+      }
+    }
+  }
+}

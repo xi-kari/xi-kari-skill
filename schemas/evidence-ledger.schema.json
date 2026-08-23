@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://xi-kari.local/schemas/evidence-ledger.schema.json",
+  "title": "Xi-Kari evidence ledger entry",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["evidence_id", "kind", "source", "supports", "status"],
+  "properties": {
+    "evidence_id": {"type": "string", "minLength": 1},
+    "kind": {"enum": ["v82_definition", "user_material", "external_fact", "source_claim", "model_inference", "structural_analogy", "conditional_scenario", "normative_premise", "authorization_boundary", "unknown"]},
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["origin"],
+      "properties": {
+        "origin": {"enum": ["v8.2", "user", "external", "model", "procedure", "unknown"]},
+        "url": {"type": "string"},
+        "title": {"type": "string"},
+        "publisher": {"type": "string"},
+        "published_at": {"type": ["string", "null"]},
+        "event_at": {"type": ["string", "null"]},
+        "accessed_at": {"type": ["string", "null"]},
+        "source_type": {"type": "string"},
+        "independence_note": {"type": "string"}
+      }
+    },
+    "supports": {"type": "array", "items": {"type": "string"}},
+    "status": {"enum": ["supports", "partially_supports", "contradicts", "background", "cannot_prove", "contested"]},
+    "cannot_prove": {"type": "array", "items": {"type": "string"}},
+    "retrieved_at": {"type": ["string", "null"]},
+    "notes": {"type": "string"}
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://xi-kari.local/schemas/source-to-concept-map.schema.json",
+  "title": "Xi-Kari source anchor to concept map",
+  "type": "object",
+  "patternProperties": {
+    "^V82-(P[0-9]{4}|T[0-9]{3})$": {
+      "type": "array",
+      "items": {"type": "string", "pattern": "^V82-(CANON|CANDIDATE|HEADING|PROVISIONAL|SOURCE)(-[A-Z0-9]+)+$"}
+    }
+  },
+  "additionalProperties": false
+}

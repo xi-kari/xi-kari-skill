@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://xi-kari.local/schemas/xi-kari.v2.sensitivity.schema.json",
+  "title": "Xi-Kari v2 semantic sensitivity report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_id", "schema_version", "run_id", "input_packet_sha256", "probes"],
+  "properties": {
+    "schema_id": {"const": "xi-kari.v2.sensitivity-report"},
+    "schema_version": {"const": 3},
+    "run_id": {"type": "string", "minLength": 1},
+    "input_packet_sha256": {"$ref": "#/$defs/sha256"},
+    "probes": {
+      "type": "array",
+      "minItems": 4,
+      "maxItems": 4,
+      "items": {"$ref": "#/$defs/probe"}
+    }
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "probe": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["probe_id", "expected_effect", "observed_status", "authoring_id", "authoring_provenance_sha256", "process_pid", "downstream_projection_sha256", "errors", "complete"],
+      "properties": {
+        "probe_id": {"enum": ["stance-inversion", "time-window-shift", "remove-scale-bridge", "remove-second-order-feedback"]},
+        "expected_effect": {"type": "string", "minLength": 1},
+        "observed_status": {"enum": ["invariant", "rejected", "changed-downstream"]},
+        "authoring_id": {"type": "string", "minLength": 1},
+        "authoring_provenance_sha256": {"$ref": "#/$defs/sha256"},
+        "process_pid": {"type": "integer", "minimum": 1},
+        "invariant_projection_sha256": {"$ref": "#/$defs/sha256"},
+        "downstream_projection_sha256": {"$ref": "#/$defs/sha256"},
+        "errors": {"type": "array", "items": {"type": "string"}},
+        "complete": {"const": true}
+      }
+    }
+  }
+}

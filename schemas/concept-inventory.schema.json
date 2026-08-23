@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://xi-kari.local/schemas/concept-inventory.schema.json",
+  "title": "Xi-Kari authored concept disposition",
+  "type": "object",
+  "additionalProperties": true,
+  "required": ["concept_id", "name_zh", "concept_family", "disposition", "source_anchors"],
+  "properties": {
+    "concept_id": {"type": "string", "pattern": "^V82-(CANON|CANDIDATE|HEADING|PROVISIONAL|SOURCE)(-[A-Z0-9]+)+$"},
+    "id": {"type": "string", "pattern": "^V82-(CANON|CANDIDATE|HEADING|PROVISIONAL|SOURCE)(-[A-Z0-9]+)+$"},
+    "name": {"type": "string", "minLength": 1},
+    "canonical_name_zh": {"type": "string", "minLength": 1},
+    "name_zh": {"type": "string", "minLength": 1},
+    "concept_family": {"type": "string", "minLength": 1},
+    "family": {"type": "string", "minLength": 1},
+    "disposition": {"enum": ["canonical_concept", "structural_rule", "subordinate_value", "alias", "example_only", "heading_only", "source_undefined", "unresolved"]},
+    "source_anchors": {"type": "array", "minItems": 1, "items": {"type": "string", "pattern": "^V82-(P[0-9]{4}|T[0-9]{3})$"}},
+    "card_path": {"type": "string"},
+    "card": {"type": "string"},
+    "source_undefined_fields": {"type": "array", "items": {"type": "string"}},
+    "required_neighbors": {"type": "array", "items": {"type": "string"}},
+    "required_neighbor_ids": {"type": "array", "items": {"type": "string"}}
+  }
+}

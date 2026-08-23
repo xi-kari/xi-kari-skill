@@ -1,0 +1,144 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://xi-kari.local/schemas/xi-kari.v2.analysis-packet.schema.json",
+  "title": "Xi-Kari v2 semantic analysis packet",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_id", "schema_version", "dynamic_applicability", "problem_contract", "runtime_binding", "facts", "retrieval", "evidence", "concept_disposition", "case_ledger", "visibility_ledger", "answer"],
+  "properties": {
+    "schema_id": {"const": "xi-kari.v2.analysis-packet"},
+    "schema_version": {"const": 3},
+    "dynamic_applicability": {"enum": ["applicable", "not_applicable"]},
+    "problem_contract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["question", "object_of_analysis", "boundary", "identity_criterion", "spatial_scale", "organizational_scale", "time_window", "evidence_cutoff", "retrieval_profile", "requested_stance", "problem_action", "advice_requested", "dynamic_applicability", "applicability_rationale"],
+      "properties": {
+        "question": {"type": "string", "minLength": 1},
+        "object_of_analysis": {"type": "string", "minLength": 1},
+        "boundary": {"type": "string", "minLength": 1},
+        "identity_criterion": {"type": "string", "minLength": 1},
+        "spatial_scale": {"type": "string", "minLength": 1},
+        "organizational_scale": {"type": "string", "minLength": 1},
+        "time_window": {"type": "string", "minLength": 1},
+        "evidence_cutoff": {"type": "string", "format": "date-time"},
+        "retrieval_profile": {"enum": ["authority-first", "five-direction", "closed-input"]},
+        "requested_stance": {"enum": ["neutral", "support", "oppose"]},
+        "problem_action": {"enum": ["explain", "compare", "infer", "choose", "express"]},
+        "advice_requested": {"type": "boolean"},
+        "dynamic_applicability": {"enum": ["applicable", "not_applicable"]},
+        "applicability_rationale": {"type": "string", "minLength": 1}
+      }
+    },
+    "runtime_binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["run_id", "question", "mode", "evidence_cutoff", "problem_contract_sha256", "stance_neutrality_key", "privacy_contract_sha256"],
+      "properties": {
+        "run_id": {"type": "string", "minLength": 1},
+        "question": {"type": "string", "minLength": 1},
+        "mode": {"enum": ["open-world", "closed-input"]},
+        "evidence_cutoff": {"type": "string", "format": "date-time"},
+        "problem_contract_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "stance_neutrality_key": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "privacy_contract_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "contract_profile": {"enum": ["legacy-fixture-v3", "production-authoring-v2"]},
+        "semantic_authoring_protocol": {"type": ["string", "null"], "minLength": 1},
+        "semantic_authoring_profile": {"type": "string", "minLength": 1},
+        "semantic_authoring_adapter_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "provider_binding_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      }
+    },
+    "not_applicable_reason": {"type": "string", "minLength": 1},
+    "facts": {"type": "object"},
+    "retrieval": {"type": "object"},
+    "evidence": {"type": "object"},
+    "concept_disposition": {"type": "array", "minItems": 1},
+    "case_ledger": {"type": "object"},
+    "visibility_ledger": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["entries"],
+      "properties": {
+        "entries": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/visibilityEntry"}
+        }
+      }
+    },
+    "cases": {"type": "array"},
+    "answer": {"type": "object"},
+    "local_world_model": {"type": "object"},
+    "transformation_ledger": {"type": "object"},
+    "cascade": {"type": "object"},
+    "claim_mechanism_graph": {"type": "object"},
+    "recursive_lineage": {"type": "object"},
+    "recursive_states": {"type": "object"},
+    "order_evaluation": {"type": "object"},
+    "red_team": {"type": "object"},
+    "stance_pair": {"type": "object"},
+    "verdict": {"type": "object"},
+    "action_ranking": {"type": "object"},
+    "forecast": {"type": "object"},
+    "framework_gap": {"type": "object"},
+    "mechanisms": {"type": "array"},
+    "orders": {"type": "array"}
+  },
+  "$defs": {
+    "visibilityEntry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["canonical_path", "classification", "disclosure", "purpose", "authority_refs", "protection_reason"],
+      "properties": {
+        "canonical_path": {"type": "string", "minLength": 1},
+        "classification": {"enum": ["public", "context_limited", "sensitive", "highly_sensitive", "refused_disclosure"]},
+        "disclosure": {"enum": ["include", "withhold"]},
+        "purpose": {"type": "string", "minLength": 1},
+        "authority_refs": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "protection_reason": {"type": ["string", "null"], "description": "Non-sensitive withholding basis. It must not restate the protected atom's raw value; runtime validation enforces that relationship."}
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"classification": {"const": "public"}}, "required": ["classification"]},
+          "then": {"properties": {"disclosure": {"const": "include"}}},
+          "else": {
+            "properties": {
+              "disclosure": {"const": "withhold"},
+              "authority_refs": {"minItems": 1},
+              "protection_reason": {"type": "string", "minLength": 1}
+            }
+          }
+        }
+      ]
+    }
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"dynamic_applicability": {"const": "applicable"}}},
+      "then": {"required": ["local_world_model", "transformation_ledger", "cascade", "claim_mechanism_graph", "recursive_lineage", "recursive_states", "order_evaluation", "red_team", "stance_pair", "verdict", "action_ranking", "forecast"]},
+      "else": {
+        "required": ["not_applicable_reason"],
+        "not": {
+          "anyOf": [
+            {"required": ["local_world_model"]},
+            {"required": ["transformation_ledger"]},
+            {"required": ["cascade"]},
+            {"required": ["claim_mechanism_graph"]},
+            {"required": ["recursive_lineage"]},
+            {"required": ["recursive_states"]},
+            {"required": ["order_evaluation"]},
+            {"required": ["red_team"]},
+            {"required": ["stance_pair"]},
+            {"required": ["verdict"]},
+            {"required": ["action_ranking"]},
+            {"required": ["forecast"]},
+            {"required": ["framework_gap"]},
+            {"required": ["mechanisms"]},
+            {"required": ["orders"]}
+          ]
+        }
+      }
+    }
+  ]
+}

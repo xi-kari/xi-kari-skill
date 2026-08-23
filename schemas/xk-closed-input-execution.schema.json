@@ -1,0 +1,79 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://xi-kari.local/schemas/xi-kari.v2.closed-input-execution.schema.json",
+  "title": "Xi-Kari v2 closed-input host execution declaration",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "schema_version",
+    "run_id",
+    "web_search_executed",
+    "event_stream_sha256",
+    "event_count",
+    "base_request_sha256",
+    "semantic_retrieval_sha256",
+    "frozen_material_manifest_sha256",
+    "retrieval_sha256",
+    "provider_binding_sha256",
+    "adapter_executable_sha256",
+    "child_pid",
+    "started_at",
+    "completed_at",
+    "exit_status",
+    "thread_id",
+    "query_bindings",
+    "source_bindings",
+    "receipt_sha256"
+  ],
+  "properties": {
+    "schema_id": {"const": "xi-kari.v2.closed-input-execution"},
+    "schema_version": {"const": 1},
+    "run_id": {"type": "string", "minLength": 1},
+    "web_search_executed": {"const": false},
+    "event_stream_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "event_count": {"type": "integer", "minimum": 1, "maximum": 10000},
+    "base_request_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "semantic_retrieval_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "frozen_material_manifest_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "retrieval_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "provider_binding_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "adapter_executable_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "child_pid": {"type": "integer", "minimum": 1},
+    "started_at": {"type": "string", "format": "date-time"},
+    "completed_at": {"type": "string", "format": "date-time"},
+    "exit_status": {"const": 0},
+    "thread_id": {"type": "string", "minLength": 1},
+    "query_bindings": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["query_id", "query_sha256", "purpose_sha256", "result_source_ids"],
+        "properties": {
+          "query_id": {"type": "string", "minLength": 1},
+          "query_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+          "purpose_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+          "result_source_ids": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}}
+        }
+      }
+    },
+    "source_bindings": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["source_id", "content_sha256"],
+        "properties": {
+          "source_id": {"type": "string", "minLength": 1},
+          "content_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+        }
+      }
+    },
+    "receipt_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+  }
+}

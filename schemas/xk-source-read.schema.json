@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://xi-kari.local/schemas/xi-kari.v2.source-read.schema.json",
+  "title": "Xi-Kari v2 complete reader-volume receipts",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_id", "schema_version", "run_id", "framework_version", "source_manifest_sha256", "source_raw_sha256", "source_semantic_sha256", "reader_unit_count", "sequence", "receipts", "receipt_set_sha256", "complete"],
+  "properties": {
+    "schema_id": {"const": "xi-kari.v2.source-read"},
+    "schema_version": {"const": 3},
+    "run_id": {"type": "string", "minLength": 1},
+    "framework_version": {"const": "v8.2"},
+    "source_manifest_sha256": {"$ref": "#/$defs/sha256"},
+    "source_raw_sha256": {"const": "670e90e0073eb1a7575a75c4e0a410630ce16bd5a10f2456b83c82480333de3f"},
+    "source_semantic_sha256": {"const": "4b63a6455cf73c136ae18d124aeed4301267fd2da78cca79c74e2850fb2728b0"},
+    "reader_unit_count": {"const": 21},
+    "sequence": {"type": "array", "minItems": 21, "maxItems": 21, "items": {"type": "string", "minLength": 1}},
+    "receipts": {"type": "array", "minItems": 21, "maxItems": 21, "items": {"$ref": "#/$defs/receipt"}},
+    "receipt_set_sha256": {"$ref": "#/$defs/sha256"},
+    "complete": {"const": true}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "receipt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["index", "sequence", "receipt_id", "run_id", "source_manifest_sha256", "unit", "path", "source_file", "bytes_read", "expected_sha256", "observed_sha256", "content_sha256", "read_complete", "receipt_sha256"],
+      "properties": {
+        "index": {"type": "integer", "minimum": 0, "maximum": 20},
+        "sequence": {"type": "integer", "minimum": 1, "maximum": 21},
+        "receipt_id": {"type": "string", "minLength": 1},
+        "run_id": {"type": "string", "minLength": 1},
+        "source_manifest_sha256": {"$ref": "#/$defs/sha256"},
+        "unit": {"type": "string", "minLength": 1},
+        "path": {"type": "string", "pattern": "^references/source/v8\\.2/reader/"},
+        "source_file": {"type": "string", "pattern": "^reader/"},
+        "bytes_read": {"type": "integer", "minimum": 1},
+        "expected_sha256": {"$ref": "#/$defs/sha256"},
+        "observed_sha256": {"$ref": "#/$defs/sha256"},
+        "content_sha256": {"$ref": "#/$defs/sha256"},
+        "read_complete": {"const": true},
+        "receipt_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    }
+  }
+}

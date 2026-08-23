@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://xi-kari.local/schemas/xi-kari.v2.ontology-read-plan.schema.json",
+  "title": "Xi-Kari v2 runtime-owned ontology read plan",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id", "schema_version", "run_id", "problem_contract_sha256",
+    "content_access_challenge", "proof_kind", "witness_protocol", "authority_bindings",
+    "candidate_count", "card_count", "required_neighbor_count",
+    "continuity_bundle_count", "record_count", "records", "complete"
+  ],
+  "properties": {
+    "schema_id": {"const": "xi-kari.v2.ontology-read-plan"},
+    "schema_version": {"const": 1},
+    "run_id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,95}$"},
+    "problem_contract_sha256": {"$ref": "#/$defs/sha256"},
+    "content_access_challenge": {"$ref": "#/$defs/sha256"},
+    "proof_kind": {"const": "byte-access+problem-bound-semantic-trace"},
+    "witness_protocol": {"const": "xi-kari.v2.ontology-content-witness/v1"},
+    "authority_bindings": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "candidate_census_sha256", "concept_registry_sha256",
+        "concept_relations_sha256", "continuity_bundle_registry_sha256"
+      ],
+      "properties": {
+        "candidate_census_sha256": {"$ref": "#/$defs/sha256"},
+        "concept_registry_sha256": {"$ref": "#/$defs/sha256"},
+        "concept_relations_sha256": {"$ref": "#/$defs/sha256"},
+        "continuity_bundle_registry_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "candidate_count": {"type": "integer", "minimum": 1},
+    "card_count": {"type": "integer", "minimum": 1},
+    "required_neighbor_count": {"type": "integer", "minimum": 1},
+    "continuity_bundle_count": {"type": "integer", "minimum": 1},
+    "record_count": {"type": "integer", "minimum": 1},
+    "records": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/planRecord"}
+    },
+    "complete": {"const": true}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "nonempty": {"type": "string", "minLength": 1},
+    "planRecord": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "item_id", "kind", "subject_id", "related_subject_id", "path",
+        "content_sha256", "disposition"
+      ],
+      "properties": {
+        "item_id": {"$ref": "#/$defs/nonempty"},
+        "kind": {
+          "enum": [
+            "candidate", "canonical_or_structural_card",
+            "required_neighbor", "continuity_bundle"
+          ]
+        },
+        "subject_id": {"$ref": "#/$defs/nonempty"},
+        "related_subject_id": {
+          "oneOf": [{"$ref": "#/$defs/nonempty"}, {"type": "null"}]
+        },
+        "path": {"$ref": "#/$defs/nonempty"},
+        "content_sha256": {"$ref": "#/$defs/sha256"},
+        "disposition": {"$ref": "#/$defs/nonempty"}
+      }
+    }
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://xi-kari.local/schemas/concept-relations.schema.json",
+  "title": "Xi-Kari generated concept relations",
+  "type": "object",
+  "additionalProperties": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": ["required_neighbors", "disposition"],
+    "properties": {
+      "required_neighbors": {
+        "type": "array",
+        "items": {"type": "string", "pattern": "^V82-(CANON|CANDIDATE|HEADING|PROVISIONAL|SOURCE)(-[A-Z0-9]+)+$"}
+      },
+      "disposition": {"enum": ["canonical_concept", "structural_rule", "subordinate_value", "alias", "example_only", "heading_only", "source_undefined", "unresolved"]}
+    }
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://xi-kari.local/schemas/xi-kari.v2.xk.transform-cascade.schema.json",
+  "x-namespace": "xi-kari.v2.xk",
+  "title": "Xi-Kari v2 cross-circle cascade",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_id", "source_version", "ontology_refs", "source_anchors", "cascade_id", "world_volume_id", "hops"],
+  "properties": {
+    "schema_id": {"const": "xi-kari.v2.xk.transform-cascade"},
+    "source_version": {"const": "v8.2"},
+    "ontology_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "pattern": "^V82-(?:CANON|CANDIDATE|HEADING)-[A-Z0-9-]+$"}},
+    "source_anchors": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "pattern": "^V82-(?:P[0-9]{4}|T[0-9]{3})$"}},
+    "cascade_id": {"$ref": "#/$defs/id"},
+    "world_volume_id": {"$ref": "#/$defs/id"},
+    "hops": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/hop"}}
+  },
+  "$defs": {
+    "id": {"type": "string", "minLength": 1, "pattern": "^[A-Z][A-Z0-9_.:-]*$"},
+    "ids": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/$defs/id"}},
+    "hop": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "hop_id", "from_position_id", "to_position_id", "channel_id",
+        "event_id", "state_diff_id", "representation_parent_state_id",
+        "representation_output_state_id",
+        "boundary_relation_id", "boundary_validated", "channel_validated",
+        "identity_preserved", "representation_qualified", "threshold_met",
+        "acl_authorized", "evidence_refs"
+      ],
+      "properties": {
+        "hop_id": {"$ref": "#/$defs/id"},
+        "from_position_id": {"$ref": "#/$defs/id"},
+        "to_position_id": {"$ref": "#/$defs/id"},
+        "channel_id": {"$ref": "#/$defs/id"},
+        "event_id": {"$ref": "#/$defs/id"},
+        "state_diff_id": {"$ref": "#/$defs/id"},
+        "representation_parent_state_id": {"$ref": "#/$defs/id"},
+        "representation_output_state_id": {"$ref": "#/$defs/id"},
+        "boundary_relation_id": {"oneOf": [{"$ref": "#/$defs/id"}, {"type": "null"}]},
+        "boundary_validated": {"type": "boolean"},
+        "channel_validated": {"type": "boolean"},
+        "identity_preserved": {"type": "boolean"},
+        "representation_qualified": {"type": "boolean"},
+        "threshold_met": {"type": "boolean"},
+        "acl_authorized": {"type": "boolean"},
+        "evidence_refs": {"$ref": "#/$defs/ids"}
+      }
+    }
+  }
+}
