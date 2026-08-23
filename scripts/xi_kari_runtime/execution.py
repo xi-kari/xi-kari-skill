@@ -12,7 +12,7 @@ from __future__ import annotations
 
 from collections.abc import Mapping, Sequence
 from copy import deepcopy
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 import json
 import os
 from pathlib import Path
@@ -401,6 +401,22 @@ def _utc_now() -> str:
     return datetime.now(timezone.utc).isoformat(timespec="microseconds").replace(
         "+00:00", "Z"
     )
+
+
+# Every downstream cutoff authority (retrieval execution windows, per-source
+# accessed_at, red-team repair verified_at) requires its in-run instants to be
+# at or before the frozen evidence cutoff, so a runtime-owned cutoff must bound
+# the end of the authoring budget, not the moment the request was received.
+# The grace term covers pre-spawn work (source lock and ontology plan hashing)
+# plus process reaping and timestamping after the provider deadline.
+EVIDENCE_CUTOFF_GRACE_SECONDS = 600
+
+
+def _natural_evidence_cutoff(timeout_seconds: int) -> str:
+    horizon = datetime.now(timezone.utc) + timedelta(
+        seconds=timeout_seconds + EVIDENCE_CUTOFF_GRACE_SECONDS
+    )
+    return horizon.isoformat(timespec="microseconds").replace("+00:00", "Z")
 
 
 def _safe_run_id(value: str) -> str:
@@ -1398,13 +1414,15 @@ def execute_authored_run(
         raise ValueError(
             "provide exactly one complete problem_contract or natural request_text"
         )
+    if not isinstance(timeout_seconds, int) or isinstance(timeout_seconds, bool) or not 1 <= timeout_seconds <= 1200:
+        raise ValueError("base authoring timeout must be 1-1200 seconds")
     natural_request: dict[str, Any] | None = None
     frozen_privacy = _privacy_contract(
         purpose=privacy_purpose,
         delivery_audience=delivery_audience,
     )
     if request_text is not None:
-        cutoff = _utc_now()
+        cutoff = _natural_evidence_cutoff(timeout_seconds)
         natural_request = build_natural_request_envelope(
             normalize_natural_request(request_text),
             mode=mode,
@@ -1440,8 +1458,6 @@ def execute_authored_run(
     repo = resolve_repository_root(repository_root or Path(__file__).resolve().parents[2])
     if codex_provider_executable is None:
         raise ValueError("Codex provider executable is required for production execution")
-    if not isinstance(timeout_seconds, int) or isinstance(timeout_seconds, bool) or not 1 <= timeout_seconds <= 1200:
-        raise ValueError("base authoring timeout must be 1-1200 seconds")
     selected_run_id = _safe_run_id(
         run_id or f"xk-{datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%SZ')}-{uuid.uuid4().hex[:12]}"
     )
@@ -1529,6 +1545,7 @@ def execute_authored_run(
                 process,
                 prompt,
                 timeout_seconds=timeout_seconds,
+                label="base authoring provider",
             )
         except Exception:
             _terminate(process)

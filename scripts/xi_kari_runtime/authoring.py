@@ -306,7 +306,7 @@ def require_base_authoring_provider(
         or binding.get("sandbox") != CODEX_SANDBOX
         or binding.get("ephemeral") is not True
         or binding.get("ignore_user_config") is not True
-        or binding.get("strict_config") is not True
+        or not isinstance(binding.get("strict_config"), bool)
         or binding.get("web_search") != expected_web
         or not isinstance(timeout, int)
         or isinstance(timeout, bool)
@@ -484,7 +484,7 @@ def require_semantic_authoring_adapter(
             or provider.get("sandbox") != CODEX_SANDBOX
             or provider.get("ephemeral") is not True
             or provider.get("ignore_user_config") is not True
-            or provider.get("strict_config") is not True
+            or not isinstance(provider.get("strict_config"), bool)
             or provider.get("web_search") != CODEX_WEB_SEARCH
             or provider.get("timeout_seconds") != timeout_seconds
             or not isinstance(provider_path, str)
@@ -773,6 +773,7 @@ def _communicate_limited(
     stdin: bytes,
     *,
     timeout_seconds: int,
+    label: str = "semantic authoring adapter",
 ) -> tuple[bytes, bytes, bool]:
     streams = {
         "stdout": (
@@ -868,7 +869,7 @@ def _communicate_limited(
         while True:
             if limit_exceeded.is_set():
                 failure = (
-                    "semantic authoring adapter "
+                    f"{label} "
                     f"{exceeded_channel[0]} exceeds the size limit"
                 )
                 break
@@ -880,7 +881,7 @@ def _communicate_limited(
                 break
             remaining = deadline - time.monotonic()
             if remaining <= 0:
-                failure = "semantic authoring adapter timed out"
+                failure = f"{label} timed out"
                 break
             limit_exceeded.wait(min(0.02, remaining))
 
