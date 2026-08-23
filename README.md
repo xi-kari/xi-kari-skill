@@ -1,10 +1,25 @@
-# Xi-Kari Skill
+<div align="center">
 
-一条不能跳步的语义推演链。
+<a href="https://github.com/xi-kari"><img src="https://github.com/xi-kari.png" width="118" alt="xi-kari 的头像"></a>
 
-Xi-Kari 是一个面向 AI 对话与编程代理的技能包（skill）：点名调用后，模型必须先完整读取内置的结构推演框架原文（21 卷，约 16 万字），再经过固定的十三个阶段——冻结问题、检索并分型现实材料、建立局部世界模型、比较竞争机制、执行带失败条件的一至三阶递归、红队自检——最后把完整推理还原成普通人能读懂的答案，并附上可核对的读取回执。
+# xi-kari-skill
 
-在线介绍页：<https://xi-kari.github.io/xi-kari-skill/>
+**Hello There — I am xi-kari.**
+
+一条不能跳步的语义推演链，以我的网名命名。<br>
+点名调用后，模型必须完整读取内置的结构推演框架原文（21 卷，约 16 万字），<br>
+走完固定的十三个阶段，再把全部推理还原成普通人能读懂的答案——并附上可核对的读取回执。
+
+<p>
+  <a href="https://xi-kari.github.io/xi-kari-skill/"><b>在线介绍页</b></a> ·
+  <a href="https://github.com/xi-kari">@xi-kari</a>
+</p>
+
+<img src="https://img.shields.io/badge/%E5%85%A8%E6%BA%90%E9%98%85%E8%AF%BB-21%20%E5%8D%B7-8f641b?style=flat-square&labelColor=3a301e" alt="全源阅读 21 卷">
+<img src="https://img.shields.io/badge/%E6%8E%A8%E6%BC%94%E9%98%B6%E6%AE%B5-XK0%E2%80%93XK12-7ce1ff?style=flat-square&labelColor=0d1117" alt="推演阶段 XK0–XK12">
+<img src="https://img.shields.io/badge/%E5%85%81%E8%AE%B8%E8%B7%B3%E6%AD%A5-0-99cfbc?style=flat-square&labelColor=3a301e" alt="允许跳步 0">
+
+</div>
 
 ## 它解决什么问题
 
@@ -16,7 +31,7 @@ Xi-Kari 是一个面向 AI 对话与编程代理的技能包（skill）：点名
 - 明知上一步已经被反例击穿，仍为了显得完整硬写下一步；
 - 把模型自己的模拟或假设写成现实事实。
 
-Xi-Kari 用合同把回答约束为：什么对象发生了什么变化、变化走哪条真实通道、改变了谁的状态和行动集、在什么条件下会失败或逆转。每一阶推演必须继承上一阶的状态差；上一阶不成立时，下一阶必须诚实标注 `not_run`，而不是继续编故事。
+xi-kari-skill 用合同把回答约束为：什么对象发生了什么变化、变化走哪条真实通道、改变了谁的状态和行动集、在什么条件下会失败或逆转。每一阶推演必须继承上一阶的状态差；上一阶不成立时，下一阶必须诚实标注 `not_run`，而不是继续编故事。
 
 ## 安装
 
@@ -100,3 +115,20 @@ docs/           在线介绍页（GitHub Pages）
 pyproject.toml  自检与封存功能的 Python 依赖声明
 uv.lock         依赖锁定文件
 ```
+
+## 关于作者
+
+<table>
+<tr>
+<td width="110" align="center"><a href="https://github.com/xi-kari"><img src="https://github.com/xi-kari.png" width="92" alt="柊東雲"></a></td>
+<td>
+
+**柊東雲**（Hiiragi Shinonome / ひいらぎしののめ），网名 **xi-kari**——这个 skill 就是以它命名的。
+
+> 致力于ai理解世界，ai服务人，为人民服务。
+
+[GitHub @xi-kari](https://github.com/xi-kari)
+
+</td>
+</tr>
+</table>
