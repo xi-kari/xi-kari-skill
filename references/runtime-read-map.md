@@ -4,13 +4,16 @@
 
 ## A. 全源与全候选闭包
 
-每次调用按以下顺序执行：
+每次调用按以下顺序执行，第 6—8 条是贯穿读取全程的横切规则：
 
 1. 读取 `references/source/v8.2/source-manifest.json`，核对 Raw/Semantic SHA-256、21 个 reader unit、4631 个段落和 122 张表。
 2. 按 manifest 的 `reader_units` 顺序完整读取 `references/source/v8.2/reader/` 全部 21 卷。生产 profile 必须逐卷记录综合、带本卷源锚点的语义观察、与前卷的连续关系、问题关系和 `source_undefined` 引用；目录、摘要、概念卡、运行胶囊和旧回答都不能替代源卷。
 3. 读取 `references/ontology/candidate-census.jsonl`、`concept-registry.json` 和 `references/ontology/inventory/` 下全部 inventory shard，对全部候选给出独立终态。生产运行由 runtime 生成逐项 ontology read plan，并要求 trace 覆盖每个 candidate 的路径、记录散列、读取状态、问题关系和仓库既有 disposition。记录数只是当前提取规则下的候选数，不是永恒概念总数。
 4. 对 `canonical_concept` 与 `structural_rule` 逐项读取对应概念卡；逐条读取 required neighbor，按 continuity map 和全部 bundles 完成邻接联读。trace 必须绑定每项路径与内容散列；`source_undefined` 必须携带不可推出字段。
 5. 读取 `references/answer-contract.md`、检索策略、相关 learning pack 和协议，再进入现实检索与局部建模。
+6. 每读完一卷，向 run 目录内的读取进度账本追加卷号、行位与散列；上下文压缩或断流后凭账本从断点续读，不重读已回执卷。账本仅在同一 run 目录内有效，新 run 一律从第一卷重新完整读取。委托子代理读卷时，每卷在 run 目录留下 per-volume 回执（分段数、首末段摘句、散列）并由主回执逐行链接；缺少可核验痕迹的卷在回执表中标「未经独立审计」，该类卷不算已回执——恢复后应补读，或在读者可见层如实申报降档。
+7. 同一 run 内每个包完整性校验脚本至多执行一轮，必须本轮实际执行并记录执行时间；确因宿主限制无法执行时不得伪称已执行，引用往轮结果须明标来源运行并按能力缺口降档。
+8. 候选闭包回执区分「本轮逐项处置」与「复核既有终态」：依托既有 registry 终态完成闭包时写「复核既有终态 N 条＋本轮展开 M 条」，不得写成「完成 N 条候选终态闭包」。
 
 源或候选闭包不可访问时不得声称完成 Xi-Kari v2 运行。
 
@@ -42,7 +45,7 @@
 
 - 每次调用创建一个隔离 run 包，保存阶段事件、authoring slots、验证尝试、局部修复、续跑入口和公开交付。
 - XK0 的一次性终态公钥承诺、XK12 journal、official report、completion 和签名 terminal 共同决定终态；可改写的状态 sidecar 不具备完成授权。
-- 4753 条 source read receipt、全候选 disposition、证据账本和结构工件属于内部审计面，不直接转储到聊天。
+- 4753 条 source read receipt、全候选 disposition、证据账本和结构工件属于内部审计面，不直接转储到聊天；读者可见层的读取与验证表述按 answer-contract 第 7 节执行投影卫生检查。
 - 模型只填写语义字段；run ID、源绑定、父散列、内容散列、时间和状态由 runtime 写入。
 - 生产语义读取轨迹必须恰有 21 项且按 manifest 排序；每个观察锚点只能属于本卷，相邻连续关系必须显式，重复整段模板、跨卷锚点和 replay 均失败。runtime 生成的 import receipt 只证明磁盘导入过程，不能冒充作者进程凭证。
 - 生产 ontology read trace 必须与 runtime-owned plan 一一同序，覆盖全部 candidate、canonical/structural card、required-neighbor edge 和 continuity bundle；任一项未读、路径/散列/disposition 被改写、问题关系缺失或重复套话均失败。base authoring receipt 与 XK4 complete 同时绑定 plan/trace 散列。
