@@ -28,7 +28,19 @@
       ],
       "properties": {
         "problem_contract": {
-          "type": "object"
+          "type": "object",
+          "description": "Preserve every frozen request field exactly. Applicability and its authored rationale are semantic additions after source reading, not changes to the frozen contract.",
+          "properties": {
+            "dynamic_applicability": {
+              "enum": ["applicable", "not_applicable"],
+              "description": "When present, must equal semantic_packet.dynamic_applicability."
+            },
+            "applicability_rationale": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Author-written justification of dynamic applicability. Required for applicable analyses; an omitted static rationale is projected from the authored not_applicable_reason with its visibility classification."
+            }
+          }
         },
         "dynamic_applicability": {
           "enum": [
@@ -214,6 +226,11 @@
             ]
           },
           "then": {
+            "properties": {
+              "problem_contract": {
+                "required": ["applicability_rationale"]
+              }
+            },
             "required": [
               "local_world_model",
               "transformation_ledger",

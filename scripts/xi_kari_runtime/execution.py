@@ -478,7 +478,7 @@ def _base_prompt(request: Mapping[str, Any]) -> bytes:
     if isinstance(request.get("natural_request"), Mapping):
         natural_instruction = (
             "自然请求的问题合同已由独立的前置作者提出并由运行时冻结。"
-            "本进程必须逐字段原样使用 problem_contract，不得再次补全、改写或细化冻结字段；"
+            "本进程必须逐字段原样保留 problem_contract 的冻结字段，不得再次补全、改写或细化这些字段；"
             "发现仍未知的分析条件时，在正文与分析工件登记，不改变合同或证据截止点。\n"
         )
     prompt = (
@@ -491,6 +491,9 @@ def _base_prompt(request: Mapping[str, Any]) -> bytes:
         "须核对影响判断的定义、适用条件与非等价关系，不能凭预训练常识补定义。"
         "按自然请求确定deliverable_type=analysis/decision/charter/plan/critique，"
         "在problem_contract与semantic_packet顶层保持一致。"
+        "dynamic_applicability 是读源后的适用性判断，不属于已冻结的问题字段；"
+        "在problem_contract内补充同值的dynamic_applicability和作者撰写的applicability_rationale，"
+        "并为这些语义字段明确登记披露分类。静态分析还须在顶层提供not_applicable_reason。"
         "形成明确中心判断与各部分局部裁决，完成可支持的机制比较和方案取舍，"
         "分析推荐不等于执行授权；无授权时可以recommended，不可伪造selected。"
         "必须给出reader_sections完整成文；每节含section_id、承载内容的heading、"
@@ -608,6 +611,52 @@ def _strict_event_stream(raw: bytes) -> tuple[str, list[dict[str, Any]]]:
     return parse_provider_events(raw)
 
 
+def _project_base_applicability(packet: Mapping[str, Any]) -> dict[str, Any]:
+    """Project authored applicability without changing frozen fields or disclosure."""
+
+    problem = packet["problem_contract"]
+    additions: dict[str, str] = {}
+    if "dynamic_applicability" not in problem:
+        additions["dynamic_applicability"] = "dynamic_applicability"
+    if "applicability_rationale" not in problem:
+        if packet["dynamic_applicability"] != "not_applicable":
+            raise ValueError("base authoring needs an authored applicability rationale")
+        additions["applicability_rationale"] = "not_applicable_reason"
+    rationale = (
+        packet[additions["applicability_rationale"]]
+        if "applicability_rationale" in additions
+        else problem["applicability_rationale"]
+    )
+    if not isinstance(rationale, str) or not rationale.strip():
+        raise ValueError("base authoring applicability rationale must be non-empty text")
+    if not additions:
+        return dict(packet)
+    projected = deepcopy(dict(packet))
+    ledger = projected.get("visibility_ledger")
+    entries = ledger.get("entries") if isinstance(ledger, Mapping) else None
+    if not isinstance(entries, list):
+        raise ValueError("applicability projection requires an explicit visibility ledger")
+    rationale_path = (
+        "not_applicable_reason"
+        if "applicability_rationale" in additions
+        else "problem_contract.applicability_rationale"
+    )
+    for field, source_path in additions.items():
+        target_path = "problem_contract." + field
+        source_entries = [
+            entry for entry in entries
+            if isinstance(entry, Mapping) and entry.get("canonical_path") == rationale_path
+        ]
+        if len(source_entries) != 1 or any(
+            isinstance(entry, Mapping) and entry.get("canonical_path") == target_path
+            for entry in entries
+        ):
+            raise ValueError("applicability projection visibility source or target is invalid")
+        projected["problem_contract"][field] = packet[source_path]
+        entries.append({**deepcopy(dict(source_entries[0])), "canonical_path": target_path})
+    return projected
+
+
 def _parse_base_output(
     raw: bytes,
     *,
@@ -659,7 +708,9 @@ def _parse_base_output(
         freeze_natural_problem_contract(frozen, request=natural_request, mode=mode)
     if packet.get("dynamic_applicability") not in {"applicable", "not_applicable"}:
         raise ValueError("base authoring applicability is invalid")
-    if authored_problem.get("dynamic_applicability") != packet.get(
+    if "dynamic_applicability" in authored_problem and authored_problem[
+        "dynamic_applicability"
+    ] != packet.get(
         "dynamic_applicability"
     ):
         raise ValueError("base authoring applicability is inconsistent")
@@ -679,6 +730,7 @@ def _parse_base_output(
     if not isinstance(retrieval, Mapping) or retrieval.get("mode") != mode:
         raise ValueError("base authoring retrieval mode differs from the contract")
     _validate_model_retrieval_ownership(retrieval, mode=mode)
+    packet = _project_base_applicability(packet)
     trace = value.get("semantic_read_trace")
     if not isinstance(trace, Mapping):
         raise ValueError("base authoring semantic read trace is not an object")
@@ -1391,11 +1443,14 @@ def _author_natural_contract(
     *, run_id: str, natural_request: Mapping[str, Any], draft_problem_contract: Mapping[str, Any],
     repository_root: Path, provider: Mapping[str, Any], timeout_seconds: int,
     failure_diagnostics_root: Path | None = None,
+    closed_input_materials: Sequence[Mapping[str, Any]] | None = None,
+    frozen_material_manifest: Mapping[str, Any] | None = None,
 ) -> tuple[dict[str, Any], dict[str, Any]]:
     """Capture a separate real author process before binding any source-read proof."""
 
     request = contract_authoring_request(run_id=run_id, natural_request=natural_request,
-        draft_problem_contract=draft_problem_contract, repository_root=repository_root, provider=provider)
+        draft_problem_contract=draft_problem_contract, repository_root=repository_root, provider=provider,
+        closed_input_materials=closed_input_materials, frozen_material_manifest=frozen_material_manifest)
     request_bytes = canonical_bytes(request) + b"\n"
     prompt = contract_authoring_prompt(request)
     if len(prompt) > MAX_BASE_INPUT_BYTES:
@@ -1435,7 +1490,8 @@ def _author_natural_contract(
         events_bytes=events, stderr_bytes=stderr, parent_pid=os.getpid(), child_pid=process.pid,
         started_at=started_at, completed_at=completed_at, frozen_problem_contract=frozen)
     validate_contract_authoring_evidence(evidence, run_id=run_id, natural_request=natural_request,
-        frozen_problem_contract=frozen, repository_root=repository_root)
+        frozen_problem_contract=frozen, repository_root=repository_root,
+        closed_input_materials=closed_input_materials, frozen_material_manifest=frozen_material_manifest)
     return frozen, evidence
 
 
@@ -1563,6 +1619,8 @@ def execute_authored_run(
             draft_problem_contract=frozen, repository_root=repo, provider=contract_provider,
             timeout_seconds=timeout_seconds,
             failure_diagnostics_root=runs_root,
+            closed_input_materials=frozen_material_records,
+            frozen_material_manifest=frozen_material_manifest,
         )
     lock, source_events = build_full_source_lock(repo, run_id=selected_run_id)
     read_plan = _read_plan(lock, run_id=selected_run_id)
