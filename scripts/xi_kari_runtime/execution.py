@@ -35,6 +35,7 @@ from .authoring import (
     MAX_ADAPTER_STDOUT_BYTES,
     DEFAULT_ADAPTER_TIMEOUT_SECONDS,
     MAX_AUTHORING_TIMEOUT_SECONDS,
+    AuthoringCommunicationError,
     _communicate_limited,
     _ordinary_executable,
     bind_semantic_authoring_adapter,
@@ -52,6 +53,7 @@ from .canonical_json import (
     sha256_file,
     sha256_json,
 )
+from .authoring_workspace import AuthoringFailure, failure_causes, private_authoring_directory
 from .concept_authority import load_concept_authority
 from .closed_input import (
     _event_objects,
@@ -1347,9 +1349,48 @@ def _rebind_visibility_ledger(
     validate_visibility_ledger(packet, expected_purpose=privacy_purpose)
 
 
+def _preserve_authoring_failure(
+    error: Exception, *, stage: str, run_id: str, repository_root: Path,
+    diagnostics_root: Path | None, process: subprocess.Popen[bytes], command: list[str],
+    provider: Mapping[str, Any], request: bytes, prompt: bytes, events: bytes, stderr: bytes,
+    input_complete: bool, started_at: str, workspace: Path, notice_path: Path, output_limit: int,
+) -> AuthoringFailure:
+    from .materialization import default_runs_root, _require_external_runs_root
+
+    root = Path(diagnostics_root or default_runs_root()).expanduser().resolve()
+    _require_external_runs_root(root, repository_root)
+    root.mkdir(parents=True, exist_ok=True)
+    destination = Path(tempfile.mkdtemp(prefix=f"failed-{_safe_run_id(run_id)}-", dir=root))
+    if isinstance(error, AuthoringCommunicationError):
+        events, stderr, input_complete = error.stdout, error.stderr, error.input_complete
+    for name, raw in (("request.bin", request), ("prompt.txt", prompt),
+                      ("events.jsonl", events), ("stderr.bin", stderr)):
+        atomic_write_bytes(destination / name, raw)
+    file_observations = {}
+    for name, path, limit in (("completion-notice.bin", notice_path, 4096),
+                              ("semantic-output.bin", workspace / SEMANTIC_OUTPUT_FILENAME, output_limit)):
+        try:
+            raw = read_bounded_regular_file(path, limit=limit)
+        except (OSError, ValueError) as capture_error:
+            file_observations[name] = {"captured": False, "error": str(capture_error)}
+        else:
+            atomic_write_bytes(destination / name, raw)
+            file_observations[name] = {"captured": True, "byte_count": len(raw)}
+    atomic_write_json(destination / "failure.json", {
+        "state": "failed", "stage": stage, "run_id": run_id,
+        "parent_pid": os.getpid(), "child_pid": process.pid, "exit_status": process.returncode,
+        "started_at": started_at, "failed_at": _utc_now(), "input_complete": input_complete,
+        "timeout_seconds": provider["timeout_seconds"], "command": command,
+        "provider_binding": dict(provider), "workspace": str(workspace),
+        "error_chain": failure_causes(error), "file_observations": file_observations,
+    })
+    return AuthoringFailure(str(error), destination)
+
+
 def _author_natural_contract(
     *, run_id: str, natural_request: Mapping[str, Any], draft_problem_contract: Mapping[str, Any],
     repository_root: Path, provider: Mapping[str, Any], timeout_seconds: int,
+    failure_diagnostics_root: Path | None = None,
 ) -> tuple[dict[str, Any], dict[str, Any]]:
     """Capture a separate real author process before binding any source-read proof."""
 
@@ -1360,7 +1401,8 @@ def _author_natural_contract(
     if len(prompt) > MAX_BASE_INPUT_BYTES:
         raise ValueError("contract author prompt exceeds the size limit")
     started_at = _utc_now()
-    with tempfile.TemporaryDirectory(prefix="xi-kari-contract-authoring-") as temporary:
+    with private_authoring_directory(prefix="xi-kari-contract-authoring-",
+            repository_root=repository_root, runs_root=failure_diagnostics_root) as temporary:
         capture_root = Path(temporary)
         workspace = capture_root / "author-workspace"
         workspace.mkdir()
@@ -1369,19 +1411,25 @@ def _author_natural_contract(
         launch_command = _provider_launch_argv(provider, command)
         process = subprocess.Popen(launch_command, cwd=workspace, stdin=subprocess.PIPE,
             stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=False, **_process_isolation_kwargs())
+        events, stderr, input_complete = b"", b"", False
         try:
             events, stderr, input_complete = _communicate_limited(process, prompt,
                 timeout_seconds=timeout_seconds, label="natural contract author")
-        except Exception:
+            completed_at = _utc_now()
+            if process.returncode != 0 or not input_complete:
+                raise ValueError("natural contract author did not complete successfully")
+            _strict_event_stream(events)
+            notice = read_bounded_regular_file(notice_path, limit=4096)
+            output = read_semantic_output(workspace, notice=notice, limit=MAX_BASE_INPUT_BYTES)
+            frozen = parse_contract_authoring_output(output, natural_request=natural_request, repository_root=repository_root)
+        except Exception as error:
             _terminate(process)
-            raise
-        completed_at = _utc_now()
-        if process.returncode != 0 or not input_complete:
-            raise ValueError("natural contract author did not complete successfully")
-        _strict_event_stream(events)
-        notice = read_bounded_regular_file(notice_path, limit=4096)
-        output = read_semantic_output(workspace, notice=notice, limit=MAX_BASE_INPUT_BYTES)
-    frozen = parse_contract_authoring_output(output, natural_request=natural_request, repository_root=repository_root)
+            raise _preserve_authoring_failure(error, stage="natural-contract", run_id=run_id,
+                repository_root=repository_root, diagnostics_root=failure_diagnostics_root,
+                process=process, command=launch_command, provider=provider, request=request_bytes,
+                prompt=prompt, events=events, stderr=stderr, input_complete=input_complete,
+                started_at=started_at, workspace=workspace, notice_path=notice_path,
+                output_limit=MAX_BASE_INPUT_BYTES) from error
     evidence = contract_authoring_evidence(run_id=run_id, provider=provider, command=launch_command,
         request_bytes=request_bytes, prompt_bytes=prompt, output_bytes=output,
         events_bytes=events, stderr_bytes=stderr, parent_pid=os.getpid(), child_pid=process.pid,
@@ -1492,7 +1540,7 @@ def execute_authored_run(
     formal_adapter = repo / FORMAL_ADAPTER_RELATIVE_PATH
     binding = bind_semantic_authoring_adapter(
         formal_adapter,
-        timeout_seconds=min(timeout_seconds, 600),
+        timeout_seconds=timeout_seconds,
         profile=FORMAL_ADAPTER_PROFILE,
         codex_provider_executable=codex_provider_executable,
         repository_root=repo,
@@ -1502,18 +1550,19 @@ def execute_authored_run(
         codex_provider_executable,
         mode=mode,
         repository_root=repo,
-        timeout_seconds=min(timeout_seconds, 600),
+        timeout_seconds=timeout_seconds,
     )
     contract_evidence = None
     if request_text is not None:
         contract_provider = bind_base_authoring_provider(
             codex_provider_executable, mode="closed-input", repository_root=repo,
-            timeout_seconds=min(timeout_seconds, 300),
+            timeout_seconds=timeout_seconds,
         )
         frozen, contract_evidence = _author_natural_contract(
             run_id=selected_run_id, natural_request=natural_request or {},
             draft_problem_contract=frozen, repository_root=repo, provider=contract_provider,
-            timeout_seconds=min(timeout_seconds, 300),
+            timeout_seconds=timeout_seconds,
+            failure_diagnostics_root=runs_root,
         )
     lock, source_events = build_full_source_lock(repo, run_id=selected_run_id)
     read_plan = _read_plan(lock, run_id=selected_run_id)
@@ -1560,7 +1609,8 @@ def execute_authored_run(
         *base_provider["argv"],
         "--json", "--output-last-message", "__runtime_owned_completion_notice__", "-",
     ]
-    with tempfile.TemporaryDirectory(prefix="xi-kari-base-authoring-") as temporary:
+    with private_authoring_directory(prefix="xi-kari-base-authoring-",
+            repository_root=repo, runs_root=runs_root) as temporary:
         capture_root = Path(temporary)
         workspace = capture_root / "author-workspace"
         workspace.mkdir()
@@ -1573,24 +1623,30 @@ def execute_authored_run(
             **_process_isolation_kwargs(),
         )
         child_pid = int(process.pid)
+        input_complete = False
         try:
             raw_events, stderr, input_complete = _communicate_limited(
                 process, prompt, timeout_seconds=timeout_seconds,
                 label="base authoring provider",
             )
-        except Exception:
+            completed_at = _utc_now()
+            if process.returncode != 0:
+                excerpt = stderr[:4096].decode("utf-8", errors="replace").strip()
+                suffix = f": {excerpt}" if excerpt else ""
+                raise ValueError(f"base authoring process exited with status {process.returncode}{suffix}")
+            if not input_complete:
+                raise ValueError("base authoring process did not consume the complete request")
+            thread_id, events = _strict_event_stream(raw_events)
+            notice = read_bounded_regular_file(notice_path, limit=4096)
+            output = read_semantic_output(workspace, notice=notice, limit=MAX_BASE_OUTPUT_BYTES)
+        except Exception as error:
             _terminate(process)
-            raise
-        completed_at = _utc_now()
-        if process.returncode != 0:
-            excerpt = stderr[:4096].decode("utf-8", errors="replace").strip()
-            suffix = f": {excerpt}" if excerpt else ""
-            raise ValueError(f"base authoring process exited with status {process.returncode}{suffix}")
-        if not input_complete:
-            raise ValueError("base authoring process did not consume the complete request")
-        thread_id, events = _strict_event_stream(raw_events)
-        notice = read_bounded_regular_file(notice_path, limit=4096)
-        output = read_semantic_output(workspace, notice=notice, limit=MAX_BASE_OUTPUT_BYTES)
+            raise _preserve_authoring_failure(error, stage="base-authoring", run_id=selected_run_id,
+                repository_root=repo, diagnostics_root=runs_root, process=process,
+                command=launch_command, provider=base_provider, request=request_bytes,
+                prompt=prompt, events=raw_events, stderr=stderr, input_complete=input_complete,
+                started_at=started_at, workspace=workspace, notice_path=notice_path,
+                output_limit=MAX_BASE_OUTPUT_BYTES) from error
     trace_value: dict[str, Any]
     ontology_trace_value: dict[str, Any]
     packet: dict[str, Any]
@@ -1716,7 +1772,7 @@ def execute_authored_run(
             ontology_read_trace_path=ontology_trace_path,
             ontology_read_plan=ontology_read_plan,
             semantic_authoring_adapter=formal_adapter,
-            semantic_authoring_timeout_seconds=min(timeout_seconds, 600),
+            semantic_authoring_timeout_seconds=timeout_seconds,
             semantic_authoring_profile=FORMAL_ADAPTER_PROFILE,
             codex_provider_executable=codex_provider_executable,
             privacy_purpose=str(frozen_privacy["purpose"]),

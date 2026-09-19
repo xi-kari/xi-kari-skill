@@ -797,6 +797,16 @@ def _terminate_process_tree(process: subprocess.Popen[bytes]) -> None:
             pass
 
 
+class AuthoringCommunicationError(ValueError):
+    """A failed bounded exchange with its actual captured process streams."""
+
+    def __init__(self, message: str, *, stdout: bytes, stderr: bytes, input_complete: bool):
+        super().__init__(message)
+        self.stdout = stdout
+        self.stderr = stderr
+        self.input_complete = input_complete
+
+
 def _communicate_limited(
     process: subprocess.Popen[bytes],
     stdin: bytes,
@@ -951,7 +961,9 @@ def _communicate_limited(
         for thread in started_threads:
             thread.join(timeout=1)
     if failure is not None:
-        raise ValueError(failure)
+        raise AuthoringCommunicationError(failure,
+            stdout=bytes(streams["stdout"][2]), stderr=bytes(streams["stderr"][2]),
+            input_complete=writer_done.is_set() and not writer_failed.is_set())
     return (
         bytes(streams["stdout"][2]),
         bytes(streams["stderr"][2]),

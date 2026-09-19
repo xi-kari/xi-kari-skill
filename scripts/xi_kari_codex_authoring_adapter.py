@@ -11,7 +11,6 @@ import signal
 import stat
 import subprocess
 import sys
-import tempfile
 import time
 from typing import Any
 
@@ -32,6 +31,7 @@ from xi_kari_runtime.output_transport import (
     COMPLETION_NOTICE, SEMANTIC_OUTPUT_FILENAME, OUTPUT_TRANSPORT,
     parse_provider_events, read_semantic_output,
 )
+from xi_kari_runtime.authoring_workspace import AuthoringFailure, private_authoring_directory
 
 
 ADAPTER_PROTOCOL = "xi-kari.v3.codex-semantic-authoring-adapter/v1"
@@ -676,8 +676,8 @@ def _run_codex(
     prompt = _build_prompt(semantic_request)
     environment = os.environ.copy()
     environment.update({"NO_COLOR": "1", "PYTHONDONTWRITEBYTECODE": "1"})
-    with tempfile.TemporaryDirectory(
-        prefix="xi-kari-codex-authoring-"
+    with private_authoring_directory(
+        prefix="xi-kari-codex-authoring-", repository_root=repository_root
     ) as temporary:
         capture_root = Path(temporary)
         workspace = capture_root / "author-workspace"
@@ -885,7 +885,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         }))
         sys.stdout.buffer.flush()
         return 0
-    except AdapterError as exc:
+    except (AdapterError, AuthoringFailure) as exc:
         sys.stderr.write(f"xi-kari Codex authoring adapter: {exc}\n")
         return 1
     except KeyboardInterrupt:
