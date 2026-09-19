@@ -17,7 +17,13 @@ python scripts/check_xi_kari_skill.py --all
 python scripts/check_xi_kari_runtime.py --all
 ```
 
-CI 会在每次 push 与 pull request 上自动运行同样的五条检查（Linux 与 Windows 双平台），另加一条公开卫生检查：文档元数据、个人机器路径、同步盘路径与私人邮箱不得入库。
+改动检查器或其他脚本时，同时运行行为回归测试：
+
+```bash
+uv run pytest -q
+```
+
+CI 会在每次 push 与 pull request 上自动运行回归测试和同样的五条检查（Linux 与 Windows 双平台），另加一条公开卫生检查：文档元数据、个人机器路径、同步盘路径与私人邮箱不得入库。
 
 ## 修改边界
 

@@ -33,9 +33,11 @@ jobs:
         with:
           python-version: ${{ matrix.python }}
       - name: install checker dependencies
-        run: python -m pip install --quiet "jsonschema>=4.23,<5"
+        run: python -m pip install --quiet "jsonschema>=4.23,<5" "pytest>=8.3,<10"
       - name: byte-compile scripts and runtime
         run: python -m compileall -q scripts
+      - name: regression tests
+        run: python -m pytest -q
       - name: source snapshot
         run: python scripts/check_source_snapshot.py --all
       - name: knowledge index
