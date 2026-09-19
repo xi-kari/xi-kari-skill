@@ -1639,6 +1639,18 @@ def execute_authored_run(
             thread_id, events = _strict_event_stream(raw_events)
             notice = read_bounded_regular_file(notice_path, limit=4096)
             output = read_semantic_output(workspace, notice=notice, limit=MAX_BASE_OUTPUT_BYTES)
+            packet, trace_value, ontology_trace_value = _parse_base_output(
+                output, problem_contract=frozen, mode=mode,
+                ontology_read_plan=ontology_read_plan, repository_root=repo,
+                natural_request=natural_request,
+            )
+            validate_semantic_read_trace_input(
+                trace_value, repository_root=repo, source_lock=lock,
+                source_events=source_events,
+            )
+            validate_visibility_ledger(
+                packet, expected_purpose=str(frozen_privacy["purpose"])
+            )
         except Exception as error:
             _terminate(process)
             raise _preserve_authoring_failure(error, stage="base-authoring", run_id=selected_run_id,
@@ -1647,26 +1659,6 @@ def execute_authored_run(
                 prompt=prompt, events=raw_events, stderr=stderr, input_complete=input_complete,
                 started_at=started_at, workspace=workspace, notice_path=notice_path,
                 output_limit=MAX_BASE_OUTPUT_BYTES) from error
-    trace_value: dict[str, Any]
-    ontology_trace_value: dict[str, Any]
-    packet: dict[str, Any]
-    packet, trace_value, ontology_trace_value = _parse_base_output(
-        output,
-        problem_contract=frozen,
-        mode=mode,
-        ontology_read_plan=ontology_read_plan,
-        repository_root=repo,
-        natural_request=natural_request,
-    )
-    validate_semantic_read_trace_input(
-        trace_value,
-        repository_root=repo,
-        source_lock=lock,
-        source_events=source_events,
-    )
-    validate_visibility_ledger(
-        packet, expected_purpose=str(frozen_privacy["purpose"])
-    )
     trace_bytes = canonical_bytes(trace_value) + b"\n"
     ontology_trace_bytes = canonical_bytes(ontology_trace_value) + b"\n"
     receipt = _receipt(

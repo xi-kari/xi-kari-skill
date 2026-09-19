@@ -1,9 +1,11 @@
 """Private authoring attempts outside system temporary and package directories."""
 
 from contextlib import contextmanager
+import os
 from pathlib import Path
 import shutil
 import tempfile
+import uuid
 
 from .canonical_json import atomic_write_json
 
@@ -40,7 +42,13 @@ def private_authoring_directory(*, prefix: str, repository_root: Path, runs_root
     _require_external_runs_root(root, repository_root)
     root_existed = root.exists()
     root.mkdir(parents=True, exist_ok=True)
-    directory = Path(tempfile.mkdtemp(prefix=prefix, dir=root))
+    if os.name == "nt":
+        # Preserve the host user's inherited ACE when the sandbox account owns
+        # newly created output files. Windows mode 0700 instead uses OWNER RIGHTS.
+        directory = root / f"{prefix}{uuid.uuid4().hex}"
+        directory.mkdir()
+    else:
+        directory = Path(tempfile.mkdtemp(prefix=prefix, dir=root))
 
     def cleanup():
         directory.resolve().relative_to(root)

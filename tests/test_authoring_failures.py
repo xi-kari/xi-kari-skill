@@ -1,6 +1,8 @@
 import errno
 import json
+import os
 from pathlib import Path
+import subprocess
 import sys
 
 import pytest
@@ -11,6 +13,21 @@ sys.path.insert(0, str(ROOT / "scripts"))
 from xi_kari_runtime import execution, materialization
 from xi_kari_runtime.authoring import bind_base_authoring_provider
 from xi_kari_runtime.problem_contract import build_natural_request_envelope, draft_problem_contract_from_natural_request
+
+
+def test_author_workspace_keeps_host_read_access_when_sandbox_owns_children(tmp_path):
+    from xi_kari_runtime.authoring_workspace import private_authoring_directory
+
+    with private_authoring_directory(prefix="acl-test-", repository_root=ROOT, runs_root=tmp_path) as directory:
+        if os.name == "nt":
+            command = "([System.IO.Directory]::GetAccessControl($env:XK_TEST_WORKSPACE)).AreAccessRulesProtected"
+            observed = subprocess.run(["powershell.exe", "-NoProfile", "-Command", command],
+                env={**os.environ, "XK_TEST_WORKSPACE": str(directory)},
+                capture_output=True, text=True)
+            assert observed.returncode == 0, observed.stderr
+            assert observed.stdout.strip() == "False", "Owner-rights-only ACL loses host access when a sandbox account creates a file"
+        else:
+            assert directory.stat().st_mode & 0o777 == 0o700
 
 
 @pytest.mark.parametrize("timeout", [1200, 7200])
@@ -98,14 +115,15 @@ print(json.dumps({"type":"turn.completed"}), flush=True)
         assert (diagnostic_path / "completion-notice.bin").read_bytes() == b"SEMANTIC_OUTPUT_READY"
 
 
-def test_base_transport_failure_keeps_diagnostics_without_creating_a_run(tmp_path):
+@pytest.mark.parametrize("base_output", [None, '{"invalid":true}'])
+def test_base_transport_failure_keeps_diagnostics_without_creating_a_run(tmp_path, base_output):
     provider_path = tmp_path / "two_stage_provider.py"
     provider_path.write_text(f"#!{Path(sys.executable).resolve()}\n" + '''import json, pathlib, sys
 prompt = sys.stdin.read()
 if "运行时请求（只读绑定）：\\n" not in prompt:
  request = json.loads(prompt.rsplit("运行时请求（只读）：\\n", 1)[1])
  pathlib.Path("semantic-output.json").write_text(json.dumps(request["draft_problem_contract"], ensure_ascii=False), encoding="utf-8")
-pathlib.Path(sys.argv[sys.argv.index("--output-last-message") + 1]).write_text("SEMANTIC_OUTPUT_READY", encoding="utf-8")
+''' + (f'else:\n pathlib.Path("semantic-output.json").write_text({base_output!r}, encoding="utf-8")\n' if base_output is not None else '') + '''pathlib.Path(sys.argv[sys.argv.index("--output-last-message") + 1]).write_text("SEMANTIC_OUTPUT_READY", encoding="utf-8")
 for event in ({"type":"thread.started","thread_id":"two-stage-fixture"}, {"type":"turn.started"}, {"type":"turn.completed"}):
  print(json.dumps(event), flush=True)
 ''', encoding="utf-8")
@@ -119,6 +137,8 @@ for event in ({"type":"thread.started","thread_id":"two-stage-fixture"}, {"type"
     assert report["stage"] == "base-authoring"
     assert Path(report["workspace"]).is_relative_to(destination)
     assert b"two-stage-fixture" in (diagnostic_path / "events.jsonl").read_bytes()
+    if base_output is not None:
+        assert (diagnostic_path / "semantic-output.bin").read_text("utf-8") == base_output
     assert not (destination / "base-failure").exists()
 
 

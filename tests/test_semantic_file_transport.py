@@ -12,6 +12,35 @@ from xi_kari_runtime import execution
 from xi_kari_runtime.authoring import _validate_provider_execution
 from xi_kari_runtime.canonical_json import sha256_bytes
 from xi_kari_runtime.output_transport import OUTPUT_TRANSPORT
+from xi_kari_runtime.output_transport import parse_provider_events
+from xi_kari_runtime.retrieval_execution import _event_stream
+
+
+@pytest.mark.parametrize("parser", [parse_provider_events, _event_stream])
+@pytest.mark.parametrize("event", [
+    {"type": "error", "message": "Reconnecting... 2/5 (stream disconnected before completion: tls handshake eof)"},
+    {"type": "item.completed", "item": {"id": "notice", "type": "error", "message": "Skill descriptions were shortened to fit the skills context budget. Codex can still see every skill, but some descriptions are shorter. Disable unused skills or plugins to leave more room for the rest."}},
+])
+def test_completed_provider_turn_retains_recovered_transport_and_skill_notices(parser, event):
+    web = {"type": "item.completed", "item": {"id": "search-1", "type": "web_search", "query": "fixture", "action": {"type": "search", "query": "fixture"}}}
+    events = [{"type": "thread.started", "thread_id": "recovered"}, {"type": "turn.started"}, web, event, {"type": "turn.completed"}]
+    raw = b"\n".join(json.dumps(row).encode() for row in events) + b"\n"
+    assert parser(raw)[0] == "recovered"
+    assert parser(raw)[1] == events
+    with pytest.raises(ValueError):
+        parser(b"\n".join(json.dumps(row).encode() for row in events[:-1]))
+
+
+@pytest.mark.parametrize("parser", [parse_provider_events, _event_stream])
+@pytest.mark.parametrize("event", [
+    {"type": "turn.failed", "error": {"message": "quota exceeded"}},
+    {"type": "error", "message": "authentication failed"},
+    {"type": "item.completed", "item": {"id": "failure", "type": "error", "message": "unrecognized provider error"}},
+])
+def test_completed_marker_does_not_override_a_real_provider_failure(parser, event):
+    events = [{"type": "thread.started", "thread_id": "failed"}, {"type": "turn.started"}, event, {"type": "turn.completed"}]
+    with pytest.raises(ValueError):
+        parser(b"\n".join(json.dumps(row).encode() for row in events))
 
 
 def read_output(workspace, notice=b"SEMANTIC_OUTPUT_READY", limit=16 * 1024 * 1024):

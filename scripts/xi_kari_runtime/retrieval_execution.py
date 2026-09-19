@@ -27,6 +27,7 @@ from .canonical_json import (
     sha256_text,
 )
 from .problem_contract import parse_instant
+from .output_transport import is_provider_failure_event
 from .retrieval import has_bound_host_observation
 
 
@@ -1028,15 +1029,7 @@ def _event_stream(raw: bytes) -> tuple[str, list[dict[str, Any]], list[dict[str,
                 f"Codex JSONL event is not an object at line {line_number}"
             )
         events.append(event)
-    if any(
-        event.get("type") in {"turn.failed", "error"}
-        or (
-            event.get("type") in {"item.started", "item.updated", "item.completed"}
-            and isinstance(event.get("item"), Mapping)
-            and event["item"].get("type") == "error"
-        )
-        for event in events
-    ):
+    if any(is_provider_failure_event(event) for event in events):
         raise ValueError("Codex JSONL stream contains a failed or error event")
     if events[0].get("type") != "thread.started":
         raise ValueError("Codex JSONL stream must begin with thread.started")

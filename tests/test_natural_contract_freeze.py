@@ -222,7 +222,9 @@ for event in ({"type":"thread.started","thread_id":str(os.getpid())}, {"type":"t
         raise PlanObserved
     monkeypatch.setattr(execution, "_parse_base_output", stop_after_transport)
     destination = tmp_path / "runs-not-created"
-    with pytest.raises(PlanObserved):
+    with pytest.raises(execution.AuthoringFailure) as captured:
         execution.execute_authored_run(destination, request_text="评价六周轮班计划", repository_root=ROOT,
             codex_provider_executable=provider_path, timeout_seconds=60)
-    assert not destination.exists()
+    assert isinstance(captured.value.__cause__, PlanObserved)
+    assert captured.value.diagnostics_path.parent == destination
+    assert not list(destination.rglob("run-contract.json"))
