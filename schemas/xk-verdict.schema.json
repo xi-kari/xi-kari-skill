@@ -1,109 +1,384 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://xi-kari.local/schemas/xi-kari.v2.xk.verdict.schema.json",
-  "x-namespace": "xi-kari.v2.xk",
-  "title": "Xi-Kari v2 separated verdict bundle",
+  "$id": "https://xi-kari.local/schemas/xi-kari.v3.xk.verdict.schema.json",
+  "x-namespace": "xi-kari.v3.xk",
+  "title": "Xi-Kari v3 separated verdict bundle",
   "type": "object",
   "additionalProperties": false,
-  "required": ["schema_id", "source_version", "ontology_refs", "source_anchors", "judgment_kind", "current_best_judgment", "non_decidability", "explanation_ranking", "five_verdicts", "assumptions", "decisive_unknown_ids"],
+  "required": [
+    "schema_id",
+    "source_version",
+    "ontology_refs",
+    "source_anchors",
+    "judgment_kind",
+    "current_best_judgment",
+    "non_decidability",
+    "explanation_ranking",
+    "five_verdicts",
+    "assumptions",
+    "decisive_unknown_ids",
+    "claim_verdicts"
+  ],
   "properties": {
-    "schema_id": {"const": "xi-kari.v2.xk.verdict"},
-    "source_version": {"const": "v8.2"},
-    "ontology_refs": {"$ref": "#/$defs/ontologyRefs"},
-    "source_anchors": {"$ref": "#/$defs/sourceAnchors"},
-    "judgment_kind": {"enum": ["best-current", "non-decidability"]},
-    "current_best_judgment": {"oneOf": [{"$ref": "#/$defs/currentBest"}, {"type": "null"}]},
-    "non_decidability": {"oneOf": [{"$ref": "#/$defs/nonDecidability"}, {"type": "null"}]},
-    "explanation_ranking": {"type": "array", "minItems": 5, "maxItems": 5, "items": {"$ref": "#/$defs/rank"}},
-    "five_verdicts": {"type": "array", "minItems": 7, "maxItems": 7, "items": {"$ref": "#/$defs/kindVerdict"}},
-    "assumptions": {"$ref": "#/$defs/strings"},
-    "decisive_unknown_ids": {"$ref": "#/$defs/ids"}
+    "schema_id": {
+      "const": "xi-kari.v3.xk.verdict"
+    },
+    "source_version": {
+      "const": "v8.3"
+    },
+    "ontology_refs": {
+      "$ref": "#/$defs/ontologyRefs"
+    },
+    "source_anchors": {
+      "$ref": "#/$defs/sourceAnchors"
+    },
+    "judgment_kind": {
+      "enum": [
+        "best-current",
+        "non-decidability"
+      ]
+    },
+    "current_best_judgment": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/currentBest"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "non_decidability": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/nonDecidability"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "explanation_ranking": {
+      "type": "array",
+      "minItems": 5,
+      "maxItems": 5,
+      "items": {
+        "$ref": "#/$defs/rank"
+      }
+    },
+    "five_verdicts": {
+      "type": "array",
+      "minItems": 7,
+      "maxItems": 7,
+      "items": {
+        "$ref": "#/$defs/kindVerdict"
+      }
+    },
+    "assumptions": {
+      "$ref": "#/$defs/strings"
+    },
+    "decisive_unknown_ids": {
+      "$ref": "#/$defs/ids"
+    },
+    "claim_verdicts": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/claimVerdict"
+      }
+    }
   },
   "$defs": {
-    "id": {"type": "string", "minLength": 1, "pattern": "^[A-Z][A-Z0-9_.:-]*$"},
-    "nonempty": {"type": "string", "minLength": 1},
-    "ids": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/id"}},
-    "nonemptyIds": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/$defs/id"}},
-    "strings": {"type": "array", "items": {"$ref": "#/$defs/nonempty"}},
-    "nonemptyStrings": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/nonempty"}},
-    "ontologyRefs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "pattern": "^V82-(?:CANON|CANDIDATE|HEADING)-[A-Z0-9-]+$"}},
-    "sourceAnchors": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "pattern": "^V82-(?:P[0-9]{4}|T[0-9]{3})$"}},
+    "id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[A-Z][A-Z0-9_.:-]*$"
+    },
+    "nonempty": {
+      "type": "string",
+      "minLength": 1
+    },
+    "ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/id"
+      }
+    },
+    "nonemptyIds": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/id"
+      }
+    },
+    "strings": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/nonempty"
+      }
+    },
+    "nonemptyStrings": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/nonempty"
+      }
+    },
+    "ontologyRefs": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^V83-(?:CANON|CANDIDATE|HEADING)-[A-Z0-9-]+$"
+      }
+    },
+    "sourceAnchors": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^V83-(?:P[0-9]{4}|T[0-9]{3})$"
+      }
+    },
     "currentBest": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["proposition", "strength", "best_explanation_id", "runner_up_explanation_id", "strongest_counterevidence_refs", "unexplained_residual_ids", "withdrawal_conditions", "time_window", "indicator_ids", "action_ceiling"],
+      "required": [
+        "proposition",
+        "strength",
+        "best_explanation_id",
+        "runner_up_explanation_id",
+        "strongest_counterevidence_refs",
+        "unexplained_residual_ids",
+        "withdrawal_conditions",
+        "time_window",
+        "indicator_ids",
+        "action_ceiling"
+      ],
       "properties": {
-        "proposition": {"$ref": "#/$defs/nonempty"},
-        "strength": {"enum": ["verified-fact", "strong-structural", "conditional", "provisional"]},
-        "best_explanation_id": {"$ref": "#/$defs/id"},
-        "runner_up_explanation_id": {"$ref": "#/$defs/id"},
-        "strongest_counterevidence_refs": {"$ref": "#/$defs/nonemptyIds"},
-        "unexplained_residual_ids": {"$ref": "#/$defs/ids"},
-        "withdrawal_conditions": {"$ref": "#/$defs/nonemptyStrings"},
-        "time_window": {"$ref": "#/$defs/nonempty"},
-        "indicator_ids": {"$ref": "#/$defs/nonemptyIds"},
-        "action_ceiling": {"$ref": "#/$defs/nonempty"}
+        "proposition": {
+          "$ref": "#/$defs/nonempty"
+        },
+        "strength": {
+          "enum": [
+            "verified-fact",
+            "strong-structural",
+            "conditional",
+            "provisional"
+          ]
+        },
+        "best_explanation_id": {
+          "$ref": "#/$defs/id"
+        },
+        "runner_up_explanation_id": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/id"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "strongest_counterevidence_refs": {
+          "$ref": "#/$defs/nonemptyIds"
+        },
+        "unexplained_residual_ids": {
+          "$ref": "#/$defs/ids"
+        },
+        "withdrawal_conditions": {
+          "$ref": "#/$defs/nonemptyStrings"
+        },
+        "time_window": {
+          "$ref": "#/$defs/nonempty"
+        },
+        "indicator_ids": {
+          "$ref": "#/$defs/nonemptyIds"
+        },
+        "action_ceiling": {
+          "$ref": "#/$defs/nonempty"
+        }
       }
     },
     "nonDecidability": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["public_proposition", "reason", "missing_inputs", "remaining_partial_order"],
+      "required": [
+        "public_proposition",
+        "reason",
+        "missing_inputs",
+        "remaining_partial_order"
+      ],
       "properties": {
-        "public_proposition": {"$ref": "#/$defs/nonempty"},
-        "reason": {"$ref": "#/$defs/nonempty"},
-        "missing_inputs": {"$ref": "#/$defs/nonemptyStrings"},
-        "remaining_partial_order": {"$ref": "#/$defs/nonemptyIds"}
+        "public_proposition": {
+          "$ref": "#/$defs/nonempty"
+        },
+        "reason": {
+          "$ref": "#/$defs/nonempty"
+        },
+        "missing_inputs": {
+          "$ref": "#/$defs/nonemptyStrings"
+        },
+        "remaining_partial_order": {
+          "$ref": "#/$defs/nonemptyIds"
+        }
       }
     },
     "rank": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["explanation_id", "rank"],
+      "required": [
+        "explanation_id",
+        "rank",
+        "role",
+        "reason",
+        "claim_ids"
+      ],
       "properties": {
-        "explanation_id": {"$ref": "#/$defs/id"},
-        "rank": {"oneOf": [{"type": "integer", "minimum": 1, "maximum": 5}, {"type": "null"}]}
+        "explanation_id": {
+          "$ref": "#/$defs/id"
+        },
+        "rank": {
+          "oneOf": [
+            {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 5
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "role": {
+          "enum": [
+            "primary",
+            "supplementary",
+            "background",
+            "unresolved",
+            "excluded",
+            "not-applicable"
+          ]
+        },
+        "reason": {
+          "$ref": "#/$defs/nonempty"
+        },
+        "claim_ids": {
+          "$ref": "#/$defs/ids"
+        }
       }
     },
     "kindVerdict": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["verdict_id", "kind", "proposition", "evidence_refs", "claim_ids", "claim_evidence_edges", "mechanism_ids", "recursive_node_ids", "status", "authorization_scope"],
+      "required": [
+        "verdict_id",
+        "kind",
+        "proposition",
+        "evidence_refs",
+        "claim_ids",
+        "claim_evidence_edges",
+        "mechanism_ids",
+        "recursive_node_ids",
+        "status",
+        "authorization_scope"
+      ],
       "properties": {
-        "verdict_id": {"$ref": "#/$defs/id"},
-        "kind": {"enum": ["fact", "structure", "mechanism", "prediction", "value", "responsibility", "authorization"]},
-        "proposition": {"$ref": "#/$defs/nonempty"},
-        "evidence_refs": {"$ref": "#/$defs/ids"},
-        "claim_ids": {"$ref": "#/$defs/ids"},
+        "verdict_id": {
+          "$ref": "#/$defs/id"
+        },
+        "kind": {
+          "enum": [
+            "fact",
+            "structure",
+            "mechanism",
+            "prediction",
+            "value",
+            "responsibility",
+            "authorization"
+          ]
+        },
+        "proposition": {
+          "$ref": "#/$defs/nonempty"
+        },
+        "evidence_refs": {
+          "$ref": "#/$defs/ids"
+        },
+        "claim_ids": {
+          "$ref": "#/$defs/ids"
+        },
         "claim_evidence_edges": {
           "type": "array",
           "uniqueItems": true,
-          "items": {"$ref": "#/$defs/claimEvidenceEdge"}
+          "items": {
+            "$ref": "#/$defs/claimEvidenceEdge"
+          }
         },
-        "mechanism_ids": {"$ref": "#/$defs/ids"},
-        "recursive_node_ids": {"$ref": "#/$defs/ids"},
-        "status": {"enum": ["locked", "bounded", "undecidable"]},
+        "mechanism_ids": {
+          "$ref": "#/$defs/ids"
+        },
+        "recursive_node_ids": {
+          "$ref": "#/$defs/ids"
+        },
+        "status": {
+          "enum": [
+            "locked",
+            "bounded",
+            "undecidable"
+          ]
+        },
         "authorization_scope": {
           "oneOf": [
-            {"$ref": "#/$defs/authorizationScope"},
-            {"type": "null"}
+            {
+              "$ref": "#/$defs/authorizationScope"
+            },
+            {
+              "type": "null"
+            }
           ]
         }
       },
       "allOf": [
         {
           "if": {
-            "properties": {"status": {"const": "undecidable"}},
-            "required": ["status"]
+            "properties": {
+              "status": {
+                "const": "undecidable"
+              }
+            },
+            "required": [
+              "status"
+            ]
           },
           "then": {
             "properties": {
-              "evidence_refs": {"type": "array", "maxItems": 0},
-              "claim_ids": {"type": "array", "maxItems": 0},
-              "claim_evidence_edges": {"type": "array", "maxItems": 0},
-              "mechanism_ids": {"type": "array", "maxItems": 0},
-              "recursive_node_ids": {"type": "array", "maxItems": 0},
-              "authorization_scope": {"type": "null"}
+              "evidence_refs": {
+                "type": "array",
+                "maxItems": 0
+              },
+              "claim_ids": {
+                "type": "array",
+                "maxItems": 0
+              },
+              "claim_evidence_edges": {
+                "type": "array",
+                "maxItems": 0
+              },
+              "mechanism_ids": {
+                "type": "array",
+                "maxItems": 0
+              },
+              "recursive_node_ids": {
+                "type": "array",
+                "maxItems": 0
+              },
+              "authorization_scope": {
+                "type": "null"
+              }
             }
           },
           "else": {
@@ -112,7 +387,9 @@
                 "type": "array",
                 "minItems": 1,
                 "uniqueItems": true,
-                "items": {"$ref": "#/$defs/claimEvidenceEdge"}
+                "items": {
+                  "$ref": "#/$defs/claimEvidenceEdge"
+                }
               }
             }
           }
@@ -120,18 +397,33 @@
         {
           "if": {
             "properties": {
-              "kind": {"const": "authorization"},
-              "status": {"not": {"const": "undecidable"}}
+              "kind": {
+                "const": "authorization"
+              },
+              "status": {
+                "not": {
+                  "const": "undecidable"
+                }
+              }
             },
-            "required": ["kind", "status"]
+            "required": [
+              "kind",
+              "status"
+            ]
           },
           "then": {
             "properties": {
-              "authorization_scope": {"$ref": "#/$defs/authorizationScope"}
+              "authorization_scope": {
+                "$ref": "#/$defs/authorizationScope"
+              }
             }
           },
           "else": {
-            "properties": {"authorization_scope": {"type": "null"}}
+            "properties": {
+              "authorization_scope": {
+                "type": "null"
+              }
+            }
           }
         }
       ]
@@ -139,32 +431,107 @@
     "claimEvidenceEdge": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["claim_id", "evidence_id"],
+      "required": [
+        "claim_id",
+        "evidence_id"
+      ],
       "properties": {
-        "claim_id": {"$ref": "#/$defs/id"},
-        "evidence_id": {"$ref": "#/$defs/id"}
+        "claim_id": {
+          "$ref": "#/$defs/id"
+        },
+        "evidence_id": {
+          "$ref": "#/$defs/id"
+        }
       }
     },
     "authorizationScope": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["source_evidence_id", "decision_subject", "target_object", "single_action", "territory", "validity_interval"],
+      "required": [
+        "source_evidence_id",
+        "decision_subject",
+        "target_object",
+        "single_action",
+        "territory",
+        "validity_interval"
+      ],
       "properties": {
-        "source_evidence_id": {"$ref": "#/$defs/id"},
-        "decision_subject": {"$ref": "#/$defs/nonempty"},
-        "target_object": {"$ref": "#/$defs/nonempty"},
-        "single_action": {"$ref": "#/$defs/nonempty"},
-        "territory": {"$ref": "#/$defs/nonempty"},
-        "validity_interval": {"$ref": "#/$defs/validityInterval"}
+        "source_evidence_id": {
+          "$ref": "#/$defs/id"
+        },
+        "decision_subject": {
+          "$ref": "#/$defs/nonempty"
+        },
+        "target_object": {
+          "$ref": "#/$defs/nonempty"
+        },
+        "single_action": {
+          "$ref": "#/$defs/nonempty"
+        },
+        "territory": {
+          "$ref": "#/$defs/nonempty"
+        },
+        "validity_interval": {
+          "$ref": "#/$defs/validityInterval"
+        }
       }
     },
     "validityInterval": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["starts_at", "ends_at"],
+      "required": [
+        "starts_at",
+        "ends_at"
+      ],
       "properties": {
-        "starts_at": {"type": "string", "format": "date-time"},
-        "ends_at": {"type": "string", "format": "date-time"}
+        "starts_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "ends_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "claimVerdict": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "claim_id",
+        "status",
+        "judgment",
+        "reason",
+        "blocking_claim_ids",
+        "blocking_evidence_refs",
+        "missing_input_ids"
+      ],
+      "properties": {
+        "claim_id": {
+          "$ref": "#/$defs/id"
+        },
+        "status": {
+          "enum": [
+            "locked",
+            "bounded",
+            "undecidable"
+          ]
+        },
+        "judgment": {
+          "$ref": "#/$defs/nonempty"
+        },
+        "reason": {
+          "$ref": "#/$defs/nonempty"
+        },
+        "blocking_claim_ids": {
+          "$ref": "#/$defs/ids"
+        },
+        "blocking_evidence_refs": {
+          "$ref": "#/$defs/ids"
+        },
+        "missing_input_ids": {
+          "$ref": "#/$defs/ids"
+        }
       }
     }
   }

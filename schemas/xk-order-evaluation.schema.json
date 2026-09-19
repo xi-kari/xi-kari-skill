@@ -1,12 +1,12 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://xi-kari.local/schemas/xi-kari.v2.order-evaluation.schema.json",
-  "title": "Xi-Kari v2 recursive order evaluation",
+  "$id": "https://xi-kari.local/schemas/xi-kari.v3.order-evaluation.schema.json",
+  "title": "Xi-Kari v3 recursive order evaluation",
   "type": "object",
   "additionalProperties": false,
   "required": ["schema_id", "schema_version", "run_id"],
   "properties": {
-    "schema_id": {"const": "xi-kari.v2.order-evaluation"},
+    "schema_id": {"const": "xi-kari.v3.order-evaluation"},
     "schema_version": {"const": 3},
     "run_id": {"type": "string"},
     "orders": {

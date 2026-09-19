@@ -6,13 +6,13 @@
 
 ## 必须一起读取
 
-1. `V82-CANON-CORE-ROOT-INSTANCE-CONTRACT` 与 `V82-CANON-CORE-HUMAN-EMPIRICAL-INSTANCE-CONTRACT`：`references/ontology/cards/evidence-claim/root-evidence-contracts.md`。
-2. `V82-CANON-H1`、`V82-CANON-H4`、`V82-CANON-H5`：`references/ontology/cards/human-actor/h1-h6-boundaries.md`。
-3. `V82-CANON-CORE-EVIDENCE-CONTRACT`：`references/ontology/cards/foundation-boundary/claim-roles-and-missing-states.md`。
+1. `V83-CANON-CORE-ROOT-INSTANCE-CONTRACT` 与 `V83-CANON-CORE-HUMAN-EMPIRICAL-INSTANCE-CONTRACT`：`references/ontology/cards/evidence-claim/root-evidence-contracts.md`。
+2. `V83-CANON-H1`、`V83-CANON-H4`、`V83-CANON-H5`：`references/ontology/cards/human-actor/h1-h6-boundaries.md`。
+3. `V83-CANON-CORE-EVIDENCE-CONTRACT`：`references/ontology/cards/foundation-boundary/claim-roles-and-missing-states.md`。
 
 ## 原文锚点
 
-`V82-P0587`—`V82-P0626` 给出根实例合同；`V82-P0628`—`V82-P0647` 给出 `human_empirical_instance_contract`、H1/H4/H5 子型与结果门；`V82-P0683`—`V82-P0684` 重申人类经验条款的证据状态。
+`V83-P0587`—`V83-P0626` 给出根实例合同；`V83-P0628`—`V83-P0647` 给出 `human_empirical_instance_contract`、H1/H4/H5 子型与结果门；`V83-P0683`—`V83-P0684` 重申人类经验条款的证据状态。
 
 ## 禁止孤立推断
 

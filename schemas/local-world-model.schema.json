@@ -128,7 +128,7 @@
         "id": { "type": "string", "minLength": 1 },
         "identity": {
           "type": "string",
-          "enum": ["user_material", "external_fact", "source_claim", "v82_definition", "inference", "analogy", "conditional_scenario", "unknown"]
+          "enum": ["user_material", "external_fact", "source_claim", "v83_definition", "inference", "analogy", "conditional_scenario", "unknown"]
         },
         "statement": { "type": "string", "minLength": 1 },
         "source_refs": { "type": "array", "items": { "type": "string" } },

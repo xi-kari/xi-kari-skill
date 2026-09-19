@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://xi-kari.local/schemas/xi-kari.v2.codex-jsonl-event.schema.json",
-  "title": "Xi-Kari v2 captured Codex JSONL event",
+  "$id": "https://xi-kari.local/schemas/xi-kari.v3.codex-jsonl-event.schema.json",
+  "title": "Xi-Kari v3 captured Codex JSONL event",
   "type": "object",
   "required": ["type"],
   "properties": {"type": {"type": "string", "minLength": 1}},
@@ -10,7 +10,7 @@
     "schema_marker": {
       "type": "object",
       "properties": {
-        "schema_id": {"const": "xi-kari.v2.codex-jsonl-event"}
+        "schema_id": {"const": "xi-kari.v3.codex-jsonl-event"}
       }
     }
   }

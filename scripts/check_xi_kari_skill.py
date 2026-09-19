@@ -84,7 +84,7 @@ def _validate_json_schemas(root: Path) -> list[str]:
                 errors.append(f"{artifact_name} schema {location}: {error.message}")
         except (OSError, json.JSONDecodeError) as exc:
             errors.append(f"cannot read generated {artifact_name}: {exc}")
-    manifest_path = root / "references" / "source" / "v8.2" / "source-manifest.json"
+    manifest_path = root / "references" / "source" / "v8.3" / "source-manifest.json"
     manifest_schema = schemas.get("source-manifest.schema.json")
     if manifest_schema and manifest_path.is_file():
         validator = Draft202012Validator(manifest_schema)
@@ -105,7 +105,7 @@ def _check_markdown_links(root: Path) -> list[str]:
         for path in sorted(search_root.glob("**/*.md")):
             # The lossless reader is source data; its HTML/comments are
             # checked by the source snapshot validator, not this route pass.
-            if "references/source/v8.2/reader" in path.relative_to(root).as_posix():
+            if "references/source/v8.3/reader" in path.relative_to(root).as_posix():
                 continue
             text = path.read_text(encoding="utf-8")
             for target in LINK_RE.findall(text):

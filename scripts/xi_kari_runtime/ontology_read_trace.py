@@ -20,9 +20,9 @@ from .canonical_json import (
 )
 
 
-PLAN_SCHEMA_ID = "xi-kari.v2.ontology-read-plan"
-INPUT_SCHEMA_ID = "xi-kari.v2.ontology-read-trace-input"
-TRACE_SCHEMA_ID = "xi-kari.v2.ontology-read-trace"
+PLAN_SCHEMA_ID = "xi-kari.v3.ontology-read-plan"
+INPUT_SCHEMA_ID = "xi-kari.v3.ontology-read-trace-input"
+TRACE_SCHEMA_ID = "xi-kari.v3.ontology-read-trace"
 PLAN_RECORD_FIELDS = frozenset(
     {
         "item_id",
@@ -49,7 +49,7 @@ PROBLEM_RELATION_STATUSES = frozenset(
     {"applied", "boundary_only", "not_applicable"}
 )
 CONTENT_PROOF_KIND = "byte-access+problem-bound-semantic-trace"
-CONTENT_WITNESS_PROTOCOL = "xi-kari.v2.ontology-content-witness/v1"
+CONTENT_WITNESS_PROTOCOL = "xi-kari.v3.ontology-content-witness/v1"
 _SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
 _FORBIDDEN_RATIONALE_RE = re.compile(
     r"(?:\bnot[\s_-]*read\b|\bunread\b|\bplaceholder\b|\btodo\b|"
@@ -235,7 +235,7 @@ def derive_content_observation(content: bytes, item_id: str) -> str:
             end += 1
         excerpt = text[start:end].strip()
         signal = re.sub(
-            r"v82[-_a-z0-9]+|[0-9a-f]{16,}|references/[a-z0-9_./-]+",
+            r"v83[-_a-z0-9]+|[0-9a-f]{16,}|references/[a-z0-9_./-]+",
             " ",
             excerpt,
             flags=re.IGNORECASE,
@@ -274,7 +274,7 @@ def _normalise_identifier_free_rationale(
         text,
         flags=re.IGNORECASE,
     )
-    text = re.sub(r"\bv82[-_a-z0-9]+\b", " ", text, flags=re.IGNORECASE)
+    text = re.sub(r"\bv83[-_a-z0-9]+\b", " ", text, flags=re.IGNORECASE)
     text = re.sub(r"\b[0-9a-f]{64}\b", " ", text, flags=re.IGNORECASE)
     return " ".join(text.split())
 

@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://xi-kari.local/schemas/xi-kari.v3.natural-contract-output.schema.json",
+  "title": "Xi-Kari natural request contract proposal",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["question", "object_of_analysis", "boundary", "identity_criterion", "spatial_scale", "organizational_scale", "time_window", "evidence_cutoff", "retrieval_profile", "requested_stance", "problem_action", "advice_requested", "deliverable_type"],
+  "properties": {
+    "question": {"type": "string", "minLength": 1},
+    "object_of_analysis": {"type": "string", "minLength": 1},
+    "boundary": {"type": "string", "minLength": 1},
+    "identity_criterion": {"type": "string", "minLength": 1},
+    "spatial_scale": {"type": "string", "minLength": 1},
+    "organizational_scale": {"type": "string", "minLength": 1},
+    "time_window": {"type": "string", "minLength": 1},
+    "evidence_cutoff": {"type": "string", "format": "date-time"},
+    "retrieval_profile": {"enum": ["authority-first", "five-direction", "closed-input"]},
+    "requested_stance": {"enum": ["neutral", "support", "oppose"]},
+    "problem_action": {"enum": ["explain", "compare", "infer", "choose", "express"]},
+    "advice_requested": {"type": "boolean"},
+    "deliverable_type": {"enum": ["analysis", "decision", "charter", "plan", "critique"]}
+  }
+}

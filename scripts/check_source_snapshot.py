@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Read-only checker for the Xi-Kari v8.2 source snapshot."""
+"""Read-only checker for the Xi-Kari v8.3 source snapshot."""
 
 from __future__ import annotations
 
@@ -16,8 +16,8 @@ from jsonschema import Draft202012Validator
 from build_source_snapshot import CANDIDATE_KIND_ORDER, build
 
 
-PARAGRAPH_MARKER = re.compile(r"<!-- source-paragraph:(V82-P\d{4}) style=[^>]* -->")
-TABLE_MARKER = re.compile(r'<table data-source-table="(V82-T\d{3})">')
+PARAGRAPH_MARKER = re.compile(r"<!-- source-paragraph:(V83-P\d{4}) style=[^>]* -->")
+TABLE_MARKER = re.compile(r'<table data-source-table="(V83-T\d{3})">')
 FORBIDDEN_CLASSIFICATION_FIELDS = {
     "binding_dispositions",
     "bound_card_paths",
@@ -69,7 +69,7 @@ def _load_json(path: Path, label: str) -> tuple[object | None, list[str]]:
 
 
 def check_manifest(root: Path) -> list[str]:
-    base = root / "references" / "source" / "v8.2"
+    base = root / "references" / "source" / "v8.3"
     manifest, errors = _load_json(base / "source-manifest.json", "source manifest")
     schema, load_errors = _load_json(
         root / "schemas" / "source-manifest.schema.json",
@@ -88,7 +88,7 @@ def check_manifest(root: Path) -> list[str]:
 
 
 def check_source_unit_contract(root: Path) -> list[str]:
-    base = root / "references" / "source" / "v8.2"
+    base = root / "references" / "source" / "v8.3"
     manifest, errors = _load_json(base / "source-manifest.json", "source manifest")
     table_values, load_errors = _load_json(
         base / "indexes" / "tables.json", "source table index"
@@ -120,7 +120,7 @@ def check_source_unit_contract(root: Path) -> list[str]:
         expected_sequence: list[str] = []
         for ordinal in range(1, 4632):
             expected_sequence.extend(tables_before_paragraph.get(ordinal, []))
-            expected_sequence.append(f"V82-P{ordinal:04d}")
+            expected_sequence.append(f"V83-P{ordinal:04d}")
         if sequence != expected_sequence:
             errors.append("source_unit_sequence differs from DOCX paragraph/table order")
         if manifest.get("source_unit_count") != len(sequence):
@@ -129,7 +129,7 @@ def check_source_unit_contract(root: Path) -> list[str]:
     expected_paths = {
         "audit/paragraphs.jsonl",
         "indexes/tables.json",
-        *(f"audit/tables/V82-T{ordinal:03d}.md" for ordinal in range(1, 123)),
+        *(f"audit/tables/V83-T{ordinal:03d}.md" for ordinal in range(1, 123)),
     }
     file_hashes = manifest.get("source_unit_file_sha256")
     if not isinstance(file_hashes, dict):
@@ -153,7 +153,7 @@ def check_source_unit_contract(root: Path) -> list[str]:
 
 
 def check_candidate_index(root: Path) -> list[str]:
-    base = root / "references" / "source" / "v8.2"
+    base = root / "references" / "source" / "v8.3"
     path = base / "indexes" / "candidates.jsonl"
     if not path.is_file():
         return [f"missing source candidate index: {path}"]
@@ -252,7 +252,7 @@ def check_candidate_index(root: Path) -> list[str]:
 
         anchor = row.get("source_anchor")
         if isinstance(candidate_id, str) and isinstance(anchor, str):
-            if candidate_id != f"V82-CANDIDATE-{anchor.removeprefix('V82-')}":
+            if candidate_id != f"V83-CANDIDATE-{anchor.removeprefix('V83-')}":
                 errors.append(f"{label}: candidate ID/source anchor mismatch")
         if unit_type := row.get("source_unit_type"):
             if unit_type in {"paragraph", "table"} and row.get(
@@ -327,7 +327,7 @@ def check_candidate_index(root: Path) -> list[str]:
                 if isinstance(ordinals, list) and ordinals and all(
                     isinstance(value, int) for value in ordinals
                 ):
-                    paragraph_anchors = [f"V82-P{value:04d}" for value in ordinals]
+                    paragraph_anchors = [f"V83-P{value:04d}" for value in ordinals]
                     expected_span = {
                         "start_anchor": paragraph_anchors[0],
                         "end_anchor": paragraph_anchors[-1],
@@ -375,7 +375,7 @@ def check_candidate_index(root: Path) -> list[str]:
                         ordinals = []
                     if ordinals:
                         paragraph_anchors = [
-                            f"V82-P{value:04d}" for value in ordinals
+                            f"V83-P{value:04d}" for value in ordinals
                         ]
                         expected_span = {
                             "start_anchor": paragraph_anchors[0],
@@ -399,7 +399,7 @@ def check_candidate_index(root: Path) -> list[str]:
             if row.get("source_span") != expected_span:
                 errors.append(f"{label}: source span does not cover the exact source unit")
             start_anchor = expected_span["start_anchor"]
-            start_ordinal = int(str(start_anchor).removeprefix("V82-P"))
+            start_ordinal = int(str(start_anchor).removeprefix("V83-P"))
             source_order.append(
                 (
                     start_ordinal,
@@ -431,7 +431,7 @@ def check_candidate_index(root: Path) -> list[str]:
 
 
 def check_coverage(root: Path) -> list[str]:
-    reader = root / "references" / "source" / "v8.2" / "reader"
+    reader = root / "references" / "source" / "v8.3" / "reader"
     contents = "\n".join(
         path.read_text(encoding="utf-8")
         for path in sorted(reader.glob("*.md"))
@@ -440,8 +440,8 @@ def check_coverage(root: Path) -> list[str]:
     paragraph_counts = Counter(PARAGRAPH_MARKER.findall(contents))
     table_counts = Counter(TABLE_MARKER.findall(contents))
     errors: list[str] = []
-    expected_paragraphs = {f"V82-P{i:04d}" for i in range(1, 4632)}
-    expected_tables = {f"V82-T{i:03d}" for i in range(1, 123)}
+    expected_paragraphs = {f"V83-P{i:04d}" for i in range(1, 4632)}
+    expected_tables = {f"V83-T{i:03d}" for i in range(1, 123)}
     if set(paragraph_counts) != expected_paragraphs:
         errors.append(
             "reader paragraph coverage mismatch: "
@@ -464,7 +464,7 @@ def check_coverage(root: Path) -> list[str]:
 
 
 def check_inventory_candidate_coverage(root: Path) -> list[str]:
-    base = root / "references" / "source" / "v8.2"
+    base = root / "references" / "source" / "v8.3"
     inventory_anchors: set[str] = set()
     errors: list[str] = []
     for path in sorted((root / "references" / "ontology" / "inventory").glob("*.jsonl")):

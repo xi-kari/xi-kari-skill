@@ -4,9 +4,9 @@
   "title": "Xi-Kari source anchor to concept map",
   "type": "object",
   "patternProperties": {
-    "^V82-(P[0-9]{4}|T[0-9]{3})$": {
+    "^V83-(P[0-9]{4}|T[0-9]{3})$": {
       "type": "array",
-      "items": {"type": "string", "pattern": "^V82-(CANON|CANDIDATE|HEADING|PROVISIONAL|SOURCE)(-[A-Z0-9]+)+$"}
+      "items": {"type": "string", "pattern": "^V83-(CANON|CANDIDATE|HEADING|PROVISIONAL|SOURCE)(-[A-Z0-9]+)+$"}
     }
   },
   "additionalProperties": false

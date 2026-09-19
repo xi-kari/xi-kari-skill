@@ -1,4 +1,4 @@
-"""Forward-only repair planning for Xi-Kari v2."""
+"""Forward-only repair planning for Xi-Kari v3."""
 
 from __future__ import annotations
 
@@ -164,7 +164,7 @@ def repair_run(
         atomic_write_json(
             child / "continuation/repair-record.json",
             {
-                "schema_id": "xi-kari.v2.repair-record",
+                "schema_id": "xi-kari.v3.repair-record",
                 "schema_version": 3,
                 "run_id": status_run(child)["run_id"],
                 "parent_run_id": status_run(parent)["run_id"],

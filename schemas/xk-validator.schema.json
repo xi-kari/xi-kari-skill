@@ -1,12 +1,12 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://xi-kari.local/schemas/xi-kari.v2.validator-report.schema.json",
-  "title": "Xi-Kari v2 fresh validator report",
+  "$id": "https://xi-kari.local/schemas/xi-kari.v3.validator-report.schema.json",
+  "title": "Xi-Kari v3 fresh validator report",
   "type": "object",
   "additionalProperties": false,
   "required": ["schema_id", "schema_version", "validator_version", "validator_set_sha256", "run_id", "fresh", "fresh_process", "validator_pid", "validation_boundary", "complete", "checked_at", "validated_phase", "chain_head_sha256", "phase_count", "checks", "valid", "errors"],
   "properties": {
-    "schema_id": {"const": "xi-kari.v2.validator-report"},
+    "schema_id": {"const": "xi-kari.v3.validator-report"},
     "schema_version": {"const": 3},
     "validator_version": {"const": "xk-fresh-validator-3"},
     "validator_set_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},

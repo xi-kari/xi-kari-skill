@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://xi-kari.local/schemas/xi-kari.v2.codex-semantic-authoring-output.schema.json",
-  "title": "Xi-Kari v2 Codex semantic-only authoring output",
+  "$id": "https://xi-kari.local/schemas/xi-kari.v3.codex-semantic-authoring-output.schema.json",
+  "title": "Xi-Kari v3 Codex semantic-only authoring output",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -25,7 +25,10 @@
     "forecast",
     "framework_gap",
     "mechanisms",
-    "orders"
+    "orders",
+    "deliverable_type",
+    "reader_sections",
+    "answer_delivery"
   ],
   "properties": {
     "problem_contract": {
@@ -45,52 +48,231 @@
         "problem_action",
         "advice_requested",
         "dynamic_applicability",
-        "applicability_rationale"
+        "applicability_rationale",
+        "deliverable_type"
       ],
       "properties": {
-        "question": {"type": "string", "minLength": 1},
-        "object_of_analysis": {"type": "string", "minLength": 1},
-        "boundary": {"type": "string", "minLength": 1},
-        "identity_criterion": {"type": "string", "minLength": 1},
-        "spatial_scale": {"type": "string", "minLength": 1},
-        "organizational_scale": {"type": "string", "minLength": 1},
-        "time_window": {"type": "string", "minLength": 1},
-        "evidence_cutoff": {"type": "string", "format": "date-time"},
+        "question": {
+          "type": "string",
+          "minLength": 1
+        },
+        "object_of_analysis": {
+          "type": "string",
+          "minLength": 1
+        },
+        "boundary": {
+          "type": "string",
+          "minLength": 1
+        },
+        "identity_criterion": {
+          "type": "string",
+          "minLength": 1
+        },
+        "spatial_scale": {
+          "type": "string",
+          "minLength": 1
+        },
+        "organizational_scale": {
+          "type": "string",
+          "minLength": 1
+        },
+        "time_window": {
+          "type": "string",
+          "minLength": 1
+        },
+        "evidence_cutoff": {
+          "type": "string",
+          "format": "date-time"
+        },
         "retrieval_profile": {
-          "enum": ["authority-first", "five-direction", "closed-input"]
+          "enum": [
+            "authority-first",
+            "five-direction",
+            "closed-input"
+          ]
         },
-        "requested_stance": {"enum": ["support", "oppose"]},
+        "requested_stance": {
+          "enum": [
+            "support",
+            "oppose"
+          ]
+        },
         "problem_action": {
-          "enum": ["explain", "compare", "infer", "choose", "express"]
+          "enum": [
+            "explain",
+            "compare",
+            "infer",
+            "choose",
+            "express"
+          ]
         },
-        "advice_requested": {"type": "boolean"},
+        "advice_requested": {
+          "type": "boolean"
+        },
         "dynamic_applicability": {
-          "enum": ["applicable", "not_applicable"]
+          "enum": [
+            "applicable",
+            "not_applicable"
+          ]
         },
-        "applicability_rationale": {"type": "string", "minLength": 1}
+        "applicability_rationale": {
+          "type": "string",
+          "minLength": 1
+        },
+        "deliverable_type": {
+          "enum": [
+            "analysis",
+            "decision",
+            "charter",
+            "plan",
+            "critique"
+          ]
+        }
       }
     },
     "dynamic_applicability": {
-      "enum": ["applicable", "not_applicable"]
+      "enum": [
+        "applicable",
+        "not_applicable"
+      ]
     },
-    "facts": {"type": "object"},
-    "case_ledger": {"type": "object"},
-    "cases": {"type": "array"},
-    "answer": {"type": "object"},
-    "local_world_model": {"type": "object"},
-    "transformation_ledger": {"type": "object"},
-    "cascade": {"type": "object"},
-    "claim_mechanism_graph": {"type": "object"},
-    "recursive_lineage": {"type": "object"},
-    "recursive_states": {"type": "object"},
-    "order_evaluation": {"type": "object"},
-    "red_team": {"type": "object"},
-    "stance_pair": {"type": "object"},
-    "verdict": {"type": "object"},
-    "action_ranking": {"type": "object"},
-    "forecast": {"type": "object"},
-    "framework_gap": {"type": "object"},
-    "mechanisms": {"type": "array"},
-    "orders": {"type": "array"}
+    "facts": {
+      "type": "object"
+    },
+    "case_ledger": {
+      "type": "object"
+    },
+    "cases": {
+      "type": "array"
+    },
+    "answer": {
+      "type": "object"
+    },
+    "local_world_model": {
+      "type": "object"
+    },
+    "transformation_ledger": {
+      "type": "object"
+    },
+    "cascade": {
+      "type": "object"
+    },
+    "claim_mechanism_graph": {
+      "type": "object"
+    },
+    "recursive_lineage": {
+      "type": "object"
+    },
+    "recursive_states": {
+      "type": "object"
+    },
+    "order_evaluation": {
+      "type": "object"
+    },
+    "red_team": {
+      "type": "object"
+    },
+    "stance_pair": {
+      "type": "object"
+    },
+    "verdict": {
+      "type": "object"
+    },
+    "action_ranking": {
+      "type": "object"
+    },
+    "forecast": {
+      "type": "object"
+    },
+    "framework_gap": {
+      "type": "object"
+    },
+    "mechanisms": {
+      "type": "array"
+    },
+    "orders": {
+      "type": "array"
+    },
+    "deliverable_type": {
+      "enum": [
+        "analysis",
+        "decision",
+        "charter",
+        "plan",
+        "critique"
+      ]
+    },
+    "reader_sections": {
+      "title": "Xi-Kari complete authored reader sections",
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "section_id",
+          "heading",
+          "local_judgment",
+          "paragraphs",
+          "source_bindings"
+        ],
+        "properties": {
+          "section_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "heading": {
+            "type": "string",
+            "minLength": 1
+          },
+          "local_judgment": {
+            "type": "string",
+            "minLength": 1
+          },
+          "paragraphs": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "source_bindings": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "source_path",
+                "paragraph_index",
+                "excerpt"
+              ],
+              "properties": {
+                "source_path": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "paragraph_index": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "description": "0 denotes local_judgment; 1 through N denote paragraphs[0] through paragraphs[N-1]."
+                },
+                "excerpt": {
+                  "type": "string",
+                  "minLength": 1,
+                  "description": "A real excerpt of the indexed paragraph that retains the substantive source value; a link, marker or summary cannot stand in for the argument."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "answer_delivery": {
+      "type": [
+        "object",
+        "null"
+      ]
+    }
   }
 }

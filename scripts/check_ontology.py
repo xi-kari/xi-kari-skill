@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate the authored v8.2 ontology and deterministic aggregate indexes.
+"""Validate the authored v8.3 ontology and deterministic aggregate indexes.
 
 The validator treats inventory shards as the identity authority.  Markdown
 cards are deliberately allowed to cover several IDs (for example H1-H6 or
@@ -20,8 +20,8 @@ from typing import Any
 from build_knowledge_index import run as check_index
 
 
-ID_RE = re.compile(r"^V82-(?:CANON|CANDIDATE|HEADING|PROVISIONAL|SOURCE)(?:-[A-Z0-9]+)+$")
-ANCHOR_RE = re.compile(r"^V82-(?:P\d{4}|T\d{3})$")
+ID_RE = re.compile(r"^V83-(?:CANON|CANDIDATE|HEADING|PROVISIONAL|SOURCE)(?:-[A-Z0-9]+)+$")
+ANCHOR_RE = re.compile(r"^V83-(?:P\d{4}|T\d{3})$")
 MARKDOWN_LINK_RE = re.compile(r"\]\(([^)#]+)(?:#[^)]+)?\)")
 DISPOSITIONS = {
     "canonical_concept",
@@ -146,7 +146,7 @@ def _candidate_review_schema_errors(root: Path) -> list[str]:
 def _title_navigation_conflicts(root: Path) -> list[str]:
     """Reject semantic census rows that contradict heading/navigation authority."""
 
-    source_path = root / "references/source/v8.2/indexes/candidates.jsonl"
+    source_path = root / "references/source/v8.3/indexes/candidates.jsonl"
     census_path = root / "references/ontology/candidate-census.jsonl"
     inventory_root = root / "references/ontology/inventory"
     try:
@@ -287,7 +287,7 @@ def check(root: Path) -> list[str]:
     if not inventory_paths:
         return [f"missing ontology inventory: {ontology / 'inventory'}"]
 
-    anchor_index_path = root / "references" / "source" / "v8.2" / "indexes" / "anchors.json"
+    anchor_index_path = root / "references" / "source" / "v8.3" / "indexes" / "anchors.json"
     try:
         anchors = json.loads(anchor_index_path.read_text(encoding="utf-8"))
         known_anchors = set(anchors["paragraphs"]) | set(anchors["tables"])
@@ -299,7 +299,7 @@ def check(root: Path) -> list[str]:
     errors.extend(_schema_errors(root, entries))
     errors.extend(_candidate_review_schema_errors(root))
     source_definition_gap_anchors: set[str] = set()
-    paragraph_path = root / "references" / "source" / "v8.2" / "audit" / "paragraphs.jsonl"
+    paragraph_path = root / "references" / "source" / "v8.3" / "audit" / "paragraphs.jsonl"
     try:
         for line_number, line in enumerate(
             paragraph_path.read_text(encoding="utf-8").splitlines(), 1
@@ -316,7 +316,7 @@ def check(root: Path) -> list[str]:
                 source_definition_gap_anchors.add(row["anchor"])
     except (OSError, json.JSONDecodeError) as exc:
         errors.append(f"cannot read source definition gaps: {exc}")
-    table_index_path = root / "references" / "source" / "v8.2" / "indexes" / "tables.json"
+    table_index_path = root / "references" / "source" / "v8.3" / "indexes" / "tables.json"
     try:
         table_rows = json.loads(table_index_path.read_text(encoding="utf-8"))
         for row in table_rows:
@@ -347,15 +347,15 @@ def check(root: Path) -> list[str]:
             continue
         if disposition not in DISPOSITIONS:
             errors.append(f"{concept_id}: invalid disposition {disposition!r}")
-        if disposition in SEMANTIC_DISPOSITIONS and not concept_id.startswith("V82-CANON-"):
+        if disposition in SEMANTIC_DISPOSITIONS and not concept_id.startswith("V83-CANON-"):
             errors.append(
-                f"{concept_id}: {disposition} must use a V82-CANON-* identity; "
+                f"{concept_id}: {disposition} must use a V83-CANON-* identity; "
                 "source candidates/headings cannot be promoted"
             )
-        if disposition not in SEMANTIC_DISPOSITIONS and concept_id.startswith("V82-CANON-"):
+        if disposition not in SEMANTIC_DISPOSITIONS and concept_id.startswith("V83-CANON-"):
             errors.append(
                 f"{concept_id}: non-semantic disposition {disposition} cannot use a "
-                "V82-CANON-* identity; use a candidate/heading ID"
+                "V83-CANON-* identity; use a candidate/heading ID"
             )
         if disposition == "unresolved":
             errors.append(f"{concept_id}: unresolved disposition is forbidden")
@@ -412,7 +412,7 @@ def check(root: Path) -> list[str]:
             ):
                 if not any(option in card for option in alternatives):
                     errors.append(f"{concept_id}: card has no required fidelity marker {marker}")
-            if not re.search(r"^id:\s+V82-", card, re.MULTILINE):
+            if not re.search(r"^id:\s+V83-", card, re.MULTILINE):
                 errors.append(f"{concept_id}: card has no stable front-matter id")
             covered_match = re.search(r"^covered_ids:\s*(.+)$", card, re.MULTILINE)
             if covered_match and concept_id not in covered_match.group(1):
@@ -427,19 +427,19 @@ def check(root: Path) -> list[str]:
             errors.append(f"{concept_id}: semantic entry needs at least one bounded neighbor")
 
     by_id = {str(entry.get("concept_id")): entry for entry in entries}
-    human_contract = "V82-CANON-CORE-HUMAN-EMPIRICAL-INSTANCE-CONTRACT"
+    human_contract = "V83-CANON-CORE-HUMAN-EMPIRICAL-INSTANCE-CONTRACT"
     required_edges = {
         human_contract: {
-            "V82-CANON-CORE-ROOT-INSTANCE-CONTRACT",
-            "V82-CANON-CORE-EVIDENCE-CONTRACT",
-            "V82-CANON-H1",
-            "V82-CANON-H4",
-            "V82-CANON-H5",
+            "V83-CANON-CORE-ROOT-INSTANCE-CONTRACT",
+            "V83-CANON-CORE-EVIDENCE-CONTRACT",
+            "V83-CANON-H1",
+            "V83-CANON-H4",
+            "V83-CANON-H5",
         },
-        "V82-CANON-CORE-ROOT-INSTANCE-CONTRACT": {human_contract},
-        "V82-CANON-H1": {human_contract},
-        "V82-CANON-H4": {human_contract},
-        "V82-CANON-H5": {human_contract},
+        "V83-CANON-CORE-ROOT-INSTANCE-CONTRACT": {human_contract},
+        "V83-CANON-H1": {human_contract},
+        "V83-CANON-H4": {human_contract},
+        "V83-CANON-H5": {human_contract},
     }
     for concept_id, required in required_edges.items():
         entry = by_id.get(concept_id)
@@ -452,10 +452,10 @@ def check(root: Path) -> list[str]:
                 f"{concept_id}: missing core-human closure neighbors {sorted(missing)}"
             )
     contract_entry = by_id.get(human_contract)
-    if contract_entry is not None and "V82-P0628" not in set(
+    if contract_entry is not None and "V83-P0628" not in set(
         contract_entry.get("source_anchors", []) or []
     ):
-        errors.append(f"{human_contract}: missing formal V82-P0628 anchor")
+        errors.append(f"{human_contract}: missing formal V83-P0628 anchor")
 
     bundle_path = ontology / "bundles" / "core-human-empirical-instance.md"
     if not bundle_path.is_file():
@@ -503,8 +503,8 @@ def check(root: Path) -> list[str]:
         errors.append(f"too few continuity bundles: {len(bundles)}")
     for bundle in bundles:
         text = bundle.read_text(encoding="utf-8")
-        if "V82-P" not in text and "V82-T" not in text:
-            errors.append(f"bundle has no v8.2 source anchor: {bundle}")
+        if "V83-P" not in text and "V83-T" not in text:
+            errors.append(f"bundle has no v8.3 source anchor: {bundle}")
     bundle_registry_path = ontology / "continuity-bundle-registry.json"
     try:
         bundle_registry = json.loads(

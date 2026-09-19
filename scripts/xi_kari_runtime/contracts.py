@@ -9,10 +9,8 @@ import re
 from typing import Any
 
 from .authoring import (
-    ADAPTER_PROTOCOL,
     FORMAL_ADAPTER_PROFILE,
     FORMAL_ADAPTER_PROTOCOL,
-    LEGACY_ADAPTER_PROFILE,
     require_semantic_authoring_adapter,
 )
 from .canonical_json import (
@@ -23,6 +21,7 @@ from .canonical_json import (
     sha256_text,
 )
 from .problem_contract import (
+    DELIVERABLE_TYPES,
     FROZEN_FIELDS,
     build_natural_request_envelope,
     contract_hash,
@@ -65,9 +64,8 @@ DELIVERY_PATHS = {
     "final_chat": "delivery/final-chat.json",
 }
 XK_PHASES = tuple(f"XK{index}" for index in range(13))
-LEGACY_CONTRACT_PROFILE = "legacy-fixture-v3"
-PRODUCTION_CONTRACT_PROFILE = "production-authoring-v2"
-EXECUTE_OWNED_BINDING_PROTOCOL = "xi-kari.v2.execute-owned-binding/v1"
+PRODUCTION_CONTRACT_PROFILE = "production-authoring-v3"
+EXECUTE_OWNED_BINDING_PROTOCOL = "xi-kari.v3.execute-owned-binding/v1"
 EXECUTE_OWNED_BINDING_OWNER = "execute_authored_run"
 EXECUTE_OWNED_BINDING_FIELDS = frozenset(
     {
@@ -95,9 +93,7 @@ EXECUTE_OWNED_BINDING_FIELDS = frozenset(
         "retrieval_sha256",
     }
 )
-CONTRACT_PROFILES = frozenset(
-    {LEGACY_CONTRACT_PROFILE, PRODUCTION_CONTRACT_PROFILE}
-)
+CONTRACT_PROFILES = frozenset({PRODUCTION_CONTRACT_PROFILE})
 
 
 def build_execute_owned_binding(
@@ -240,9 +236,9 @@ def build_runtime_packet_binding(
             adapter.get("protocol") if isinstance(adapter, Mapping) else None
         ),
         "semantic_authoring_profile": (
-            adapter.get("profile", LEGACY_ADAPTER_PROFILE)
+            adapter.get("profile", FORMAL_ADAPTER_PROFILE)
             if isinstance(adapter, Mapping)
-            else LEGACY_ADAPTER_PROFILE
+            else FORMAL_ADAPTER_PROFILE
         ),
         "semantic_authoring_adapter_sha256": sha256_json(adapter),
         "provider_binding_sha256": (
@@ -307,7 +303,7 @@ DIRECTIONAL_EVIDENCE_FIELDS = frozenset(
         "stop_reason",
     }
 )
-V82_CONCEPT_TOKEN = re.compile(r"(?<![A-Za-z0-9])V82-[A-Z0-9-]+(?![A-Za-z0-9])")
+V83_CONCEPT_TOKEN = re.compile(r"(?<![A-Za-z0-9])V83-[A-Z0-9-]+(?![A-Za-z0-9])")
 DEFINITION_ASSERTION = re.compile(
     r"(?:权威)?定义(?:是|为)|是指|means\b|defined\s+as\b",
     re.IGNORECASE,
@@ -336,7 +332,7 @@ ORDER_NARRATIVE_DEFINITION_LEAD = re.compile(
 ORDER_NARRATIVE_SENTENCE = re.compile(r"[。！？!?；;\n]+")
 
 
-def _externally_redefines_v82(value: Mapping[str, Any]) -> bool:
+def _externally_redefines_v83(value: Mapping[str, Any]) -> bool:
     identity = value.get("identity") or value.get("fact_identity") or value.get("kind")
     if identity not in {"external_fact", "source_claim", "documented_real_case"}:
         return False
@@ -348,7 +344,7 @@ def _externally_redefines_v82(value: Mapping[str, Any]) -> bool:
         ),
         "",
     )
-    return bool(V82_CONCEPT_TOKEN.search(text) and DEFINITION_ASSERTION.search(text))
+    return bool(V83_CONCEPT_TOKEN.search(text) and DEFINITION_ASSERTION.search(text))
 
 
 def _asserts_dynamic_order_narrative(text: str) -> bool:
@@ -418,10 +414,10 @@ def build_continuity_bundle_binding(
     text = bundle.read_text(encoding="utf-8")
     relative = bundle.relative_to(root).as_posix()
     source_anchors = sorted(
-        set(re.findall(r"\bV82-(?:P\d{4}|T\d{3})\b", text))
+        set(re.findall(r"\bV83-(?:P\d{4}|T\d{3})\b", text))
     )
     anchor_index = read_json(
-        root / "references" / "source" / "v8.2" / "indexes" / "anchors.json"
+        root / "references" / "source" / "v8.3" / "indexes" / "anchors.json"
     )
     known_anchors = {
         anchor
@@ -658,17 +654,8 @@ def validate_runtime_control_bindings(
         and isinstance(contract_adapter, Mapping)
         and contract_adapter.get("protocol") == FORMAL_ADAPTER_PROTOCOL
         and contract_adapter.get("profile") == FORMAL_ADAPTER_PROFILE
-    ) or (
-        contract_profile == LEGACY_CONTRACT_PROFILE
-        and (
-            contract_adapter is None
-            or (
-                isinstance(contract_adapter, Mapping)
-                and contract_adapter.get("protocol") == ADAPTER_PROTOCOL
-            )
-        )
     )
-    if contract_profile in CONTRACT_PROFILES and not profile_pair_is_valid:
+    if contract_profile not in CONTRACT_PROFILES or not profile_pair_is_valid:
         errors.append(
             "runtime control binding mismatch: contract profile and semantic "
             "authoring adapter profile disagree"
@@ -704,8 +691,8 @@ def validate_runtime_control_bindings(
                 retrieval_receipt=retrieval_receipt,
             )
         )
-    elif execute_owned_binding is not None:
-        errors.append("legacy run cannot carry execute-owned binding")
+    else:
+        errors.append("run requires the current production contract profile")
     if contract_adapter is not None:
         try:
             require_semantic_authoring_adapter(
@@ -820,11 +807,11 @@ FACT_IDENTITIES = {
     "conditional_scenario",
     "structural_analogy",
     "unknown",
-    "v8.2_definition",
+    "v8.3_definition",
 }
 CLOSED_ALLOWED_IDENTITIES = {
     "user_material",
-    "v8.2_definition",
+    "v8.3_definition",
     "unknown",
     "model_inference",
     "conditional_scenario",
@@ -888,6 +875,21 @@ def _require_dynamic_gate(
     if missing:
         raise ValueError(f"{name} missing required fields: {missing}")
     return value
+
+
+def validate_partial_explanation_order(verdict: Mapping[str, Any]) -> None:
+    boundary = verdict.get("non_decidability")
+    partial = boundary.get("remaining_partial_order") if isinstance(boundary, Mapping) else None
+    if not isinstance(partial, list) or len(partial) < 2 or len(set(partial)) != len(partial):
+        raise ValueError("non-decidability requires at least two unresolved explanations")
+    ranking = verdict.get("explanation_ranking")
+    if not isinstance(ranking, list) or any(
+        isinstance(row, Mapping)
+        and row.get("explanation_id") in partial
+        and row.get("rank") is not None
+        for row in ranking
+    ):
+        raise ValueError("unresolved explanations cannot receive a local rank")
 
 
 def validate_dynamic_gates(packet: Mapping[str, Any]) -> None:
@@ -1218,21 +1220,7 @@ def validate_dynamic_gates(packet: Mapping[str, Any]) -> None:
                 raise ValueError(
                     "undecided answer differs from canonical non-decidability proposition"
                 )
-        partial = non_decidability.get("remaining_partial_order")
-        if (
-            not isinstance(partial, list)
-            or len(partial) < 2
-            or len(partial) != len(set(partial))
-        ):
-            raise ValueError(
-                "non-decidability requires at least two unresolved explanations"
-            )
-        ranking = verdict.get("explanation_ranking") if isinstance(verdict, Mapping) else None
-        if not isinstance(ranking, list) or any(
-            isinstance(row, Mapping) and row.get("rank") is not None
-            for row in ranking
-        ):
-            raise ValueError("non-decidability cannot carry a total explanation ranking")
+        validate_partial_explanation_order(verdict)
     if judgment_kind == "best-current" and preferred == "undecided":
         raise ValueError(
             "XK10 best-current judgment requires a selected reader stance"
@@ -1248,21 +1236,21 @@ def validate_dynamic_gates(packet: Mapping[str, Any]) -> None:
         raise ValueError("XK10 non-decidability requires an undecided reader stance")
     action_ranking = packet.get("action_ranking")
     if isinstance(action_ranking, Mapping):
-        if judgment_kind == "non-decidability" and (
-            action_ranking.get("selection_status") != "undecided"
-            or action_ranking.get("ranking") is not None
-            or action_ranking.get("preferred_option_id") is not None
-            or action_ranking.get("second_option_id") is not None
-        ):
-            raise ValueError(
-                "XK10 non-decidability cannot publish a preferred action"
-            )
-        if judgment_kind == "best-current" and action_ranking.get(
-            "selection_status"
-        ) != ("selected" if action_ranking.get("requested_choice") else "not-requested"):
-            raise ValueError(
-                "action selection status differs from the XK10 judgment"
-            )
+        if action_ranking.get("selection_status") in {"recommended", "selected"}:
+            local_verdicts = {
+                item.get("claim_id"): item
+                for item in verdict.get("claim_verdicts", [])
+                if isinstance(item, Mapping)
+            }
+            supporting = action_ranking.get("supporting_claim_ids")
+            if not isinstance(supporting, list) or not supporting or any(
+                claim_id not in local_verdicts
+                or local_verdicts[claim_id].get("status") not in {"locked", "bounded"}
+                or local_verdicts[claim_id].get("blocking_claim_ids")
+                or local_verdicts[claim_id].get("blocking_evidence_refs")
+                for claim_id in supporting
+            ):
+                raise ValueError("action recommendation depends on an unsupported local judgment")
         problem = packet.get("problem_contract")
         evidence_cutoff = (
             problem.get("evidence_cutoff")
@@ -1862,7 +1850,7 @@ def validate_provenance(packet: Mapping[str, Any], *, mode: str) -> None:
                 raise ValueError(
                     f"provenance refs are missing at facts.{bucket}[{index}]"
                 )
-            if identity not in {"unknown", "v8.2_definition"} and not refs:
+            if identity not in {"unknown", "v8.3_definition"} and not refs:
                 raise ValueError(
                     f"provenance refs are empty at facts.{bucket}[{index}]"
                 )
@@ -1907,9 +1895,9 @@ def validate_provenance(packet: Mapping[str, Any], *, mode: str) -> None:
     for path, value in _walk(packet):
         if not isinstance(value, Mapping):
             continue
-        if _externally_redefines_v82(value):
+        if _externally_redefines_v83(value):
             raise ValueError(
-                f"external evidence cannot redefine v8.2 at {path}"
+                f"external evidence cannot redefine v8.3 at {path}"
             )
         identity = value.get("identity") or value.get("fact_identity") or value.get("kind")
         if identity in FACT_IDENTITIES:
@@ -2075,7 +2063,7 @@ def validate_packet_references(
         Path(repository_root)
         / "references"
         / "source"
-        / "v8.2"
+        / "v8.3"
         / "indexes"
         / "anchors.json"
     )
@@ -2292,18 +2280,18 @@ def validate_packet_references(
             identity = record.get("identity")
             source_refs = record.get("source_refs")
             if (
-                identity == "v8.2_definition"
+                identity == "v8.3_definition"
                 and isinstance(source_refs, list)
                 and not set(source_refs).issubset(source_anchor_ids)
             ):
                 raise ValueError("source anchor does not resolve")
             if (
-                identity != "v8.2_definition"
+                identity != "v8.3_definition"
                 and isinstance(source_refs, list)
                 and not set(source_refs).issubset(source_ids)
             ):
                 raise ValueError("fact source reference does not resolve")
-            if identity != "v8.2_definition" and isinstance(source_refs, list):
+            if identity != "v8.3_definition" and isinstance(source_refs, list):
                 for source_id in source_refs:
                     origin = source_origins.get(source_id)
                     if identity == "external_fact" and origin != "external":
@@ -2593,13 +2581,13 @@ def validate_packet_references(
             continue
         source_refs = record.get("source_refs")
         if (
-            record.get("kind") == "v8.2_definition"
+            record.get("kind") == "v8.3_definition"
             and isinstance(source_refs, list)
             and not set(source_refs).issubset(source_anchor_ids)
         ):
             raise ValueError("source anchor does not resolve")
         if (
-            record.get("kind") != "v8.2_definition"
+            record.get("kind") != "v8.3_definition"
             and isinstance(source_refs, list)
             and not set(source_refs).issubset(source_ids)
         ):
@@ -2930,6 +2918,61 @@ def _validate_problem_and_runtime_binding(
         raise ValueError("runtime binding stance neutrality key is invalid")
 
 
+def validate_delivery_binding(packet: Mapping[str, Any]) -> None:
+    problem = packet.get("problem_contract")
+    kind = packet.get("deliverable_type")
+    if (
+        not isinstance(problem, Mapping)
+        or kind not in DELIVERABLE_TYPES
+        or kind != problem.get("deliverable_type")
+    ):
+        raise ValueError("deliverable_type differs from the frozen problem contract")
+    sections = packet.get("reader_sections")
+    if not isinstance(sections, list) or not sections:
+        raise ValueError("reader_sections must contain the complete authored answer")
+    from jsonschema import Draft202012Validator
+    section_schema = read_json(
+        Path(__file__).resolve().parents[2] / "schemas" / "xk-reader-sections.schema.json"
+    )
+    section_errors = list(Draft202012Validator(section_schema).iter_errors(sections))
+    if section_errors:
+        raise ValueError(f"reader_sections are invalid: {section_errors[0].message}")
+    if packet.get("dynamic_applicability") == "not_applicable":
+        for section_index, section in enumerate(sections):
+            prose_values = [section["local_judgment"], *section["paragraphs"]]
+            for paragraph_index, text in enumerate(prose_values):
+                if _asserts_dynamic_order_narrative(text):
+                    raise ValueError(
+                        "static packet cannot assert dynamic order narrative: "
+                        f"reader_sections[{section_index}].paragraph[{paragraph_index}]"
+                    )
+    delivery = packet.get("answer_delivery")
+    if delivery is None:
+        return
+    if not isinstance(delivery, Mapping) or delivery.get("visible_mode") not in {"full", "brief"}:
+        raise ValueError("answer_delivery has an invalid visible_mode")
+    if delivery["visible_mode"] == "brief":
+        question = str(problem.get("question", ""))
+        evidence = delivery.get("explicit_user_request")
+        brief = delivery.get("brief_text")
+        if (
+            not isinstance(evidence, str)
+            or not evidence.strip()
+            or evidence not in question
+            or not isinstance(brief, str)
+            or not brief.strip()
+            or re.search(r"(?:不要|不得|不能|无需|不必).{0,6}(?:简答|缩略|压缩|摘要)", question)
+            or not re.search(
+                r"简答|简短|简要|摘要|压缩|(?:不超过|最多|限)[^。！？\n]{0,12}(?:字|句)|\bbrief\b|\bconcise\b|\bsummary\b|\bunder\s+\d+\s+words\b",
+                evidence,
+                re.IGNORECASE,
+            )
+        ):
+            raise ValueError("brief projection requires an explicit user request; full sections remain mandatory")
+        if packet.get("dynamic_applicability") == "not_applicable" and _asserts_dynamic_order_narrative(brief):
+            raise ValueError("static packet cannot assert dynamic order narrative in brief projection")
+
+
 def require_packet_contract(
     packet: Mapping[str, Any],
     *,
@@ -2938,8 +2981,8 @@ def require_packet_contract(
 ) -> None:
     if not isinstance(packet, Mapping):
         raise ValueError("analysis packet must be an object")
-    if packet.get("schema_id") != "xi-kari.v2.analysis-packet" or packet.get("schema_version") != 3:
-        raise ValueError("analysis packet must use xi-kari.v2.analysis-packet schema version 3")
+    if packet.get("schema_id") != "xi-kari.v3.analysis-packet" or packet.get("schema_version") != 3:
+        raise ValueError("analysis packet must use xi-kari.v3.analysis-packet schema version 3")
     if "stance" in packet:
         raise ValueError(
             "analysis packet contains unsealed top-level stance; use stance_pair"
@@ -2957,6 +3000,7 @@ def require_packet_contract(
     ):
         if field not in packet:
             raise ValueError(f"analysis packet missing required field: {field}")
+    validate_delivery_binding(packet)
     retrieval = packet.get("retrieval")
     if not isinstance(retrieval, Mapping) or retrieval.get("mode") != mode:
         raise ValueError("analysis packet retrieval mode differs from the run contract")
@@ -3072,7 +3116,7 @@ def build_phase_artifact_bindings(
 def expected_phase_artifact_paths(
     phase: str,
     *,
-    contract_profile: str = LEGACY_CONTRACT_PROFILE,
+    contract_profile: str = PRODUCTION_CONTRACT_PROFILE,
     mode: str | None = None,
 ) -> tuple[str, ...]:
     paths = {

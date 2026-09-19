@@ -9,11 +9,12 @@ from typing import Any
 
 from .canonical_json import atomic_write_text, sha256_file
 from .contracts import DYNAMIC_PHASE_FIELDS
-from .retrieval import ADMITTED_ASSESSMENT_VERDICTS, _normalise_lineage_token
+from .retrieval import _normalise_lineage_token
 from .semantic_projection import (
     INTERNAL_ID_TOKEN,
+    authored_reader_units,
     redact_payload_for_delivery,
-    render_semantic_projection,
+    validate_reader_sections,
 )
 
 
@@ -26,7 +27,7 @@ MACHINE_TOKENS = (
 )
 PHASE_TOKEN = re.compile(r"(?<![A-Za-z0-9_-])XK(?:[0-9]|1[0-2])(?![A-Za-z0-9_-])", re.IGNORECASE)
 CONCEPT_TOKEN = re.compile(
-    r"(?<![A-Za-z0-9_-])(?:V82|XK-PROV)-[A-Za-z0-9-]+(?![A-Za-z0-9_-])",
+    r"(?<![A-Za-z0-9_-])(?:V[0-9]+|XK-PROV)-[A-Za-z0-9-]+(?![A-Za-z0-9_-])",
     re.IGNORECASE,
 )
 HOST_CAPTURE_ID_TOKEN = re.compile(
@@ -50,16 +51,6 @@ EXPLANATION_CUE = re.compile(
     r"(?:也就是|是指|意味着|例如|比如|因为|所以|如果|那么|通过|导致|使得|"
     r"表现为|具体来说|换句话说|：|:)"
 )
-IDENTITY_LABELS = {
-    "external_fact": "外部事实",
-    "user_material": "用户材料",
-    "source_claim": "来源主张",
-    "model_inference": "模型推断",
-    "conditional_scenario": "条件情景",
-    "structural_analogy": "结构类比",
-    "unknown": "未知",
-    "v8.2_definition": "v8.2 定义",
-}
 CASE_LABELS = {
     "documented_real_case": "有记录的现实案例",
     "documented-real": "有记录的现实案例",
@@ -67,20 +58,6 @@ CASE_LABELS = {
     "conditional_scenario": "条件情景",
     "conditional-scenario": "条件情景",
     "structural_analogy": "结构类比",
-}
-ACTION_LABELS = {
-    "active": "主动行动",
-    "delay": "等待",
-    "probe": "可逆试探",
-    "exit-or-transfer": "退出或转移",
-    "maintain-status-quo": "维持现状",
-    "no-action": "不行动",
-}
-REVERSIBILITY_LABELS = {
-    "none": "不可逆",
-    "low": "较低",
-    "medium": "中等",
-    "high": "较高",
 }
 EVIDENCE_IDENTITY_LABELS = {
     "observed": "直接观察",
@@ -178,14 +155,6 @@ def _items(values: Any, *, fallback: str = "暂无。") -> str:
     return "\n".join(rendered)
 
 
-def _source_lookup(payload: dict[str, Any]) -> dict[str, dict[str, Any]]:
-    return {
-        source["source_id"]: source
-        for source in _list(payload.get("sources"))
-        if isinstance(source, dict) and isinstance(source.get("source_id"), str)
-    }
-
-
 def _source_relation_lookup(sources: list[dict[str, Any]]) -> dict[str, dict[str, Any]]:
     candidates: dict[str, list[dict[str, Any]]] = {}
     for source in sources:
@@ -228,59 +197,6 @@ def _source_label(source: dict[str, Any]) -> str:
     )
 
 
-def _reference_labels(refs: Any, sources: dict[str, dict[str, Any]]) -> list[str]:
-    labels: list[str] = []
-    for reference in _list(refs):
-        if reference in sources:
-            labels.append(_source_label(sources[reference]))
-    return _dedupe(labels)
-
-
-def _fact_text(payload: dict[str, Any]) -> str:
-    facts = payload.get("facts", {})
-    if not isinstance(facts, dict):
-        return "- 事实身份尚未整理；当前判断必须降档。"
-    sources = _source_lookup(payload)
-    bucket_labels = {
-        "known": "已知与可核验材料",
-        "claimed": "材料中的说法",
-        "inferred": "分析推断",
-        "unknown": "仍然未知",
-    }
-    chunks: list[str] = []
-    for bucket, heading in bucket_labels.items():
-        chunks.append(f"### {heading}")
-        entries = _list(facts.get(bucket))
-        if not entries:
-            chunks.append("- 暂无。")
-            continue
-        for entry in entries:
-            if isinstance(entry, dict):
-                identity = IDENTITY_LABELS.get(entry.get("identity"), "身份未标明")
-                refs = entry.get("source_refs", entry.get("evidence_refs"))
-                labels = _reference_labels(refs, sources)
-                boundary = f"；来源：{'、'.join(labels)}" if labels else ""
-                chunks.append(f"- {_plain(entry)}（{identity}{boundary}）")
-            else:
-                chunks.append(f"- {_plain(entry)}（身份未标明）")
-    return "\n\n".join(chunks)
-
-
-def _mechanism_text(mechanisms: list[dict[str, Any]]) -> str:
-    if not mechanisms:
-        return "这个问题不需要动态机制推演；现有回答只处理事实边界。"
-    chunks: list[str] = []
-    for index, mechanism in enumerate(mechanisms, start=1):
-        chunks.append(
-            f"### 解释 {index}：{mechanism.get('name', '未命名解释')}\n\n"
-            f"{mechanism.get('explanation', '尚无足够说明。')}\n\n"
-            f"成立条件：{_joined(mechanism.get('conditions'))}。\n\n"
-            f"反向机制：{_fragment(mechanism.get('countermechanism'), '出现相反的可核验变化')}。\n\n"
-            f"失败条件：{_fragment(mechanism.get('failure_condition'), '出现相反的可核验事实')}。"
-        )
-    return "\n\n".join(chunks)
-
-
 def _reader_mechanisms(payload: dict[str, Any]) -> list[dict[str, Any]]:
     explicit = [item for item in _list(payload.get("mechanisms")) if isinstance(item, dict)]
     graph = payload.get("claim_mechanism_graph", {})
@@ -309,49 +225,6 @@ def _reader_mechanisms(payload: dict[str, Any]) -> list[dict[str, Any]]:
     return combined
 
 
-def _basis_text(payload: dict[str, Any]) -> str:
-    answer = payload.get("answer", {})
-    references = _list(answer.get("basis_refs") if isinstance(answer, dict) else None)
-    evidence = payload.get("evidence", {})
-    graph = payload.get("claim_mechanism_graph", {})
-    claims: dict[str, dict[str, Any]] = {}
-    mechanisms: dict[str, dict[str, Any]] = {}
-    if isinstance(evidence, dict):
-        claims.update(
-            {
-                item["claim_id"]: item
-                for item in _list(evidence.get("claims"))
-                if isinstance(item, dict) and isinstance(item.get("claim_id"), str)
-            }
-        )
-    if isinstance(graph, dict):
-        claims.update(
-            {
-                item["claim_id"]: item
-                for item in _list(graph.get("claims"))
-                if isinstance(item, dict) and isinstance(item.get("claim_id"), str)
-            }
-        )
-        mechanisms.update(
-            {
-                item["mechanism_id"]: item
-                for item in _list(graph.get("mechanisms"))
-                if isinstance(item, dict)
-                and isinstance(item.get("mechanism_id"), str)
-            }
-        )
-    lines: list[str] = []
-    for reference in references:
-        claim = claims.get(reference)
-        if claim is not None:
-            lines.append(_plain(claim, ""))
-            continue
-        mechanism = mechanisms.get(reference)
-        if mechanism is not None:
-            lines.append(_plain(mechanism.get("name"), ""))
-    return _items(_dedupe([line for line in lines if line]), fallback="- 当前没有登记可公开的关键依据。")
-
-
 def _case_records(payload: dict[str, Any]) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
     ledger = payload.get("case_ledger", {})
     cases = [item for item in _list(ledger.get("cases") if isinstance(ledger, dict) else None) if isinstance(item, dict)]
@@ -363,29 +236,6 @@ def _case_records(payload: dict[str, Any]) -> tuple[list[dict[str, Any]], list[d
     if not cases:
         cases = [item for item in _list(payload.get("cases")) if isinstance(item, dict)]
     return cases, countercases
-
-
-def _case_text(payload: dict[str, Any]) -> str:
-    cases, countercases = _case_records(payload)
-    chunks: list[str] = []
-    if not cases:
-        chunks.append("- 当前没有可核验案例；若用条件情景，必须另行标明。")
-    for case in cases:
-        label = CASE_LABELS.get(case.get("kind"), "案例身份未明确")
-        boundary = case.get("boundary") or _joined(case.get("cannot_prove"), fallback="不能单独证明普遍因果")
-        chunks.append(
-            f"- **{label}**：{_fragment(case)}。边界：{_fragment(boundary)}。"
-        )
-    if countercases:
-        chunks.append("\n### 反例与失效案例")
-    for case in countercases:
-        chunks.append(
-            f"- 条件：{_joined(case.get('conditions'))}；"
-            f"预期信号：{_fragment(case.get('expected_signal'))}；"
-            f"反向信号：{_fragment(case.get('reverse_signal'))}；"
-            f"对判断的影响：{_fragment(case.get('decision_impact'))}。"
-        )
-    return "\n".join(chunks)
 
 
 def _normalized_order(value: dict[str, Any]) -> dict[str, Any]:
@@ -539,153 +389,6 @@ def _selected_stance_pair(
     )
 
 
-def _stance_text(payload: dict[str, Any]) -> str:
-    stance = (
-        payload.get("stance_pair")
-        if isinstance(payload.get("stance_pair"), dict)
-        else {}
-    )
-    selected, rival, undecided = _selected_stance_pair(payload)
-    red_team = payload.get("red_team", {})
-    attack = red_team.get("strongest_attack") if isinstance(red_team, dict) else None
-    if undecided:
-        position = stance.get("position", {}) if isinstance(stance, dict) else {}
-        counterposition = (
-            stance.get("counterposition", {}) if isinstance(stance, dict) else {}
-        )
-        attack_line = (
-            f"\n\n红队最强攻击：{_fragment(attack)}。" if attack else ""
-        )
-        return (
-            f"当前未定选判断：{_fragment(selected.get('claim'), '现有材料不足以定选')}。\n\n"
-            f"**待比较立场一**：{_fragment(position.get('claim'), '尚未形成')}。\n\n"
-            f"**待比较立场二**：{_fragment(counterposition.get('claim'), '尚未形成')}。"
-            f"{attack_line}\n\n"
-            f"未定选原因：{_fragment(stance.get('selection_reason'), '两侧证据尚不能稳定区分')}。\n\n"
-            f"改变未定选状态的条件：{_joined(stance.get('switch_conditions'))}。"
-        )
-    rival_claim = rival.get("claim")
-    rival_limits = rival.get("limits", [])
-    attack_line = ""
-    if attack and _fragment(attack) != _fragment(rival_claim, ""):
-        attack_line = f"\n\n红队最强攻击：{_fragment(attack)}。"
-    return (
-        f"当前较强判断：{_fragment(selected.get('claim'), _fragment(payload.get('answer', {}).get('direct_answer')))}。\n\n"
-        f"**最强反方**：{_fragment(rival_claim or attack, '目前还没有形成可检验的最强反方')}。"
-        f"{attack_line}\n\n"
-        f"反方边界：{_joined(rival_limits)}。\n\n"
-        f"暂时选择当前判断，是因为：{_fragment(stance.get('selection_reason') if isinstance(stance, dict) else None, '现有材料对当前解释的直接支持更多')}。\n\n"
-        f"切换条件：{_joined(stance.get('switch_conditions') if isinstance(stance, dict) else None)}。"
-    )
-
-
-def _signal_text(payload: dict[str, Any]) -> str:
-    path, _ = _reader_order_path(payload)
-    early: list[str] = []
-    reverse: list[str] = []
-    failures: list[str] = []
-    for item in path:
-        early.extend(_plain(value, "") for value in _list(item.get("early_signal")))
-        reverse.extend(_plain(value, "") for value in _list(item.get("reverse_signal")))
-        failures.append(_plain(item.get("failure_condition"), ""))
-    forecast = payload.get("forecast", {})
-    if isinstance(forecast, dict):
-        early.extend(_plain(value, "") for value in _list(forecast.get("early_signals")))
-        reverse.extend(_plain(value, "") for value in _list(forecast.get("reverse_signals")))
-    red_team = payload.get("red_team", {})
-    if isinstance(red_team, dict):
-        reverse.extend(
-            _plain(value, "")
-            for value in _list(red_team.get("reverse_signals"))
-        )
-    failures.extend(
-        _plain(item.get("failure_condition"), "")
-        for item in _reader_mechanisms(payload)
-    )
-    answer = payload.get("answer", {})
-    withdrawal = answer.get("withdrawal_conditions", []) if isinstance(answer, dict) else []
-    return (
-        f"- 早期信号：{_joined(_dedupe([value for value in early if value]))}\n"
-        f"- 反向信号：{_joined(_dedupe([value for value in reverse if value]))}\n"
-        f"- 失败条件：{_joined(_dedupe([value for value in failures if value]))}\n"
-        f"- 撤回条件：{_joined(withdrawal)}"
-    )
-
-
-def _verdict_text(payload: dict[str, Any]) -> str:
-    verdict = payload.get("verdict")
-    if not isinstance(verdict, dict):
-        return ""
-    if verdict.get("judgment_kind") == "non-decidability":
-        boundary = verdict.get("non_decidability")
-        if not isinstance(boundary, dict):
-            return ""
-        return (
-            f"当前不能定选：{_fragment(boundary.get('reason'))}。\n\n"
-            f"仍缺少：{_joined(boundary.get('missing_inputs'))}。"
-        )
-    current = verdict.get("current_best_judgment")
-    if not isinstance(current, dict):
-        return ""
-    return (
-        f"当前最佳命题：{_fragment(current.get('proposition'))}。\n\n"
-        f"适用时间窗：{_fragment(current.get('time_window'))}。\n\n"
-        f"撤回条件：{_joined(current.get('withdrawal_conditions'))}。\n\n"
-        f"行动上限：{_fragment(current.get('action_ceiling'))}。"
-    )
-
-
-def _action_text(payload: dict[str, Any]) -> str:
-    answer = payload.get("answer", {})
-    ranking = payload.get("action_ranking", {})
-    if not isinstance(ranking, dict) or not _list(ranking.get("options")):
-        return (
-            f"建议：{_joined(answer.get('actions') if isinstance(answer, dict) else None, fallback='先补充区分性材料')}。\n\n"
-            f"授权上限：{_fragment(answer.get('action_ceiling') if isinstance(answer, dict) else None, '分析不产生现实授权')}。"
-        )
-    options = [item for item in _list(ranking.get("options")) if isinstance(item, dict)]
-    option_by_id = {item.get("option_id"): item for item in options}
-    ordered = [option_by_id[item] for item in _list(ranking.get("ranking")) if item in option_by_id]
-    ordered.extend(item for item in options if item not in ordered)
-    preferred = ranking.get("preferred_option_id")
-    chunks: list[str] = []
-    for option in ordered:
-        label = ACTION_LABELS.get(option.get("kind"), "其他方案")
-        preferred_note = "（当前首选）" if option.get("option_id") == preferred else ""
-        authorization = (
-            "输入材料记录了该行动的有限授权；本分析不扩大授权"
-            if option.get("authorized") is True
-            else "本次分析不构成该行动的授权"
-        )
-        validity = option.get("validity_interval")
-        if isinstance(validity, dict):
-            validity_text = (
-                f"{_fragment(validity.get('starts_at'))} 至 "
-                f"{_fragment(validity.get('ends_at'))}"
-            )
-        else:
-            validity_text = "未登记有效期"
-        chunks.append(
-            f"### {label}{preferred_note}\n\n"
-            f"{_fragment(option.get('description'))}。\n\n"
-            f"- 受影响者：{_joined(option.get('affected_positions'), fallback='仍需识别')}\n"
-            f"- 目标、地域与有效期：{_fragment(option.get('target_object'))}；"
-            f"{_fragment(option.get('territory'))}；{validity_text}\n"
-            f"- 成本与锁定风险：{_joined(option.get('costs'))}；{_joined(option.get('lock_in_risks'))}\n"
-            f"- 可逆性与信息价值：{REVERSIBILITY_LABELS.get(option.get('reversibility'), _plain(option.get('reversibility')))}；{_fragment(option.get('information_value'))}\n"
-            f"- 执行者与授权：{_fragment(option.get('executor'))}；{authorization}\n"
-            f"- 停止：{_joined(option.get('stop_conditions'))}\n"
-            f"- 回滚：{_fragment(option.get('rollback'))}\n"
-            f"- 申诉：{_fragment(option.get('appeal'))}\n"
-            f"- 补救：{_fragment(option.get('remedy'))}"
-        )
-    chunks.append(
-        f"授权上限：{_fragment(answer.get('action_ceiling') if isinstance(answer, dict) else None, '分析不产生现实授权')}。\n\n"
-        f"若不行动：{_joined(ranking.get('no_action_consequences'))}。"
-    )
-    return "\n\n".join(chunks)
-
-
 def _source_lines(
     sources: list[dict[str, Any]], assessments: list[dict[str, Any]] | None = None
 ) -> str:
@@ -697,7 +400,7 @@ def _source_lines(
         "user": "用户材料",
         "user_material": "用户材料",
         "provided": "给定材料",
-        "v8.2": "v8.2 源材料",
+        "v8.3": "v8.3 源材料",
     }
     verdict_labels = {
         "admitted": "暂时采用",
@@ -763,151 +466,67 @@ def _source_lines(
 
 
 def render_answer(payload: dict[str, Any]) -> str:
+    """Render the full authored argument; sections are never shortened by the renderer."""
+
     payload = _public_payload(payload)
     answer = payload.get("answer", {})
-    mechanisms = _reader_mechanisms(payload)
-    stance = payload.get("stance_pair", {})
-    static = payload.get("dynamic_applicability") == "not_applicable"
-    stance_section = ""
-    if not static:
-        stance_heading = (
-            "## 两种待比较立场与未定选条件"
-            if isinstance(stance, dict) and stance.get("preferred") == "undecided"
-            else "## 另一种解释：最强反方与当前选择"
-        )
-        stance_section = f"{stance_heading}\n\n{_stance_text(payload)}\n\n"
-    verdict_text = _verdict_text(payload)
-    verdict_section = (
-        f"## 裁决边界\n\n{verdict_text}\n\n" if verdict_text else ""
-    )
-    semantic_projection = "" if static else render_semantic_projection(payload)
-    semantic_section = (
-        "## 局部世界、三类变换与完整竞争分支\n\n"
-        f"{semantic_projection}\n\n"
-        if semantic_projection
-        else ""
-    )
-    return (
-        "# 回答\n\n"
-        f"{answer.get('direct_answer', '现有材料还不足以给出可靠结论。')}\n\n"
-        f"判断强度：{_plain(answer.get('judgment_strength'), '当前无法定档')}。\n\n"
-        "## 事实与证据边界\n\n"
-        f"{_fact_text(payload)}\n\n"
-        "## 支撑当前判断的关键依据\n\n"
-        f"{_basis_text(payload)}\n\n"
-        "## 仍未知或需要补证\n\n"
-        f"{_items(answer.get('uncertainties'))}\n\n"
-        "## 竞争机制\n\n"
-        f"{_items(answer.get('why'))}\n\n"
-        f"{_mechanism_text(mechanisms)}\n\n"
-        "## 案例与反例\n\n"
-        f"{_case_text(payload)}\n\n"
-        "## 一至三阶推演\n\n"
-        f"{_order_text(payload)}\n\n"
-        f"{semantic_section}"
-        f"{stance_section}"
-        f"{verdict_section}"
-        "## 什么会改变这个判断：观察、失败与撤回\n\n"
-        f"{_signal_text(payload)}\n\n"
-        "## 行动边界\n\n"
-        f"{_action_text(payload)}\n\n"
-        f"{answer.get('closing', '取得新证据后再复核。')}\n\n"
-        "## 来源\n\n"
-        f"{_source_lines(payload.get('sources', []), payload.get('assessments', []))}\n"
-    )
+    chunks = ["# 回答", _plain(answer.get("direct_answer"), "现有材料还不足以给出可靠结论。")]
+    for section in payload.get("reader_sections", []):
+        if not isinstance(section, dict):
+            continue
+        heading = section.get("heading")
+        if isinstance(heading, str) and heading.strip():
+            chunks.append(f"## {heading.strip()}")
+        for paragraph in [section.get("local_judgment"), *section.get("paragraphs", [])]:
+            if isinstance(paragraph, str) and paragraph.strip():
+                chunks.append(paragraph.strip())
+    sources = payload.get("sources", [])
+    if sources:
+        chunks.extend(("## 来源", _source_lines(sources, payload.get("assessments", []))))
+    closing = answer.get("closing")
+    if isinstance(closing, str) and closing.strip():
+        chunks.append(closing.strip())
+    return "\n\n".join(chunks) + "\n"
+
+
+def render_chat_projection(payload: dict[str, Any]) -> str:
+    """The normal chat view is the complete file; only an explicit request permits a brief view."""
+
+    payload = _public_payload(payload)
+    delivery = payload.get("answer_delivery", {})
+    if not isinstance(delivery, dict) or delivery.get("visible_mode", "full") == "full":
+        return render_answer(payload)
+    if delivery.get("visible_mode") != "brief":
+        raise ValueError("unknown visible delivery mode")
+    if not isinstance(delivery.get("explicit_user_request"), str) or not delivery["explicit_user_request"].strip():
+        raise ValueError("brief projection requires an explicit user request")
+    question = payload.get("problem_contract", {}).get("question", payload.get("question", ""))
+    if delivery["explicit_user_request"] not in question:
+        raise ValueError("explicit brief request must occur in the bound user question")
+    text = delivery.get("brief_text")
+    if not isinstance(text, str) or not text.strip():
+        raise ValueError("brief projection requires visible text")
+    return text.strip() + "\n"
 
 
 def reader_contract_gaps(payload: dict[str, Any], text: str) -> list[str]:
     """Report user-visible omissions without treating prose length as proof."""
 
+    section_errors = validate_reader_sections(payload)
     payload = _public_payload(payload)
     applicability = payload.get("dynamic_applicability")
     if applicability not in {"applicable", "not_applicable"}:
         return []
-    gaps: list[str] = []
-    answer = payload.get("answer", {})
-    direct = answer.get("direct_answer") if isinstance(answer, dict) else None
+    gaps: list[str] = list(section_errors)
+    for unit in authored_reader_units(payload):
+        for fragment in unit["fragments"]:
+            if fragment not in text:
+                gaps.append(f"full body paragraph is absent: {unit['unit_id']}")
+    direct = payload.get("answer", {}).get("direct_answer")
     if not isinstance(direct, str) or direct not in text:
         gaps.append("direct judgment is absent")
-    facts = payload.get("facts", {})
-    sources = _source_lookup(payload)
-    assessment_verdicts = {
-        assessment.get("source_id"): assessment.get("verdict")
-        for assessment in _list(payload.get("assessments"))
-        if isinstance(assessment, dict)
-    }
-    if isinstance(facts, dict):
-        for bucket, entries in facts.items():
-            for index, entry in enumerate(_list(entries)):
-                if isinstance(entry, dict) and entry.get("identity") in IDENTITY_LABELS:
-                    if IDENTITY_LABELS[entry["identity"]] not in text:
-                        gaps.append(f"fact identity is absent: {entry['identity']}")
-                    if entry["identity"] in {"external_fact", "source_claim", "user_material"}:
-                        refs = entry.get("source_refs", entry.get("evidence_refs"))
-                        labels = _reference_labels(refs, sources)
-                        if not labels or any(label not in text for label in labels):
-                            gaps.append(
-                                f"nearby source is absent for fact identity: {entry['identity']}"
-                            )
-                        for source_id in _list(refs):
-                            verdict = assessment_verdicts.get(source_id)
-                            if verdict not in ADMITTED_ASSESSMENT_VERDICTS:
-                                gaps.append(
-                                    "public fact source is non-admitted: "
-                                    f"facts.{bucket}[{index}] -> {source_id} ({verdict})"
-                                )
-    if applicability == "not_applicable":
-        if "三阶推演不适用" not in text:
-            gaps.append("static answer does not decline three-order inference")
-        reason = payload.get("not_applicable_reason")
-        if isinstance(reason, str) and reason not in text:
-            gaps.append("not-applicable reason is absent")
-        return _dedupe(gaps)
-
-    mechanisms = _reader_mechanisms(payload)
-    if len(mechanisms) < 2:
-        gaps.append("fewer than two competing mechanisms")
-    for mechanism in mechanisms[:2]:
-        if _plain(mechanism.get("name")) not in text:
-            gaps.append("a competing mechanism is absent from the answer")
-        if "失败条件" not in text:
-            gaps.append("mechanism failure conditions are absent")
-    cases, countercases = _case_records(payload)
-    if not cases:
-        gaps.append("case is absent")
-    if not countercases:
-        gaps.append("countercase is absent")
-    if "反例" not in text:
-        gaps.append("countercase is absent from the answer")
-    for label in ORDER_LABELS.values():
-        if label not in text:
-            gaps.append(f"{label} path is absent")
-    for marker in ("早期信号", "反向信号", "失败条件", "撤回条件"):
-        if marker not in text:
-            gaps.append(f"{marker} is absent")
-    stance = (
-        payload.get("stance_pair")
-        if isinstance(payload.get("stance_pair"), dict)
-        else {}
-    )
-    red_team = payload.get("red_team", {})
-    counter = stance.get("counterposition") if isinstance(stance, dict) else None
-    attack = red_team.get("strongest_attack") if isinstance(red_team, dict) else None
-    if stance.get("preferred") == "undecided":
-        for marker in ("待比较立场一", "待比较立场二", "未定选原因"):
-            if marker not in text:
-                gaps.append(f"undecided stance marker is absent: {marker}")
-    else:
-        if not attack and not (isinstance(counter, dict) and counter.get("claim")):
-            gaps.append("strongest counterposition is absent")
-        if "最强反方" not in text:
-            gaps.append("strongest counterposition is absent from the answer")
-    ranking = payload.get("action_ranking")
-    if not isinstance(ranking, dict) or not _list(ranking.get("options")):
-        gaps.append("action comparison and controls are absent")
-    for marker in ("授权", "停止", "回滚", "申诉", "补救"):
-        if marker not in text:
-            gaps.append(f"action {marker} boundary is absent")
+    # Natural sections carry their own wording. Requiring the former fixed
+    # headings would force authored arguments back into the renderer's template.
     return _dedupe(gaps)
 
 
@@ -1104,7 +723,7 @@ def build_reader_trace(
                     }
                 )
     return {
-        "schema_id": "xi-kari.v2.reader-trace",
+        "schema_id": "xi-kari.v3.reader-trace",
         "schema_version": 3,
         "outputs": output_bindings,
         "entries": entries,
@@ -1156,10 +775,13 @@ def check_plain_language(text: str) -> list[str]:
 
 def build_prose_plan(*, run_id: str, payload: dict[str, Any], coverage: dict[str, Any]) -> dict[str, Any]:
     return {
-        "schema_id": "xi-kari.v2.prose-plan",
+        "schema_id": "xi-kari.v3.prose-plan",
         "schema_version": 3,
         "run_id": run_id,
         "formats": ["answer", "dossier", "atlas", "casebook"],
+        "deliverable_type": payload.get("deliverable_type", payload.get("problem_contract", {}).get("deliverable_type", "analysis")),
+        "delivery_mode": "full",
+        "reader_sections": payload.get("reader_sections", []),
         "reader_beats": [
             "direct_plain_answer",
             "fact_and_uncertainty_boundary",

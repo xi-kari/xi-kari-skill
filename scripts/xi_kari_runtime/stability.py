@@ -143,7 +143,7 @@ def build_stance_stability_report(
     if not stable:
         raise ValueError("fresh semantic stance pair is not evidence-invariant")
     return {
-        "schema_id": "xi-kari.v2.stance-stability-report",
+        "schema_id": "xi-kari.v3.stance-stability-report",
         "schema_version": 3,
         "run_id": contract["run_id"],
         "input_packet_sha256": sha256_file(packet_path),
@@ -359,7 +359,7 @@ def build_sensitivity_report(
         },
     ]
     return {
-        "schema_id": "xi-kari.v2.sensitivity-report",
+        "schema_id": "xi-kari.v3.sensitivity-report",
         "schema_version": 3,
         "run_id": contract["run_id"],
         "input_packet_sha256": sha256_file(packet_path),

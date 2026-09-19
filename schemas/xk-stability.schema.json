@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://xi-kari.local/schemas/xi-kari.v2.stability.schema.json",
-  "title": "Xi-Kari v2 fresh semantic stance stability",
+  "$id": "https://xi-kari.local/schemas/xi-kari.v3.stability.schema.json",
+  "title": "Xi-Kari v3 fresh semantic stance stability",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -15,7 +15,7 @@
     "stable"
   ],
   "properties": {
-    "schema_id": {"const": "xi-kari.v2.stance-stability-report"},
+    "schema_id": {"const": "xi-kari.v3.stance-stability-report"},
     "schema_version": {"const": 3},
     "run_id": {"type": "string", "minLength": 1},
     "input_packet_sha256": {"$ref": "#/$defs/sha256"},

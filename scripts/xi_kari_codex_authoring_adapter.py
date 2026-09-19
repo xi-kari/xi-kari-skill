@@ -24,19 +24,25 @@ from xi_kari_runtime.canonical_json import (
     canonical_dumps,
     read_json_text,
     sha256_file,
+    sha256_bytes,
     sha256_json,
 )
 
+from xi_kari_runtime.output_transport import (
+    COMPLETION_NOTICE, SEMANTIC_OUTPUT_FILENAME, OUTPUT_TRANSPORT,
+    parse_provider_events, read_semantic_output,
+)
 
-ADAPTER_PROTOCOL = "xi-kari.v2.codex-semantic-authoring-adapter/v1"
-PROVIDER_PROTOCOL = "xi-kari.v2.codex-provider-binding/v1"
+
+ADAPTER_PROTOCOL = "xi-kari.v3.codex-semantic-authoring-adapter/v1"
+PROVIDER_PROTOCOL = "xi-kari.v3.codex-provider-binding/v1"
 MODEL = os.environ.get("XI_KARI_PROVIDER_MODEL", "gpt-5.6-sol")
 REASONING_EFFORT = os.environ.get("XI_KARI_REASONING_EFFORT", "")
 PROVIDER_BASE_URL = os.environ.get("XI_KARI_PROVIDER_BASE_URL", "")
 PROVIDER_WIRE_API = os.environ.get("XI_KARI_PROVIDER_WIRE_API", "responses")
 PROVIDER_NAME = "xi_kari_local"
 APPROVAL_POLICY = "never"
-SANDBOX = "read-only"
+SANDBOX = "workspace-write"
 WEB_SEARCH = "disabled"
 MAX_REQUEST_BYTES = 256 * 1024
 MAX_PROMPT_BYTES = MAX_REQUEST_BYTES + 16 * 1024
@@ -49,6 +55,9 @@ OUTPUT_SCHEMA = (
     REPOSITORY_ROOT / "schemas/xk-codex-semantic-authoring-output.schema.json"
 )
 SEMANTIC_FIELDS = (
+    "deliverable_type",
+    "reader_sections",
+    "answer_delivery",
     "problem_contract",
     "dynamic_applicability",
     "facts",
@@ -84,6 +93,7 @@ PROBLEM_FIELDS = (
     "requested_stance",
     "problem_action",
     "advice_requested",
+    "deliverable_type",
 )
 PROBLEM_STRING_FIELDS = tuple(
     field
@@ -91,6 +101,7 @@ PROBLEM_STRING_FIELDS = tuple(
     if field not in {"problem_action", "advice_requested"}
 )
 PROBLEM_ACTIONS = {"explain", "compare", "infer", "choose", "express"}
+DELIVERABLE_TYPES = {"analysis", "decision", "charter", "plan", "critique"}
 PROVIDER_FIELDS = {
     "protocol",
     "repository_root",
@@ -251,12 +262,20 @@ def _expected_argv(executable: Path) -> list[str]:
         f'web_search="{WEB_SEARCH}"',
         "--config",
         f'approval_policy="{APPROVAL_POLICY}"',
+        "--config",
+        "sandbox_workspace_write.exclude_tmpdir_env_var=true",
+        "--config",
+        "sandbox_workspace_write.exclude_slash_tmp=true",
+        "--config",
+        "sandbox_workspace_write.writable_roots=[]",
         "--sandbox",
         SANDBOX,
         "--skip-git-repo-check",
         "--color",
         "never",
     ]
+    if os.name == "nt":
+        argv += ["--config", 'windows.sandbox="elevated"']
     return argv
 
 
@@ -322,9 +341,9 @@ def _validate_provider_binding(value: Any) -> tuple[Mapping[str, Any], Path, Pat
     if (
         not isinstance(timeout_seconds, int)
         or isinstance(timeout_seconds, bool)
-        or not 1 <= timeout_seconds <= 3600
+        or not 1 <= timeout_seconds <= 7200
     ):
-        raise AdapterError("provider_binding timeout_seconds must be 1-3600")
+        raise AdapterError("provider_binding timeout_seconds must be 1-7200")
     repository_root = _ordinary_path(
         binding.get("repository_root"), kind="repository_root"
     )
@@ -361,7 +380,7 @@ def _validate_semantic_request(
         request.get("problem_contract"), field="semantic_request.problem_contract"
     )
     if (
-        request.get("schema_id") != "xi-kari.v2.semantic-authoring-request"
+        request.get("schema_id") != "xi-kari.v3.semantic-authoring-request"
         or request.get("schema_version") != 1
         or variant_kind not in VARIANT_STANCES
         or requested_stance != VARIANT_STANCES.get(variant_kind)
@@ -387,6 +406,8 @@ def _validate_semantic_request(
         raise AdapterError(
             "semantic_request advice_requested must be a boolean"
         )
+    if problem.get("deliverable_type") not in DELIVERABLE_TYPES:
+        raise AdapterError("semantic_request deliverable_type is invalid")
     if variant_kind == "time-window-shift" and request.get("time_window") != (
         "sensitivity-shifted-window"
     ):
@@ -403,7 +424,7 @@ def _validate_semantic_request(
     if (
         set(concept_authority) != CONCEPT_AUTHORITY_FIELDS
         or concept_authority.get("schema_id")
-        != "xi-kari.v2.concept-authority-binding"
+        != "xi-kari.v3.concept-authority-binding"
         or concept_authority.get("schema_version") != 1
         or any(
             not isinstance(concept_authority.get(field), int)
@@ -422,12 +443,12 @@ def _validate_semantic_request(
         )
     ):
         raise AdapterError("semantic_request concept_authority is invalid")
-    expected_reader_root = repository_root / "references/source/v8.2/reader"
+    expected_reader_root = repository_root / "references/source/v8.3/reader"
     expected_manifest = (
-        repository_root / "references/source/v8.2/source-manifest.json"
+        repository_root / "references/source/v8.3/source-manifest.json"
     )
     if (
-        source_inputs.get("source_version") != "v8.2"
+        source_inputs.get("source_version") != "v8.3"
         or source_inputs.get("repository_root") != str(repository_root)
         or source_inputs.get("reader_root") != str(expected_reader_root)
         or source_inputs.get("source_manifest_path") != str(expected_manifest)
@@ -522,10 +543,21 @@ def _load_output_schema() -> tuple[dict[str, Any], str]:
 def _build_prompt(semantic_request: Mapping[str, Any]) -> bytes:
     prompt = (
         "$xi-kari-skill\n"
+        "本次唯一Skill目录是semantic_request.source_inputs.repository_root；"
+        "从该目录读取SKILL.md，不得改用全局安装或其他目录中的同名Skill。"
         "显式调用并严格遵循 Xi-Kari Skill。下面是运行时拥有且已冻结的语义稳定性变体请求。"
-        "只进行该请求要求的独立语义创作；完整读取其绑定的 v8.2 source 与 reader 输入。"
+        "只进行该请求要求的独立语义创作；完整读取其绑定的 v8.3 source 与 reader 输入。"
+        "原文有作者自定义概念，同名不得以常识或其他理论替换；核对定义、适用条件、排除项及源锚点后再判断。"
+        "沿用冻结问题的 deliverable_type，给出中心判断、局部裁决、依据、竞争解释、反方和行动取舍。"
+        "reader_sections 必须保存全部已开展的实质论证，不能按重要性删去次要解释、失败路径、成本、条件或停止理由。"
+        "每节提供 section_id、heading、local_judgment、paragraphs、source_bindings。"
+        "source_bindings 的 source_path 绑定本变体语义字段；paragraph_index 为 0 时指局部判断，为 1..N 时指正文段落；"
+        "excerpt 必须是对应段落的真实摘录并承载该字段的实质含义，不得用链接、编号或标记代替。"
+        "answer_delivery 可缺或为 null；只有用户明确要求简答才声明相应交付方式，变体仍保留完整 reader_sections。"
         "不得自报运行状态、进程、回执、阶段、签名或完成权威。"
-        "最终消息必须且只能是符合 output schema 的一个 JSON 对象。\n\n"
+        "把符合源仓库 schemas/xk-codex-semantic-authoring-output.schema.json 的完整 JSON 写入当前私有工作目录的 semantic-output.json。"
+        "可分批生成并在磁盘合并完整内容；源仓库位于工作目录之外，仅允许读取。"
+        "完成后回读该文件，最后消息只写 SEMANTIC_OUTPUT_READY，不得输出 JSON 或文件路径。\n\n"
         "semantic_request（canonical JSON）：\n"
         f"{canonical_dumps(semantic_request)}\n"
     ).encode("utf-8")
@@ -640,25 +672,27 @@ def _run_codex(
     repository_root: Path,
     executable: Path,
     output_schema_sha256: str,
-) -> bytes:
+) -> tuple[bytes, dict[str, Any]]:
     prompt = _build_prompt(semantic_request)
     environment = os.environ.copy()
     environment.update({"NO_COLOR": "1", "PYTHONDONTWRITEBYTECODE": "1"})
     with tempfile.TemporaryDirectory(
         prefix="xi-kari-codex-authoring-"
     ) as temporary:
-        workspace = Path(temporary)
-        output_path = workspace / "last-message.json"
-        prompt_path = workspace / "prompt.txt"
-        stdout_path = workspace / "codex.stdout"
-        stderr_path = workspace / "codex.stderr"
+        capture_root = Path(temporary)
+        workspace = capture_root / "author-workspace"
+        workspace.mkdir()
+        output_path = workspace / SEMANTIC_OUTPUT_FILENAME
+        notice_path = capture_root / "completion-notice.txt"
+        prompt_path = capture_root / "prompt.txt"
+        stdout_path = capture_root / "codex.stdout.jsonl"
+        stderr_path = capture_root / "codex.stderr"
         prompt_path.write_bytes(prompt)
         command = [
             *binding["argv"],
-            "--output-schema",
-            str(OUTPUT_SCHEMA),
+            "--json",
             "--output-last-message",
-            str(output_path),
+            str(notice_path),
             "-",
         ]
         with (
@@ -668,7 +702,7 @@ def _run_codex(
         ):
             process = subprocess.Popen(
                 _provider_launch_argv(command, executable),
-                cwd=repository_root,
+                cwd=workspace,
                 env=environment,
                 stdin=prompt_handle,
                 stdout=stdout_handle,
@@ -682,18 +716,18 @@ def _run_codex(
                     else 0
                 ),
             )
-            watchdog = _start_watchdog(process.pid, workspace)
+            watchdog = _start_watchdog(process.pid, capture_root)
             deadline = time.monotonic() + int(binding["timeout_seconds"])
             terminal_error: AdapterError | None = None
             try:
                 while process.poll() is None:
                     if _file_size(output_path) > MAX_MODEL_OUTPUT_BYTES:
                         terminal_error = AdapterError(
-                            "Codex last message exceeds the size limit"
+                            "Codex semantic output file exceeds the size limit"
                         )
                         break
                     if (
-                        _file_size(stdout_path) > MAX_DIAGNOSTIC_BYTES
+                        _file_size(stdout_path) > MAX_MODEL_OUTPUT_BYTES
                         or _file_size(stderr_path) > MAX_DIAGNOSTIC_BYTES
                     ):
                         terminal_error = AdapterError(
@@ -716,7 +750,7 @@ def _run_codex(
                 finally:
                     _disarm_watchdog(watchdog)
             if terminal_error is None and (
-                _file_size(stdout_path) > MAX_DIAGNOSTIC_BYTES
+                _file_size(stdout_path) > MAX_MODEL_OUTPUT_BYTES
                 or _file_size(stderr_path) > MAX_DIAGNOSTIC_BYTES
             ):
                 terminal_error = AdapterError(
@@ -740,11 +774,22 @@ def _run_codex(
             diagnostic = _diagnostic_excerpt(stderr_path)
             suffix = f": {diagnostic}" if diagnostic else ""
             raise AdapterError(f"Codex exec exited with status {process.returncode}{suffix}")
-        return _read_regular_file(
-            output_path,
-            limit=MAX_MODEL_OUTPUT_BYTES,
-            label="Codex last-message file",
-        )
+        try:
+            notice = _read_regular_file(notice_path, limit=4096, label="completion notice")
+            raw = read_semantic_output(workspace, notice=notice, limit=MAX_MODEL_OUTPUT_BYTES)
+            events = _read_regular_file(stdout_path, limit=MAX_MODEL_OUTPUT_BYTES, label="provider events")
+            thread_id, _ = parse_provider_events(events)
+        except ValueError as error:
+            raise AdapterError(str(error)) from error
+        execution = {
+            "protocol": OUTPUT_TRANSPORT,
+            "provider_parent_pid": os.getpid(), "provider_child_pid": process.pid,
+            "exit_status": process.returncode, "thread_id": thread_id,
+            "events": events.decode("utf-8"), "events_sha256": sha256_bytes(events),
+            "semantic_file_content": raw.decode("utf-8"),
+            "semantic_file_sha256": sha256_bytes(raw), "semantic_file_byte_count": len(raw),
+        }
+        return raw, execution
 
 
 def _find_model_authority(value: Any, *, pointer: str = "$") -> str | None:
@@ -777,8 +822,11 @@ def _validate_model_output(
         value = read_json_text(text)
     except Exception as exc:
         raise AdapterError("Codex last message is not strict JSON") from exc
-    if not isinstance(value, dict) or set(value) != set(SEMANTIC_FIELDS):
+    required_fields = set(SEMANTIC_FIELDS) - {"answer_delivery"}
+    if not isinstance(value, dict) or not required_fields.issubset(value) or not set(value).issubset(SEMANTIC_FIELDS):
         raise AdapterError("Codex output is not semantic-only")
+    value = dict(value)
+    value.setdefault("answer_delivery", None)
     errors = sorted(
         Draft202012Validator(
             dict(schema), format_checker=FormatChecker()
@@ -797,6 +845,8 @@ def _validate_model_output(
         )
     authored_problem = value["problem_contract"]
     requested_problem = semantic_request["problem_contract"]
+    if value.get("deliverable_type") != requested_problem.get("deliverable_type"):
+        raise AdapterError("Codex output deliverable_type differs from the requested variant")
     if any(
         authored_problem.get(field) != requested_problem.get(field)
         for field in PROBLEM_FIELDS
@@ -818,7 +868,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             raise AdapterError("the adapter accepts no command-line arguments")
         schema, schema_sha256 = _load_output_schema()
         binding, semantic_request, repository_root, executable = _load_request()
-        raw_output = _run_codex(
+        raw_output, provider_execution = _run_codex(
             binding,
             semantic_request,
             repository_root=repository_root,
@@ -828,7 +878,11 @@ def main(argv: Sequence[str] | None = None) -> int:
         payload = _validate_model_output(
             raw_output, schema=schema, semantic_request=semantic_request
         )
-        sys.stdout.buffer.write(canonical_bytes(payload))
+        sys.stdout.buffer.write(canonical_bytes({
+            "protocol": OUTPUT_TRANSPORT,
+            "semantic_packet": payload,
+            "provider_execution": provider_execution,
+        }))
         sys.stdout.buffer.flush()
         return 0
     except AdapterError as exc:

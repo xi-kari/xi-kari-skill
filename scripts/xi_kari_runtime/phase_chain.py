@@ -98,7 +98,7 @@ def append_phase(
         raise ValueError(f"cannot append {phase}; next phase is {expected}")
     predecessor = records[-1]["record_sha256"] if records else None
     record: dict[str, Any] = {
-        "schema_id": "xi-kari.v2.phase-event",
+        "schema_id": "xi-kari.v3.phase-event",
         "schema_version": 3,
         "run_id": run_id,
         "phase": phase,

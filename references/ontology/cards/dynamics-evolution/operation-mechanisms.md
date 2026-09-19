@@ -1,7 +1,7 @@
 ---
-id: V82-CANON-CORE-CM-FEEDBACK
-covered_ids: V82-CANON-CORE-CM-FEEDBACK,V82-CANON-CORE-CM-LEARNING,V82-CANON-CORE-CM-MAINTENANCE,V82-CANON-CORE-CM-LOAD,V82-CANON-CORE-CM-PHASE,V82-CANON-CORE-CM-SELECTION,V82-CANON-CORE-COEVOLUTION-CASCADE,V82-CANON-CORE-DISSOLUTION-REPAIR,V82-CANON-CORE-CONDITIONAL-MECHANISM-BOUNDARY
-source_authority: v8.2
+id: V83-CANON-CORE-CM-FEEDBACK
+covered_ids: V83-CANON-CORE-CM-FEEDBACK,V83-CANON-CORE-CM-LEARNING,V83-CANON-CORE-CM-MAINTENANCE,V83-CANON-CORE-CM-LOAD,V83-CANON-CORE-CM-PHASE,V83-CANON-CORE-CM-SELECTION,V83-CANON-CORE-COEVOLUTION-CASCADE,V83-CANON-CORE-DISSOLUTION-REPAIR,V83-CANON-CORE-CONDITIONAL-MECHANISM-BOUNDARY
+source_authority: v8.3
 card_kind: shared
 ---
 
@@ -13,9 +13,9 @@ card_kind: shared
 
 ## 原文锚点
 
-- V82-P1084—V82-P1159：机制非互换边界、运转、反馈、学习、维护、负荷、相位、选择、共演化、解体与修复
-- V82-P0572—V82-P0581：U07—U11
-- V82-P0727—V82-P0810：C4—C11 的条件推论
+- V83-P1084—V83-P1159：机制非互换边界、运转、反馈、学习、维护、负荷、相位、选择、共演化、解体与修复
+- V83-P0572—V83-P0581：U07—U11
+- V83-P0727—V83-P0810：C4—C11 的条件推论
 
 ## 权威定义
 
@@ -91,10 +91,10 @@ universal-primitives.md、event-and-recursive-inference.md、scale-profiles-and-
 
 本卡的权威定义必须与无损阅读版连续联读；以下锚点是定位索引，不是删减后的替代文本。运行时先完整读取 21 卷，再回到这些锚点核对相邻段落、表格和适用边界。
 
-- `V82-P0543`, `V82-P1087`, `V82-P1092`, `V82-P1104`, `V82-P1110`, `V82-P1116`, `V82-P1123`, `V82-P1130`, `V82-P1133`, `V82-P1136`, `V82-P1156`
+- `V83-P0543`, `V83-P1087`, `V83-P1092`, `V83-P1104`, `V83-P1110`, `V83-P1116`, `V83-P1123`, `V83-P1130`, `V83-P1133`, `V83-P1136`, `V83-P1156`
 
 ## 必须联读的邻接概念
 
-- `V82-CANON-CORE-D0-OBJECT`：`references/ontology/cards/foundation-boundary/core-boundary-contracts.md`
+- `V83-CANON-CORE-D0-OBJECT`：`references/ontology/cards/foundation-boundary/core-boundary-contracts.md`
 
-- `V82-CANON-CORE-EVIDENCE-CONTRACT`：`references/ontology/cards/foundation-boundary/claim-roles-and-missing-states.md`
+- `V83-CANON-CORE-EVIDENCE-CONTRACT`：`references/ontology/cards/foundation-boundary/claim-roles-and-missing-states.md`

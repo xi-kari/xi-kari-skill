@@ -8,7 +8,7 @@ from typing import Any
 from .canonical_json import read_json, read_json_text, sha256_file
 
 
-CONCEPT_AUTHORITY_SCHEMA_ID = "xi-kari.v2.concept-authority-binding"
+CONCEPT_AUTHORITY_SCHEMA_ID = "xi-kari.v3.concept-authority-binding"
 CONCEPT_AUTHORITY_SCHEMA_VERSION = 1
 LEDGER_FIELDS = (
     "bound_card_paths",
@@ -57,7 +57,7 @@ def load_concept_authority(
     """Read and cross-check the repository-owned 1:1 candidate closure."""
 
     repo = Path(repository_root).resolve()
-    source_root = repo / "references" / "source" / "v8.2"
+    source_root = repo / "references" / "source" / "v8.3"
     ontology_root = repo / "references" / "ontology"
     source_path = source_root / "indexes" / "candidates.jsonl"
     manifest_path = source_root / "source-manifest.json"

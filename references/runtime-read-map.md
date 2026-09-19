@@ -1,13 +1,13 @@
-# Xi-Kari v2 Runtime Read Map
+# Xi-Kari v3 Runtime Read Map
 
-本图规定 `XK0—XK12` 的读取与工件闭包。它只控制运行顺序，不新增 v8.2 概念。
+本图规定 `XK0—XK12` 的读取与工件闭包。它只控制运行顺序，不新增 v8.3 概念。
 
 ## A. 全源与全候选闭包
 
 每次调用按以下顺序执行，第 6—8 条是贯穿读取全程的横切规则：
 
-1. 读取 `references/source/v8.2/source-manifest.json`，核对 Raw/Semantic SHA-256、21 个 reader unit、4631 个段落和 122 张表。
-2. 按 manifest 的 `reader_units` 顺序完整读取 `references/source/v8.2/reader/` 全部 21 卷。生产 profile 必须逐卷记录综合、带本卷源锚点的语义观察、与前卷的连续关系、问题关系和 `source_undefined` 引用；目录、摘要、概念卡、运行胶囊和旧回答都不能替代源卷。
+1. 读取 `references/source/v8.3/source-manifest.json`，核对 Raw/Semantic SHA-256、21 个 reader unit、4631 个段落和 122 张表。
+2. 按 manifest 的 `reader_units` 顺序完整读取 `references/source/v8.3/reader/` 全部 21 卷。生产 profile 必须逐卷记录综合、带本卷源锚点的语义观察、与前卷的连续关系、问题关系和 `source_undefined` 引用；目录、摘要、概念卡、运行胶囊和旧回答都不能替代源卷。
 3. 读取 `references/ontology/candidate-census.jsonl`、`concept-registry.json` 和 `references/ontology/inventory/` 下全部 inventory shard，对全部候选给出独立终态。生产运行由 runtime 生成逐项 ontology read plan，并要求 trace 覆盖每个 candidate 的路径、记录散列、读取状态、问题关系和仓库既有 disposition。记录数只是当前提取规则下的候选数，不是永恒概念总数。
 4. 对 `canonical_concept` 与 `structural_rule` 逐项读取对应概念卡；逐条读取 required neighbor，按 continuity map 和全部 bundles 完成邻接联读。trace 必须绑定每项路径与内容散列；`source_undefined` 必须携带不可推出字段。
 5. 读取 `references/answer-contract.md`、检索策略、相关 learning pack 和协议，再进入现实检索与局部建模。
@@ -15,7 +15,7 @@
 7. 同一 run 内每个包完整性校验脚本至多执行一轮，必须本轮实际执行并记录执行时间；确因宿主限制无法执行时不得伪称已执行，引用往轮结果须明标来源运行并按能力缺口降档。
 8. 候选闭包回执区分「本轮逐项处置」与「复核既有终态」：依托既有 registry 终态完成闭包时写「复核既有终态 N 条＋本轮展开 M 条」，不得写成「完成 N 条候选终态闭包」。
 
-源或候选闭包不可访问时不得声称完成 Xi-Kari v2 运行。
+源或候选闭包不可访问时不得声称完成 Xi-Kari v3 运行。
 
 ## B. XK0—XK12 读取顺序
 
@@ -62,4 +62,4 @@
 
 ## Source anchors
 
-权威来源：v8.2 前言、第一至第十六部分及附录 A—D。任何现实事实仍需独立外部材料；源锚点只证明结构定义，不能证明现实已经发生。
+权威来源：v8.3 前言、第一至第十六部分及附录 A—D。任何现实事实仍需独立外部材料；源锚点只证明结构定义，不能证明现实已经发生。

@@ -1,12 +1,12 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://xi-kari.local/schemas/xi-kari.v2.continuation-state.schema.json",
-  "title": "Xi-Kari v2 continuation state",
+  "$id": "https://xi-kari.local/schemas/xi-kari.v3.continuation-state.schema.json",
+  "title": "Xi-Kari v3 continuation state",
   "type": "object",
   "additionalProperties": false,
   "required": ["schema_id", "schema_version", "run_id", "state", "next_phase", "updated_at"],
   "properties": {
-    "schema_id": {"const": "xi-kari.v2.continuation-state"},
+    "schema_id": {"const": "xi-kari.v3.continuation-state"},
     "schema_version": {"const": 3},
     "run_id": {"type": "string", "minLength": 1},
     "state": {"enum": ["initialized", "prepared", "in_progress", "needs_attention", "complete", "cancelled"]},

@@ -12,9 +12,9 @@
     "reviews"
   ],
   "properties": {
-    "schema_id": {"const": "xi-kari.v8.2.candidate-semantic-scopes"},
+    "schema_id": {"const": "xi-kari.v8.3.candidate-semantic-scopes"},
     "schema_version": {"const": 3},
-    "framework_version": {"const": "v8.2"},
+    "framework_version": {"const": "v8.3"},
     "review_count_semantics": {
       "const": "authored exact candidate decisions; not an ontology cardinality claim"
     },
@@ -37,11 +37,11 @@
         "properties": {
           "candidate_id": {
             "type": "string",
-            "pattern": "^V82-CANDIDATE-(P[0-9]{4}|T[0-9]{3}(?:-R[0-9]{3})?)$"
+            "pattern": "^V83-CANDIDATE-(P[0-9]{4}|T[0-9]{3}(?:-R[0-9]{3})?)$"
           },
           "source_anchor": {
             "type": "string",
-            "pattern": "^V82-(P[0-9]{4}|T[0-9]{3}(?:-R[0-9]{3})?)$"
+            "pattern": "^V83-(P[0-9]{4}|T[0-9]{3}(?:-R[0-9]{3})?)$"
           },
           "semantic_fingerprint_sha256": {
             "type": "string",
@@ -63,7 +63,7 @@
             "uniqueItems": true,
             "items": {
               "type": "string",
-              "pattern": "^V82-CANON(-[A-Z0-9]+)+$"
+              "pattern": "^V83-CANON(-[A-Z0-9]+)+$"
             }
           },
           "parent_concept_ids": {
@@ -71,7 +71,7 @@
             "uniqueItems": true,
             "items": {
               "type": "string",
-              "pattern": "^V82-CANON(-[A-Z0-9]+)+$"
+              "pattern": "^V83-CANON(-[A-Z0-9]+)+$"
             }
           },
           "source_basis": {
@@ -107,7 +107,7 @@
                   "properties": {
                     "source_anchor": {
                       "type": "string",
-                      "pattern": "^V82-(P[0-9]{4}|T[0-9]{3}(?:-R[0-9]{3})?)$"
+                      "pattern": "^V83-(P[0-9]{4}|T[0-9]{3}(?:-R[0-9]{3})?)$"
                     },
                     "source_excerpt": {"type": "string", "minLength": 1}
                   }
@@ -131,7 +131,7 @@
                   "properties": {
                     "parent_concept_id": {
                       "type": "string",
-                      "pattern": "^V82-CANON(-[A-Z0-9]+)+$"
+                      "pattern": "^V83-CANON(-[A-Z0-9]+)+$"
                     },
                     "parent_card_path": {
                       "type": "string",
@@ -142,7 +142,7 @@
                     },
                     "evidence_anchor": {
                       "type": "string",
-                      "pattern": "^V82-(P[0-9]{4}|T[0-9]{3}(?:-R[0-9]{3})?)$"
+                      "pattern": "^V83-(P[0-9]{4}|T[0-9]{3}(?:-R[0-9]{3})?)$"
                     },
                     "evidence_excerpt": {"type": "string", "minLength": 1},
                     "card_excerpt": {"type": "string", "minLength": 1},

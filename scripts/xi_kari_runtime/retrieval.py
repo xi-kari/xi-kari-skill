@@ -25,7 +25,7 @@ from .problem_contract import parse_instant
 
 
 ALLOWED_MODES = {"open-world", "closed-input"}
-CLOSED_INPUT_ORIGINS = {"user", "user_material", "provided", "v8.2"}
+CLOSED_INPUT_ORIGINS = {"user", "user_material", "provided", "v8.3"}
 ASSESSMENT_VERDICTS = {
     "admitted",
     "usable_with_limits",
@@ -357,7 +357,7 @@ def build_source_read_lock(repository_root: Path, *, run_id: str) -> dict[str, A
     """Read and hash every reader unit named by the authoritative manifest."""
 
     repository_root = Path(repository_root).resolve()
-    manifest_path = repository_root / "references" / "source" / "v8.2" / "source-manifest.json"
+    manifest_path = repository_root / "references" / "source" / "v8.3" / "source-manifest.json"
     manifest_bytes = manifest_path.read_bytes()
     manifest = read_json(manifest_path)
     sequence = manifest.get("sequence")
@@ -372,7 +372,7 @@ def build_source_read_lock(repository_root: Path, *, run_id: str) -> dict[str, A
         if name_path.is_absolute() or ".." in name_path.parts or name_path.name != name:
             raise ValueError(f"reader sequence contains unsafe unit name: {name}")
         relative = f"reader/{name}"
-        reader_path = repository_root / "references" / "source" / "v8.2" / relative
+        reader_path = repository_root / "references" / "source" / "v8.3" / relative
         if reader_path.is_symlink():
             raise ValueError(f"reader unit is a symlink: {relative}")
         content = reader_path.read_bytes()
@@ -388,7 +388,7 @@ def build_source_read_lock(repository_root: Path, *, run_id: str) -> dict[str, A
             "run_id": run_id,
             "source_manifest_sha256": manifest_sha256,
             "unit": name,
-            "path": f"references/source/v8.2/{relative}",
+            "path": f"references/source/v8.3/{relative}",
             "source_file": relative,
             "bytes_read": len(content),
             "expected_sha256": expected,
@@ -399,7 +399,7 @@ def build_source_read_lock(repository_root: Path, *, run_id: str) -> dict[str, A
         receipt["receipt_sha256"] = sha256_json(receipt)
         receipts.append(receipt)
     return {
-        "schema_id": "xi-kari.v2.source-read",
+        "schema_id": "xi-kari.v3.source-read",
         "schema_version": 3,
         "run_id": run_id,
         "framework_version": manifest.get("framework_version"),
@@ -440,16 +440,16 @@ def build_full_source_lock(
     """
 
     repository_root = Path(repository_root).resolve()
-    source_root = repository_root / "references" / "source" / "v8.2"
+    source_root = repository_root / "references" / "source" / "v8.3"
     manifest_path = source_root / "source-manifest.json"
     manifest_bytes = manifest_path.read_bytes()
     manifest = read_json(manifest_path)
     sequence = manifest.get("sequence")
     expected_hashes = manifest.get("reader_file_sha256")
     if not isinstance(sequence, list) or len(sequence) != FULL_READER_UNIT_COUNT:
-        raise ValueError("v8.2 manifest must contain exactly 21 reader volumes")
+        raise ValueError("v8.3 manifest must contain exactly 21 reader volumes")
     if not isinstance(expected_hashes, dict):
-        raise ValueError("v8.2 manifest has no reader file hashes")
+        raise ValueError("v8.3 manifest has no reader file hashes")
 
     reader_receipts: list[dict[str, Any]] = []
     for index, name in enumerate(sequence, start=1):
@@ -465,7 +465,7 @@ def build_full_source_lock(
                 "receipt_id": f"reader-{index:02d}",
                 "sequence": index,
                 "unit": name,
-                "path": f"references/source/v8.2/{relative}",
+                "path": f"references/source/v8.3/{relative}",
                 "bytes_read": len(content),
                 "expected_sha256": expected,
                 "observed_sha256": observed,
@@ -479,10 +479,10 @@ def build_full_source_lock(
         for line in paragraph_path.read_text(encoding="utf-8").splitlines()
         if line.strip()
     ]
-    table_paths = sorted((source_root / "audit" / "tables").glob("V82-T*.md"))
+    table_paths = sorted((source_root / "audit" / "tables").glob("V83-T*.md"))
     if len(paragraphs) != FULL_PARAGRAPH_COUNT or len(table_paths) != FULL_TABLE_COUNT:
         raise ValueError(
-            f"v8.2 source unit counts differ: paragraphs={len(paragraphs)}, tables={len(table_paths)}"
+            f"v8.3 source unit counts differ: paragraphs={len(paragraphs)}, tables={len(table_paths)}"
         )
 
     events: list[dict[str, Any]] = []
@@ -493,7 +493,7 @@ def build_full_source_lock(
             raise ValueError(f"invalid paragraph source unit at ordinal {ordinal}")
         events.append(
             {
-                "schema_id": "xi-kari.v2.source-read-event",
+                "schema_id": "xi-kari.v3.source-read-event",
                 "schema_version": 3,
                 "event_id": f"read-{len(events)+1:04d}",
                 "run_id": run_id,
@@ -508,7 +508,7 @@ def build_full_source_lock(
     table_index_rows = read_json(source_root / "indexes" / "tables.json")
     for table_index, path in enumerate(table_paths, start=1):
         raw = path.read_bytes()
-        anchor = f"V82-T{table_index:03d}"
+        anchor = f"V83-T{table_index:03d}"
         # The table's first paragraph ordinal is authoritative for volume
         # routing; the index is intentionally read from the source snapshot.
         row = table_index_rows[table_index - 1]
@@ -516,7 +516,7 @@ def build_full_source_lock(
         first_paragraph = int(paragraph_ordinals[0]) if paragraph_ordinals else 1
         events.append(
             {
-                "schema_id": "xi-kari.v2.source-read-event",
+                "schema_id": "xi-kari.v3.source-read-event",
                 "schema_version": 3,
                 "event_id": f"read-{len(events)+1:04d}",
                 "run_id": run_id,
@@ -531,7 +531,7 @@ def build_full_source_lock(
     if len({event["source_anchor"] for event in events}) != FULL_SOURCE_UNIT_COUNT:
         raise ValueError("source unit anchors are not unique")
     lock = {
-        "schema_id": "xi-kari.v2.source-lock",
+        "schema_id": "xi-kari.v3.source-lock",
         "schema_version": 3,
         "run_id": run_id,
         "framework_version": manifest.get("framework_version"),
@@ -623,7 +623,7 @@ def build_retrieval_plan(*, run_id: str, mode: str) -> dict[str, Any]:
     if mode not in ALLOWED_MODES:
         raise ValueError(f"unsupported mode: {mode}")
     return {
-        "schema_id": "xi-kari.v2.retrieval-plan",
+        "schema_id": "xi-kari.v3.retrieval-plan",
         "schema_version": 3,
         "run_id": run_id,
         "mode": mode,
@@ -667,7 +667,7 @@ def _normalise_source(source: dict[str, Any], *, run_id: str | None) -> dict[str
             }
         )
     record = {
-        "schema_id": "xi-kari.v2.source-record",
+        "schema_id": "xi-kari.v3.source-record",
         "schema_version": 3,
         "source_id": source_id,
         "origin": origin,
@@ -853,7 +853,7 @@ def materialize_retrieval_bundle(
         independence_identity = raw["independence_identity"]
         source_sha = sha256_json(source_by_id[source_id])
         assessment = {
-            "schema_id": "xi-kari.v2.source-assessment",
+            "schema_id": "xi-kari.v3.source-assessment",
             "schema_version": 3,
             "source_id": source_id,
             "source_sha256": source_sha,
@@ -917,7 +917,7 @@ def materialize_retrieval_bundle(
             ]
         bindings.append(binding)
     index = {
-        "schema_id": "xi-kari.v2.retrieval-index",
+        "schema_id": "xi-kari.v3.retrieval-index",
         "schema_version": 3,
         "mode": mode,
         "run_id": run_id,

@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://xi-kari.local/schemas/xi-kari.v2.xk.common.schema.json",
-  "title": "Xi-Kari v2 common definitions",
+  "$id": "https://xi-kari.local/schemas/xi-kari.v3.xk.common.schema.json",
+  "title": "Xi-Kari v3 common definitions",
   "type": "object",
   "additionalProperties": false,
   "$defs": {

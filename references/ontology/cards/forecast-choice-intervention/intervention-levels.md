@@ -1,31 +1,31 @@
 ---
-id: V82-CANON-T0-T4
+id: V83-CANON-T0-T4
 qualified_id: intervention:T0-T4
 name: 受限干涉任务级别与应用共同门
 family: forecast-choice-intervention
 disposition: structural_rule
-source_authority: v8.2
-covered_ids: V82-CANON-T0-T4,V82-CANON-APP-GATE
+source_authority: v8.3
+covered_ids: V83-CANON-T0-T4,V83-CANON-APP-GATE
 ---
 
 # T0-T4 受限干涉任务与应用门
 
-## 权威定义（v8.2）
+## 权威定义（v8.3）
 
-固定转换链是 `解释 → 诊断 → 规范选择 → 干涉`；干涉只消费已经存在的选择与授权，不制造授权（`V82-P2671`-`V82-P2677`）。T0-T4 是任务类型，不是成熟度、发展阶梯、对象优劣或身份标签；编号不表示必经顺序，任何级别都必须经过 C12、明示 N、J 原子授权、O1-O4、PF、停止、申诉和回滚（`V82-P2678`-`V82-P2681`）。
+固定转换链是 `解释 → 诊断 → 规范选择 → 干涉`；干涉只消费已经存在的选择与授权，不制造授权（`V83-P2671`-`V83-P2677`）。T0-T4 是任务类型，不是成熟度、发展阶梯、对象优劣或身份标签；编号不表示必经顺序，任何级别都必须经过 C12、明示 N、J 原子授权、O1-O4、PF、停止、申诉和回滚（`V83-P2678`-`V83-P2681`）。
 
 | 级别 | 任务边界 | 关键停止/转级 |
 | --- | --- | --- |
-| T0 安全与信任载体 | 匿名/代理/分阶段披露、身份与事实隔离、拒绝/撤回/紧急停止、独立复核和外部支持；禁止强制对话、定位或惩罚（`V82-P2682`-`V82-P2687`） | 身份泄露、报复、接收方失去独立或风险上升即停止/迁移；安全建立后可留 T0、评估 T1/T2，或直接 T4 候选 |
-| T1 可逆最小秩序 | 停止可识别伤害、保全证据、恢复最小通信/服务，低风险、可观察、可回滚、短期自动到期（`V82-P2688`-`V82-P2692`） | 可逆性消失、低权力成本上升、授权失效即停止；安全退化回 T0，不可修复可评估 T4 |
-| T2 承接—回流链修复 | 修复成本/收益回流、执行传导、坏消息写回、中层承接、责任和授权断点；替代通道先于旧通道拆除（`V82-P2693`-`V82-P2698`） | 替代通道不运转、收益不回流、余量下降或净伤害扩大即停止/回滚；稳定闭环才评估 T3 |
-| T3 深时间维护与高阶更新 | 维护债、继任、单中心依赖、慢变量、制度老化、恢复余量；多中心、冗余、周期复审、漏洞演练（`V82-P2699`-`V82-P2703`） | 安全/最低秩序资源被挤压、监测变无授权控制、成本外包或反例不能写回即停止/回到保护/修复或 T4 |
-| T4 退出、转移与演化记忆保存 | 设计安全退出、缓冲、分阶段转移、替代承接、证据/技能/失败记忆、照护/补偿/责任清算；无前序 T 级前提（`V82-P2704`-`V82-P2709`） | 新承接风险、主体撤回、报复、记忆超用途、义务规避或授权失效即暂停/改道；新系统须重新登记对象、尺度和 K |
+| T0 安全与信任载体 | 匿名/代理/分阶段披露、身份与事实隔离、拒绝/撤回/紧急停止、独立复核和外部支持；禁止强制对话、定位或惩罚（`V83-P2682`-`V83-P2687`） | 身份泄露、报复、接收方失去独立或风险上升即停止/迁移；安全建立后可留 T0、评估 T1/T2，或直接 T4 候选 |
+| T1 可逆最小秩序 | 停止可识别伤害、保全证据、恢复最小通信/服务，低风险、可观察、可回滚、短期自动到期（`V83-P2688`-`V83-P2692`） | 可逆性消失、低权力成本上升、授权失效即停止；安全退化回 T0，不可修复可评估 T4 |
+| T2 承接—回流链修复 | 修复成本/收益回流、执行传导、坏消息写回、中层承接、责任和授权断点；替代通道先于旧通道拆除（`V83-P2693`-`V83-P2698`） | 替代通道不运转、收益不回流、余量下降或净伤害扩大即停止/回滚；稳定闭环才评估 T3 |
+| T3 深时间维护与高阶更新 | 维护债、继任、单中心依赖、慢变量、制度老化、恢复余量；多中心、冗余、周期复审、漏洞演练（`V83-P2699`-`V83-P2703`） | 安全/最低秩序资源被挤压、监测变无授权控制、成本外包或反例不能写回即停止/回到保护/修复或 T4 |
+| T4 退出、转移与演化记忆保存 | 设计安全退出、缓冲、分阶段转移、替代承接、证据/技能/失败记忆、照护/补偿/责任清算；无前序 T 级前提（`V83-P2704`-`V83-P2709`） | 新承接风险、主体撤回、报复、记忆超用途、义务规避或授权失效即暂停/改道；新系统须重新登记对象、尺度和 K |
 
 ## 允许推论
 
 - 任务级别只调整问题、风险检查和行动上限；每次对象、尺度、K、窗口、管辖或行动实质变化都重新选择级别。
-- 九个应用模块先过 D0、九轴 SP、K、来源、受影响/低权力位置和领域证据缺口，再提出候选 T0-T4；应用标题不是对象合同（`V82-P2710`-`V82-P2714`）。
+- 九个应用模块先过 D0、九轴 SP、K、来源、受影响/低权力位置和领域证据缺口，再提出候选 T0-T4；应用标题不是对象合同（`V83-P2710`-`V83-P2714`）。
 - 动态应用额外登记主/相邻圈层、关系、M/Ψ、五类时钟、事件、简单基线和结果回写；简单基线足够时主动缩回。
 
 ## 禁止跳跃
@@ -52,17 +52,17 @@ T 级不授权诊断、调解、披露、分离、评分、人事/财产/公共�
 
 ## source_undefined
 
-v8.2 未定义 T0-T4 的普遍优先级、成熟度分数、跨领域成本阈值或自动转级器；场景参数标 `source_undefined`。
+v8.3 未定义 T0-T4 的普遍优先级、成熟度分数、跨领域成本阈值或自动转级器；场景参数标 `source_undefined`。
 
 ## 来源锚点
 
-- [v8.2 reader 15](../../../source/v8.2/reader/15-intervention-applications.md): `V82-P2668`-`V82-P2776`。
+- [v8.3 reader 15](../../../source/v8.3/reader/15-intervention-applications.md): `V83-P2668`-`V83-P2776`。
 
 ## 原文定义区段
 
 本卡的权威定义必须与无损阅读版连续联读；以下锚点是定位索引，不是删减后的替代文本。运行时先完整读取 21 卷，再回到这些锚点核对相邻段落、表格和适用边界。
 
-- `V82-P2669`, `V82-P2671`, `V82-P2678`, `V82-P2709`, `V82-P2710`, `V82-P2711`, `V82-P2712`, `V82-P2776`
+- `V83-P2669`, `V83-P2671`, `V83-P2678`, `V83-P2709`, `V83-P2710`, `V83-P2711`, `V83-P2712`, `V83-P2776`
 
 ## 解释层（非原文定义）
 
@@ -70,13 +70,13 @@ v8.2 未定义 T0-T4 的普遍优先级、成熟度分数、跨领域成本阈�
 
 ## 必须联读的邻接概念
 
-- `V82-CANON-AUTHORIZATION`：`references/ontology/cards/forecast-choice-intervention/choice-authorization.md`
+- `V83-CANON-AUTHORIZATION`：`references/ontology/cards/forecast-choice-intervention/choice-authorization.md`
 
-- `V82-CANON-EVENT`：`references/ontology/cards/forecast-choice-intervention/event-and-dynamics.md`
+- `V83-CANON-EVENT`：`references/ontology/cards/forecast-choice-intervention/event-and-dynamics.md`
 
-- `V82-CANON-FORECAST`：`references/ontology/cards/forecast-choice-intervention/conditional-forecast.md`
+- `V83-CANON-FORECAST`：`references/ontology/cards/forecast-choice-intervention/conditional-forecast.md`
 
-- `V82-CANON-NO-ACTION`：`references/ontology/cards/forecast-choice-intervention/choice-authorization.md`
+- `V83-CANON-NO-ACTION`：`references/ontology/cards/forecast-choice-intervention/choice-authorization.md`
 
 ## 撤回条件
 

@@ -1,14 +1,14 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://xi-kari.local/schemas/xi-kari.v2.host-capture-index.schema.json",
-  "title": "Xi-Kari v2 replayable host source capture index",
+  "$id": "https://xi-kari.local/schemas/xi-kari.v3.host-capture-index.schema.json",
+  "title": "Xi-Kari v3 replayable host source capture index",
   "type": "object",
   "additionalProperties": false,
   "required": ["schema_id", "schema_version", "protocol", "run_id", "event_stream_sha256", "captures", "capture_count", "index_sha256"],
   "properties": {
-    "schema_id": {"const": "xi-kari.v2.host-capture-index"},
+    "schema_id": {"const": "xi-kari.v3.host-capture-index"},
     "schema_version": {"const": 1},
-    "protocol": {"const": "xi-kari.v2.host-source-capture/v1"},
+    "protocol": {"const": "xi-kari.v3.host-source-capture/v1"},
     "run_id": {"type": "string", "minLength": 1},
     "event_stream_sha256": {"$ref": "#/$defs/sha256"},
     "captures": {"type": "array", "items": {"$ref": "#/$defs/capture"}},

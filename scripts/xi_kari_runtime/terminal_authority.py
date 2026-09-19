@@ -17,7 +17,7 @@ from .canonical_json import (
 
 
 ALGORITHM = "lamport-sha256-v1"
-DOMAIN = "xi-kari.v2.terminal-record/v1"
+DOMAIN = "xi-kari.v3.terminal-record/v1"
 LAMPORT_BITS = 256
 KEY_RELATIVE = "continuation/terminal-authority-key.json"
 TERMINAL_RELATIVE = "continuation/terminal-record.json"
@@ -54,7 +54,7 @@ def generate_terminal_authority(
         "public_key_commitment_sha256": commitment,
     }
     private_record = {
-        "schema_id": "xi-kari.v2.terminal-authority-key",
+        "schema_id": "xi-kari.v3.terminal-authority-key",
         "schema_version": 3,
         "run_id": run_id,
         "algorithm": ALGORITHM,
@@ -138,7 +138,7 @@ def commit_terminal_record(
         for index, bit in enumerate(_bits(_message_digest(payload)))
     ]
     record = {
-        "schema_id": "xi-kari.v2.terminal-record",
+        "schema_id": "xi-kari.v3.terminal-record",
         "schema_version": 3,
         "authority_key_id": commitment,
         "public_key": public_key,
@@ -272,7 +272,7 @@ def validate_terminal_closure(
     if payload.get("completion_sha256") != sha256_file(completion_path):
         errors.append("terminal authority completion hash mismatch")
     expected_completion = {
-        "schema_id": "xi-kari.v2.completion",
+        "schema_id": "xi-kari.v3.completion",
         "schema_version": 3,
         "run_id": run_contract.get("run_id"),
         "official_validation_path": OFFICIAL_REPORT_RELATIVE,
@@ -289,7 +289,7 @@ def validate_terminal_closure(
         errors.append("terminal authority completion closure mismatch")
     if not isinstance(official, Mapping) or any(
         (
-            official.get("schema_id") != "xi-kari.v2.validator-report",
+            official.get("schema_id") != "xi-kari.v3.validator-report",
             official.get("run_id") != run_contract.get("run_id"),
             official.get("fresh") is not True,
             official.get("fresh_process") is not True,

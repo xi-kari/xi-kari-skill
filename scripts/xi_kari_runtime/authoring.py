@@ -28,32 +28,34 @@ from .problem_contract import (
     stance_neutrality_key,
     validate_problem_contract,
 )
+from .output_transport import OUTPUT_TRANSPORT, parse_provider_events
 
 
-ADAPTER_PROTOCOL = "xi-kari.v2.semantic-authoring-adapter/v1"
-FORMAL_ADAPTER_PROTOCOL = "xi-kari.v2.semantic-authoring-adapter/v2"
+FORMAL_ADAPTER_PROTOCOL = "xi-kari.v3.semantic-authoring-adapter/v3"
 FORMAL_ADAPTER_PROFILE = "production-codex"
-LEGACY_ADAPTER_PROFILE = "legacy-fixture"
-CODEX_ADAPTER_PROTOCOL = "xi-kari.v2.codex-semantic-authoring-adapter/v1"
-CODEX_PROVIDER_PROTOCOL = "xi-kari.v2.codex-provider-binding/v1"
+CODEX_ADAPTER_PROTOCOL = "xi-kari.v3.codex-semantic-authoring-adapter/v1"
+CODEX_PROVIDER_PROTOCOL = "xi-kari.v3.codex-provider-binding/v1"
 CODEX_MODEL = os.environ.get("XI_KARI_PROVIDER_MODEL", "gpt-5.6-sol")
 CODEX_REASONING_EFFORT = os.environ.get("XI_KARI_REASONING_EFFORT", "")
 CODEX_PROVIDER_BASE_URL = os.environ.get("XI_KARI_PROVIDER_BASE_URL", "")
 CODEX_PROVIDER_WIRE_API = os.environ.get("XI_KARI_PROVIDER_WIRE_API", "responses")
 CODEX_PROVIDER_NAME = "xi_kari_local"
 CODEX_APPROVAL_POLICY = "never"
-CODEX_SANDBOX = "read-only"
+CODEX_SANDBOX = "workspace-write"
 CODEX_WEB_SEARCH = "disabled"
 BASE_OPEN_WORLD_WEB_SEARCH = "live"
 BASE_CLOSED_INPUT_WEB_SEARCH = "disabled"
 FORMAL_ADAPTER_RELATIVE_PATH = Path("scripts/xi_kari_codex_authoring_adapter.py")
-RECEIPT_PROTOCOL = "xi-kari.v2.semantic-authoring-receipt/v1"
-FORMAL_RECEIPT_PROTOCOL = "xi-kari.v2.semantic-authoring-receipt/v2"
-DEFAULT_ADAPTER_TIMEOUT_SECONDS = 120
+FORMAL_RECEIPT_PROTOCOL = "xi-kari.v3.semantic-authoring-receipt/v3"
+DEFAULT_ADAPTER_TIMEOUT_SECONDS = 1200
+MAX_AUTHORING_TIMEOUT_SECONDS = 7200
 MAX_ADAPTER_STDIN_BYTES = 256 * 1024
-MAX_ADAPTER_STDOUT_BYTES = 16 * 1024 * 1024
+MAX_ADAPTER_STDOUT_BYTES = 64 * 1024 * 1024
 MAX_ADAPTER_STDERR_BYTES = 1024 * 1024
 SEMANTIC_AUTHORING_FIELDS = (
+    "deliverable_type",
+    "reader_sections",
+    "answer_delivery",
     "problem_contract",
     "dynamic_applicability",
     "facts",
@@ -81,7 +83,7 @@ AUTHORING_VARIANTS = {
     "stance-oppose": ("oppose", None),
     "time-window-shift": ("support", "sensitivity-shifted-window"),
 }
-LEGACY_ADAPTER_BINDING_FIELDS = {
+ADAPTER_BASE_BINDING_FIELDS = {
     "protocol",
     "argv",
     "argv_sha256",
@@ -89,7 +91,7 @@ LEGACY_ADAPTER_BINDING_FIELDS = {
     "executable_sha256",
     "timeout_seconds",
 }
-FORMAL_ADAPTER_BINDING_FIELDS = LEGACY_ADAPTER_BINDING_FIELDS | {
+FORMAL_ADAPTER_BINDING_FIELDS = ADAPTER_BASE_BINDING_FIELDS | {
     "profile",
     "provider_binding",
     "provider_binding_sha256",
@@ -111,7 +113,7 @@ PROVIDER_BINDING_FIELDS = {
     "web_search",
     "timeout_seconds",
 }
-LEGACY_RUNTIME_RECEIPT_FIELDS = {
+RECEIPT_BASE_FIELDS = {
     "protocol",
     "adapter_executable_sha256",
     "adapter_argv_sha256",
@@ -129,7 +131,7 @@ LEGACY_RUNTIME_RECEIPT_FIELDS = {
     "exit_status",
     "semantic_packet_sha256",
 }
-FORMAL_RUNTIME_RECEIPT_FIELDS = LEGACY_RUNTIME_RECEIPT_FIELDS | {
+FORMAL_RUNTIME_RECEIPT_FIELDS = RECEIPT_BASE_FIELDS | {
     "semantic_request_sha256",
     "semantic_request_byte_count",
     "outer_input_sha256",
@@ -137,6 +139,12 @@ FORMAL_RUNTIME_RECEIPT_FIELDS = LEGACY_RUNTIME_RECEIPT_FIELDS | {
     "provider_binding_sha256",
     "provider_executable_sha256",
     "provider_argv_sha256",
+    "provider_execution",
+}
+PROVIDER_EXECUTION_FIELDS = {
+    "protocol", "provider_parent_pid", "provider_child_pid", "exit_status",
+    "thread_id", "events", "events_sha256", "semantic_file_content",
+    "semantic_file_sha256", "semantic_file_byte_count",
 }
 
 
@@ -208,12 +216,20 @@ def _codex_provider_argv(
         f'web_search="{web_search}"',
         "--config",
         f'approval_policy="{CODEX_APPROVAL_POLICY}"',
+        "--config",
+        "sandbox_workspace_write.exclude_tmpdir_env_var=true",
+        "--config",
+        "sandbox_workspace_write.exclude_slash_tmp=true",
+        "--config",
+        "sandbox_workspace_write.writable_roots=[]",
         "--sandbox",
         CODEX_SANDBOX,
         "--skip-git-repo-check",
         "--color",
         "never",
     ]
+    if os.name == "nt":
+        argv += ["--config", 'windows.sandbox="elevated"']
     return argv
 
 
@@ -224,6 +240,8 @@ def _bind_codex_provider(
     timeout_seconds: int,
     web_search: str = CODEX_WEB_SEARCH,
 ) -> dict[str, Any]:
+    if not isinstance(timeout_seconds, int) or isinstance(timeout_seconds, bool) or not 1 <= timeout_seconds <= MAX_AUTHORING_TIMEOUT_SECONDS:
+        raise ValueError("provider timeout must be 1-7200 seconds")
     executable = _ordinary_executable(
         Path(str(executable_path)), label="Codex provider"
     )
@@ -310,7 +328,7 @@ def require_base_authoring_provider(
         or binding.get("web_search") != expected_web
         or not isinstance(timeout, int)
         or isinstance(timeout, bool)
-        or not 1 <= timeout <= 600
+        or not 1 <= timeout <= MAX_AUTHORING_TIMEOUT_SECONDS
         or not isinstance(repository, str)
         or not Path(repository).is_absolute()
         or os.path.normpath(repository) != repository
@@ -336,18 +354,14 @@ def bind_semantic_authoring_adapter(
     executable_path: str | Path | None,
     *,
     timeout_seconds: int = DEFAULT_ADAPTER_TIMEOUT_SECONDS,
-    profile: str = LEGACY_ADAPTER_PROFILE,
+    profile: str = FORMAL_ADAPTER_PROFILE,
     codex_provider_executable: str | Path | None = None,
     repository_root: Path | None = None,
 ) -> dict[str, Any] | None:
-    if profile not in {LEGACY_ADAPTER_PROFILE, FORMAL_ADAPTER_PROFILE}:
+    if profile != FORMAL_ADAPTER_PROFILE:
         raise ValueError("semantic authoring profile is invalid")
     if executable_path is None:
-        if profile == FORMAL_ADAPTER_PROFILE or codex_provider_executable is not None:
-            raise ValueError(
-                "production Codex authoring requires the shipped adapter and provider executable"
-            )
-        return None
+        raise ValueError("production Codex authoring requires the shipped adapter and provider executable")
     if not isinstance(executable_path, (str, Path)):
         raise ValueError("semantic authoring adapter must be one executable path")
     raw_path = str(executable_path)
@@ -356,31 +370,19 @@ def bind_semantic_authoring_adapter(
     if (
         not isinstance(timeout_seconds, int)
         or isinstance(timeout_seconds, bool)
-        or not 1 <= timeout_seconds <= 600
+        or not 1 <= timeout_seconds <= MAX_AUTHORING_TIMEOUT_SECONDS
     ):
-        raise ValueError("semantic authoring adapter timeout must be 1-600 seconds")
+        raise ValueError("semantic authoring adapter timeout must be 1-7200 seconds")
     executable = _ordinary_executable(Path(raw_path))
     command = [str(executable)]
-    legacy_binding = {
-        "protocol": ADAPTER_PROTOCOL,
+    adapter_binding = {
+        "protocol": FORMAL_ADAPTER_PROTOCOL,
         "argv": command,
         "argv_sha256": sha256_json(command),
         "executable_path": str(executable),
         "executable_sha256": sha256_file(executable),
         "timeout_seconds": timeout_seconds,
     }
-    if profile == LEGACY_ADAPTER_PROFILE:
-        if codex_provider_executable is not None:
-            raise ValueError(
-                "legacy semantic authoring cannot bind a Codex provider executable"
-            )
-        if repository_root is not None and executable == (
-            Path(repository_root) / FORMAL_ADAPTER_RELATIVE_PATH
-        ).resolve(strict=True):
-            raise ValueError(
-                "the shipped Codex adapter requires the production-codex profile"
-            )
-        return legacy_binding
     if repository_root is None or codex_provider_executable is None:
         raise ValueError(
             "production Codex authoring requires the shipped adapter and provider executable"
@@ -397,7 +399,7 @@ def bind_semantic_authoring_adapter(
         timeout_seconds=timeout_seconds,
     )
     return {
-        **legacy_binding,
+        **adapter_binding,
         "protocol": FORMAL_ADAPTER_PROTOCOL,
         "profile": FORMAL_ADAPTER_PROFILE,
         "provider_binding": provider_binding,
@@ -413,15 +415,8 @@ def require_semantic_authoring_adapter(
     if not isinstance(binding, Mapping):
         raise ValueError("runtime-owned semantic authoring adapter is unavailable")
     protocol = binding.get("protocol")
-    expected_fields = (
-        LEGACY_ADAPTER_BINDING_FIELDS
-        if protocol == ADAPTER_PROTOCOL
-        else FORMAL_ADAPTER_BINDING_FIELDS
-        if protocol == FORMAL_ADAPTER_PROTOCOL
-        else None
-    )
-    if expected_fields is None or set(binding) != expected_fields:
-        raise ValueError("runtime-owned semantic authoring adapter is unavailable")
+    if protocol != FORMAL_ADAPTER_PROTOCOL or set(binding) != FORMAL_ADAPTER_BINDING_FIELDS:
+        raise ValueError("runtime-owned production semantic authoring adapter is unavailable")
     argv = binding.get("argv")
     if (
         not isinstance(argv, list)
@@ -452,7 +447,7 @@ def require_semantic_authoring_adapter(
     if (
         not isinstance(timeout_seconds, int)
         or isinstance(timeout_seconds, bool)
-        or not 1 <= timeout_seconds <= 600
+        or not 1 <= timeout_seconds <= MAX_AUTHORING_TIMEOUT_SECONDS
     ):
         raise ValueError("semantic authoring adapter timeout binding is invalid")
     if protocol == FORMAL_ADAPTER_PROTOCOL:
@@ -601,7 +596,7 @@ def _semantic_inputs(packet: Mapping[str, Any]) -> dict[str, Any]:
     missing = [
         field
         for field in SEMANTIC_AUTHORING_FIELDS
-        if field != "framework_gap" and field not in packet
+        if field not in {"framework_gap", "answer_delivery"} and field not in packet
     ]
     if missing:
         raise ValueError(
@@ -629,7 +624,7 @@ def _adapter_request(
         time_window=shifted_window,
     )
     return {
-        "schema_id": "xi-kari.v2.semantic-authoring-request",
+        "schema_id": "xi-kari.v3.semantic-authoring-request",
         "schema_version": 1,
         "variant_kind": variant_kind,
         "generation_context_id": generation_context_id,
@@ -643,11 +638,11 @@ def _adapter_request(
             "repository_root": run_contract["repository_root"],
             "reader_root": str(
                 Path(str(run_contract["repository_root"]))
-                / "references/source/v8.2/reader"
+                / "references/source/v8.3/reader"
             ),
             "source_manifest_path": str(
                 Path(str(run_contract["repository_root"]))
-                / "references/source/v8.2/source-manifest.json"
+                / "references/source/v8.3/source-manifest.json"
             ),
             "source_lock": deepcopy(dict(source_lock)),
             "read_plan": deepcopy(dict(read_plan)),
@@ -659,6 +654,11 @@ def _adapter_request(
     }
 
 
+def _semantic_field_set_valid(payload: Mapping[str, Any]) -> bool:
+    required = set(SEMANTIC_AUTHORING_FIELDS) - {"answer_delivery"}
+    return required.issubset(payload) and set(payload).issubset(SEMANTIC_AUTHORING_FIELDS)
+
+
 def _parse_semantic_payload(stdout: bytes) -> dict[str, Any]:
     try:
         text = stdout.decode("utf-8")
@@ -668,27 +668,56 @@ def _parse_semantic_payload(stdout: bytes) -> dict[str, Any]:
         payload = read_json_text(text)
     except Exception as exc:
         raise ValueError("semantic authoring adapter stdout is not valid JSON") from exc
-    if not isinstance(payload, dict) or set(payload) != set(
-        SEMANTIC_AUTHORING_FIELDS
-    ):
+    if not isinstance(payload, dict) or not _semantic_field_set_valid(payload):
         raise ValueError("semantic authoring adapter output is not semantic-only")
     if stdout != canonical_bytes(payload):
         raise ValueError("semantic authoring adapter stdout is not canonical JSON")
     return payload
 
 
+def _validate_provider_execution(
+    record: Any, *, payload: Mapping[str, Any], adapter_pid: int
+) -> None:
+    if not isinstance(record, Mapping) or set(record) != PROVIDER_EXECUTION_FIELDS:
+        raise ValueError("provider file execution receipt fields are not exact")
+    if record.get("protocol") != OUTPUT_TRANSPORT or record.get("exit_status") != 0:
+        raise ValueError("provider file execution protocol or exit status is invalid")
+    for field in ("provider_parent_pid", "provider_child_pid"):
+        if not isinstance(record[field], int) or isinstance(record[field], bool) or record[field] < 1:
+            raise ValueError("provider process identity is invalid")
+    if record["provider_parent_pid"] != adapter_pid or record["provider_child_pid"] == adapter_pid:
+        raise ValueError("provider process identity is not bound to its actual adapter")
+    if not isinstance(record["events"], str) or not isinstance(record["semantic_file_content"], str):
+        raise ValueError("provider file execution content is unavailable")
+    events = record["events"].encode("utf-8")
+    thread_id, _ = parse_provider_events(events)
+    raw = record["semantic_file_content"].encode("utf-8")
+    if not raw or len(raw) > 16 * 1024 * 1024:
+        raise ValueError("provider semantic output file size is invalid")
+    if record["events_sha256"] != sha256_bytes(events) or record["thread_id"] != thread_id:
+        raise ValueError("provider event stream differs from its receipt")
+    if record["semantic_file_sha256"] != sha256_bytes(raw) or record["semantic_file_byte_count"] != len(raw):
+        raise ValueError("provider semantic output file differs from its receipt")
+    file_payload = read_json_text(raw.decode("utf-8"))
+    if not isinstance(file_payload, dict):
+        raise ValueError("provider semantic output file is not an object")
+    file_payload.setdefault("answer_delivery", None)
+    normalized_payload = dict(payload)
+    normalized_payload.setdefault("answer_delivery", None)
+    if file_payload != normalized_payload:
+        raise ValueError("provider semantic output file differs from its semantic packet")
+
+
 def _adapter_input(
     binding: Mapping[str, Any], request: Mapping[str, Any]
 ) -> tuple[dict[str, Any], bytes, bytes]:
     semantic_request = canonical_bytes(request)
-    if binding.get("protocol") == FORMAL_ADAPTER_PROTOCOL:
-        outer = {
-            "protocol": CODEX_ADAPTER_PROTOCOL,
-            "provider_binding": deepcopy(dict(binding["provider_binding"])),
-            "semantic_request": deepcopy(dict(request)),
-        }
-    else:
-        outer = deepcopy(dict(request))
+    require_semantic_authoring_adapter(binding, verify_executable=False)
+    outer = {
+        "protocol": CODEX_ADAPTER_PROTOCOL,
+        "provider_binding": deepcopy(dict(binding["provider_binding"])),
+        "semantic_request": deepcopy(dict(request)),
+    }
     return outer, semantic_request, canonical_bytes(outer)
 
 
@@ -963,17 +992,17 @@ def _execute_adapter(
         raise ValueError(
             f"semantic authoring adapter exited with status {returncode}{suffix}"
         )
-    payload = _parse_semantic_payload(stdout)
+    envelope = read_json_text(stdout.decode("utf-8"))
+    if not isinstance(envelope, dict) or set(envelope) != {"protocol", "semantic_packet", "provider_execution"} or envelope.get("protocol") != OUTPUT_TRANSPORT or canonical_bytes(envelope) != stdout:
+        raise ValueError("adapter did not return the fixed-file transport envelope")
+    payload = _parse_semantic_payload(canonical_bytes(envelope["semantic_packet"]))
+    _validate_provider_execution(envelope["provider_execution"], payload=payload, adapter_pid=process.pid)
     if not input_complete:
         raise ValueError(
             "semantic authoring adapter did not accept the complete input"
         )
     receipt: dict[str, Any] = {
-        "protocol": (
-            FORMAL_RECEIPT_PROTOCOL
-            if binding.get("protocol") == FORMAL_ADAPTER_PROTOCOL
-            else RECEIPT_PROTOCOL
-        ),
+        "protocol": FORMAL_RECEIPT_PROTOCOL,
         "adapter_executable_sha256": binding["executable_sha256"],
         "adapter_argv_sha256": binding["argv_sha256"],
         "variant_kind": request["variant_kind"],
@@ -989,6 +1018,7 @@ def _execute_adapter(
         "parent_pid": os.getpid(),
         "exit_status": returncode,
         "semantic_packet_sha256": sha256_json(payload),
+        "provider_execution": envelope["provider_execution"],
     }
     if binding.get("protocol") == FORMAL_ADAPTER_PROTOCOL:
         provider = binding["provider_binding"]
@@ -1050,7 +1080,7 @@ def author_semantic_probe_variants(
                 "semantic authoring adapter output differs from the requested variant"
             )
         semantic_packet_sha256 = sha256_json(semantic_packet)
-        if semantic_packet_sha256 == base_semantic_sha256:
+        if sha256_json(_semantic_inputs(semantic_packet)) == base_semantic_sha256:
             raise ValueError(
                 "semantic authoring adapter returned an unchanged input packet"
             )
@@ -1076,11 +1106,11 @@ def author_semantic_probe_variants(
         records
     ):
         raise ValueError("semantic authoring variants lack distinct child processes")
-    if len({record["semantic_packet_sha256"] for record in records}) != len(records):
+    if len({sha256_json(_semantic_inputs(record["semantic_packet"])) for record in records}) != len(records):
         raise ValueError("semantic authoring adapter returned duplicate variant outputs")
     bundle = {
-        "schema_id": "xi-kari.v2.semantic-probe-authorings",
-        "schema_version": 2,
+        "schema_id": "xi-kari.v3.semantic-probe-authorings",
+        "schema_version": 3,
         "run_id": run_contract["run_id"],
         "input_packet_sha256": input_packet_sha256,
         "source_lock_sha256": sha256_json(dict(source_lock)),
@@ -1116,8 +1146,8 @@ def validate_semantic_probe_authorings(
     )
     if (
         not isinstance(bundle, Mapping)
-        or bundle.get("schema_id") != "xi-kari.v2.semantic-probe-authorings"
-        or bundle.get("schema_version") != 2
+        or bundle.get("schema_id") != "xi-kari.v3.semantic-probe-authorings"
+        or bundle.get("schema_version") != 3
         or bundle.get("run_id") != run_contract.get("run_id")
         or bundle.get("input_packet_sha256") != input_packet_sha256
         or bundle.get("source_lock_sha256") != sha256_json(dict(source_lock))
@@ -1163,9 +1193,7 @@ def validate_semantic_probe_authorings(
             time_window=shifted_window,
         )
         semantic_packet = record.get("semantic_packet")
-        if not isinstance(semantic_packet, Mapping) or set(semantic_packet) != set(
-            SEMANTIC_AUTHORING_FIELDS
-        ):
+        if not isinstance(semantic_packet, Mapping) or not _semantic_field_set_valid(semantic_packet):
             raise ValueError("runtime-owned semantic authoring payload is incomplete")
         authored_problem = semantic_packet.get("problem_contract")
         if not isinstance(authored_problem, Mapping):
@@ -1189,12 +1217,13 @@ def validate_semantic_probe_authorings(
             binding, request
         )
         receipt = record.get("runtime_receipt")
-        formal_binding = binding.get("protocol") == FORMAL_ADAPTER_PROTOCOL
-        expected_receipt_fields = (
-            FORMAL_RUNTIME_RECEIPT_FIELDS
-            if formal_binding
-            else LEGACY_RUNTIME_RECEIPT_FIELDS
-        )
+        expected_receipt_fields = FORMAL_RUNTIME_RECEIPT_FIELDS
+        if isinstance(receipt, Mapping):
+            _validate_provider_execution(receipt.get("provider_execution"), payload=semantic_packet, adapter_pid=receipt.get("child_pid"))
+        expected_stdout = canonical_bytes({
+            "protocol": OUTPUT_TRANSPORT, "semantic_packet": semantic_packet,
+            "provider_execution": receipt.get("provider_execution") if isinstance(receipt, Mapping) else None,
+        })
         if (
             record.get("requested_stance") != requested_stance
             or record.get("time_window") != expected_problem["time_window"]
@@ -1202,11 +1231,11 @@ def validate_semantic_probe_authorings(
             or record.get("problem_contract_sha256") != contract_hash(expected_problem)
             or record.get("evidence_context_sha256") != context_hash
             or record.get("semantic_packet_sha256") != semantic_packet_sha256
-            or semantic_packet_sha256 == base_semantic_sha256
+            or sha256_json(_semantic_inputs(semantic_packet)) == base_semantic_sha256
             or not isinstance(receipt, Mapping)
             or set(receipt) != expected_receipt_fields
             or receipt.get("protocol")
-            != (FORMAL_RECEIPT_PROTOCOL if formal_binding else RECEIPT_PROTOCOL)
+            != FORMAL_RECEIPT_PROTOCOL
             or receipt.get("adapter_executable_sha256")
             != binding["executable_sha256"]
             or receipt.get("adapter_argv_sha256") != binding["argv_sha256"]
@@ -1217,8 +1246,8 @@ def validate_semantic_probe_authorings(
             or receipt.get("input_sha256") != sha256_bytes(outer_input_bytes)
             or receipt.get("input_byte_count") != len(outer_input_bytes)
             or not 0 < receipt["input_byte_count"] < MAX_ADAPTER_STDIN_BYTES
-            or receipt.get("stdout_sha256") != semantic_packet_sha256
-            or receipt.get("stdout_byte_count") != len(canonical_bytes(semantic_packet))
+            or receipt.get("stdout_sha256") != sha256_bytes(expected_stdout)
+            or receipt.get("stdout_byte_count") != len(expected_stdout)
             or not isinstance(receipt.get("stderr_sha256"), str)
             or len(receipt["stderr_sha256"]) != 64
             or not isinstance(receipt.get("child_pid"), int)
@@ -1233,7 +1262,7 @@ def validate_semantic_probe_authorings(
             or record.get("runtime_receipt_sha256") != sha256_json(dict(receipt))
         ):
             raise ValueError("runtime-owned semantic authoring receipt is invalid")
-        if formal_binding:
+        if receipt.get("protocol") == FORMAL_RECEIPT_PROTOCOL:
             provider = binding["provider_binding"]
             if (
                 receipt.get("semantic_request_sha256")
@@ -1255,7 +1284,7 @@ def validate_semantic_probe_authorings(
                 != provider["argv_sha256"]
             ):
                 raise ValueError("runtime-owned Codex provider receipt is invalid")
-        output_hashes.add(semantic_packet_sha256)
+        output_hashes.add(sha256_json(_semantic_inputs(semantic_packet)))
     if len(output_hashes) != len(records):
         raise ValueError("runtime-owned semantic authorings contain duplicate outputs")
     return by_kind

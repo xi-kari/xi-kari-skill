@@ -1,22 +1,22 @@
 ---
-id: V82-CANON-X0
+id: V83-CANON-X0
 qualified_id: hsp.path:X0
 name: X0 有序退场与良性消亡
 family: circles-collectives
 disposition: canonical_concept
-source_authority: v8.2
+source_authority: v8.3
 ---
 
 # X0 有序退场与良性消亡
 
-## 权威定义（v8.2）
+## 权威定义（v8.3）
 
-X0 是独立的人类集体生命周期路径：当继续维持原对象不再服务已登记锚点，功能可完成/终止/被更安全承接，并且人员、关系、资源、记忆、债务和申诉被处理时，记录对象如何收束、转移、保存和结清（`V82-P1507`-`V82-P1510`）。X0 不要求 S5 或 S6。
+X0 是独立的人类集体生命周期路径：当继续维持原对象不再服务已登记锚点，功能可完成/终止/被更安全承接，并且人员、关系、资源、记忆、债务和申诉被处理时，记录对象如何收束、转移、保存和结清（`V83-P1507`-`V83-P1510`）。X0 不要求 S5 或 S6。
 
 ## 允许推论
 
 - 清点锚点与 K、功能、人员关系、资源、记忆证据、债务责任、弱连接和接收方能力。
-- 将结果分为候选、进行中、部分完成、完成和 unknown；完成须有独立验证、保护、回滚和责任承接（`V82-P1513`-`V82-P1538`）。
+- 将结果分为候选、进行中、部分完成、完成和 unknown；完成须有独立验证、保护、回滚和责任承接（`V83-P1513`-`V83-P1538`）。
 
 ## 禁止跳跃
 
@@ -42,17 +42,17 @@ X0 只说明判断退场所需的对象、义务、证据、保护和未知，�
 
 ## source_undefined
 
-v8.2 未定义“良性消亡分数”、最低 S 阶段、自动接收方资格或统一完成期限；标 `source_undefined`。
+v8.3 未定义“良性消亡分数”、最低 S 阶段、自动接收方资格或统一完成期限；标 `source_undefined`。
 
 ## 来源锚点
 
-- [v8.2 reader 08](../../../source/v8.2/reader/08-human-state-prototypes.md): `V82-P1507`-`V82-P1539`。
+- [v8.3 reader 08](../../../source/v8.3/reader/08-human-state-prototypes.md): `V83-P1507`-`V83-P1539`。
 
 ## 原文定义区段
 
 本卡的权威定义必须与无损阅读版连续联读；以下锚点是定位索引，不是删减后的替代文本。运行时先完整读取 21 卷，再回到这些锚点核对相邻段落、表格和适用边界。
 
-- `V82-P1507`, `V82-P1508`, `V82-P1513`, `V82-P1539`
+- `V83-P1507`, `V83-P1508`, `V83-P1513`, `V83-P1539`
 
 ## 解释层（非原文定义）
 
@@ -60,25 +60,25 @@ v8.2 未定义“良性消亡分数”、最低 S 阶段、自动接收方资格
 
 ## 必须联读的邻接概念
 
-- `V82-CANON-CIRCLE`：`references/ontology/cards/circles-collectives/circle-candidate-object.md`
+- `V83-CANON-CIRCLE`：`references/ontology/cards/circles-collectives/circle-candidate-object.md`
 
-- `V82-CANON-CIRCLE-RELATIONS`：`references/ontology/cards/circles-collectives/relations-membership.md`
+- `V83-CANON-CIRCLE-RELATIONS`：`references/ontology/cards/circles-collectives/relations-membership.md`
 
-- `V82-CANON-JOINT-STATE`：`references/ontology/cards/circles-collectives/joint-state.md`
+- `V83-CANON-JOINT-STATE`：`references/ontology/cards/circles-collectives/joint-state.md`
 
-- `V82-CANON-S0`：`references/ontology/cards/circles-collectives/s0-s6-prototypes.md`
+- `V83-CANON-S0`：`references/ontology/cards/circles-collectives/s0-s6-prototypes.md`
 
-- `V82-CANON-S1`：`references/ontology/cards/circles-collectives/s0-s6-prototypes.md`
+- `V83-CANON-S1`：`references/ontology/cards/circles-collectives/s0-s6-prototypes.md`
 
-- `V82-CANON-S2`：`references/ontology/cards/circles-collectives/s0-s6-prototypes.md`
+- `V83-CANON-S2`：`references/ontology/cards/circles-collectives/s0-s6-prototypes.md`
 
-- `V82-CANON-S3`：`references/ontology/cards/circles-collectives/s0-s6-prototypes.md`
+- `V83-CANON-S3`：`references/ontology/cards/circles-collectives/s0-s6-prototypes.md`
 
-- `V82-CANON-S4`：`references/ontology/cards/circles-collectives/s0-s6-prototypes.md`
+- `V83-CANON-S4`：`references/ontology/cards/circles-collectives/s0-s6-prototypes.md`
 
-- `V82-CANON-S5`：`references/ontology/cards/circles-collectives/s0-s6-prototypes.md`
+- `V83-CANON-S5`：`references/ontology/cards/circles-collectives/s0-s6-prototypes.md`
 
-- `V82-CANON-S6`：`references/ontology/cards/circles-collectives/s0-s6-prototypes.md`
+- `V83-CANON-S6`：`references/ontology/cards/circles-collectives/s0-s6-prototypes.md`
 
 ## 撤回条件
 

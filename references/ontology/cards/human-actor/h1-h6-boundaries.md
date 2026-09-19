@@ -1,27 +1,27 @@
 ---
-id: V82-CANON-H1-H6
+id: V83-CANON-H1-H6
 qualified_id: human_claim:H1-H6
 name: H1-H6 人类命题角色边界
 family: human-actor
 disposition: structural_rule
-source_authority: v8.2
-covered_ids: V82-CANON-H1,V82-CANON-H2,V82-CANON-H3,V82-CANON-H4,V82-CANON-H5,V82-CANON-H6
+source_authority: v8.3
+covered_ids: V83-CANON-H1,V83-CANON-H2,V83-CANON-H3,V83-CANON-H4,V83-CANON-H5,V83-CANON-H6
 ---
 
 # H1-H6 人类命题角色边界
 
-## 权威定义（v8.2）
+## 权威定义（v8.3）
 
-H1-H6 不是同一种事实：H1、H4、H5 是待实例检验的经验假设；H2、H3 是操作/分类规则；H6 是规范边界（`V82-P1164`-`V82-P1165`）。
+H1-H6 不是同一种事实：H1、H4、H5 是待实例检验的经验假设；H2、H3 是操作/分类规则；H6 是规范边界（`V83-P1164`-`V83-P1165`）。
 
-| ID | v8.2 允许登记 | 不能推出 |
+| ID | v8.3 允许登记 | 不能推出 |
 | --- | --- | --- |
-| H1 意义与协调 | 预先指定意义安排相对比较条件下，对资源、行动或协调结果的条件性指向锚点 | 口号、共同语言或投射不证明统一内心、真实同意或共同意愿（`V82-P1170`-`V82-P1173`） |
-| H2 行动承接与责任分型 | 分开登记 CV、成本承担者、受益者、停止权与 RS | 承接能力不变成承接义务（`V82-P1174`-`V82-P1177`） |
-| H3 制度写回 | 申诉/审计/反馈实际改变记录、规则、资源、角色、责任、记忆或停止条件，并有执行记录 | 受理、一次写回或一次字段更新不等于学习或长期修复（`V82-P1178`-`V82-P1181`） |
-| H4 权力、中介与反身性 | 预先指定位置、中介、公开条件、结果和阈值后，登记遮蔽、放大或反身通道 | 权力、平台、指标或 AI 标签不替代机制链；沉默不等于同意（`V82-P1182`-`V82-P1185`） |
-| H5 历史留痕载体 | 指定载体、基线、留痕量、阈值和持久窗口内的候选留痕 | 留痕不等于路径效应；未来效应另需 G3-instance（`V82-P1186`-`V82-P1189`） |
-| H6 开放性承担 | 真实成本、自愿性、方向、替代解释、结构后果和停止权的规范边界 | 不诊断“有没有爱”，不以牺牲证明爱，不征用单方继续承担（`V82-P1190`-`V82-P1193`） |
+| H1 意义与协调 | 预先指定意义安排相对比较条件下，对资源、行动或协调结果的条件性指向锚点 | 口号、共同语言或投射不证明统一内心、真实同意或共同意愿（`V83-P1170`-`V83-P1173`） |
+| H2 行动承接与责任分型 | 分开登记 CV、成本承担者、受益者、停止权与 RS | 承接能力不变成承接义务（`V83-P1174`-`V83-P1177`） |
+| H3 制度写回 | 申诉/审计/反馈实际改变记录、规则、资源、角色、责任、记忆或停止条件，并有执行记录 | 受理、一次写回或一次字段更新不等于学习或长期修复（`V83-P1178`-`V83-P1181`） |
+| H4 权力、中介与反身性 | 预先指定位置、中介、公开条件、结果和阈值后，登记遮蔽、放大或反身通道 | 权力、平台、指标或 AI 标签不替代机制链；沉默不等于同意（`V83-P1182`-`V83-P1185`） |
+| H5 历史留痕载体 | 指定载体、基线、留痕量、阈值和持久窗口内的候选留痕 | 留痕不等于路径效应；未来效应另需 G3-instance（`V83-P1186`-`V83-P1189`） |
+| H6 开放性承担 | 真实成本、自愿性、方向、替代解释、结构后果和停止权的规范边界 | 不诊断“有没有爱”，不以牺牲证明爱，不征用单方继续承担（`V83-P1190`-`V83-P1193`） |
 
 ## 允许推论
 
@@ -37,15 +37,15 @@ H1-H6 不是同一种事实：H1、H4、H5 是待实例检验的经验假设；H
 ## 反例与失败条件
 
 - 单一来源、一次观察、公开口号、平台指标或中心自述无法满足相应实例合同。
-- 未预选结果判据、载体原子或持久判据时，结果后不得补选以救援失败实例（`V82-P1195`）。
+- 未预选结果判据、载体原子或持久判据时，结果后不得补选以救援失败实例（`V83-P1195`）。
 
 ## 判断与行动上限
 
-H1-H6 只产生经验描述、分类结果、证据缺口或规范需求；现实调整仍须 C12、N、J 和 O 程序（`V82-P1194`）。
+H1-H6 只产生经验描述、分类结果、证据缺口或规范需求；现实调整仍须 C12、N、J 和 O 程序（`V83-P1194`）。
 
 ## 申诉与回滚
 
-低权力位置、被评价者、承接者、被排除者和异见者必须有安全、低暴露或代理申诉；回滚须实际改变对象、记录、规则、资源、权利或下游判断，而非只发声明（`V82-P1243`-`V82-P1244`）。
+低权力位置、被评价者、承接者、被排除者和异见者必须有安全、低暴露或代理申诉；回滚须实际改变对象、记录、规则、资源、权利或下游判断，而非只发声明（`V83-P1243`-`V83-P1244`）。
 
 ## 三阶推演接口
 
@@ -55,34 +55,34 @@ H1-H6 只产生经验描述、分类结果、证据缺口或规范需求；现�
 
 ## source_undefined
 
-v8.2 未给 H1-H6 提供一个可跨情境合并的总分、人格等级或自动授权映射；这些字段必须标记 `source_undefined`。
+v8.3 未给 H1-H6 提供一个可跨情境合并的总分、人格等级或自动授权映射；这些字段必须标记 `source_undefined`。
 
 ## 来源锚点
 
-- [v8.2 reader 07](../../../source/v8.2/reader/07-human-structured-world.md): `V82-P1164`-`V82-P1195`、`V82-P1243`-`V82-P1244`。
-- [v8.2 reader 附录 A](../../../source/v8.2/reader/17-appendix-a-human-variable-cards.md): HV01-HV11 完整接口卡。
+- [v8.3 reader 07](../../../source/v8.3/reader/07-human-structured-world.md): `V83-P1164`-`V83-P1195`、`V83-P1243`-`V83-P1244`。
+- [v8.3 reader 附录 A](../../../source/v8.3/reader/17-appendix-a-human-variable-cards.md): HV01-HV11 完整接口卡。
 
 ## 原文定义区段
 
 本卡的权威定义必须与无损阅读版连续联读；以下锚点是定位索引，不是删减后的替代文本。运行时先完整读取 21 卷，再回到这些锚点核对相邻段落、表格和适用边界。
 
-- `V82-P1170`, `V82-P1171`, `V82-P1172`, `V82-P1173`, `V82-P1174`, `V82-P1175`, `V82-P1176`, `V82-P1177`, `V82-P1178`, `V82-P1179`, `V82-P1180`, `V82-P1181`, `V82-P1182`, `V82-P1183`, `V82-P1184`, `V82-P1185`, `V82-P1186`, `V82-P1187`, `V82-P1188`, `V82-P1189`, `V82-P1190`, `V82-P1191`, `V82-P1192`, `V82-P1193`
+- `V83-P1170`, `V83-P1171`, `V83-P1172`, `V83-P1173`, `V83-P1174`, `V83-P1175`, `V83-P1176`, `V83-P1177`, `V83-P1178`, `V83-P1179`, `V83-P1180`, `V83-P1181`, `V83-P1182`, `V83-P1183`, `V83-P1184`, `V83-P1185`, `V83-P1186`, `V83-P1187`, `V83-P1188`, `V83-P1189`, `V83-P1190`, `V83-P1191`, `V83-P1192`, `V83-P1193`
 
 ## 解释层（非原文定义）
 
-本卡解释层只说明如何把人类位置、隐私、责任和主体性字段接入局部世界模型；它不是 v8.2 原文定义，也不把模型分类升级为人格、事实或授权。
+本卡解释层只说明如何把人类位置、隐私、责任和主体性字段接入局部世界模型；它不是 v8.3 原文定义，也不把模型分类升级为人格、事实或授权。
 
 ## 必须联读的邻接概念
 
-- `V82-CANON-CORE-HUMAN-EMPIRICAL-INSTANCE-CONTRACT`：`references/ontology/cards/evidence-claim/root-evidence-contracts.md`
+- `V83-CANON-CORE-HUMAN-EMPIRICAL-INSTANCE-CONTRACT`：`references/ontology/cards/evidence-claim/root-evidence-contracts.md`
 
-- `V82-CANON-ACTOR-SNAPSHOT`：`references/ontology/cards/human-actor/actor-state-snapshot.md`
+- `V83-CANON-ACTOR-SNAPSHOT`：`references/ontology/cards/human-actor/actor-state-snapshot.md`
 
-- `V82-CANON-DUAL-CONDITIONS`：`references/ontology/cards/human-actor/dual-conditions-privacy.md`
+- `V83-CANON-DUAL-CONDITIONS`：`references/ontology/cards/human-actor/dual-conditions-privacy.md`
 
-- `V82-CANON-HV01`：`references/ontology/cards/human-actor/hv01-structure-domain.md`
+- `V83-CANON-HV01`：`references/ontology/cards/human-actor/hv01-structure-domain.md`
 
-- `V82-CANON-HV02`：`references/ontology/cards/human-actor/hv02-boundary-interface.md`
+- `V83-CANON-HV02`：`references/ontology/cards/human-actor/hv02-boundary-interface.md`
 
 ## 撤回条件
 

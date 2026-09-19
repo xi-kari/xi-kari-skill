@@ -1,7 +1,7 @@
 ---
-id: V82-CANON-CORE-CAUSAL-CONTRACT
-covered_ids: V82-CANON-CORE-CAUSAL-CONTRACT,V82-CANON-CORE-ANALOGY-CONTRACT,V82-CANON-CORE-G1-CONDITIONAL-GAIN,V82-CANON-CORE-G2-CHANNEL-EFFECT,V82-CANON-CORE-G3-HISTORY-INCREMENT,V82-CANON-CORE-G4-SCALE-CLOSURE,V82-CANON-CORE-EPISTEMIC-E1-E5,V82-CANON-CORE-INFERENCE-C1-C12,V82-CANON-CORE-ROOT-INSTANCE-CONTRACT,V82-CANON-CORE-HUMAN-EMPIRICAL-INSTANCE-CONTRACT
-source_authority: v8.2
+id: V83-CANON-CORE-CAUSAL-CONTRACT
+covered_ids: V83-CANON-CORE-CAUSAL-CONTRACT,V83-CANON-CORE-ANALOGY-CONTRACT,V83-CANON-CORE-G1-CONDITIONAL-GAIN,V83-CANON-CORE-G2-CHANNEL-EFFECT,V83-CANON-CORE-G3-HISTORY-INCREMENT,V83-CANON-CORE-G4-SCALE-CLOSURE,V83-CANON-CORE-EPISTEMIC-E1-E5,V83-CANON-CORE-INFERENCE-C1-C12,V83-CANON-CORE-ROOT-INSTANCE-CONTRACT,V83-CANON-CORE-HUMAN-EMPIRICAL-INSTANCE-CONTRACT
+source_authority: v8.3
 card_kind: shared
 ---
 
@@ -13,21 +13,21 @@ card_kind: shared
 
 ## 原文锚点
 
-- V82-P0587—V82-P0685：根实例、G1—G4、E1—E5 与推论合同入口
-- V82-T006、V82-P0588—V82-P0626：结果前/结果后两段、决策规则、四态结果与支持资格
-- V82-P0628—V82-P0647、V82-T007：人类经验实例合同、H1/H4/H5 子型与支持边界
-- V82-P0688—V82-P0829：C1—C12
-- V82-P0842—V82-P0860：组合推论树与停止位置
-- V82-P0484—V82-P0486：因果契约
+- V83-P0587—V83-P0685：根实例、G1—G4、E1—E5 与推论合同入口
+- V83-T006、V83-P0588—V83-P0626：结果前/结果后两段、决策规则、四态结果与支持资格
+- V83-P0628—V83-P0647、V83-T007：人类经验实例合同、H1/H4/H5 子型与支持边界
+- V83-P0688—V83-P0829：C1—C12
+- V83-P0842—V83-P0860：组合推论树与停止位置
+- V83-P0484—V83-P0486：因果契约
 
 ## 权威定义
 
-- G1 询问候选分组相对复杂度匹配基线是否有条件增益；G2 询问指定通道/载体在注册干预或自然变异下是否产生目标转移；G3 询问历史项在控制当前状态后是否增加未来路径信息；G4 询问尺度映射、对象或干预转换是否按预注册标准闭合（V82-P0648—V82-P0663）。
-- E1—E5 分别约束对象声明、观察位置/模型限制、条件性观测参与、竞争解释与残差、跨尺度迁移（V82-P0671—V82-P0680）。
-- C1—C12 是依赖条件、证据门和规范桥接组成的条件推论合同；它们只有在对应实例和前提成立时才可使用，根层到达预先声明的停止位置（V82-P0685—V82-P0846）。
-- 因果主张必须登记原因、结果、时间顺序、通道、对象/尺度、窗口、目标变量和可区分反事实；相关、时序和机制故事只能产生候选路径（V82-P0485—V82-P0486）。
-- 根实例把结果前冻结段与结果后追加段分开，并封闭为 `supported`、`unsupported_or_undecided`、`null_supported`、`not_evaluated` 四态；只有合格的 confirmatory/replication 实例可支撑 C 推论（V82-P0585—V82-P0626）。
-- `human_empirical_instance_contract` 是 H1、H4、H5 的独立正式实例合同：身份字段以 `claim_id` 取代 `root_id`，其余冻结、结果、缺失、版本、偏离、正向门、零结论门与证据制品纪律和根实例合同同构；经验真值只属于具体 H-instance（V82-P0628—V82-P0647）。
+- G1 询问候选分组相对复杂度匹配基线是否有条件增益；G2 询问指定通道/载体在注册干预或自然变异下是否产生目标转移；G3 询问历史项在控制当前状态后是否增加未来路径信息；G4 询问尺度映射、对象或干预转换是否按预注册标准闭合（V83-P0648—V83-P0663）。
+- E1—E5 分别约束对象声明、观察位置/模型限制、条件性观测参与、竞争解释与残差、跨尺度迁移（V83-P0671—V83-P0680）。
+- C1—C12 是依赖条件、证据门和规范桥接组成的条件推论合同；它们只有在对应实例和前提成立时才可使用，根层到达预先声明的停止位置（V83-P0685—V83-P0846）。
+- 因果主张必须登记原因、结果、时间顺序、通道、对象/尺度、窗口、目标变量和可区分反事实；相关、时序和机制故事只能产生候选路径（V83-P0485—V83-P0486）。
+- 根实例把结果前冻结段与结果后追加段分开，并封闭为 `supported`、`unsupported_or_undecided`、`null_supported`、`not_evaluated` 四态；只有合格的 confirmatory/replication 实例可支撑 C 推论（V83-P0585—V83-P0626）。
+- `human_empirical_instance_contract` 是 H1、H4、H5 的独立正式实例合同：身份字段以 `claim_id` 取代 `root_id`，其余冻结、结果、缺失、版本、偏离、正向门、零结论门与证据制品纪律和根实例合同同构；经验真值只属于具体 H-instance（V83-P0628—V83-P0647）。
 
 ## 解释层（非原文定义）
 
@@ -86,20 +86,20 @@ core-boundary-contracts.md、universal-primitives.md、scale-profiles-and-operat
 
 ## source_undefined
 
-具体实验设计、样本量、阈值和现实概率不由 v8.2 自动提供，必须由问题领域和外部资料补足。
+具体实验设计、样本量、阈值和现实概率不由 v8.3 自动提供，必须由问题领域和外部资料补足。
 
 ## 原文定义区段
 
 本卡的权威定义必须与无损阅读版连续联读；以下锚点是定位索引，不是删减后的替代文本。运行时先完整读取 21 卷，再回到这些锚点核对相邻段落、表格和适用边界。
 
-- `V82-P0484`, `V82-P0485`, `V82-P0486`, `V82-P0490`, `V82-P0491`, `V82-P0492`, `V82-P0585`, `V82-P0587`, `V82-P0588`, `V82-T006`, `V82-P0622`, `V82-P0623`, `V82-P0624`, `V82-P0625`, `V82-P0626`, `V82-P0628`, `V82-P0629`, `V82-T007`, `V82-P0646`, `V82-P0647`, `V82-P0648`, `V82-P0649`, `V82-P0650`, `V82-P0651`, `V82-P0652`, `V82-P0653`, `V82-P0654`, `V82-P0655`, `V82-P0656`, `V82-P0657`, `V82-P0658`, `V82-P0659`, `V82-P0660`, `V82-P0661`, `V82-P0662`, `V82-P0663`, `V82-P0671`, `V82-P0672`, `V82-P0674`, `V82-P0676`, `V82-P0678`, `V82-P0680`, `V82-P0683`, `V82-P0684`, `V82-P0685`, `V82-P0687`, `V82-P0726`, `V82-P0776`, `V82-P0828`, `V82-P0842`, `V82-P0846`
+- `V83-P0484`, `V83-P0485`, `V83-P0486`, `V83-P0490`, `V83-P0491`, `V83-P0492`, `V83-P0585`, `V83-P0587`, `V83-P0588`, `V83-T006`, `V83-P0622`, `V83-P0623`, `V83-P0624`, `V83-P0625`, `V83-P0626`, `V83-P0628`, `V83-P0629`, `V83-T007`, `V83-P0646`, `V83-P0647`, `V83-P0648`, `V83-P0649`, `V83-P0650`, `V83-P0651`, `V83-P0652`, `V83-P0653`, `V83-P0654`, `V83-P0655`, `V83-P0656`, `V83-P0657`, `V83-P0658`, `V83-P0659`, `V83-P0660`, `V83-P0661`, `V83-P0662`, `V83-P0663`, `V83-P0671`, `V83-P0672`, `V83-P0674`, `V83-P0676`, `V83-P0678`, `V83-P0680`, `V83-P0683`, `V83-P0684`, `V83-P0685`, `V83-P0687`, `V83-P0726`, `V83-P0776`, `V83-P0828`, `V83-P0842`, `V83-P0846`
 
 ## 必须联读的邻接概念
 
-- `V82-CANON-CORE-D0-OBJECT`：`references/ontology/cards/foundation-boundary/core-boundary-contracts.md`
+- `V83-CANON-CORE-D0-OBJECT`：`references/ontology/cards/foundation-boundary/core-boundary-contracts.md`
 
-- `V82-CANON-CORE-EVIDENCE-CONTRACT`：`references/ontology/cards/foundation-boundary/claim-roles-and-missing-states.md`
+- `V83-CANON-CORE-EVIDENCE-CONTRACT`：`references/ontology/cards/foundation-boundary/claim-roles-and-missing-states.md`
 
-- `V82-CANON-CORE-HUMAN-EMPIRICAL-INSTANCE-CONTRACT`：本卡中的人类经验实例合同区段。
+- `V83-CANON-CORE-HUMAN-EMPIRICAL-INSTANCE-CONTRACT`：本卡中的人类经验实例合同区段。
 
-- `V82-CANON-H1`、`V82-CANON-H4`、`V82-CANON-H5`：`references/ontology/cards/human-actor/h1-h6-boundaries.md`
+- `V83-CANON-H1`、`V83-CANON-H4`、`V83-CANON-H5`：`references/ontology/cards/human-actor/h1-h6-boundaries.md`

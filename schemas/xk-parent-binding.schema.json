@@ -1,12 +1,12 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://xi-kari.local/schemas/xi-kari.v2.parent-binding.schema.json",
-  "title": "Xi-Kari v2 parent run binding",
+  "$id": "https://xi-kari.local/schemas/xi-kari.v3.parent-binding.schema.json",
+  "title": "Xi-Kari v3 parent run binding",
   "type": "object",
   "additionalProperties": false,
   "required": ["schema_id", "schema_version", "run_id", "parent_run_id", "parent_chain_head_sha256", "base_phase"],
   "properties": {
-    "schema_id": {"const": "xi-kari.v2.parent-binding"},
+    "schema_id": {"const": "xi-kari.v3.parent-binding"},
     "schema_version": {"const": 3},
     "run_id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,95}$"},
     "parent_run_id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,95}$"},

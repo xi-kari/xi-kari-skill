@@ -8,7 +8,7 @@ import re
 from typing import Any
 
 from .canonical_json import sha256_json
-from .claims import ClaimMechanismError, validate_claim_graph
+from .claims import ClaimMechanismError, claim_constraints, validate_claim_graph
 from .problem_contract import parse_instant
 from .recursion import LineageValidation
 from .world_volume import _native_snapshot, _validate_ontology_binding, _validate_schema
@@ -16,25 +16,25 @@ from .world_volume import _native_snapshot, _validate_ontology_binding, _validat
 
 REQUIRED_VERDICT_ONTOLOGY = frozenset(
     {
-        "V82-CANON-CORE-OUTPUT-SEPARATION",
-        "V82-CANON-CORE-STRONG-JUDGMENT",
-        "V82-CANON-AUTHORIZATION",
+        "V83-CANON-CORE-OUTPUT-SEPARATION",
+        "V83-CANON-CORE-STRONG-JUDGMENT",
+        "V83-CANON-AUTHORIZATION",
     }
 )
 REQUIRED_ACTION_ONTOLOGY = frozenset(
     {
-        "V82-CANON-SELECTION",
-        "V82-CANON-NO-ACTION",
-        "V82-CANON-AUTHORIZATION",
+        "V83-CANON-SELECTION",
+        "V83-CANON-NO-ACTION",
+        "V83-CANON-AUTHORIZATION",
     }
 )
 REQUIRED_GAP_ONTOLOGY = frozenset(
     {
-        "V82-CANDIDATE-PROVISIONAL-VARIABLE",
-        "V82-CANON-CORE-COMMON-KERNEL",
+        "V83-CANDIDATE-PROVISIONAL-VARIABLE",
+        "V83-CANON-CORE-COMMON-KERNEL",
     }
 )
-FRAMEWORK_GAP_SOURCE_ANCHORS = ("V82-P2084", "V82-P4613")
+FRAMEWORK_GAP_SOURCE_ANCHORS = ("V83-P2084", "V83-P4613")
 VERDICT_KINDS = (
     "fact",
     "structure",
@@ -74,8 +74,8 @@ def empty_framework_gap_ledger() -> dict[str, Any]:
     """Return the explicit isolated state for an applicable run with no gaps."""
 
     return {
-        "schema_id": "xi-kari.v2.xk.framework-gap-ledger",
-        "source_version": "v8.2",
+        "schema_id": "xi-kari.v3.xk.framework-gap-ledger",
+        "source_version": "v8.3",
         "ontology_refs": sorted(REQUIRED_GAP_ONTOLOGY),
         "source_anchors": list(FRAMEWORK_GAP_SOURCE_ANCHORS),
         "candidates": [],
@@ -184,6 +184,32 @@ def validate_verdict_bundle(
         explanation["explanation_id"]: explanation
         for explanation in graph["explanations"]
     }
+    local_records = _unique(snapshot["claim_verdicts"], "claim_id", "claim verdict")
+    if set(local_records) != set(by_claim):
+        raise JudgmentError("claim verdicts must cover every claim exactly once")
+    constraints = claim_constraints(
+        graph,
+        undecidable_claim_ids={identifier for identifier, row in local_records.items() if row["status"] == "undecidable"},
+    )
+    for identifier, record in local_records.items():
+        constraint = constraints[identifier]
+        for field in ("blocking_claim_ids", "blocking_evidence_refs", "missing_input_ids"):
+            if set(record[field]) != set(constraint[field]):
+                raise JudgmentError(f"claim {identifier} {field} differs from its dependency constraints")
+        if constraint["blocked"] and record["status"] != "undecidable":
+            raise JudgmentError(f"blocked claim {identifier} cannot retain a usable verdict")
+        if constraint["limiting"] and record["status"] == "locked":
+            raise JudgmentError(f"claim {identifier} with limiting missing input cannot be locked")
+        if record["status"] != "undecidable" and not by_claim[identifier]["evidence_refs"]:
+            raise JudgmentError(f"usable claim {identifier} requires grounded evidence")
+        if record["status"] == "locked":
+            claim = by_claim[identifier]
+            if any(local_records[parent]["status"] != "locked" for parent in claim["depends_on_claim_ids"]):
+                raise JudgmentError(f"locked claim {identifier} cannot exceed a bounded dependency")
+            if claim["kind"] == "factual":
+                identities = {by_evidence[ref]["identity"] for ref in claim["evidence_refs"]}
+                if "observed" not in identities or identities.intersection({"model-candidate", "simulated-result", "user-material", "unknown"}):
+                    raise JudgmentError(f"locked factual claim {identifier} requires observed evidence")
     records = snapshot["five_verdicts"]
     verdict_ids = [record["verdict_id"] for record in records]
     if len(verdict_ids) != len(set(verdict_ids)):
@@ -228,6 +254,10 @@ def validate_verdict_bundle(
             if claim is None:
                 raise JudgmentError(f"{kind} verdict references an unknown claim")
             claims.append(claim)
+            if local_records[claim_id]["status"] == "undecidable":
+                raise JudgmentError(f"{kind} verdict cannot promote an undecidable local claim")
+            if record["status"] == "locked" and local_records[claim_id]["status"] != "locked":
+                raise JudgmentError(f"{kind} verdict cannot exceed its local claim strength")
         if any(claim["kind"] not in CLAIM_KIND_BY_VERDICT[kind] for claim in claims):
             raise JudgmentError(
                 f"{kind} verdict cannot substitute a claim from another verdict kind"
@@ -314,36 +344,47 @@ def validate_verdict_bundle(
 
     ranking = snapshot["explanation_ranking"]
     ranked_ids = [item["explanation_id"] for item in ranking]
-    ranks = [item["rank"] for item in ranking]
-    if set(ranked_ids) != set(by_explanation):
-        raise JudgmentError("explanation ranking must cover exactly five explanations")
+    if len(ranked_ids) != len(set(ranked_ids)) or set(ranked_ids) != set(by_explanation):
+        raise JudgmentError("explanation disposition must cover every explanation category exactly once")
+    rows_by_id = {row["explanation_id"]: row for row in ranking}
+    for row in ranking:
+        explanation = by_explanation[row["explanation_id"]]
+        if not set(row["claim_ids"]).issubset(by_claim):
+            raise JudgmentError("explanation local comparison references an unknown claim")
+        if explanation["applicability"] == "not-applicable":
+            if row["role"] != "not-applicable" or row["rank"] is not None or row["claim_ids"]:
+                raise JudgmentError("not-applicable explanation cannot retain a ranking or local comparison")
+        elif row["role"] == "not-applicable" or not row["claim_ids"]:
+            raise JudgmentError("applicable explanation must retain its local comparison")
+        if row["role"] in {"excluded", "unresolved", "not-applicable"} and row["rank"] is not None:
+            raise JudgmentError("excluded or unresolved explanation cannot carry a preference rank")
+        if row["rank"] is not None and any(local_records[claim_id]["status"] == "undecidable" for claim_id in row["claim_ids"]):
+            raise JudgmentError("ranked explanation cannot rely on an undecidable local claim")
     if snapshot["judgment_kind"] == "best-current":
-        if ranks != [1, 2, 3, 4, 5]:
-            raise JudgmentError(
-                "best-current explanation ranking must be an exact contiguous five-item ranking"
-            )
         best = snapshot["current_best_judgment"]
         if best is None or snapshot["non_decidability"] is not None:
             raise JudgmentError("best-current judgment requires a current verdict only")
-        if (
-            ranked_ids[0] != best["best_explanation_id"]
-            or ranked_ids[1] != best["runner_up_explanation_id"]
+        primary = rows_by_id.get(best["best_explanation_id"])
+        if primary is None or primary["role"] != "primary" or primary["rank"] != 1:
+            raise JudgmentError("best-current judgment must bind a primary local explanation")
+        runner_up = best["runner_up_explanation_id"]
+        if runner_up is not None and (
+            runner_up == best["best_explanation_id"] or runner_up not in rows_by_id
+            or rows_by_id[runner_up]["role"] in {"excluded", "not-applicable"}
         ):
-            raise JudgmentError("best-current explanation ranking is not bound to its top two")
+            raise JudgmentError("best-current rival does not resolve to an applicable explanation")
         if not set(best["strongest_counterevidence_refs"]).issubset(by_evidence):
             raise JudgmentError("strongest counterevidence does not resolve")
     else:
         if snapshot["current_best_judgment"] is not None or snapshot["non_decidability"] is None:
             raise JudgmentError("non-decidability must not carry a best-current verdict")
-        if any(rank is not None for rank in ranks):
-            raise JudgmentError(
-                "non-decidability cannot carry a total explanation ranking"
-            )
         remaining = set(snapshot["non_decidability"]["remaining_partial_order"])
         if len(remaining) < 2 or not remaining.issubset(by_explanation):
             raise JudgmentError(
                 "non-decidability requires at least two unresolved explanations"
             )
+        if any(rows_by_id[identifier]["rank"] is not None for identifier in remaining):
+            raise JudgmentError("unresolved explanations cannot carry a preference rank")
     return snapshot
 
 
@@ -353,7 +394,7 @@ def validate_action_ranking(
     verdict_bundle: Mapping[str, object],
     repository_root: Path | None = None,
 ) -> dict[str, Any]:
-    """Validate six options and keep authorization separate from prediction."""
+    """Validate real options, six category dispositions, and separate recommendation from permission."""
 
     snapshot = _native_snapshot(
         ranking, label="action ranking", error_type=JudgmentError
@@ -386,37 +427,55 @@ def validate_action_ranking(
     options = snapshot["options"]
     option_ids = [option["option_id"] for option in options]
     options_by_id = {option["option_id"]: option for option in options}
-    kinds = [option["kind"] for option in options]
-    if len(options) != 6 or len(option_ids) != len(set(option_ids)) or set(kinds) != set(OPTION_KINDS):
-        raise JudgmentError("action ranking must contain exactly the six option kinds")
+    if len(option_ids) != len(set(option_ids)):
+        raise JudgmentError("action option IDs must be unique")
+    categories = _unique(snapshot["category_dispositions"], "kind", "option category")
+    if set(categories) != set(OPTION_KINDS):
+        raise JudgmentError("action comparison must dispose of all six option categories")
+    for kind, category in categories.items():
+        actual = {option["option_id"] for option in options if option["kind"] == kind}
+        if set(category["option_ids"]) != actual:
+            raise JudgmentError("option category disposition does not match its real options")
+        if (category["applicability"] == "applicable") != bool(actual):
+            raise JudgmentError("option category applicability must match its real options")
+    if snapshot["requested_choice"] and not any(option["kind"] == "no-action" for option in options):
+        raise JudgmentError("requested choice must retain an explicit no-action baseline")
     display_order = snapshot["display_order"]
-    if set(display_order) != set(option_ids) or len(display_order) != 6:
+    if set(display_order) != set(option_ids) or len(display_order) != len(option_ids):
         raise JudgmentError("action display order must cover each option exactly once")
     selection_status = snapshot["selection_status"]
     ranking_ids = snapshot["ranking"]
-    if selection_status == "selected":
+    local_records = {row["claim_id"]: row for row in verdict.get("claim_verdicts", [])}
+    supporting = set(snapshot["supporting_claim_ids"])
+    if not supporting.issubset(local_records):
+        raise JudgmentError("action supporting claim does not resolve to a local verdict")
+    if selection_status in {"selected", "recommended"}:
         if not snapshot["requested_choice"]:
-            raise JudgmentError("selected action requires a requested choice")
+            raise JudgmentError("recommended or selected action requires a requested choice")
+        if not supporting or any(local_records[identifier]["status"] == "undecidable" for identifier in supporting):
+            raise JudgmentError("action supporting claims must have usable local verdicts")
         if (
             not isinstance(ranking_ids, list)
-            or set(ranking_ids) != set(option_ids)
-            or len(ranking_ids) != 6
+            or not ranking_ids
+            or not set(ranking_ids).issubset(option_ids)
+            or len(ranking_ids) != len(set(ranking_ids))
         ):
-            raise JudgmentError("selected action ranking must cover each option exactly once")
+            raise JudgmentError("action preference order must reference distinct real options")
         if (
             snapshot["preferred_option_id"] != ranking_ids[0]
-            or snapshot["second_option_id"] != ranking_ids[1]
-            or snapshot["preferred_option_id"] == snapshot["second_option_id"]
+            or snapshot["second_option_id"] != (ranking_ids[1] if len(ranking_ids) > 1 else None)
         ):
             raise JudgmentError("requested choice requires real preferred and second options")
         preferred_option = options_by_id[snapshot["preferred_option_id"]]
-        if (
+        if selection_status == "selected" and (
             preferred_option["authorized"] is not True
             or preferred_option["execution_status"] != "executable"
         ):
             raise JudgmentError(
                 "preferred action option must be authorized and executable"
             )
+        if selection_status == "recommended" and preferred_option["execution_status"] == "not_executable":
+            raise JudgmentError("recommended option must be an analysis proposal or an executable option")
     else:
         if ranking_ids is not None:
             raise JudgmentError("unselected action comparison cannot carry a ranking")

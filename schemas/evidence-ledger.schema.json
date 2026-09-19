@@ -7,13 +7,13 @@
   "required": ["evidence_id", "kind", "source", "supports", "status"],
   "properties": {
     "evidence_id": {"type": "string", "minLength": 1},
-    "kind": {"enum": ["v82_definition", "user_material", "external_fact", "source_claim", "model_inference", "structural_analogy", "conditional_scenario", "normative_premise", "authorization_boundary", "unknown"]},
+    "kind": {"enum": ["v83_definition", "user_material", "external_fact", "source_claim", "model_inference", "structural_analogy", "conditional_scenario", "normative_premise", "authorization_boundary", "unknown"]},
     "source": {
       "type": "object",
       "additionalProperties": false,
       "required": ["origin"],
       "properties": {
-        "origin": {"enum": ["v8.2", "user", "external", "model", "procedure", "unknown"]},
+        "origin": {"enum": ["v8.3", "user", "external", "model", "procedure", "unknown"]},
         "url": {"type": "string"},
         "title": {"type": "string"},
         "publisher": {"type": "string"},

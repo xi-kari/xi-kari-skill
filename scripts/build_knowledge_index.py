@@ -14,11 +14,11 @@ from typing import Any
 
 # Keep canonical concepts and source-level candidates in one auditable ID
 # namespace.  A candidate/heading is not thereby promoted to a concept.
-CONCEPT_ID = re.compile(r"\bV82-(?:CANON|CANDIDATE|HEADING|PROVISIONAL|SOURCE)(?:-[A-Z0-9]+)+\b")
-ANCHOR = re.compile(r"\bV82-(?:P\d{4}|T\d{3})\b")
-SOURCE_ANCHOR = re.compile(r"^V82-(?:P\d{4}|T\d{3}(?:-R\d{3})?)$")
+CONCEPT_ID = re.compile(r"\bV83-(?:CANON|CANDIDATE|HEADING|PROVISIONAL|SOURCE)(?:-[A-Z0-9]+)+\b")
+ANCHOR = re.compile(r"\bV83-(?:P\d{4}|T\d{3})\b")
+SOURCE_ANCHOR = re.compile(r"^V83-(?:P\d{4}|T\d{3}(?:-R\d{3})?)$")
 SOURCE_CANDIDATE_ID = re.compile(
-    r"^V82-CANDIDATE-(?:P\d{4}|T\d{3}(?:-R\d{3})?)$"
+    r"^V83-CANDIDATE-(?:P\d{4}|T\d{3}(?:-R\d{3})?)$"
 )
 ALLOWED_DISPOSITIONS = {
     "canonical_concept",
@@ -45,7 +45,7 @@ STRUCTURAL_SECTION_STYLES = {
     "SecH3": 3,
     "CardLabel": 4,
 }
-NAVIGATION_TABLES = {"V82-T001", "V82-T119", "V82-T120"}
+NAVIGATION_TABLES = {"V83-T001", "V83-T119", "V83-T120"}
 
 
 def _json(value: object) -> bytes:
@@ -219,7 +219,7 @@ def _merge_records(root: Path, inventory: list[dict[str, object]], errors: list[
 
 
 def _source_hashes(root: Path) -> dict[str, str]:
-    manifest_path = root / "references" / "source" / "v8.2" / "source-manifest.json"
+    manifest_path = root / "references" / "source" / "v8.3" / "source-manifest.json"
     try:
         manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
     except (OSError, json.JSONDecodeError):
@@ -356,7 +356,7 @@ def _parent_authority_context(
             alias_owners.setdefault(alias, set()).add(concept_id)
 
     paragraph_path = (
-        root / "references" / "source" / "v8.2" / "audit" / "paragraphs.jsonl"
+        root / "references" / "source" / "v8.3" / "audit" / "paragraphs.jsonl"
     )
     paragraphs: list[dict[str, object]] = []
     if paragraph_path.is_file():
@@ -418,7 +418,7 @@ def _parent_authority_context(
             for paragraph in paragraphs[start:end]:
                 card_section_owners[str(paragraph["anchor"])] = set(owners)
 
-    tables_path = root / "references" / "source" / "v8.2" / "indexes" / "tables.json"
+    tables_path = root / "references" / "source" / "v8.3" / "indexes" / "tables.json"
     table_rows: dict[str, list[dict[str, object]]] = {}
     paragraph_rows: dict[str, dict[str, object]] = {}
     source_unit_scope_anchors: dict[str, str] = {}
@@ -445,7 +445,7 @@ def _parent_authority_context(
                         ):
                             continue
                         anchors = [
-                            f"V82-P{ordinal:04d}"
+                            f"V83-P{ordinal:04d}"
                             for cell in row_bindings
                             if isinstance(cell, list)
                             for ordinal in cell
@@ -545,19 +545,19 @@ def _derive_parent_authority(
     )
     unit_type = str(candidate.get("source_unit_type", ""))
 
-    if table_anchor == "V82-T001" or (
-        table_anchor == "V82-T120" and unit_type == "table_row"
+    if table_anchor == "V83-T001" or (
+        table_anchor == "V83-T120" and unit_type == "table_row"
     ) or source_anchor in NAVIGATION_TABLES:
         return _authority_record("source_section", set(), [source_anchor])
 
     alias_ids = _exact_alias_owners(str(candidate.get("source_text", "")), context)
-    if alias_ids and (row is None or table_anchor in {"V82-T119", "V82-T120"}):
+    if alias_ids and (row is None or table_anchor in {"V83-T119", "V83-T120"}):
         return _authority_record(
             "table_row_alias_equality" if row is not None else "exact_alias_equality",
             alias_ids,
             source_anchors or [source_anchor],
         )
-    if row is not None and table_anchor == "V82-T119":
+    if row is not None and table_anchor == "V83-T119":
         row_alias_ids: set[str] = set()
         for cell in row.get("cells", []):
             row_alias_ids.update(_exact_alias_owners(str(cell), context))
@@ -658,11 +658,11 @@ def _read_candidate_reviews(
     if not isinstance(document, dict):
         errors.append("authored exact candidate reviews must be an object")
         return {}
-    if document.get("schema_id") != "xi-kari.v8.2.candidate-semantic-scopes":
+    if document.get("schema_id") != "xi-kari.v8.3.candidate-semantic-scopes":
         errors.append("exact candidate reviews have an invalid schema_id")
     if document.get("schema_version") != 3:
         errors.append("exact candidate reviews have an invalid schema_version")
-    if document.get("framework_version") != "v8.2":
+    if document.get("framework_version") != "v8.3":
         errors.append("exact candidate reviews have an invalid framework_version")
     if document.get("review_count_semantics") != EXACT_REVIEW_COUNT_SEMANTICS:
         errors.append("exact candidate reviews must disclaim ontology cardinality")
@@ -690,7 +690,7 @@ def _read_candidate_reviews(
         root
         / "references"
         / "source"
-        / "v8.2"
+        / "v8.3"
         / "audit"
         / "paragraphs.jsonl"
     )
@@ -922,7 +922,7 @@ def _candidate_census(
     candidate-specific explanation.
     """
 
-    path = root / "references" / "source" / "v8.2" / "indexes" / "candidates.jsonl"
+    path = root / "references" / "source" / "v8.3" / "indexes" / "candidates.jsonl"
     if not path.is_file():
         return []
     candidates: list[dict[str, object]] = []
@@ -1014,8 +1014,8 @@ def _candidate_census(
         unit_type = str(candidate.get("source_unit_type", ""))
         navigation_unit = (
             anchor in NAVIGATION_TABLES
-            or row_table_anchor == "V82-T001"
-            or (row_table_anchor == "V82-T120" and unit_type == "table_row")
+            or row_table_anchor == "V83-T001"
+            or (row_table_anchor == "V83-T120" and unit_type == "table_row")
         )
 
         if navigation_unit:
@@ -1181,7 +1181,7 @@ def _candidate_census(
                 else "source_navigation_enumeration"
             )
             note = (
-                f"{anchor} 只提供标题或导航枚举信号，不形成独立 v8.2 定义；"
+                f"{anchor} 只提供标题或导航枚举信号，不形成独立 v8.3 定义；"
                 "同锚点的 heading_only 或所属导航表行优先约束该候选。"
             )
             bound_ids = []
@@ -1279,7 +1279,7 @@ def _candidate_census(
             note = (
                 f"{anchor} 明示未定义或不可推出字段："
                 f"{'、'.join(str(value) for value in candidate.get('source_undefined_fields', []))}。"
-                "该缺口保持为源内未定义，不能被解释层或外部材料补写成 v8.2 定义。"
+                "该缺口保持为源内未定义，不能被解释层或外部材料补写成 v8.3 定义。"
             )
         elif "heading" in kinds:
             disposition = "heading_only"
@@ -1293,7 +1293,7 @@ def _candidate_census(
             reason = "source_example_or_instantiation"
             note = (
                 f"{anchor} 以示例或实例化方式承载 {', '.join(kinds)} 信号；"
-                "它可说明相邻规则如何落地，但不能单独生成新的 v8.2 定义。"
+                "它可说明相邻规则如何落地，但不能单独生成新的 v8.3 定义。"
             )
         elif authored_other:
             selected = authored_other[0]
@@ -1486,7 +1486,7 @@ def _render_files(root: Path, records: list[dict[str, object]], errors: list[str
         str(record["concept_id"]),
         str(record.get("canonical_name_zh", record.get("name_zh", ""))),
     ) for record in records})
-    family_lines = ["# Xi-Kari v8.2 concept families", "", "This index is generated from authored inventory and cards; cards remain the reading interface.", "", "| family | concept | name |", "| --- | --- | --- |"]
+    family_lines = ["# Xi-Kari v8.3 concept families", "", "This index is generated from authored inventory and cards; cards remain the reading interface.", "", "| family | concept | name |", "| --- | --- | --- |"]
     family_lines.extend(f"| `{family}` | `{concept_id}` | {name} |" for family, concept_id, name in family_rows)
     bundle_lines = ["# Xi-Kari continuity map", "", "Each bundle is a required co-reading boundary, not a new source definition.", ""]
     for path in sorted((root / "references" / "ontology" / "bundles").glob("*.md")):
@@ -1506,7 +1506,7 @@ def _render_files(root: Path, records: list[dict[str, object]], errors: list[str
     registry = {
         "schema_id": "xi-kari.concept-registry",
         "schema_version": 1,
-        "framework_version": "v8.2",
+        "framework_version": "v8.3",
         "concept_count": len(records),
         "concept_count_semantics": "inventory record count; not a claim of complete ontology concept count",
         "candidate_count": len(candidate_census),

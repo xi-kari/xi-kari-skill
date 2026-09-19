@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://xi-kari.local/schemas/xi-kari.v2.retrieval-execution-receipt.schema.json",
-  "title": "Xi-Kari v2 runtime retrieval execution receipt",
+  "$id": "https://xi-kari.local/schemas/xi-kari.v3.retrieval-execution-receipt.schema.json",
+  "title": "Xi-Kari v3 runtime retrieval execution receipt",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -32,9 +32,9 @@
     "receipt_sha256"
   ],
   "properties": {
-    "schema_id": {"const": "xi-kari.v2.retrieval-execution-receipt"},
+    "schema_id": {"const": "xi-kari.v3.retrieval-execution-receipt"},
     "schema_version": {"const": 1},
-    "protocol": {"const": "xi-kari.v2.codex-jsonl-web-execution/v1"},
+    "protocol": {"const": "xi-kari.v3.codex-jsonl-web-execution/v1"},
     "run_id": {"type": "string", "minLength": 1},
     "execution_context_id": {"type": "string", "minLength": 1},
     "provider_binding_sha256": {"$ref": "#/$defs/sha256"},

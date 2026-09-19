@@ -30,8 +30,8 @@ from .problem_contract import parse_instant
 from .retrieval import has_bound_host_observation
 
 
-RECEIPT_SCHEMA_ID = "xi-kari.v2.retrieval-execution-receipt"
-RECEIPT_PROTOCOL = "xi-kari.v2.codex-jsonl-web-execution/v1"
+RECEIPT_SCHEMA_ID = "xi-kari.v3.retrieval-execution-receipt"
+RECEIPT_PROTOCOL = "xi-kari.v3.codex-jsonl-web-execution/v1"
 MAX_EVENT_STREAM_BYTES = 16 * 1024 * 1024
 MAX_EVENT_COUNT = 10_000
 MAX_HOST_CAPTURE_BYTES = 2 * 1024 * 1024
@@ -41,10 +41,10 @@ MAX_HOST_CAPTURE_HEADER_COUNT = 200
 MAX_HOST_CAPTURE_HEADER_NAME_BYTES = 256
 MAX_HOST_CAPTURE_HEADER_VALUE_BYTES = 16 * 1024
 MAX_HOST_CAPTURE_HEADERS_BYTES = 128 * 1024
-HOST_CAPTURE_INDEX_SCHEMA_ID = "xi-kari.v2.host-capture-index"
+HOST_CAPTURE_INDEX_SCHEMA_ID = "xi-kari.v3.host-capture-index"
 HOST_CAPTURE_INDEX_RELATIVE = Path("authoring/XK02-host-capture-index.json")
 HOST_CAPTURE_BODY_DIRECTORY = Path("retrieval/captures")
-HOST_CAPTURE_PROTOCOL = "xi-kari.v2.host-source-capture/v1"
+HOST_CAPTURE_PROTOCOL = "xi-kari.v3.host-source-capture/v1"
 _REDIRECT_STATUSES = frozenset({301, 302, 303, 307, 308})
 _TEXT_CONTENT_TYPES = frozenset(
     {

@@ -1,12 +1,12 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://xi-kari.local/schemas/xi-kari.v2.red-team-report.schema.json",
-  "title": "Xi-Kari v2 red-team report",
+  "$id": "https://xi-kari.local/schemas/xi-kari.v3.red-team-report.schema.json",
+  "title": "Xi-Kari v3 red-team report",
   "type": "object",
   "additionalProperties": false,
   "required": ["schema_id", "schema_version", "run_id"],
   "properties": {
-    "schema_id": {"const": "xi-kari.v2.red-team-report"},
+    "schema_id": {"const": "xi-kari.v3.red-team-report"},
     "schema_version": {"const": 3},
     "run_id": {"type": "string"},
     "strongest_attack": {"type": "string"},

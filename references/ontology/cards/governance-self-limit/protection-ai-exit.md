@@ -1,22 +1,22 @@
 ---
-id: V82-CANON-GOV-AI
+id: V83-CANON-GOV-AI
 qualified_id: governance:ai-boundary
 name: 弱信号、AI 边界与无法退出保护
 family: governance-self-limit
 disposition: structural_rule
-source_authority: v8.2
-covered_ids: V82-CANON-GOV-AI,V82-CANON-GOV-WEAK,V82-CANON-GOV-NOINFRA,V82-CANON-GOV-NOEXIT,V82-CANON-GOV-PRIVACY
+source_authority: v8.3
+covered_ids: V83-CANON-GOV-AI,V83-CANON-GOV-WEAK,V83-CANON-GOV-NOINFRA,V83-CANON-GOV-NOEXIT,V83-CANON-GOV-PRIVACY
 ---
 
 # 人类保护、AI 边界与退出困难
 
-## 权威定义（v8.2）
+## 权威定义（v8.3）
 
-AI 可以整理材料、对齐来源、生成问题和反例、压缩表达和复核清单，但不能虚构来源、证明诚信/安全/同意、替代现实复核和责任承担或独立作高风险决定；过程产物不等于现实证明（`V82-P2843`-`V82-P2846`）。
+AI 可以整理和核查材料身份、比较机制、形成可反驳判断和批评、推荐供审议的方案并起草完整制度、计划和评论，但不能虚构来源、证明诚信/安全/同意、替代现实复核和责任承担或独立作高风险决定；过程产物不等于现实证明（`V83-P2843`-`V83-P2846`）。
 
-弱信号保护六件套为 WS1 匿名/低暴露入口、WS2 独立承接者、WS3 反报复、WS4 分组校准、WS5 延迟公开、WS6 实际写回；任一缺失只能说“意识到风险”，不能说已保护（`V82-P2847`-`V82-P2855`）。
+弱信号保护六件套为 WS1 匿名/低暴露入口、WS2 独立承接者、WS3 反报复、WS4 分组校准、WS5 延迟公开、WS6 实际写回；任一缺失只能说“意识到风险”，不能说已保护（`V83-P2847`-`V83-P2855`）。
 
-无制度基础设施时只能输出保护性开放断言、禁止用途、升级/撤回信号和低风险下一步，不强行模拟不存在的制度；无法退出主体需安全优先、可信代理、恢复最小选择/信息/记录、低暴露记录、局部缓冲和替代出口，不退出不等于同意（`V82-P2856`-`V82-P2861`）。
+无制度基础设施时只能输出保护性开放断言、禁止用途、升级/撤回信号和低风险下一步，不强行模拟不存在的制度；无法退出主体需安全优先、可信代理、恢复最小选择/信息/记录、低暴露记录、局部缓冲和替代出口，不退出不等于同意（`V83-P2856`-`V83-P2861`）。
 
 ## 允许推论
 
@@ -34,7 +34,7 @@ AI candidate 不得升级 observed；simulated 不得升级事件；预测不得
 
 ## 判断与行动上限
 
-缺失项超过场景阈值、观察增加暴露、弱信号没有安全承接或专业边界被触及时，停止强判断；只给保护性开放断言和低风险信息步骤。
+逐项登记缺失与命题依赖，不按缺失数量统一降档。观察增加暴露、弱信号没有安全承接或专业边界被触及时，停止受影响的强判断与现实采用；独立成立的文本评价、局部判断和明示前提的条件推荐可以保留。
 
 ## 申诉与回滚
 
@@ -48,18 +48,18 @@ AI candidate 不得升级 observed；simulated 不得升级事件；预测不得
 
 ## source_undefined
 
-v8.2 未定义 AI 风险的普遍权重、弱信号安全概率、退出能力评分或跨法域阈值；一切场景数值标 `source_undefined`。
+v8.3 未定义 AI 风险的普遍权重、弱信号安全概率、退出能力评分或跨法域阈值；一切场景数值标 `source_undefined`。
 
 ## 来源锚点
 
-- [v8.2 reader 09](../../../source/v8.2/reader/09-actor-state-personality.md): `V82-P1703`-`V82-P1705`。
-- [v8.2 reader 16](../../../source/v8.2/reader/16-governance.md): `V82-P2843`-`V82-P2861`、`V82-P2899`-`V82-P2901`。
+- [v8.3 reader 09](../../../source/v8.3/reader/09-actor-state-personality.md): `V83-P1703`-`V83-P1705`。
+- [v8.3 reader 16](../../../source/v8.3/reader/16-governance.md): `V83-P2843`-`V83-P2861`、`V83-P2899`-`V83-P2901`。
 
 ## 原文定义区段
 
 本卡的权威定义必须与无损阅读版连续联读；以下锚点是定位索引，不是删减后的替代文本。运行时先完整读取 21 卷，再回到这些锚点核对相邻段落、表格和适用边界。
 
-- `V82-P1703`, `V82-P1705`, `V82-P2843`, `V82-P2844`, `V82-P2846`, `V82-P2847`, `V82-P2848`, `V82-P2855`, `V82-P2856`, `V82-P2857`, `V82-P2858`, `V82-P2859`, `V82-P2860`, `V82-P2861`, `V82-P2899`, `V82-P2900`, `V82-P2901`
+- `V83-P1703`, `V83-P1705`, `V83-P2843`, `V83-P2844`, `V83-P2846`, `V83-P2847`, `V83-P2848`, `V83-P2855`, `V83-P2856`, `V83-P2857`, `V83-P2858`, `V83-P2859`, `V83-P2860`, `V83-P2861`, `V83-P2899`, `V83-P2900`, `V83-P2901`
 
 ## 解释层（非原文定义）
 
@@ -67,14 +67,20 @@ v8.2 未定义 AI 风险的普遍权重、弱信号安全概率、退出能力�
 
 ## 必须联读的邻接概念
 
-- `V82-CANON-GOV-ANTICAPTURE`：`references/ontology/cards/governance-self-limit/lifecycle-and-capture.md`
+- `V83-CANON-GOV-ANTICAPTURE`：`references/ontology/cards/governance-self-limit/lifecycle-and-capture.md`
 
-- `V82-CANON-GOV-LIFECYCLE`：`references/ontology/cards/governance-self-limit/lifecycle-and-capture.md`
+- `V83-CANON-GOV-LIFECYCLE`：`references/ontology/cards/governance-self-limit/lifecycle-and-capture.md`
 
-- `V82-CANON-GOV-PRECONCEPT`：`references/ontology/cards/governance-self-limit/lifecycle-and-capture.md`
+- `V83-CANON-GOV-PRECONCEPT`：`references/ontology/cards/governance-self-limit/lifecycle-and-capture.md`
 
-- `V82-CANON-GOV-RETIRE`：`references/ontology/cards/governance-self-limit/lifecycle-and-capture.md`
+- `V83-CANON-GOV-RETIRE`：`references/ontology/cards/governance-self-limit/lifecycle-and-capture.md`
 
 ## 撤回条件
 
 若对象边界、同一性 K、适用时间窗、关键源锚点、通道或竞争解释失效，撤回本卡支持的高档判断，保留候选、未知或 `source_undefined`；不得用解释层补齐缺失证据。
+
+## 判断与交付的原文条款
+
+`V83-P2844`：AI 可以整理和核查材料身份，提出与比较机制，形成有依据且可反驳的判断与批评，在公开的目标、规范前提和约束下推荐方案，并起草供审议的制度、计划和评论文本。输出应说明当前选择及其关键理由、代价、最强反方和足以使之改变的条件，并完整展开已经开展的实质分析。AI 不得虚构来源或保护条件，不能通过流畅文本、内部评分或流程完成证明委托方诚信、反报复有效、现实修复成立，也不能替代独立复核和责任承担。AI 不能独立作高风险现实决定，也不能以声称流程通过替代有权限主体的决定。分析推荐不等于实际采用；涉及高风险决定与现实执行时，仍须完成适用的强判断、保护、规范选择和授权程序。
+
+`V83-P2845`：AI 输出应按具体任务和拟作结论，核查原始事实、受影响位置证言、反例、低权力反馈、外部复核、申诉改变结果的记录、证据控制关系，以及 AI 对材料的筛选与改写。每项标明其与本结论的关系、是否具备及缺失造成的限制，不以缺失数量单独决定全部输出的上限。事实认定缺少决定性证据时，不作该事实认定；因果识别缺少区分性证据时，保留竞争解释；保护和复核条件不足时，不认证实际安全、同意、公平、修复或高影响采用资格。未受这些缺失影响的文本论证评价、局部事实判断及明示前提的条件建议，可以分别成立。判为不适用必须说明理由，不得用不适用替代未知或绕开实际风险。仍受强判断和现实行动条款约束的输出，继续适用相应要求。

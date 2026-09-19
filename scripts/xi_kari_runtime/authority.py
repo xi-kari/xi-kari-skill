@@ -62,11 +62,11 @@ def authority_paths(root: Path, *, require_complete: bool = True) -> tuple[Path,
         root / "references" / "ontology" / "continuity-bundle-registry.json",
         root / "references" / "ontology" / "continuity-map.md",
         root / "references" / "ontology" / "source-to-concept-map.json",
-        root / "references" / "source" / "v8.2" / "source-manifest.json",
-        root / "references" / "source" / "v8.2" / "indexes" / "anchors.json",
-        root / "references" / "source" / "v8.2" / "indexes" / "candidates.jsonl",
-        root / "references" / "source" / "v8.2" / "indexes" / "tables.json",
-        root / "references" / "source" / "v8.2" / "audit" / "paragraphs.jsonl",
+        root / "references" / "source" / "v8.3" / "source-manifest.json",
+        root / "references" / "source" / "v8.3" / "indexes" / "anchors.json",
+        root / "references" / "source" / "v8.3" / "indexes" / "candidates.jsonl",
+        root / "references" / "source" / "v8.3" / "indexes" / "tables.json",
+        root / "references" / "source" / "v8.3" / "audit" / "paragraphs.jsonl",
     ]
     paths.extend(
         _required_glob(
@@ -135,7 +135,7 @@ def authority_paths(root: Path, *, require_complete: bool = True) -> tuple[Path,
     paths.extend(
         _required_glob(
             root,
-            "references/source/v8.2/reader/*.md",
+            "references/source/v8.3/reader/*.md",
             "source reader volumes",
             require_complete=require_complete,
         )
@@ -143,7 +143,7 @@ def authority_paths(root: Path, *, require_complete: bool = True) -> tuple[Path,
     paths.extend(
         _required_glob(
             root,
-            "references/source/v8.2/audit/tables/V82-T*.md",
+            "references/source/v8.3/audit/tables/V83-T*.md",
             "source tables",
             require_complete=require_complete,
         )

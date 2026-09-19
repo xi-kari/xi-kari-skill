@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://xi-kari.local/schemas/source-candidate.schema.json",
-  "title": "Xi-Kari v8.2 deterministic source candidate",
+  "title": "Xi-Kari v8.3 deterministic source candidate",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -30,9 +30,9 @@
     "source_list_structure_sha256"
   ],
   "properties": {
-    "schema_id": {"const": "xi-kari.v8.2.source-candidate"},
+    "schema_id": {"const": "xi-kari.v8.3.source-candidate"},
     "schema_version": {"const": 1},
-    "framework_version": {"const": "v8.2"},
+    "framework_version": {"const": "v8.3"},
     "candidate_ruleset_version": {"type": "integer", "minimum": 1},
     "candidate_id": {"$ref": "#/$defs/candidate_id"},
     "previous_candidate_id": {
@@ -50,7 +50,7 @@
     "ordinal": {"type": "integer", "minimum": 1},
     "source_anchor": {
       "type": "string",
-      "pattern": "^V82-(P[0-9]{4}|T[0-9]{3}(?:-R[0-9]{3})?)$"
+      "pattern": "^V83-(P[0-9]{4}|T[0-9]{3}(?:-R[0-9]{3})?)$"
     },
     "source_anchors": {
       "type": "array",
@@ -58,7 +58,7 @@
       "uniqueItems": true,
       "items": {
         "type": "string",
-        "pattern": "^V82-(P[0-9]{4}|T[0-9]{3})$"
+        "pattern": "^V83-(P[0-9]{4}|T[0-9]{3})$"
       }
     },
     "source_span": {
@@ -79,7 +79,7 @@
     "source_unit_type": {"enum": ["paragraph", "table", "table_row"]},
     "source_table_anchor": {
       "type": "string",
-      "pattern": "^V82-T[0-9]{3}$"
+      "pattern": "^V83-T[0-9]{3}$"
     },
     "source_table_row_index": {"type": "integer", "minimum": 1},
     "source_style": {"type": "string"},
@@ -165,11 +165,11 @@
   "$defs": {
     "candidate_id": {
       "type": "string",
-      "pattern": "^V82-CANDIDATE-(P[0-9]{4}|T[0-9]{3}(?:-R[0-9]{3})?)$"
+      "pattern": "^V83-CANDIDATE-(P[0-9]{4}|T[0-9]{3}(?:-R[0-9]{3})?)$"
     },
     "paragraph_anchor": {
       "type": "string",
-      "pattern": "^V82-P[0-9]{4}$"
+      "pattern": "^V83-P[0-9]{4}$"
     },
     "numbering": {
       "type": "object",

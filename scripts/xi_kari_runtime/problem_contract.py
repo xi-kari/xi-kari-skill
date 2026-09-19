@@ -22,13 +22,15 @@ FROZEN_FIELDS = (
     "requested_stance",
     "problem_action",
     "advice_requested",
+    "deliverable_type",
 )
-NATURAL_REQUEST_SCHEMA_ID = "xi-kari.v2.natural-request"
+NATURAL_REQUEST_SCHEMA_ID = "xi-kari.v3.natural-request"
 NATURAL_REQUEST_SCHEMA_VERSION = 1
 MAX_NATURAL_REQUEST_CHARS = 64 * 1024
 RETRIEVAL_PROFILES = {"authority-first", "five-direction", "closed-input"}
 REQUESTED_STANCES = {"neutral", "support", "oppose"}
 PROBLEM_ACTIONS = {"explain", "compare", "infer", "choose", "express"}
+DELIVERABLE_TYPES = {"analysis", "decision", "charter", "plan", "critique"}
 RFC3339_INSTANT = re.compile(
     r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2})$"
 )
@@ -85,6 +87,8 @@ def validate_problem_contract(
         raise ValueError("problem_contract.requested_stance is invalid")
     if normalized["problem_action"] not in PROBLEM_ACTIONS:
         raise ValueError("problem_contract.problem_action is invalid")
+    if normalized["deliverable_type"] not in DELIVERABLE_TYPES:
+        raise ValueError("problem_contract.deliverable_type is invalid")
     return normalized
 
 
@@ -129,6 +133,20 @@ def build_natural_request_envelope(
     }
 
 
+def infer_deliverable_type(question: str) -> str:
+    """Suggest the task shape; semantic authoring freezes the final interpretation."""
+    patterns = (
+        ("charter", r"(?:起草|草拟|拟|制定|编写|写).{0,40}(?:章程|规章|制度|规则)|\b(?:write|draft|create)\b.{0,50}\b(?:charter|bylaws|policy)\b"),
+        ("critique", r"(?:锐评|评论文章|评价|批评|评析)|\b(?:critique|commentary|editorial)\b"),
+        ("plan", r"(?:制定|拟定|编写|写|安排|规划).{0,40}(?:计划|日程|排期|进度)|\b(?:plan|schedule|roadmap)\b"),
+        ("decision", r"(?:建议|推荐|选哪|选择|取舍|怎么办|如何处理)|\b(?:recommend|choose|decision|advise)\b"),
+    )
+    for deliverable_type, pattern in patterns:
+        if re.search(pattern, question, re.IGNORECASE):
+            return deliverable_type
+    return "analysis"
+
+
 def draft_problem_contract_from_natural_request(
     value: Any, *, mode: str, evidence_cutoff: str
 ) -> dict[str, Any]:
@@ -143,6 +161,7 @@ def draft_problem_contract_from_natural_request(
         value, mode=mode, evidence_cutoff=evidence_cutoff
     )
     text = envelope["text"]
+    deliverable_type = infer_deliverable_type(text)
     return {
         "question": text,
         "object_of_analysis": "待在 XK0 中由基础作者从用户问题确定的对象；不得超出问题文本",
@@ -156,8 +175,12 @@ def draft_problem_contract_from_natural_request(
             "closed-input" if mode == "closed-input" else "five-direction"
         ),
         "requested_stance": "neutral",
-        "problem_action": "explain",
-        "advice_requested": False,
+        "problem_action": (
+            "choose" if deliverable_type in {"decision", "charter", "plan"}
+            else "express" if deliverable_type == "critique" else "explain"
+        ),
+        "advice_requested": deliverable_type in {"decision", "charter", "plan"},
+        "deliverable_type": deliverable_type,
     }
 
 

@@ -138,7 +138,7 @@ def load_runtime_bound_closed_input_materials(
         payload=trace_bytes,
     )
     if (
-        trace.get("schema_id") != "xi-kari.v2.semantic-read-trace"
+        trace.get("schema_id") != "xi-kari.v3.semantic-read-trace"
         or trace.get("schema_version") != 1
         or trace.get("run_id") != disk_contract.get("run_id")
         or trace.get("contract_profile") != disk_contract.get("contract_profile")
@@ -154,9 +154,9 @@ def load_runtime_bound_closed_input_materials(
             "closed-input parent base authoring receipt differs from its runtime trace"
         )
     if (
-        receipt.get("schema_id") != "xi-kari.v2.base-authoring-execution"
+        receipt.get("schema_id") != "xi-kari.v3.base-authoring-execution"
         or receipt.get("schema_version") != 1
-        or receipt.get("protocol") != "xi-kari.v2.base-authoring/v1"
+        or receipt.get("protocol") != "xi-kari.v3.base-authoring/v1"
         or receipt.get("run_id") != disk_contract.get("run_id")
         or receipt.get("request_path") != BASE_REQUEST_RELATIVE
         or receipt.get("exit_status") != 0
@@ -178,9 +178,9 @@ def load_runtime_bound_closed_input_materials(
     ):
         raise ValueError("closed-input parent base authoring request hash differs")
     if (
-        request.get("schema_id") != "xi-kari.v2.base-authoring-request"
+        request.get("schema_id") != "xi-kari.v3.base-authoring-request"
         or request.get("schema_version") != 1
-        or request.get("protocol") != "xi-kari.v2.base-authoring/v1"
+        or request.get("protocol") != "xi-kari.v3.base-authoring/v1"
         or request.get("run_id") != disk_contract.get("run_id")
         or request.get("mode") != disk_contract.get("mode")
         or request.get("problem_contract") != problem_contract

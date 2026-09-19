@@ -1,8 +1,8 @@
-"""Runtime-owned base authoring execution for Xi-Kari v2.
+"""Runtime-owned base authoring execution for Xi-Kari v3.
 
-The ordinary ``prepare`` seam is limited to legacy fixtures.  Production
-execution uses a stronger boundary: the runtime starts the base
-author, captures its JSONL event stream and final semantic envelope, and only
+The ordinary ``prepare`` seam is a read-only preflight. Production execution
+starts the base author in a private writable workspace, captures its JSONL
+event stream and complete semantic output file, and only
 then hands the bytes to the existing materializer.  This module owns that
 boundary.  It never treats a model-authored PID, timestamp, receipt, or phase
 marker as evidence.
@@ -33,6 +33,8 @@ from .authoring import (
     FORMAL_ADAPTER_PROTOCOL,
     MAX_ADAPTER_STDERR_BYTES,
     MAX_ADAPTER_STDOUT_BYTES,
+    DEFAULT_ADAPTER_TIMEOUT_SECONDS,
+    MAX_AUTHORING_TIMEOUT_SECONDS,
     _communicate_limited,
     _ordinary_executable,
     bind_semantic_authoring_adapter,
@@ -57,6 +59,10 @@ from .closed_input import (
     freeze_closed_input_materials,
 )
 from .contracts import build_execute_owned_binding, build_runtime_packet_binding
+from .contract_authoring import (
+    contract_authoring_request, contract_authoring_prompt, parse_contract_authoring_output,
+    contract_authoring_evidence, validate_contract_authoring_evidence,
+)
 from .materialization import (
     _issue_production_preparation_capability,
     _prepare_production_run,
@@ -88,12 +94,17 @@ from .retrieval_execution import (
 from .semantic_projection import semantic_atom_paths, validate_visibility_ledger
 from .semantic_read_trace import validate_semantic_read_trace_input
 from .validation import run_fresh_validator
+from .world_volume import _schema_validator
+from .output_transport import (
+    COMPLETION_NOTICE, SEMANTIC_OUTPUT_FILENAME, OUTPUT_TRANSPORT,
+    parse_provider_events, read_semantic_output,
+)
 
 
-BASE_REQUEST_SCHEMA_ID = "xi-kari.v2.base-authoring-request"
-BASE_OUTPUT_SCHEMA_ID = "xi-kari.v2.base-authoring-output"
-BASE_EXECUTION_RECEIPT_SCHEMA_ID = "xi-kari.v2.base-authoring-execution"
-BASE_PROTOCOL = "xi-kari.v2.base-authoring/v1"
+BASE_REQUEST_SCHEMA_ID = "xi-kari.v3.base-authoring-request"
+BASE_OUTPUT_SCHEMA_ID = "xi-kari.v3.base-authoring-output"
+BASE_EXECUTION_RECEIPT_SCHEMA_ID = "xi-kari.v3.base-authoring-execution"
+BASE_PROTOCOL = "xi-kari.v3.base-authoring/v1"
 BASE_OUTPUT_SCHEMA_RELATIVE = Path("schemas/xk-base-authoring-output.schema.json")
 BASE_EVENTS_RELATIVE = Path("authoring/XK01-base-authoring-events.jsonl")
 BASE_RECEIPT_RELATIVE = Path("authoring/XK01-base-authoring-receipt.json")
@@ -120,6 +131,8 @@ def _read_bounded_regular_file(
 
 
 BASE_SEMANTIC_FIELDS = (
+    "deliverable_type",
+    "reader_sections",
     "problem_contract",
     "dynamic_applicability",
     "facts",
@@ -146,6 +159,8 @@ BASE_SEMANTIC_FIELDS = (
     "evidence",
 )
 BASE_COMMON_FIELDS = (
+    "deliverable_type",
+    "reader_sections",
     "problem_contract",
     "dynamic_applicability",
     "facts",
@@ -460,19 +475,33 @@ def _base_prompt(request: Mapping[str, Any]) -> bytes:
     natural_instruction = ""
     if isinstance(request.get("natural_request"), Mapping):
         natural_instruction = (
-            "这是自然语言公共入口：先把 natural_request.text 冻结为 XK0 问题合同。"
-            "必须保留 question 原文、runtime evidence_cutoff 和当前模式；"
-            "只可补全对象、边界、身份、尺度、时间窗、行动类型等语义字段，"
-            "不能扩大用户问题、改变检索模式或写入任何运行权威。\n"
+            "自然请求的问题合同已由独立的前置作者提出并由运行时冻结。"
+            "本进程必须逐字段原样使用 problem_contract，不得再次补全、改写或细化冻结字段；"
+            "发现仍未知的分析条件时，在正文与分析工件登记，不改变合同或证据截止点。\n"
         )
     prompt = (
         "$xi-kari-skill\n"
-        "你正在执行 Xi-Kari v2 的基础语义作者进程。必须完整顺序读取绑定的 21 卷 v8.2 阅读版，"
+        "本次唯一Skill目录以请求绑定的repository_root为准，从该目录读取SKILL.md；"
+        "不得改用全局安装或其他目录中的同名Skill及原文。"
+        "你正在执行 Xi-Kari v3 的基础语义作者进程。必须完整顺序读取绑定的 21 卷 v8.3 阅读版，"
         "并扫描全部候选闭包；不要把摘要、术语数量或上次回答当作读源证明。"
+        "本框架术语以作者本版本原文定义为准，同名不代表与通常词义相同；"
+        "须核对影响判断的定义、适用条件与非等价关系，不能凭预训练常识补定义。"
+        "按自然请求确定deliverable_type=analysis/decision/charter/plan/critique，"
+        "在problem_contract与semantic_packet顶层保持一致。"
+        "形成明确中心判断与各部分局部裁决，完成可支持的机制比较和方案取舍，"
+        "分析推荐不等于执行授权；无授权时可以recommended，不可伪造selected。"
+        "必须给出reader_sections完整成文；每节含section_id、承载内容的heading、"
+        "local_judgment、paragraphs与source_bindings，绑定source_path、paragraph_index和真实excerpt。"
+        "paragraph_index=0指local_judgment，1起对应paragraphs；"
+        "全部实质分析都要进入正文并绑定，不按是否改变主结论删减。"
+        "不得把次要机制、反例、失败路径或落选理由只放附件，不倾倒机器字段。"
+        "只有原始用户明确要求简答时，answer_delivery才能含visible_mode=brief、"
+        "原始explicit_user_request及brief_text；reader_sections仍须完整。"
         "还必须按 ontology_read_plan 的四类责任逐项读取每个 candidate、每个 canonical/structural card、"
         "每条 required neighbor 和每个 continuity bundle，并逐项记录 read、问题关系与理由；"
         "每条记录还必须从实际源字节计算 content_witness，并给出能在实际源字节中逐字找到的 content_excerpt；"
-        "content_witness 的协议是 sha256(\"xi-kari.v2.ontology-content-witness/v1\\0\" + "
+        "content_witness 的协议是 sha256(\"xi-kari.v3.ontology-content-witness/v1\\0\" + "
         "content_access_challenge + \\\"\\\\0\\\" + problem_contract_sha256 + "
         "\\\"\\\\0\\\" + item_id + \\\"\\\\0\\\" + content_sha256)，"
         "请求只提供运行挑战和问题合同散列，不提供任何记录的预期 witness 或 content_sha256；"
@@ -480,7 +509,10 @@ def _base_prompt(request: Mapping[str, Any]) -> bytes:
         "这只证明 byte-access + problem-bound semantic trace，不声称证明类人理解；"
         "open-world 时严格按五向检索：每个方向先执行一次 search，再打开该方向引用的每个来源；"
         "closed-input 时不得调用网络工具。对每条材料独立判断，建立 Ω、竞争机制、案例/反例和一至三阶路径。"
-        "最终消息只能是一个 JSON 对象，顶层恰有 semantic_packet、semantic_read_trace 与 ontology_read_trace 三项；"
+        "在当前私有工作目录内写出固定文件 semantic-output.json，内容是完整 JSON 对象，顶层恰有 semantic_packet、semantic_read_trace 与 ontology_read_trace 三项。"
+        "可以分批生成记录并追加或合并为该完整文件，禁止摘要、省略或只写索引。源仓库在当前工作目录之外，仅允许读取。"
+        "完整输出文件需满足源仓库 schemas/xk-base-authoring-output.schema.json；自行从磁盘回读检查后，最后消息只写 SEMANTIC_OUTPUT_READY。"
+        "最后消息不得包含 JSON、文件路径或替代文件内容；运行时只读取上述固定文件。"
         "不得写入运行 ID、PID、阶段、回执、散列、验证器或终态权威。"
         "visibility_ledger 必须逐项覆盖全部模型交付语义，路径不得缺失、重复、额外或漂移；"
         "每项 purpose 必须等于只读 privacy_contract.purpose，来源 title/content 也必须显式分类；"
@@ -570,52 +602,8 @@ def _terminate(process: subprocess.Popen[bytes]) -> None:
             pass
 
 
-def _strict_event_stream(raw: bytes) -> tuple[str | None, list[dict[str, Any]]]:
-    if not isinstance(raw, bytes) or not raw or len(raw) > MAX_BASE_EVENT_BYTES:
-        raise ValueError("base authoring JSONL event stream size is invalid")
-    try:
-        lines = raw.decode("utf-8").splitlines()
-    except UnicodeDecodeError as exc:
-        raise ValueError("base authoring JSONL event stream is not UTF-8") from exc
-    if not lines or len(lines) > MAX_BASE_EVENT_LINES or any(not line for line in lines):
-        raise ValueError("base authoring JSONL event stream line count is invalid")
-    events: list[dict[str, Any]] = []
-    for line_number, line in enumerate(lines, start=1):
-        try:
-            value = read_json_text(line)
-        except Exception as exc:
-            raise ValueError(
-                f"base authoring JSONL event is invalid at line {line_number}"
-            ) from exc
-        if not isinstance(value, dict) or not isinstance(value.get("type"), str):
-            raise ValueError(
-                f"base authoring JSONL event is not an object at line {line_number}"
-            )
-        events.append(value)
-    if any(event.get("type") in {"error", "turn.failed"} for event in events):
-        raise ValueError("base authoring event stream contains a failed turn")
-    if events[0].get("type") != "thread.started":
-        raise ValueError("base authoring event stream must begin with thread.started")
-    if len(events) < 3 or events[1].get("type") != "turn.started":
-        raise ValueError("base authoring event stream must contain turn.started")
-    if events[-1].get("type") != "turn.completed":
-        raise ValueError("base authoring event stream must end with turn.completed")
-    thread_id = events[0].get("thread_id")
-    if not isinstance(thread_id, str) or not thread_id:
-        raise ValueError("base authoring event stream has no thread identity")
-    return thread_id, events
-
-
-def _last_message(raw: bytes, events: Sequence[Mapping[str, Any]]) -> bytes:
-    """Require the provider-owned final-message file as the sole authority."""
-
-    if not isinstance(raw, bytes) or not raw:
-        raise ValueError("base authoring provider did not create a final message")
-    try:
-        read_json_text(raw.decode("utf-8"))
-    except Exception as exc:
-        raise ValueError("base authoring final message is not strict JSON") from exc
-    return raw
+def _strict_event_stream(raw: bytes) -> tuple[str, list[dict[str, Any]]]:
+    return parse_provider_events(raw)
 
 
 def _parse_base_output(
@@ -637,12 +625,16 @@ def _parse_base_output(
         "ontology_read_trace",
     }:
         raise ValueError("base authoring output is not the required semantic envelope")
+    validator = _schema_validator(BASE_OUTPUT_SCHEMA_RELATIVE.name, str(repository_root))
+    violations = sorted(validator.iter_errors(value), key=lambda error: str(list(error.absolute_path)))
+    if violations:
+        raise ValueError(f"base authoring output file fails schema validation: {violations[0].message}")
     packet = value.get("semantic_packet")
     if not isinstance(packet, Mapping):
         raise ValueError("base authoring semantic packet is not an object")
     packet_fields = set(packet)
     allowed_fields = set(BASE_COMMON_FIELDS) | set(BASE_DYNAMIC_FIELDS) | {
-        "not_applicable_reason"
+        "not_applicable_reason", "answer_delivery"
     }
     if not packet_fields.issubset(allowed_fields) or not set(BASE_COMMON_FIELDS).issubset(
         packet_fields
@@ -658,22 +650,11 @@ def _parse_base_output(
     authored_frozen_fields = {
         field: authored_problem.get(field) for field in FROZEN_FIELDS
     }
-    if natural_request is None:
-        frozen = validate_problem_contract(authored_frozen_fields, mode=mode)
-        if frozen != expected_problem:
-            raise ValueError("base authoring packet differs from the frozen problem contract")
-    else:
-        frozen = freeze_natural_problem_contract(
-            authored_frozen_fields,
-            request=natural_request,
-            mode=mode,
-        )
-        packet = dict(packet)
-        packet["problem_contract"] = {
-            **dict(authored_problem),
-            **frozen,
-        }
-        authored_problem = packet["problem_contract"]
+    frozen = validate_problem_contract(authored_frozen_fields, mode=mode)
+    if frozen != expected_problem:
+        raise ValueError("base authoring packet differs from the frozen problem contract")
+    if natural_request is not None:
+        freeze_natural_problem_contract(frozen, request=natural_request, mode=mode)
     if packet.get("dynamic_applicability") not in {"applicable", "not_applicable"}:
         raise ValueError("base authoring applicability is invalid")
     if authored_problem.get("dynamic_applicability") != packet.get(
@@ -699,7 +680,7 @@ def _parse_base_output(
     trace = value.get("semantic_read_trace")
     if not isinstance(trace, Mapping):
         raise ValueError("base authoring semantic read trace is not an object")
-    if trace.get("schema_id") != "xi-kari.v2.semantic-read-trace-input" or trace.get(
+    if trace.get("schema_id") != "xi-kari.v3.semantic-read-trace-input" or trace.get(
         "schema_version"
     ) != 1:
         raise ValueError("base authoring semantic read trace schema is invalid")
@@ -726,7 +707,7 @@ def _parse_base_output(
 
 def _read_plan(lock: Mapping[str, Any], *, run_id: str) -> dict[str, Any]:
     return {
-        "schema_id": "xi-kari.v2.read-plan",
+        "schema_id": "xi-kari.v3.read-plan",
         "schema_version": 3,
         "run_id": run_id,
         "framework_version": lock.get("framework_version"),
@@ -754,13 +735,14 @@ def _base_request(
     frozen_material_manifest: Mapping[str, Any] | None = None,
     base_provider_binding: Mapping[str, Any] | None = None,
     natural_request: Mapping[str, Any] | None = None,
+    contract_authoring_binding: Mapping[str, Any] | None = None,
 ) -> dict[str, Any]:
     source_inputs: dict[str, Any] = {
-        "source_version": "v8.2",
+        "source_version": "v8.3",
         "repository_root": str(repository_root),
-        "reader_root": str(repository_root / "references/source/v8.2/reader"),
+        "reader_root": str(repository_root / "references/source/v8.3/reader"),
         "source_manifest_path": str(
-            repository_root / "references/source/v8.2/source-manifest.json"
+            repository_root / "references/source/v8.3/source-manifest.json"
         ),
         "source_lock": deepcopy(dict(source_lock)),
         "read_plan": deepcopy(dict(read_plan)),
@@ -785,7 +767,7 @@ def _base_request(
             )
         }
         | {
-            "schema_id": "xi-kari.v2.ontology-read-plan-binding",
+            "schema_id": "xi-kari.v3.ontology-read-plan-binding",
             "plan_sha256": sha256_json(ontology_read_plan),
             "item_id_protocol": (
                 "candidate:{candidate_id}; card:{concept_id}; "
@@ -816,6 +798,8 @@ def _base_request(
     }
     if natural_request is not None:
         request["natural_request"] = deepcopy(dict(natural_request))
+    if contract_authoring_binding is not None:
+        request["contract_authoring_binding"] = deepcopy(dict(contract_authoring_binding))
     return request
 
 
@@ -1177,7 +1161,7 @@ def _project_retrieval(
         packet = deepcopy(packet)
         packet["retrieval"] = projected
         closed_receipt: dict[str, Any] = {
-            "schema_id": "xi-kari.v2.closed-input-execution",
+            "schema_id": "xi-kari.v3.closed-input-execution",
             "schema_version": 1,
             "run_id": run_id,
             "web_search_executed": False,
@@ -1363,6 +1347,50 @@ def _rebind_visibility_ledger(
     validate_visibility_ledger(packet, expected_purpose=privacy_purpose)
 
 
+def _author_natural_contract(
+    *, run_id: str, natural_request: Mapping[str, Any], draft_problem_contract: Mapping[str, Any],
+    repository_root: Path, provider: Mapping[str, Any], timeout_seconds: int,
+) -> tuple[dict[str, Any], dict[str, Any]]:
+    """Capture a separate real author process before binding any source-read proof."""
+
+    request = contract_authoring_request(run_id=run_id, natural_request=natural_request,
+        draft_problem_contract=draft_problem_contract, repository_root=repository_root, provider=provider)
+    request_bytes = canonical_bytes(request) + b"\n"
+    prompt = contract_authoring_prompt(request)
+    if len(prompt) > MAX_BASE_INPUT_BYTES:
+        raise ValueError("contract author prompt exceeds the size limit")
+    started_at = _utc_now()
+    with tempfile.TemporaryDirectory(prefix="xi-kari-contract-authoring-") as temporary:
+        capture_root = Path(temporary)
+        workspace = capture_root / "author-workspace"
+        workspace.mkdir()
+        notice_path = capture_root / "completion-notice.txt"
+        command = [*provider["argv"], "--json", "--output-last-message", str(notice_path), "-"]
+        launch_command = _provider_launch_argv(provider, command)
+        process = subprocess.Popen(launch_command, cwd=workspace, stdin=subprocess.PIPE,
+            stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=False, **_process_isolation_kwargs())
+        try:
+            events, stderr, input_complete = _communicate_limited(process, prompt,
+                timeout_seconds=timeout_seconds, label="natural contract author")
+        except Exception:
+            _terminate(process)
+            raise
+        completed_at = _utc_now()
+        if process.returncode != 0 or not input_complete:
+            raise ValueError("natural contract author did not complete successfully")
+        _strict_event_stream(events)
+        notice = read_bounded_regular_file(notice_path, limit=4096)
+        output = read_semantic_output(workspace, notice=notice, limit=MAX_BASE_INPUT_BYTES)
+    frozen = parse_contract_authoring_output(output, natural_request=natural_request, repository_root=repository_root)
+    evidence = contract_authoring_evidence(run_id=run_id, provider=provider, command=launch_command,
+        request_bytes=request_bytes, prompt_bytes=prompt, output_bytes=output,
+        events_bytes=events, stderr_bytes=stderr, parent_pid=os.getpid(), child_pid=process.pid,
+        started_at=started_at, completed_at=completed_at, frozen_problem_contract=frozen)
+    validate_contract_authoring_evidence(evidence, run_id=run_id, natural_request=natural_request,
+        frozen_problem_contract=frozen, repository_root=repository_root)
+    return frozen, evidence
+
+
 def execute_authored_run(
     runs_root: Path,
     *,
@@ -1373,7 +1401,7 @@ def execute_authored_run(
     repository_root: Path | None = None,
     codex_provider_executable: str | Path | None = None,
     closed_input_materials: Sequence[Mapping[str, Any]] | None = None,
-    timeout_seconds: int = 600,
+    timeout_seconds: int = DEFAULT_ADAPTER_TIMEOUT_SECONDS,
     privacy_purpose: str = "回答冻结问题并仅向请求用户交付",
     delivery_audience: str = "requesting-user",
     _continuation_kind: str = "original",
@@ -1387,9 +1415,9 @@ def execute_authored_run(
 
     The public seam accepts either a complete XK0 contract or ordinary natural
     language.  Natural language first receives a runtime-owned conservative
-    draft; the provider may fill semantic boundary fields, but the runtime
-    freezes the final contract and binds the original text and cutoff before
-    creating the run directory.  The shipped semantic adapter is still bound
+    draft; a separate contract author fills semantic boundary fields and the
+    runtime freezes the final contract before creating source-reading proofs.
+    The full base author cannot revise that contract. The shipped adapter is bound
     into XK0 for the later XK9 probes; the base process itself is started here
     so its PID and raw JSONL cannot be supplied by the model or caller.
     """
@@ -1414,8 +1442,8 @@ def execute_authored_run(
         raise ValueError(
             "provide exactly one complete problem_contract or natural request_text"
         )
-    if not isinstance(timeout_seconds, int) or isinstance(timeout_seconds, bool) or not 1 <= timeout_seconds <= 1200:
-        raise ValueError("base authoring timeout must be 1-1200 seconds")
+    if not isinstance(timeout_seconds, int) or isinstance(timeout_seconds, bool) or not 1 <= timeout_seconds <= MAX_AUTHORING_TIMEOUT_SECONDS:
+        raise ValueError("base authoring timeout must be 1-7200 seconds")
     natural_request: dict[str, Any] | None = None
     frozen_privacy = _privacy_contract(
         purpose=privacy_purpose,
@@ -1476,6 +1504,17 @@ def execute_authored_run(
         repository_root=repo,
         timeout_seconds=min(timeout_seconds, 600),
     )
+    contract_evidence = None
+    if request_text is not None:
+        contract_provider = bind_base_authoring_provider(
+            codex_provider_executable, mode="closed-input", repository_root=repo,
+            timeout_seconds=min(timeout_seconds, 300),
+        )
+        frozen, contract_evidence = _author_natural_contract(
+            run_id=selected_run_id, natural_request=natural_request or {},
+            draft_problem_contract=frozen, repository_root=repo, provider=contract_provider,
+            timeout_seconds=min(timeout_seconds, 300),
+        )
     lock, source_events = build_full_source_lock(repo, run_id=selected_run_id)
     read_plan = _read_plan(lock, run_id=selected_run_id)
     problem_contract_sha256 = contract_hash(frozen)
@@ -1501,6 +1540,10 @@ def execute_authored_run(
         frozen_material_manifest=frozen_material_manifest,
         base_provider_binding=base_provider,
         natural_request=natural_request,
+        contract_authoring_binding=(
+            {"receipt_sha256": contract_evidence["receipt"]["receipt_sha256"],
+             "problem_contract_sha256": contract_hash(frozen)} if contract_evidence is not None else None
+        ),
     )
     request_bytes = canonical_bytes(request) + b"\n"
     prompt = _base_prompt(request)
@@ -1515,36 +1558,24 @@ def execute_authored_run(
     child_pid = 0
     command = [
         *base_provider["argv"],
-        "--json",
-        "--output-schema",
-        str(schema_path),
-        "--output-last-message",
-        "__runtime_owned_last_message__",
-        "-",
+        "--json", "--output-last-message", "__runtime_owned_completion_notice__", "-",
     ]
-    # The last-message path is replaced with an adapter-owned temporary path
-    # immediately before spawn; keeping it out of the request prevents model
-    # output from selecting a filesystem target.
     with tempfile.TemporaryDirectory(prefix="xi-kari-base-authoring-") as temporary:
-        workspace = Path(temporary)
-        output_path = workspace / "last-message.json"
-        command[-2] = str(output_path)
+        capture_root = Path(temporary)
+        workspace = capture_root / "author-workspace"
+        workspace.mkdir()
+        notice_path = capture_root / "completion-notice.txt"
+        command[-2] = str(notice_path)
         launch_command = _provider_launch_argv(base_provider, command)
         process = subprocess.Popen(
-            launch_command,
-            cwd=repo,
-            stdin=subprocess.PIPE,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-            shell=False,
+            launch_command, cwd=workspace, stdin=subprocess.PIPE,
+            stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=False,
             **_process_isolation_kwargs(),
         )
         child_pid = int(process.pid)
         try:
             raw_events, stderr, input_complete = _communicate_limited(
-                process,
-                prompt,
-                timeout_seconds=timeout_seconds,
+                process, prompt, timeout_seconds=timeout_seconds,
                 label="base authoring provider",
             )
         except Exception:
@@ -1558,15 +1589,8 @@ def execute_authored_run(
         if not input_complete:
             raise ValueError("base authoring process did not consume the complete request")
         thread_id, events = _strict_event_stream(raw_events)
-        if not output_path.is_file() or output_path.is_symlink():
-            raise ValueError(
-                "base authoring provider did not create a safe final message file"
-            )
-        file_output = read_bounded_regular_file(
-            output_path,
-            limit=MAX_BASE_OUTPUT_BYTES,
-        )
-        output = _last_message(file_output, events)
+        notice = read_bounded_regular_file(notice_path, limit=4096)
+        output = read_semantic_output(workspace, notice=notice, limit=MAX_BASE_OUTPUT_BYTES)
     trace_value: dict[str, Any]
     ontology_trace_value: dict[str, Any]
     packet: dict[str, Any]
@@ -1587,14 +1611,6 @@ def execute_authored_run(
     validate_visibility_ledger(
         packet, expected_purpose=str(frozen_privacy["purpose"])
     )
-    if natural_request is not None:
-        frozen = validate_problem_contract(
-            {
-                field: packet["problem_contract"].get(field)
-                for field in FROZEN_FIELDS
-            },
-            mode=mode,
-        )
     trace_bytes = canonical_bytes(trace_value) + b"\n"
     ontology_trace_bytes = canonical_bytes(ontology_trace_value) + b"\n"
     receipt = _receipt(
@@ -1617,6 +1633,11 @@ def execute_authored_run(
         completed_at=completed_at,
         thread_id=str(thread_id),
     )
+    if contract_evidence is not None:
+        validate_contract_authoring_evidence(contract_evidence, run_id=selected_run_id,
+            natural_request=natural_request or {}, frozen_problem_contract=frozen,
+            repository_root=repo, base_started_at=started_at)
+        receipt["contract_authoring_evidence"] = contract_evidence
     receipt["receipt_sha256"] = sha256_json(
         {key: value for key, value in receipt.items() if key != "receipt_sha256"}
     )
@@ -1654,7 +1675,7 @@ def execute_authored_run(
             semantic_retrieval=semantic_retrieval,
             host_captures=host_captures,
         )
-    packet["schema_id"] = "xi-kari.v2.analysis-packet"
+    packet["schema_id"] = "xi-kari.v3.analysis-packet"
     packet["schema_version"] = 3
     _rebind_visibility_ledger(
         packet, privacy_purpose=str(frozen_privacy["purpose"])
@@ -1706,7 +1727,7 @@ def execute_authored_run(
             base_authoring_prompt=prompt,
             base_authoring_output=output,
             semantic_retrieval_input={
-                "schema_id": "xi-kari.v2.retrieval-semantic-input",
+                "schema_id": "xi-kari.v3.retrieval-semantic-input",
                 "schema_version": 1,
                 "run_id": selected_run_id,
                 "mode": mode,
@@ -1727,7 +1748,7 @@ def execute_authored_run(
     atomic_write_json(
         run_dir / SEMANTIC_RETRIEVAL_RELATIVE,
         {
-            "schema_id": "xi-kari.v2.retrieval-semantic-input",
+            "schema_id": "xi-kari.v3.retrieval-semantic-input",
             "schema_version": 1,
             "run_id": selected_run_id,
             "mode": mode,
@@ -1772,7 +1793,7 @@ def execute_natural_request(
     repository_root: Path | None = None,
     codex_provider_executable: str | Path | None = None,
     closed_input_materials: Sequence[Mapping[str, Any]] | None = None,
-    timeout_seconds: int = 600,
+    timeout_seconds: int = DEFAULT_ADAPTER_TIMEOUT_SECONDS,
     privacy_purpose: str = "回答冻结问题并仅向请求用户交付",
     delivery_audience: str = "requesting-user",
 ) -> dict[str, Any]:

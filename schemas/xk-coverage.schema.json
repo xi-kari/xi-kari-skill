@@ -1,12 +1,12 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://xi-kari.local/schemas/xi-kari.v2.coverage.schema.json",
-  "title": "Xi-Kari v2 coverage",
+  "$id": "https://xi-kari.local/schemas/xi-kari.v3.coverage.schema.json",
+  "title": "Xi-Kari v3 coverage",
   "type": "object",
   "additionalProperties": false,
   "required": ["schema_id", "schema_version", "run_id", "source_read", "source_assessment", "claim_support", "outputs", "complete"],
   "properties": {
-    "schema_id": {"const": "xi-kari.v2.coverage"},
+    "schema_id": {"const": "xi-kari.v3.coverage"},
     "schema_version": {"const": 3},
     "run_id": {"type": "string"},
     "source_read": {"type": "object", "additionalProperties": false, "required": ["expected", "observed", "source_units_expected", "source_units_observed", "mismatched", "complete"], "properties": {"expected": {"type": "integer"}, "observed": {"type": "integer"}, "source_units_expected": {"const": 4753}, "source_units_observed": {"const": 4753}, "mismatched": {"type": "array", "items": {"type": "string"}}, "complete": {"const": true}}},

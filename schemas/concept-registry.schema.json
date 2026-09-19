@@ -8,7 +8,7 @@
   "properties": {
     "schema_id": {"const": "xi-kari.concept-registry"},
     "schema_version": {"const": 1},
-    "framework_version": {"const": "v8.2"},
+    "framework_version": {"const": "v8.3"},
     "concept_count": {"type": "integer", "minimum": 1},
     "concept_count_semantics": {"const": "inventory record count; not a claim of complete ontology concept count"},
     "candidate_count": {"type": "integer", "minimum": 0},
@@ -25,12 +25,12 @@
         "additionalProperties": false,
         "required": ["concept_id", "disposition", "inventory_path", "source_anchors", "required_neighbors", "hashes", "validation"],
         "properties": {
-          "concept_id": {"type": "string", "pattern": "^V82-(CANON|CANDIDATE|HEADING|PROVISIONAL|SOURCE)(-[A-Z0-9]+)+$"},
+          "concept_id": {"type": "string", "pattern": "^V83-(CANON|CANDIDATE|HEADING|PROVISIONAL|SOURCE)(-[A-Z0-9]+)+$"},
           "disposition": {"enum": ["canonical_concept", "structural_rule", "subordinate_value", "alias", "example_only", "heading_only", "source_undefined", "unresolved"]},
           "inventory_path": {"type": "string", "minLength": 1},
           "card_path": {"type": ["string", "null"]},
-          "source_anchors": {"type": "array", "minItems": 1, "items": {"type": "string", "pattern": "^V82-(P[0-9]{4}|T[0-9]{3})$"}},
-          "required_neighbors": {"type": "array", "maxItems": 16, "items": {"type": "string", "pattern": "^V82-(CANON|CANDIDATE|HEADING|PROVISIONAL|SOURCE)(-[A-Z0-9]+)+$"}},
+          "source_anchors": {"type": "array", "minItems": 1, "items": {"type": "string", "pattern": "^V83-(P[0-9]{4}|T[0-9]{3})$"}},
+          "required_neighbors": {"type": "array", "maxItems": 16, "items": {"type": "string", "pattern": "^V83-(CANON|CANDIDATE|HEADING|PROVISIONAL|SOURCE)(-[A-Z0-9]+)+$"}},
           "hashes": {
             "type": "object",
             "additionalProperties": false,

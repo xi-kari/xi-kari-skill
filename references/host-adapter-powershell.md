@@ -25,7 +25,7 @@
 
 ## source manifest 字段名
 
-- 清单位于 `references/source/v8.2/source-manifest.json`：按序卷名在 `reader_units`
+- 清单位于 `references/source/v8.3/source-manifest.json`：按序卷名在 `reader_units`
   （与 `sequence` 同序），逐卷散列在 `reader_file_sha256`（键形如 `reader/<卷名>`），
   全部 reader 文件路径（含索引）在 `reader_files`。不要猜测不存在的字段名。
 

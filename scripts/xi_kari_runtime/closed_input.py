@@ -23,7 +23,7 @@ from .canonical_json import (
 )
 
 
-CLOSED_INPUT_SCHEMA_ID = "xi-kari.v2.closed-input-materials"
+CLOSED_INPUT_SCHEMA_ID = "xi-kari.v3.closed-input-materials"
 CLOSED_INPUT_SCHEMA_VERSION = 1
 CLOSED_INPUT_ORIGIN = "user_material"
 MATERIAL_FIELDS = frozenset(
@@ -260,7 +260,7 @@ def validate_closed_input_execution(
     if not isinstance(receipt, Mapping) or set(receipt) != CLOSED_RECEIPT_FIELDS:
         return ["closed-input execution receipt fields are not exact"]
     if (
-        receipt.get("schema_id") != "xi-kari.v2.closed-input-execution"
+        receipt.get("schema_id") != "xi-kari.v3.closed-input-execution"
         or receipt.get("schema_version") != 1
         or receipt.get("run_id") != run_id
         or receipt.get("web_search_executed") is not False
@@ -327,7 +327,7 @@ def validate_closed_input_execution(
         return errors
     if (
         semantic_document.get("schema_id")
-        != "xi-kari.v2.retrieval-semantic-input"
+        != "xi-kari.v3.retrieval-semantic-input"
         or semantic_document.get("schema_version") != 1
         or semantic_document.get("run_id") != run_id
         or semantic_document.get("mode") != "closed-input"

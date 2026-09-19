@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://xi-kari.local/schemas/xi-kari.v2.source-artifact.schema.json",
-  "title": "Xi-Kari v2 source artifacts",
+  "$id": "https://xi-kari.local/schemas/xi-kari.v3.source-artifact.schema.json",
+  "title": "Xi-Kari v3 source artifacts",
   "type": "object",
   "oneOf": [
     {"$ref": "#/$defs/source_lock"},
@@ -16,10 +16,10 @@
       "additionalProperties": false,
       "required": ["schema_id", "schema_version", "run_id", "framework_version", "source_manifest_sha256", "source_raw_sha256", "source_semantic_sha256", "validator_set_sha256", "paragraph_count", "table_count", "source_unit_count", "reader_unit_count", "reader_sequence", "reader_receipts", "source_unit_event_sha256", "complete"],
       "properties": {
-        "schema_id": {"const": "xi-kari.v2.source-lock"},
+        "schema_id": {"const": "xi-kari.v3.source-lock"},
         "schema_version": {"const": 3},
         "run_id": {"type": "string"},
-        "framework_version": {"const": "v8.2"},
+        "framework_version": {"const": "v8.3"},
         "source_manifest_sha256": {"$ref": "#/$defs/sha256"},
         "source_raw_sha256": {"const": "670e90e0073eb1a7575a75c4e0a410630ce16bd5a10f2456b83c82480333de3f"},
         "source_semantic_sha256": {"const": "4b63a6455cf73c136ae18d124aeed4301267fd2da78cca79c74e2850fb2728b0"},
@@ -54,7 +54,7 @@
       "additionalProperties": false,
       "required": ["schema_id", "schema_version", "run_id", "source_id", "origin", "title", "url", "publisher", "published_at", "event_at", "accessed_at", "content_sha256", "content", "content_authority"],
       "properties": {
-        "schema_id": {"const": "xi-kari.v2.source-record"},
+        "schema_id": {"const": "xi-kari.v3.source-record"},
         "schema_version": {"const": 3},
         "run_id": {"type": "string"},
         "source_id": {"type": "string", "minLength": 1},
@@ -133,7 +133,7 @@
       "additionalProperties": false,
       "required": ["schema_id", "schema_version", "run_id", "source_id", "source_sha256", "authority", "independence", "independence_identity", "freshness", "relevance", "verdict", "limitations", "cannot_prove", "source_lineage", "interest_relevance", "affected_positions", "low_power_positions", "conflict_source_ids"],
       "properties": {
-        "schema_id": {"const": "xi-kari.v2.source-assessment"},
+        "schema_id": {"const": "xi-kari.v3.source-assessment"},
         "schema_version": {"const": 3},
         "run_id": {"type": "string"},
         "source_id": {"type": "string"},
@@ -158,12 +158,12 @@
       "additionalProperties": false,
       "required": ["schema_id", "schema_version", "run_id", "event_id", "ordinal", "source_anchor", "source_unit_type", "reader_unit", "source_sha256", "status"],
       "properties": {
-        "schema_id": {"const": "xi-kari.v2.source-read-event"},
+        "schema_id": {"const": "xi-kari.v3.source-read-event"},
         "schema_version": {"const": 3},
         "run_id": {"type": "string"},
         "event_id": {"type": "string"},
         "ordinal": {"type": "integer", "minimum": 1, "maximum": 4753},
-        "source_anchor": {"type": "string", "pattern": "^V82-(?:P[0-9]{4}|T[0-9]{3})$"},
+        "source_anchor": {"type": "string", "pattern": "^V83-(?:P[0-9]{4}|T[0-9]{3})$"},
         "source_unit_type": {"enum": ["paragraph", "table"]},
         "reader_unit": {"type": "string"},
         "source_sha256": {"$ref": "#/$defs/sha256"},

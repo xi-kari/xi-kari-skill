@@ -1,14 +1,14 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://xi-kari.local/schemas/xi-kari.v2.repair.schema.json",
-  "title": "Xi-Kari v2 repair plan or record",
+  "$id": "https://xi-kari.local/schemas/xi-kari.v3.repair.schema.json",
+  "title": "Xi-Kari v3 repair plan or record",
   "type": "object",
   "oneOf": [
     {
       "additionalProperties": false,
         "required": ["schema_id", "schema_version", "run_id", "earliest_invalid_phase", "reset_phases", "reason", "fresh", "validator_fresh_process", "validator_fingerprint_sha256"],
       "properties": {
-        "schema_id": {"const": "xi-kari.v2.repair-plan"},
+        "schema_id": {"const": "xi-kari.v3.repair-plan"},
         "schema_version": {"const": 3},
         "run_id": {"$ref": "#/$defs/runId"},
         "earliest_invalid_phase": {"$ref": "#/$defs/phase"},
@@ -29,7 +29,7 @@
       "additionalProperties": false,
       "required": ["schema_id", "schema_version", "run_id", "parent_run_id", "earliest_invalid_phase", "reason", "replacement_packet_sha256", "parent_repair_plan_sha256", "parent_repair_reset_phases"],
       "properties": {
-        "schema_id": {"const": "xi-kari.v2.repair-record"},
+        "schema_id": {"const": "xi-kari.v3.repair-record"},
         "schema_version": {"const": 3},
         "run_id": {"$ref": "#/$defs/runId"},
         "parent_run_id": {"$ref": "#/$defs/runId"},

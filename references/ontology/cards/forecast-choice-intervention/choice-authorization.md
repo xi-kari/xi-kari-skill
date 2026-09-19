@@ -1,26 +1,26 @@
 ---
-id: V82-CANON-SELECTION
+id: V83-CANON-SELECTION
 qualified_id: choice:SEL-SYS-AGT-GOV
 name: 三类选择、方案集与有限授权
 family: forecast-choice-intervention
 disposition: canonical_concept
-source_authority: v8.2
-covered_ids: V82-CANON-SELECTION,V82-CANON-NO-ACTION,V82-CANON-AUTHORIZATION,V82-CANON-CHOICE-AUTHORIZATION-BOUNDARY
+source_authority: v8.3
+covered_ids: V83-CANON-SELECTION,V83-CANON-NO-ACTION,V83-CANON-AUTHORIZATION,V83-CANON-CHOICE-AUTHORIZATION-BOUNDARY
 ---
 
 # 选择、方案与授权桥
 
-## 权威定义（v8.2）
+## 权威定义（v8.3）
 
-选择至少分为 `SEL-SYS`（无统一主体的环境/反馈筛选）、`SEL-AGT`（有识别主体且受权限、选项、信息、能力、地域、期限约束的主体选择）和 `SEL-GOV`（有程序授权的集体治理）；三者不能互相偷换（`V82-P2609`-`V82-P2614`）。
+选择至少分为 `SEL-SYS`（无统一主体的环境/反馈筛选）、`SEL-AGT`（有识别主体且受权限、选项、信息、能力、地域、期限约束的主体选择）和 `SEL-GOV`（有程序授权的集体治理）；三者不能互相偷换（`V83-P2609`-`V83-P2614`）。
 
-方案集必须包含维持现状、主动行动、延迟、可逆试探、退出/转移和明确的 `no_action`；不行动仍有既有规则、时钟和不作为责任（`V82-P2245`-`V82-P2268`）。
+方案生成逐项检查维持现状、主动行动、延迟、可逆试探、退出/转移和明确的 `no_action` 六类适用性；适用类别形成真实方案，不适用类别说明理由，请求选择时必须保留明确不行动基线；不行动仍有既有规则、时钟和不作为责任（`V83-P2245`-`V83-P2268`）。
 
 ## 允许推论
 
 - 先登记事实、规范前提、价值冲突、受影响位置、权利底线、分配、风险、可逆性和信息价值，再比较选项。
 - 检查“说不”的条件：强制、默认锁定、信息不对称、能力、拒绝安全和真实退出。
-- 只有 SEL-AGT/SEL-GOV 能进入 `authorized`，且只限原子 J 元组覆盖的单一方案（`V82-P2637`-`V82-P2647`）。
+- 只有 SEL-AGT/SEL-GOV 能进入 `authorized`，且只限原子 J 元组覆盖的单一方案（`V83-P2637`-`V83-P2647`）。
 
 ## 非等价锁
 
@@ -52,18 +52,18 @@ SEL-SYS 不具意图/正当性；SEL-AGT 不越过本人权限替别人决定；
 
 ## source_undefined
 
-v8.2 未定义跨法域统一的价值权重、效用总分或自动“最佳方案”；规范冲突和权利不可平均时标 `source_undefined` 并交由有资格主体/程序。
+v8.3 未定义跨法域统一的价值权重、效用总分或自动“最佳方案”；规范冲突和权利不可平均时标 `source_undefined` 并交由有资格主体/程序。
 
 ## 来源锚点
 
-- [v8.2 reader 12](../../../source/v8.2/reader/12-conditional-forecast-choice.md): `V82-P2242`-`V82-P2301`。
-- [v8.2 reader 14](../../../source/v8.2/reader/14-normative-selection.md): `V82-P2602`-`V82-P2667`。
+- [v8.3 reader 12](../../../source/v8.3/reader/12-conditional-forecast-choice.md): `V83-P2242`-`V83-P2301`。
+- [v8.3 reader 14](../../../source/v8.3/reader/14-normative-selection.md): `V83-P2602`-`V83-P2667`。
 
 ## 原文定义区段
 
 本卡的权威定义必须与无损阅读版连续联读；以下锚点是定位索引，不是删减后的替代文本。运行时先完整读取 21 卷，再回到这些锚点核对相邻段落、表格和适用边界。
 
-- `V82-P2242`, `V82-P2245`, `V82-P2268`, `V82-P2606`, `V82-P2609`, `V82-P2611`, `V82-P2614`, `V82-P2637`, `V82-P2647`
+- `V83-P2242`, `V83-P2245`, `V83-P2268`, `V83-P2606`, `V83-P2609`, `V83-P2611`, `V83-P2614`, `V83-P2637`, `V83-P2647`
 
 ## 解释层（非原文定义）
 
@@ -71,13 +71,13 @@ v8.2 未定义跨法域统一的价值权重、效用总分或自动“最佳方
 
 ## 必须联读的邻接概念
 
-- `V82-CANON-APP-GATE`：`references/ontology/cards/forecast-choice-intervention/intervention-levels.md`
+- `V83-CANON-APP-GATE`：`references/ontology/cards/forecast-choice-intervention/intervention-levels.md`
 
-- `V82-CANON-EVENT`：`references/ontology/cards/forecast-choice-intervention/event-and-dynamics.md`
+- `V83-CANON-EVENT`：`references/ontology/cards/forecast-choice-intervention/event-and-dynamics.md`
 
-- `V82-CANON-FORECAST`：`references/ontology/cards/forecast-choice-intervention/conditional-forecast.md`
+- `V83-CANON-FORECAST`：`references/ontology/cards/forecast-choice-intervention/conditional-forecast.md`
 
-- `V82-CANON-PF`：`references/ontology/cards/forecast-choice-intervention/protection-and-intervention.md`
+- `V83-CANON-PF`：`references/ontology/cards/forecast-choice-intervention/protection-and-intervention.md`
 
 ## 撤回条件
 

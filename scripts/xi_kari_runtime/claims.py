@@ -1,4 +1,4 @@
-"""Claim/mechanism graph semantics for Xi-Kari v2."""
+"""Claim/mechanism graph semantics for Xi-Kari v3."""
 
 from __future__ import annotations
 
@@ -15,9 +15,9 @@ from .world_volume import (
 
 REQUIRED_CLAIM_ONTOLOGY = frozenset(
     {
-        "V82-CANON-CORE-CLAIM-ROLES",
-        "V82-CANON-CORE-EVIDENCE-CONTRACT",
-        "V82-CANON-CORE-BRANCH-PATH",
+        "V83-CANON-CORE-CLAIM-ROLES",
+        "V83-CANON-CORE-EVIDENCE-CONTRACT",
+        "V83-CANON-CORE-BRANCH-PATH",
     }
 )
 EXPLANATION_KINDS = (
@@ -49,7 +49,7 @@ def validate_claim_graph(
     evidence_mode: str = "open-world",
     repository_root: Path | None = None,
 ) -> dict[str, Any]:
-    """Validate a v8.2-bound claim/mechanism graph and return its snapshot."""
+    """Validate a v8.3-bound claim/mechanism graph and return its snapshot."""
 
     if evidence_mode not in {"open-world", "closed-input"}:
         raise ClaimMechanismError(f"unsupported evidence mode: {evidence_mode}")
@@ -125,6 +125,32 @@ def validate_claim_graph(
             raise ClaimMechanismError("claim evidence reference does not resolve")
         if not set(claim["mechanism_ids"]).issubset(mechanism_ids):
             raise ClaimMechanismError("claim mechanism reference does not resolve")
+        if not set(claim["depends_on_claim_ids"]).issubset(claim_ids):
+            raise ClaimMechanismError("claim dependency does not resolve")
+
+    visiting: set[str] = set()
+    visited: set[str] = set()
+
+    def visit(claim_id: str) -> None:
+        if claim_id in visiting:
+            raise ClaimMechanismError("claim dependency cycle is not permitted")
+        if claim_id in visited:
+            return
+        visiting.add(claim_id)
+        for parent in claims[claim_id]["depends_on_claim_ids"]:
+            visit(parent)
+        visiting.remove(claim_id)
+        visited.add(claim_id)
+
+    for claim_id in claims:
+        visit(claim_id)
+    missing_inputs = _unique_ids(snapshot["missing_inputs"], "missing_id", "missing input")
+    for missing in missing_inputs.values():
+        affected = set(missing["affected_claim_ids"])
+        if not affected.issubset(claim_ids):
+            raise ClaimMechanismError("missing input affected claim does not resolve")
+        if missing["scope"] == "global" and affected != claim_ids:
+            raise ClaimMechanismError("global missing input must cover every claim")
 
     signatures: set[tuple[object, ...]] = set()
     for mechanism in mechanisms.values():
@@ -157,6 +183,12 @@ def validate_claim_graph(
             raise ClaimMechanismError("explanation claim reference does not resolve")
         if not set(explanation["mechanism_ids"]).issubset(mechanism_ids):
             raise ClaimMechanismError("explanation mechanism reference does not resolve")
+        if explanation["applicability"] == "not-applicable":
+            if any(explanation[field] for field in ("claim_ids", "mechanism_ids", "residual_ids")):
+                raise ClaimMechanismError("not-applicable explanation cannot fabricate claim or mechanism bindings")
+            continue
+        if not explanation["claim_ids"]:
+            raise ClaimMechanismError("applicable explanation requires a claim")
         if explanation["kind"] == "residual" and not explanation["residual_ids"]:
             raise ClaimMechanismError("residual explanation must retain a residual")
         if explanation["kind"] == "strongest-rival" and not explanation["mechanism_ids"]:
@@ -179,7 +211,7 @@ def validate_claim_graph(
     mixture = explanation_by_kind["mixture"]
     if baseline["mechanism_ids"]:
         raise ClaimMechanismError("simple baseline cannot hide a mechanism")
-    if not main["mechanism_ids"]:
+    if main["applicability"] == "applicable" and not main["mechanism_ids"]:
         raise ClaimMechanismError("main explanation needs a mechanism")
     main_mechanism_ids = set(main["mechanism_ids"])
     baseline_claim_mechanisms = {
@@ -191,7 +223,10 @@ def validate_claim_graph(
         raise ClaimMechanismError(
             "simple baseline claim cannot smuggle the main mechanism"
         )
-    if set(main["mechanism_ids"]) == set(rival["mechanism_ids"]):
+    if (
+        main["applicability"] == rival["applicability"] == "applicable"
+        and set(main["mechanism_ids"]) == set(rival["mechanism_ids"])
+    ):
         raise ClaimMechanismError(
             "main and strongest-rival explanations need different mechanisms"
         )
@@ -208,8 +243,11 @@ def validate_claim_graph(
             "strongest-rival claim cannot smuggle the main mechanism"
         )
     required_mixture = set(main["mechanism_ids"]) | set(rival["mechanism_ids"])
-    if len(mixture["mechanism_ids"]) < 2 or not required_mixture.issubset(
-        set(mixture["mechanism_ids"])
+    if mixture["applicability"] == "applicable" and (
+        len(mixture["mechanism_ids"]) < 2
+        or main["applicability"] != "applicable"
+        or rival["applicability"] != "applicable"
+        or not required_mixture.issubset(set(mixture["mechanism_ids"]))
     ):
         raise ClaimMechanismError(
             "mixture explanation must combine the main and strongest-rival mechanisms"
@@ -288,6 +326,91 @@ def validate_claim_graph(
     return snapshot
 
 
+def claim_constraints(
+    graph: Mapping[str, Any], *, undecidable_claim_ids: set[str] | None = None
+) -> dict[str, dict[str, Any]]:
+    """Derive local constraints from frozen evidence identities and the dependency DAG.
+
+    Reusing an XK3 atom under a different evidence ID cannot restore its support.
+    Source invalidation also applies to aliases bound to that source. Ordinary
+    missing facts remain local; a shared premise propagates only to descendants.
+    """
+
+    claims = {row["claim_id"]: row for row in graph["claims"]}
+    evidence = {row["evidence_id"]: row for row in graph["evidence"]}
+    mechanisms = {row["mechanism_id"]: row for row in graph["mechanisms"]}
+    parent = {identifier: identifier for identifier in evidence}
+
+    def root(identifier: str) -> str:
+        while parent[identifier] != identifier:
+            parent[identifier] = parent[parent[identifier]]
+            identifier = parent[identifier]
+        return identifier
+
+    invalid_sources = {
+        source for row in evidence.values() if row["support_status"] == "invalidated"
+        for source in row["source_refs"]
+    }
+    owners: dict[tuple[str, str], str] = {}
+    for identifier, row in evidence.items():
+        keys = [("atom", atom) for atom in row["xk3_evidence_refs"]]
+        keys.extend(("source", source) for source in row["source_refs"] if source in invalid_sources)
+        for key in keys:
+            if key in owners:
+                parent[root(identifier)] = root(owners[key])
+            else:
+                owners[key] = identifier
+    groups: dict[str, set[str]] = {}
+    for identifier in evidence:
+        groups.setdefault(root(identifier), set()).add(identifier)
+    failed_groups = {
+        group for group, identifiers in groups.items()
+        if any(evidence[identifier]["support_status"] != "available" for identifier in identifiers)
+    }
+    missing_by_claim: dict[str, list[Mapping[str, Any]]] = {identifier: [] for identifier in claims}
+    for missing in graph["missing_inputs"]:
+        for identifier in missing["affected_claim_ids"]:
+            missing_by_claim[identifier].append(missing)
+    undecidable = undecidable_claim_ids or set()
+    result: dict[str, dict[str, Any]] = {}
+
+    def derive(identifier: str) -> dict[str, Any]:
+        if identifier in result:
+            return result[identifier]
+        claim = claims[identifier]
+        evidence_refs = set(claim["evidence_refs"])
+        for mechanism_id in claim["mechanism_ids"]:
+            evidence_refs.update(mechanisms[mechanism_id]["evidence_refs"])
+        blocked_evidence = set().union(*(
+            groups[root(ref)] for ref in evidence_refs if root(ref) in failed_groups
+        )) if evidence_refs else set()
+        missing_ids = {row["missing_id"] for row in missing_by_claim[identifier]}
+        blocked = bool(blocked_evidence) or any(row["effect"] == "blocking" for row in missing_by_claim[identifier])
+        limiting = any(row["effect"] == "limiting" for row in missing_by_claim[identifier])
+        blocked_claims: set[str] = set()
+        for dependency in claim["depends_on_claim_ids"]:
+            inherited = derive(dependency)
+            missing_ids.update(inherited["missing_input_ids"])
+            blocked_evidence.update(inherited["blocking_evidence_refs"])
+            limiting = limiting or inherited["limiting"]
+            if inherited["blocked"] or dependency in undecidable:
+                blocked = True
+                blocked_claims.add(dependency)
+                blocked_claims.update(inherited["blocking_claim_ids"])
+        value = {
+            "blocked": blocked, "limiting": limiting,
+            "blocking_claim_ids": sorted(blocked_claims),
+            "blocking_evidence_refs": sorted(blocked_evidence),
+            "missing_input_ids": sorted(missing_ids),
+        }
+        result[identifier] = value
+        return value
+
+    for identifier in claims:
+        derive(identifier)
+    return result
+
+
 def qualifies_as_insight(candidate: Mapping[str, object]) -> bool:
     """Return whether a candidate changes an explanation, path, or action boundary."""
 
@@ -306,6 +429,7 @@ def qualifies_as_insight(candidate: Mapping[str, object]) -> bool:
 
 __all__ = (
     "ClaimMechanismError",
+    "claim_constraints",
     "qualifies_as_insight",
     "validate_claim_graph",
 )

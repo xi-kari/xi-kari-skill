@@ -1,12 +1,12 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://xi-kari.local/schemas/xi-kari.v2.run-status.schema.json",
-  "title": "Xi-Kari v2 derived run status",
+  "$id": "https://xi-kari.local/schemas/xi-kari.v3.run-status.schema.json",
+  "title": "Xi-Kari v3 derived run status",
   "type": "object",
   "additionalProperties": false,
   "required": ["schema_id", "schema_version", "run_id", "run_dir", "mode", "state", "phase_count", "current_phase", "next_phase", "chain_head_sha256", "generation", "parent_run_id"],
   "properties": {
-    "schema_id": {"const": "xi-kari.v2.run-status"},
+    "schema_id": {"const": "xi-kari.v3.run-status"},
     "schema_version": {"const": 3},
     "run_id": {"type": ["string", "null"]},
     "run_dir": {"type": "string", "minLength": 1},

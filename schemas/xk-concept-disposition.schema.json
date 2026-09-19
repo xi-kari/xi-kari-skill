@@ -1,12 +1,12 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://xi-kari.local/schemas/xi-kari.v2.concept-disposition.schema.json",
-  "title": "Xi-Kari v2 complete candidate disposition",
+  "$id": "https://xi-kari.local/schemas/xi-kari.v3.concept-disposition.schema.json",
+  "title": "Xi-Kari v3 complete candidate disposition",
   "type": "object",
   "additionalProperties": false,
   "required": ["schema_id", "schema_version", "source_candidate_index_sha256", "candidate_census_sha256", "concept_disposition_ledger_sha256", "source_candidate_count", "dispositions", "complete"],
   "properties": {
-    "schema_id": {"const": "xi-kari.v2.concept-disposition"},
+    "schema_id": {"const": "xi-kari.v3.concept-disposition"},
     "schema_version": {"const": 3},
     "source_candidate_index_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
     "candidate_census_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
@@ -20,7 +20,7 @@
       "type": "object",
       "required": ["candidate_id", "source_anchors", "source_span", "semantic_fingerprint_sha256", "disposition", "disposition_status", "disposition_reason", "semantic_review_note", "bound_concept_ids", "bound_card_paths", "parent_concept_ids"],
       "properties": {
-        "candidate_id": {"type": "string", "pattern": "^V82-CANDIDATE-(?:P[0-9]{4}|T[0-9]{3}(?:-R[0-9]{3})?)$"},
+        "candidate_id": {"type": "string", "pattern": "^V83-CANDIDATE-(?:P[0-9]{4}|T[0-9]{3}(?:-R[0-9]{3})?)$"},
         "disposition": {"enum": ["canonical_concept", "structural_rule", "subordinate_value", "alias", "example_only", "heading_only", "source_undefined"]},
         "disposition_status": {"const": "final"},
         "semantic_review_note": {"type": "string", "minLength": 1},

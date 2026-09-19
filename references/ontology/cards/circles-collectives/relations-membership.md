@@ -1,17 +1,17 @@
 ---
-id: V82-CANON-CIRCLE-RELATIONS
+id: V83-CANON-CIRCLE-RELATIONS
 qualified_id: human_circle:Rcc
 name: 六类圈层关系与多重成员
 family: circles-collectives
 disposition: structural_rule
-source_authority: v8.2
+source_authority: v8.3
 ---
 
 # Rcc 关系、成员与角色
 
-## 权威定义（v8.2）
+## 权威定义（v8.3）
 
-六类关系是平行、嵌套、重叠、桥接、竞争、临时；每条边独立记录源/目标、方向、通道、时延、阈值、窗口、证据、反例和失效条件（`V82-P1795`-`V82-P1837`）。成员关系还要记录进入依据、参与程度、角色、承诺、退出能力和争议（`V82-P1842`-`V82-P1862`）。
+六类关系是平行、嵌套、重叠、桥接、竞争、临时；每条边独立记录源/目标、方向、通道、时延、阈值、窗口、证据、反例和失效条件（`V83-P1795`-`V83-P1837`）。成员关系还要记录进入依据、参与程度、角色、承诺、退出能力和争议（`V83-P1842`-`V83-P1862`）。
 
 ## 允许推论
 
@@ -43,17 +43,17 @@ source_authority: v8.2
 
 ## source_undefined
 
-v8.2 未定义关系强度的通用可加总分、树状层级优先级或“成员忠诚”隐含变量；标 `source_undefined`。
+v8.3 未定义关系强度的通用可加总分、树状层级优先级或“成员忠诚”隐含变量；标 `source_undefined`。
 
 ## 来源锚点
 
-- [v8.2 reader 10](../../../source/v8.2/reader/10-multicircle-joint-state.md): `V82-P1795`-`V82-P1862`。
+- [v8.3 reader 10](../../../source/v8.3/reader/10-multicircle-joint-state.md): `V83-P1795`-`V83-P1862`。
 
 ## 原文定义区段
 
 本卡的权威定义必须与无损阅读版连续联读；以下锚点是定位索引，不是删减后的替代文本。运行时先完整读取 21 卷，再回到这些锚点核对相邻段落、表格和适用边界。
 
-- `V82-P1795`, `V82-P1797`, `V82-P1808`, `V82-P1841`
+- `V83-P1795`, `V83-P1797`, `V83-P1808`, `V83-P1841`
 
 ## 解释层（非原文定义）
 
@@ -61,25 +61,25 @@ v8.2 未定义关系强度的通用可加总分、树状层级优先级或“成
 
 ## 必须联读的邻接概念
 
-- `V82-CANON-CIRCLE`：`references/ontology/cards/circles-collectives/circle-candidate-object.md`
+- `V83-CANON-CIRCLE`：`references/ontology/cards/circles-collectives/circle-candidate-object.md`
 
-- `V82-CANON-JOINT-STATE`：`references/ontology/cards/circles-collectives/joint-state.md`
+- `V83-CANON-JOINT-STATE`：`references/ontology/cards/circles-collectives/joint-state.md`
 
-- `V82-CANON-S0`：`references/ontology/cards/circles-collectives/s0-s6-prototypes.md`
+- `V83-CANON-S0`：`references/ontology/cards/circles-collectives/s0-s6-prototypes.md`
 
-- `V82-CANON-S1`：`references/ontology/cards/circles-collectives/s0-s6-prototypes.md`
+- `V83-CANON-S1`：`references/ontology/cards/circles-collectives/s0-s6-prototypes.md`
 
-- `V82-CANON-S2`：`references/ontology/cards/circles-collectives/s0-s6-prototypes.md`
+- `V83-CANON-S2`：`references/ontology/cards/circles-collectives/s0-s6-prototypes.md`
 
-- `V82-CANON-S3`：`references/ontology/cards/circles-collectives/s0-s6-prototypes.md`
+- `V83-CANON-S3`：`references/ontology/cards/circles-collectives/s0-s6-prototypes.md`
 
-- `V82-CANON-S4`：`references/ontology/cards/circles-collectives/s0-s6-prototypes.md`
+- `V83-CANON-S4`：`references/ontology/cards/circles-collectives/s0-s6-prototypes.md`
 
-- `V82-CANON-S5`：`references/ontology/cards/circles-collectives/s0-s6-prototypes.md`
+- `V83-CANON-S5`：`references/ontology/cards/circles-collectives/s0-s6-prototypes.md`
 
-- `V82-CANON-S6`：`references/ontology/cards/circles-collectives/s0-s6-prototypes.md`
+- `V83-CANON-S6`：`references/ontology/cards/circles-collectives/s0-s6-prototypes.md`
 
-- `V82-CANON-X0`：`references/ontology/cards/circles-collectives/x0-orderly-exit.md`
+- `V83-CANON-X0`：`references/ontology/cards/circles-collectives/x0-orderly-exit.md`
 
 ## 撤回条件
 

@@ -10,7 +10,7 @@
     "properties": {
       "required_neighbors": {
         "type": "array",
-        "items": {"type": "string", "pattern": "^V82-(CANON|CANDIDATE|HEADING|PROVISIONAL|SOURCE)(-[A-Z0-9]+)+$"}
+        "items": {"type": "string", "pattern": "^V83-(CANON|CANDIDATE|HEADING|PROVISIONAL|SOURCE)(-[A-Z0-9]+)+$"}
       },
       "disposition": {"enum": ["canonical_concept", "structural_rule", "subordinate_value", "alias", "example_only", "heading_only", "source_undefined", "unresolved"]}
     }

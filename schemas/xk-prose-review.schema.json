@@ -1,12 +1,13 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://xi-kari.local/schemas/xi-kari.v2.prose-review.schema.json",
-  "title": "Xi-Kari v2 prose review",
+  "$id": "https://xi-kari.local/schemas/xi-kari.v3.prose-review.schema.json",
+  "title": "Xi-Kari v3 prose review",
+  "description": "Deterministic full-body binding, retention and plain-language checks. A passing record does not certify conceptual fidelity or argumentative quality; those require independent semantic evaluation.",
   "type": "object",
   "additionalProperties": false,
   "required": ["schema_id", "schema_version", "run_id", "check_method", "independent_reviewer", "required_reader_beats", "errors", "valid"],
   "properties": {
-    "schema_id": {"const": "xi-kari.v2.prose-review"},
+    "schema_id": {"const": "xi-kari.v3.prose-review"},
     "schema_version": {"const": 3},
     "run_id": {"type": "string"},
     "check_method": {"const": "deterministic-plain-language-rules"},

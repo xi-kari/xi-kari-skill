@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://xi-kari.local/schemas/xi-kari.v3.natural-contract-execution.schema.json",
+  "title": "Xi-Kari captured natural-contract author execution",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["receipt", "provider_binding", "command", "request_text", "prompt_text", "output_text", "event_stream_text", "stderr_base64"],
+  "properties": {
+    "receipt": {
+      "type": "object",
+      "description": "Runtime-generated receipt reconstructed from the retained bytes and observed process identity during fresh validation.",
+      "required": ["schema_id", "schema_version", "protocol", "run_id", "provider_binding_sha256", "command_sha256", "parent_pid", "child_pid", "exit_status", "thread_id", "started_at", "completed_at", "problem_contract_sha256", "request_sha256", "request_byte_count", "prompt_sha256", "prompt_byte_count", "output_sha256", "output_byte_count", "events_sha256", "events_byte_count", "stderr_sha256", "stderr_byte_count", "receipt_sha256"],
+      "properties": {
+        "schema_id": {"const": "xi-kari.v3.natural-contract-execution"},
+        "schema_version": {"const": 1},
+        "protocol": {"const": "xi-kari.v3.natural-contract-authoring/v1"},
+        "exit_status": {"const": 0},
+        "parent_pid": {"type": "integer", "minimum": 1},
+        "child_pid": {"type": "integer", "minimum": 1},
+        "problem_contract_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "receipt_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      }
+    },
+    "provider_binding": {"type": "object"},
+    "command": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+    "request_text": {"type": "string", "minLength": 1},
+    "prompt_text": {"type": "string", "minLength": 1},
+    "output_text": {"type": "string", "minLength": 1},
+    "event_stream_text": {"type": "string", "minLength": 1},
+    "stderr_base64": {"type": "string"}
+  }
+}

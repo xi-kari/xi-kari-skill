@@ -11,6 +11,7 @@ from typing import Any, Mapping
 
 from .authoring import (
     SEMANTIC_AUTHORING_FIELDS,
+    _semantic_inputs,
     validate_semantic_probe_authorings,
     variant_contract as build_variant_contract,
 )
@@ -61,12 +62,7 @@ def _variant(
         if key != "semantic_probe_authorings"
         and key not in SEMANTIC_AUTHORING_FIELDS
     }
-    variant_packet.update(
-        {
-            key: deepcopy(semantic_packet[key])
-            for key in SEMANTIC_AUTHORING_FIELDS
-        }
-    )
+    variant_packet.update(_semantic_inputs(semantic_packet))
     variant_contract = build_variant_contract(
         run_contract,
         requested_stance=requested_stance,

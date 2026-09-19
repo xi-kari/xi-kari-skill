@@ -1,7 +1,7 @@
 # Xi-Kari Skill 工作区说明
 
 本目录是独立的 `xi-kari-skill` Skill 包。框架原文位于 `source/`，通过校验的
-阅读快照位于 `references/source/v8.2/`（目录名中的版本号被完整性校验锁定，
+阅读快照位于 `references/source/v8.3/`（目录名中的版本号被完整性校验锁定，
 不要重命名）。行为合同以 `SKILL.md` 为准，本文件只补充工作区边界。
 
 ## 运行边界

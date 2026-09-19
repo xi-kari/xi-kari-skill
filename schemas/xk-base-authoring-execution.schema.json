@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://xi-kari.local/schemas/xi-kari.v2.base-authoring-execution.schema.json",
-  "title": "Xi-Kari v2 runtime-owned base authoring receipt",
+  "$id": "https://xi-kari.local/schemas/xi-kari.v3.base-authoring-execution.schema.json",
+  "title": "Xi-Kari v3 runtime-owned base authoring receipt",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -15,9 +15,9 @@
     "receipt_sha256"
   ],
   "properties": {
-    "schema_id": {"const": "xi-kari.v2.base-authoring-execution"},
+    "schema_id": {"const": "xi-kari.v3.base-authoring-execution"},
     "schema_version": {"const": 1},
-    "protocol": {"const": "xi-kari.v2.base-authoring/v1"},
+    "protocol": {"const": "xi-kari.v3.base-authoring/v1"},
     "run_id": {"type": "string", "minLength": 1},
     "provider_binding_sha256": {"$ref": "#/$defs/sha256"},
     "provider_executable_sha256": {"$ref": "#/$defs/sha256"},
@@ -52,7 +52,8 @@
     "request_path": {"const": "authoring/XK01-base-authoring-request.json"},
     "prompt_path": {"const": "authoring/XK01-base-authoring-prompt.txt"},
     "output_path": {"const": "authoring/XK01-base-authoring-output.bin"},
-    "receipt_sha256": {"$ref": "#/$defs/sha256"}
+    "receipt_sha256": {"$ref": "#/$defs/sha256"},
+    "contract_authoring_evidence": {"$ref": "https://xi-kari.local/schemas/xi-kari.v3.natural-contract-execution.schema.json"}
   },
   "$defs": {"sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}}
 }

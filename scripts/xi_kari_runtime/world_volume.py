@@ -1,4 +1,4 @@
-"""Pure v8.2 semantics for a local multi-circle world volume.
+"""Pure v8.3 semantics for a local multi-circle world volume.
 
 This module deliberately has no run-directory, phase, lease, host, or publication
 authority.  It validates authored semantic documents and returns deterministic
@@ -19,6 +19,7 @@ import re
 from typing import Any
 
 from jsonschema import Draft202012Validator, FormatChecker
+from referencing import Registry, Resource
 
 from .authority import repository_root as resolve_repository_root
 
@@ -29,9 +30,9 @@ CLOCK_KINDS = frozenset(
 )
 REQUIRED_WORLD_ONTOLOGY = frozenset(
     {
-        "V82-CANON-JOINT-STATE",
-        "V82-CANON-DUAL-CONDITIONS",
-        "V82-CANON-EVENT",
+        "V83-CANON-JOINT-STATE",
+        "V83-CANON-DUAL-CONDITIONS",
+        "V83-CANON-EVENT",
     }
 )
 _ROOT = Path(__file__).resolve().parents[2]
@@ -41,7 +42,7 @@ _DURATION_RE = re.compile(
 
 
 class WorldVolumeError(ValueError):
-    """Raised when an Omega document violates v8.2 world semantics."""
+    """Raised when an Omega document violates v8.3 world semantics."""
 
 
 def _duration_seconds(value: object) -> float | None:
@@ -241,7 +242,13 @@ def _schema_validator(schema_name: str, root_value: str) -> Draft202012Validator
     except (OSError, json.JSONDecodeError) as error:
         raise WorldVolumeError(f"runtime schema is unavailable: {path}: {error}") from error
     Draft202012Validator.check_schema(schema)
-    return Draft202012Validator(schema, format_checker=FormatChecker())
+    resources = Registry()
+    for candidate in sorted((Path(root_value) / "schemas").glob("*.json")):
+        document = json.loads(candidate.read_text(encoding="utf-8"))
+        identity = document.get("$id")
+        if isinstance(identity, str) and identity:
+            resources = resources.with_resource(identity, Resource.from_contents(document))
+    return Draft202012Validator(schema, format_checker=FormatChecker(), registry=resources)
 
 
 def _validate_schema(
@@ -277,22 +284,22 @@ def _ontology_ids(root_value: str) -> frozenset[str]:
             if isinstance(identifier, str):
                 identifiers.add(identifier)
     if not identifiers:
-        raise WorldVolumeError("current v8.2 ontology inventory is unavailable")
+        raise WorldVolumeError("current v8.3 ontology inventory is unavailable")
     return frozenset(identifiers)
 
 
 @lru_cache(maxsize=None)
 def _source_anchor_ids(root_value: str) -> frozenset[str]:
-    path = Path(root_value) / "references" / "source" / "v8.2" / "indexes" / "anchors.json"
+    path = Path(root_value) / "references" / "source" / "v8.3" / "indexes" / "anchors.json"
     try:
         index = json.loads(path.read_text(encoding="utf-8"))
         identifiers = {*index["paragraphs"], *index["tables"]}
     except (OSError, json.JSONDecodeError, KeyError, TypeError) as error:
         raise WorldVolumeError(
-            f"current v8.2 source anchor index is unavailable: {error}"
+            f"current v8.3 source anchor index is unavailable: {error}"
         ) from error
     if not identifiers or any(not isinstance(item, str) for item in identifiers):
-        raise WorldVolumeError("current v8.2 source anchor index is invalid")
+        raise WorldVolumeError("current v8.3 source anchor index is invalid")
     return frozenset(identifiers)
 
 
@@ -664,8 +671,8 @@ def _validate_ontology_binding(
     error_type: type[ValueError],
     repository_root: Path | None = None,
 ) -> None:
-    if value.get("source_version") != "v8.2":
-        raise error_type(f"{label} is not bound to source version v8.2")
+    if value.get("source_version") != "v8.3":
+        raise error_type(f"{label} is not bound to source version v8.3")
     refs = value.get("ontology_refs")
     if not isinstance(refs, Sequence) or isinstance(refs, (str, bytes)):
         raise error_type(f"{label} ontology_refs must be a sequence")
@@ -673,17 +680,17 @@ def _validate_ontology_binding(
     root_value = str(_repository_root(repository_root))
     unknown = refs_set - _ontology_ids(root_value)
     if unknown:
-        raise error_type(f"{label} has unknown current-v8.2 ontology refs: {sorted(unknown)}")
+        raise error_type(f"{label} has unknown current-v8.3 ontology refs: {sorted(unknown)}")
     missing = required - refs_set
     if missing:
-        raise error_type(f"{label} omits required v8.2 ontology refs: {sorted(missing)}")
+        raise error_type(f"{label} omits required v8.3 ontology refs: {sorted(missing)}")
     try:
         unknown_anchors = _declared_source_anchors(value) - _source_anchor_ids(root_value)
     except WorldVolumeError as error:
         raise error_type(str(error)) from error
     if unknown_anchors:
         raise error_type(
-            f"{label} has unknown current-v8.2 source anchors: {sorted(unknown_anchors)}"
+            f"{label} has unknown current-v8.3 source anchors: {sorted(unknown_anchors)}"
         )
 
 
@@ -745,7 +752,7 @@ def _validate_local_state(volume: Mapping[str, Any]) -> None:
         raise WorldVolumeError("clock scope does not resolve inside its parent Omega")
     for location in _represented(volume):
         if set(location["scale_profile"]) != set(AXES):
-            raise WorldVolumeError("represented location lacks the nine v8.2 scale axes")
+            raise WorldVolumeError("represented location lacks the nine v8.3 scale axes")
         for state_field in ("M_state", "Psi_state"):
             variables = location[state_field]["variables"]
             if not variables:
@@ -1332,7 +1339,7 @@ def validate_world_volume(
     evidence_ledger: Mapping[str, Any] | None = None,
     expected_run_id: str | None = None,
 ) -> None:
-    """Validate one v8.2-bound Omega document without mutating it."""
+    """Validate one v8.3-bound Omega document without mutating it."""
 
     snapshot = _native_snapshot(
         volume, label="world volume", error_type=WorldVolumeError

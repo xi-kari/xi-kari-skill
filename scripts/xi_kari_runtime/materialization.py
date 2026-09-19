@@ -1,4 +1,4 @@
-"""Authoritative Xi-Kari v2 run lifecycle and semantic phase materialization."""
+"""Authoritative Xi-Kari v3 run lifecycle and semantic phase materialization."""
 
 from __future__ import annotations
 
@@ -18,7 +18,9 @@ from .authoring import (
     BASE_CLOSED_INPUT_WEB_SEARCH,
     BASE_OPEN_WORLD_WEB_SEARCH,
     FORMAL_ADAPTER_PROFILE,
-    LEGACY_ADAPTER_PROFILE,
+    DEFAULT_ADAPTER_TIMEOUT_SECONDS,
+    MAX_AUTHORING_TIMEOUT_SECONDS,
+    FORMAL_ADAPTER_RELATIVE_PATH,
     author_semantic_probe_variants,
     bind_semantic_authoring_adapter,
     require_semantic_authoring_adapter,
@@ -48,7 +50,6 @@ from .contracts import (
     EXECUTE_OWNED_BINDING_FIELDS,
     PREMATURE_COMPLETE_STATE_ERROR,
     PHASE_RESPONSIBILITIES,
-    LEGACY_CONTRACT_PROFILE,
     PRODUCTION_CONTRACT_PROFILE,
     build_phase_artifact_bindings,
     build_continuity_bundle_binding,
@@ -120,7 +121,7 @@ from .validation import run_fresh_validator, validate_run, validator_fingerprint
 from .world_volume import bind_world_evidence_state, world_evidence_target_hashes
 
 
-RUNTIME_VERSION = "2.1.0"
+from .source_profile import RUNTIME_VERSION, require_current_source
 ARTIFACT_SCHEMA_VERSION = 3
 DEFAULT_REPOSITORY_ROOT = Path(__file__).resolve().parents[2]
 DEFAULT_PRIVACY_PURPOSE = "回答冻结问题并仅向请求用户交付"
@@ -278,6 +279,9 @@ def _safe_run_id(value: str) -> str:
 
 
 def _require_mutable_contract_profile(contract: Mapping[str, Any]) -> None:
+    require_current_source(contract)
+    if contract.get("schema_id") != "xi-kari.v3.run-contract" or contract.get("schema_version") != ARTIFACT_SCHEMA_VERSION or contract.get("runtime_version") != RUNTIME_VERSION:
+        raise ValueError("run identity is incompatible with runtime 3.0.0; automatic migration is not supported")
     profile = contract.get("contract_profile")
     if profile is None:
         raise ValueError(
@@ -351,7 +355,7 @@ def _set_state(run_dir: Path, state: str, *, next_phase: str | None = None) -> N
         run_dir,
         "continuation/state.json",
         {
-            "schema_id": "xi-kari.v2.continuation-state",
+            "schema_id": "xi-kari.v3.continuation-state",
             "schema_version": 3,
             "run_id": run_id,
             "state": state,
@@ -383,7 +387,7 @@ def _status_from_records(run_dir: Path, records: list[dict[str, Any]], request: 
     else:
         state = derived
     return {
-        "schema_id": "xi-kari.v2.run-status",
+        "schema_id": "xi-kari.v3.run-status",
         "schema_version": 3,
         "run_id": request.get("run_id"),
         "run_dir": str(run_dir),
@@ -432,7 +436,7 @@ def _write_run_contract(
         "fail_closed": True,
     }
     contract = {
-        "schema_id": "xi-kari.v2.run-contract",
+        "schema_id": "xi-kari.v3.run-contract",
         "schema_version": 3,
         "runtime_version": RUNTIME_VERSION,
         "run_id": run_id,
@@ -440,7 +444,7 @@ def _write_run_contract(
         "problem_contract": dict(problem_contract),
         "problem_contract_sha256": contract_hash(problem_contract),
         "mode": mode,
-        "source_version": "v8.2",
+        "source_version": "v8.3",
         "contract_profile": contract_profile,
         "repository_root": str(repository_root),
         "validator_set_sha256": authority_sha256,
@@ -524,7 +528,7 @@ def _prepare_run_impl(
     parent_chain_head_sha256: str | None = None,
     continuation_kind: str = "original",
     semantic_authoring_adapter: str | Path | None = None,
-    semantic_authoring_timeout_seconds: int = 120,
+    semantic_authoring_timeout_seconds: int = DEFAULT_ADAPTER_TIMEOUT_SECONDS,
     contract_profile: str | None = None,
     semantic_read_trace_path: str | Path | None = None,
     ontology_read_trace_path: str | Path | None = None,
@@ -560,37 +564,20 @@ def _prepare_run_impl(
         _production_capability, _ProductionPreparationCapability
     ):
         raise ValueError("production preparation requires execute-owned capability")
-    if contract_profile == LEGACY_CONTRACT_PROFILE and _production_capability is not None:
-        raise ValueError("legacy preparation cannot carry execute-owned binding")
     if (
         contract_profile == PRODUCTION_CONTRACT_PROFILE
         and semantic_authoring_profile != FORMAL_ADAPTER_PROFILE
     ):
         raise ValueError(
-            "production-authoring-v2 requires the production-codex "
+            "production-authoring-v3 requires the production-codex "
             "semantic authoring profile"
-        )
-    if (
-        contract_profile == LEGACY_CONTRACT_PROFILE
-        and semantic_authoring_profile != LEGACY_ADAPTER_PROFILE
-    ):
-        raise ValueError(
-            "legacy-fixture-v3 requires the legacy-fixture semantic "
-            "authoring profile"
         )
     if (
         contract_profile == PRODUCTION_CONTRACT_PROFILE
         and semantic_read_trace_path is None
     ):
         raise ValueError(
-            "production-authoring-v2 requires a semantic read trace"
-        )
-    if (
-        contract_profile == LEGACY_CONTRACT_PROFILE
-        and semantic_read_trace_path is not None
-    ):
-        raise ValueError(
-            "legacy-fixture-v3 does not accept a production semantic read trace"
+            "production-authoring-v3 requires a semantic read trace"
         )
     if (
         contract_profile == PRODUCTION_CONTRACT_PROFILE
@@ -599,13 +586,6 @@ def _prepare_run_impl(
     ):
         raise ValueError(
             "production base authoring requires an ontology read trace"
-        )
-    if (
-        contract_profile == LEGACY_CONTRACT_PROFILE
-        and ontology_read_trace_path is not None
-    ):
-        raise ValueError(
-            "legacy-fixture-v3 does not accept a production ontology read trace"
         )
     if question is not None and question.strip() != frozen_problem["question"]:
         raise ValueError("question differs from problem_contract.question")
@@ -684,7 +664,7 @@ def _prepare_run_impl(
     )
     atomic_write_json(run_dir / KEY_RELATIVE, terminal_private_key)
     capability_snapshot = {
-        "schema_id": "xi-kari.v2.capability-snapshot",
+        "schema_id": "xi-kari.v3.capability-snapshot",
         "schema_version": 3,
         "run_id": run_id,
         "mode": mode,
@@ -714,7 +694,7 @@ def _prepare_run_impl(
         "".join(__import__("json").dumps(event, ensure_ascii=False, sort_keys=True, separators=(",", ":")) + "\n" for event in events),
     )
     read_plan = {
-        "schema_id": "xi-kari.v2.read-plan",
+        "schema_id": "xi-kari.v3.read-plan",
         "schema_version": 3,
         "run_id": run_id,
         "framework_version": lock["framework_version"],
@@ -855,21 +835,57 @@ def _prepare_run_impl(
     # supply its ledger before the evidence boundary can be frozen.
     atomic_write_json(
         run_dir / "authoring" / "XK02-retrieval-ledger.json",
-        {"schema_id": "xi-kari.v2.retrieval-ledger", "schema_version": 3, "run_id": run_id, "mode": mode, "status": "awaiting_retrieval"},
+        {"schema_id": "xi-kari.v3.retrieval-ledger", "schema_version": 3, "run_id": run_id, "mode": mode, "status": "awaiting_retrieval"},
     )
     _set_state(run_dir, "prepared", next_phase="XK2")
     return run_dir
 
 
-def prepare_run(*args: Any, **kwargs: Any) -> Path:
-    """Create a legacy fixture run; production preparation is execute-owned."""
+def prepare_run(*args: Any, **kwargs: Any) -> dict[str, Any]:
+    """Read-only production preflight; only execute can create a sealed run."""
 
-    if kwargs.get("contract_profile") == PRODUCTION_CONTRACT_PROFILE:
-        raise ValueError(
-            "public prepare_run only supports legacy-fixture-v3; "
-            "use execute_authored_run for production-authoring-v2"
-        )
-    return _prepare_run_impl(*args, **kwargs)
+    if len(args) > 1:
+        raise TypeError("prepare accepts only the runs root as a positional argument")
+    if kwargs.get("semantic_read_trace_path") is not None or kwargs.get("ontology_read_trace_path") is not None:
+        raise ValueError("read trace evidence is owned by execute; preflight does not accept caller receipts")
+    if kwargs.get("contract_profile") != PRODUCTION_CONTRACT_PROFILE:
+        raise ValueError("preflight requires the current production contract profile")
+    if kwargs.get("semantic_authoring_profile") != FORMAL_ADAPTER_PROFILE:
+        raise ValueError("preflight requires the production-codex semantic authoring profile")
+    allowed = {
+        "problem_contract", "mode", "run_id", "repository_root", "runs_root",
+        "semantic_authoring_adapter", "semantic_authoring_timeout_seconds",
+        "contract_profile", "semantic_authoring_profile", "codex_provider_executable",
+        "semantic_read_trace_path", "privacy_purpose", "delivery_audience",
+    }
+    if set(kwargs) - allowed:
+        raise ValueError("preflight cannot accept execute-owned or continuation controls")
+    mode = kwargs.get("mode", "open-world")
+    problem = validate_problem_contract(kwargs.get("problem_contract"), mode=mode)
+    repo = resolve_repository_root(kwargs.get("repository_root") or DEFAULT_REPOSITORY_ROOT)
+    adapter = bind_semantic_authoring_adapter(
+        kwargs.get("semantic_authoring_adapter") or repo / FORMAL_ADAPTER_RELATIVE_PATH,
+        timeout_seconds=kwargs.get("semantic_authoring_timeout_seconds", DEFAULT_ADAPTER_TIMEOUT_SECONDS),
+        profile=FORMAL_ADAPTER_PROFILE,
+        codex_provider_executable=kwargs.get("codex_provider_executable"),
+        repository_root=repo,
+    )
+    requested_id = kwargs.get("run_id")
+    if requested_id is not None:
+        _safe_run_id(requested_id)
+    runs_root = _resolve_run_directory((args[0] if args else kwargs.get("runs_root")) or default_runs_root())
+    _require_external_runs_root(runs_root, repo)
+    source_lock, _events = build_full_source_lock(repo, run_id="preflight")
+    return {
+        "status": "ready-for-execute", "preflight_only": True, "run_created": False,
+        "analysis_complete": False, "runtime_version": RUNTIME_VERSION,
+        "contract_profile": PRODUCTION_CONTRACT_PROFILE,
+        "source_version": source_lock["framework_version"],
+        "problem_contract_sha256": contract_hash(problem),
+        "source_unit_count": source_lock["source_unit_count"],
+        "semantic_authoring_adapter": adapter, "runs_root": str(runs_root),
+        "next_command": "execute",
+    }
 
 
 def _prepare_production_run(
@@ -1014,7 +1030,7 @@ def _concept_closure(repo: Path, packet: Mapping[str, Any]) -> dict[str, Any]:
     if packet.get("concept_disposition") != census_rows:
         raise ValueError("persisted candidate disposition differs from repository authority")
     return {
-        "schema_id": "xi-kari.v2.concept-disposition",
+        "schema_id": "xi-kari.v3.concept-disposition",
         "schema_version": 3,
         "source_candidate_index_sha256": authority[
             "source_candidate_index_sha256"
@@ -1105,7 +1121,7 @@ def _concept_closure_report(
         and ontology_trace_complete
     )
     report = {
-        "schema_id": "xi-kari.v2.concept-closure-report",
+        "schema_id": "xi-kari.v3.concept-closure-report",
         "schema_version": 3,
         "run_id": run_id,
         "candidate_census_sha256": concept["candidate_census_sha256"],
@@ -1320,6 +1336,11 @@ def _validate_base_authoring_and_retrieval(
         limit=16 * 1024 * 1024,
     )
     base_request = read_json(request_path)
+    from .contract_authoring import validate_contract_authoring_binding
+    validate_contract_authoring_binding(
+        base_request=base_request, base_receipt=base_receipt, run_contract=contract,
+        repository_root=Path(str(contract.get("repository_root"))),
+    )
     ontology_plan = read_json(ontology_plan_path)
     ontology_trace = read_json(ontology_trace_path)
     if not isinstance(ontology_plan, Mapping) or not isinstance(
@@ -1527,7 +1548,7 @@ def _validate_base_authoring_and_retrieval(
                 else None
             ),
         )
-        projected_packet["schema_id"] = "xi-kari.v2.analysis-packet"
+        projected_packet["schema_id"] = "xi-kari.v3.analysis-packet"
         projected_packet["schema_version"] = 3
         _rebind_visibility_ledger(
             projected_packet, privacy_purpose=privacy_purpose
@@ -1552,7 +1573,7 @@ def _validate_base_authoring_and_retrieval(
     if not isinstance(semantic_document, Mapping):
         raise ValueError("XK2 semantic retrieval input is not an object")
     if (
-        semantic_document.get("schema_id") != "xi-kari.v2.retrieval-semantic-input"
+        semantic_document.get("schema_id") != "xi-kari.v3.retrieval-semantic-input"
         or semantic_document.get("schema_version") != 1
         or semantic_document.get("run_id") != contract.get("run_id")
         or semantic_document.get("mode") != contract.get("mode")
@@ -1594,7 +1615,7 @@ def _validate_base_authoring_and_retrieval(
         ):
             raise ValueError("closed-input provider binding differs from base request")
         return dict(execution_receipt), dict(semantic_retrieval)
-    if execution_receipt.get("schema_id") != "xi-kari.v2.retrieval-execution-receipt":
+    if execution_receipt.get("schema_id") != "xi-kari.v3.retrieval-execution-receipt":
         raise ValueError("open-world production retrieval requires a host execution receipt")
     from .retrieval_execution import validate_retrieval_execution_receipt
 
@@ -1633,7 +1654,7 @@ def _validate_base_authoring_and_retrieval(
 def _phase_paths(
     phase: str,
     *,
-    contract_profile: str = LEGACY_CONTRACT_PROFILE,
+    contract_profile: str = PRODUCTION_CONTRACT_PROFILE,
     mode: str | None = None,
 ) -> list[str]:
     return list(
@@ -1657,7 +1678,7 @@ def _seal_values(
     contract_profile = (
         str(contract.get("contract_profile"))
         if isinstance(contract, Mapping)
-        else LEGACY_CONTRACT_PROFILE
+        else ""
     )
     mode = str(contract.get("mode")) if isinstance(contract, Mapping) else None
     paths = _phase_paths(phase, contract_profile=contract_profile, mode=mode)
@@ -1687,7 +1708,7 @@ def _seal_values(
 
 def _runtime_document(value: Mapping[str, Any], *, kind: str, run_id: str) -> dict[str, Any]:
     document = dict(value)
-    document["schema_id"] = f"xi-kari.v2.{kind}"
+    document["schema_id"] = f"xi-kari.v3.{kind}"
     document["schema_version"] = 3
     document["run_id"] = run_id
     return document
@@ -1697,7 +1718,7 @@ def _not_applicable_document(
     *, run_id: str, reason: str | None = None
 ) -> dict[str, Any]:
     document: dict[str, Any] = {
-        "schema_id": "xi-kari.v2.not-applicable",
+        "schema_id": "xi-kari.v3.not-applicable",
         "schema_version": 3,
         "run_id": run_id,
         "dynamic_applicability": "not_applicable",
@@ -1752,7 +1773,7 @@ def _begin_xk12_transaction(run_dir: Path, candidate: Path) -> dict[str, Any]:
         )
     created_at = utc_now()
     transaction = {
-        "schema_id": "xi-kari.v2.xk12-transaction",
+        "schema_id": "xi-kari.v3.xk12-transaction",
         "schema_version": 3,
         "run_id": read_json(run_dir / "run-contract.json")["run_id"],
         "transaction_id": f"XK12-TXN-{uuid.uuid4().hex}",
@@ -1994,7 +2015,7 @@ def materialize_run(
         )
         retrieval_artifact = {
             **retrieval,
-            "schema_id": "xi-kari.v2.retrieval-ledger",
+            "schema_id": "xi-kari.v3.retrieval-ledger",
             "schema_version": 3,
             "run_id": run_id,
             "input_packet_sha256": packet_sha256,
@@ -2075,7 +2096,7 @@ def materialize_run(
             repo, contract, boundary="semantic validation"
         )
     unknown_register = {
-        "schema_id": "xi-kari.v2.unknown-register",
+        "schema_id": "xi-kari.v3.unknown-register",
         "schema_version": 3,
         "run_id": run_id,
         "evidence_cutoff": contract["evidence_cutoff"],
@@ -2376,7 +2397,7 @@ def materialize_run(
                 for error in check_plain_language((run_dir / relative).read_text(encoding="utf-8"))
             )
         prose_review = {
-            "schema_id": "xi-kari.v2.prose-review",
+            "schema_id": "xi-kari.v3.prose-review",
             "schema_version": 3,
             "run_id": run_id,
             "check_method": "deterministic-plain-language-rules",
@@ -2422,7 +2443,7 @@ def materialize_run(
             shutil.copytree(run_dir, candidate, symlinks=True)
             (candidate / KEY_RELATIVE).unlink(missing_ok=True)
             final_chat = {
-                "schema_id": "xi-kari.v2.final-chat",
+                "schema_id": "xi-kari.v3.final-chat",
                 "schema_version": 3,
                 "run_id": run_id,
                 "answer_path": "delivery/xi-kari-answer.md",
@@ -2440,7 +2461,7 @@ def materialize_run(
                 if path.is_file():
                     continuation_bindings[relative] = sha256_file(path)
             manifest = {
-                "schema_id": "xi-kari.v2.artifact-manifest",
+                "schema_id": "xi-kari.v3.artifact-manifest",
                 "schema_version": 3,
                 "runtime_version": RUNTIME_VERSION,
                 "artifact_schema_version": ARTIFACT_SCHEMA_VERSION,
@@ -2500,7 +2521,7 @@ def materialize_run(
             records = load_phase_records(run_dir)
             chain_head_sha256 = records[-1]["record_sha256"]
             completion = {
-                "schema_id": "xi-kari.v2.completion",
+                "schema_id": "xi-kari.v3.completion",
                 "schema_version": 3,
                 "run_id": run_id,
                 "official_validation_path": OFFICIAL_REPORT_RELATIVE,
@@ -2590,6 +2611,7 @@ def materialize_run(
 def status_run(run_dir: Path) -> dict[str, Any]:
     run_dir = _resolve_run_directory(run_dir)
     request = read_json(run_dir / "run-contract.json")
+    _require_mutable_contract_profile(request)
     records, errors = validate_phase_chain(run_dir)
     status = _status_from_records(run_dir, records, request)
     chain_head = records[-1].get("record_sha256") if records else None
@@ -2735,9 +2757,9 @@ def fork_run(
         "semantic_authoring_adapter"
     )
     parent_authoring_profile = (
-        parent_adapter.get("profile", LEGACY_ADAPTER_PROFILE)
+        parent_adapter.get("profile", "")
         if isinstance(parent_adapter, Mapping)
-        else LEGACY_ADAPTER_PROFILE
+        else ""
     )
     parent_provider = (
         parent_adapter.get("provider_binding")
@@ -2761,7 +2783,7 @@ def fork_run(
             f"{parent_status.get('integrity_errors', [])}"
         )
     contract_profile = str(
-        contract.get("contract_profile", LEGACY_CONTRACT_PROFILE)
+        contract.get("contract_profile", "")
     )
     if contract_profile == PRODUCTION_CONTRACT_PROFILE:
         # A production continuation is a new base-authoring execution.  A
@@ -2811,7 +2833,7 @@ def fork_run(
                 codex_provider_executable=parent_provider["executable_path"],
                 closed_input_materials=closed_input_materials,
                 timeout_seconds=min(
-                    int(parent_provider.get("timeout_seconds", 120)), 1200
+                    int(parent_provider.get("timeout_seconds", DEFAULT_ADAPTER_TIMEOUT_SECONDS)), MAX_AUTHORING_TIMEOUT_SECONDS
                 ),
                 privacy_purpose=contract.get("privacy_contract", {}).get(
                     "purpose", DEFAULT_PRIVACY_PURPOSE
@@ -2864,7 +2886,7 @@ def fork_run(
             child,
             "continuation/parent.json",
             {
-                "schema_id": "xi-kari.v2.parent-binding",
+                "schema_id": "xi-kari.v3.parent-binding",
                 "schema_version": 3,
                 "run_id": status_run(child)["run_id"],
                 "parent_run_id": contract["run_id"],
@@ -2875,68 +2897,7 @@ def fork_run(
             },
         )
         return child
-    child = prepare_run(
-        child_runs_root,
-        problem_contract=contract["problem_contract"],
-        mode=contract["mode"],
-        run_id=run_id,
-        repository_root=repository_root,
-        generation=int(contract.get("continuation", {}).get("generation", 0)) + 1,
-        parent_run_id=contract["run_id"],
-        parent_chain_head_sha256=parent_status.get("chain_head_sha256"),
-        continuation_kind=continuation_kind,
-        semantic_authoring_adapter=(
-            parent_adapter.get("executable_path")
-            if isinstance(parent_adapter, Mapping)
-            else None
-        ),
-        semantic_authoring_timeout_seconds=(
-            int(parent_adapter.get("timeout_seconds", 120))
-            if isinstance(parent_adapter, Mapping)
-            else 120
-        ),
-        semantic_authoring_profile=str(parent_authoring_profile),
-        codex_provider_executable=(
-            parent_provider.get("executable_path")
-            if isinstance(parent_provider, Mapping)
-            else None
-        ),
-        contract_profile=contract_profile,
-        semantic_read_trace_path=semantic_read_trace_path,
-        privacy_purpose=contract.get("privacy_contract", {}).get(
-            "purpose", DEFAULT_PRIVACY_PURPOSE
-        ),
-        delivery_audience=contract.get("privacy_contract", {}).get(
-            "delivery_audience", DEFAULT_DELIVERY_AUDIENCE
-        ),
-    )
-    child_contract = read_json(child / "run-contract.json")
-    child_adapter = (
-        child_contract.get("capability_snapshot", {}).get(
-            "semantic_authoring_adapter"
-        )
-        if isinstance(child_contract, Mapping)
-        else None
-    )
-    if child_adapter != parent_adapter:
-        if child.is_dir() and not child.is_symlink():
-            shutil.rmtree(child)
-        raise ValueError(
-            "child runtime control binding differs from parent runtime control binding"
-        )
-    _write(
-        child,
-        "continuation/parent.json",
-        {
-            "schema_id": "xi-kari.v2.parent-binding",
-            "schema_version": 3,
-            "run_id": status_run(child)["run_id"],
-            "parent_run_id": contract["run_id"],
-            "parent_chain_head_sha256": parent_status.get("chain_head_sha256"),
-            "base_phase": base_phase or parent_status.get("current_phase"),
-        },
-    )
-    return child
+    raise ValueError("continuation requires the current production contract profile")
 
 
 def cancel_run(run_dir: Path, *, reason: str) -> dict[str, Any]:
@@ -2961,7 +2922,7 @@ def cancel_run(run_dir: Path, *, reason: str) -> dict[str, Any]:
         run_dir,
         "continuation/cancel.json",
         {
-            "schema_id": "xi-kari.v2.cancel",
+            "schema_id": "xi-kari.v3.cancel",
             "schema_version": 3,
             "run_id": contract["run_id"],
             "reason": reason.strip(),
@@ -3036,7 +2997,7 @@ def repair_plan(run_dir: Path, *, repository_root: Path | None = None) -> dict[s
             }
         )
     plan = {
-        "schema_id": "xi-kari.v2.repair-plan",
+        "schema_id": "xi-kari.v3.repair-plan",
         "schema_version": 3,
         "run_id": status["run_id"],
         "earliest_invalid_phase": earliest,

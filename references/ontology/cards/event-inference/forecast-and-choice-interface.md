@@ -1,7 +1,7 @@
 ---
-id: V82-CANON-CORE-FORECAST-REGISTRY
-covered_ids: V82-CANON-CORE-FORECAST-REGISTRY,V82-CANON-CORE-FORECAST-BASELINE,V82-CANON-CORE-FORECAST-SIGNALS,V82-CANON-CORE-FORECAST-FAILURE,V82-CANON-CORE-CHOICE-BRIDGE,V82-CANON-CORE-OPTION-SET,V82-CANON-CORE-ACTION-CEILING
-source_authority: v8.2
+id: V83-CANON-CORE-FORECAST-REGISTRY
+covered_ids: V83-CANON-CORE-FORECAST-REGISTRY,V83-CANON-CORE-FORECAST-BASELINE,V83-CANON-CORE-FORECAST-SIGNALS,V83-CANON-CORE-FORECAST-FAILURE,V83-CANON-CORE-CHOICE-BRIDGE,V83-CANON-CORE-OPTION-SET,V83-CANON-CORE-ACTION-CEILING
+source_authority: v8.3
 card_kind: shared
 ---
 
@@ -13,10 +13,10 @@ card_kind: shared
 
 ## 原文锚点
 
-- V82-P2134—V82-P2148：四类输出隔离
-- V82-P2157—V82-P2245：前瞻登记、基线、时间窗、校准、信号、失败和选择桥
-- V82-P2245—V82-P2324：行动/不行动方案集、方案卡、行动上限、结果回写
-- V82-P2328—V82-P2329：对外发布格式
+- V83-P2134—V83-P2148：四类输出隔离
+- V83-P2157—V83-P2245：前瞻登记、基线、时间窗、校准、信号、失败和选择桥
+- V83-P2245—V83-P2324：行动/不行动方案集、方案卡、行动上限、结果回写
+- V83-P2328—V83-P2329：对外发布格式
 
 ## 权威定义
 
@@ -24,7 +24,7 @@ card_kind: shared
 
 ## 解释层（非原文定义）
 
-前瞻是带目标和期限的可失败承诺；推演可以停留在条件路径。选择是独立的规范与授权过程，任何“模型建议”都只能是要求清单，不能代签授权。
+前瞻是带目标和期限的可失败承诺；推演可以停留在条件路径。分析推荐须公开规范前提、依据、代价与改判条件；实际选择与执行另需适用的保护、复核和授权。模型应完成有依据的取舍，但不能代签授权。
 
 ## 适用前提
 
@@ -62,7 +62,7 @@ card_kind: shared
 
 - 看到结果后改目标、期限、基线或成功标准：旧记录标失败/偏离并开新版本。
 - 受影响位置无法退出、申诉或回滚：行动上限降为要求清单或暂停。
-- 只比较主动方案而省略延迟、退出和不行动：方案集不完整，不发布选择建议。
+- 省略不行动基线，或不说明延迟、退出等类别是否适用：方案比较未完成；不得用虚构选项补数量。
 
 ## 撤回条件
 
@@ -84,10 +84,20 @@ event-and-recursive-inference.md、claim-roles-and-missing-states.md、operation
 
 本卡的权威定义必须与无损阅读版连续联读；以下锚点是定位索引，不是删减后的替代文本。运行时先完整读取 21 卷，再回到这些锚点核对相邻段落、表格和适用边界。
 
-- `V82-P2157`, `V82-P2158`, `V82-P2189`, `V82-P2190`, `V82-P2191`, `V82-P2193`, `V82-P2236`, `V82-P2237`, `V82-P2238`, `V82-P2239`, `V82-P2240`, `V82-P2241`, `V82-P2242`, `V82-P2243`, `V82-P2244`, `V82-P2245`, `V82-P2246`, `V82-P2268`, `V82-P2299`, `V82-P2300`, `V82-P2313`
+- `V83-P2157`, `V83-P2158`, `V83-P2189`, `V83-P2190`, `V83-P2191`, `V83-P2193`, `V83-P2236`, `V83-P2237`, `V83-P2238`, `V83-P2239`, `V83-P2240`, `V83-P2241`, `V83-P2242`, `V83-P2243`, `V83-P2244`, `V83-P2245`, `V83-P2246`, `V83-P2268`, `V83-P2299`, `V83-P2300`, `V83-P2313`
 
 ## 必须联读的邻接概念
 
-- `V82-CANON-CORE-D0-OBJECT`：`references/ontology/cards/foundation-boundary/core-boundary-contracts.md`
+- `V83-CANON-CORE-D0-OBJECT`：`references/ontology/cards/foundation-boundary/core-boundary-contracts.md`
 
-- `V82-CANON-CORE-EVIDENCE-CONTRACT`：`references/ontology/cards/foundation-boundary/claim-roles-and-missing-states.md`
+- `V83-CANON-CORE-EVIDENCE-CONTRACT`：`references/ontology/cards/foundation-boundary/claim-roles-and-missing-states.md`
+
+## 判断与交付的原文条款
+
+`V83-P2243`：前瞻输出只回答条件后果。形成分析推荐前须明示规范前提、证据、受影响位置、方案、成本收益和改判条件；推荐不产生执行权限。进入现实采用前，必须补入：明示规范前提、选择主体、管辖权、受影响位置、权利底线、方案、成本与收益分布、授权、停止、申诉、回滚和补救。这里继续调用 N、PF、J、O 与 C12，不建立预测捷径。
+
+`V83-P2246`：方案生成逐项检查维持现状、主动行动、延迟行动、试探性小步行动、退出或转移，以及明确的不行动六种类别的适用性。适用类别形成真实、可比较的方案；不适用类别说明理由，不能为满足数量虚构方案。请求选择时不得删除明确的不行动基线，也不能把维持现状和不行动混为一项：维持现状可能需要持续资源和执行，不行动可能让现状自然变化。具体任务可以增加方案；未请求选择的任务不强制生成行动清单。
+
+`V83-P2328`：对外发布时，默认交付完整分析，开头直接给出当前判断及范围，随后完整展开条件、证据与不确定性。正文应保留当前截止时点、目标与期限、对象和圈层范围、简单基线、全部已经开展的实质路径比较、每条路径成立条件、早期与反向信号、表达强度、暂停和下一次复核。不得以不改变主结论、属于次要分支或不是决定性理由为由删去实质分析；不得把条件藏在脚注，或用“模型认为”替代证据责任。只有用户明确要求简答或规定较短篇幅时才压缩可见答案，并继续保存完整分析。超出单次容量时按章节连续交付并提供完整文件，说明尚未交付范围；摘要、附件链接与覆盖标记不能替代正文论证。
+
+`V83-P2329`：有限选择的分析应明确已经进入规范层，完整列出价值前提、决定主体、受影响位置、保护底板、可选方案、行动与不行动的分配后果、授权状态、行动上限、停止、回滚和补救。可以先给出当前分析推荐，再完整说明接受与排除各方案的理由、代价、反对意见及改判条件。若授权尚未通过，明确推荐供审议、现实执行尚未获准，不能用祈使语气伪装成可执行决定，也不能因没有执行权限而把已有依据的分析取舍退回问题清单。

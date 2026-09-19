@@ -1,4 +1,4 @@
-"""Fresh, disk-authoritative validation for Xi-Kari v2 runs."""
+"""Fresh, disk-authoritative validation for Xi-Kari v3 runs."""
 
 from __future__ import annotations
 
@@ -121,121 +121,121 @@ def validator_fingerprint(report: Mapping[str, Any]) -> str:
     return sha256_json(stable)
 
 ARTIFACT_SCHEMA_IDS = {
-    "artifacts/artifact-manifest.json": {"xi-kari.v2.artifact-manifest"},
-    "authoring/XK01-read-events.jsonl": {"xi-kari.v2.source-read-event"},
-    "authoring/XK01-read-plan.json": {"xi-kari.v2.read-plan"},
+    "artifacts/artifact-manifest.json": {"xi-kari.v3.artifact-manifest"},
+    "authoring/XK01-read-events.jsonl": {"xi-kari.v3.source-read-event"},
+    "authoring/XK01-read-plan.json": {"xi-kari.v3.read-plan"},
     "authoring/XK01-semantic-read-trace.json": {
-        "xi-kari.v2.semantic-read-trace"
+        "xi-kari.v3.semantic-read-trace"
     },
     "authoring/XK01-base-authoring-receipt.json": {
-        "xi-kari.v2.base-authoring-execution"
+        "xi-kari.v3.base-authoring-execution"
     },
     "authoring/XK04-ontology-read-plan.json": {
-        "xi-kari.v2.ontology-read-plan"
+        "xi-kari.v3.ontology-read-plan"
     },
     "authoring/XK04-ontology-read-trace.json": {
-        "xi-kari.v2.ontology-read-trace"
+        "xi-kari.v3.ontology-read-trace"
     },
     "authoring/XK01-base-authoring-events.jsonl": {
-        "xi-kari.v2.codex-jsonl-event"
+        "xi-kari.v3.codex-jsonl-event"
     },
     "authoring/XK01-base-authoring-request.json": {
-        "xi-kari.v2.base-authoring-request"
+        "xi-kari.v3.base-authoring-request"
     },
     "authoring/XK02-semantic-retrieval.json": {
-        "xi-kari.v2.retrieval-semantic-input"
+        "xi-kari.v3.retrieval-semantic-input"
     },
     "authoring/XK02-retrieval-execution-receipt.json": {
-        "xi-kari.v2.retrieval-execution-receipt",
-        "xi-kari.v2.closed-input-execution",
+        "xi-kari.v3.retrieval-execution-receipt",
+        "xi-kari.v3.closed-input-execution",
     },
     "authoring/XK02-host-capture-index.json": {
-        "xi-kari.v2.host-capture-index"
+        "xi-kari.v3.host-capture-index"
     },
-    "authoring/XK02-retrieval-ledger.json": {"xi-kari.v2.retrieval-ledger"},
-    "authoring/XK03-evidence-ledger.json": {"xi-kari.v2.evidence-ledger"},
-    "authoring/XK03-unknown-register.json": {"xi-kari.v2.unknown-register"},
+    "authoring/XK02-retrieval-ledger.json": {"xi-kari.v3.retrieval-ledger"},
+    "authoring/XK03-evidence-ledger.json": {"xi-kari.v3.evidence-ledger"},
+    "authoring/XK03-unknown-register.json": {"xi-kari.v3.unknown-register"},
     "authoring/XK04-concept-closure-report.json": {
-        "xi-kari.v2.concept-closure-report"
+        "xi-kari.v3.concept-closure-report"
     },
-    "authoring/XK04-concept-disposition.json": {"xi-kari.v2.concept-disposition"},
+    "authoring/XK04-concept-disposition.json": {"xi-kari.v3.concept-disposition"},
     "authoring/XK05-local-world-model.json": {
-        "xi-kari.v2.xk.world-volume",
-        "xi-kari.v2.not-applicable",
+        "xi-kari.v3.xk.world-volume",
+        "xi-kari.v3.not-applicable",
     },
     "authoring/XK06-transformation-ledger.json": {
-        "xi-kari.v2.xk.transformation-ledger",
-        "xi-kari.v2.not-applicable",
+        "xi-kari.v3.xk.transformation-ledger",
+        "xi-kari.v3.not-applicable",
     },
     "authoring/XK06-cascade.json": {
-        "xi-kari.v2.xk.transform-cascade",
-        "xi-kari.v2.not-applicable",
+        "xi-kari.v3.xk.transform-cascade",
+        "xi-kari.v3.not-applicable",
     },
-    "authoring/XK07-case-ledger.json": {"xi-kari.v2.case-ledger"},
+    "authoring/XK07-case-ledger.json": {"xi-kari.v3.case-ledger"},
     "authoring/XK07-claim-mechanism-graph.json": {
-        "xi-kari.v2.xk.claim-mechanism-graph",
-        "xi-kari.v2.not-applicable",
+        "xi-kari.v3.xk.claim-mechanism-graph",
+        "xi-kari.v3.not-applicable",
     },
     "authoring/XK08-recursive-lineage.json": {
-        "xi-kari.v2.xk.recursive-lineage",
-        "xi-kari.v2.not-applicable",
+        "xi-kari.v3.xk.recursive-lineage",
+        "xi-kari.v3.not-applicable",
     },
-    "authoring/XK09-order-evaluation.json": {"xi-kari.v2.order-evaluation"},
+    "authoring/XK09-order-evaluation.json": {"xi-kari.v3.order-evaluation"},
     "authoring/XK09-semantic-authoring-bundle.json": {
-        "xi-kari.v2.semantic-probe-authorings",
-        "xi-kari.v2.not-applicable",
+        "xi-kari.v3.semantic-probe-authorings",
+        "xi-kari.v3.not-applicable",
     },
-    "authoring/XK09-red-team-report.json": {"xi-kari.v2.red-team-report"},
-    "authoring/XK09-stance-pair.json": {"xi-kari.v2.stance-pair"},
+    "authoring/XK09-red-team-report.json": {"xi-kari.v3.red-team-report"},
+    "authoring/XK09-stance-pair.json": {"xi-kari.v3.stance-pair"},
     "authoring/XK09-sensitivity-report.json": {
-        "xi-kari.v2.sensitivity-report",
-        "xi-kari.v2.not-applicable",
+        "xi-kari.v3.sensitivity-report",
+        "xi-kari.v3.not-applicable",
     },
     "authoring/XK09-stance-stability-report.json": {
-        "xi-kari.v2.stance-stability-report",
-        "xi-kari.v2.not-applicable",
+        "xi-kari.v3.stance-stability-report",
+        "xi-kari.v3.not-applicable",
     },
     "authoring/XK10-action-ranking.json": {
-        "xi-kari.v2.xk.action-ranking",
-        "xi-kari.v2.not-applicable",
+        "xi-kari.v3.xk.action-ranking",
+        "xi-kari.v3.not-applicable",
     },
-    "authoring/XK10-forecast-ledger.json": {"xi-kari.v2.forecast-ledger"},
+    "authoring/XK10-forecast-ledger.json": {"xi-kari.v3.forecast-ledger"},
     "authoring/XK10-framework-gap-ledger.json": {
-        "xi-kari.v2.xk.framework-gap-ledger",
-        "xi-kari.v2.not-applicable",
+        "xi-kari.v3.xk.framework-gap-ledger",
+        "xi-kari.v3.not-applicable",
     },
     "authoring/XK10-verdict.json": {
-        "xi-kari.v2.xk.verdict",
-        "xi-kari.v2.not-applicable",
+        "xi-kari.v3.xk.verdict",
+        "xi-kari.v3.not-applicable",
     },
-    "authoring/XK11-output-plan.json": {"xi-kari.v2.prose-plan"},
-    "authoring/XK11-prose-review.json": {"xi-kari.v2.prose-review"},
-    "authoring/XK11-semantic-coverage.json": {"xi-kari.v2.semantic-coverage"},
-    "capability-snapshot.json": {"xi-kari.v2.capability-snapshot"},
-    "continuation/cancel.json": {"xi-kari.v2.cancel"},
-    COMPLETION_RELATIVE: {"xi-kari.v2.completion"},
-    "continuation/input-packet.json": {"xi-kari.v2.analysis-packet"},
-    "continuation/parent.json": {"xi-kari.v2.parent-binding"},
-    "continuation/repair-plan.json": {"xi-kari.v2.repair-plan"},
-    "continuation/repair-record.json": {"xi-kari.v2.repair-record"},
-    "continuation/state.json": {"xi-kari.v2.continuation-state"},
-    KEY_RELATIVE: {"xi-kari.v2.terminal-authority-key"},
-    TERMINAL_RELATIVE: {"xi-kari.v2.terminal-record"},
-    TRANSACTION_RELATIVE: {"xi-kari.v2.xk12-transaction"},
-    "delivery/final-chat.json": {"xi-kari.v2.final-chat"},
-    "phase-events.jsonl": {"xi-kari.v2.phase-event"},
-    "retrieval/index.json": {"xi-kari.v2.retrieval-index"},
-    "run-contract.json": {"xi-kari.v2.run-contract"},
-    "source-lock.json": {"xi-kari.v2.source-lock"},
+    "authoring/XK11-output-plan.json": {"xi-kari.v3.prose-plan"},
+    "authoring/XK11-prose-review.json": {"xi-kari.v3.prose-review"},
+    "authoring/XK11-semantic-coverage.json": {"xi-kari.v3.semantic-coverage"},
+    "capability-snapshot.json": {"xi-kari.v3.capability-snapshot"},
+    "continuation/cancel.json": {"xi-kari.v3.cancel"},
+    COMPLETION_RELATIVE: {"xi-kari.v3.completion"},
+    "continuation/input-packet.json": {"xi-kari.v3.analysis-packet"},
+    "continuation/parent.json": {"xi-kari.v3.parent-binding"},
+    "continuation/repair-plan.json": {"xi-kari.v3.repair-plan"},
+    "continuation/repair-record.json": {"xi-kari.v3.repair-record"},
+    "continuation/state.json": {"xi-kari.v3.continuation-state"},
+    KEY_RELATIVE: {"xi-kari.v3.terminal-authority-key"},
+    TERMINAL_RELATIVE: {"xi-kari.v3.terminal-record"},
+    TRANSACTION_RELATIVE: {"xi-kari.v3.xk12-transaction"},
+    "delivery/final-chat.json": {"xi-kari.v3.final-chat"},
+    "phase-events.jsonl": {"xi-kari.v3.phase-event"},
+    "retrieval/index.json": {"xi-kari.v3.retrieval-index"},
+    "run-contract.json": {"xi-kari.v3.run-contract"},
+    "source-lock.json": {"xi-kari.v3.source-lock"},
     "validation/attempts/final/validator-report.json": {
-        "xi-kari.v2.validator-report"
+        "xi-kari.v3.validator-report"
     },
-    OFFICIAL_REPORT_RELATIVE: {"xi-kari.v2.validator-report"},
+    OFFICIAL_REPORT_RELATIVE: {"xi-kari.v3.validator-report"},
 }
 ARTIFACT_SCHEMA_PATTERNS = (
-    ("authoring/recursive-state/*.json", {"xi-kari.v2.xk.recursive-state"}),
-    ("retrieval/assessments/*.json", {"xi-kari.v2.source-assessment"}),
-    ("retrieval/sources/*.json", {"xi-kari.v2.source-record"}),
+    ("authoring/recursive-state/*.json", {"xi-kari.v3.xk.recursive-state"}),
+    ("retrieval/assessments/*.json", {"xi-kari.v3.source-assessment"}),
+    ("retrieval/sources/*.json", {"xi-kari.v3.source-record"}),
 )
 
 
@@ -294,7 +294,7 @@ def _runtime_schema_registry(
     resources: Registry[Any] = Registry()
     schema_paths = sorted((repository_root / "schemas").glob("xk-*.json"))
     if not schema_paths:
-        errors.append("no Xi-Kari v2 runtime schemas found")
+        errors.append("no Xi-Kari v3 runtime schemas found")
         return validators
     for path in schema_paths:
         schema = _read(path, errors, f"runtime schema {path}")
@@ -423,7 +423,7 @@ def _validate_path_owned_json(
                     errors.append(f"Codex event has no type: {location}")
                 continue
             schema_id = value.get("schema_id")
-            if not isinstance(schema_id, str) or not schema_id.startswith("xi-kari.v2."):
+            if not isinstance(schema_id, str) or not schema_id.startswith("xi-kari.v3."):
                 errors.append(f"run artifact has no v2 schema_id: {location}")
                 continue
             if expected_schema_ids is None:
@@ -851,7 +851,7 @@ def _validate_candidate_closure(run_dir: Path, repository_root: Path, value: Any
         return
     rows = value.get("dispositions")
     if (
-        value.get("schema_id") != "xi-kari.v2.concept-disposition"
+        value.get("schema_id") != "xi-kari.v3.concept-disposition"
         or value.get("schema_version") != 3
         or value.get("complete") is not True
     ):
@@ -973,7 +973,7 @@ def _validate_concept_closure_report(
         errors.append("XK4 bundle count mismatch")
     if report.get("bundle_bindings") != expected_bundle_bindings:
         errors.append("XK4 bundle bindings mismatch")
-    ontology_read_complete = contract_profile != PRODUCTION_CONTRACT_PROFILE
+    ontology_read_complete = False
     if contract_profile == PRODUCTION_CONTRACT_PROFILE:
         if not isinstance(ontology_read_plan, dict) or not isinstance(
             ontology_read_trace, dict
@@ -1003,16 +1003,8 @@ def _validate_concept_closure_report(
                 errors.append("XK4 ontology read record count mismatch")
             if report.get("ontology_read_complete") is not True:
                 errors.append("XK4 ontology read completion is false")
-    elif any(
-        field in report
-        for field in (
-            "ontology_read_plan_sha256",
-            "ontology_read_trace_sha256",
-            "ontology_read_record_count",
-            "ontology_read_complete",
-        )
-    ):
-        errors.append("legacy XK4 cannot claim a production ontology read trace")
+    else:
+        errors.append("XK4 requires the current production contract profile")
     if (
         report.get("complete") is not True
         or disposition_counts.get("unresolved", 0) != 0
@@ -1094,7 +1086,7 @@ def _runtime_document_projection(
     value: dict[str, Any], *, kind: str, run_id: str
 ) -> dict[str, Any]:
     document = dict(value)
-    document["schema_id"] = f"xi-kari.v2.{kind}"
+    document["schema_id"] = f"xi-kari.v3.{kind}"
     document["schema_version"] = 3
     document["run_id"] = run_id
     return document
@@ -1162,7 +1154,7 @@ def _scan_delivery_for_protected_retrieval_values(
 
 def _not_applicable_projection(packet: dict[str, Any], *, run_id: str) -> dict[str, Any]:
     document: dict[str, Any] = {
-        "schema_id": "xi-kari.v2.not-applicable",
+        "schema_id": "xi-kari.v3.not-applicable",
         "schema_version": 3,
         "run_id": run_id,
         "dynamic_applicability": "not_applicable",
@@ -1372,7 +1364,7 @@ def _validate_semantic_artifact_projection(
             (
                 "unknown-register",
                 {
-                    "schema_id": "xi-kari.v2.unknown-register",
+                    "schema_id": "xi-kari.v3.unknown-register",
                     "schema_version": 3,
                     "run_id": run_id,
                     "evidence_cutoff": evidence_cutoff,
@@ -1787,7 +1779,7 @@ def validate_run(
                     ):
                         if not isinstance(value, Mapping) or value.get(
                             "schema_id"
-                        ) != "xi-kari.v2.not-applicable":
+                        ) != "xi-kari.v3.not-applicable":
                             errors.append(
                                 f"XK9 auxiliary artifact {index} is not marked not-applicable"
                             )
@@ -1975,7 +1967,7 @@ def validate_run(
                         )
                     )
             expected_prose_review = {
-                "schema_id": "xi-kari.v2.prose-review",
+                "schema_id": "xi-kari.v3.prose-review",
                 "schema_version": 3,
                 "run_id": str(contract_run_id),
                 "check_method": "deterministic-plain-language-rules",
@@ -2147,7 +2139,7 @@ def _report(
     except Exception:
         validator_hash = "0" * 64
     return {
-        "schema_id": "xi-kari.v2.validator-report",
+        "schema_id": "xi-kari.v3.validator-report",
         "schema_version": 3,
         "validator_version": VALIDATOR_VERSION,
         "validator_set_sha256": validator_hash,

@@ -53,7 +53,7 @@ RULES: tuple[tuple[str, re.Pattern[str]], ...] = (
         "machine-id",
         re.compile(
             r"(?<![A-Za-z0-9_-])"
-            r"(?:XK(?:[0-9]|1[0-2])|(?:K|HV)[0-9]+|(?:V82|XK-PROV)-[A-Za-z0-9-]+)"
+            r"(?:XK(?:[0-9]|1[0-2])|(?:K|HV)[0-9]+|(?:V[0-9]+|XK-PROV)-[A-Za-z0-9-]+)"
             r"(?![A-Za-z0-9_-])",
             re.IGNORECASE,
         ),

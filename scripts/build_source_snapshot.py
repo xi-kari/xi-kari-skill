@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build and verify the compact, lossless Xi-Kari v8.2 source snapshot.
+"""Build and verify the complete, lossless Xi-Kari v8.3 source snapshot.
 
 The reader edition removes XML and duplicated machine metadata, but keeps every
 non-empty paragraph and every table cell exactly once in source order.  The
@@ -24,16 +24,14 @@ from zipfile import BadZipFile, ZipFile
 import xml.etree.ElementTree as ET
 
 
-RAW_SHA256 = "670e90e0073eb1a7575a75c4e0a410630ce16bd5a10f2456b83c82480333de3f"
-SEMANTIC_SHA256 = "4b63a6455cf73c136ae18d124aeed4301267fd2da78cca79c74e2850fb2728b0"
+from xi_kari_runtime.source_profile import (
+    RAW_SHA256, SEMANTIC_SHA256, LIST_STRUCTURE_SHA256,
+    EXPECTED_PARAGRAPHS, EXPECTED_LIST_PARAGRAPHS,
+    EXPECTED_NON_WHITESPACE_CHARS, EXPECTED_TABLES, EXPECTED_DIVISIONS,
+)
+
 SEMANTIC_NORMALIZATION_VERSION = 1
 LIST_STRUCTURE_NORMALIZATION_VERSION = 1
-LIST_STRUCTURE_SHA256 = "8b4a40f8559ac61c1bb8c224054de7978bb93298efbbd41f40ed065f89bab050"
-EXPECTED_PARAGRAPHS = 4631
-EXPECTED_LIST_PARAGRAPHS = 162
-EXPECTED_NON_WHITESPACE_CHARS = 165690
-EXPECTED_TABLES = 122
-EXPECTED_DIVISIONS = 20
 CANDIDATE_RULESET_VERSION = 4
 
 W_NS = "http://schemas.openxmlformats.org/wordprocessingml/2006/main"
@@ -441,7 +439,7 @@ def extract_snapshot(source: bytes) -> Snapshot:
     paragraphs = tuple(
         Paragraph(
             i,
-            f"V82-P{i:04d}",
+            f"V83-P{i:04d}",
             _style(element),
             _text(element),
             numbering.get(id(element)),
@@ -473,11 +471,11 @@ def extract_snapshot(source: bytes) -> Snapshot:
                 row_bindings.append(tuple(cell_ordinals))
             rows.append(tuple(row_text))
             bindings.append(tuple(row_bindings))
-        tables.append(Table(table_ordinal, f"V82-T{table_ordinal:03d}", tuple(paragraph_ordinals), tuple(rows), tuple(bindings)))
+        tables.append(Table(table_ordinal, f"V83-T{table_ordinal:03d}", tuple(paragraph_ordinals), tuple(rows), tuple(bindings)))
     part_titles = [(i, p.text) for i, p in enumerate(paragraphs) if p.style == "PartTitle"]
     expected_titles = [spec[1] for spec in DIVISION_SPECS]
     if [title for _, title in part_titles] != expected_titles:
-        raise ValueError("top-level PartTitle sequence does not match v8.2")
+        raise ValueError("top-level PartTitle sequence does not match v8.3")
     starts = [index + 1 for index, _ in part_titles]
     divisions: list[tuple[str, str, int, int, tuple[int, ...]]] = []
     table_by_ordinal = {table.ordinal: table for table in tables}
@@ -605,7 +603,7 @@ def _literal_matches(text: str, signals: Sequence[str]) -> tuple[str, ...]:
 
 
 def _candidate_source_order(candidate: SourceCandidate) -> tuple[int, int, str]:
-    start_ordinal = int(candidate.paragraph_anchors[0].removeprefix("V82-P"))
+    start_ordinal = int(candidate.paragraph_anchors[0].removeprefix("V83-P"))
     unit_rank = {"table": 0, "table_row": 1, "paragraph": 2}[
         candidate.source_unit_type
     ]
@@ -646,7 +644,7 @@ def extract_candidates(snapshot: Snapshot) -> tuple[SourceCandidate, ...]:
         kinds = tuple(kind for kind in CANDIDATE_KIND_ORDER if kind in signals)
         candidates.append(
             SourceCandidate(
-                candidate_id=f"V82-CANDIDATE-{paragraph.anchor.removeprefix('V82-')}",
+                candidate_id=f"V83-CANDIDATE-{paragraph.anchor.removeprefix('V83-')}",
                 ordinal=paragraph.ordinal,
                 source_anchor=paragraph.anchor,
                 source_unit_type="paragraph",
@@ -667,7 +665,7 @@ def extract_candidates(snapshot: Snapshot) -> tuple[SourceCandidate, ...]:
         )
         candidates.append(
             SourceCandidate(
-                candidate_id=f"V82-CANDIDATE-{table.anchor.removeprefix('V82-')}",
+                candidate_id=f"V83-CANDIDATE-{table.anchor.removeprefix('V83-')}",
                 ordinal=table.ordinal,
                 source_anchor=table.anchor,
                 source_unit_type="table",
@@ -675,7 +673,7 @@ def extract_candidates(snapshot: Snapshot) -> tuple[SourceCandidate, ...]:
                 source_text=source_text,
                 source_anchors=(table.anchor,),
                 paragraph_anchors=tuple(
-                    f"V82-P{ordinal:04d}" for ordinal in table.paragraph_ordinals
+                    f"V83-P{ordinal:04d}" for ordinal in table.paragraph_ordinals
                 ),
                 source_numbering=None,
                 candidate_kinds=("table",),
@@ -686,7 +684,7 @@ def extract_candidates(snapshot: Snapshot) -> tuple[SourceCandidate, ...]:
             zip(table.rows, table.cell_paragraph_ordinals, strict=True), 1
         ):
             paragraph_anchors = tuple(
-                f"V82-P{ordinal:04d}"
+                f"V83-P{ordinal:04d}"
                 for cell in bindings
                 for ordinal in cell
             )
@@ -704,7 +702,7 @@ def extract_candidates(snapshot: Snapshot) -> tuple[SourceCandidate, ...]:
             candidates.append(
                 SourceCandidate(
                     candidate_id=(
-                        f"V82-CANDIDATE-{row_anchor.removeprefix('V82-')}"
+                        f"V83-CANDIDATE-{row_anchor.removeprefix('V83-')}"
                     ),
                     ordinal=row_index,
                     source_anchor=row_anchor,
@@ -759,9 +757,9 @@ def _candidate_record(
 ) -> dict[str, object]:
     semantic_payload = _candidate_semantic_payload(candidate)
     return {
-        "schema_id": "xi-kari.v8.2.source-candidate",
+        "schema_id": "xi-kari.v8.3.source-candidate",
         "schema_version": 1,
-        "framework_version": "v8.2",
+        "framework_version": "v8.3",
         "candidate_ruleset_version": CANDIDATE_RULESET_VERSION,
         "candidate_id": candidate.candidate_id,
         "previous_candidate_id": previous_candidate_id,
@@ -822,7 +820,7 @@ def _reader_for_division(snapshot: Snapshot, division: tuple[str, str, int, int,
     body = root.find(f"{W}body")
     if body is None:
         raise ValueError("document.xml has no body")
-    lines = [f"# {title}", "", f"Source: `v8.2`", f"Raw SHA256: `{snapshot.raw_sha256}`", f"Semantic SHA256: `{snapshot.semantic_sha256}`", f"List structure SHA256: `{snapshot.list_structure_sha256}`", f"Paragraph range: `V82-P{start:04d}`-`V82-P{end:04d}`", f"Tables: {', '.join(f'`V82-T{x:03d}`' for x in owned_tables) or '`none`'}", "", "<!-- This is a lossless reader edition; anchors are source coordinates. -->", ""]
+    lines = [f"# {title}", "", f"Source: `v8.3`", f"Raw SHA256: `{snapshot.raw_sha256}`", f"Semantic SHA256: `{snapshot.semantic_sha256}`", f"List structure SHA256: `{snapshot.list_structure_sha256}`", f"Paragraph range: `V83-P{start:04d}`-`V83-P{end:04d}`", f"Tables: {', '.join(f'`V83-T{x:03d}`' for x in owned_tables) or '`none`'}", "", "<!-- This is a lossless reader edition; anchors are source coordinates. -->", ""]
     ordinal_by_element = {id(element): i for i, element in enumerate((p for p in body.iter(f"{W}p") if _text(p).strip()), 1)}
     table_ordinal_by_element = {id(element): i for i, element in enumerate(body.iter(f"{W}tbl"), 1)}
     for child in list(body):
@@ -859,7 +857,7 @@ def _reader_for_division(snapshot: Snapshot, division: tuple[str, str, int, int,
 
 def _render_table_audit(table: Table, snapshot: Snapshot) -> str:
     payload = _table_record(table)
-    lines = [f"# v8.2 Table {table.anchor}", "", f"Raw SHA256: `{snapshot.raw_sha256}`", f"Semantic SHA256: `{snapshot.semantic_sha256}`", f"List structure SHA256: `{snapshot.list_structure_sha256}`", f"Row count: `{len(table.rows)}`", f"Column count: `{max((len(row) for row in table.rows), default=0)}`", "", "## Exact rows", "", "```json", json.dumps(payload["rows"], ensure_ascii=False, indent=2), "```", "", "## Cell paragraph anchors", "", "```json", json.dumps(payload["cell_paragraph_ordinals"], ensure_ascii=False, indent=2), "```", ""]
+    lines = [f"# v8.3 Table {table.anchor}", "", f"Raw SHA256: `{snapshot.raw_sha256}`", f"Semantic SHA256: `{snapshot.semantic_sha256}`", f"List structure SHA256: `{snapshot.list_structure_sha256}`", f"Row count: `{len(table.rows)}`", f"Column count: `{max((len(row) for row in table.rows), default=0)}`", "", "## Exact rows", "", "```json", json.dumps(payload["rows"], ensure_ascii=False, indent=2), "```", "", "## Cell paragraph anchors", "", "```json", json.dumps(payload["cell_paragraph_ordinals"], ensure_ascii=False, indent=2), "```", ""]
     return "\n".join(lines)
 
 
@@ -901,10 +899,10 @@ def _expected_files(source: bytes, snapshot: Snapshot, root: ET.Element) -> dict
         for kind in CANDIDATE_KIND_ORDER
     }
     manifest = {
-        "schema_id": "xi-kari.v8.2.source-manifest",
+        "schema_id": "xi-kari.v8.3.source-manifest",
         "schema_version": 2,
-        "framework_version": "v8.2",
-        "framework_revision": "v8.2",
+        "framework_version": "v8.3",
+        "framework_revision": "v8.3",
         "raw_sha256": snapshot.raw_sha256,
         "semantic_sha256": snapshot.semantic_sha256,
         "semantic_normalization_version": SEMANTIC_NORMALIZATION_VERSION,
@@ -955,11 +953,11 @@ def _expected_files(source: bytes, snapshot: Snapshot, root: ET.Element) -> dict
 
 
 def _reader_index(snapshot: Snapshot) -> str:
-    lines = ["# Xi-Kari v8.2 lossless reader", "", f"Raw SHA256: `{snapshot.raw_sha256}`", f"Semantic SHA256: `{snapshot.semantic_sha256}`", f"List structure SHA256: `{snapshot.list_structure_sha256}`", "", "Read every file below in order. This index never replaces the source volumes.", "", "| order | file | paragraph range | tables |", "| ---: | --- | --- | --- |"]
-    lines.append("| 0 | `00-source-envelope.md` | `V82-P0001`-`V82-P0349` | `V82-T001` |")
+    lines = ["# Xi-Kari v8.3 lossless reader", "", f"Raw SHA256: `{snapshot.raw_sha256}`", f"Semantic SHA256: `{snapshot.semantic_sha256}`", f"List structure SHA256: `{snapshot.list_structure_sha256}`", "", "Read every file below in order. This index never replaces the source volumes.", "", "| order | file | paragraph range | tables |", "| ---: | --- | --- | --- |"]
+    lines.append("| 0 | `00-source-envelope.md` | `V83-P0001`-`V83-P0349` | `V83-T001` |")
     for index, division in enumerate(snapshot.divisions, 1):
-        tables = ", ".join(f"`V82-T{x:03d}`" for x in division[4]) or "none"
-        lines.append(f"| {index} | `{division[0]}.md` | `V82-P{division[2]:04d}`-`V82-P{division[3]:04d}` | {tables} |")
+        tables = ", ".join(f"`V83-T{x:03d}`" for x in division[4]) or "none"
+        lines.append(f"| {index} | `{division[0]}.md` | `V83-P{division[2]:04d}`-`V83-P{division[3]:04d}` | {tables} |")
     lines.extend(["", "The audit directory preserves exact unit records and table cell bindings.", ""])
     return "\n".join(lines)
 
@@ -1012,7 +1010,7 @@ def _validate_snapshot(snapshot: Snapshot) -> list[str]:
 
 
 def _output_files(root: Path) -> dict[str, bytes]:
-    base = root / "references" / "source" / "v8.2"
+    base = root / "references" / "source" / "v8.3"
     files: dict[str, bytes] = {}
     for path in base.rglob("*"):
         if path.is_file():
@@ -1021,14 +1019,14 @@ def _output_files(root: Path) -> dict[str, bytes]:
 
 
 def build(root: Path, *, check: bool) -> list[str]:
-    source_path = root / "source" / "跨尺度多圈层结构推演框架v8.2.docx"
+    source_path = root / "source" / "跨尺度多圈层结构推演框架v8.3.docx"
     if not source_path.is_file():
         return [f"missing source: {source_path}"]
     source = source_path.read_bytes()
     snapshot = extract_snapshot(source)
     errors = _validate_snapshot(snapshot)
     generated = _expected_files(source, snapshot, _read_document_root(source))
-    base = root / "references" / "source" / "v8.2"
+    base = root / "references" / "source" / "v8.3"
     if check:
         actual = _output_files(root)
         if set(actual) != set(generated):

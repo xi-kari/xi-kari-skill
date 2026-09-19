@@ -1,12 +1,12 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://xi-kari.local/schemas/xi-kari.v2.sensitivity.schema.json",
-  "title": "Xi-Kari v2 semantic sensitivity report",
+  "$id": "https://xi-kari.local/schemas/xi-kari.v3.sensitivity.schema.json",
+  "title": "Xi-Kari v3 semantic sensitivity report",
   "type": "object",
   "additionalProperties": false,
   "required": ["schema_id", "schema_version", "run_id", "input_packet_sha256", "probes"],
   "properties": {
-    "schema_id": {"const": "xi-kari.v2.sensitivity-report"},
+    "schema_id": {"const": "xi-kari.v3.sensitivity-report"},
     "schema_version": {"const": 3},
     "run_id": {"type": "string", "minLength": 1},
     "input_packet_sha256": {"$ref": "#/$defs/sha256"},

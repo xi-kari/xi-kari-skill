@@ -1,2 +1,2 @@
-"""Xi-Kari v2 semantic runtime package."""
+"""Xi-Kari v3 semantic runtime package."""
 

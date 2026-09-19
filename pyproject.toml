@@ -1,6 +1,6 @@
 [project]
 name = "xi-kari-skill"
-version = "2.0.0"
+version = "3.0.0"
 description = "Xi-Kari Skill: a structural inference skill with verifiable full-source reading"
 requires-python = ">=3.11"
 dependencies = []

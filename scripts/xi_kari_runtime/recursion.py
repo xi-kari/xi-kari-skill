@@ -1,4 +1,4 @@
-"""Pure one-to-three-order recursive semantics grounded in v8.2."""
+"""Pure one-to-three-order recursive semantics grounded in v8.3."""
 
 from __future__ import annotations
 
@@ -28,9 +28,9 @@ INHERITED_FIELDS = (
 GRADE_ORDER = {"unknown": 0, "low": 1, "medium": 2, "high": 3}
 REQUIRED_RECURSION_ONTOLOGY = frozenset(
     {
-        "V82-CANON-THREE-ORDER",
-        "V82-CANON-CORE-BRANCH-PATH",
-        "V82-CANON-CORE-COMMON-KERNEL",
+        "V83-CANON-THREE-ORDER",
+        "V83-CANON-CORE-BRANCH-PATH",
+        "V83-CANON-CORE-COMMON-KERNEL",
     }
 )
 

@@ -27,7 +27,7 @@ CI 会在每次 push 与 pull request 上自动运行回归测试和同样的五
 
 ## 修改边界
 
-- `references/source/v8.2/` 是经校验的源快照，目录名与内容受 manifest 哈希锁定。不要手改快照文件；确需重建时使用 `scripts/build_source_snapshot.py`，并让五条自检重新全绿。
+- `references/source/v8.3/` 是经校验的源快照，目录名与内容受 manifest 哈希锁定。不要手改快照文件；确需重建时使用 `scripts/build_source_snapshot.py`，并让五条自检重新全绿。
 - runtime 的绑定器、校验器、`schemas/xk-*.schema.json` 与 `protocols/` 文档是同一套口径：改任何一处字段语义，四处都要同步，避免出现"绑定器写 X、校验器要求 Y"的失配。
 - 运行产物（run 目录）只存在于平台状态目录或显式 `--runs-root`，永远不要提交进仓库。
 

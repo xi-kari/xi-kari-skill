@@ -1,2065 +1,2065 @@
 {
-  "V82-CANDIDATE-EVENT-EXAMPLE": {
+  "V83-CANDIDATE-EVENT-EXAMPLE": {
     "disposition": "example_only",
     "required_neighbors": []
   },
-  "V82-CANDIDATE-OUTPUT-HEADING": {
+  "V83-CANDIDATE-OUTPUT-HEADING": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-CANDIDATE-PROVISIONAL-VARIABLE": {
+  "V83-CANDIDATE-PROVISIONAL-VARIABLE": {
     "disposition": "subordinate_value",
     "required_neighbors": []
   },
-  "V82-CANON-ACTOR-SNAPSHOT": {
+  "V83-CANON-ACTOR-SNAPSHOT": {
     "disposition": "canonical_concept",
     "required_neighbors": [
-      "V82-CANON-DUAL-CONDITIONS",
-      "V82-CANON-H1",
-      "V82-CANON-H2",
-      "V82-CANON-H3",
-      "V82-CANON-H4",
-      "V82-CANON-H5",
-      "V82-CANON-H6",
-      "V82-CANON-HV01",
-      "V82-CANON-HV02",
-      "V82-CANON-HV03",
-      "V82-CANON-HV04",
-      "V82-CANON-HV05",
-      "V82-CANON-HV06",
-      "V82-CANON-HV07",
-      "V82-CANON-HV08",
-      "V82-CANON-HV09"
+      "V83-CANON-DUAL-CONDITIONS",
+      "V83-CANON-H1",
+      "V83-CANON-H2",
+      "V83-CANON-H3",
+      "V83-CANON-H4",
+      "V83-CANON-H5",
+      "V83-CANON-H6",
+      "V83-CANON-HV01",
+      "V83-CANON-HV02",
+      "V83-CANON-HV03",
+      "V83-CANON-HV04",
+      "V83-CANON-HV05",
+      "V83-CANON-HV06",
+      "V83-CANON-HV07",
+      "V83-CANON-HV08",
+      "V83-CANON-HV09"
     ]
   },
-  "V82-CANON-APP-GATE": {
+  "V83-CANON-APP-GATE": {
     "disposition": "structural_rule",
     "required_neighbors": [
-      "V82-CANON-T0-T4"
+      "V83-CANON-T0-T4"
     ]
   },
-  "V82-CANON-AUTHORIZATION": {
+  "V83-CANON-AUTHORIZATION": {
     "disposition": "structural_rule",
     "required_neighbors": [
-      "V82-CANON-NO-ACTION",
-      "V82-CANON-SELECTION"
+      "V83-CANON-NO-ACTION",
+      "V83-CANON-SELECTION"
     ]
   },
-  "V82-CANON-CHOICE-AUTHORIZATION-BOUNDARY": {
+  "V83-CANON-CHOICE-AUTHORIZATION-BOUNDARY": {
     "disposition": "structural_rule",
     "required_neighbors": [
-      "V82-CANON-AUTHORIZATION",
-      "V82-CANON-SELECTION"
+      "V83-CANON-AUTHORIZATION",
+      "V83-CANON-SELECTION"
     ]
   },
-  "V82-CANON-CIRCLE": {
+  "V83-CANON-CIRCLE": {
     "disposition": "canonical_concept",
     "required_neighbors": [
-      "V82-CANON-CIRCLE-RELATIONS",
-      "V82-CANON-JOINT-STATE",
-      "V82-CANON-S0",
-      "V82-CANON-S1",
-      "V82-CANON-S2",
-      "V82-CANON-S3",
-      "V82-CANON-S4",
-      "V82-CANON-S5",
-      "V82-CANON-S6",
-      "V82-CANON-X0"
+      "V83-CANON-CIRCLE-RELATIONS",
+      "V83-CANON-JOINT-STATE",
+      "V83-CANON-S0",
+      "V83-CANON-S1",
+      "V83-CANON-S2",
+      "V83-CANON-S3",
+      "V83-CANON-S4",
+      "V83-CANON-S5",
+      "V83-CANON-S6",
+      "V83-CANON-X0"
     ]
   },
-  "V82-CANON-CIRCLE-RELATIONS": {
+  "V83-CANON-CIRCLE-RELATIONS": {
     "disposition": "structural_rule",
     "required_neighbors": [
-      "V82-CANON-CIRCLE",
-      "V82-CANON-JOINT-STATE",
-      "V82-CANON-S0",
-      "V82-CANON-S1",
-      "V82-CANON-S2",
-      "V82-CANON-S3",
-      "V82-CANON-S4",
-      "V82-CANON-S5",
-      "V82-CANON-S6",
-      "V82-CANON-X0"
+      "V83-CANON-CIRCLE",
+      "V83-CANON-JOINT-STATE",
+      "V83-CANON-S0",
+      "V83-CANON-S1",
+      "V83-CANON-S2",
+      "V83-CANON-S3",
+      "V83-CANON-S4",
+      "V83-CANON-S5",
+      "V83-CANON-S6",
+      "V83-CANON-X0"
     ]
   },
-  "V82-CANON-CORE-ACTION-CEILING": {
+  "V83-CANON-CORE-ACTION-CEILING": {
     "disposition": "canonical_concept",
     "required_neighbors": [
-      "V82-CANON-CORE-D0-OBJECT",
-      "V82-CANON-CORE-EVIDENCE-CONTRACT"
+      "V83-CANON-CORE-D0-OBJECT",
+      "V83-CANON-CORE-EVIDENCE-CONTRACT"
     ]
   },
-  "V82-CANON-CORE-AI-BOUNDARY": {
+  "V83-CANON-CORE-AI-BOUNDARY": {
     "disposition": "canonical_concept",
     "required_neighbors": [
-      "V82-CANON-CORE-D0-OBJECT",
-      "V82-CANON-CORE-EVIDENCE-CONTRACT"
+      "V83-CANON-CORE-D0-OBJECT",
+      "V83-CANON-CORE-EVIDENCE-CONTRACT"
     ]
   },
-  "V82-CANON-CORE-ANALOGY-CONTRACT": {
+  "V83-CANON-CORE-ANALOGY-CONTRACT": {
     "disposition": "canonical_concept",
     "required_neighbors": [
-      "V82-CANON-CORE-D0-OBJECT",
-      "V82-CANON-CORE-EVIDENCE-CONTRACT"
+      "V83-CANON-CORE-D0-OBJECT",
+      "V83-CANON-CORE-EVIDENCE-CONTRACT"
     ]
   },
-  "V82-CANON-CORE-BRANCH-PATH": {
+  "V83-CANON-CORE-BRANCH-PATH": {
     "disposition": "canonical_concept",
     "required_neighbors": [
-      "V82-CANON-CORE-D0-OBJECT",
-      "V82-CANON-CORE-EVIDENCE-CONTRACT"
+      "V83-CANON-CORE-D0-OBJECT",
+      "V83-CANON-CORE-EVIDENCE-CONTRACT"
     ]
   },
-  "V82-CANON-CORE-CAUSAL-CONTRACT": {
+  "V83-CANON-CORE-CAUSAL-CONTRACT": {
     "disposition": "canonical_concept",
     "required_neighbors": [
-      "V82-CANON-CORE-D0-OBJECT",
-      "V82-CANON-CORE-EVIDENCE-CONTRACT"
+      "V83-CANON-CORE-D0-OBJECT",
+      "V83-CANON-CORE-EVIDENCE-CONTRACT"
     ]
   },
-  "V82-CANON-CORE-CHOICE-BRIDGE": {
+  "V83-CANON-CORE-CHOICE-BRIDGE": {
     "disposition": "structural_rule",
     "required_neighbors": [
-      "V82-CANON-CORE-D0-OBJECT",
-      "V82-CANON-CORE-EVIDENCE-CONTRACT"
+      "V83-CANON-CORE-D0-OBJECT",
+      "V83-CANON-CORE-EVIDENCE-CONTRACT"
     ]
   },
-  "V82-CANON-CORE-CIRCLE-TRANSFORMATION": {
+  "V83-CANON-CORE-CIRCLE-TRANSFORMATION": {
     "disposition": "canonical_concept",
     "required_neighbors": [
-      "V82-CANON-CORE-D0-OBJECT",
-      "V82-CANON-CORE-EVIDENCE-CONTRACT"
+      "V83-CANON-CORE-D0-OBJECT",
+      "V83-CANON-CORE-EVIDENCE-CONTRACT"
     ]
   },
-  "V82-CANON-CORE-CLAIM-ROLES": {
+  "V83-CANON-CORE-CLAIM-ROLES": {
     "disposition": "structural_rule",
     "required_neighbors": [
-      "V82-CANON-CORE-D0-OBJECT",
-      "V82-CANON-CORE-EVIDENCE-CONTRACT"
+      "V83-CANON-CORE-D0-OBJECT",
+      "V83-CANON-CORE-EVIDENCE-CONTRACT"
     ]
   },
-  "V82-CANON-CORE-CM-FEEDBACK": {
+  "V83-CANON-CORE-CM-FEEDBACK": {
     "disposition": "canonical_concept",
     "required_neighbors": [
-      "V82-CANON-CORE-D0-OBJECT",
-      "V82-CANON-CORE-EVIDENCE-CONTRACT"
+      "V83-CANON-CORE-D0-OBJECT",
+      "V83-CANON-CORE-EVIDENCE-CONTRACT"
     ]
   },
-  "V82-CANON-CORE-CM-LEARNING": {
+  "V83-CANON-CORE-CM-LEARNING": {
     "disposition": "canonical_concept",
     "required_neighbors": [
-      "V82-CANON-CORE-D0-OBJECT",
-      "V82-CANON-CORE-EVIDENCE-CONTRACT"
+      "V83-CANON-CORE-D0-OBJECT",
+      "V83-CANON-CORE-EVIDENCE-CONTRACT"
     ]
   },
-  "V82-CANON-CORE-CM-LOAD": {
+  "V83-CANON-CORE-CM-LOAD": {
     "disposition": "canonical_concept",
     "required_neighbors": [
-      "V82-CANON-CORE-D0-OBJECT",
-      "V82-CANON-CORE-EVIDENCE-CONTRACT"
+      "V83-CANON-CORE-D0-OBJECT",
+      "V83-CANON-CORE-EVIDENCE-CONTRACT"
     ]
   },
-  "V82-CANON-CORE-CM-MAINTENANCE": {
+  "V83-CANON-CORE-CM-MAINTENANCE": {
     "disposition": "canonical_concept",
     "required_neighbors": [
-      "V82-CANON-CORE-D0-OBJECT",
-      "V82-CANON-CORE-EVIDENCE-CONTRACT"
+      "V83-CANON-CORE-D0-OBJECT",
+      "V83-CANON-CORE-EVIDENCE-CONTRACT"
     ]
   },
-  "V82-CANON-CORE-CM-PHASE": {
+  "V83-CANON-CORE-CM-PHASE": {
     "disposition": "canonical_concept",
     "required_neighbors": [
-      "V82-CANON-CORE-D0-OBJECT",
-      "V82-CANON-CORE-EVIDENCE-CONTRACT"
+      "V83-CANON-CORE-D0-OBJECT",
+      "V83-CANON-CORE-EVIDENCE-CONTRACT"
     ]
   },
-  "V82-CANON-CORE-CM-SELECTION": {
+  "V83-CANON-CORE-CM-SELECTION": {
     "disposition": "canonical_concept",
     "required_neighbors": [
-      "V82-CANON-CORE-D0-OBJECT",
-      "V82-CANON-CORE-EVIDENCE-CONTRACT"
+      "V83-CANON-CORE-D0-OBJECT",
+      "V83-CANON-CORE-EVIDENCE-CONTRACT"
     ]
   },
-  "V82-CANON-CORE-COEVOLUTION-CASCADE": {
+  "V83-CANON-CORE-COEVOLUTION-CASCADE": {
     "disposition": "canonical_concept",
     "required_neighbors": [
-      "V82-CANON-CORE-D0-OBJECT",
-      "V82-CANON-CORE-EVIDENCE-CONTRACT"
+      "V83-CANON-CORE-D0-OBJECT",
+      "V83-CANON-CORE-EVIDENCE-CONTRACT"
     ]
   },
-  "V82-CANON-CORE-COMMON-KERNEL": {
+  "V83-CANON-CORE-COMMON-KERNEL": {
     "disposition": "structural_rule",
     "required_neighbors": [
-      "V82-CANON-CORE-D0-OBJECT",
-      "V82-CANON-CORE-EVIDENCE-CONTRACT"
+      "V83-CANON-CORE-D0-OBJECT",
+      "V83-CANON-CORE-EVIDENCE-CONTRACT"
     ]
   },
-  "V82-CANON-CORE-COMPLEXITY-GATE": {
+  "V83-CANON-CORE-COMPLEXITY-GATE": {
     "disposition": "structural_rule",
     "required_neighbors": [
-      "V82-CANON-CORE-D0-OBJECT",
-      "V82-CANON-CORE-EVIDENCE-CONTRACT"
+      "V83-CANON-CORE-D0-OBJECT",
+      "V83-CANON-CORE-EVIDENCE-CONTRACT"
     ]
   },
-  "V82-CANON-CORE-CONDITIONAL-MECHANISM-BOUNDARY": {
+  "V83-CANON-CORE-CONDITIONAL-MECHANISM-BOUNDARY": {
     "disposition": "structural_rule",
     "required_neighbors": [
-      "V82-CANON-CORE-CM-FEEDBACK",
-      "V82-CANON-CORE-CM-SELECTION"
+      "V83-CANON-CORE-CM-FEEDBACK",
+      "V83-CANON-CORE-CM-SELECTION"
     ]
   },
-  "V82-CANON-CORE-D0-OBJECT": {
+  "V83-CANON-CORE-D0-OBJECT": {
     "disposition": "canonical_concept",
     "required_neighbors": [
-      "V82-CANON-CORE-D1-STATE-WORDS",
-      "V82-CANON-CORE-D2-EFFECTIVE-FEEDBACK",
-      "V82-CANON-CORE-D3-SCALE-TRANSFORMATION",
-      "V82-CANON-CORE-OBJECT-ADMISSION",
-      "V82-CANON-CORE-OUTPUT-SEPARATION"
+      "V83-CANON-CORE-D1-STATE-WORDS",
+      "V83-CANON-CORE-D2-EFFECTIVE-FEEDBACK",
+      "V83-CANON-CORE-D3-SCALE-TRANSFORMATION",
+      "V83-CANON-CORE-OBJECT-ADMISSION",
+      "V83-CANON-CORE-OUTPUT-SEPARATION"
     ]
   },
-  "V82-CANON-CORE-D1-STATE-WORDS": {
+  "V83-CANON-CORE-D1-STATE-WORDS": {
     "disposition": "canonical_concept",
     "required_neighbors": [
-      "V82-CANON-CORE-D0-OBJECT",
-      "V82-CANON-CORE-EVIDENCE-CONTRACT"
+      "V83-CANON-CORE-D0-OBJECT",
+      "V83-CANON-CORE-EVIDENCE-CONTRACT"
     ]
   },
-  "V82-CANON-CORE-D2-EFFECTIVE-FEEDBACK": {
+  "V83-CANON-CORE-D2-EFFECTIVE-FEEDBACK": {
     "disposition": "canonical_concept",
     "required_neighbors": [
-      "V82-CANON-CORE-D0-OBJECT",
-      "V82-CANON-CORE-EVIDENCE-CONTRACT"
+      "V83-CANON-CORE-D0-OBJECT",
+      "V83-CANON-CORE-EVIDENCE-CONTRACT"
     ]
   },
-  "V82-CANON-CORE-D3-SCALE-TRANSFORMATION": {
+  "V83-CANON-CORE-D3-SCALE-TRANSFORMATION": {
     "disposition": "canonical_concept",
     "required_neighbors": [
-      "V82-CANON-CORE-D0-OBJECT",
-      "V82-CANON-CORE-EVIDENCE-CONTRACT"
+      "V83-CANON-CORE-D0-OBJECT",
+      "V83-CANON-CORE-EVIDENCE-CONTRACT"
     ]
   },
-  "V82-CANON-CORE-DEPENDENCY-TYPES": {
+  "V83-CANON-CORE-DEPENDENCY-TYPES": {
     "disposition": "structural_rule",
     "required_neighbors": [
-      "V82-CANON-CORE-D0-OBJECT",
-      "V82-CANON-CORE-EVIDENCE-CONTRACT"
+      "V83-CANON-CORE-D0-OBJECT",
+      "V83-CANON-CORE-EVIDENCE-CONTRACT"
     ]
   },
-  "V82-CANON-CORE-DISSOLUTION-REPAIR": {
+  "V83-CANON-CORE-DISSOLUTION-REPAIR": {
     "disposition": "canonical_concept",
     "required_neighbors": [
-      "V82-CANON-CORE-D0-OBJECT",
-      "V82-CANON-CORE-EVIDENCE-CONTRACT"
+      "V83-CANON-CORE-D0-OBJECT",
+      "V83-CANON-CORE-EVIDENCE-CONTRACT"
     ]
   },
-  "V82-CANON-CORE-DYNAMIC-NINE-GATES": {
+  "V83-CANON-CORE-DYNAMIC-NINE-GATES": {
     "disposition": "structural_rule",
     "required_neighbors": [
-      "V82-CANON-CORE-FORECAST-REGISTRY",
-      "V82-CANON-CORE-RECURSIVE-FUTURE",
-      "V82-CANON-CORE-RUN-FAILURE",
-      "V82-CANON-CORE-SEVEN-GATES"
+      "V83-CANON-CORE-FORECAST-REGISTRY",
+      "V83-CANON-CORE-RECURSIVE-FUTURE",
+      "V83-CANON-CORE-RUN-FAILURE",
+      "V83-CANON-CORE-SEVEN-GATES"
     ]
   },
-  "V82-CANON-CORE-EMPIRICAL-DOMAIN": {
+  "V83-CANON-CORE-EMPIRICAL-DOMAIN": {
     "disposition": "canonical_concept",
     "required_neighbors": [
-      "V82-CANON-CORE-D0-OBJECT",
-      "V82-CANON-CORE-OBJECT-ADMISSION",
-      "V82-CANON-CORE-OUTPUT-SEPARATION"
+      "V83-CANON-CORE-D0-OBJECT",
+      "V83-CANON-CORE-OBJECT-ADMISSION",
+      "V83-CANON-CORE-OUTPUT-SEPARATION"
     ]
   },
-  "V82-CANON-CORE-EPISTEMIC-E1-E5": {
+  "V83-CANON-CORE-EPISTEMIC-E1-E5": {
     "disposition": "structural_rule",
     "required_neighbors": [
-      "V82-CANON-CORE-D0-OBJECT",
-      "V82-CANON-CORE-EVIDENCE-CONTRACT"
+      "V83-CANON-CORE-D0-OBJECT",
+      "V83-CANON-CORE-EVIDENCE-CONTRACT"
     ]
   },
-  "V82-CANON-CORE-EVENT-CONTRACT": {
+  "V83-CANON-CORE-EVENT-CONTRACT": {
     "disposition": "canonical_concept",
     "required_neighbors": [
-      "V82-CANON-CORE-D0-OBJECT",
-      "V82-CANON-CORE-EVIDENCE-CONTRACT"
+      "V83-CANON-CORE-D0-OBJECT",
+      "V83-CANON-CORE-EVIDENCE-CONTRACT"
     ]
   },
-  "V82-CANON-CORE-EVIDENCE-CONTRACT": {
+  "V83-CANON-CORE-EVIDENCE-CONTRACT": {
     "disposition": "canonical_concept",
     "required_neighbors": [
-      "V82-CANON-CORE-CLAIM-ROLES",
-      "V82-CANON-CORE-DEPENDENCY-TYPES",
-      "V82-CANON-CORE-MISSING-STATES",
-      "V82-CANON-CORE-SOURCE-CONTRACT"
+      "V83-CANON-CORE-CLAIM-ROLES",
+      "V83-CANON-CORE-DEPENDENCY-TYPES",
+      "V83-CANON-CORE-MISSING-STATES",
+      "V83-CANON-CORE-SOURCE-CONTRACT"
     ]
   },
-  "V82-CANON-CORE-FEEDBACK-CASCADE": {
+  "V83-CANON-CORE-FEEDBACK-CASCADE": {
     "disposition": "canonical_concept",
     "required_neighbors": [
-      "V82-CANON-CORE-D0-OBJECT",
-      "V82-CANON-CORE-EVIDENCE-CONTRACT"
+      "V83-CANON-CORE-D0-OBJECT",
+      "V83-CANON-CORE-EVIDENCE-CONTRACT"
     ]
   },
-  "V82-CANON-CORE-FIVE-GATES": {
+  "V83-CANON-CORE-FIVE-GATES": {
     "disposition": "structural_rule",
     "required_neighbors": [
-      "V82-CANON-CORE-D0-OBJECT",
-      "V82-CANON-CORE-EVIDENCE-CONTRACT"
+      "V83-CANON-CORE-D0-OBJECT",
+      "V83-CANON-CORE-EVIDENCE-CONTRACT"
     ]
   },
-  "V82-CANON-CORE-FORECAST-BASELINE": {
+  "V83-CANON-CORE-FORECAST-BASELINE": {
     "disposition": "canonical_concept",
     "required_neighbors": [
-      "V82-CANON-CORE-D0-OBJECT",
-      "V82-CANON-CORE-EVIDENCE-CONTRACT"
+      "V83-CANON-CORE-D0-OBJECT",
+      "V83-CANON-CORE-EVIDENCE-CONTRACT"
     ]
   },
-  "V82-CANON-CORE-FORECAST-FAILURE": {
+  "V83-CANON-CORE-FORECAST-FAILURE": {
     "disposition": "structural_rule",
     "required_neighbors": [
-      "V82-CANON-CORE-D0-OBJECT",
-      "V82-CANON-CORE-EVIDENCE-CONTRACT"
+      "V83-CANON-CORE-D0-OBJECT",
+      "V83-CANON-CORE-EVIDENCE-CONTRACT"
     ]
   },
-  "V82-CANON-CORE-FORECAST-REGISTRY": {
+  "V83-CANON-CORE-FORECAST-REGISTRY": {
     "disposition": "canonical_concept",
     "required_neighbors": [
-      "V82-CANON-CORE-D0-OBJECT",
-      "V82-CANON-CORE-EVIDENCE-CONTRACT"
+      "V83-CANON-CORE-D0-OBJECT",
+      "V83-CANON-CORE-EVIDENCE-CONTRACT"
     ]
   },
-  "V82-CANON-CORE-FORECAST-SIGNALS": {
+  "V83-CANON-CORE-FORECAST-SIGNALS": {
     "disposition": "structural_rule",
     "required_neighbors": [
-      "V82-CANON-CORE-D0-OBJECT",
-      "V82-CANON-CORE-EVIDENCE-CONTRACT"
+      "V83-CANON-CORE-D0-OBJECT",
+      "V83-CANON-CORE-EVIDENCE-CONTRACT"
     ]
   },
-  "V82-CANON-CORE-FOUR-TRANSLATIONS": {
+  "V83-CANON-CORE-FOUR-TRANSLATIONS": {
     "disposition": "structural_rule",
     "required_neighbors": [
-      "V82-CANON-CORE-D0-OBJECT",
-      "V82-CANON-CORE-EVIDENCE-CONTRACT"
+      "V83-CANON-CORE-D0-OBJECT",
+      "V83-CANON-CORE-EVIDENCE-CONTRACT"
     ]
   },
-  "V82-CANON-CORE-G1-CONDITIONAL-GAIN": {
+  "V83-CANON-CORE-G1-CONDITIONAL-GAIN": {
     "disposition": "canonical_concept",
     "required_neighbors": [
-      "V82-CANON-CORE-D0-OBJECT",
-      "V82-CANON-CORE-EVIDENCE-CONTRACT"
+      "V83-CANON-CORE-D0-OBJECT",
+      "V83-CANON-CORE-EVIDENCE-CONTRACT"
     ]
   },
-  "V82-CANON-CORE-G2-CHANNEL-EFFECT": {
+  "V83-CANON-CORE-G2-CHANNEL-EFFECT": {
     "disposition": "canonical_concept",
     "required_neighbors": [
-      "V82-CANON-CORE-D0-OBJECT",
-      "V82-CANON-CORE-EVIDENCE-CONTRACT"
+      "V83-CANON-CORE-D0-OBJECT",
+      "V83-CANON-CORE-EVIDENCE-CONTRACT"
     ]
   },
-  "V82-CANON-CORE-G3-HISTORY-INCREMENT": {
+  "V83-CANON-CORE-G3-HISTORY-INCREMENT": {
     "disposition": "canonical_concept",
     "required_neighbors": [
-      "V82-CANON-CORE-D0-OBJECT",
-      "V82-CANON-CORE-EVIDENCE-CONTRACT"
+      "V83-CANON-CORE-D0-OBJECT",
+      "V83-CANON-CORE-EVIDENCE-CONTRACT"
     ]
   },
-  "V82-CANON-CORE-G4-SCALE-CLOSURE": {
+  "V83-CANON-CORE-G4-SCALE-CLOSURE": {
     "disposition": "canonical_concept",
     "required_neighbors": [
-      "V82-CANON-CORE-D0-OBJECT",
-      "V82-CANON-CORE-EVIDENCE-CONTRACT"
+      "V83-CANON-CORE-D0-OBJECT",
+      "V83-CANON-CORE-EVIDENCE-CONTRACT"
     ]
   },
-  "V82-CANON-CORE-HUMAN-EMPIRICAL-INSTANCE-CONTRACT": {
+  "V83-CANON-CORE-HUMAN-EMPIRICAL-INSTANCE-CONTRACT": {
     "disposition": "structural_rule",
     "required_neighbors": [
-      "V82-CANON-CORE-EVIDENCE-CONTRACT",
-      "V82-CANON-CORE-ROOT-INSTANCE-CONTRACT",
-      "V82-CANON-H1",
-      "V82-CANON-H4",
-      "V82-CANON-H5"
+      "V83-CANON-CORE-EVIDENCE-CONTRACT",
+      "V83-CANON-CORE-ROOT-INSTANCE-CONTRACT",
+      "V83-CANON-H1",
+      "V83-CANON-H4",
+      "V83-CANON-H5"
     ]
   },
-  "V82-CANON-CORE-INFERENCE-C1-C12": {
+  "V83-CANON-CORE-INFERENCE-C1-C12": {
     "disposition": "structural_rule",
     "required_neighbors": [
-      "V82-CANON-CORE-D0-OBJECT",
-      "V82-CANON-CORE-EVIDENCE-CONTRACT"
+      "V83-CANON-CORE-D0-OBJECT",
+      "V83-CANON-CORE-EVIDENCE-CONTRACT"
     ]
   },
-  "V82-CANON-CORE-INFERENCE-LOOP": {
+  "V83-CANON-CORE-INFERENCE-LOOP": {
     "disposition": "structural_rule",
     "required_neighbors": [
-      "V82-CANON-CORE-D0-OBJECT",
-      "V82-CANON-CORE-EVIDENCE-CONTRACT"
+      "V83-CANON-CORE-D0-OBJECT",
+      "V83-CANON-CORE-EVIDENCE-CONTRACT"
     ]
   },
-  "V82-CANON-CORE-INTERFACE-NON-EQUIVALENCE": {
+  "V83-CANON-CORE-INTERFACE-NON-EQUIVALENCE": {
     "disposition": "structural_rule",
     "required_neighbors": [
-      "V82-CANON-CORE-EVIDENCE-CONTRACT",
-      "V82-CANON-CORE-FOUR-TRANSLATIONS",
-      "V82-CANON-CORE-U01"
+      "V83-CANON-CORE-EVIDENCE-CONTRACT",
+      "V83-CANON-CORE-FOUR-TRANSLATIONS",
+      "V83-CANON-CORE-U01"
     ]
   },
-  "V82-CANON-CORE-JOINT-STATE-UPDATE": {
+  "V83-CANON-CORE-JOINT-STATE-UPDATE": {
     "disposition": "canonical_concept",
     "required_neighbors": [
-      "V82-CANON-CORE-D0-OBJECT",
-      "V82-CANON-CORE-EVIDENCE-CONTRACT"
+      "V83-CANON-CORE-D0-OBJECT",
+      "V83-CANON-CORE-EVIDENCE-CONTRACT"
     ]
   },
-  "V82-CANON-CORE-M01": {
+  "V83-CANON-CORE-M01": {
     "disposition": "structural_rule",
     "required_neighbors": [
-      "V82-CANON-CORE-D0-OBJECT",
-      "V82-CANON-CORE-EVIDENCE-CONTRACT"
+      "V83-CANON-CORE-D0-OBJECT",
+      "V83-CANON-CORE-EVIDENCE-CONTRACT"
     ]
   },
-  "V82-CANON-CORE-M02": {
+  "V83-CANON-CORE-M02": {
     "disposition": "structural_rule",
     "required_neighbors": [
-      "V82-CANON-CORE-D0-OBJECT",
-      "V82-CANON-CORE-EVIDENCE-CONTRACT"
+      "V83-CANON-CORE-D0-OBJECT",
+      "V83-CANON-CORE-EVIDENCE-CONTRACT"
     ]
   },
-  "V82-CANON-CORE-M03": {
+  "V83-CANON-CORE-M03": {
     "disposition": "structural_rule",
     "required_neighbors": [
-      "V82-CANON-CORE-D0-OBJECT",
-      "V82-CANON-CORE-EVIDENCE-CONTRACT"
+      "V83-CANON-CORE-D0-OBJECT",
+      "V83-CANON-CORE-EVIDENCE-CONTRACT"
     ]
   },
-  "V82-CANON-CORE-M04": {
+  "V83-CANON-CORE-M04": {
     "disposition": "structural_rule",
     "required_neighbors": [
-      "V82-CANON-CORE-D0-OBJECT",
-      "V82-CANON-CORE-EVIDENCE-CONTRACT"
+      "V83-CANON-CORE-D0-OBJECT",
+      "V83-CANON-CORE-EVIDENCE-CONTRACT"
     ]
   },
-  "V82-CANON-CORE-M05": {
+  "V83-CANON-CORE-M05": {
     "disposition": "structural_rule",
     "required_neighbors": [
-      "V82-CANON-CORE-D0-OBJECT",
-      "V82-CANON-CORE-EVIDENCE-CONTRACT"
+      "V83-CANON-CORE-D0-OBJECT",
+      "V83-CANON-CORE-EVIDENCE-CONTRACT"
     ]
   },
-  "V82-CANON-CORE-M06": {
+  "V83-CANON-CORE-M06": {
     "disposition": "structural_rule",
     "required_neighbors": [
-      "V82-CANON-CORE-D0-OBJECT",
-      "V82-CANON-CORE-EVIDENCE-CONTRACT"
+      "V83-CANON-CORE-D0-OBJECT",
+      "V83-CANON-CORE-EVIDENCE-CONTRACT"
     ]
   },
-  "V82-CANON-CORE-M07": {
+  "V83-CANON-CORE-M07": {
     "disposition": "structural_rule",
     "required_neighbors": [
-      "V82-CANON-CORE-D0-OBJECT",
-      "V82-CANON-CORE-EVIDENCE-CONTRACT"
+      "V83-CANON-CORE-D0-OBJECT",
+      "V83-CANON-CORE-EVIDENCE-CONTRACT"
     ]
   },
-  "V82-CANON-CORE-M08": {
+  "V83-CANON-CORE-M08": {
     "disposition": "structural_rule",
     "required_neighbors": [
-      "V82-CANON-CORE-D0-OBJECT",
-      "V82-CANON-CORE-EVIDENCE-CONTRACT"
+      "V83-CANON-CORE-D0-OBJECT",
+      "V83-CANON-CORE-EVIDENCE-CONTRACT"
     ]
   },
-  "V82-CANON-CORE-M09": {
+  "V83-CANON-CORE-M09": {
     "disposition": "structural_rule",
     "required_neighbors": [
-      "V82-CANON-CORE-D0-OBJECT",
-      "V82-CANON-CORE-EVIDENCE-CONTRACT"
+      "V83-CANON-CORE-D0-OBJECT",
+      "V83-CANON-CORE-EVIDENCE-CONTRACT"
     ]
   },
-  "V82-CANON-CORE-MINIMAL-DESCRIPTION-LANGUAGE": {
+  "V83-CANON-CORE-MINIMAL-DESCRIPTION-LANGUAGE": {
     "disposition": "structural_rule",
     "required_neighbors": [
-      "V82-CANON-CORE-D0-OBJECT",
-      "V82-CANON-CORE-D3-SCALE-TRANSFORMATION"
+      "V83-CANON-CORE-D0-OBJECT",
+      "V83-CANON-CORE-D3-SCALE-TRANSFORMATION"
     ]
   },
-  "V82-CANON-CORE-MISSING-STATES": {
+  "V83-CANON-CORE-MISSING-STATES": {
     "disposition": "structural_rule",
     "required_neighbors": [
-      "V82-CANON-CORE-D0-OBJECT",
-      "V82-CANON-CORE-EVIDENCE-CONTRACT"
+      "V83-CANON-CORE-D0-OBJECT",
+      "V83-CANON-CORE-EVIDENCE-CONTRACT"
     ]
   },
-  "V82-CANON-CORE-OBJECT-ADMISSION": {
+  "V83-CANON-CORE-OBJECT-ADMISSION": {
     "disposition": "structural_rule",
     "required_neighbors": [
-      "V82-CANON-CORE-D0-OBJECT",
-      "V82-CANON-CORE-EVIDENCE-CONTRACT"
+      "V83-CANON-CORE-D0-OBJECT",
+      "V83-CANON-CORE-EVIDENCE-CONTRACT"
     ]
   },
-  "V82-CANON-CORE-OPTION-SET": {
+  "V83-CANON-CORE-OPTION-SET": {
     "disposition": "canonical_concept",
     "required_neighbors": [
-      "V82-CANON-CORE-D0-OBJECT",
-      "V82-CANON-CORE-EVIDENCE-CONTRACT"
+      "V83-CANON-CORE-D0-OBJECT",
+      "V83-CANON-CORE-EVIDENCE-CONTRACT"
     ]
   },
-  "V82-CANON-CORE-OUTPUT-SEPARATION": {
+  "V83-CANON-CORE-OUTPUT-SEPARATION": {
     "disposition": "structural_rule",
     "required_neighbors": [
-      "V82-CANON-CORE-D0-OBJECT",
-      "V82-CANON-CORE-EVIDENCE-CONTRACT"
+      "V83-CANON-CORE-D0-OBJECT",
+      "V83-CANON-CORE-EVIDENCE-CONTRACT"
     ]
   },
-  "V82-CANON-CORE-PROPAGATION-THRESHOLD": {
+  "V83-CANON-CORE-PROPAGATION-THRESHOLD": {
     "disposition": "canonical_concept",
     "required_neighbors": [
-      "V82-CANON-CORE-D0-OBJECT",
-      "V82-CANON-CORE-EVIDENCE-CONTRACT"
+      "V83-CANON-CORE-D0-OBJECT",
+      "V83-CANON-CORE-EVIDENCE-CONTRACT"
     ]
   },
-  "V82-CANON-CORE-RECURSIVE-FUTURE": {
+  "V83-CANON-CORE-RECURSIVE-FUTURE": {
     "disposition": "canonical_concept",
     "required_neighbors": [
-      "V82-CANON-CORE-D0-OBJECT",
-      "V82-CANON-CORE-EVIDENCE-CONTRACT"
+      "V83-CANON-CORE-D0-OBJECT",
+      "V83-CANON-CORE-EVIDENCE-CONTRACT"
     ]
   },
-  "V82-CANON-CORE-REPRESENTATION-TRANSLATION": {
+  "V83-CANON-CORE-REPRESENTATION-TRANSLATION": {
     "disposition": "canonical_concept",
     "required_neighbors": [
-      "V82-CANON-CORE-CIRCLE-TRANSFORMATION",
-      "V82-CANON-CORE-D3-SCALE-TRANSFORMATION",
-      "V82-CANON-CORE-G4-SCALE-CLOSURE"
+      "V83-CANON-CORE-CIRCLE-TRANSFORMATION",
+      "V83-CANON-CORE-D3-SCALE-TRANSFORMATION",
+      "V83-CANON-CORE-G4-SCALE-CLOSURE"
     ]
   },
-  "V82-CANON-CORE-ROOT-INSTANCE-CONTRACT": {
+  "V83-CANON-CORE-ROOT-INSTANCE-CONTRACT": {
     "disposition": "structural_rule",
     "required_neighbors": [
-      "V82-CANON-CORE-EVIDENCE-CONTRACT",
-      "V82-CANON-CORE-G1-CONDITIONAL-GAIN",
-      "V82-CANON-CORE-HUMAN-EMPIRICAL-INSTANCE-CONTRACT",
-      "V82-CANON-CORE-INFERENCE-C1-C12",
-      "V82-CANON-CORE-OBJECT-ADMISSION"
+      "V83-CANON-CORE-EVIDENCE-CONTRACT",
+      "V83-CANON-CORE-G1-CONDITIONAL-GAIN",
+      "V83-CANON-CORE-HUMAN-EMPIRICAL-INSTANCE-CONTRACT",
+      "V83-CANON-CORE-INFERENCE-C1-C12",
+      "V83-CANON-CORE-OBJECT-ADMISSION"
     ]
   },
-  "V82-CANON-CORE-RUN-FAILURE": {
+  "V83-CANON-CORE-RUN-FAILURE": {
     "disposition": "structural_rule",
     "required_neighbors": [
-      "V82-CANON-CORE-D0-OBJECT",
-      "V82-CANON-CORE-EVIDENCE-CONTRACT"
+      "V83-CANON-CORE-D0-OBJECT",
+      "V83-CANON-CORE-EVIDENCE-CONTRACT"
     ]
   },
-  "V82-CANON-CORE-SEVEN-GATES": {
+  "V83-CANON-CORE-SEVEN-GATES": {
     "disposition": "structural_rule",
     "required_neighbors": [
-      "V82-CANON-CORE-D0-OBJECT",
-      "V82-CANON-CORE-EVIDENCE-CONTRACT"
+      "V83-CANON-CORE-D0-OBJECT",
+      "V83-CANON-CORE-EVIDENCE-CONTRACT"
     ]
   },
-  "V82-CANON-CORE-SIMULATION-COUNTERFACTUAL": {
+  "V83-CANON-CORE-SIMULATION-COUNTERFACTUAL": {
     "disposition": "canonical_concept",
     "required_neighbors": [
-      "V82-CANON-CORE-D0-OBJECT",
-      "V82-CANON-CORE-EVIDENCE-CONTRACT"
+      "V83-CANON-CORE-D0-OBJECT",
+      "V83-CANON-CORE-EVIDENCE-CONTRACT"
     ]
   },
-  "V82-CANON-CORE-SOURCE-CONTRACT": {
+  "V83-CANON-CORE-SOURCE-CONTRACT": {
     "disposition": "canonical_concept",
     "required_neighbors": [
-      "V82-CANON-CORE-D0-OBJECT",
-      "V82-CANON-CORE-EVIDENCE-CONTRACT"
+      "V83-CANON-CORE-D0-OBJECT",
+      "V83-CANON-CORE-EVIDENCE-CONTRACT"
     ]
   },
-  "V82-CANON-CORE-SP-NINE-AXES": {
+  "V83-CANON-CORE-SP-NINE-AXES": {
     "disposition": "canonical_concept",
     "required_neighbors": [
-      "V82-CANON-CORE-D0-OBJECT",
-      "V82-CANON-CORE-EVIDENCE-CONTRACT"
+      "V83-CANON-CORE-D0-OBJECT",
+      "V83-CANON-CORE-EVIDENCE-CONTRACT"
     ]
   },
-  "V82-CANON-CORE-STRONG-JUDGMENT": {
+  "V83-CANON-CORE-STRONG-JUDGMENT": {
     "disposition": "structural_rule",
     "required_neighbors": [
-      "V82-CANON-CORE-D0-OBJECT",
-      "V82-CANON-CORE-EVIDENCE-CONTRACT"
+      "V83-CANON-CORE-D0-OBJECT",
+      "V83-CANON-CORE-EVIDENCE-CONTRACT"
     ]
   },
-  "V82-CANON-CORE-TERM-LOCKS": {
+  "V83-CANON-CORE-TERM-LOCKS": {
     "disposition": "structural_rule",
     "required_neighbors": [
-      "V82-CANON-CORE-CAUSAL-CONTRACT",
-      "V82-CANON-CORE-CLAIM-ROLES",
-      "V82-CANON-CORE-EVIDENCE-CONTRACT"
+      "V83-CANON-CORE-CAUSAL-CONTRACT",
+      "V83-CANON-CORE-CLAIM-ROLES",
+      "V83-CANON-CORE-EVIDENCE-CONTRACT"
     ]
   },
-  "V82-CANON-CORE-TOOL-BOUNDARY": {
+  "V83-CANON-CORE-TOOL-BOUNDARY": {
     "disposition": "canonical_concept",
     "required_neighbors": [
-      "V82-CANON-CORE-D0-OBJECT",
-      "V82-CANON-CORE-EVIDENCE-CONTRACT"
+      "V83-CANON-CORE-D0-OBJECT",
+      "V83-CANON-CORE-EVIDENCE-CONTRACT"
     ]
   },
-  "V82-CANON-CORE-TRANSFORMATION-STATUS": {
+  "V83-CANON-CORE-TRANSFORMATION-STATUS": {
     "disposition": "structural_rule",
     "required_neighbors": [
-      "V82-CANON-CORE-D0-OBJECT",
-      "V82-CANON-CORE-EVIDENCE-CONTRACT"
+      "V83-CANON-CORE-D0-OBJECT",
+      "V83-CANON-CORE-EVIDENCE-CONTRACT"
     ]
   },
-  "V82-CANON-CORE-U01": {
+  "V83-CANON-CORE-U01": {
     "disposition": "structural_rule",
     "required_neighbors": [
-      "V82-CANON-CORE-D0-OBJECT",
-      "V82-CANON-CORE-EVIDENCE-CONTRACT"
+      "V83-CANON-CORE-D0-OBJECT",
+      "V83-CANON-CORE-EVIDENCE-CONTRACT"
     ]
   },
-  "V82-CANON-CORE-U02": {
+  "V83-CANON-CORE-U02": {
     "disposition": "structural_rule",
     "required_neighbors": [
-      "V82-CANON-CORE-D0-OBJECT",
-      "V82-CANON-CORE-EVIDENCE-CONTRACT"
+      "V83-CANON-CORE-D0-OBJECT",
+      "V83-CANON-CORE-EVIDENCE-CONTRACT"
     ]
   },
-  "V82-CANON-CORE-U03": {
+  "V83-CANON-CORE-U03": {
     "disposition": "structural_rule",
     "required_neighbors": [
-      "V82-CANON-CORE-D0-OBJECT",
-      "V82-CANON-CORE-EVIDENCE-CONTRACT"
+      "V83-CANON-CORE-D0-OBJECT",
+      "V83-CANON-CORE-EVIDENCE-CONTRACT"
     ]
   },
-  "V82-CANON-CORE-U04": {
+  "V83-CANON-CORE-U04": {
     "disposition": "structural_rule",
     "required_neighbors": [
-      "V82-CANON-CORE-D0-OBJECT",
-      "V82-CANON-CORE-EVIDENCE-CONTRACT"
+      "V83-CANON-CORE-D0-OBJECT",
+      "V83-CANON-CORE-EVIDENCE-CONTRACT"
     ]
   },
-  "V82-CANON-CORE-U05": {
+  "V83-CANON-CORE-U05": {
     "disposition": "structural_rule",
     "required_neighbors": [
-      "V82-CANON-CORE-D0-OBJECT",
-      "V82-CANON-CORE-EVIDENCE-CONTRACT"
+      "V83-CANON-CORE-D0-OBJECT",
+      "V83-CANON-CORE-EVIDENCE-CONTRACT"
     ]
   },
-  "V82-CANON-CORE-U06": {
+  "V83-CANON-CORE-U06": {
     "disposition": "structural_rule",
     "required_neighbors": [
-      "V82-CANON-CORE-D0-OBJECT",
-      "V82-CANON-CORE-EVIDENCE-CONTRACT"
+      "V83-CANON-CORE-D0-OBJECT",
+      "V83-CANON-CORE-EVIDENCE-CONTRACT"
     ]
   },
-  "V82-CANON-CORE-U07": {
+  "V83-CANON-CORE-U07": {
     "disposition": "structural_rule",
     "required_neighbors": [
-      "V82-CANON-CORE-D0-OBJECT",
-      "V82-CANON-CORE-EVIDENCE-CONTRACT"
+      "V83-CANON-CORE-D0-OBJECT",
+      "V83-CANON-CORE-EVIDENCE-CONTRACT"
     ]
   },
-  "V82-CANON-CORE-U08": {
+  "V83-CANON-CORE-U08": {
     "disposition": "structural_rule",
     "required_neighbors": [
-      "V82-CANON-CORE-D0-OBJECT",
-      "V82-CANON-CORE-EVIDENCE-CONTRACT"
+      "V83-CANON-CORE-D0-OBJECT",
+      "V83-CANON-CORE-EVIDENCE-CONTRACT"
     ]
   },
-  "V82-CANON-CORE-U09": {
+  "V83-CANON-CORE-U09": {
     "disposition": "structural_rule",
     "required_neighbors": [
-      "V82-CANON-CORE-D0-OBJECT",
-      "V82-CANON-CORE-EVIDENCE-CONTRACT"
+      "V83-CANON-CORE-D0-OBJECT",
+      "V83-CANON-CORE-EVIDENCE-CONTRACT"
     ]
   },
-  "V82-CANON-CORE-U10": {
+  "V83-CANON-CORE-U10": {
     "disposition": "structural_rule",
     "required_neighbors": [
-      "V82-CANON-CORE-D0-OBJECT",
-      "V82-CANON-CORE-EVIDENCE-CONTRACT"
+      "V83-CANON-CORE-D0-OBJECT",
+      "V83-CANON-CORE-EVIDENCE-CONTRACT"
     ]
   },
-  "V82-CANON-CORE-U11": {
+  "V83-CANON-CORE-U11": {
     "disposition": "structural_rule",
     "required_neighbors": [
-      "V82-CANON-CORE-D0-OBJECT",
-      "V82-CANON-CORE-EVIDENCE-CONTRACT"
+      "V83-CANON-CORE-D0-OBJECT",
+      "V83-CANON-CORE-EVIDENCE-CONTRACT"
     ]
   },
-  "V82-CANON-CORE-VARIABLE-CANDIDATE": {
+  "V83-CANON-CORE-VARIABLE-CANDIDATE": {
     "disposition": "canonical_concept",
     "required_neighbors": [
-      "V82-CANON-CORE-D0-OBJECT",
-      "V82-CANON-CORE-EVIDENCE-CONTRACT"
+      "V83-CANON-CORE-D0-OBJECT",
+      "V83-CANON-CORE-EVIDENCE-CONTRACT"
     ]
   },
-  "V82-CANON-DUAL-CONDITIONS": {
+  "V83-CANON-DUAL-CONDITIONS": {
     "disposition": "structural_rule",
     "required_neighbors": [
-      "V82-CANON-ACTOR-SNAPSHOT",
-      "V82-CANON-H1",
-      "V82-CANON-H2",
-      "V82-CANON-H3",
-      "V82-CANON-H4",
-      "V82-CANON-H5",
-      "V82-CANON-H6",
-      "V82-CANON-HV01",
-      "V82-CANON-HV02",
-      "V82-CANON-HV03",
-      "V82-CANON-HV04",
-      "V82-CANON-HV05",
-      "V82-CANON-HV06",
-      "V82-CANON-HV07",
-      "V82-CANON-HV08",
-      "V82-CANON-HV09"
+      "V83-CANON-ACTOR-SNAPSHOT",
+      "V83-CANON-H1",
+      "V83-CANON-H2",
+      "V83-CANON-H3",
+      "V83-CANON-H4",
+      "V83-CANON-H5",
+      "V83-CANON-H6",
+      "V83-CANON-HV01",
+      "V83-CANON-HV02",
+      "V83-CANON-HV03",
+      "V83-CANON-HV04",
+      "V83-CANON-HV05",
+      "V83-CANON-HV06",
+      "V83-CANON-HV07",
+      "V83-CANON-HV08",
+      "V83-CANON-HV09"
     ]
   },
-  "V82-CANON-EVENT": {
+  "V83-CANON-EVENT": {
     "disposition": "canonical_concept",
     "required_neighbors": [
-      "V82-CANON-APP-GATE",
-      "V82-CANON-AUTHORIZATION",
-      "V82-CANON-FORECAST",
-      "V82-CANON-NO-ACTION",
-      "V82-CANON-PF",
-      "V82-CANON-SELECTION",
-      "V82-CANON-T0-T4",
-      "V82-CANON-THREE-ORDER"
+      "V83-CANON-APP-GATE",
+      "V83-CANON-AUTHORIZATION",
+      "V83-CANON-FORECAST",
+      "V83-CANON-NO-ACTION",
+      "V83-CANON-PF",
+      "V83-CANON-SELECTION",
+      "V83-CANON-T0-T4",
+      "V83-CANON-THREE-ORDER"
     ]
   },
-  "V82-CANON-FORECAST": {
+  "V83-CANON-FORECAST": {
     "disposition": "canonical_concept",
     "required_neighbors": [
-      "V82-CANON-APP-GATE",
-      "V82-CANON-AUTHORIZATION",
-      "V82-CANON-EVENT",
-      "V82-CANON-NO-ACTION",
-      "V82-CANON-PF",
-      "V82-CANON-SELECTION",
-      "V82-CANON-T0-T4",
-      "V82-CANON-THREE-ORDER"
+      "V83-CANON-APP-GATE",
+      "V83-CANON-AUTHORIZATION",
+      "V83-CANON-EVENT",
+      "V83-CANON-NO-ACTION",
+      "V83-CANON-PF",
+      "V83-CANON-SELECTION",
+      "V83-CANON-T0-T4",
+      "V83-CANON-THREE-ORDER"
     ]
   },
-  "V82-CANON-GOV-AI": {
+  "V83-CANON-GOV-AI": {
     "disposition": "structural_rule",
     "required_neighbors": [
-      "V82-CANON-GOV-NOEXIT",
-      "V82-CANON-GOV-NOINFRA",
-      "V82-CANON-GOV-PRIVACY",
-      "V82-CANON-GOV-WEAK"
+      "V83-CANON-GOV-NOEXIT",
+      "V83-CANON-GOV-NOINFRA",
+      "V83-CANON-GOV-PRIVACY",
+      "V83-CANON-GOV-WEAK"
     ]
   },
-  "V82-CANON-GOV-ANTICAPTURE": {
+  "V83-CANON-GOV-ANTICAPTURE": {
     "disposition": "canonical_concept",
     "required_neighbors": [
-      "V82-CANON-GOV-LIFECYCLE",
-      "V82-CANON-GOV-PRECONCEPT",
-      "V82-CANON-GOV-RETIRE"
+      "V83-CANON-GOV-LIFECYCLE",
+      "V83-CANON-GOV-PRECONCEPT",
+      "V83-CANON-GOV-RETIRE"
     ]
   },
-  "V82-CANON-GOV-LIFECYCLE": {
+  "V83-CANON-GOV-LIFECYCLE": {
     "disposition": "canonical_concept",
     "required_neighbors": [
-      "V82-CANON-GOV-ANTICAPTURE",
-      "V82-CANON-GOV-PRECONCEPT",
-      "V82-CANON-GOV-RETIRE"
+      "V83-CANON-GOV-ANTICAPTURE",
+      "V83-CANON-GOV-PRECONCEPT",
+      "V83-CANON-GOV-RETIRE"
     ]
   },
-  "V82-CANON-GOV-NOEXIT": {
+  "V83-CANON-GOV-NOEXIT": {
     "disposition": "structural_rule",
     "required_neighbors": [
-      "V82-CANON-GOV-AI",
-      "V82-CANON-GOV-NOINFRA",
-      "V82-CANON-GOV-PRIVACY",
-      "V82-CANON-GOV-WEAK"
+      "V83-CANON-GOV-AI",
+      "V83-CANON-GOV-NOINFRA",
+      "V83-CANON-GOV-PRIVACY",
+      "V83-CANON-GOV-WEAK"
     ]
   },
-  "V82-CANON-GOV-NOINFRA": {
+  "V83-CANON-GOV-NOINFRA": {
     "disposition": "structural_rule",
     "required_neighbors": [
-      "V82-CANON-GOV-AI",
-      "V82-CANON-GOV-NOEXIT",
-      "V82-CANON-GOV-PRIVACY",
-      "V82-CANON-GOV-WEAK"
+      "V83-CANON-GOV-AI",
+      "V83-CANON-GOV-NOEXIT",
+      "V83-CANON-GOV-PRIVACY",
+      "V83-CANON-GOV-WEAK"
     ]
   },
-  "V82-CANON-GOV-PRECONCEPT": {
+  "V83-CANON-GOV-PRECONCEPT": {
     "disposition": "structural_rule",
     "required_neighbors": [
-      "V82-CANON-GOV-ANTICAPTURE",
-      "V82-CANON-GOV-LIFECYCLE",
-      "V82-CANON-GOV-RETIRE"
+      "V83-CANON-GOV-ANTICAPTURE",
+      "V83-CANON-GOV-LIFECYCLE",
+      "V83-CANON-GOV-RETIRE"
     ]
   },
-  "V82-CANON-GOV-PRIVACY": {
+  "V83-CANON-GOV-PRIVACY": {
     "disposition": "structural_rule",
     "required_neighbors": [
-      "V82-CANON-GOV-AI",
-      "V82-CANON-GOV-NOEXIT",
-      "V82-CANON-GOV-NOINFRA",
-      "V82-CANON-GOV-WEAK"
+      "V83-CANON-GOV-AI",
+      "V83-CANON-GOV-NOEXIT",
+      "V83-CANON-GOV-NOINFRA",
+      "V83-CANON-GOV-WEAK"
     ]
   },
-  "V82-CANON-GOV-RETIRE": {
+  "V83-CANON-GOV-RETIRE": {
     "disposition": "canonical_concept",
     "required_neighbors": [
-      "V82-CANON-GOV-ANTICAPTURE",
-      "V82-CANON-GOV-LIFECYCLE",
-      "V82-CANON-GOV-PRECONCEPT"
+      "V83-CANON-GOV-ANTICAPTURE",
+      "V83-CANON-GOV-LIFECYCLE",
+      "V83-CANON-GOV-PRECONCEPT"
     ]
   },
-  "V82-CANON-GOV-WEAK": {
+  "V83-CANON-GOV-WEAK": {
     "disposition": "structural_rule",
     "required_neighbors": [
-      "V82-CANON-GOV-AI",
-      "V82-CANON-GOV-NOEXIT",
-      "V82-CANON-GOV-NOINFRA",
-      "V82-CANON-GOV-PRIVACY"
+      "V83-CANON-GOV-AI",
+      "V83-CANON-GOV-NOEXIT",
+      "V83-CANON-GOV-NOINFRA",
+      "V83-CANON-GOV-PRIVACY"
     ]
   },
-  "V82-CANON-H1": {
+  "V83-CANON-H1": {
     "disposition": "canonical_concept",
     "required_neighbors": [
-      "V82-CANON-CORE-HUMAN-EMPIRICAL-INSTANCE-CONTRACT",
-      "V82-CANON-H2",
-      "V82-CANON-H3",
-      "V82-CANON-H4",
-      "V82-CANON-H5",
-      "V82-CANON-H6"
+      "V83-CANON-CORE-HUMAN-EMPIRICAL-INSTANCE-CONTRACT",
+      "V83-CANON-H2",
+      "V83-CANON-H3",
+      "V83-CANON-H4",
+      "V83-CANON-H5",
+      "V83-CANON-H6"
     ]
   },
-  "V82-CANON-H2": {
+  "V83-CANON-H2": {
     "disposition": "structural_rule",
     "required_neighbors": [
-      "V82-CANON-H1",
-      "V82-CANON-H3",
-      "V82-CANON-H4",
-      "V82-CANON-H5",
-      "V82-CANON-H6"
+      "V83-CANON-H1",
+      "V83-CANON-H3",
+      "V83-CANON-H4",
+      "V83-CANON-H5",
+      "V83-CANON-H6"
     ]
   },
-  "V82-CANON-H3": {
+  "V83-CANON-H3": {
     "disposition": "structural_rule",
     "required_neighbors": [
-      "V82-CANON-H1",
-      "V82-CANON-H2",
-      "V82-CANON-H4",
-      "V82-CANON-H5",
-      "V82-CANON-H6"
+      "V83-CANON-H1",
+      "V83-CANON-H2",
+      "V83-CANON-H4",
+      "V83-CANON-H5",
+      "V83-CANON-H6"
     ]
   },
-  "V82-CANON-H4": {
+  "V83-CANON-H4": {
     "disposition": "canonical_concept",
     "required_neighbors": [
-      "V82-CANON-CORE-HUMAN-EMPIRICAL-INSTANCE-CONTRACT",
-      "V82-CANON-H1",
-      "V82-CANON-H2",
-      "V82-CANON-H3",
-      "V82-CANON-H5",
-      "V82-CANON-H6"
+      "V83-CANON-CORE-HUMAN-EMPIRICAL-INSTANCE-CONTRACT",
+      "V83-CANON-H1",
+      "V83-CANON-H2",
+      "V83-CANON-H3",
+      "V83-CANON-H5",
+      "V83-CANON-H6"
     ]
   },
-  "V82-CANON-H5": {
+  "V83-CANON-H5": {
     "disposition": "canonical_concept",
     "required_neighbors": [
-      "V82-CANON-CORE-HUMAN-EMPIRICAL-INSTANCE-CONTRACT",
-      "V82-CANON-H1",
-      "V82-CANON-H2",
-      "V82-CANON-H3",
-      "V82-CANON-H4",
-      "V82-CANON-H6"
+      "V83-CANON-CORE-HUMAN-EMPIRICAL-INSTANCE-CONTRACT",
+      "V83-CANON-H1",
+      "V83-CANON-H2",
+      "V83-CANON-H3",
+      "V83-CANON-H4",
+      "V83-CANON-H6"
     ]
   },
-  "V82-CANON-H6": {
+  "V83-CANON-H6": {
     "disposition": "structural_rule",
     "required_neighbors": [
-      "V82-CANON-H1",
-      "V82-CANON-H2",
-      "V82-CANON-H3",
-      "V82-CANON-H4",
-      "V82-CANON-H5"
+      "V83-CANON-H1",
+      "V83-CANON-H2",
+      "V83-CANON-H3",
+      "V83-CANON-H4",
+      "V83-CANON-H5"
     ]
   },
-  "V82-CANON-HV01": {
+  "V83-CANON-HV01": {
     "disposition": "canonical_concept",
     "required_neighbors": [
-      "V82-CANON-ACTOR-SNAPSHOT",
-      "V82-CANON-DUAL-CONDITIONS",
-      "V82-CANON-H1",
-      "V82-CANON-H2",
-      "V82-CANON-H3",
-      "V82-CANON-H4",
-      "V82-CANON-H5",
-      "V82-CANON-H6",
-      "V82-CANON-HV02",
-      "V82-CANON-HV03",
-      "V82-CANON-HV04",
-      "V82-CANON-HV05",
-      "V82-CANON-HV06",
-      "V82-CANON-HV07",
-      "V82-CANON-HV08",
-      "V82-CANON-HV09"
+      "V83-CANON-ACTOR-SNAPSHOT",
+      "V83-CANON-DUAL-CONDITIONS",
+      "V83-CANON-H1",
+      "V83-CANON-H2",
+      "V83-CANON-H3",
+      "V83-CANON-H4",
+      "V83-CANON-H5",
+      "V83-CANON-H6",
+      "V83-CANON-HV02",
+      "V83-CANON-HV03",
+      "V83-CANON-HV04",
+      "V83-CANON-HV05",
+      "V83-CANON-HV06",
+      "V83-CANON-HV07",
+      "V83-CANON-HV08",
+      "V83-CANON-HV09"
     ]
   },
-  "V82-CANON-HV02": {
+  "V83-CANON-HV02": {
     "disposition": "canonical_concept",
     "required_neighbors": [
-      "V82-CANON-ACTOR-SNAPSHOT",
-      "V82-CANON-DUAL-CONDITIONS",
-      "V82-CANON-H1",
-      "V82-CANON-H2",
-      "V82-CANON-H3",
-      "V82-CANON-H4",
-      "V82-CANON-H5",
-      "V82-CANON-H6",
-      "V82-CANON-HV01",
-      "V82-CANON-HV03",
-      "V82-CANON-HV04",
-      "V82-CANON-HV05",
-      "V82-CANON-HV06",
-      "V82-CANON-HV07",
-      "V82-CANON-HV08",
-      "V82-CANON-HV09"
+      "V83-CANON-ACTOR-SNAPSHOT",
+      "V83-CANON-DUAL-CONDITIONS",
+      "V83-CANON-H1",
+      "V83-CANON-H2",
+      "V83-CANON-H3",
+      "V83-CANON-H4",
+      "V83-CANON-H5",
+      "V83-CANON-H6",
+      "V83-CANON-HV01",
+      "V83-CANON-HV03",
+      "V83-CANON-HV04",
+      "V83-CANON-HV05",
+      "V83-CANON-HV06",
+      "V83-CANON-HV07",
+      "V83-CANON-HV08",
+      "V83-CANON-HV09"
     ]
   },
-  "V82-CANON-HV03": {
+  "V83-CANON-HV03": {
     "disposition": "canonical_concept",
     "required_neighbors": [
-      "V82-CANON-ACTOR-SNAPSHOT",
-      "V82-CANON-DUAL-CONDITIONS",
-      "V82-CANON-H1",
-      "V82-CANON-H2",
-      "V82-CANON-H3",
-      "V82-CANON-H4",
-      "V82-CANON-H5",
-      "V82-CANON-H6",
-      "V82-CANON-HV01",
-      "V82-CANON-HV02",
-      "V82-CANON-HV04",
-      "V82-CANON-HV05",
-      "V82-CANON-HV06",
-      "V82-CANON-HV07",
-      "V82-CANON-HV08",
-      "V82-CANON-HV09"
+      "V83-CANON-ACTOR-SNAPSHOT",
+      "V83-CANON-DUAL-CONDITIONS",
+      "V83-CANON-H1",
+      "V83-CANON-H2",
+      "V83-CANON-H3",
+      "V83-CANON-H4",
+      "V83-CANON-H5",
+      "V83-CANON-H6",
+      "V83-CANON-HV01",
+      "V83-CANON-HV02",
+      "V83-CANON-HV04",
+      "V83-CANON-HV05",
+      "V83-CANON-HV06",
+      "V83-CANON-HV07",
+      "V83-CANON-HV08",
+      "V83-CANON-HV09"
     ]
   },
-  "V82-CANON-HV04": {
+  "V83-CANON-HV04": {
     "disposition": "canonical_concept",
     "required_neighbors": [
-      "V82-CANON-ACTOR-SNAPSHOT",
-      "V82-CANON-DUAL-CONDITIONS",
-      "V82-CANON-H1",
-      "V82-CANON-H2",
-      "V82-CANON-H3",
-      "V82-CANON-H4",
-      "V82-CANON-H5",
-      "V82-CANON-H6",
-      "V82-CANON-HV01",
-      "V82-CANON-HV02",
-      "V82-CANON-HV03",
-      "V82-CANON-HV05",
-      "V82-CANON-HV06",
-      "V82-CANON-HV07",
-      "V82-CANON-HV08",
-      "V82-CANON-HV09"
+      "V83-CANON-ACTOR-SNAPSHOT",
+      "V83-CANON-DUAL-CONDITIONS",
+      "V83-CANON-H1",
+      "V83-CANON-H2",
+      "V83-CANON-H3",
+      "V83-CANON-H4",
+      "V83-CANON-H5",
+      "V83-CANON-H6",
+      "V83-CANON-HV01",
+      "V83-CANON-HV02",
+      "V83-CANON-HV03",
+      "V83-CANON-HV05",
+      "V83-CANON-HV06",
+      "V83-CANON-HV07",
+      "V83-CANON-HV08",
+      "V83-CANON-HV09"
     ]
   },
-  "V82-CANON-HV05": {
+  "V83-CANON-HV05": {
     "disposition": "canonical_concept",
     "required_neighbors": [
-      "V82-CANON-ACTOR-SNAPSHOT",
-      "V82-CANON-DUAL-CONDITIONS",
-      "V82-CANON-H1",
-      "V82-CANON-H2",
-      "V82-CANON-H3",
-      "V82-CANON-H4",
-      "V82-CANON-H5",
-      "V82-CANON-H6",
-      "V82-CANON-HV01",
-      "V82-CANON-HV02",
-      "V82-CANON-HV03",
-      "V82-CANON-HV04",
-      "V82-CANON-HV06",
-      "V82-CANON-HV07",
-      "V82-CANON-HV08",
-      "V82-CANON-HV09"
+      "V83-CANON-ACTOR-SNAPSHOT",
+      "V83-CANON-DUAL-CONDITIONS",
+      "V83-CANON-H1",
+      "V83-CANON-H2",
+      "V83-CANON-H3",
+      "V83-CANON-H4",
+      "V83-CANON-H5",
+      "V83-CANON-H6",
+      "V83-CANON-HV01",
+      "V83-CANON-HV02",
+      "V83-CANON-HV03",
+      "V83-CANON-HV04",
+      "V83-CANON-HV06",
+      "V83-CANON-HV07",
+      "V83-CANON-HV08",
+      "V83-CANON-HV09"
     ]
   },
-  "V82-CANON-HV06": {
+  "V83-CANON-HV06": {
     "disposition": "canonical_concept",
     "required_neighbors": [
-      "V82-CANON-ACTOR-SNAPSHOT",
-      "V82-CANON-DUAL-CONDITIONS",
-      "V82-CANON-H1",
-      "V82-CANON-H2",
-      "V82-CANON-H3",
-      "V82-CANON-H4",
-      "V82-CANON-H5",
-      "V82-CANON-H6",
-      "V82-CANON-HV01",
-      "V82-CANON-HV02",
-      "V82-CANON-HV03",
-      "V82-CANON-HV04",
-      "V82-CANON-HV05",
-      "V82-CANON-HV07",
-      "V82-CANON-HV08",
-      "V82-CANON-HV09"
+      "V83-CANON-ACTOR-SNAPSHOT",
+      "V83-CANON-DUAL-CONDITIONS",
+      "V83-CANON-H1",
+      "V83-CANON-H2",
+      "V83-CANON-H3",
+      "V83-CANON-H4",
+      "V83-CANON-H5",
+      "V83-CANON-H6",
+      "V83-CANON-HV01",
+      "V83-CANON-HV02",
+      "V83-CANON-HV03",
+      "V83-CANON-HV04",
+      "V83-CANON-HV05",
+      "V83-CANON-HV07",
+      "V83-CANON-HV08",
+      "V83-CANON-HV09"
     ]
   },
-  "V82-CANON-HV07": {
+  "V83-CANON-HV07": {
     "disposition": "canonical_concept",
     "required_neighbors": [
-      "V82-CANON-ACTOR-SNAPSHOT",
-      "V82-CANON-DUAL-CONDITIONS",
-      "V82-CANON-H1",
-      "V82-CANON-H2",
-      "V82-CANON-H3",
-      "V82-CANON-H4",
-      "V82-CANON-H5",
-      "V82-CANON-H6",
-      "V82-CANON-HV01",
-      "V82-CANON-HV02",
-      "V82-CANON-HV03",
-      "V82-CANON-HV04",
-      "V82-CANON-HV05",
-      "V82-CANON-HV06",
-      "V82-CANON-HV08",
-      "V82-CANON-HV09"
+      "V83-CANON-ACTOR-SNAPSHOT",
+      "V83-CANON-DUAL-CONDITIONS",
+      "V83-CANON-H1",
+      "V83-CANON-H2",
+      "V83-CANON-H3",
+      "V83-CANON-H4",
+      "V83-CANON-H5",
+      "V83-CANON-H6",
+      "V83-CANON-HV01",
+      "V83-CANON-HV02",
+      "V83-CANON-HV03",
+      "V83-CANON-HV04",
+      "V83-CANON-HV05",
+      "V83-CANON-HV06",
+      "V83-CANON-HV08",
+      "V83-CANON-HV09"
     ]
   },
-  "V82-CANON-HV08": {
+  "V83-CANON-HV08": {
     "disposition": "canonical_concept",
     "required_neighbors": [
-      "V82-CANON-ACTOR-SNAPSHOT",
-      "V82-CANON-DUAL-CONDITIONS",
-      "V82-CANON-H1",
-      "V82-CANON-H2",
-      "V82-CANON-H3",
-      "V82-CANON-H4",
-      "V82-CANON-H5",
-      "V82-CANON-H6",
-      "V82-CANON-HV01",
-      "V82-CANON-HV02",
-      "V82-CANON-HV03",
-      "V82-CANON-HV04",
-      "V82-CANON-HV05",
-      "V82-CANON-HV06",
-      "V82-CANON-HV07",
-      "V82-CANON-HV09"
+      "V83-CANON-ACTOR-SNAPSHOT",
+      "V83-CANON-DUAL-CONDITIONS",
+      "V83-CANON-H1",
+      "V83-CANON-H2",
+      "V83-CANON-H3",
+      "V83-CANON-H4",
+      "V83-CANON-H5",
+      "V83-CANON-H6",
+      "V83-CANON-HV01",
+      "V83-CANON-HV02",
+      "V83-CANON-HV03",
+      "V83-CANON-HV04",
+      "V83-CANON-HV05",
+      "V83-CANON-HV06",
+      "V83-CANON-HV07",
+      "V83-CANON-HV09"
     ]
   },
-  "V82-CANON-HV09": {
+  "V83-CANON-HV09": {
     "disposition": "canonical_concept",
     "required_neighbors": [
-      "V82-CANON-ACTOR-SNAPSHOT",
-      "V82-CANON-DUAL-CONDITIONS",
-      "V82-CANON-H1",
-      "V82-CANON-H2",
-      "V82-CANON-H3",
-      "V82-CANON-H4",
-      "V82-CANON-H5",
-      "V82-CANON-H6",
-      "V82-CANON-HV01",
-      "V82-CANON-HV02",
-      "V82-CANON-HV03",
-      "V82-CANON-HV04",
-      "V82-CANON-HV05",
-      "V82-CANON-HV06",
-      "V82-CANON-HV07",
-      "V82-CANON-HV08"
+      "V83-CANON-ACTOR-SNAPSHOT",
+      "V83-CANON-DUAL-CONDITIONS",
+      "V83-CANON-H1",
+      "V83-CANON-H2",
+      "V83-CANON-H3",
+      "V83-CANON-H4",
+      "V83-CANON-H5",
+      "V83-CANON-H6",
+      "V83-CANON-HV01",
+      "V83-CANON-HV02",
+      "V83-CANON-HV03",
+      "V83-CANON-HV04",
+      "V83-CANON-HV05",
+      "V83-CANON-HV06",
+      "V83-CANON-HV07",
+      "V83-CANON-HV08"
     ]
   },
-  "V82-CANON-HV10": {
+  "V83-CANON-HV10": {
     "disposition": "canonical_concept",
     "required_neighbors": [
-      "V82-CANON-ACTOR-SNAPSHOT",
-      "V82-CANON-DUAL-CONDITIONS",
-      "V82-CANON-H1",
-      "V82-CANON-H2",
-      "V82-CANON-H3",
-      "V82-CANON-H4",
-      "V82-CANON-H5",
-      "V82-CANON-H6",
-      "V82-CANON-HV01",
-      "V82-CANON-HV02",
-      "V82-CANON-HV03",
-      "V82-CANON-HV04",
-      "V82-CANON-HV05",
-      "V82-CANON-HV06",
-      "V82-CANON-HV07",
-      "V82-CANON-HV08"
+      "V83-CANON-ACTOR-SNAPSHOT",
+      "V83-CANON-DUAL-CONDITIONS",
+      "V83-CANON-H1",
+      "V83-CANON-H2",
+      "V83-CANON-H3",
+      "V83-CANON-H4",
+      "V83-CANON-H5",
+      "V83-CANON-H6",
+      "V83-CANON-HV01",
+      "V83-CANON-HV02",
+      "V83-CANON-HV03",
+      "V83-CANON-HV04",
+      "V83-CANON-HV05",
+      "V83-CANON-HV06",
+      "V83-CANON-HV07",
+      "V83-CANON-HV08"
     ]
   },
-  "V82-CANON-HV11": {
+  "V83-CANON-HV11": {
     "disposition": "canonical_concept",
     "required_neighbors": [
-      "V82-CANON-ACTOR-SNAPSHOT",
-      "V82-CANON-DUAL-CONDITIONS",
-      "V82-CANON-H1",
-      "V82-CANON-H2",
-      "V82-CANON-H3",
-      "V82-CANON-H4",
-      "V82-CANON-H5",
-      "V82-CANON-H6",
-      "V82-CANON-HV01",
-      "V82-CANON-HV02",
-      "V82-CANON-HV03",
-      "V82-CANON-HV04",
-      "V82-CANON-HV05",
-      "V82-CANON-HV06",
-      "V82-CANON-HV07",
-      "V82-CANON-HV08"
+      "V83-CANON-ACTOR-SNAPSHOT",
+      "V83-CANON-DUAL-CONDITIONS",
+      "V83-CANON-H1",
+      "V83-CANON-H2",
+      "V83-CANON-H3",
+      "V83-CANON-H4",
+      "V83-CANON-H5",
+      "V83-CANON-H6",
+      "V83-CANON-HV01",
+      "V83-CANON-HV02",
+      "V83-CANON-HV03",
+      "V83-CANON-HV04",
+      "V83-CANON-HV05",
+      "V83-CANON-HV06",
+      "V83-CANON-HV07",
+      "V83-CANON-HV08"
     ]
   },
-  "V82-CANON-HWORLD": {
+  "V83-CANON-HWORLD": {
     "disposition": "canonical_concept",
     "required_neighbors": [
-      "V82-CANON-ACTOR-SNAPSHOT",
-      "V82-CANON-DUAL-CONDITIONS",
-      "V82-CANON-H1",
-      "V82-CANON-H2",
-      "V82-CANON-H3",
-      "V82-CANON-H4",
-      "V82-CANON-H5",
-      "V82-CANON-H6",
-      "V82-CANON-HV01",
-      "V82-CANON-HV02",
-      "V82-CANON-HV03",
-      "V82-CANON-HV04",
-      "V82-CANON-HV05",
-      "V82-CANON-HV06",
-      "V82-CANON-HV07",
-      "V82-CANON-HV08"
+      "V83-CANON-ACTOR-SNAPSHOT",
+      "V83-CANON-DUAL-CONDITIONS",
+      "V83-CANON-H1",
+      "V83-CANON-H2",
+      "V83-CANON-H3",
+      "V83-CANON-H4",
+      "V83-CANON-H5",
+      "V83-CANON-H6",
+      "V83-CANON-HV01",
+      "V83-CANON-HV02",
+      "V83-CANON-HV03",
+      "V83-CANON-HV04",
+      "V83-CANON-HV05",
+      "V83-CANON-HV06",
+      "V83-CANON-HV07",
+      "V83-CANON-HV08"
     ]
   },
-  "V82-CANON-JOINT-STATE": {
+  "V83-CANON-JOINT-STATE": {
     "disposition": "canonical_concept",
     "required_neighbors": [
-      "V82-CANON-CIRCLE",
-      "V82-CANON-CIRCLE-RELATIONS",
-      "V82-CANON-S0",
-      "V82-CANON-S1",
-      "V82-CANON-S2",
-      "V82-CANON-S3",
-      "V82-CANON-S4",
-      "V82-CANON-S5",
-      "V82-CANON-S6",
-      "V82-CANON-X0"
+      "V83-CANON-CIRCLE",
+      "V83-CANON-CIRCLE-RELATIONS",
+      "V83-CANON-S0",
+      "V83-CANON-S1",
+      "V83-CANON-S2",
+      "V83-CANON-S3",
+      "V83-CANON-S4",
+      "V83-CANON-S5",
+      "V83-CANON-S6",
+      "V83-CANON-X0"
     ]
   },
-  "V82-CANON-NO-ACTION": {
+  "V83-CANON-NO-ACTION": {
     "disposition": "structural_rule",
     "required_neighbors": [
-      "V82-CANON-AUTHORIZATION",
-      "V82-CANON-SELECTION"
+      "V83-CANON-AUTHORIZATION",
+      "V83-CANON-SELECTION"
     ]
   },
-  "V82-CANON-PERSONALITY-HYPOTHESIS": {
+  "V83-CANON-PERSONALITY-HYPOTHESIS": {
     "disposition": "structural_rule",
     "required_neighbors": [
-      "V82-CANON-ACTOR-SNAPSHOT",
-      "V82-CANON-DUAL-CONDITIONS",
-      "V82-CANON-H1",
-      "V82-CANON-H2",
-      "V82-CANON-H3",
-      "V82-CANON-H4",
-      "V82-CANON-H5",
-      "V82-CANON-H6",
-      "V82-CANON-HV01",
-      "V82-CANON-HV02",
-      "V82-CANON-HV03",
-      "V82-CANON-HV04",
-      "V82-CANON-HV05",
-      "V82-CANON-HV06",
-      "V82-CANON-HV07",
-      "V82-CANON-HV08"
+      "V83-CANON-ACTOR-SNAPSHOT",
+      "V83-CANON-DUAL-CONDITIONS",
+      "V83-CANON-H1",
+      "V83-CANON-H2",
+      "V83-CANON-H3",
+      "V83-CANON-H4",
+      "V83-CANON-H5",
+      "V83-CANON-H6",
+      "V83-CANON-HV01",
+      "V83-CANON-HV02",
+      "V83-CANON-HV03",
+      "V83-CANON-HV04",
+      "V83-CANON-HV05",
+      "V83-CANON-HV06",
+      "V83-CANON-HV07",
+      "V83-CANON-HV08"
     ]
   },
-  "V82-CANON-PF": {
+  "V83-CANON-PF": {
     "disposition": "structural_rule",
     "required_neighbors": [
-      "V82-CANON-APP-GATE",
-      "V82-CANON-AUTHORIZATION",
-      "V82-CANON-EVENT",
-      "V82-CANON-FORECAST",
-      "V82-CANON-NO-ACTION",
-      "V82-CANON-SELECTION",
-      "V82-CANON-T0-T4",
-      "V82-CANON-THREE-ORDER"
+      "V83-CANON-APP-GATE",
+      "V83-CANON-AUTHORIZATION",
+      "V83-CANON-EVENT",
+      "V83-CANON-FORECAST",
+      "V83-CANON-NO-ACTION",
+      "V83-CANON-SELECTION",
+      "V83-CANON-T0-T4",
+      "V83-CANON-THREE-ORDER"
     ]
   },
-  "V82-CANON-PROTOTYPE-MIXED-STATE-BOUNDARY": {
+  "V83-CANON-PROTOTYPE-MIXED-STATE-BOUNDARY": {
     "disposition": "structural_rule",
     "required_neighbors": [
-      "V82-CANON-JOINT-STATE",
-      "V82-CANON-S0",
-      "V82-CANON-S6"
+      "V83-CANON-JOINT-STATE",
+      "V83-CANON-S0",
+      "V83-CANON-S6"
     ]
   },
-  "V82-CANON-REVISION-LINEAGE": {
+  "V83-CANON-REVISION-LINEAGE": {
     "disposition": "structural_rule",
     "required_neighbors": [
-      "V82-CANON-GOV-AI",
-      "V82-CANON-GOV-ANTICAPTURE",
-      "V82-CANON-GOV-LIFECYCLE",
-      "V82-CANON-GOV-NOEXIT",
-      "V82-CANON-GOV-NOINFRA",
-      "V82-CANON-GOV-PRECONCEPT",
-      "V82-CANON-GOV-PRIVACY",
-      "V82-CANON-GOV-RETIRE",
-      "V82-CANON-GOV-WEAK"
+      "V83-CANON-GOV-AI",
+      "V83-CANON-GOV-ANTICAPTURE",
+      "V83-CANON-GOV-LIFECYCLE",
+      "V83-CANON-GOV-NOEXIT",
+      "V83-CANON-GOV-NOINFRA",
+      "V83-CANON-GOV-PRECONCEPT",
+      "V83-CANON-GOV-PRIVACY",
+      "V83-CANON-GOV-RETIRE",
+      "V83-CANON-GOV-WEAK"
     ]
   },
-  "V82-CANON-S0": {
+  "V83-CANON-S0": {
     "disposition": "canonical_concept",
     "required_neighbors": [
-      "V82-CANON-S1",
-      "V82-CANON-S2",
-      "V82-CANON-S3",
-      "V82-CANON-S4",
-      "V82-CANON-S5",
-      "V82-CANON-S6"
+      "V83-CANON-S1",
+      "V83-CANON-S2",
+      "V83-CANON-S3",
+      "V83-CANON-S4",
+      "V83-CANON-S5",
+      "V83-CANON-S6"
     ]
   },
-  "V82-CANON-S1": {
+  "V83-CANON-S1": {
     "disposition": "canonical_concept",
     "required_neighbors": [
-      "V82-CANON-S0",
-      "V82-CANON-S2",
-      "V82-CANON-S3",
-      "V82-CANON-S4",
-      "V82-CANON-S5",
-      "V82-CANON-S6"
+      "V83-CANON-S0",
+      "V83-CANON-S2",
+      "V83-CANON-S3",
+      "V83-CANON-S4",
+      "V83-CANON-S5",
+      "V83-CANON-S6"
     ]
   },
-  "V82-CANON-S2": {
+  "V83-CANON-S2": {
     "disposition": "canonical_concept",
     "required_neighbors": [
-      "V82-CANON-S0",
-      "V82-CANON-S1",
-      "V82-CANON-S3",
-      "V82-CANON-S4",
-      "V82-CANON-S5",
-      "V82-CANON-S6"
+      "V83-CANON-S0",
+      "V83-CANON-S1",
+      "V83-CANON-S3",
+      "V83-CANON-S4",
+      "V83-CANON-S5",
+      "V83-CANON-S6"
     ]
   },
-  "V82-CANON-S3": {
+  "V83-CANON-S3": {
     "disposition": "canonical_concept",
     "required_neighbors": [
-      "V82-CANON-S0",
-      "V82-CANON-S1",
-      "V82-CANON-S2",
-      "V82-CANON-S4",
-      "V82-CANON-S5",
-      "V82-CANON-S6"
+      "V83-CANON-S0",
+      "V83-CANON-S1",
+      "V83-CANON-S2",
+      "V83-CANON-S4",
+      "V83-CANON-S5",
+      "V83-CANON-S6"
     ]
   },
-  "V82-CANON-S4": {
+  "V83-CANON-S4": {
     "disposition": "canonical_concept",
     "required_neighbors": [
-      "V82-CANON-S0",
-      "V82-CANON-S1",
-      "V82-CANON-S2",
-      "V82-CANON-S3",
-      "V82-CANON-S5",
-      "V82-CANON-S6"
+      "V83-CANON-S0",
+      "V83-CANON-S1",
+      "V83-CANON-S2",
+      "V83-CANON-S3",
+      "V83-CANON-S5",
+      "V83-CANON-S6"
     ]
   },
-  "V82-CANON-S5": {
+  "V83-CANON-S5": {
     "disposition": "canonical_concept",
     "required_neighbors": [
-      "V82-CANON-S0",
-      "V82-CANON-S1",
-      "V82-CANON-S2",
-      "V82-CANON-S3",
-      "V82-CANON-S4",
-      "V82-CANON-S6"
+      "V83-CANON-S0",
+      "V83-CANON-S1",
+      "V83-CANON-S2",
+      "V83-CANON-S3",
+      "V83-CANON-S4",
+      "V83-CANON-S6"
     ]
   },
-  "V82-CANON-S6": {
+  "V83-CANON-S6": {
     "disposition": "canonical_concept",
     "required_neighbors": [
-      "V82-CANON-S0",
-      "V82-CANON-S1",
-      "V82-CANON-S2",
-      "V82-CANON-S3",
-      "V82-CANON-S4",
-      "V82-CANON-S5"
+      "V83-CANON-S0",
+      "V83-CANON-S1",
+      "V83-CANON-S2",
+      "V83-CANON-S3",
+      "V83-CANON-S4",
+      "V83-CANON-S5"
     ]
   },
-  "V82-CANON-SELECTION": {
+  "V83-CANON-SELECTION": {
     "disposition": "canonical_concept",
     "required_neighbors": [
-      "V82-CANON-AUTHORIZATION",
-      "V82-CANON-NO-ACTION"
+      "V83-CANON-AUTHORIZATION",
+      "V83-CANON-NO-ACTION"
     ]
   },
-  "V82-CANON-STRONG-TYPES": {
+  "V83-CANON-STRONG-TYPES": {
     "disposition": "structural_rule",
     "required_neighbors": [
-      "V82-CANON-ACTOR-SNAPSHOT",
-      "V82-CANON-DUAL-CONDITIONS",
-      "V82-CANON-H1",
-      "V82-CANON-H2",
-      "V82-CANON-H3",
-      "V82-CANON-H4",
-      "V82-CANON-H5",
-      "V82-CANON-H6",
-      "V82-CANON-HV01",
-      "V82-CANON-HV02",
-      "V82-CANON-HV03",
-      "V82-CANON-HV04",
-      "V82-CANON-HV05",
-      "V82-CANON-HV06",
-      "V82-CANON-HV07",
-      "V82-CANON-HV08"
+      "V83-CANON-ACTOR-SNAPSHOT",
+      "V83-CANON-DUAL-CONDITIONS",
+      "V83-CANON-H1",
+      "V83-CANON-H2",
+      "V83-CANON-H3",
+      "V83-CANON-H4",
+      "V83-CANON-H5",
+      "V83-CANON-H6",
+      "V83-CANON-HV01",
+      "V83-CANON-HV02",
+      "V83-CANON-HV03",
+      "V83-CANON-HV04",
+      "V83-CANON-HV05",
+      "V83-CANON-HV06",
+      "V83-CANON-HV07",
+      "V83-CANON-HV08"
     ]
   },
-  "V82-CANON-T0-T4": {
+  "V83-CANON-T0-T4": {
     "disposition": "structural_rule",
     "required_neighbors": [
-      "V82-CANON-APP-GATE"
+      "V83-CANON-APP-GATE"
     ]
   },
-  "V82-CANON-THREE-ORDER": {
+  "V83-CANON-THREE-ORDER": {
     "disposition": "canonical_concept",
     "required_neighbors": [
-      "V82-CANON-APP-GATE",
-      "V82-CANON-AUTHORIZATION",
-      "V82-CANON-EVENT",
-      "V82-CANON-FORECAST",
-      "V82-CANON-NO-ACTION",
-      "V82-CANON-PF",
-      "V82-CANON-SELECTION",
-      "V82-CANON-T0-T4"
+      "V83-CANON-APP-GATE",
+      "V83-CANON-AUTHORIZATION",
+      "V83-CANON-EVENT",
+      "V83-CANON-FORECAST",
+      "V83-CANON-NO-ACTION",
+      "V83-CANON-PF",
+      "V83-CANON-SELECTION",
+      "V83-CANON-T0-T4"
     ]
   },
-  "V82-CANON-X0": {
+  "V83-CANON-X0": {
     "disposition": "canonical_concept",
     "required_neighbors": [
-      "V82-CANON-CIRCLE",
-      "V82-CANON-CIRCLE-RELATIONS",
-      "V82-CANON-JOINT-STATE",
-      "V82-CANON-S0",
-      "V82-CANON-S1",
-      "V82-CANON-S2",
-      "V82-CANON-S3",
-      "V82-CANON-S4",
-      "V82-CANON-S5",
-      "V82-CANON-S6"
+      "V83-CANON-CIRCLE",
+      "V83-CANON-CIRCLE-RELATIONS",
+      "V83-CANON-JOINT-STATE",
+      "V83-CANON-S0",
+      "V83-CANON-S1",
+      "V83-CANON-S2",
+      "V83-CANON-S3",
+      "V83-CANON-S4",
+      "V83-CANON-S5",
+      "V83-CANON-S6"
     ]
   },
-  "V82-HEADING-CORE-NUMBERING": {
+  "V83-HEADING-CORE-NUMBERING": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P0353": {
+  "V83-HEADING-CORE-V83-P0353": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P0376": {
+  "V83-HEADING-CORE-V83-P0376": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P0379": {
+  "V83-HEADING-CORE-V83-P0379": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P0381": {
+  "V83-HEADING-CORE-V83-P0381": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P0383": {
+  "V83-HEADING-CORE-V83-P0383": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P0385": {
+  "V83-HEADING-CORE-V83-P0385": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P0387": {
+  "V83-HEADING-CORE-V83-P0387": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P0389": {
+  "V83-HEADING-CORE-V83-P0389": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P0391": {
+  "V83-HEADING-CORE-V83-P0391": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P0393": {
+  "V83-HEADING-CORE-V83-P0393": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P0395": {
+  "V83-HEADING-CORE-V83-P0395": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P0397": {
+  "V83-HEADING-CORE-V83-P0397": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P0399": {
+  "V83-HEADING-CORE-V83-P0399": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P0401": {
+  "V83-HEADING-CORE-V83-P0401": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P0421": {
+  "V83-HEADING-CORE-V83-P0421": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P0428": {
+  "V83-HEADING-CORE-V83-P0428": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P0434": {
+  "V83-HEADING-CORE-V83-P0434": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P0445": {
+  "V83-HEADING-CORE-V83-P0445": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P0463": {
+  "V83-HEADING-CORE-V83-P0463": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P0484": {
+  "V83-HEADING-CORE-V83-P0484": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P0487": {
+  "V83-HEADING-CORE-V83-P0487": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P0490": {
+  "V83-HEADING-CORE-V83-P0490": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P0493": {
+  "V83-HEADING-CORE-V83-P0493": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P0497": {
+  "V83-HEADING-CORE-V83-P0497": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P0504": {
+  "V83-HEADING-CORE-V83-P0504": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P0511": {
+  "V83-HEADING-CORE-V83-P0511": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P0514": {
+  "V83-HEADING-CORE-V83-P0514": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P0517": {
+  "V83-HEADING-CORE-V83-P0517": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P0520": {
+  "V83-HEADING-CORE-V83-P0520": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P0525": {
+  "V83-HEADING-CORE-V83-P0525": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P0538": {
+  "V83-HEADING-CORE-V83-P0538": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P0544": {
+  "V83-HEADING-CORE-V83-P0544": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P0548": {
+  "V83-HEADING-CORE-V83-P0548": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P0554": {
+  "V83-HEADING-CORE-V83-P0554": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P0558": {
+  "V83-HEADING-CORE-V83-P0558": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P0559": {
+  "V83-HEADING-CORE-V83-P0559": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P0562": {
+  "V83-HEADING-CORE-V83-P0562": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P0564": {
+  "V83-HEADING-CORE-V83-P0564": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P0566": {
+  "V83-HEADING-CORE-V83-P0566": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P0568": {
+  "V83-HEADING-CORE-V83-P0568": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P0570": {
+  "V83-HEADING-CORE-V83-P0570": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P0572": {
+  "V83-HEADING-CORE-V83-P0572": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P0574": {
+  "V83-HEADING-CORE-V83-P0574": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P0576": {
+  "V83-HEADING-CORE-V83-P0576": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P0578": {
+  "V83-HEADING-CORE-V83-P0578": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P0580": {
+  "V83-HEADING-CORE-V83-P0580": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P0582": {
+  "V83-HEADING-CORE-V83-P0582": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P0587": {
+  "V83-HEADING-CORE-V83-P0587": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P0627": {
+  "V83-HEADING-CORE-V83-P0627": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P0648": {
+  "V83-HEADING-CORE-V83-P0648": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P0652": {
+  "V83-HEADING-CORE-V83-P0652": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P0656": {
+  "V83-HEADING-CORE-V83-P0656": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P0660": {
+  "V83-HEADING-CORE-V83-P0660": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P0664": {
+  "V83-HEADING-CORE-V83-P0664": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P0671": {
+  "V83-HEADING-CORE-V83-P0671": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P0672": {
+  "V83-HEADING-CORE-V83-P0672": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P0674": {
+  "V83-HEADING-CORE-V83-P0674": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P0676": {
+  "V83-HEADING-CORE-V83-P0676": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P0678": {
+  "V83-HEADING-CORE-V83-P0678": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P0680": {
+  "V83-HEADING-CORE-V83-P0680": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P0682": {
+  "V83-HEADING-CORE-V83-P0682": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P0685": {
+  "V83-HEADING-CORE-V83-P0685": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P0687": {
+  "V83-HEADING-CORE-V83-P0687": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P0688": {
+  "V83-HEADING-CORE-V83-P0688": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P0695": {
+  "V83-HEADING-CORE-V83-P0695": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P0702": {
+  "V83-HEADING-CORE-V83-P0702": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P0726": {
+  "V83-HEADING-CORE-V83-P0726": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P0727": {
+  "V83-HEADING-CORE-V83-P0727": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P0734": {
+  "V83-HEADING-CORE-V83-P0734": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P0742": {
+  "V83-HEADING-CORE-V83-P0742": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P0749": {
+  "V83-HEADING-CORE-V83-P0749": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P0776": {
+  "V83-HEADING-CORE-V83-P0776": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P0777": {
+  "V83-HEADING-CORE-V83-P0777": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P0785": {
+  "V83-HEADING-CORE-V83-P0785": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P0793": {
+  "V83-HEADING-CORE-V83-P0793": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P0801": {
+  "V83-HEADING-CORE-V83-P0801": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P0828": {
+  "V83-HEADING-CORE-V83-P0828": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P0829": {
+  "V83-HEADING-CORE-V83-P0829": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P0842": {
+  "V83-HEADING-CORE-V83-P0842": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P0846": {
+  "V83-HEADING-CORE-V83-P0846": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P0848": {
+  "V83-HEADING-CORE-V83-P0848": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P0850": {
+  "V83-HEADING-CORE-V83-P0850": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P0857": {
+  "V83-HEADING-CORE-V83-P0857": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P0860": {
+  "V83-HEADING-CORE-V83-P0860": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P0865": {
+  "V83-HEADING-CORE-V83-P0865": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P0868": {
+  "V83-HEADING-CORE-V83-P0868": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P0915": {
+  "V83-HEADING-CORE-V83-P0915": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P0925": {
+  "V83-HEADING-CORE-V83-P0925": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P0933": {
+  "V83-HEADING-CORE-V83-P0933": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P0935": {
+  "V83-HEADING-CORE-V83-P0935": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P0937": {
+  "V83-HEADING-CORE-V83-P0937": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P0943": {
+  "V83-HEADING-CORE-V83-P0943": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P0945": {
+  "V83-HEADING-CORE-V83-P0945": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P0947": {
+  "V83-HEADING-CORE-V83-P0947": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P0950": {
+  "V83-HEADING-CORE-V83-P0950": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P0952": {
+  "V83-HEADING-CORE-V83-P0952": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P0955": {
+  "V83-HEADING-CORE-V83-P0955": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P0957": {
+  "V83-HEADING-CORE-V83-P0957": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P0959": {
+  "V83-HEADING-CORE-V83-P0959": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P0966": {
+  "V83-HEADING-CORE-V83-P0966": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P1020": {
+  "V83-HEADING-CORE-V83-P1020": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P1024": {
+  "V83-HEADING-CORE-V83-P1024": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P1027": {
+  "V83-HEADING-CORE-V83-P1027": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P1049": {
+  "V83-HEADING-CORE-V83-P1049": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P1052": {
+  "V83-HEADING-CORE-V83-P1052": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P1076": {
+  "V83-HEADING-CORE-V83-P1076": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P1080": {
+  "V83-HEADING-CORE-V83-P1080": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P1085": {
+  "V83-HEADING-CORE-V83-P1085": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P1087": {
+  "V83-HEADING-CORE-V83-P1087": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P1092": {
+  "V83-HEADING-CORE-V83-P1092": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P1097": {
+  "V83-HEADING-CORE-V83-P1097": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P1104": {
+  "V83-HEADING-CORE-V83-P1104": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P1110": {
+  "V83-HEADING-CORE-V83-P1110": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P1116": {
+  "V83-HEADING-CORE-V83-P1116": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P1123": {
+  "V83-HEADING-CORE-V83-P1123": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P1130": {
+  "V83-HEADING-CORE-V83-P1130": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P1133": {
+  "V83-HEADING-CORE-V83-P1133": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P1136": {
+  "V83-HEADING-CORE-V83-P1136": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P1138": {
+  "V83-HEADING-CORE-V83-P1138": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P1156": {
+  "V83-HEADING-CORE-V83-P1156": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P1933": {
+  "V83-HEADING-CORE-V83-P1933": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P1954": {
+  "V83-HEADING-CORE-V83-P1954": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P1981": {
+  "V83-HEADING-CORE-V83-P1981": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P1988": {
+  "V83-HEADING-CORE-V83-P1988": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P1989": {
+  "V83-HEADING-CORE-V83-P1989": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P1991": {
+  "V83-HEADING-CORE-V83-P1991": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P1993": {
+  "V83-HEADING-CORE-V83-P1993": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P1995": {
+  "V83-HEADING-CORE-V83-P1995": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P1997": {
+  "V83-HEADING-CORE-V83-P1997": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P1999": {
+  "V83-HEADING-CORE-V83-P1999": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P2001": {
+  "V83-HEADING-CORE-V83-P2001": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P2003": {
+  "V83-HEADING-CORE-V83-P2003": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P2005": {
+  "V83-HEADING-CORE-V83-P2005": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P2007": {
+  "V83-HEADING-CORE-V83-P2007": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P2034": {
+  "V83-HEADING-CORE-V83-P2034": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P2061": {
+  "V83-HEADING-CORE-V83-P2061": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P2084": {
+  "V83-HEADING-CORE-V83-P2084": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P2106": {
+  "V83-HEADING-CORE-V83-P2106": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P2109": {
+  "V83-HEADING-CORE-V83-P2109": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P2113": {
+  "V83-HEADING-CORE-V83-P2113": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P2116": {
+  "V83-HEADING-CORE-V83-P2116": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P2119": {
+  "V83-HEADING-CORE-V83-P2119": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P2121": {
+  "V83-HEADING-CORE-V83-P2121": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P2124": {
+  "V83-HEADING-CORE-V83-P2124": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P2129": {
+  "V83-HEADING-CORE-V83-P2129": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P2134": {
+  "V83-HEADING-CORE-V83-P2134": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P2157": {
+  "V83-HEADING-CORE-V83-P2157": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P2184": {
+  "V83-HEADING-CORE-V83-P2184": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P2187": {
+  "V83-HEADING-CORE-V83-P2187": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P2190": {
+  "V83-HEADING-CORE-V83-P2190": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P2194": {
+  "V83-HEADING-CORE-V83-P2194": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P2212": {
+  "V83-HEADING-CORE-V83-P2212": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P2236": {
+  "V83-HEADING-CORE-V83-P2236": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P2239": {
+  "V83-HEADING-CORE-V83-P2239": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P2242": {
+  "V83-HEADING-CORE-V83-P2242": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P2245": {
+  "V83-HEADING-CORE-V83-P2245": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P2269": {
+  "V83-HEADING-CORE-V83-P2269": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P2299": {
+  "V83-HEADING-CORE-V83-P2299": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P2314": {
+  "V83-HEADING-CORE-V83-P2314": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P2317": {
+  "V83-HEADING-CORE-V83-P2317": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P2321": {
+  "V83-HEADING-CORE-V83-P2321": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P2324": {
+  "V83-HEADING-CORE-V83-P2324": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P2327": {
+  "V83-HEADING-CORE-V83-P2327": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P2353": {
+  "V83-HEADING-CORE-V83-P2353": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P2377": {
+  "V83-HEADING-CORE-V83-P2377": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P2380": {
+  "V83-HEADING-CORE-V83-P2380": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P2416": {
+  "V83-HEADING-CORE-V83-P2416": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P2486": {
+  "V83-HEADING-CORE-V83-P2486": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P2516": {
+  "V83-HEADING-CORE-V83-P2516": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P2534": {
+  "V83-HEADING-CORE-V83-P2534": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P2557": {
+  "V83-HEADING-CORE-V83-P2557": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P2560": {
+  "V83-HEADING-CORE-V83-P2560": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P2566": {
+  "V83-HEADING-CORE-V83-P2566": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P2599": {
+  "V83-HEADING-CORE-V83-P2599": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P4589": {
+  "V83-HEADING-CORE-V83-P4589": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P4608": {
+  "V83-HEADING-CORE-V83-P4608": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P4615": {
+  "V83-HEADING-CORE-V83-P4615": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P4625": {
+  "V83-HEADING-CORE-V83-P4625": {
     "disposition": "heading_only",
     "required_neighbors": []
   },
-  "V82-HEADING-CORE-V82-P4628": {
+  "V83-HEADING-CORE-V83-P4628": {
     "disposition": "heading_only",
     "required_neighbors": []
   }

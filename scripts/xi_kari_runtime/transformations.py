@@ -1,4 +1,4 @@
-"""Pure v8.2 transformation and cascade semantics."""
+"""Pure v8.3 transformation and cascade semantics."""
 
 from __future__ import annotations
 
@@ -23,13 +23,13 @@ TRANSFORM_KINDS = frozenset(
 )
 REQUIRED_TRANSFORM_ONTOLOGY = frozenset(
     {
-        "V82-CANON-CORE-D3-SCALE-TRANSFORMATION",
-        "V82-CANON-CORE-CIRCLE-TRANSFORMATION",
-        "V82-HEADING-CORE-V82-P0554",
+        "V83-CANON-CORE-D3-SCALE-TRANSFORMATION",
+        "V83-CANON-CORE-CIRCLE-TRANSFORMATION",
+        "V83-HEADING-CORE-V83-P0554",
     }
 )
 REQUIRED_CASCADE_ONTOLOGY = frozenset(
-    {"V82-CANON-CORE-CIRCLE-TRANSFORMATION", "V82-CANON-EVENT"}
+    {"V83-CANON-CORE-CIRCLE-TRANSFORMATION", "V83-CANON-EVENT"}
 )
 
 
@@ -171,7 +171,7 @@ def _validate_scale(
     differences = transform["axis_differences"]
     axes = [record["axis_id"] for record in differences]
     if len(axes) != 9 or len(axes) != len(set(axes)) or set(axes) != set(AXES):
-        raise TransformationError("scale transform must contain nine unique v8.2 axes")
+        raise TransformationError("scale transform must contain nine unique v8.3 axes")
     relations = {record["relation"] for record in differences}
     expected = _classification(relations)
     if transform["transformation_class"] != expected:

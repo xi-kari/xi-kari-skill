@@ -1,23 +1,23 @@
 ---
-id: V82-CANON-EVENT
+id: V83-CANON-EVENT
 qualified_id: dynamic:event-contract
 name: 事件合同与动态推演入口
 family: forecast-choice-intervention
 disposition: canonical_concept
-source_authority: v8.2
+source_authority: v8.3
 ---
 
 # 事件合同与动态推演入口
 
-## 权威定义（v8.2）
+## 权威定义（v8.3）
 
-动态推演不是断言世界必然如何，而是从冻结联合状态出发，检查事件后哪些变量先改变、影响沿何通道传播、何处有时延/阈值/反馈/级联/分叉（`V82-P1931`-`V82-P1935`）。事件类型必须区分观察到、被报告、计划中、假设性和模拟；模拟只属于模型状态，不能回写现实事实（`V82-P1954`-`V82-P1980`）。
+动态推演不是断言世界必然如何，而是从冻结联合状态出发，检查事件后哪些变量先改变、影响沿何通道传播、何处有时延/阈值/反馈/级联/分叉（`V83-P1931`-`V83-P1935`）。事件类型必须区分观察到、被报告、计划中、假设性和模拟；模拟只属于模型状态，不能回写现实事实（`V83-P1954`-`V83-P1980`）。
 
 ## 允许推论
 
 - 冻结对象、A/C/R、M/Ψ、时钟、证据截止、未知和模型版本。
 - 每个事件记录 ID、时间/窗口、观察时间、来源、受影响行动者/圈层、通道、直接变化、证据、争议、竞争解释、可逆性、持续时间和后续观测。
-- 传播必须分开记录信号到达、体验变化和实际资源/行为/规则/关系改变（`V82-P2007`-`V82-P2033`）。
+- 传播必须分开记录信号到达、体验变化和实际资源/行为/规则/关系改变（`V83-P2007`-`V83-P2033`）。
 
 ## 禁止跳跃
 
@@ -43,17 +43,17 @@ source_authority: v8.2
 
 ## source_undefined
 
-v8.2 不提供唯一真实更新函数 F、无条件概率或“叙事连贯即可能”规则；这些字段标 `source_undefined`。
+v8.3 不提供唯一真实更新函数 F、无条件概率或“叙事连贯即可能”规则；这些字段标 `source_undefined`。
 
 ## 来源锚点
 
-- [v8.2 reader 11](../../../source/v8.2/reader/11-event-dynamic-inference.md): `V82-P1931`-`V82-P2086`。
+- [v8.3 reader 11](../../../source/v8.3/reader/11-event-dynamic-inference.md): `V83-P1931`-`V83-P2086`。
 
 ## 原文定义区段
 
 本卡的权威定义必须与无损阅读版连续联读；以下锚点是定位索引，不是删减后的替代文本。运行时先完整读取 21 卷，再回到这些锚点核对相邻段落、表格和适用边界。
 
-- `V82-P1932`, `V82-P1954`, `V82-P1955`, `V82-P1980`
+- `V83-P1932`, `V83-P1954`, `V83-P1955`, `V83-P1980`
 
 ## 解释层（非原文定义）
 
@@ -61,21 +61,21 @@ v8.2 不提供唯一真实更新函数 F、无条件概率或“叙事连贯即�
 
 ## 必须联读的邻接概念
 
-- `V82-CANON-APP-GATE`：`references/ontology/cards/forecast-choice-intervention/intervention-levels.md`
+- `V83-CANON-APP-GATE`：`references/ontology/cards/forecast-choice-intervention/intervention-levels.md`
 
-- `V82-CANON-AUTHORIZATION`：`references/ontology/cards/forecast-choice-intervention/choice-authorization.md`
+- `V83-CANON-AUTHORIZATION`：`references/ontology/cards/forecast-choice-intervention/choice-authorization.md`
 
-- `V82-CANON-FORECAST`：`references/ontology/cards/forecast-choice-intervention/conditional-forecast.md`
+- `V83-CANON-FORECAST`：`references/ontology/cards/forecast-choice-intervention/conditional-forecast.md`
 
-- `V82-CANON-NO-ACTION`：`references/ontology/cards/forecast-choice-intervention/choice-authorization.md`
+- `V83-CANON-NO-ACTION`：`references/ontology/cards/forecast-choice-intervention/choice-authorization.md`
 
-- `V82-CANON-PF`：`references/ontology/cards/forecast-choice-intervention/protection-and-intervention.md`
+- `V83-CANON-PF`：`references/ontology/cards/forecast-choice-intervention/protection-and-intervention.md`
 
-- `V82-CANON-SELECTION`：`references/ontology/cards/forecast-choice-intervention/choice-authorization.md`
+- `V83-CANON-SELECTION`：`references/ontology/cards/forecast-choice-intervention/choice-authorization.md`
 
-- `V82-CANON-T0-T4`：`references/ontology/cards/forecast-choice-intervention/intervention-levels.md`
+- `V83-CANON-T0-T4`：`references/ontology/cards/forecast-choice-intervention/intervention-levels.md`
 
-- `V82-CANON-THREE-ORDER`：`references/ontology/cards/forecast-choice-intervention/three-order-recursion.md`
+- `V83-CANON-THREE-ORDER`：`references/ontology/cards/forecast-choice-intervention/three-order-recursion.md`
 
 ## 撤回条件
 

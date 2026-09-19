@@ -1,7 +1,7 @@
 ---
-id: V82-CANON-CORE-EVENT-CONTRACT
-covered_ids: V82-CANON-CORE-EVENT-CONTRACT,V82-CANON-CORE-JOINT-STATE-UPDATE,V82-CANON-CORE-INFERENCE-LOOP,V82-CANON-CORE-PROPAGATION-THRESHOLD,V82-CANON-CORE-FEEDBACK-CASCADE,V82-CANON-CORE-BRANCH-PATH,V82-CANON-CORE-VARIABLE-CANDIDATE,V82-CANON-CORE-SIMULATION-COUNTERFACTUAL,V82-CANON-CORE-RECURSIVE-FUTURE,V82-CANDIDATE-EVENT-EXAMPLE,V82-CANDIDATE-PROVISIONAL-VARIABLE
-source_authority: v8.2
+id: V83-CANON-CORE-EVENT-CONTRACT
+covered_ids: V83-CANON-CORE-EVENT-CONTRACT,V83-CANON-CORE-JOINT-STATE-UPDATE,V83-CANON-CORE-INFERENCE-LOOP,V83-CANON-CORE-PROPAGATION-THRESHOLD,V83-CANON-CORE-FEEDBACK-CASCADE,V83-CANON-CORE-BRANCH-PATH,V83-CANON-CORE-VARIABLE-CANDIDATE,V83-CANON-CORE-SIMULATION-COUNTERFACTUAL,V83-CANON-CORE-RECURSIVE-FUTURE,V83-CANDIDATE-EVENT-EXAMPLE,V83-CANDIDATE-PROVISIONAL-VARIABLE
+source_authority: v8.3
 card_kind: shared
 ---
 
@@ -13,13 +13,13 @@ card_kind: shared
 
 ## 原文锚点
 
-- V82-P1933—V82-P1954：推演与叙事续写、事件合同
-- V82-P1981—V82-P2131：更新式、九步闭环、传播/反馈、路径图、变量候选、模拟和递归未来
-- V82-P0404—V82-P0405、V82-P2566—V82-P2598：停止与九闸边界
+- V83-P1933—V83-P1954：推演与叙事续写、事件合同
+- V83-P1981—V83-P2131：更新式、九步闭环、传播/反馈、路径图、变量候选、模拟和递归未来
+- V83-P0404—V83-P0405、V83-P2566—V83-P2598：停止与九闸边界
 
 ## 权威定义
 
-事件推演从冻结快照注入事件，沿有证据的通道登记直接效应、返回反馈和跨圈层级联；在条件、阈值、行动者选择或外部扰动处建立分叉，并为每条路径登记早期信号、反向信号和停止条件（V82-P0404）。联合状态更新须记录对象、变量、通道、时间和不确定性，而不是把故事续写当作推演（V82-P1933、V82-P1954、V82-P1981）。模拟和反事实可以生成条件路径，但没有新外部观察、执行回执或独立裁定，递归深度不能提高事实地位（V82-P2106—V82-P2118、V82-P4613）。
+事件推演从冻结快照注入事件，沿有证据的通道登记直接效应、返回反馈和跨圈层级联；在条件、阈值、行动者选择或外部扰动处建立分叉，并为每条路径登记早期信号、反向信号和停止条件（V83-P0404）。联合状态更新须记录对象、变量、通道、时间和不确定性，而不是把故事续写当作推演（V83-P1933、V83-P1954、V83-P1981）。模拟和反事实可以生成条件路径，但没有新外部观察、执行回执或独立裁定，递归深度不能提高事实地位（V83-P2106—V83-P2118、V83-P4613）。
 
 ## 解释层（非原文定义）
 
@@ -87,10 +87,14 @@ core-boundary-contracts.md、operation-mechanisms.md、forecast-and-choice-inter
 
 本卡的权威定义必须与无损阅读版连续联读；以下锚点是定位索引，不是删减后的替代文本。运行时先完整读取 21 卷，再回到这些锚点核对相邻段落、表格和适用边界。
 
-- `V82-P0401`, `V82-P0402`, `V82-P0404`, `V82-P1933`, `V82-P1954`, `V82-P1960`, `V82-P1981`, `V82-P1982`, `V82-P1988`, `V82-P2007`, `V82-P2008`, `V82-P2029`, `V82-P2034`, `V82-P2035`, `V82-P2059`, `V82-P2061`, `V82-P2062`, `V82-P2083`, `V82-P2084`, `V82-P2085`, `V82-P2105`, `V82-P2106`, `V82-P2107`, `V82-P2109`, `V82-P2110`, `V82-P2118`, `V82-P2131`, `V82-P2599`
+- `V83-P0401`, `V83-P0402`, `V83-P0404`, `V83-P1933`, `V83-P1954`, `V83-P1960`, `V83-P1981`, `V83-P1982`, `V83-P1988`, `V83-P2007`, `V83-P2008`, `V83-P2029`, `V83-P2034`, `V83-P2035`, `V83-P2059`, `V83-P2061`, `V83-P2062`, `V83-P2083`, `V83-P2084`, `V83-P2085`, `V83-P2105`, `V83-P2106`, `V83-P2107`, `V83-P2109`, `V83-P2110`, `V83-P2118`, `V83-P2131`, `V83-P2599`
 
 ## 必须联读的邻接概念
 
-- `V82-CANON-CORE-D0-OBJECT`：`references/ontology/cards/foundation-boundary/core-boundary-contracts.md`
+- `V83-CANON-CORE-D0-OBJECT`：`references/ontology/cards/foundation-boundary/core-boundary-contracts.md`
 
-- `V82-CANON-CORE-EVIDENCE-CONTRACT`：`references/ontology/cards/foundation-boundary/claim-roles-and-missing-states.md`
+- `V83-CANON-CORE-EVIDENCE-CONTRACT`：`references/ontology/cards/foundation-boundary/claim-roles-and-missing-states.md`
+
+## 递归继承的原文边界
+
+`V83-P2115`：子运行必须继承父运行尚未解决的未知、损失和残差。选择某一假设分支只会缩小条件范围，不表示不确定性被现实材料消除；增加抽样次数只可能降低计算误差，不会提高关于现实结果的经验支持。

@@ -1,7 +1,7 @@
 ---
-id: V82-CANON-CORE-COMPLEXITY-GATE
-covered_ids: V82-CANON-CORE-COMPLEXITY-GATE,V82-CANON-CORE-SP-NINE-AXES,V82-CANON-CORE-M01,V82-CANON-CORE-M02,V82-CANON-CORE-M03,V82-CANON-CORE-M04,V82-CANON-CORE-M05,V82-CANON-CORE-M06,V82-CANON-CORE-M07,V82-CANON-CORE-M08,V82-CANON-CORE-M09,V82-CANON-CORE-TRANSFORMATION-STATUS,V82-CANON-CORE-CIRCLE-TRANSFORMATION,V82-CANON-CORE-REPRESENTATION-TRANSLATION
-source_authority: v8.2
+id: V83-CANON-CORE-COMPLEXITY-GATE
+covered_ids: V83-CANON-CORE-COMPLEXITY-GATE,V83-CANON-CORE-SP-NINE-AXES,V83-CANON-CORE-M01,V83-CANON-CORE-M02,V83-CANON-CORE-M03,V83-CANON-CORE-M04,V83-CANON-CORE-M05,V83-CANON-CORE-M06,V83-CANON-CORE-M07,V83-CANON-CORE-M08,V83-CANON-CORE-M09,V83-CANON-CORE-TRANSFORMATION-STATUS,V83-CANON-CORE-CIRCLE-TRANSFORMATION,V83-CANON-CORE-REPRESENTATION-TRANSLATION
+source_authority: v8.3
 card_kind: shared
 ---
 
@@ -13,16 +13,16 @@ card_kind: shared
 
 ## 原文锚点
 
-- V82-P0011、V82-P0554—V82-P0557：表示与表述转义及最低登记合同
-- V82-P0535、V82-P0549—V82-P0557：SP 与 D3
-- V82-P0865—V82-P0957：九轴比较和 M01—M09
-- V82-P0966—V82-P1080：变换记录、证据门和跨圈层转换
-- V82-P1049—V82-P1052、V82-P1076—V82-P1079：三类变换分离、转义损失、有效变量与残差回返
-- V82-P4505—V82-P4513：附录 B 导航
+- V83-P0011、V83-P0554—V83-P0557：表示与表述转义及最低登记合同
+- V83-P0535、V83-P0549—V83-P0557：SP 与 D3
+- V83-P0865—V83-P0957：九轴比较和 M01—M09
+- V83-P0966—V83-P1080：变换记录、证据门和跨圈层转换
+- V83-P1049—V83-P1052、V83-P1076—V83-P1079：三类变换分离、转义损失、有效变量与残差回返
+- V83-P4505—V83-P4513：附录 B 导航
 
 ## 权威定义
 
-SP = <A,X,T,O,C,R,I,N,J>：聚合/成员、空间/边界、时间、组织、因果、观察分辨率、影响、网络拓扑、管辖授权。每一轴都要逐轴比较 equal/expands/contracts/incomparable/unknown；J 不得从其它轴推得（V82-P0535、V82-P0868—V82-P0924）。
+SP = <A,X,T,O,C,R,I,N,J>：聚合/成员、空间/边界、时间、组织、因果、观察分辨率、影响、网络拓扑、管辖授权。每一轴都要逐轴比较 equal/expands/contracts/incomparable/unknown；J 不得从其它轴推得（V83-P0535、V83-P0868—V83-P0924）。
 
 九种算子分别是：
 
@@ -34,11 +34,11 @@ SP = <A,X,T,O,C,R,I,N,J>：聚合/成员、空间/边界、时间、组织、因
 - M06 涌现：互动生成的目标模式；
 - M07 委托/代表：实际行为与有效授权的区分；
 - M08 压缩/抽象：多状态→单表示；
-- M09 横向迁移：源域→目标域的问题生成迁移（V82-P0933—V82-P0957）。
+- M09 横向迁移：源域→目标域的问题生成迁移（V83-P0933—V83-P0957）。
 
-每个 M 都须记录保持、改变、丢失、算子、误差和适用域；支持、未支持/未决、零模型支持和未评估不能混写（V82-P0925—V82-P1024）。
-- 表示转义把有来源的状态、信息或模型表达经具名转换者/规则重写到目标尺度、圈层、任务或词汇系统，并必须保留父记录和来源谱系；载荷主要是语言、制度文本或解释时称表述转义（V82-P0554—V82-P0557）。
-- 转义、尺度变换和圈层关系变换不能互相替代；转义还要登记折叠、遗漏、新增解释、歧义、回返、目标侧复核、有效期和撤回条件（V82-P0011、V82-P1049、V82-P1052、V82-P1076—V82-P1079）。
+每个 M 都须记录保持、改变、丢失、算子、误差和适用域；支持、未支持/未决、零模型支持和未评估不能混写（V83-P0925—V83-P1024）。
+- 表示转义把有来源的状态、信息或模型表达经具名转换者/规则重写到目标尺度、圈层、任务或词汇系统，并必须保留父记录和来源谱系；载荷主要是语言、制度文本或解释时称表述转义（V83-P0554—V83-P0557）。
+- 转义、尺度变换和圈层关系变换不能互相替代；转义还要登记折叠、遗漏、新增解释、歧义、回返、目标侧复核、有效期和撤回条件（V83-P0011、V83-P1049、V83-P1052、V83-P1076—V83-P1079）。
 
 ## 解释层（非原文定义）
 
@@ -96,16 +96,16 @@ universal-primitives.md、root-evidence-contracts.md、event-and-recursive-infer
 
 ## source_undefined
 
-具体九轴取值、算子参数、误差阈值和领域桥接证据不由 v8.2 自动提供。
+具体九轴取值、算子参数、误差阈值和领域桥接证据不由 v8.3 自动提供。
 
 ## 原文定义区段
 
 本卡的权威定义必须与无损阅读版连续联读；以下锚点是定位索引，不是删减后的替代文本。运行时先完整读取 21 卷，再回到这些锚点核对相邻段落、表格和适用边界。
 
-- `V82-P0011`, `V82-P0352`, `V82-P0512`, `V82-P0513`, `V82-P0535`, `V82-P0554`, `V82-P0555`, `V82-P0556`, `V82-P0557`, `V82-P0868`, `V82-P0915`, `V82-P0924`, `V82-P0925`, `V82-P0926`, `V82-P0932`, `V82-P0935`, `V82-P0937`, `V82-P0943`, `V82-P0945`, `V82-P0947`, `V82-P0950`, `V82-P0952`, `V82-P0955`, `V82-P0957`, `V82-P0966`, `V82-P1024`, `V82-P1027`, `V82-P1049`, `V82-P1052`, `V82-P1076`, `V82-P1077`, `V82-P1078`, `V82-P1079`, `V82-P1920`
+- `V83-P0011`, `V83-P0352`, `V83-P0512`, `V83-P0513`, `V83-P0535`, `V83-P0554`, `V83-P0555`, `V83-P0556`, `V83-P0557`, `V83-P0868`, `V83-P0915`, `V83-P0924`, `V83-P0925`, `V83-P0926`, `V83-P0932`, `V83-P0935`, `V83-P0937`, `V83-P0943`, `V83-P0945`, `V83-P0947`, `V83-P0950`, `V83-P0952`, `V83-P0955`, `V83-P0957`, `V83-P0966`, `V83-P1024`, `V83-P1027`, `V83-P1049`, `V83-P1052`, `V83-P1076`, `V83-P1077`, `V83-P1078`, `V83-P1079`, `V83-P1920`
 
 ## 必须联读的邻接概念
 
-- `V82-CANON-CORE-D0-OBJECT`：`references/ontology/cards/foundation-boundary/core-boundary-contracts.md`
+- `V83-CANON-CORE-D0-OBJECT`：`references/ontology/cards/foundation-boundary/core-boundary-contracts.md`
 
-- `V82-CANON-CORE-EVIDENCE-CONTRACT`：`references/ontology/cards/foundation-boundary/claim-roles-and-missing-states.md`
+- `V83-CANON-CORE-EVIDENCE-CONTRACT`：`references/ontology/cards/foundation-boundary/claim-roles-and-missing-states.md`

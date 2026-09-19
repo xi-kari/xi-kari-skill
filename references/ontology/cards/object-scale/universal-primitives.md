@@ -1,7 +1,7 @@
 ---
-id: V82-CANON-CORE-U01
-covered_ids: V82-CANON-CORE-U01,V82-CANON-CORE-U02,V82-CANON-CORE-U03,V82-CANON-CORE-U04,V82-CANON-CORE-U05,V82-CANON-CORE-U06,V82-CANON-CORE-U07,V82-CANON-CORE-U08,V82-CANON-CORE-U09,V82-CANON-CORE-U10,V82-CANON-CORE-U11
-source_authority: v8.2
+id: V83-CANON-CORE-U01
+covered_ids: V83-CANON-CORE-U01,V83-CANON-CORE-U02,V83-CANON-CORE-U03,V83-CANON-CORE-U04,V83-CANON-CORE-U05,V83-CANON-CORE-U06,V83-CANON-CORE-U07,V83-CANON-CORE-U08,V83-CANON-CORE-U09,V83-CANON-CORE-U10,V83-CANON-CORE-U11
+source_authority: v8.3
 card_kind: shared
 ---
 
@@ -13,7 +13,7 @@ U01—U11 是最小描述接口，不是“万物同构”公理。每个原语�
 
 ## 原文锚点
 
-- V82-P0524、V82-P0558—V82-P0584：D0—D3、U01—U11 与最小闭合
+- V83-P0524、V83-P0558—V83-P0584：D0—D3、U01—U11 与最小闭合
 
 ## 权威定义
 
@@ -37,7 +37,7 @@ U01—U11 是最小描述接口，不是“万物同构”公理。每个原语�
 
 - 每次调用明确对象、尺度、时间窗、观察位置和用途。
 - 只有与当前问题有通道联系的原语才进入局部模型。
-- 缺失字段按 v8.2 的四种缺失状态记录，而不是猜测补齐。
+- 缺失字段按 v8.3 的四种缺失状态记录，而不是猜测补齐。
 
 ## 允许推论
 
@@ -95,10 +95,10 @@ core-boundary-contracts.md、root-evidence-contracts.md、scale-profiles-and-ope
 
 本卡的权威定义必须与无损阅读版连续联读；以下锚点是定位索引，不是删减后的替代文本。运行时先完整读取 21 卷，再回到这些锚点核对相邻段落、表格和适用边界。
 
-- `V82-P0559`, `V82-P0562`, `V82-P0564`, `V82-P0566`, `V82-P0568`, `V82-P0570`, `V82-P0572`, `V82-P0574`, `V82-P0576`, `V82-P0578`, `V82-P0580`, `V82-P0583`, `V82-P0584`
+- `V83-P0559`, `V83-P0562`, `V83-P0564`, `V83-P0566`, `V83-P0568`, `V83-P0570`, `V83-P0572`, `V83-P0574`, `V83-P0576`, `V83-P0578`, `V83-P0580`, `V83-P0583`, `V83-P0584`
 
 ## 必须联读的邻接概念
 
-- `V82-CANON-CORE-D0-OBJECT`：`references/ontology/cards/foundation-boundary/core-boundary-contracts.md`
+- `V83-CANON-CORE-D0-OBJECT`：`references/ontology/cards/foundation-boundary/core-boundary-contracts.md`
 
-- `V82-CANON-CORE-EVIDENCE-CONTRACT`：`references/ontology/cards/foundation-boundary/claim-roles-and-missing-states.md`
+- `V83-CANON-CORE-EVIDENCE-CONTRACT`：`references/ontology/cards/foundation-boundary/claim-roles-and-missing-states.md`

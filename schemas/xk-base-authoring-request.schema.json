@@ -1,27 +1,35 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://xi-kari.local/schemas/xi-kari.v2.base-authoring-request.schema.json",
-  "title": "Xi-Kari v2 runtime base authoring request",
+  "$id": "https://xi-kari.local/schemas/xi-kari.v3.base-authoring-request.schema.json",
+  "title": "Xi-Kari v3 runtime base authoring request",
   "type": "object",
   "additionalProperties": false,
   "required": ["schema_id", "schema_version", "protocol", "run_id", "mode", "problem_contract", "privacy_contract", "source_inputs"],
   "properties": {
-    "schema_id": {"const": "xi-kari.v2.base-authoring-request"},
+    "schema_id": {"const": "xi-kari.v3.base-authoring-request"},
     "schema_version": {"const": 1},
-    "protocol": {"const": "xi-kari.v2.base-authoring/v1"},
+    "protocol": {"const": "xi-kari.v3.base-authoring/v1"},
     "run_id": {"type": "string", "minLength": 1},
     "mode": {"enum": ["open-world", "closed-input"]},
     "problem_contract": {"type": "object"},
     "privacy_contract": {"$ref": "#/$defs/privacyContract"},
+    "contract_authoring_binding": {
+      "type": "object", "additionalProperties": false,
+      "required": ["receipt_sha256", "problem_contract_sha256"],
+      "properties": {
+        "receipt_sha256": {"$ref": "#/$defs/sha256"},
+        "problem_contract_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
     "natural_request": {
-      "$ref": "https://xi-kari.local/schemas/xi-kari.v2.natural-request.schema.json"
+      "$ref": "https://xi-kari.local/schemas/xi-kari.v3.natural-request.schema.json"
     },
     "source_inputs": {
       "type": "object",
       "additionalProperties": false,
       "required": ["source_version", "repository_root", "reader_root", "source_manifest_path", "source_lock", "read_plan", "concept_authority", "ontology_root", "ontology_read_plan", "base_provider_binding"],
       "properties": {
-        "source_version": {"const": "v8.2"},
+        "source_version": {"const": "v8.3"},
         "repository_root": {"type": "string", "minLength": 1},
         "reader_root": {"type": "string", "minLength": 1},
         "source_manifest_path": {"type": "string", "minLength": 1},
@@ -129,13 +137,13 @@
         "item_id_protocol"
       ],
       "properties": {
-        "schema_id": {"const": "xi-kari.v2.ontology-read-plan-binding"},
+        "schema_id": {"const": "xi-kari.v3.ontology-read-plan-binding"},
         "schema_version": {"const": 1},
         "run_id": {"type": "string", "minLength": 1},
         "problem_contract_sha256": {"$ref": "#/$defs/sha256"},
         "content_access_challenge": {"$ref": "#/$defs/sha256"},
         "proof_kind": {"const": "byte-access+problem-bound-semantic-trace"},
-        "witness_protocol": {"const": "xi-kari.v2.ontology-content-witness/v1"},
+        "witness_protocol": {"const": "xi-kari.v3.ontology-content-witness/v1"},
         "authority_bindings": {
           "type": "object",
           "additionalProperties": false,

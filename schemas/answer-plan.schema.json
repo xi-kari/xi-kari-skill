@@ -64,7 +64,7 @@
       }
     },
     "source_refs": { "type": "array", "items": { "type": "string" } },
-    "v82_anchors": { "type": "array", "items": { "type": "string" } },
+    "v83_anchors": { "type": "array", "items": { "type": "string" } },
     "audit_requested": { "type": "boolean", "default": false }
   },
   "allOf": [

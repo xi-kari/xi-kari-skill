@@ -1,12 +1,12 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://xi-kari.local/schemas/xi-kari.v2.semantic-coverage.schema.json",
-  "title": "Xi-Kari v2 semantic reader coverage",
+  "$id": "https://xi-kari.local/schemas/xi-kari.v3.semantic-coverage.schema.json",
+  "title": "Xi-Kari v3 semantic reader coverage",
   "type": "object",
   "additionalProperties": false,
-  "required": ["schema_id", "schema_version", "run_id", "dynamic_applicability", "not_applicable_reason", "conclusion_units", "typed_atom_ledger", "projection_checks", "reader_trace", "stance_projection", "unprojected_unit_ids", "source_read_complete", "candidate_closure_complete", "main_answer_complete", "reader_projection_complete"],
+  "required": ["schema_id", "schema_version", "run_id", "dynamic_applicability", "not_applicable_reason", "conclusion_units", "typed_atom_ledger", "projection_checks", "reader_trace", "stance_projection", "unprojected_unit_ids", "source_read_complete", "candidate_closure_complete", "main_answer_complete", "reader_projection_complete", "substantive_unprojected_paths", "reader_section_errors"],
   "properties": {
-    "schema_id": {"const": "xi-kari.v2.semantic-coverage"},
+    "schema_id": {"const": "xi-kari.v3.semantic-coverage"},
     "schema_version": {"const": 3},
     "run_id": {"type": "string"},
     "dynamic_applicability": {"enum": ["applicable", "not_applicable"]},
@@ -64,7 +64,7 @@
       "additionalProperties": false,
       "required": ["schema_id", "schema_version", "run_id", "outputs", "entries", "missing_renderer_fragments"],
       "properties": {
-        "schema_id": {"const": "xi-kari.v2.reader-trace"},
+        "schema_id": {"const": "xi-kari.v3.reader-trace"},
         "schema_version": {"const": 3},
         "run_id": {"type": "string", "minLength": 1},
         "outputs": {
@@ -121,6 +121,8 @@
       }
     },
     "unprojected_unit_ids": {"type": "array", "maxItems": 0},
+    "substantive_unprojected_paths": {"type": "array", "maxItems": 0, "items": {"type": "string"}},
+    "reader_section_errors": {"type": "array", "maxItems": 0, "items": {"type": "string"}},
     "source_read_complete": {"const": true},
     "candidate_closure_complete": {"const": true},
     "main_answer_complete": {"const": true},

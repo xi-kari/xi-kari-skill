@@ -1,90 +1,323 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://xi-kari.local/schemas/xi-kari.v2.base-authoring-output.schema.json",
-  "title": "Xi-Kari v2 runtime-owned base authoring envelope",
+  "$id": "https://xi-kari.local/schemas/xi-kari.v3.base-authoring-output.schema.json",
+  "title": "Xi-Kari v3 runtime-owned base authoring envelope",
   "type": "object",
   "additionalProperties": false,
-  "required": ["semantic_packet", "semantic_read_trace", "ontology_read_trace"],
+  "required": [
+    "semantic_packet",
+    "semantic_read_trace",
+    "ontology_read_trace"
+  ],
   "properties": {
     "semantic_packet": {
       "type": "object",
       "additionalProperties": false,
       "required": [
-        "problem_contract", "dynamic_applicability", "facts", "case_ledger",
-        "cases", "answer", "visibility_ledger", "retrieval", "evidence"
+        "problem_contract",
+        "dynamic_applicability",
+        "facts",
+        "case_ledger",
+        "cases",
+        "answer",
+        "visibility_ledger",
+        "retrieval",
+        "evidence",
+        "deliverable_type",
+        "reader_sections"
       ],
       "properties": {
-        "problem_contract": {"type": "object"},
-        "dynamic_applicability": {"enum": ["applicable", "not_applicable"]},
-        "facts": {"type": "object"},
-        "case_ledger": {"type": "object"},
-        "cases": {"type": "array"},
-        "answer": {"type": "object"},
-        "local_world_model": {"type": "object"},
-        "transformation_ledger": {"type": "object"},
-        "cascade": {"type": "object"},
-        "claim_mechanism_graph": {"type": "object"},
-        "recursive_lineage": {"type": "object"},
-        "recursive_states": {"type": "object"},
-        "order_evaluation": {"type": "object"},
-        "red_team": {"type": "object"},
-        "stance_pair": {"type": "object"},
-        "verdict": {"type": "object"},
-        "action_ranking": {"type": "object"},
-        "forecast": {"type": "object"},
-        "framework_gap": {"type": "object"},
-        "mechanisms": {"type": "array"},
-        "orders": {"type": "array"},
-        "not_applicable_reason": {"type": "string", "minLength": 1},
+        "problem_contract": {
+          "type": "object"
+        },
+        "dynamic_applicability": {
+          "enum": [
+            "applicable",
+            "not_applicable"
+          ]
+        },
+        "facts": {
+          "type": "object"
+        },
+        "case_ledger": {
+          "type": "object"
+        },
+        "cases": {
+          "type": "array"
+        },
+        "answer": {
+          "type": "object"
+        },
+        "local_world_model": {
+          "type": "object"
+        },
+        "transformation_ledger": {
+          "type": "object"
+        },
+        "cascade": {
+          "type": "object"
+        },
+        "claim_mechanism_graph": {
+          "type": "object"
+        },
+        "recursive_lineage": {
+          "type": "object"
+        },
+        "recursive_states": {
+          "type": "object"
+        },
+        "order_evaluation": {
+          "type": "object"
+        },
+        "red_team": {
+          "type": "object"
+        },
+        "stance_pair": {
+          "type": "object"
+        },
+        "verdict": {
+          "type": "object"
+        },
+        "action_ranking": {
+          "type": "object"
+        },
+        "forecast": {
+          "type": "object"
+        },
+        "framework_gap": {
+          "type": "object"
+        },
+        "mechanisms": {
+          "type": "array"
+        },
+        "orders": {
+          "type": "array"
+        },
+        "not_applicable_reason": {
+          "type": "string",
+          "minLength": 1
+        },
         "visibility_ledger": {
           "type": "object",
           "additionalProperties": false,
-          "required": ["entries"],
+          "required": [
+            "entries"
+          ],
           "properties": {
             "entries": {
               "type": "array",
               "minItems": 1,
-              "items": {"$ref": "#/$defs/visibilityEntry"}
+              "items": {
+                "$ref": "#/$defs/visibilityEntry"
+              }
             }
           }
         },
-        "retrieval": {"$ref": "#/$defs/modelRetrieval"},
-        "evidence": {"type": "object"}
+        "retrieval": {
+          "$ref": "#/$defs/modelRetrieval"
+        },
+        "evidence": {
+          "type": "object"
+        },
+        "deliverable_type": {
+          "enum": [
+            "analysis",
+            "decision",
+            "charter",
+            "plan",
+            "critique"
+          ]
+        },
+        "reader_sections": {
+          "title": "Xi-Kari complete authored reader sections",
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "section_id",
+              "heading",
+              "local_judgment",
+              "paragraphs",
+              "source_bindings"
+            ],
+            "properties": {
+              "section_id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "heading": {
+                "type": "string",
+                "minLength": 1
+              },
+              "local_judgment": {
+                "type": "string",
+                "minLength": 1
+              },
+              "paragraphs": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "source_bindings": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "source_path",
+                    "paragraph_index",
+                    "excerpt"
+                  ],
+                  "properties": {
+                    "source_path": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "paragraph_index": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "description": "0 denotes local_judgment; 1 through N denote paragraphs[0] through paragraphs[N-1]."
+                    },
+                    "excerpt": {
+                      "type": "string",
+                      "minLength": 1,
+                      "description": "A real excerpt of the indexed paragraph that retains the substantive source value; a link, marker or summary cannot stand in for the argument."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "answer_delivery": {
+          "type": [
+            "object",
+            "null"
+          ]
+        }
       },
       "allOf": [
         {
           "if": {
-            "properties": {"dynamic_applicability": {"const": "applicable"}},
-            "required": ["dynamic_applicability"]
+            "properties": {
+              "dynamic_applicability": {
+                "const": "applicable"
+              }
+            },
+            "required": [
+              "dynamic_applicability"
+            ]
           },
           "then": {
             "required": [
-              "local_world_model", "transformation_ledger", "cascade",
-              "claim_mechanism_graph", "recursive_lineage", "recursive_states",
-              "order_evaluation", "red_team", "stance_pair", "verdict",
-              "action_ranking", "forecast", "framework_gap", "mechanisms", "orders"
+              "local_world_model",
+              "transformation_ledger",
+              "cascade",
+              "claim_mechanism_graph",
+              "recursive_lineage",
+              "recursive_states",
+              "order_evaluation",
+              "red_team",
+              "stance_pair",
+              "verdict",
+              "action_ranking",
+              "forecast",
+              "framework_gap",
+              "mechanisms",
+              "orders"
             ],
-            "not": {"required": ["not_applicable_reason"]}
+            "not": {
+              "required": [
+                "not_applicable_reason"
+              ]
+            }
           },
           "else": {
-            "required": ["not_applicable_reason"],
+            "required": [
+              "not_applicable_reason"
+            ],
             "not": {
               "anyOf": [
-                {"required": ["local_world_model"]},
-                {"required": ["transformation_ledger"]},
-                {"required": ["cascade"]},
-                {"required": ["claim_mechanism_graph"]},
-                {"required": ["recursive_lineage"]},
-                {"required": ["recursive_states"]},
-                {"required": ["order_evaluation"]},
-                {"required": ["red_team"]},
-                {"required": ["stance_pair"]},
-                {"required": ["verdict"]},
-                {"required": ["action_ranking"]},
-                {"required": ["forecast"]},
-                {"required": ["framework_gap"]},
-                {"required": ["mechanisms"]},
-                {"required": ["orders"]}
+                {
+                  "required": [
+                    "local_world_model"
+                  ]
+                },
+                {
+                  "required": [
+                    "transformation_ledger"
+                  ]
+                },
+                {
+                  "required": [
+                    "cascade"
+                  ]
+                },
+                {
+                  "required": [
+                    "claim_mechanism_graph"
+                  ]
+                },
+                {
+                  "required": [
+                    "recursive_lineage"
+                  ]
+                },
+                {
+                  "required": [
+                    "recursive_states"
+                  ]
+                },
+                {
+                  "required": [
+                    "order_evaluation"
+                  ]
+                },
+                {
+                  "required": [
+                    "red_team"
+                  ]
+                },
+                {
+                  "required": [
+                    "stance_pair"
+                  ]
+                },
+                {
+                  "required": [
+                    "verdict"
+                  ]
+                },
+                {
+                  "required": [
+                    "action_ranking"
+                  ]
+                },
+                {
+                  "required": [
+                    "forecast"
+                  ]
+                },
+                {
+                  "required": [
+                    "framework_gap"
+                  ]
+                },
+                {
+                  "required": [
+                    "mechanisms"
+                  ]
+                },
+                {
+                  "required": [
+                    "orders"
+                  ]
+                }
               ]
             }
           }
@@ -92,117 +325,274 @@
       ]
     },
     "semantic_read_trace": {
-      "$ref": "https://xi-kari.local/schemas/xi-kari.v2.semantic-read-trace-input.schema.json"
+      "$ref": "https://xi-kari.local/schemas/xi-kari.v3.semantic-read-trace-input.schema.json"
     },
     "ontology_read_trace": {
-      "$ref": "https://xi-kari.local/schemas/xi-kari.v2.ontology-read-trace-input.schema.json"
+      "$ref": "https://xi-kari.local/schemas/xi-kari.v3.ontology-read-trace-input.schema.json"
     }
   },
   "$defs": {
     "schema_marker": {
       "type": "object",
       "properties": {
-        "schema_id": {"const": "xi-kari.v2.base-authoring-output"}
+        "schema_id": {
+          "const": "xi-kari.v3.base-authoring-output"
+        }
       }
     },
     "modelQuery": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["direction", "query", "purpose"],
+      "required": [
+        "direction",
+        "query",
+        "purpose"
+      ],
       "properties": {
-        "direction": {"type": "string", "minLength": 1},
-        "query": {"type": "string", "minLength": 1},
-        "purpose": {"type": "string", "minLength": 1}
+        "direction": {
+          "type": "string",
+          "minLength": 1
+        },
+        "query": {
+          "type": "string",
+          "minLength": 1
+        },
+        "purpose": {
+          "type": "string",
+          "minLength": 1
+        }
       }
     },
     "modelAssessment": {
       "type": "object",
       "additionalProperties": false,
       "required": [
-        "source_id", "authority", "independence", "independence_identity",
-        "source_lineage", "interest_relevance", "affected_positions",
-        "low_power_positions", "conflict_source_ids", "freshness", "relevance",
-        "verdict", "limitations", "cannot_prove"
+        "source_id",
+        "authority",
+        "independence",
+        "independence_identity",
+        "source_lineage",
+        "interest_relevance",
+        "affected_positions",
+        "low_power_positions",
+        "conflict_source_ids",
+        "freshness",
+        "relevance",
+        "verdict",
+        "limitations",
+        "cannot_prove"
       ],
       "properties": {
-        "source_id": {"type": "string", "minLength": 1},
-        "authority": {"type": "string", "minLength": 1},
-        "independence": {"type": "string", "minLength": 1},
-        "independence_identity": {"type": "string", "minLength": 1},
-        "source_lineage": {"type": "array"},
-        "interest_relevance": {"type": "string", "minLength": 1},
-        "affected_positions": {"type": "array"},
-        "low_power_positions": {"type": "array"},
-        "conflict_source_ids": {"type": "array"},
-        "freshness": {"type": "string", "minLength": 1},
-        "relevance": {"type": "string", "minLength": 1},
-        "verdict": {"type": "string", "minLength": 1},
-        "limitations": {"type": "array"},
-        "cannot_prove": {"type": "array"}
+        "source_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "authority": {
+          "type": "string",
+          "minLength": 1
+        },
+        "independence": {
+          "type": "string",
+          "minLength": 1
+        },
+        "independence_identity": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_lineage": {
+          "type": "array"
+        },
+        "interest_relevance": {
+          "type": "string",
+          "minLength": 1
+        },
+        "affected_positions": {
+          "type": "array"
+        },
+        "low_power_positions": {
+          "type": "array"
+        },
+        "conflict_source_ids": {
+          "type": "array"
+        },
+        "freshness": {
+          "type": "string",
+          "minLength": 1
+        },
+        "relevance": {
+          "type": "string",
+          "minLength": 1
+        },
+        "verdict": {
+          "type": "string",
+          "minLength": 1
+        },
+        "limitations": {
+          "type": "array"
+        },
+        "cannot_prove": {
+          "type": "array"
+        }
       }
     },
     "openModelSource": {
       "type": "object",
       "additionalProperties": false,
       "required": [
-        "source_id", "origin", "title", "url", "publisher", "content",
-        "published_at", "event_at"
+        "source_id",
+        "origin",
+        "title",
+        "url",
+        "publisher",
+        "content",
+        "published_at",
+        "event_at"
       ],
       "properties": {
-        "source_id": {"type": "string", "minLength": 1},
-        "origin": {"const": "external"},
-        "title": {"type": "string", "minLength": 1},
-        "url": {"type": "string", "minLength": 1},
-        "publisher": {"type": "string", "minLength": 1},
-        "content": {"type": "string", "minLength": 1},
-        "published_at": {"type": "string", "minLength": 1},
-        "event_at": {"type": "string", "minLength": 1}
+        "source_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "origin": {
+          "const": "external"
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1
+        },
+        "url": {
+          "type": "string",
+          "minLength": 1
+        },
+        "publisher": {
+          "type": "string",
+          "minLength": 1
+        },
+        "content": {
+          "type": "string",
+          "minLength": 1
+        },
+        "published_at": {
+          "type": "string",
+          "minLength": 1
+        },
+        "event_at": {
+          "type": "string",
+          "minLength": 1
+        }
       }
     },
     "closedModelSource": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["source_id", "origin", "title", "content"],
+      "required": [
+        "source_id",
+        "origin",
+        "title",
+        "content"
+      ],
       "properties": {
-        "source_id": {"type": "string", "minLength": 1},
-        "origin": {"type": "string", "minLength": 1},
-        "title": {"type": "string", "minLength": 1},
-        "content": {"type": "string", "minLength": 1},
-        "published_at": {"type": "string", "minLength": 1},
-        "event_at": {"type": "string", "minLength": 1}
+        "source_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "origin": {
+          "type": "string",
+          "minLength": 1
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1
+        },
+        "content": {
+          "type": "string",
+          "minLength": 1
+        },
+        "published_at": {
+          "type": "string",
+          "minLength": 1
+        },
+        "event_at": {
+          "type": "string",
+          "minLength": 1
+        }
       }
     },
     "modelRetrieval": {
       "type": "object",
       "additionalProperties": false,
       "required": [
-        "mode", "queries", "sources", "assessments", "saturation_status",
-        "capability_gap", "remaining_unknowns"
+        "mode",
+        "queries",
+        "sources",
+        "assessments",
+        "saturation_status",
+        "capability_gap",
+        "remaining_unknowns"
       ],
       "properties": {
-        "mode": {"enum": ["open-world", "closed-input"]},
+        "mode": {
+          "enum": [
+            "open-world",
+            "closed-input"
+          ]
+        },
         "queries": {
-          "type": "array", "minItems": 1, "items": {"$ref": "#/$defs/modelQuery"}
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/modelQuery"
+          }
         },
-        "sources": {"type": "array", "minItems": 1},
+        "sources": {
+          "type": "array",
+          "minItems": 1
+        },
         "assessments": {
-          "type": "array", "minItems": 1, "items": {"$ref": "#/$defs/modelAssessment"}
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/modelAssessment"
+          }
         },
-        "saturation_status": {"type": "string", "minLength": 1},
-        "capability_gap": {"type": "string", "minLength": 1},
-        "remaining_unknowns": {"type": "array", "items": {"type": "string"}}
+        "saturation_status": {
+          "type": "string",
+          "minLength": 1
+        },
+        "capability_gap": {
+          "type": "string",
+          "minLength": 1
+        },
+        "remaining_unknowns": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
       },
       "oneOf": [
         {
           "properties": {
-            "mode": {"const": "open-world"},
-            "sources": {"items": {"$ref": "#/$defs/openModelSource"}}
+            "mode": {
+              "const": "open-world"
+            },
+            "sources": {
+              "items": {
+                "$ref": "#/$defs/openModelSource"
+              }
+            }
           }
         },
         {
           "properties": {
-            "mode": {"const": "closed-input"},
-            "sources": {"items": {"$ref": "#/$defs/closedModelSource"}}
+            "mode": {
+              "const": "closed-input"
+            },
+            "sources": {
+              "items": {
+                "$ref": "#/$defs/closedModelSource"
+              }
+            }
           }
         }
       ]
@@ -210,24 +600,85 @@
     "visibilityEntry": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["canonical_path", "classification", "disclosure", "purpose", "authority_refs", "protection_reason"],
+      "required": [
+        "canonical_path",
+        "classification",
+        "disclosure",
+        "purpose",
+        "authority_refs",
+        "protection_reason"
+      ],
       "properties": {
-        "canonical_path": {"type": "string", "minLength": 1},
-        "classification": {"enum": ["public", "context_limited", "sensitive", "highly_sensitive", "refused_disclosure"]},
-        "disclosure": {"enum": ["include", "withhold"]},
-        "purpose": {"type": "string", "minLength": 1},
-        "authority_refs": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
-        "protection_reason": {"type": ["string", "null"], "description": "Non-sensitive withholding basis. It must not restate the protected atom's raw value; runtime validation enforces that relationship."}
+        "canonical_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "classification": {
+          "enum": [
+            "public",
+            "context_limited",
+            "sensitive",
+            "highly_sensitive",
+            "refused_disclosure"
+          ]
+        },
+        "disclosure": {
+          "enum": [
+            "include",
+            "withhold"
+          ]
+        },
+        "purpose": {
+          "type": "string",
+          "minLength": 1
+        },
+        "authority_refs": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "protection_reason": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Non-sensitive withholding basis. It must not restate the protected atom's raw value; runtime validation enforces that relationship."
+        }
       },
       "allOf": [
         {
-          "if": {"properties": {"classification": {"const": "public"}}, "required": ["classification"]},
-          "then": {"properties": {"disclosure": {"const": "include"}}},
+          "if": {
+            "properties": {
+              "classification": {
+                "const": "public"
+              }
+            },
+            "required": [
+              "classification"
+            ]
+          },
+          "then": {
+            "properties": {
+              "disclosure": {
+                "const": "include"
+              }
+            }
+          },
           "else": {
             "properties": {
-              "disclosure": {"const": "withhold"},
-              "authority_refs": {"minItems": 1},
-              "protection_reason": {"type": "string", "minLength": 1}
+              "disclosure": {
+                "const": "withhold"
+              },
+              "authority_refs": {
+                "minItems": 1
+              },
+              "protection_reason": {
+                "type": "string",
+                "minLength": 1
+              }
             }
           }
         }

@@ -14,9 +14,9 @@ from .canonical_json import read_json, sha256_file, sha256_json
 from .contracts import PRODUCTION_CONTRACT_PROFILE
 
 
-INPUT_SCHEMA_ID = "xi-kari.v2.semantic-read-trace-input"
-ARTIFACT_SCHEMA_ID = "xi-kari.v2.semantic-read-trace"
-RECEIPT_PROTOCOL = "xi-kari.v2.semantic-read-import-receipt/v1"
+INPUT_SCHEMA_ID = "xi-kari.v3.semantic-read-trace-input"
+ARTIFACT_SCHEMA_ID = "xi-kari.v3.semantic-read-trace"
+RECEIPT_PROTOCOL = "xi-kari.v3.semantic-read-import-receipt/v1"
 MODEL_RECORD_FIELDS = frozenset(
     {
         "reader_unit",
@@ -45,7 +45,7 @@ CONTINUITY_RELATIONS = frozenset(
 PROBLEM_RELATION_STATUSES = frozenset(
     {"applied", "boundary_only", "not_applicable"}
 )
-SOURCE_ANCHOR = re.compile(r"^V82-(?:P\d{4}|T\d{3})$")
+SOURCE_ANCHOR = re.compile(r"^V83-(?:P\d{4}|T\d{3})$")
 ARTIFACT_FIELDS = frozenset(
     {
         "schema_id",
@@ -137,7 +137,7 @@ def _source_context(
     source_lock: Mapping[str, Any],
     source_events: Sequence[Mapping[str, Any]],
 ) -> tuple[Mapping[str, Any], str, list[str], dict[str, set[str]]]:
-    source_root = Path(repository_root) / "references/source/v8.2"
+    source_root = Path(repository_root) / "references/source/v8.3"
     manifest_path = source_root / "source-manifest.json"
     manifest = read_json(manifest_path)
     if not isinstance(manifest, Mapping):
@@ -209,7 +209,7 @@ def _bound_records(
         raise ValueError("semantic read trace manifest has no reader file hashes")
     output: list[dict[str, Any]] = []
     boilerplate_owners: dict[str, str] = {}
-    source_root = Path(repository_root) / "references/source/v8.2"
+    source_root = Path(repository_root) / "references/source/v8.3"
     for index, (raw_record, unit) in enumerate(
         zip(records, reader_units, strict=True)
     ):
@@ -345,7 +345,7 @@ def _bound_records(
                 "sequence": index + 1,
                 "reader_unit": unit,
                 "source_binding": {
-                    "path": f"references/source/v8.2/{source_file}",
+                    "path": f"references/source/v8.3/{source_file}",
                     "source_file": source_file,
                     "expected_sha256": expected_sha256,
                     "observed_sha256": observed_sha256,

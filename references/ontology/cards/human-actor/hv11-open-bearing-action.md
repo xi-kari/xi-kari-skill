@@ -1,17 +1,17 @@
 ---
-id: V82-CANON-HV11
+id: V83-CANON-HV11
 qualified_id: human_variable:HV11
 name: 开放性承担行动
 family: human-actor
 disposition: canonical_concept
-source_authority: v8.2
+source_authority: v8.3
 ---
 
 # HV11 开放性承担行动
 
-## 权威定义（v8.2）
+## 权威定义（v8.3）
 
-HV11 处理具有真实成本、自愿性、方向和可检测结构后果的人类行动。基础路由先登记行动、成本、强制风险和停止权缺口；只有真实拒绝与退出、替代解释和后果均可见，才登记有限开放性承担；结构后果另需 G2-instance（`V82-P1239`-`V82-P1240`）。
+HV11 处理具有真实成本、自愿性、方向和可检测结构后果的人类行动。基础路由先登记行动、成本、强制风险和停止权缺口；只有真实拒绝与退出、替代解释和后果均可见，才登记有限开放性承担；结构后果另需 G2-instance（`V83-P1239`-`V83-P1240`）。
 
 ## 允许推论
 
@@ -42,57 +42,57 @@ HV11 处理具有真实成本、自愿性、方向和可检测结构后果的人
 
 ## source_undefined
 
-v8.2 未定义“爱”“奉献”或开放性的心理测量分数；任何动机/价值数值标 `source_undefined`。
+v8.3 未定义“爱”“奉献”或开放性的心理测量分数；任何动机/价值数值标 `source_undefined`。
 
 ## 来源锚点
 
-- [v8.2 reader 07](../../../source/v8.2/reader/07-human-structured-world.md): `V82-P1190`-`V82-P1194`、`V82-P1239`-`V82-P1240`。
-- [v8.2 reader 14](../../../source/v8.2/reader/14-normative-selection.md): `V82-P2667`（规范边界由第十六部分 GOV-14 继续限定）。
-- [v8.2 reader 附录 A](../../../source/v8.2/reader/17-appendix-a-human-variable-cards.md): `V82-P4303`-`V82-P4477`。
+- [v8.3 reader 07](../../../source/v8.3/reader/07-human-structured-world.md): `V83-P1190`-`V83-P1194`、`V83-P1239`-`V83-P1240`。
+- [v8.3 reader 14](../../../source/v8.3/reader/14-normative-selection.md): `V83-P2667`（规范边界由第十六部分 GOV-14 继续限定）。
+- [v8.3 reader 附录 A](../../../source/v8.3/reader/17-appendix-a-human-variable-cards.md): `V83-P4303`-`V83-P4477`。
 
 ## 原文定义区段
 
 本卡的权威定义必须与无损阅读版连续联读；以下锚点是定位索引，不是删减后的替代文本。运行时先完整读取 21 卷，再回到这些锚点核对相邻段落、表格和适用边界。
 
-- `V82-P1190`, `V82-P1239`, `V82-P1240`, `V82-P2667`, `V82-P4303`, `V82-P4477`
+- `V83-P1190`, `V83-P1239`, `V83-P1240`, `V83-P2667`, `V83-P4303`, `V83-P4477`
 
 ## 解释层（非原文定义）
 
-本卡解释层只说明如何把人类位置、隐私、责任和主体性字段接入局部世界模型；它不是 v8.2 原文定义，也不把模型分类升级为人格、事实或授权。
+本卡解释层只说明如何把人类位置、隐私、责任和主体性字段接入局部世界模型；它不是 v8.3 原文定义，也不把模型分类升级为人格、事实或授权。
 
 ## 必须联读的邻接概念
 
-- `V82-CANON-ACTOR-SNAPSHOT`：`references/ontology/cards/human-actor/actor-state-snapshot.md`
+- `V83-CANON-ACTOR-SNAPSHOT`：`references/ontology/cards/human-actor/actor-state-snapshot.md`
 
-- `V82-CANON-DUAL-CONDITIONS`：`references/ontology/cards/human-actor/dual-conditions-privacy.md`
+- `V83-CANON-DUAL-CONDITIONS`：`references/ontology/cards/human-actor/dual-conditions-privacy.md`
 
-- `V82-CANON-H1`：`references/ontology/cards/human-actor/h1-h6-boundaries.md`
+- `V83-CANON-H1`：`references/ontology/cards/human-actor/h1-h6-boundaries.md`
 
-- `V82-CANON-H2`：`references/ontology/cards/human-actor/h1-h6-boundaries.md`
+- `V83-CANON-H2`：`references/ontology/cards/human-actor/h1-h6-boundaries.md`
 
-- `V82-CANON-H3`：`references/ontology/cards/human-actor/h1-h6-boundaries.md`
+- `V83-CANON-H3`：`references/ontology/cards/human-actor/h1-h6-boundaries.md`
 
-- `V82-CANON-H4`：`references/ontology/cards/human-actor/h1-h6-boundaries.md`
+- `V83-CANON-H4`：`references/ontology/cards/human-actor/h1-h6-boundaries.md`
 
-- `V82-CANON-H5`：`references/ontology/cards/human-actor/h1-h6-boundaries.md`
+- `V83-CANON-H5`：`references/ontology/cards/human-actor/h1-h6-boundaries.md`
 
-- `V82-CANON-H6`：`references/ontology/cards/human-actor/h1-h6-boundaries.md`
+- `V83-CANON-H6`：`references/ontology/cards/human-actor/h1-h6-boundaries.md`
 
-- `V82-CANON-HV01`：`references/ontology/cards/human-actor/hv01-structure-domain.md`
+- `V83-CANON-HV01`：`references/ontology/cards/human-actor/hv01-structure-domain.md`
 
-- `V82-CANON-HV02`：`references/ontology/cards/human-actor/hv02-boundary-interface.md`
+- `V83-CANON-HV02`：`references/ontology/cards/human-actor/hv02-boundary-interface.md`
 
-- `V82-CANON-HV03`：`references/ontology/cards/human-actor/hv03-pointing-anchor.md`
+- `V83-CANON-HV03`：`references/ontology/cards/human-actor/hv03-pointing-anchor.md`
 
-- `V82-CANON-HV04`：`references/ontology/cards/human-actor/hv04-generation-node.md`
+- `V83-CANON-HV04`：`references/ontology/cards/human-actor/hv04-generation-node.md`
 
-- `V82-CANON-HV05`：`references/ontology/cards/human-actor/hv05-carrying-layer.md`
+- `V83-CANON-HV05`：`references/ontology/cards/human-actor/hv05-carrying-layer.md`
 
-- `V82-CANON-HV06`：`references/ontology/cards/human-actor/hv06-drive-to-carry-chain.md`
+- `V83-CANON-HV06`：`references/ontology/cards/human-actor/hv06-drive-to-carry-chain.md`
 
-- `V82-CANON-HV07`：`references/ontology/cards/human-actor/hv07-feedback-writeback.md`
+- `V83-CANON-HV07`：`references/ontology/cards/human-actor/hv07-feedback-writeback.md`
 
-- `V82-CANON-HV08`：`references/ontology/cards/human-actor/hv08-condition-field.md`
+- `V83-CANON-HV08`：`references/ontology/cards/human-actor/hv08-condition-field.md`
 
 ## 撤回条件
 

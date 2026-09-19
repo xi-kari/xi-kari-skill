@@ -6,6 +6,7 @@ from collections.abc import Mapping, Sequence
 from copy import deepcopy
 from dataclasses import dataclass
 import re
+import unicodedata
 from typing import Any
 
 
@@ -164,6 +165,32 @@ _FIELD_LABELS = {
     "writeback": "制度或状态写回",
 }
 _ENUM_LABELS = {
+    "recommended": "建议优先采用，尚未取得执行授权",
+    "selected": "已获准采用",
+    "not-requested": "本题没有请求方案选择",
+    "analysis_only": "仅形成分析建议",
+    "primary": "主要解释",
+    "supplementary": "补充解释",
+    "background": "背景条件",
+    "unresolved": "目前无法区分",
+    "excluded": "已排除",
+    "not-applicable": "不适用",
+    "not_applicable": "不适用",
+    "applicable": "适用",
+    "undecidable": "现有材料不足以裁定",
+    "blocking": "阻断所依赖的判断",
+    "limiting": "限制判断范围或强度",
+    "local": "局部范围",
+    "global": "全部相关命题",
+    "available": "可用",
+    "unavailable": "尚不可得",
+    "conflicted": "相互冲突",
+    "invalidated": "已经失效",
+    "position": "选择第一立场",
+    "counterposition": "选择对立立场",
+    "undecided": "尚未定选",
+    "simple-baseline": "简单基线",
+    "not_run": "没有开展",
     "active": "启用",
     "bounded": "有限成立",
     "circle-relation": "圈层关系变换",
@@ -226,6 +253,7 @@ _DELIVERY_VISIBILITY_ROOTS = (
     "verdict",
     "action_ranking",
     "forecast",
+    "framework_gap",
     "mechanisms",
     "orders",
     "answer",
@@ -868,6 +896,7 @@ def redact_payload_for_delivery(payload: Mapping[str, Any]) -> dict[str, Any]:
     """Apply explicit withholding decisions before any delivery renderer runs."""
 
     validate_visibility_ledger(payload)
+    validate_reader_section_privacy(payload)
     sanitized = deepcopy(dict(payload))
     for path, entry in _visibility_entries(payload).items():
         if entry.get("disclosure") != "withhold":
@@ -1691,6 +1720,206 @@ def render_semantic_projection(payload: Mapping[str, Any]) -> str:
     return "\n\n".join(chunks)
 
 
+_AUDIT_LEAF_KEYS = {
+    "run_id", "source_path", "assessment_path", "content_path",
+    "content_authority", "capture_id", "retrieved_at", "accessed_at",
+    "url", "schema_id", "schema_version", "source_version", "source_count",
+    "all_sources_assessed", "reader_sections", "input_packet_sha256",
+}
+_AUDIT_PATH_PREFIXES = (
+    "retrieval.queries", "retrieval.frozen_material_manifest", "retrieval.directional_evidence",
+    "retrieval.execution_receipt", "retrieval.host_event_stream",
+)
+_AUDIT_CONTRACT_FIELDS = {
+    "question", "retrieval_profile", "requested_stance", "problem_action",
+    "advice_requested", "dynamic_applicability", "deliverable_type",
+}
+_SUMMARY_SUBSTITUTE = re.compile(r"(?:已省略|其余.{0,10}见|详见附件|不再展开|仅保留结论|覆盖标记|coverage.marker)", re.I)
+_LINK = re.compile(r"!?\[[^\]]*\]\([^)]*\)")
+
+
+def _is_summary_substitution(text: str) -> bool:
+    return _SUMMARY_SUBSTITUTE.fullmatch(_LINK.sub("", text).strip().rstrip("。.!")) is not None
+
+
+def substantive_semantic_atoms(payload: Mapping[str, Any]) -> list[dict[str, Any]]:
+    """Enumerate analysis content without using relevance to the main conclusion as a filter."""
+
+    result: list[dict[str, Any]] = []
+    for atom in typed_semantic_atoms(payload):
+        path = atom["canonical_path"]
+        key = re.sub(r"\[\d+\]$", "", path.rsplit(".", 1)[-1])
+        if re.fullmatch(r"retrieval\.sources\[\d+\]\.(?:content|raw_content)", path):
+            continue
+        if re.match(r"^retrieval\.sources\[\d+\]\.host_observation(?:\.|\[|$)", path):
+            continue
+        if key in _AUDIT_LEAF_KEYS or key.endswith(("_sha256", "_hash")):
+            continue
+        if path.startswith(_AUDIT_PATH_PREFIXES):
+            continue
+        if path.startswith("problem_contract.") and key in _AUDIT_CONTRACT_FIELDS:
+            continue
+        if path in {"retrieval.mode", "retrieval.saturation_status"}:
+            continue
+        # An object's own opaque key is a lookup handle. Relationship endpoints,
+        # support references, verdicts and typed unknowns remain substantive.
+        if key.endswith("_id") and key not in {
+            "from_position_id", "to_position_id", "parent_circle_id", "blocked_by_node_id",
+            "central_claim_id", "preferred_option_id", "second_option_id",
+            "best_explanation_id", "runner_up_explanation_id", "authorization_verdict_id",
+        }:
+            if not path.startswith("verdict.claim_verdicts["):
+                continue
+        result.append(atom)
+    return result
+
+
+def _content_normalized(value: str) -> str:
+    text = unicodedata.normalize("NFKC", value).replace("−", "-")
+    return re.sub(r"[\s\"“”‘’。]+", "", text).rstrip(".!?")
+
+
+def _binding_preserves_atom(atom: Mapping[str, Any], excerpt: str) -> bool:
+    """Check observable retention; independent review still judges meaning and argument quality."""
+
+    expected = str(atom.get("public_text", "")).partition("：")[2]
+    normalized = _content_normalized(expected)
+    # Exact semantic wording may be surrounded by natural argument, citations and
+    # comparisons. Punctuation changes cannot hide a missing cost or condition.
+    if not normalized:
+        return False
+    pattern = re.escape(normalized)
+    if normalized[0].isdigit():
+        pattern = r"(?<![\d.\-])" + pattern
+    if normalized[-1].isdigit():
+        pattern += r"(?![\d.])"
+    return re.search(pattern, _content_normalized(excerpt)) is not None
+
+
+def validate_reader_sections(payload: Mapping[str, Any]) -> list[str]:
+    """Validate authored body and its complete, paragraph-bound evidence of retention."""
+
+    sections = payload.get("reader_sections")
+    if not isinstance(sections, list) or not sections:
+        return ["reader_sections: complete authored body is required"]
+    atoms = {item["canonical_path"]: item for item in substantive_semantic_atoms(payload)}
+    all_atoms = {item["canonical_path"]: item for item in typed_semantic_atoms(payload)}
+    errors: list[str] = []
+    covered: set[str] = set()
+    seen: set[str] = set()
+    for index, section in enumerate(sections):
+        base = f"reader_sections[{index}]"
+        if not isinstance(section, Mapping):
+            errors.append(f"{base}: section must be an object")
+            continue
+        identifier = section.get("section_id")
+        if not isinstance(identifier, str) or not identifier.strip() or identifier in seen:
+            errors.append(f"{base}: section_id must be present and unique")
+        else:
+            seen.add(identifier)
+        paragraphs = section.get("paragraphs")
+        if not isinstance(paragraphs, list) or not paragraphs:
+            errors.append(f"{base}: a judgment alone cannot replace a developed section")
+            paragraphs = []
+        texts = [section.get("local_judgment"), *paragraphs]
+        for number, text in enumerate(texts):
+            if not isinstance(text, str) or not _LINK.sub("", text).strip():
+                errors.append(f"{base}.paragraph[{number}]: real body prose is required")
+            elif _is_summary_substitution(text):
+                errors.append(f"{base}.paragraph[{number}]: summary or appendix substitution is forbidden")
+        bindings = section.get("source_bindings")
+        if not isinstance(bindings, list):
+            errors.append(f"{base}: source_bindings must be an array")
+            continue
+        for binding in bindings:
+            if not isinstance(binding, Mapping):
+                errors.append(f"{base}: invalid source binding")
+                continue
+            path = binding.get("source_path")
+            paragraph_index = binding.get("paragraph_index")
+            excerpt = binding.get("excerpt")
+            atom = all_atoms.get(path) if isinstance(path, str) else None
+            if atom is None:
+                errors.append(f"{base}: unknown source path {path}")
+                continue
+            if atom["projection_status"] == "withheld_for_protection":
+                errors.append(f"{base}: protected value may not bind public prose: {path}")
+                continue
+            if (not isinstance(paragraph_index, int) or isinstance(paragraph_index, bool)
+                    or not 0 <= paragraph_index < len(texts)):
+                errors.append(f"{base}: invalid paragraph index for {path}")
+                continue
+            text = texts[paragraph_index]
+            if (not isinstance(excerpt, str) or not excerpt.strip() or not isinstance(text, str)
+                    or excerpt not in text or not _LINK.sub("", excerpt).strip()
+                    or _is_summary_substitution(excerpt)):
+                errors.append(f"{base}: excerpt does not occur as real body prose for {path}")
+                continue
+            if not _binding_preserves_atom(atom, excerpt):
+                errors.append(f"{base}: bound excerpt omits substantive value for {path}")
+                continue
+            covered.add(path)
+    for path, atom in atoms.items():
+        if atom["projection_status"] != "withheld_for_protection" and path not in covered:
+            errors.append(f"substantive analysis is absent from the body: {path}")
+    return errors
+
+
+def validate_reader_section_privacy(payload: Mapping[str, Any]) -> None:
+    """Reject copied protected source text in authored prose, including unbound paragraphs."""
+
+    body_parts: list[str] = []
+    bindings: list[Mapping[str, Any]] = []
+    for section in payload.get("reader_sections", []):
+        if not isinstance(section, Mapping):
+            continue
+        body_parts.extend(value for value in [section.get("heading"), section.get("local_judgment"),
+                           *section.get("paragraphs", [])] if isinstance(value, str))
+        bindings.extend(value for value in section.get("source_bindings", []) if isinstance(value, Mapping))
+    delivery = payload.get("answer_delivery", {})
+    if isinstance(delivery, Mapping) and isinstance(delivery.get("brief_text"), str):
+        body_parts.append(delivery["brief_text"])
+    body = "\n".join(body_parts)
+    for path, entry in _visibility_entries(payload).items():
+        if entry.get("disclosure") != "withhold":
+            continue
+        if any(binding.get("source_path") == path for binding in bindings):
+            raise ValueError("protected source cannot bind authored prose: " + path)
+        resolved = _resolve_path_parent(payload, path)
+        if resolved is None:
+            continue
+        parent, leaf = resolved
+        value = parent[leaf] if isinstance(parent, (list, Mapping)) else None
+        if isinstance(value, str) and value and value in body:
+            raise ValueError("authored prose contains a protected source value: " + path)
+
+
+def authored_reader_units(payload: Mapping[str, Any]) -> list[dict[str, Any]]:
+    """Bind real authored paragraphs to source atoms, keeping every section in the body."""
+
+    units: list[dict[str, Any]] = []
+    sections = payload.get("reader_sections", [])
+    if not isinstance(sections, list):
+        return units
+    for index, section in enumerate(sections):
+        if not isinstance(section, Mapping):
+            continue
+        paragraphs = [section.get("local_judgment", ""), *section.get("paragraphs", [])]
+        fragments = []
+        for paragraph_index, paragraph in enumerate(paragraphs):
+            if not isinstance(paragraph, str) or not paragraph.strip():
+                continue
+            paths = [binding["source_path"] for binding in section.get("source_bindings", [])
+                     if isinstance(binding, Mapping) and binding.get("paragraph_index") == paragraph_index
+                     and isinstance(binding.get("source_path"), str)]
+            fragments.append(_reader_fragment(paragraph, source_paths=paths))
+        unit = _reader_unit(f"reader.authored.{index + 1}", "authored_argument",
+                            str(section.get("heading", "")), fragments)
+        if unit is not None:
+            units.append(unit)
+    return units
+
+
 __all__ = (
     "INTERNAL_ID_TOKEN",
     "redact_payload_for_delivery",
@@ -1702,4 +1931,7 @@ __all__ = (
     "semantic_projection_units",
     "typed_semantic_atoms",
     "validate_visibility_ledger",
+    "substantive_semantic_atoms",
+    "validate_reader_sections",
+    "authored_reader_units",
 )

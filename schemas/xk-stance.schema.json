@@ -1,12 +1,12 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://xi-kari.local/schemas/xi-kari.v2.stance-pair.schema.json",
-  "title": "Xi-Kari v2 paired stance",
+  "$id": "https://xi-kari.local/schemas/xi-kari.v3.stance-pair.schema.json",
+  "title": "Xi-Kari v3 paired stance",
   "type": "object",
   "additionalProperties": false,
   "required": ["schema_id", "schema_version", "run_id"],
   "properties": {
-    "schema_id": {"const": "xi-kari.v2.stance-pair"},
+    "schema_id": {"const": "xi-kari.v3.stance-pair"},
     "schema_version": {"const": 3},
     "run_id": {"type": "string", "minLength": 1},
     "neutrality_key": {"type": "string", "minLength": 1},

@@ -5,7 +5,7 @@
 ## 请求与源绑定
 
 - 原始问题：
-- v8.2 source manifest / hash：
+- v8.3 source manifest / hash：
 - 21 卷读取确认：
 - 现实材料截止点与能力缺口：
 

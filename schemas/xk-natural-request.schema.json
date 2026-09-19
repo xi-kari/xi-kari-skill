@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://xi-kari.local/schemas/xi-kari.v2.natural-request.schema.json",
-  "title": "Xi-Kari v2 runtime-owned natural request envelope",
+  "$id": "https://xi-kari.local/schemas/xi-kari.v3.natural-request.schema.json",
+  "title": "Xi-Kari v3 runtime-owned natural request envelope",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -13,7 +13,7 @@
     "evidence_cutoff"
   ],
   "properties": {
-    "schema_id": {"const": "xi-kari.v2.natural-request"},
+    "schema_id": {"const": "xi-kari.v3.natural-request"},
     "schema_version": {"const": 1},
     "mode": {"enum": ["open-world", "closed-input"]},
     "text": {"type": "string", "minLength": 1, "maxLength": 65536},

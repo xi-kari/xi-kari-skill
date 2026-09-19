@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://xi-kari.local/schemas/source-manifest.schema.json",
-  "title": "Xi-Kari v8.2 source manifest",
+  "title": "Xi-Kari v8.3 source manifest",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -40,14 +40,14 @@
     "index_files"
   ],
   "properties": {
-    "schema_id": {"const": "xi-kari.v8.2.source-manifest"},
+    "schema_id": {"const": "xi-kari.v8.3.source-manifest"},
     "schema_version": {"const": 2},
-    "framework_version": {"const": "v8.2"},
-    "framework_revision": {"const": "v8.2"},
+    "framework_version": {"const": "v8.3"},
+    "framework_revision": {"const": "v8.3"},
     "raw_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
     "semantic_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
     "semantic_normalization_version": {"type": "integer", "const": 1},
-    "list_structure_sha256": {"const": "8b4a40f8559ac61c1bb8c224054de7978bb93298efbbd41f40ed065f89bab050"},
+    "list_structure_sha256": {"const": "967dd396860e4b5d246ae2e3699eb33b8ab8ee46ca12bb72959e1249216d7a5f"},
     "list_structure_normalization_version": {"type": "integer", "const": 1},
     "paragraph_count": {"type": "integer", "const": 4631},
     "list_paragraph_count": {"type": "integer", "const": 162},
@@ -80,17 +80,17 @@
       "minItems": 4753,
       "maxItems": 4753,
       "uniqueItems": true,
-      "items": {"type": "string", "pattern": "^V82-(P[0-9]{4}|T[0-9]{3})$"}
+      "items": {"type": "string", "pattern": "^V83-(P[0-9]{4}|T[0-9]{3})$"}
     },
     "source_unit_file_sha256": {
       "type": "object",
       "minProperties": 124,
       "propertyNames": {
-        "pattern": "^(audit/paragraphs\\.jsonl|audit/tables/V82-T[0-9]{3}\\.md|indexes/tables\\.json)$"
+        "pattern": "^(audit/paragraphs\\.jsonl|audit/tables/V83-T[0-9]{3}\\.md|indexes/tables\\.json)$"
       },
       "additionalProperties": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
     },
-    "non_whitespace_chars": {"type": "integer", "const": 165690},
+    "non_whitespace_chars": {"type": "integer", "const": 168241},
     "divisions": {"type": "array", "minItems": 20},
     "reader_units": {"type": "array", "minItems": 21},
     "reader_unit_count": {"type": "integer", "const": 21},

@@ -236,7 +236,7 @@ def build_evidence_ledger(
                 f"no admitted supporting evidence: {claim_id}"
             )
     return {
-        "schema_id": "xi-kari.v2.evidence-ledger",
+        "schema_id": "xi-kari.v3.evidence-ledger",
         "schema_version": 3,
         "run_id": run_id,
         "claims": normalised_claims,

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Xi-Kari v2 isolated semantic run CLI."""
+"""Xi-Kari v3 isolated semantic run CLI."""
 
 from __future__ import annotations
 
@@ -163,10 +163,10 @@ def _start_options(
 
 
 def build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(description="Xi-Kari v2 semantic run runtime")
+    parser = argparse.ArgumentParser(description="Xi-Kari v3 semantic run runtime")
     sub = parser.add_subparsers(dest="command", required=True)
 
-    init = sub.add_parser("init", help="freeze an isolated XK0 run contract")
+    init = sub.add_parser("init", help="read-only production preflight; execute creates the run")
     init.add_argument("--runs-root", type=Path)
     init.add_argument("--run-id")
     init_input = init.add_mutually_exclusive_group()
@@ -199,12 +199,12 @@ def build_parser() -> argparse.ArgumentParser:
     )
     init.add_argument(
         "--semantic-authoring-profile",
-        choices=("legacy-fixture", "production-codex"),
+        choices=("production-codex",),
         required=True,
     )
     init.add_argument("--codex-provider-executable", type=Path, metavar="EXECUTABLE")
 
-    prepare = sub.add_parser("prepare", help="lock the framework source and all 4753 units")
+    prepare = sub.add_parser("prepare", help="read-only full-source and provider preflight")
     prepare.add_argument("--runs-root", type=Path)
     prepare.add_argument("--run-id")
     prepare_input = prepare.add_mutually_exclusive_group()
@@ -237,7 +237,7 @@ def build_parser() -> argparse.ArgumentParser:
     )
     prepare.add_argument(
         "--semantic-authoring-profile",
-        choices=("legacy-fixture", "production-codex"),
+        choices=("production-codex",),
         required=True,
     )
     prepare.add_argument(
@@ -280,9 +280,9 @@ def build_parser() -> argparse.ArgumentParser:
         "--closed-input-materials",
         type=Path,
         metavar="JSON",
-        help="read a xi-kari.v2.closed-input-materials envelope",
+        help="read a xi-kari.v3.closed-input-materials envelope",
     )
-    execute.add_argument("--timeout-seconds", type=int, default=600)
+    execute.add_argument("--timeout-seconds", type=int, default=DEFAULT_ADAPTER_TIMEOUT_SECONDS)
 
     materialize = sub.add_parser("materialize", help="materialize the disk-reloaded semantic packet")
     materialize.add_argument("--run-dir", required=True, type=Path)
@@ -337,18 +337,16 @@ def main(argv: list[str] | None = None) -> int:
         repository_root = getattr(args, "repository_root", None)
         if args.command == "init":
             require_cli_start_profile(args.contract_profile)
-            run = initialize_run(
+            result = initialize_run(
                 args.runs_root or default_runs_root(),
                 **_start_options(args, repository_root=repository_root),
             )
-            result = status_run(run)
         elif args.command == "prepare":
             require_cli_start_profile(args.contract_profile)
-            run = prepare_run(
+            result = prepare_run(
                 args.runs_root or default_runs_root(),
                 **_start_options(args, repository_root=repository_root),
             )
-            result = status_run(run)
         elif args.command == "execute":
             request_text = _natural_request_text(args)
             result = execute_authored_run(
