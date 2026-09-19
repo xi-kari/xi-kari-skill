@@ -1742,7 +1742,9 @@ def execute_authored_run(
     if contract_evidence is not None:
         validate_contract_authoring_evidence(contract_evidence, run_id=selected_run_id,
             natural_request=natural_request or {}, frozen_problem_contract=frozen,
-            repository_root=repo, base_started_at=started_at)
+            repository_root=repo, base_started_at=started_at,
+            closed_input_materials=frozen_material_records,
+            frozen_material_manifest=frozen_material_manifest)
         receipt["contract_authoring_evidence"] = contract_evidence
     receipt["receipt_sha256"] = sha256_json(
         {key: value for key, value in receipt.items() if key != "receipt_sha256"}

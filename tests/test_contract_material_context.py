@@ -105,3 +105,43 @@ for event in ({"type":"thread.started","thread_id":"material-test"}, {"type":"tu
     with pytest.raises(ValueError, match='original natural request'):
         validate_contract_authoring_binding(base_request=altered, base_receipt=receipt, run_contract=run, repository_root=ROOT)
     assert not list((tmp_path/'runs').glob('failed-*'))
+
+
+def test_execute_replays_contract_with_materials_after_base_author(tmp_path, monkeypatch):
+    provider_path = tmp_path / 'two_stage_material_provider.py'
+    provider_path.write_text(f'#!{Path(sys.executable).resolve()}\n' + '''import json, pathlib, sys
+prompt = sys.stdin.read()
+if "运行时请求（只读绑定）：\\n" in prompt:
+    result = {}
+else:
+    request = json.loads(prompt.rsplit("运行时请求（只读）：\\n", 1)[1])
+    result = dict(request["draft_problem_contract"])
+    result["boundary"] = request["source_inputs"]["closed_input_materials"][0]["content"]
+pathlib.Path("semantic-output.json").write_text(json.dumps(result, ensure_ascii=False), encoding="utf-8")
+pathlib.Path(sys.argv[sys.argv.index("--output-last-message") + 1]).write_text("SEMANTIC_OUTPUT_READY", encoding="utf-8")
+for event in ({"type":"thread.started","thread_id":"two-stage-material"}, {"type":"turn.started"}, {"type":"turn.completed"}):
+    print(json.dumps(event), flush=True)
+''', encoding='utf-8')
+    provider_path.chmod(0o755)
+    raw = [{'source_id':'SOURCE-1', 'title':'组内决定', 'content':'十二人小组尚未表决，只同意起草。'}]
+    materials, manifest = freeze_closed_input_materials(raw)
+    observed = []
+    original = execution.validate_contract_authoring_evidence
+    class ReplayObserved(Exception):
+        pass
+    def validate(evidence, **kwargs):
+        observed.append(kwargs)
+        assert kwargs.get('closed_input_materials') == materials
+        assert kwargs.get('frozen_material_manifest') == manifest
+        original(evidence, **kwargs)
+        if len(observed) == 2:
+            raise ReplayObserved
+    monkeypatch.setattr(execution, 'validate_contract_authoring_evidence', validate)
+    monkeypatch.setattr(execution, '_parse_base_output', lambda *a, **k: ({}, {}, {}))
+    monkeypatch.setattr(execution, 'validate_semantic_read_trace_input', lambda *a, **k: None)
+    monkeypatch.setattr(execution, 'validate_visibility_ledger', lambda *a, **k: None)
+    with pytest.raises(ReplayObserved):
+        execution.execute_authored_run(tmp_path/'runs', request_text='只用给定材料解释这个决定',
+            mode='closed-input', repository_root=ROOT, codex_provider_executable=provider_path,
+            closed_input_materials=raw, timeout_seconds=30)
+    assert len(observed) == 2
