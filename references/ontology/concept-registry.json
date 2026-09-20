@@ -273,7 +273,7 @@
       "concept_id": "V83-CANON-CORE-ACTION-CEILING",
       "disposition": "canonical_concept",
       "hashes": {
-        "card_sha256": "6bae4e1ac7c2ee0e5fbb5db16dcf7139b9d2f7ed6ad52fea0903f4e2abfd02b9",
+        "card_sha256": "a6b204a9b2546187568d6e3a725fdc07adf3b6083297e99a69f428a6878e38ea",
         "raw_sha256": "4a3ad8e8692b7a906f733096bbc8e05d0ac4f8cfbf79d3926eb1729df828c7f5",
         "semantic_sha256": "f190a80be88033ba21d717a310f4419c00489b3a6dea17b6a1e2b14af1447d9f"
       },
@@ -299,7 +299,7 @@
       "concept_id": "V83-CANON-CORE-AI-BOUNDARY",
       "disposition": "canonical_concept",
       "hashes": {
-        "card_sha256": "3a39e5019b9e75adb4f3ad86b0344b3c15e140c9351ea0cea5aaae7337c38909",
+        "card_sha256": "a2f1881d29fc9dce2a34321014c8f54cf5eb4b0b4d8437333d858aaf1e28a7bd",
         "raw_sha256": "4a3ad8e8692b7a906f733096bbc8e05d0ac4f8cfbf79d3926eb1729df828c7f5",
         "semantic_sha256": "f190a80be88033ba21d717a310f4419c00489b3a6dea17b6a1e2b14af1447d9f"
       },
@@ -405,7 +405,7 @@
       "concept_id": "V83-CANON-CORE-CHOICE-BRIDGE",
       "disposition": "structural_rule",
       "hashes": {
-        "card_sha256": "6bae4e1ac7c2ee0e5fbb5db16dcf7139b9d2f7ed6ad52fea0903f4e2abfd02b9",
+        "card_sha256": "a6b204a9b2546187568d6e3a725fdc07adf3b6083297e99a69f428a6878e38ea",
         "raw_sha256": "4a3ad8e8692b7a906f733096bbc8e05d0ac4f8cfbf79d3926eb1729df828c7f5",
         "semantic_sha256": "f190a80be88033ba21d717a310f4419c00489b3a6dea17b6a1e2b14af1447d9f"
       },
@@ -458,7 +458,7 @@
       "concept_id": "V83-CANON-CORE-CLAIM-ROLES",
       "disposition": "structural_rule",
       "hashes": {
-        "card_sha256": "b92472484ce34925ded3999e45929c338a13343cf213aa1417960e9ca3ea028f",
+        "card_sha256": "30434bc2c07df68ed30af77257d800f2784998fa599deb9b86c765c66baa01af",
         "raw_sha256": "4a3ad8e8692b7a906f733096bbc8e05d0ac4f8cfbf79d3926eb1729df828c7f5",
         "semantic_sha256": "f190a80be88033ba21d717a310f4419c00489b3a6dea17b6a1e2b14af1447d9f"
       },
@@ -855,7 +855,7 @@
       "concept_id": "V83-CANON-CORE-DEPENDENCY-TYPES",
       "disposition": "structural_rule",
       "hashes": {
-        "card_sha256": "b92472484ce34925ded3999e45929c338a13343cf213aa1417960e9ca3ea028f",
+        "card_sha256": "30434bc2c07df68ed30af77257d800f2784998fa599deb9b86c765c66baa01af",
         "raw_sha256": "4a3ad8e8692b7a906f733096bbc8e05d0ac4f8cfbf79d3926eb1729df828c7f5",
         "semantic_sha256": "f190a80be88033ba21d717a310f4419c00489b3a6dea17b6a1e2b14af1447d9f"
       },
@@ -906,7 +906,7 @@
       "concept_id": "V83-CANON-CORE-DYNAMIC-NINE-GATES",
       "disposition": "structural_rule",
       "hashes": {
-        "card_sha256": "3a39e5019b9e75adb4f3ad86b0344b3c15e140c9351ea0cea5aaae7337c38909",
+        "card_sha256": "a2f1881d29fc9dce2a34321014c8f54cf5eb4b0b4d8437333d858aaf1e28a7bd",
         "raw_sha256": "4a3ad8e8692b7a906f733096bbc8e05d0ac4f8cfbf79d3926eb1729df828c7f5",
         "semantic_sha256": "f190a80be88033ba21d717a310f4419c00489b3a6dea17b6a1e2b14af1447d9f"
       },
@@ -1018,7 +1018,7 @@
       "concept_id": "V83-CANON-CORE-EVIDENCE-CONTRACT",
       "disposition": "canonical_concept",
       "hashes": {
-        "card_sha256": "b92472484ce34925ded3999e45929c338a13343cf213aa1417960e9ca3ea028f",
+        "card_sha256": "30434bc2c07df68ed30af77257d800f2784998fa599deb9b86c765c66baa01af",
         "raw_sha256": "4a3ad8e8692b7a906f733096bbc8e05d0ac4f8cfbf79d3926eb1729df828c7f5",
         "semantic_sha256": "f190a80be88033ba21d717a310f4419c00489b3a6dea17b6a1e2b14af1447d9f"
       },
@@ -1072,7 +1072,7 @@
       "concept_id": "V83-CANON-CORE-FIVE-GATES",
       "disposition": "structural_rule",
       "hashes": {
-        "card_sha256": "3a39e5019b9e75adb4f3ad86b0344b3c15e140c9351ea0cea5aaae7337c38909",
+        "card_sha256": "a2f1881d29fc9dce2a34321014c8f54cf5eb4b0b4d8437333d858aaf1e28a7bd",
         "raw_sha256": "4a3ad8e8692b7a906f733096bbc8e05d0ac4f8cfbf79d3926eb1729df828c7f5",
         "semantic_sha256": "f190a80be88033ba21d717a310f4419c00489b3a6dea17b6a1e2b14af1447d9f"
       },
@@ -1099,7 +1099,7 @@
       "concept_id": "V83-CANON-CORE-FORECAST-BASELINE",
       "disposition": "canonical_concept",
       "hashes": {
-        "card_sha256": "6bae4e1ac7c2ee0e5fbb5db16dcf7139b9d2f7ed6ad52fea0903f4e2abfd02b9",
+        "card_sha256": "a6b204a9b2546187568d6e3a725fdc07adf3b6083297e99a69f428a6878e38ea",
         "raw_sha256": "4a3ad8e8692b7a906f733096bbc8e05d0ac4f8cfbf79d3926eb1729df828c7f5",
         "semantic_sha256": "f190a80be88033ba21d717a310f4419c00489b3a6dea17b6a1e2b14af1447d9f"
       },
@@ -1125,7 +1125,7 @@
       "concept_id": "V83-CANON-CORE-FORECAST-FAILURE",
       "disposition": "structural_rule",
       "hashes": {
-        "card_sha256": "6bae4e1ac7c2ee0e5fbb5db16dcf7139b9d2f7ed6ad52fea0903f4e2abfd02b9",
+        "card_sha256": "a6b204a9b2546187568d6e3a725fdc07adf3b6083297e99a69f428a6878e38ea",
         "raw_sha256": "4a3ad8e8692b7a906f733096bbc8e05d0ac4f8cfbf79d3926eb1729df828c7f5",
         "semantic_sha256": "f190a80be88033ba21d717a310f4419c00489b3a6dea17b6a1e2b14af1447d9f"
       },
@@ -1151,7 +1151,7 @@
       "concept_id": "V83-CANON-CORE-FORECAST-REGISTRY",
       "disposition": "canonical_concept",
       "hashes": {
-        "card_sha256": "6bae4e1ac7c2ee0e5fbb5db16dcf7139b9d2f7ed6ad52fea0903f4e2abfd02b9",
+        "card_sha256": "a6b204a9b2546187568d6e3a725fdc07adf3b6083297e99a69f428a6878e38ea",
         "raw_sha256": "4a3ad8e8692b7a906f733096bbc8e05d0ac4f8cfbf79d3926eb1729df828c7f5",
         "semantic_sha256": "f190a80be88033ba21d717a310f4419c00489b3a6dea17b6a1e2b14af1447d9f"
       },
@@ -1177,7 +1177,7 @@
       "concept_id": "V83-CANON-CORE-FORECAST-SIGNALS",
       "disposition": "structural_rule",
       "hashes": {
-        "card_sha256": "6bae4e1ac7c2ee0e5fbb5db16dcf7139b9d2f7ed6ad52fea0903f4e2abfd02b9",
+        "card_sha256": "a6b204a9b2546187568d6e3a725fdc07adf3b6083297e99a69f428a6878e38ea",
         "raw_sha256": "4a3ad8e8692b7a906f733096bbc8e05d0ac4f8cfbf79d3926eb1729df828c7f5",
         "semantic_sha256": "f190a80be88033ba21d717a310f4419c00489b3a6dea17b6a1e2b14af1447d9f"
       },
@@ -1203,7 +1203,7 @@
       "concept_id": "V83-CANON-CORE-FOUR-TRANSLATIONS",
       "disposition": "structural_rule",
       "hashes": {
-        "card_sha256": "3a39e5019b9e75adb4f3ad86b0344b3c15e140c9351ea0cea5aaae7337c38909",
+        "card_sha256": "a2f1881d29fc9dce2a34321014c8f54cf5eb4b0b4d8437333d858aaf1e28a7bd",
         "raw_sha256": "4a3ad8e8692b7a906f733096bbc8e05d0ac4f8cfbf79d3926eb1729df828c7f5",
         "semantic_sha256": "f190a80be88033ba21d717a310f4419c00489b3a6dea17b6a1e2b14af1447d9f"
       },
@@ -1428,7 +1428,7 @@
       "concept_id": "V83-CANON-CORE-INTERFACE-NON-EQUIVALENCE",
       "disposition": "structural_rule",
       "hashes": {
-        "card_sha256": "3a39e5019b9e75adb4f3ad86b0344b3c15e140c9351ea0cea5aaae7337c38909",
+        "card_sha256": "a2f1881d29fc9dce2a34321014c8f54cf5eb4b0b4d8437333d858aaf1e28a7bd",
         "raw_sha256": "4a3ad8e8692b7a906f733096bbc8e05d0ac4f8cfbf79d3926eb1729df828c7f5",
         "semantic_sha256": "f190a80be88033ba21d717a310f4419c00489b3a6dea17b6a1e2b14af1447d9f"
       },
@@ -1741,7 +1741,7 @@
       "concept_id": "V83-CANON-CORE-MISSING-STATES",
       "disposition": "structural_rule",
       "hashes": {
-        "card_sha256": "b92472484ce34925ded3999e45929c338a13343cf213aa1417960e9ca3ea028f",
+        "card_sha256": "30434bc2c07df68ed30af77257d800f2784998fa599deb9b86c765c66baa01af",
         "raw_sha256": "4a3ad8e8692b7a906f733096bbc8e05d0ac4f8cfbf79d3926eb1729df828c7f5",
         "semantic_sha256": "f190a80be88033ba21d717a310f4419c00489b3a6dea17b6a1e2b14af1447d9f"
       },
@@ -1799,7 +1799,7 @@
       "concept_id": "V83-CANON-CORE-OPTION-SET",
       "disposition": "canonical_concept",
       "hashes": {
-        "card_sha256": "6bae4e1ac7c2ee0e5fbb5db16dcf7139b9d2f7ed6ad52fea0903f4e2abfd02b9",
+        "card_sha256": "a6b204a9b2546187568d6e3a725fdc07adf3b6083297e99a69f428a6878e38ea",
         "raw_sha256": "4a3ad8e8692b7a906f733096bbc8e05d0ac4f8cfbf79d3926eb1729df828c7f5",
         "semantic_sha256": "f190a80be88033ba21d717a310f4419c00489b3a6dea17b6a1e2b14af1447d9f"
       },
@@ -1974,7 +1974,7 @@
       "concept_id": "V83-CANON-CORE-RUN-FAILURE",
       "disposition": "structural_rule",
       "hashes": {
-        "card_sha256": "3a39e5019b9e75adb4f3ad86b0344b3c15e140c9351ea0cea5aaae7337c38909",
+        "card_sha256": "a2f1881d29fc9dce2a34321014c8f54cf5eb4b0b4d8437333d858aaf1e28a7bd",
         "raw_sha256": "4a3ad8e8692b7a906f733096bbc8e05d0ac4f8cfbf79d3926eb1729df828c7f5",
         "semantic_sha256": "f190a80be88033ba21d717a310f4419c00489b3a6dea17b6a1e2b14af1447d9f"
       },
@@ -2001,7 +2001,7 @@
       "concept_id": "V83-CANON-CORE-SEVEN-GATES",
       "disposition": "structural_rule",
       "hashes": {
-        "card_sha256": "3a39e5019b9e75adb4f3ad86b0344b3c15e140c9351ea0cea5aaae7337c38909",
+        "card_sha256": "a2f1881d29fc9dce2a34321014c8f54cf5eb4b0b4d8437333d858aaf1e28a7bd",
         "raw_sha256": "4a3ad8e8692b7a906f733096bbc8e05d0ac4f8cfbf79d3926eb1729df828c7f5",
         "semantic_sha256": "f190a80be88033ba21d717a310f4419c00489b3a6dea17b6a1e2b14af1447d9f"
       },
@@ -2053,7 +2053,7 @@
       "concept_id": "V83-CANON-CORE-SOURCE-CONTRACT",
       "disposition": "canonical_concept",
       "hashes": {
-        "card_sha256": "b92472484ce34925ded3999e45929c338a13343cf213aa1417960e9ca3ea028f",
+        "card_sha256": "30434bc2c07df68ed30af77257d800f2784998fa599deb9b86c765c66baa01af",
         "raw_sha256": "4a3ad8e8692b7a906f733096bbc8e05d0ac4f8cfbf79d3926eb1729df828c7f5",
         "semantic_sha256": "f190a80be88033ba21d717a310f4419c00489b3a6dea17b6a1e2b14af1447d9f"
       },
@@ -2107,7 +2107,7 @@
       "concept_id": "V83-CANON-CORE-STRONG-JUDGMENT",
       "disposition": "structural_rule",
       "hashes": {
-        "card_sha256": "3a39e5019b9e75adb4f3ad86b0344b3c15e140c9351ea0cea5aaae7337c38909",
+        "card_sha256": "a2f1881d29fc9dce2a34321014c8f54cf5eb4b0b4d8437333d858aaf1e28a7bd",
         "raw_sha256": "4a3ad8e8692b7a906f733096bbc8e05d0ac4f8cfbf79d3926eb1729df828c7f5",
         "semantic_sha256": "f190a80be88033ba21d717a310f4419c00489b3a6dea17b6a1e2b14af1447d9f"
       },
@@ -2133,7 +2133,7 @@
       "concept_id": "V83-CANON-CORE-TERM-LOCKS",
       "disposition": "structural_rule",
       "hashes": {
-        "card_sha256": "b92472484ce34925ded3999e45929c338a13343cf213aa1417960e9ca3ea028f",
+        "card_sha256": "30434bc2c07df68ed30af77257d800f2784998fa599deb9b86c765c66baa01af",
         "raw_sha256": "4a3ad8e8692b7a906f733096bbc8e05d0ac4f8cfbf79d3926eb1729df828c7f5",
         "semantic_sha256": "f190a80be88033ba21d717a310f4419c00489b3a6dea17b6a1e2b14af1447d9f"
       },
@@ -2164,7 +2164,7 @@
       "concept_id": "V83-CANON-CORE-TOOL-BOUNDARY",
       "disposition": "canonical_concept",
       "hashes": {
-        "card_sha256": "3a39e5019b9e75adb4f3ad86b0344b3c15e140c9351ea0cea5aaae7337c38909",
+        "card_sha256": "a2f1881d29fc9dce2a34321014c8f54cf5eb4b0b4d8437333d858aaf1e28a7bd",
         "raw_sha256": "4a3ad8e8692b7a906f733096bbc8e05d0ac4f8cfbf79d3926eb1729df828c7f5",
         "semantic_sha256": "f190a80be88033ba21d717a310f4419c00489b3a6dea17b6a1e2b14af1447d9f"
       },
