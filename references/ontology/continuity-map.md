@@ -17,4 +17,4 @@ Each bundle is a required co-reading boundary, not a new source definition.
 - `references/ontology/bundles/human-forecast-closure.md`: `V83-P1931`, `V83-P2348`, `V83-P2601`, `V83-P2776`
 - `references/ontology/bundles/human-governance-closure.md`: `V83-P2648`, `V83-P2660`, `V83-P2777`, `V83-P2905`
 - `references/ontology/bundles/human-three-order-closure.md`: `V83-P1932`, `V83-P2131`, `V83-P2187`, `V83-P2244`, `V83-P2640`, `V83-P2647`
-- `references/ontology/bundles/human-variable-interface-complete.md`: `V83-P1215`, `V83-P1216`, `V83-P1217`, `V83-P1218`, `V83-P1244`, `V83-P2906`, `V83-P2907`, `V83-P2908`, `V83-P4477`
+- `references/ontology/bundles/human-variable-interface-complete.md`: `V83-P0504`, `V83-P0510`, `V83-P1215`, `V83-P1216`, `V83-P1217`, `V83-P1218`, `V83-P1244`, `V83-P2906`, `V83-P2907`, `V83-P2908`, `V83-P4477`
