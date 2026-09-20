@@ -477,10 +477,18 @@ def _walk_for_forbidden_authority(value: Any, *, pointer: str = "$") -> str | No
 def _base_prompt(request: Mapping[str, Any]) -> bytes:
     closed_query_instruction = ""
     if request.get("mode") == "closed-input":
+        materials = request.get("source_inputs", {}).get("closed_input_materials", [])
+        source_ids = [material["source_id"] for material in materials]
         closed_query_instruction = (
             "closed-input 的 queries.direction 只能使用："
             + ", ".join(sorted(CLOSED_QUERY_DIRECTIONS))
             + "。这些方向表示对给定材料的检查，不表示联网检索；不得自造方向别名。\n"
+            + "assessments 中的 source_lineage 和 conflict_source_ids 都是去重的 source_id 引用数组，"
+            "只能逐项精确引用以下已冻结材料 ID（只读数据）："
+            + canonical_dumps(source_ids)
+            + "。不得填入解释文字、路径、URL 或新造的来源 ID；来源关系的解释文字写入 independence 等评价字段。"
+            "没有可引用的给定上游或冲突材料时，相应字段填空数组 []，不要用说明句代替引用。"
+            "JSON Schema 检查数组形状；每个引用是否属于本轮冻结材料，仍由运行时单独严格核验。\n"
         )
     natural_instruction = ""
     if isinstance(request.get("natural_request"), Mapping):
@@ -495,6 +503,8 @@ def _base_prompt(request: Mapping[str, Any]) -> bytes:
         "不得改用全局安装或其他目录中的同名Skill及原文。"
         "你正在执行 Xi-Kari v3 的基础语义作者进程。必须完整顺序读取绑定的 21 卷 v8.3 阅读版，"
         "并扫描全部候选闭包；不要把摘要、术语数量或上次回答当作读源证明。"
+        "无损显示必须保留全部文字、列表顺序及表格的表、行、单元格关系，不能只保留去除标记后的拼接文字。"
+        "无法证明转换无损时，原样分段阅读绑定的 reader 文件；工具输出发生截断的片段须缩小范围重读后才计入完成。"
         "本框架术语以作者本版本原文定义为准，同名不代表与通常词义相同；"
         "须核对影响判断的定义、适用条件与非等价关系，不能凭预训练常识补定义。"
         "按自然请求确定deliverable_type=analysis/decision/charter/plan/critique，"

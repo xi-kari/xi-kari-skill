@@ -627,6 +627,24 @@
             "mode": {
               "const": "closed-input"
             },
+            "assessments": {
+              "items": {
+                "properties": {
+                  "source_lineage": {
+                    "type": "array",
+                    "uniqueItems": true,
+                    "items": {"type": "string", "minLength": 1},
+                    "description": "References to source_id values in this run's frozen closed-input materials, not explanatory prose. Use an empty array when no supplied upstream material is referenced. Runtime checks reference resolution."
+                  },
+                  "conflict_source_ids": {
+                    "type": "array",
+                    "uniqueItems": true,
+                    "items": {"type": "string", "minLength": 1},
+                    "description": "References to conflicting source_id values in this run's frozen closed-input materials. Use an empty array when no supplied conflicting material is referenced. Runtime checks reference resolution."
+                  }
+                }
+              }
+            },
             "sources": {
               "items": {
                 "$ref": "#/$defs/closedModelSource"
