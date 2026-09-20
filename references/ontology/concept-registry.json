@@ -1,14 +1,14 @@
 {
-  "candidate_census_sha256": "727efaf222df15fed4edbdfc9806767e97b599bcf922dd62b51bf967c8914d21",
+  "candidate_census_sha256": "1f8d609f170887f3e29816ccda79835e1ff971954c66884b13dffc1aa5832008",
   "candidate_count": 3320,
   "candidate_count_semantics": "reviewed source candidates under the current extraction rules; not an ontology cardinality claim",
   "candidate_disposition_counts": {
-    "alias": 22,
-    "canonical_concept": 191,
-    "example_only": 57,
-    "heading_only": 863,
+    "alias": 18,
+    "canonical_concept": 189,
+    "example_only": 36,
+    "heading_only": 864,
     "structural_rule": 166,
-    "subordinate_value": 2021
+    "subordinate_value": 2047
   },
   "concept_count": 321,
   "concept_count_semantics": "inventory record count; not a claim of complete ontology concept count",

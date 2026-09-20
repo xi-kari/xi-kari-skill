@@ -24,7 +24,7 @@
 
 ## source_undefined
 
-v8.3 没有为 39 字段提供跨场景默认值、统一权重或自动填充器；所有缺失必须标明缺失类型（not_collected、not_observable、not_applicable、conflicted、unknown），不得补成零值或“正常”。
+v8.3 没有为 39 字段提供跨场景默认值、统一权重或自动填充器；字段缺失状态须区分 unknown、not_applicable、not_observable 与 withheld_for_protection（V83-P0504—V83-P0510），不得补成零值或“正常”。not_collected 可说明尚未收集的原因，conflicted 可说明材料冲突；这些补充说明不得替代原文四种缺失状态，也不能把保护性不公开当成没有材料。
 
 ## 来源锚点
 

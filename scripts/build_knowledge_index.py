@@ -45,7 +45,7 @@ STRUCTURAL_SECTION_STYLES = {
     "SecH3": 3,
     "CardLabel": 4,
 }
-NAVIGATION_TABLES = {"V83-T001", "V83-T119", "V83-T120"}
+NAVIGATION_TABLES = {"V83-T001", "V83-T120"}
 
 
 def _json(value: object) -> bytes:
@@ -1136,6 +1136,17 @@ def _candidate_census(
                 disposition = "unresolved"
                 reason = "no_table_row_parent_authority"
                 note = f"{anchor} 尚无可独立复核的表格行父项。"
+        elif unit_type == "paragraph" and source_style == "TableHead":
+            if review is not None:
+                used_review_ids.add(candidate_id)
+                if review.get("disposition") in SEMANTIC_DISPOSITIONS:
+                    errors.append(
+                        f"{candidate_id}: exact semantic review cannot override source table header"
+                    )
+            disposition = "heading_only"
+            reason = "source_table_cell_heading"
+            note = f"{anchor} 是表格列标题；共享概念锚点或示例字样不能把列标题升级为定义或实例。"
+            parent_authority = _authority_record("source_navigation", set(), [anchor])
         elif source_style.startswith("TOC"):
             disposition = "heading_only"
             reason = "source_table_of_contents_heading"
@@ -1191,7 +1202,10 @@ def _candidate_census(
             parent_authority = _authority_record(
                 "source_navigation", set(), [anchor]
             )
-        elif authored_semantics:
+        elif authored_semantics and not (
+            review is not None
+            and review.get("disposition") in {"subordinate_value", "alias"}
+        ):
             structural = [
                 record for record in authored_semantics if record.get("disposition") == "structural_rule"
             ]
@@ -1288,7 +1302,9 @@ def _candidate_census(
                 f"{anchor} 是源结构标题，但没有独立、同锚点的正式概念卡。"
                 "它用于保持阅读顺序和章节边界，不因标题形态自动升级为概念。"
             )
-        elif review is None and any(marker in text for marker in EXAMPLE_MARKERS):
+        elif review is None and text.lstrip().startswith(
+            ("例如", "比如", "示例：", "示例:", "案例：", "案例:")
+        ):
             disposition = "example_only"
             reason = "source_example_or_instantiation"
             note = (

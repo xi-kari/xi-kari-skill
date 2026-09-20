@@ -14436,7 +14436,13 @@
       "disposition": "subordinate_value",
       "bound_concept_ids": [],
       "parent_concept_ids": [
-        "V83-CANON-S0"
+        "V83-CANON-S0",
+        "V83-CANON-S1",
+        "V83-CANON-S2",
+        "V83-CANON-S3",
+        "V83-CANON-S4",
+        "V83-CANON-S5",
+        "V83-CANON-S6"
       ],
       "source_basis": {
         "source_excerpt": "原型卡只有进入封闭的运行时记录，才构成可复核分类。记录必须同时冻结 record_id、对象与同一性标准、九轴尺度、时间窗、子系统范围、分类模式、候选状态、路径候选、五类条件结果、缺失数据、对象证据、不确定性、独立复核、申诉、回滚以及非授权边界。每一项入口、退出、观察、反例和证伪结果都使用同一结构：item_id + state_id + status + evidence_refs + reason；结果必须逐项覆盖候选原型，不能用一段总评代替。",
@@ -14449,21 +14455,73 @@
           {
             "source_anchor": "V83-P1303",
             "source_excerpt": "8.2.1　运行时分类记录"
+          },
+          {
+            "source_anchor": "V83-P1305",
+            "source_excerpt": "single_dominant 恰有一个候选；mixed 与 parallel 至少各有两个候选并显式登记对应路径；unknown 不保留候选或已支持的条件结果，必须说明哪项材料为何仍缺失。任一候选至少要有入口和观察项的对象证据；一旦某个证伪项为 supported，该候选即被阻断，不能靠降低措辞强度继续保留。每次验证都必须另行提供外部 evidence_ids 注册表，记录内每一层 evidence_refs 既要解析到本记录的对象证据，也要递归解析到该外部注册表；省略注册表、顶层自报或幽灵引用均不能通过。内部编号、定义和自报判断不能替代对象证据。"
           }
         ],
-        "decision_note": "V83-P1304 的精确源单元“原型卡只有进入封闭的运行时记录，才构成可复核分类。记录必须同时冻结 record_id、对象与同一性标准、九轴尺度、时间窗、子系统范围、分...”经逐候选语义审查处置为 subordinate_value；源证据将其归入 V83-CANON-S0。",
+        "decision_note": "V83-P1304 处置为 subordinate_value；8.2.1要求分类记录逐项覆盖全部候选原型，不属于单独S0。 父概念为 V83-CANON-S0, V83-CANON-S1, V83-CANON-S2, V83-CANON-S3, V83-CANON-S4, V83-CANON-S5, V83-CANON-S6。",
         "parent_relations": [
           {
             "parent_concept_id": "V83-CANON-S0",
             "parent_card_path": "references/ontology/cards/circles-collectives/s0-s6-prototypes.md",
             "evidence_kind": "authored_relation",
-            "evidence_anchor": "V83-P1303",
-            "evidence_excerpt": "8.2.1　运行时分类记录",
-            "relation_note": "V83-P1304 的边界或约束字段在 V83-P1303 的精确源语境下归属于 V83-CANON-S0。"
+            "evidence_anchor": "V83-P1304",
+            "evidence_excerpt": "原型卡只有进入封闭的运行时记录，才构成可复核分类。记录必须同时冻结 record_id、对象与同一性标准、九轴尺度、时间窗、子系统范围、分类模式、候选状态、路径候选、五类条件结果、缺失数据、对象证据、不确定性、独立复核、申诉、回滚以及非授权边界。每一项入口、退出、观察、反例和证伪结果都使用同一结构：item_id + state_id + status + evidence_refs + reason；结果必须逐项覆盖候选原型，不能用一段总评代替。",
+            "relation_note": "8.2.1要求分类记录逐项覆盖全部候选原型，不属于单独S0。"
+          },
+          {
+            "parent_concept_id": "V83-CANON-S1",
+            "parent_card_path": "references/ontology/cards/circles-collectives/s0-s6-prototypes.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-P1304",
+            "evidence_excerpt": "原型卡只有进入封闭的运行时记录，才构成可复核分类。记录必须同时冻结 record_id、对象与同一性标准、九轴尺度、时间窗、子系统范围、分类模式、候选状态、路径候选、五类条件结果、缺失数据、对象证据、不确定性、独立复核、申诉、回滚以及非授权边界。每一项入口、退出、观察、反例和证伪结果都使用同一结构：item_id + state_id + status + evidence_refs + reason；结果必须逐项覆盖候选原型，不能用一段总评代替。",
+            "relation_note": "8.2.1要求分类记录逐项覆盖全部候选原型，不属于单独S0。"
+          },
+          {
+            "parent_concept_id": "V83-CANON-S2",
+            "parent_card_path": "references/ontology/cards/circles-collectives/s0-s6-prototypes.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-P1304",
+            "evidence_excerpt": "原型卡只有进入封闭的运行时记录，才构成可复核分类。记录必须同时冻结 record_id、对象与同一性标准、九轴尺度、时间窗、子系统范围、分类模式、候选状态、路径候选、五类条件结果、缺失数据、对象证据、不确定性、独立复核、申诉、回滚以及非授权边界。每一项入口、退出、观察、反例和证伪结果都使用同一结构：item_id + state_id + status + evidence_refs + reason；结果必须逐项覆盖候选原型，不能用一段总评代替。",
+            "relation_note": "8.2.1要求分类记录逐项覆盖全部候选原型，不属于单独S0。"
+          },
+          {
+            "parent_concept_id": "V83-CANON-S3",
+            "parent_card_path": "references/ontology/cards/circles-collectives/s0-s6-prototypes.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-P1304",
+            "evidence_excerpt": "原型卡只有进入封闭的运行时记录，才构成可复核分类。记录必须同时冻结 record_id、对象与同一性标准、九轴尺度、时间窗、子系统范围、分类模式、候选状态、路径候选、五类条件结果、缺失数据、对象证据、不确定性、独立复核、申诉、回滚以及非授权边界。每一项入口、退出、观察、反例和证伪结果都使用同一结构：item_id + state_id + status + evidence_refs + reason；结果必须逐项覆盖候选原型，不能用一段总评代替。",
+            "relation_note": "8.2.1要求分类记录逐项覆盖全部候选原型，不属于单独S0。"
+          },
+          {
+            "parent_concept_id": "V83-CANON-S4",
+            "parent_card_path": "references/ontology/cards/circles-collectives/s0-s6-prototypes.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-P1304",
+            "evidence_excerpt": "原型卡只有进入封闭的运行时记录，才构成可复核分类。记录必须同时冻结 record_id、对象与同一性标准、九轴尺度、时间窗、子系统范围、分类模式、候选状态、路径候选、五类条件结果、缺失数据、对象证据、不确定性、独立复核、申诉、回滚以及非授权边界。每一项入口、退出、观察、反例和证伪结果都使用同一结构：item_id + state_id + status + evidence_refs + reason；结果必须逐项覆盖候选原型，不能用一段总评代替。",
+            "relation_note": "8.2.1要求分类记录逐项覆盖全部候选原型，不属于单独S0。"
+          },
+          {
+            "parent_concept_id": "V83-CANON-S5",
+            "parent_card_path": "references/ontology/cards/circles-collectives/s0-s6-prototypes.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-P1304",
+            "evidence_excerpt": "原型卡只有进入封闭的运行时记录，才构成可复核分类。记录必须同时冻结 record_id、对象与同一性标准、九轴尺度、时间窗、子系统范围、分类模式、候选状态、路径候选、五类条件结果、缺失数据、对象证据、不确定性、独立复核、申诉、回滚以及非授权边界。每一项入口、退出、观察、反例和证伪结果都使用同一结构：item_id + state_id + status + evidence_refs + reason；结果必须逐项覆盖候选原型，不能用一段总评代替。",
+            "relation_note": "8.2.1要求分类记录逐项覆盖全部候选原型，不属于单独S0。"
+          },
+          {
+            "parent_concept_id": "V83-CANON-S6",
+            "parent_card_path": "references/ontology/cards/circles-collectives/s0-s6-prototypes.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-P1304",
+            "evidence_excerpt": "原型卡只有进入封闭的运行时记录，才构成可复核分类。记录必须同时冻结 record_id、对象与同一性标准、九轴尺度、时间窗、子系统范围、分类模式、候选状态、路径候选、五类条件结果、缺失数据、对象证据、不确定性、独立复核、申诉、回滚以及非授权边界。每一项入口、退出、观察、反例和证伪结果都使用同一结构：item_id + state_id + status + evidence_refs + reason；结果必须逐项覆盖候选原型，不能用一段总评代替。",
+            "relation_note": "8.2.1要求分类记录逐项覆盖全部候选原型，不属于单独S0。"
           }
         ]
       },
-      "review_note": "V83-P1304 的精确源单元“原型卡只有进入封闭的运行时记录，才构成可复核分类。记录必须同时冻结 record_id、对象与同一性标准、九轴尺度、时间窗、子系统范围、分...”经逐候选语义审查处置为 subordinate_value；源证据将其归入 V83-CANON-S0。"
+      "review_note": "V83-P1304 处置为 subordinate_value；8.2.1要求分类记录逐项覆盖全部候选原型，不属于单独S0。 父概念为 V83-CANON-S0, V83-CANON-S1, V83-CANON-S2, V83-CANON-S3, V83-CANON-S4, V83-CANON-S5, V83-CANON-S6。"
     },
     {
       "candidate_id": "V83-CANDIDATE-P1305",
@@ -14472,7 +14530,13 @@
       "disposition": "subordinate_value",
       "bound_concept_ids": [],
       "parent_concept_ids": [
-        "V83-CANON-S2"
+        "V83-CANON-S0",
+        "V83-CANON-S1",
+        "V83-CANON-S2",
+        "V83-CANON-S3",
+        "V83-CANON-S4",
+        "V83-CANON-S5",
+        "V83-CANON-S6"
       ],
       "source_basis": {
         "source_excerpt": "single_dominant 恰有一个候选；mixed 与 parallel 至少各有两个候选并显式登记对应路径；unknown 不保留候选或已支持的条件结果，必须说明哪项材料为何仍缺失。任一候选至少要有入口和观察项的对象证据；一旦某个证伪项为 supported，该候选即被阻断，不能靠降低措辞强度继续保留。每次验证都必须另行提供外部 evidence_ids 注册表，记录内每一层 evidence_refs 既要解析到本记录的对象证据，也要递归解析到该外部注册表；省略注册表、顶层自报或幽灵引用均不能通过。内部编号、定义和自报判断不能替代对象证据。",
@@ -14485,21 +14549,73 @@
           {
             "source_anchor": "V83-P1303",
             "source_excerpt": "8.2.1　运行时分类记录"
+          },
+          {
+            "source_anchor": "V83-P1304",
+            "source_excerpt": "原型卡只有进入封闭的运行时记录，才构成可复核分类。记录必须同时冻结 record_id、对象与同一性标准、九轴尺度、时间窗、子系统范围、分类模式、候选状态、路径候选、五类条件结果、缺失数据、对象证据、不确定性、独立复核、申诉、回滚以及非授权边界。每一项入口、退出、观察、反例和证伪结果都使用同一结构：item_id + state_id + status + evidence_refs + reason；结果必须逐项覆盖候选原型，不能用一段总评代替。"
           }
         ],
-        "decision_note": "V83-P1305 的精确源单元“single_dominant 恰有一个候选；mixed 与 parallel 至少各有两个候选并显式登记对应路径；unknown 不保留...”经逐候选语义审查处置为 subordinate_value；源证据将其归入 V83-CANON-S2。",
+        "decision_note": "V83-P1305 处置为 subordinate_value；single、mixed、parallel、unknown与外部证据注册表规则适用于全体原型分类，不只约束S2。 父概念为 V83-CANON-S0, V83-CANON-S1, V83-CANON-S2, V83-CANON-S3, V83-CANON-S4, V83-CANON-S5, V83-CANON-S6。",
         "parent_relations": [
+          {
+            "parent_concept_id": "V83-CANON-S0",
+            "parent_card_path": "references/ontology/cards/circles-collectives/s0-s6-prototypes.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-P1305",
+            "evidence_excerpt": "single_dominant 恰有一个候选；mixed 与 parallel 至少各有两个候选并显式登记对应路径；unknown 不保留候选或已支持的条件结果，必须说明哪项材料为何仍缺失。任一候选至少要有入口和观察项的对象证据；一旦某个证伪项为 supported，该候选即被阻断，不能靠降低措辞强度继续保留。每次验证都必须另行提供外部 evidence_ids 注册表，记录内每一层 evidence_refs 既要解析到本记录的对象证据，也要递归解析到该外部注册表；省略注册表、顶层自报或幽灵引用均不能通过。内部编号、定义和自报判断不能替代对象证据。",
+            "relation_note": "single、mixed、parallel、unknown与外部证据注册表规则适用于全体原型分类，不只约束S2。"
+          },
+          {
+            "parent_concept_id": "V83-CANON-S1",
+            "parent_card_path": "references/ontology/cards/circles-collectives/s0-s6-prototypes.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-P1305",
+            "evidence_excerpt": "single_dominant 恰有一个候选；mixed 与 parallel 至少各有两个候选并显式登记对应路径；unknown 不保留候选或已支持的条件结果，必须说明哪项材料为何仍缺失。任一候选至少要有入口和观察项的对象证据；一旦某个证伪项为 supported，该候选即被阻断，不能靠降低措辞强度继续保留。每次验证都必须另行提供外部 evidence_ids 注册表，记录内每一层 evidence_refs 既要解析到本记录的对象证据，也要递归解析到该外部注册表；省略注册表、顶层自报或幽灵引用均不能通过。内部编号、定义和自报判断不能替代对象证据。",
+            "relation_note": "single、mixed、parallel、unknown与外部证据注册表规则适用于全体原型分类，不只约束S2。"
+          },
           {
             "parent_concept_id": "V83-CANON-S2",
             "parent_card_path": "references/ontology/cards/circles-collectives/s0-s6-prototypes.md",
             "evidence_kind": "authored_relation",
-            "evidence_anchor": "V83-P1303",
-            "evidence_excerpt": "8.2.1　运行时分类记录",
-            "relation_note": "V83-P1305 的边界或约束字段在 V83-P1303 的精确源语境下归属于 V83-CANON-S2。"
+            "evidence_anchor": "V83-P1305",
+            "evidence_excerpt": "single_dominant 恰有一个候选；mixed 与 parallel 至少各有两个候选并显式登记对应路径；unknown 不保留候选或已支持的条件结果，必须说明哪项材料为何仍缺失。任一候选至少要有入口和观察项的对象证据；一旦某个证伪项为 supported，该候选即被阻断，不能靠降低措辞强度继续保留。每次验证都必须另行提供外部 evidence_ids 注册表，记录内每一层 evidence_refs 既要解析到本记录的对象证据，也要递归解析到该外部注册表；省略注册表、顶层自报或幽灵引用均不能通过。内部编号、定义和自报判断不能替代对象证据。",
+            "relation_note": "single、mixed、parallel、unknown与外部证据注册表规则适用于全体原型分类，不只约束S2。"
+          },
+          {
+            "parent_concept_id": "V83-CANON-S3",
+            "parent_card_path": "references/ontology/cards/circles-collectives/s0-s6-prototypes.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-P1305",
+            "evidence_excerpt": "single_dominant 恰有一个候选；mixed 与 parallel 至少各有两个候选并显式登记对应路径；unknown 不保留候选或已支持的条件结果，必须说明哪项材料为何仍缺失。任一候选至少要有入口和观察项的对象证据；一旦某个证伪项为 supported，该候选即被阻断，不能靠降低措辞强度继续保留。每次验证都必须另行提供外部 evidence_ids 注册表，记录内每一层 evidence_refs 既要解析到本记录的对象证据，也要递归解析到该外部注册表；省略注册表、顶层自报或幽灵引用均不能通过。内部编号、定义和自报判断不能替代对象证据。",
+            "relation_note": "single、mixed、parallel、unknown与外部证据注册表规则适用于全体原型分类，不只约束S2。"
+          },
+          {
+            "parent_concept_id": "V83-CANON-S4",
+            "parent_card_path": "references/ontology/cards/circles-collectives/s0-s6-prototypes.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-P1305",
+            "evidence_excerpt": "single_dominant 恰有一个候选；mixed 与 parallel 至少各有两个候选并显式登记对应路径；unknown 不保留候选或已支持的条件结果，必须说明哪项材料为何仍缺失。任一候选至少要有入口和观察项的对象证据；一旦某个证伪项为 supported，该候选即被阻断，不能靠降低措辞强度继续保留。每次验证都必须另行提供外部 evidence_ids 注册表，记录内每一层 evidence_refs 既要解析到本记录的对象证据，也要递归解析到该外部注册表；省略注册表、顶层自报或幽灵引用均不能通过。内部编号、定义和自报判断不能替代对象证据。",
+            "relation_note": "single、mixed、parallel、unknown与外部证据注册表规则适用于全体原型分类，不只约束S2。"
+          },
+          {
+            "parent_concept_id": "V83-CANON-S5",
+            "parent_card_path": "references/ontology/cards/circles-collectives/s0-s6-prototypes.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-P1305",
+            "evidence_excerpt": "single_dominant 恰有一个候选；mixed 与 parallel 至少各有两个候选并显式登记对应路径；unknown 不保留候选或已支持的条件结果，必须说明哪项材料为何仍缺失。任一候选至少要有入口和观察项的对象证据；一旦某个证伪项为 supported，该候选即被阻断，不能靠降低措辞强度继续保留。每次验证都必须另行提供外部 evidence_ids 注册表，记录内每一层 evidence_refs 既要解析到本记录的对象证据，也要递归解析到该外部注册表；省略注册表、顶层自报或幽灵引用均不能通过。内部编号、定义和自报判断不能替代对象证据。",
+            "relation_note": "single、mixed、parallel、unknown与外部证据注册表规则适用于全体原型分类，不只约束S2。"
+          },
+          {
+            "parent_concept_id": "V83-CANON-S6",
+            "parent_card_path": "references/ontology/cards/circles-collectives/s0-s6-prototypes.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-P1305",
+            "evidence_excerpt": "single_dominant 恰有一个候选；mixed 与 parallel 至少各有两个候选并显式登记对应路径；unknown 不保留候选或已支持的条件结果，必须说明哪项材料为何仍缺失。任一候选至少要有入口和观察项的对象证据；一旦某个证伪项为 supported，该候选即被阻断，不能靠降低措辞强度继续保留。每次验证都必须另行提供外部 evidence_ids 注册表，记录内每一层 evidence_refs 既要解析到本记录的对象证据，也要递归解析到该外部注册表；省略注册表、顶层自报或幽灵引用均不能通过。内部编号、定义和自报判断不能替代对象证据。",
+            "relation_note": "single、mixed、parallel、unknown与外部证据注册表规则适用于全体原型分类，不只约束S2。"
           }
         ]
       },
-      "review_note": "V83-P1305 的精确源单元“single_dominant 恰有一个候选；mixed 与 parallel 至少各有两个候选并显式登记对应路径；unknown 不保留...”经逐候选语义审查处置为 subordinate_value；源证据将其归入 V83-CANON-S2。"
+      "review_note": "V83-P1305 处置为 subordinate_value；single、mixed、parallel、unknown与外部证据注册表规则适用于全体原型分类，不只约束S2。 父概念为 V83-CANON-S0, V83-CANON-S1, V83-CANON-S2, V83-CANON-S3, V83-CANON-S4, V83-CANON-S5, V83-CANON-S6。"
     },
     {
       "candidate_id": "V83-CANDIDATE-P1306",
@@ -14602,7 +14718,13 @@
       "disposition": "subordinate_value",
       "bound_concept_ids": [],
       "parent_concept_ids": [
-        "V83-CANON-H1"
+        "V83-CANON-S0",
+        "V83-CANON-S1",
+        "V83-CANON-S2",
+        "V83-CANON-S3",
+        "V83-CANON-S4",
+        "V83-CANON-S5",
+        "V83-CANON-S6"
       ],
       "source_basis": {
         "source_excerpt": "U、H、G、C 编号在本部分有四种不同作用：U 提供对象、状态、通道、负荷和相位接口；H 提供人类世界中的意义、承接、制度写回、权力和历史载体适配；G 指明何时必须用独立合格实例把模式升级为经验机制；C 限制推论的停止位置。它们是合同链接，不是眼前对象的证据。",
@@ -14615,21 +14737,73 @@
           {
             "source_anchor": "V83-P1303",
             "source_excerpt": "8.2.1　运行时分类记录"
+          },
+          {
+            "source_anchor": "V83-P1308",
+            "source_excerpt": "8.3　S0—S6 状态原型"
           }
         ],
-        "decision_note": "V83-P1307 的精确源单元“U、H、G、C 编号在本部分有四种不同作用：U 提供对象、状态、通道、负荷和相位接口；H 提供人类世界中的意义、承接、制度写回、权力和历史...”经逐候选语义审查处置为 subordinate_value；源证据将其归入 V83-CANON-H1。",
+        "decision_note": "V83-P1307 处置为 subordinate_value；U/H/G/C在整个状态原型部分承担四种合同链接职责，均不构成眼前对象证据；不能缩成仅H1意义安排的附属字段。 父概念为 V83-CANON-S0, V83-CANON-S1, V83-CANON-S2, V83-CANON-S3, V83-CANON-S4, V83-CANON-S5, V83-CANON-S6。",
         "parent_relations": [
           {
-            "parent_concept_id": "V83-CANON-H1",
-            "parent_card_path": "references/ontology/cards/human-actor/h1-h6-boundaries.md",
+            "parent_concept_id": "V83-CANON-S0",
+            "parent_card_path": "references/ontology/cards/circles-collectives/s0-s6-prototypes.md",
             "evidence_kind": "authored_relation",
-            "evidence_anchor": "V83-P1303",
-            "evidence_excerpt": "8.2.1　运行时分类记录",
-            "relation_note": "V83-P1307 的边界或约束字段在 V83-P1303 的精确源语境下归属于 V83-CANON-H1。"
+            "evidence_anchor": "V83-P1307",
+            "evidence_excerpt": "U、H、G、C 编号在本部分有四种不同作用：U 提供对象、状态、通道、负荷和相位接口；H 提供人类世界中的意义、承接、制度写回、权力和历史载体适配；G 指明何时必须用独立合格实例把模式升级为经验机制；C 限制推论的停止位置。它们是合同链接，不是眼前对象的证据。",
+            "relation_note": "U/H/G/C在整个状态原型部分承担四种合同链接职责，均不构成眼前对象证据；不能缩成仅H1意义安排的附属字段。"
+          },
+          {
+            "parent_concept_id": "V83-CANON-S1",
+            "parent_card_path": "references/ontology/cards/circles-collectives/s0-s6-prototypes.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-P1307",
+            "evidence_excerpt": "U、H、G、C 编号在本部分有四种不同作用：U 提供对象、状态、通道、负荷和相位接口；H 提供人类世界中的意义、承接、制度写回、权力和历史载体适配；G 指明何时必须用独立合格实例把模式升级为经验机制；C 限制推论的停止位置。它们是合同链接，不是眼前对象的证据。",
+            "relation_note": "U/H/G/C在整个状态原型部分承担四种合同链接职责，均不构成眼前对象证据；不能缩成仅H1意义安排的附属字段。"
+          },
+          {
+            "parent_concept_id": "V83-CANON-S2",
+            "parent_card_path": "references/ontology/cards/circles-collectives/s0-s6-prototypes.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-P1307",
+            "evidence_excerpt": "U、H、G、C 编号在本部分有四种不同作用：U 提供对象、状态、通道、负荷和相位接口；H 提供人类世界中的意义、承接、制度写回、权力和历史载体适配；G 指明何时必须用独立合格实例把模式升级为经验机制；C 限制推论的停止位置。它们是合同链接，不是眼前对象的证据。",
+            "relation_note": "U/H/G/C在整个状态原型部分承担四种合同链接职责，均不构成眼前对象证据；不能缩成仅H1意义安排的附属字段。"
+          },
+          {
+            "parent_concept_id": "V83-CANON-S3",
+            "parent_card_path": "references/ontology/cards/circles-collectives/s0-s6-prototypes.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-P1307",
+            "evidence_excerpt": "U、H、G、C 编号在本部分有四种不同作用：U 提供对象、状态、通道、负荷和相位接口；H 提供人类世界中的意义、承接、制度写回、权力和历史载体适配；G 指明何时必须用独立合格实例把模式升级为经验机制；C 限制推论的停止位置。它们是合同链接，不是眼前对象的证据。",
+            "relation_note": "U/H/G/C在整个状态原型部分承担四种合同链接职责，均不构成眼前对象证据；不能缩成仅H1意义安排的附属字段。"
+          },
+          {
+            "parent_concept_id": "V83-CANON-S4",
+            "parent_card_path": "references/ontology/cards/circles-collectives/s0-s6-prototypes.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-P1307",
+            "evidence_excerpt": "U、H、G、C 编号在本部分有四种不同作用：U 提供对象、状态、通道、负荷和相位接口；H 提供人类世界中的意义、承接、制度写回、权力和历史载体适配；G 指明何时必须用独立合格实例把模式升级为经验机制；C 限制推论的停止位置。它们是合同链接，不是眼前对象的证据。",
+            "relation_note": "U/H/G/C在整个状态原型部分承担四种合同链接职责，均不构成眼前对象证据；不能缩成仅H1意义安排的附属字段。"
+          },
+          {
+            "parent_concept_id": "V83-CANON-S5",
+            "parent_card_path": "references/ontology/cards/circles-collectives/s0-s6-prototypes.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-P1307",
+            "evidence_excerpt": "U、H、G、C 编号在本部分有四种不同作用：U 提供对象、状态、通道、负荷和相位接口；H 提供人类世界中的意义、承接、制度写回、权力和历史载体适配；G 指明何时必须用独立合格实例把模式升级为经验机制；C 限制推论的停止位置。它们是合同链接，不是眼前对象的证据。",
+            "relation_note": "U/H/G/C在整个状态原型部分承担四种合同链接职责，均不构成眼前对象证据；不能缩成仅H1意义安排的附属字段。"
+          },
+          {
+            "parent_concept_id": "V83-CANON-S6",
+            "parent_card_path": "references/ontology/cards/circles-collectives/s0-s6-prototypes.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-P1307",
+            "evidence_excerpt": "U、H、G、C 编号在本部分有四种不同作用：U 提供对象、状态、通道、负荷和相位接口；H 提供人类世界中的意义、承接、制度写回、权力和历史载体适配；G 指明何时必须用独立合格实例把模式升级为经验机制；C 限制推论的停止位置。它们是合同链接，不是眼前对象的证据。",
+            "relation_note": "U/H/G/C在整个状态原型部分承担四种合同链接职责，均不构成眼前对象证据；不能缩成仅H1意义安排的附属字段。"
           }
         ]
       },
-      "review_note": "V83-P1307 的精确源单元“U、H、G、C 编号在本部分有四种不同作用：U 提供对象、状态、通道、负荷和相位接口；H 提供人类世界中的意义、承接、制度写回、权力和历史...”经逐候选语义审查处置为 subordinate_value；源证据将其归入 V83-CANON-H1。"
+      "review_note": "V83-P1307 处置为 subordinate_value；U/H/G/C在整个状态原型部分承担四种合同链接职责，均不构成眼前对象证据；不能缩成仅H1意义安排的附属字段。 父概念为 V83-CANON-S0, V83-CANON-S1, V83-CANON-S2, V83-CANON-S3, V83-CANON-S4, V83-CANON-S5, V83-CANON-S6。"
     },
     {
       "candidate_id": "V83-CANDIDATE-P1312",
@@ -17143,6 +17317,12 @@
       "disposition": "subordinate_value",
       "bound_concept_ids": [],
       "parent_concept_ids": [
+        "V83-CANON-S0",
+        "V83-CANON-S1",
+        "V83-CANON-S2",
+        "V83-CANON-S3",
+        "V83-CANON-S4",
+        "V83-CANON-S5",
         "V83-CANON-S6"
       ],
       "source_basis": {
@@ -17156,22 +17336,73 @@
           {
             "source_anchor": "V83-P1543",
             "source_excerpt": "8.7　当前原型边界与排除项"
+          },
+          {
+            "source_anchor": "V83-P1545",
+            "source_excerpt": "X0 是独立生命周期路径，不以 S5、S6 或任何最低状态为前提。阶段能力、规范正当性和退场操作条件必须分别判断；任何原型匹配都不能自行产生解散、推进、淘汰或强制转换授权。"
           }
         ],
-        "decision_note": "V83-P1544 的精确源单元“S0—S6 是一组可反驳、可缺失、可并行、可撤回的人类集体状态原型。每个候选都必须逐项检查入口、退出、观察、反例、证伪、尺度、证据、缺失和...”经逐候选语义审查处置为 subordinate_value；源证据将其归入 V83-CANON-S6。",
+        "decision_note": "V83-P1544 处置为 subordinate_value；本段主语明示S0—S6全组，规定共同候选审查和非线性路径边界，不能仅归入S6。 父概念为 V83-CANON-S0, V83-CANON-S1, V83-CANON-S2, V83-CANON-S3, V83-CANON-S4, V83-CANON-S5, V83-CANON-S6。",
         "parent_relations": [
+          {
+            "parent_concept_id": "V83-CANON-S0",
+            "parent_card_path": "references/ontology/cards/circles-collectives/s0-s6-prototypes.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-P1544",
+            "evidence_excerpt": "S0—S6 是一组可反驳、可缺失、可并行、可撤回的人类集体状态原型。每个候选都必须逐项检查入口、退出、观察、反例、证伪、尺度、证据、缺失和非授权边界；缺少这些条件时，只能保留为印象或未知。编号不表示从 0 到 6 的普遍演化路线，状态之间允许回退、并行、混合、跳跃、休眠、分裂、合并、接管、功能转移与崩解。",
+            "relation_note": "本段主语明示S0—S6全组，规定共同候选审查和非线性路径边界，不能仅归入S6。"
+          },
+          {
+            "parent_concept_id": "V83-CANON-S1",
+            "parent_card_path": "references/ontology/cards/circles-collectives/s0-s6-prototypes.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-P1544",
+            "evidence_excerpt": "S0—S6 是一组可反驳、可缺失、可并行、可撤回的人类集体状态原型。每个候选都必须逐项检查入口、退出、观察、反例、证伪、尺度、证据、缺失和非授权边界；缺少这些条件时，只能保留为印象或未知。编号不表示从 0 到 6 的普遍演化路线，状态之间允许回退、并行、混合、跳跃、休眠、分裂、合并、接管、功能转移与崩解。",
+            "relation_note": "本段主语明示S0—S6全组，规定共同候选审查和非线性路径边界，不能仅归入S6。"
+          },
+          {
+            "parent_concept_id": "V83-CANON-S2",
+            "parent_card_path": "references/ontology/cards/circles-collectives/s0-s6-prototypes.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-P1544",
+            "evidence_excerpt": "S0—S6 是一组可反驳、可缺失、可并行、可撤回的人类集体状态原型。每个候选都必须逐项检查入口、退出、观察、反例、证伪、尺度、证据、缺失和非授权边界；缺少这些条件时，只能保留为印象或未知。编号不表示从 0 到 6 的普遍演化路线，状态之间允许回退、并行、混合、跳跃、休眠、分裂、合并、接管、功能转移与崩解。",
+            "relation_note": "本段主语明示S0—S6全组，规定共同候选审查和非线性路径边界，不能仅归入S6。"
+          },
+          {
+            "parent_concept_id": "V83-CANON-S3",
+            "parent_card_path": "references/ontology/cards/circles-collectives/s0-s6-prototypes.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-P1544",
+            "evidence_excerpt": "S0—S6 是一组可反驳、可缺失、可并行、可撤回的人类集体状态原型。每个候选都必须逐项检查入口、退出、观察、反例、证伪、尺度、证据、缺失和非授权边界；缺少这些条件时，只能保留为印象或未知。编号不表示从 0 到 6 的普遍演化路线，状态之间允许回退、并行、混合、跳跃、休眠、分裂、合并、接管、功能转移与崩解。",
+            "relation_note": "本段主语明示S0—S6全组，规定共同候选审查和非线性路径边界，不能仅归入S6。"
+          },
+          {
+            "parent_concept_id": "V83-CANON-S4",
+            "parent_card_path": "references/ontology/cards/circles-collectives/s0-s6-prototypes.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-P1544",
+            "evidence_excerpt": "S0—S6 是一组可反驳、可缺失、可并行、可撤回的人类集体状态原型。每个候选都必须逐项检查入口、退出、观察、反例、证伪、尺度、证据、缺失和非授权边界；缺少这些条件时，只能保留为印象或未知。编号不表示从 0 到 6 的普遍演化路线，状态之间允许回退、并行、混合、跳跃、休眠、分裂、合并、接管、功能转移与崩解。",
+            "relation_note": "本段主语明示S0—S6全组，规定共同候选审查和非线性路径边界，不能仅归入S6。"
+          },
+          {
+            "parent_concept_id": "V83-CANON-S5",
+            "parent_card_path": "references/ontology/cards/circles-collectives/s0-s6-prototypes.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-P1544",
+            "evidence_excerpt": "S0—S6 是一组可反驳、可缺失、可并行、可撤回的人类集体状态原型。每个候选都必须逐项检查入口、退出、观察、反例、证伪、尺度、证据、缺失和非授权边界；缺少这些条件时，只能保留为印象或未知。编号不表示从 0 到 6 的普遍演化路线，状态之间允许回退、并行、混合、跳跃、休眠、分裂、合并、接管、功能转移与崩解。",
+            "relation_note": "本段主语明示S0—S6全组，规定共同候选审查和非线性路径边界，不能仅归入S6。"
+          },
           {
             "parent_concept_id": "V83-CANON-S6",
             "parent_card_path": "references/ontology/cards/circles-collectives/s0-s6-prototypes.md",
-            "evidence_kind": "source_card_match",
+            "evidence_kind": "authored_relation",
             "evidence_anchor": "V83-P1544",
             "evidence_excerpt": "S0—S6 是一组可反驳、可缺失、可并行、可撤回的人类集体状态原型。每个候选都必须逐项检查入口、退出、观察、反例、证伪、尺度、证据、缺失和非授权边界；缺少这些条件时，只能保留为印象或未知。编号不表示从 0 到 6 的普遍演化路线，状态之间允许回退、并行、混合、跳跃、休眠、分裂、合并、接管、功能转移与崩解。",
-            "relation_note": "V83-P1544 的边界或约束字段在 V83-P1544 的精确源语境下归属于 V83-CANON-S6。",
-            "card_excerpt": "S6"
+            "relation_note": "本段主语明示S0—S6全组，规定共同候选审查和非线性路径边界，不能仅归入S6。"
           }
         ]
       },
-      "review_note": "V83-P1544 的精确源单元“S0—S6 是一组可反驳、可缺失、可并行、可撤回的人类集体状态原型。每个候选都必须逐项检查入口、退出、观察、反例、证伪、尺度、证据、缺失和...”经逐候选语义审查处置为 subordinate_value；源证据将其归入 V83-CANON-S6。"
+      "review_note": "V83-P1544 处置为 subordinate_value；本段主语明示S0—S6全组，规定共同候选审查和非线性路径边界，不能仅归入S6。 父概念为 V83-CANON-S0, V83-CANON-S1, V83-CANON-S2, V83-CANON-S3, V83-CANON-S4, V83-CANON-S5, V83-CANON-S6。"
     },
     {
       "candidate_id": "V83-CANDIDATE-P1545",
@@ -17217,7 +17448,13 @@
       "disposition": "subordinate_value",
       "bound_concept_ids": [],
       "parent_concept_ids": [
-        "V83-CANON-S0"
+        "V83-CANON-S0",
+        "V83-CANON-S1",
+        "V83-CANON-S2",
+        "V83-CANON-S3",
+        "V83-CANON-S4",
+        "V83-CANON-S5",
+        "V83-CANON-S6"
       ],
       "source_basis": {
         "source_excerpt": "S0-S6 描述的是有意图集体在指定对象合同下的候选状态，不描述个人人格、心理成熟度或道德等级。行动者的慢、中、快变量由第九部分管理；多个集体的平行、嵌套、重叠、桥接、竞争与临时关系由第十部分管理。一个人所属圈层被分类为 S2，不意味着该人的人格处于 S2；一个人表现出稳定能力，也不意味着其圈层处于 S5 或 S6。",
@@ -17230,22 +17467,73 @@
           {
             "source_anchor": "V83-P1548",
             "source_excerpt": "8.8　与行动者状态和多圈层推演的边界"
+          },
+          {
+            "source_anchor": "V83-P1550",
+            "source_excerpt": "多圈层推演可以让不同圈层同时处于不同原型，也可以让同一圈层在不同尺度轴上呈现混合状态。状态变化必须绑定事件、通道和时间窗；外层制度变化不能自动刷新内层关系，个体退出也不自动造成集体解体。若原型分类相对于直接变量没有增量价值，应跳过原型，使用更简单的联合状态。"
           }
         ],
-        "decision_note": "V83-P1549 的精确源单元“S0-S6 描述的是有意图集体在指定对象合同下的候选状态，不描述个人人格、心理成熟度或道德等级。行动者的慢、中、快变量由第九部分管理；多个...”经逐候选语义审查处置为 subordinate_value；源证据将其归入 V83-CANON-S0。",
+        "decision_note": "V83-P1549 处置为 subordinate_value；整组S0—S6只描述有意图集体的候选状态，均不得映射成人格、心理成熟度或道德等级，不能仅归入S0。 父概念为 V83-CANON-S0, V83-CANON-S1, V83-CANON-S2, V83-CANON-S3, V83-CANON-S4, V83-CANON-S5, V83-CANON-S6。",
         "parent_relations": [
           {
             "parent_concept_id": "V83-CANON-S0",
             "parent_card_path": "references/ontology/cards/circles-collectives/s0-s6-prototypes.md",
-            "evidence_kind": "source_card_match",
+            "evidence_kind": "authored_relation",
             "evidence_anchor": "V83-P1549",
             "evidence_excerpt": "S0-S6 描述的是有意图集体在指定对象合同下的候选状态，不描述个人人格、心理成熟度或道德等级。行动者的慢、中、快变量由第九部分管理；多个集体的平行、嵌套、重叠、桥接、竞争与临时关系由第十部分管理。一个人所属圈层被分类为 S2，不意味着该人的人格处于 S2；一个人表现出稳定能力，也不意味着其圈层处于 S5 或 S6。",
-            "relation_note": "V83-P1549 的边界或约束字段在 V83-P1549 的精确源语境下归属于 V83-CANON-S0。",
-            "card_excerpt": "S0"
+            "relation_note": "整组S0—S6只描述有意图集体的候选状态，均不得映射成人格、心理成熟度或道德等级，不能仅归入S0。"
+          },
+          {
+            "parent_concept_id": "V83-CANON-S1",
+            "parent_card_path": "references/ontology/cards/circles-collectives/s0-s6-prototypes.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-P1549",
+            "evidence_excerpt": "S0-S6 描述的是有意图集体在指定对象合同下的候选状态，不描述个人人格、心理成熟度或道德等级。行动者的慢、中、快变量由第九部分管理；多个集体的平行、嵌套、重叠、桥接、竞争与临时关系由第十部分管理。一个人所属圈层被分类为 S2，不意味着该人的人格处于 S2；一个人表现出稳定能力，也不意味着其圈层处于 S5 或 S6。",
+            "relation_note": "整组S0—S6只描述有意图集体的候选状态，均不得映射成人格、心理成熟度或道德等级，不能仅归入S0。"
+          },
+          {
+            "parent_concept_id": "V83-CANON-S2",
+            "parent_card_path": "references/ontology/cards/circles-collectives/s0-s6-prototypes.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-P1549",
+            "evidence_excerpt": "S0-S6 描述的是有意图集体在指定对象合同下的候选状态，不描述个人人格、心理成熟度或道德等级。行动者的慢、中、快变量由第九部分管理；多个集体的平行、嵌套、重叠、桥接、竞争与临时关系由第十部分管理。一个人所属圈层被分类为 S2，不意味着该人的人格处于 S2；一个人表现出稳定能力，也不意味着其圈层处于 S5 或 S6。",
+            "relation_note": "整组S0—S6只描述有意图集体的候选状态，均不得映射成人格、心理成熟度或道德等级，不能仅归入S0。"
+          },
+          {
+            "parent_concept_id": "V83-CANON-S3",
+            "parent_card_path": "references/ontology/cards/circles-collectives/s0-s6-prototypes.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-P1549",
+            "evidence_excerpt": "S0-S6 描述的是有意图集体在指定对象合同下的候选状态，不描述个人人格、心理成熟度或道德等级。行动者的慢、中、快变量由第九部分管理；多个集体的平行、嵌套、重叠、桥接、竞争与临时关系由第十部分管理。一个人所属圈层被分类为 S2，不意味着该人的人格处于 S2；一个人表现出稳定能力，也不意味着其圈层处于 S5 或 S6。",
+            "relation_note": "整组S0—S6只描述有意图集体的候选状态，均不得映射成人格、心理成熟度或道德等级，不能仅归入S0。"
+          },
+          {
+            "parent_concept_id": "V83-CANON-S4",
+            "parent_card_path": "references/ontology/cards/circles-collectives/s0-s6-prototypes.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-P1549",
+            "evidence_excerpt": "S0-S6 描述的是有意图集体在指定对象合同下的候选状态，不描述个人人格、心理成熟度或道德等级。行动者的慢、中、快变量由第九部分管理；多个集体的平行、嵌套、重叠、桥接、竞争与临时关系由第十部分管理。一个人所属圈层被分类为 S2，不意味着该人的人格处于 S2；一个人表现出稳定能力，也不意味着其圈层处于 S5 或 S6。",
+            "relation_note": "整组S0—S6只描述有意图集体的候选状态，均不得映射成人格、心理成熟度或道德等级，不能仅归入S0。"
+          },
+          {
+            "parent_concept_id": "V83-CANON-S5",
+            "parent_card_path": "references/ontology/cards/circles-collectives/s0-s6-prototypes.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-P1549",
+            "evidence_excerpt": "S0-S6 描述的是有意图集体在指定对象合同下的候选状态，不描述个人人格、心理成熟度或道德等级。行动者的慢、中、快变量由第九部分管理；多个集体的平行、嵌套、重叠、桥接、竞争与临时关系由第十部分管理。一个人所属圈层被分类为 S2，不意味着该人的人格处于 S2；一个人表现出稳定能力，也不意味着其圈层处于 S5 或 S6。",
+            "relation_note": "整组S0—S6只描述有意图集体的候选状态，均不得映射成人格、心理成熟度或道德等级，不能仅归入S0。"
+          },
+          {
+            "parent_concept_id": "V83-CANON-S6",
+            "parent_card_path": "references/ontology/cards/circles-collectives/s0-s6-prototypes.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-P1549",
+            "evidence_excerpt": "S0-S6 描述的是有意图集体在指定对象合同下的候选状态，不描述个人人格、心理成熟度或道德等级。行动者的慢、中、快变量由第九部分管理；多个集体的平行、嵌套、重叠、桥接、竞争与临时关系由第十部分管理。一个人所属圈层被分类为 S2，不意味着该人的人格处于 S2；一个人表现出稳定能力，也不意味着其圈层处于 S5 或 S6。",
+            "relation_note": "整组S0—S6只描述有意图集体的候选状态，均不得映射成人格、心理成熟度或道德等级，不能仅归入S0。"
           }
         ]
       },
-      "review_note": "V83-P1549 的精确源单元“S0-S6 描述的是有意图集体在指定对象合同下的候选状态，不描述个人人格、心理成熟度或道德等级。行动者的慢、中、快变量由第九部分管理；多个...”经逐候选语义审查处置为 subordinate_value；源证据将其归入 V83-CANON-S0。"
+      "review_note": "V83-P1549 处置为 subordinate_value；整组S0—S6只描述有意图集体的候选状态，均不得映射成人格、心理成熟度或道德等级，不能仅归入S0。 父概念为 V83-CANON-S0, V83-CANON-S1, V83-CANON-S2, V83-CANON-S3, V83-CANON-S4, V83-CANON-S5, V83-CANON-S6。"
     },
     {
       "candidate_id": "V83-CANDIDATE-P1556",
@@ -18933,7 +19221,7 @@
       "disposition": "subordinate_value",
       "bound_concept_ids": [],
       "parent_concept_ids": [
-        "V83-CANON-T0-T4"
+        "V83-CANON-CIRCLE"
       ],
       "source_basis": {
         "source_excerpt": "分段记录或登记对象转换",
@@ -18946,21 +19234,33 @@
           {
             "source_anchor": "V83-P1742",
             "source_excerpt": "10.1　圈层的候选对象合同"
+          },
+          {
+            "source_anchor": "V83-P1744",
+            "source_excerpt": "C* = <圈层 ID，候选边界，成员资格，角色规则，进入与退出，内部状态，外部接口，物质通道，体验—意义通道，约束，时间窗，尺度剖面，同一性判据，证据状态，反例>。"
+          },
+          {
+            "source_anchor": "V83-P1758",
+            "source_excerpt": "同一性是否在时间窗内成立"
+          },
+          {
+            "source_anchor": "V83-P1759",
+            "source_excerpt": "K、进入退出、转换与解体条件"
           }
         ],
-        "decision_note": "V83-P1760 的精确源单元“分段记录或登记对象转换”经逐候选语义审查处置为 subordinate_value；源证据将其归入 V83-CANON-T0-T4。",
+        "decision_note": "V83-P1760 处置为 subordinate_value；T036第五行规定圈层同一性K在时间窗内失效时分段或登记对象转换，不是T0—T4干涉级别。 父概念为 V83-CANON-CIRCLE。",
         "parent_relations": [
           {
-            "parent_concept_id": "V83-CANON-T0-T4",
-            "parent_card_path": "references/ontology/cards/forecast-choice-intervention/intervention-levels.md",
+            "parent_concept_id": "V83-CANON-CIRCLE",
+            "parent_card_path": "references/ontology/cards/circles-collectives/circle-candidate-object.md",
             "evidence_kind": "authored_relation",
-            "evidence_anchor": "V83-P1742",
-            "evidence_excerpt": "10.1　圈层的候选对象合同",
-            "relation_note": "V83-P1760 的操作或转换字段在 V83-P1742 的精确源语境下归属于 V83-CANON-T0-T4。"
+            "evidence_anchor": "V83-P1760",
+            "evidence_excerpt": "分段记录或登记对象转换",
+            "relation_note": "T036第五行规定圈层同一性K在时间窗内失效时分段或登记对象转换，不是T0—T4干涉级别。"
           }
         ]
       },
-      "review_note": "V83-P1760 的精确源单元“分段记录或登记对象转换”经逐候选语义审查处置为 subordinate_value；源证据将其归入 V83-CANON-T0-T4。"
+      "review_note": "V83-P1760 处置为 subordinate_value；T036第五行规定圈层同一性K在时间窗内失效时分段或登记对象转换，不是T0—T4干涉级别。 父概念为 V83-CANON-CIRCLE。"
     },
     {
       "candidate_id": "V83-CANDIDATE-P1765",
@@ -19462,7 +19762,8 @@
       "disposition": "subordinate_value",
       "bound_concept_ids": [],
       "parent_concept_ids": [
-        "V83-CANON-X0"
+        "V83-CANON-CIRCLE-RELATIONS",
+        "V83-CANON-CORE-CIRCLE-TRANSFORMATION"
       ],
       "source_basis": {
         "source_excerpt": "“转化”不是第七种静态关系。它是事件后关系状态从维持、增强、减弱、改向、转化到解体的结果，并必须绑定前后快照。",
@@ -19473,23 +19774,35 @@
             "source_excerpt": "“转化”不是第七种静态关系。它是事件后关系状态从维持、增强、减弱、改向、转化到解体的结果，并必须绑定前后快照。"
           },
           {
-            "source_anchor": "V83-P1807",
-            "source_excerpt": "10.3.6　临时"
+            "source_anchor": "V83-P1836",
+            "source_excerpt": "解体、制度化或转为其他关系"
+          },
+          {
+            "source_anchor": "V83-P1838",
+            "source_excerpt": "10.4　关系不是一棵树"
           }
         ],
-        "decision_note": "V83-P1837 的精确源单元““转化”不是第七种静态关系。它是事件后关系状态从维持、增强、减弱、改向、转化到解体的结果，并必须绑定前后快照。”经逐候选语义审查处置为 subordinate_value；源证据将其归入 V83-CANON-X0。",
+        "decision_note": "V83-P1837 处置为 subordinate_value；本段区分六类静态圈层关系与事件后的关系转化结果并要求前后快照；不是X0独立退场路径的定义。 父概念为 V83-CANON-CIRCLE-RELATIONS, V83-CANON-CORE-CIRCLE-TRANSFORMATION。",
         "parent_relations": [
           {
-            "parent_concept_id": "V83-CANON-X0",
-            "parent_card_path": "references/ontology/cards/circles-collectives/x0-orderly-exit.md",
+            "parent_concept_id": "V83-CANON-CIRCLE-RELATIONS",
+            "parent_card_path": "references/ontology/cards/circles-collectives/relations-membership.md",
             "evidence_kind": "authored_relation",
-            "evidence_anchor": "V83-P1807",
-            "evidence_excerpt": "10.3.6　临时",
-            "relation_note": "V83-P1837 的边界或约束字段在 V83-P1807 的精确源语境下归属于 V83-CANON-X0。"
+            "evidence_anchor": "V83-P1837",
+            "evidence_excerpt": "“转化”不是第七种静态关系。它是事件后关系状态从维持、增强、减弱、改向、转化到解体的结果，并必须绑定前后快照。",
+            "relation_note": "本段区分六类静态圈层关系与事件后的关系转化结果并要求前后快照；不是X0独立退场路径的定义。"
+          },
+          {
+            "parent_concept_id": "V83-CANON-CORE-CIRCLE-TRANSFORMATION",
+            "parent_card_path": "references/ontology/cards/object-scale/scale-profiles-and-operators.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-P1837",
+            "evidence_excerpt": "“转化”不是第七种静态关系。它是事件后关系状态从维持、增强、减弱、改向、转化到解体的结果，并必须绑定前后快照。",
+            "relation_note": "本段区分六类静态圈层关系与事件后的关系转化结果并要求前后快照；不是X0独立退场路径的定义。"
           }
         ]
       },
-      "review_note": "V83-P1837 的精确源单元““转化”不是第七种静态关系。它是事件后关系状态从维持、增强、减弱、改向、转化到解体的结果，并必须绑定前后快照。”经逐候选语义审查处置为 subordinate_value；源证据将其归入 V83-CANON-X0。"
+      "review_note": "V83-P1837 处置为 subordinate_value；本段区分六类静态圈层关系与事件后的关系转化结果并要求前后快照；不是X0独立退场路径的定义。 父概念为 V83-CANON-CIRCLE-RELATIONS, V83-CANON-CORE-CIRCLE-TRANSFORMATION。"
     },
     {
       "candidate_id": "V83-CANDIDATE-P1840",
@@ -42945,7 +43258,18 @@
       "disposition": "subordinate_value",
       "bound_concept_ids": [],
       "parent_concept_ids": [
-        "V83-CANON-HV11"
+        "V83-CANON-HV01",
+        "V83-CANON-HV02",
+        "V83-CANON-HV03",
+        "V83-CANON-HV04",
+        "V83-CANON-HV05",
+        "V83-CANON-HV06",
+        "V83-CANON-HV07",
+        "V83-CANON-HV08",
+        "V83-CANON-HV09",
+        "V83-CANON-HV10",
+        "V83-CANON-HV11",
+        "V83-CANON-CORE-SP-NINE-AXES"
       ],
       "source_basis": {
         "source_excerpt": "scale_profile 不是“微观—宏观”的单轴标签，而是 SP=<A,X,T,O,C,R,I,N,J> 的完整九轴记录：A 是聚合层次，必须声明单元、总体、分布和聚合规则；X 是物理空间与数字边界；T 是窗口、时滞和周期；O 是角色、团队、组织、制度与治理生态的组织层级；C 是事件、互动机制、中观结构、制度和系统条件的因果层次；R 是原始事件、序列、个案、分布、指标与摘要的观察分辨率，并记录压缩损失；I 是直接、间接、二阶、跨域与代际的受影响范围；N 是网络拓扑范围；J 是管辖与授权范围。扩大 A、X、O 或 I 不会自动扩大 J；观察更多不能产生更大处置权。",
@@ -42956,23 +43280,111 @@
             "source_excerpt": "scale_profile 不是“微观—宏观”的单轴标签，而是 SP=<A,X,T,O,C,R,I,N,J> 的完整九轴记录：A 是聚合层次，必须声明单元、总体、分布和聚合规则；X 是物理空间与数字边界；T 是窗口、时滞和周期；O 是角色、团队、组织、制度与治理生态的组织层级；C 是事件、互动机制、中观结构、制度和系统条件的因果层次；R 是原始事件、序列、个案、分布、指标与摘要的观察分辨率，并记录压缩损失；I 是直接、间接、二阶、跨域与代际的受影响范围；N 是网络拓扑范围；J 是管辖与授权范围。扩大 A、X、O 或 I 不会自动扩大 J；观察更多不能产生更大处置权。"
           },
           {
-            "source_anchor": "V83-P4303",
-            "source_excerpt": "A.11　HV11 开放性承担行动（完整接口卡）"
+            "source_anchor": "V83-P4452",
+            "source_excerpt": "十一项变量共享同一行动边界：变量本身只生成描述、证据缺口与行动需求，不授权现实调整。其输出上限如下。"
           }
         ],
-        "decision_note": "V83-P4450 的精确源单元“scale_profile 不是“微观—宏观”的单轴标签，而是 SP=<A,X,T,O,C,R,I,N,J> 的完整九轴记录：A 是聚合层...”经逐候选语义审查处置为 subordinate_value；源证据将其归入 V83-CANON-HV11。",
+        "decision_note": "V83-P4450 处置为 subordinate_value；附录末统一说明十一接口的完整九轴记录及影响范围不产生管辖权；不能因位置在HV11卡后就缩为该变量专属。 父概念为 V83-CANON-HV01, V83-CANON-HV02, V83-CANON-HV03, V83-CANON-HV04, V83-CANON-HV05, V83-CANON-HV06, V83-CANON-HV07, V83-CANON-HV08, V83-CANON-HV09, V83-CANON-HV10, V83-CANON-HV11, V83-CANON-CORE-SP-NINE-AXES。",
         "parent_relations": [
+          {
+            "parent_concept_id": "V83-CANON-HV01",
+            "parent_card_path": "references/ontology/cards/human-actor/hv01-structure-domain.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-P4450",
+            "evidence_excerpt": "scale_profile 不是“微观—宏观”的单轴标签，而是 SP=<A,X,T,O,C,R,I,N,J> 的完整九轴记录：A 是聚合层次，必须声明单元、总体、分布和聚合规则；X 是物理空间与数字边界；T 是窗口、时滞和周期；O 是角色、团队、组织、制度与治理生态的组织层级；C 是事件、互动机制、中观结构、制度和系统条件的因果层次；R 是原始事件、序列、个案、分布、指标与摘要的观察分辨率，并记录压缩损失；I 是直接、间接、二阶、跨域与代际的受影响范围；N 是网络拓扑范围；J 是管辖与授权范围。扩大 A、X、O 或 I 不会自动扩大 J；观察更多不能产生更大处置权。",
+            "relation_note": "附录末统一说明十一接口的完整九轴记录及影响范围不产生管辖权；不能因位置在HV11卡后就缩为该变量专属。"
+          },
+          {
+            "parent_concept_id": "V83-CANON-HV02",
+            "parent_card_path": "references/ontology/cards/human-actor/hv02-boundary-interface.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-P4450",
+            "evidence_excerpt": "scale_profile 不是“微观—宏观”的单轴标签，而是 SP=<A,X,T,O,C,R,I,N,J> 的完整九轴记录：A 是聚合层次，必须声明单元、总体、分布和聚合规则；X 是物理空间与数字边界；T 是窗口、时滞和周期；O 是角色、团队、组织、制度与治理生态的组织层级；C 是事件、互动机制、中观结构、制度和系统条件的因果层次；R 是原始事件、序列、个案、分布、指标与摘要的观察分辨率，并记录压缩损失；I 是直接、间接、二阶、跨域与代际的受影响范围；N 是网络拓扑范围；J 是管辖与授权范围。扩大 A、X、O 或 I 不会自动扩大 J；观察更多不能产生更大处置权。",
+            "relation_note": "附录末统一说明十一接口的完整九轴记录及影响范围不产生管辖权；不能因位置在HV11卡后就缩为该变量专属。"
+          },
+          {
+            "parent_concept_id": "V83-CANON-HV03",
+            "parent_card_path": "references/ontology/cards/human-actor/hv03-pointing-anchor.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-P4450",
+            "evidence_excerpt": "scale_profile 不是“微观—宏观”的单轴标签，而是 SP=<A,X,T,O,C,R,I,N,J> 的完整九轴记录：A 是聚合层次，必须声明单元、总体、分布和聚合规则；X 是物理空间与数字边界；T 是窗口、时滞和周期；O 是角色、团队、组织、制度与治理生态的组织层级；C 是事件、互动机制、中观结构、制度和系统条件的因果层次；R 是原始事件、序列、个案、分布、指标与摘要的观察分辨率，并记录压缩损失；I 是直接、间接、二阶、跨域与代际的受影响范围；N 是网络拓扑范围；J 是管辖与授权范围。扩大 A、X、O 或 I 不会自动扩大 J；观察更多不能产生更大处置权。",
+            "relation_note": "附录末统一说明十一接口的完整九轴记录及影响范围不产生管辖权；不能因位置在HV11卡后就缩为该变量专属。"
+          },
+          {
+            "parent_concept_id": "V83-CANON-HV04",
+            "parent_card_path": "references/ontology/cards/human-actor/hv04-generation-node.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-P4450",
+            "evidence_excerpt": "scale_profile 不是“微观—宏观”的单轴标签，而是 SP=<A,X,T,O,C,R,I,N,J> 的完整九轴记录：A 是聚合层次，必须声明单元、总体、分布和聚合规则；X 是物理空间与数字边界；T 是窗口、时滞和周期；O 是角色、团队、组织、制度与治理生态的组织层级；C 是事件、互动机制、中观结构、制度和系统条件的因果层次；R 是原始事件、序列、个案、分布、指标与摘要的观察分辨率，并记录压缩损失；I 是直接、间接、二阶、跨域与代际的受影响范围；N 是网络拓扑范围；J 是管辖与授权范围。扩大 A、X、O 或 I 不会自动扩大 J；观察更多不能产生更大处置权。",
+            "relation_note": "附录末统一说明十一接口的完整九轴记录及影响范围不产生管辖权；不能因位置在HV11卡后就缩为该变量专属。"
+          },
+          {
+            "parent_concept_id": "V83-CANON-HV05",
+            "parent_card_path": "references/ontology/cards/human-actor/hv05-carrying-layer.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-P4450",
+            "evidence_excerpt": "scale_profile 不是“微观—宏观”的单轴标签，而是 SP=<A,X,T,O,C,R,I,N,J> 的完整九轴记录：A 是聚合层次，必须声明单元、总体、分布和聚合规则；X 是物理空间与数字边界；T 是窗口、时滞和周期；O 是角色、团队、组织、制度与治理生态的组织层级；C 是事件、互动机制、中观结构、制度和系统条件的因果层次；R 是原始事件、序列、个案、分布、指标与摘要的观察分辨率，并记录压缩损失；I 是直接、间接、二阶、跨域与代际的受影响范围；N 是网络拓扑范围；J 是管辖与授权范围。扩大 A、X、O 或 I 不会自动扩大 J；观察更多不能产生更大处置权。",
+            "relation_note": "附录末统一说明十一接口的完整九轴记录及影响范围不产生管辖权；不能因位置在HV11卡后就缩为该变量专属。"
+          },
+          {
+            "parent_concept_id": "V83-CANON-HV06",
+            "parent_card_path": "references/ontology/cards/human-actor/hv06-drive-to-carry-chain.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-P4450",
+            "evidence_excerpt": "scale_profile 不是“微观—宏观”的单轴标签，而是 SP=<A,X,T,O,C,R,I,N,J> 的完整九轴记录：A 是聚合层次，必须声明单元、总体、分布和聚合规则；X 是物理空间与数字边界；T 是窗口、时滞和周期；O 是角色、团队、组织、制度与治理生态的组织层级；C 是事件、互动机制、中观结构、制度和系统条件的因果层次；R 是原始事件、序列、个案、分布、指标与摘要的观察分辨率，并记录压缩损失；I 是直接、间接、二阶、跨域与代际的受影响范围；N 是网络拓扑范围；J 是管辖与授权范围。扩大 A、X、O 或 I 不会自动扩大 J；观察更多不能产生更大处置权。",
+            "relation_note": "附录末统一说明十一接口的完整九轴记录及影响范围不产生管辖权；不能因位置在HV11卡后就缩为该变量专属。"
+          },
+          {
+            "parent_concept_id": "V83-CANON-HV07",
+            "parent_card_path": "references/ontology/cards/human-actor/hv07-feedback-writeback.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-P4450",
+            "evidence_excerpt": "scale_profile 不是“微观—宏观”的单轴标签，而是 SP=<A,X,T,O,C,R,I,N,J> 的完整九轴记录：A 是聚合层次，必须声明单元、总体、分布和聚合规则；X 是物理空间与数字边界；T 是窗口、时滞和周期；O 是角色、团队、组织、制度与治理生态的组织层级；C 是事件、互动机制、中观结构、制度和系统条件的因果层次；R 是原始事件、序列、个案、分布、指标与摘要的观察分辨率，并记录压缩损失；I 是直接、间接、二阶、跨域与代际的受影响范围；N 是网络拓扑范围；J 是管辖与授权范围。扩大 A、X、O 或 I 不会自动扩大 J；观察更多不能产生更大处置权。",
+            "relation_note": "附录末统一说明十一接口的完整九轴记录及影响范围不产生管辖权；不能因位置在HV11卡后就缩为该变量专属。"
+          },
+          {
+            "parent_concept_id": "V83-CANON-HV08",
+            "parent_card_path": "references/ontology/cards/human-actor/hv08-condition-field.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-P4450",
+            "evidence_excerpt": "scale_profile 不是“微观—宏观”的单轴标签，而是 SP=<A,X,T,O,C,R,I,N,J> 的完整九轴记录：A 是聚合层次，必须声明单元、总体、分布和聚合规则；X 是物理空间与数字边界；T 是窗口、时滞和周期；O 是角色、团队、组织、制度与治理生态的组织层级；C 是事件、互动机制、中观结构、制度和系统条件的因果层次；R 是原始事件、序列、个案、分布、指标与摘要的观察分辨率，并记录压缩损失；I 是直接、间接、二阶、跨域与代际的受影响范围；N 是网络拓扑范围；J 是管辖与授权范围。扩大 A、X、O 或 I 不会自动扩大 J；观察更多不能产生更大处置权。",
+            "relation_note": "附录末统一说明十一接口的完整九轴记录及影响范围不产生管辖权；不能因位置在HV11卡后就缩为该变量专属。"
+          },
+          {
+            "parent_concept_id": "V83-CANON-HV09",
+            "parent_card_path": "references/ontology/cards/human-actor/hv09-structural-load.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-P4450",
+            "evidence_excerpt": "scale_profile 不是“微观—宏观”的单轴标签，而是 SP=<A,X,T,O,C,R,I,N,J> 的完整九轴记录：A 是聚合层次，必须声明单元、总体、分布和聚合规则；X 是物理空间与数字边界；T 是窗口、时滞和周期；O 是角色、团队、组织、制度与治理生态的组织层级；C 是事件、互动机制、中观结构、制度和系统条件的因果层次；R 是原始事件、序列、个案、分布、指标与摘要的观察分辨率，并记录压缩损失；I 是直接、间接、二阶、跨域与代际的受影响范围；N 是网络拓扑范围；J 是管辖与授权范围。扩大 A、X、O 或 I 不会自动扩大 J；观察更多不能产生更大处置权。",
+            "relation_note": "附录末统一说明十一接口的完整九轴记录及影响范围不产生管辖权；不能因位置在HV11卡后就缩为该变量专属。"
+          },
+          {
+            "parent_concept_id": "V83-CANON-HV10",
+            "parent_card_path": "references/ontology/cards/human-actor/hv10-evolution-phase.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-P4450",
+            "evidence_excerpt": "scale_profile 不是“微观—宏观”的单轴标签，而是 SP=<A,X,T,O,C,R,I,N,J> 的完整九轴记录：A 是聚合层次，必须声明单元、总体、分布和聚合规则；X 是物理空间与数字边界；T 是窗口、时滞和周期；O 是角色、团队、组织、制度与治理生态的组织层级；C 是事件、互动机制、中观结构、制度和系统条件的因果层次；R 是原始事件、序列、个案、分布、指标与摘要的观察分辨率，并记录压缩损失；I 是直接、间接、二阶、跨域与代际的受影响范围；N 是网络拓扑范围；J 是管辖与授权范围。扩大 A、X、O 或 I 不会自动扩大 J；观察更多不能产生更大处置权。",
+            "relation_note": "附录末统一说明十一接口的完整九轴记录及影响范围不产生管辖权；不能因位置在HV11卡后就缩为该变量专属。"
+          },
           {
             "parent_concept_id": "V83-CANON-HV11",
             "parent_card_path": "references/ontology/cards/human-actor/hv11-open-bearing-action.md",
             "evidence_kind": "authored_relation",
-            "evidence_anchor": "V83-P4303",
-            "evidence_excerpt": "A.11　HV11 开放性承担行动（完整接口卡）",
-            "relation_note": "V83-P4450 的边界或约束字段在 V83-P4303 的精确源语境下归属于 V83-CANON-HV11。"
+            "evidence_anchor": "V83-P4450",
+            "evidence_excerpt": "scale_profile 不是“微观—宏观”的单轴标签，而是 SP=<A,X,T,O,C,R,I,N,J> 的完整九轴记录：A 是聚合层次，必须声明单元、总体、分布和聚合规则；X 是物理空间与数字边界；T 是窗口、时滞和周期；O 是角色、团队、组织、制度与治理生态的组织层级；C 是事件、互动机制、中观结构、制度和系统条件的因果层次；R 是原始事件、序列、个案、分布、指标与摘要的观察分辨率，并记录压缩损失；I 是直接、间接、二阶、跨域与代际的受影响范围；N 是网络拓扑范围；J 是管辖与授权范围。扩大 A、X、O 或 I 不会自动扩大 J；观察更多不能产生更大处置权。",
+            "relation_note": "附录末统一说明十一接口的完整九轴记录及影响范围不产生管辖权；不能因位置在HV11卡后就缩为该变量专属。"
+          },
+          {
+            "parent_concept_id": "V83-CANON-CORE-SP-NINE-AXES",
+            "parent_card_path": "references/ontology/cards/object-scale/scale-profiles-and-operators.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-P4450",
+            "evidence_excerpt": "scale_profile 不是“微观—宏观”的单轴标签，而是 SP=<A,X,T,O,C,R,I,N,J> 的完整九轴记录：A 是聚合层次，必须声明单元、总体、分布和聚合规则；X 是物理空间与数字边界；T 是窗口、时滞和周期；O 是角色、团队、组织、制度与治理生态的组织层级；C 是事件、互动机制、中观结构、制度和系统条件的因果层次；R 是原始事件、序列、个案、分布、指标与摘要的观察分辨率，并记录压缩损失；I 是直接、间接、二阶、跨域与代际的受影响范围；N 是网络拓扑范围；J 是管辖与授权范围。扩大 A、X、O 或 I 不会自动扩大 J；观察更多不能产生更大处置权。",
+            "relation_note": "附录末统一说明十一接口的完整九轴记录及影响范围不产生管辖权；不能因位置在HV11卡后就缩为该变量专属。"
           }
         ]
       },
-      "review_note": "V83-P4450 的精确源单元“scale_profile 不是“微观—宏观”的单轴标签，而是 SP=<A,X,T,O,C,R,I,N,J> 的完整九轴记录：A 是聚合层...”经逐候选语义审查处置为 subordinate_value；源证据将其归入 V83-CANON-HV11。"
+      "review_note": "V83-P4450 处置为 subordinate_value；附录末统一说明十一接口的完整九轴记录及影响范围不产生管辖权；不能因位置在HV11卡后就缩为该变量专属。 父概念为 V83-CANON-HV01, V83-CANON-HV02, V83-CANON-HV03, V83-CANON-HV04, V83-CANON-HV05, V83-CANON-HV06, V83-CANON-HV07, V83-CANON-HV08, V83-CANON-HV09, V83-CANON-HV10, V83-CANON-HV11, V83-CANON-CORE-SP-NINE-AXES。"
     },
     {
       "candidate_id": "V83-CANDIDATE-P4451",
@@ -42981,7 +43393,18 @@
       "disposition": "subordinate_value",
       "bound_concept_ids": [],
       "parent_concept_ids": [
-        "V83-CANON-HV11"
+        "V83-CANON-HV01",
+        "V83-CANON-HV02",
+        "V83-CANON-HV03",
+        "V83-CANON-HV04",
+        "V83-CANON-HV05",
+        "V83-CANON-HV06",
+        "V83-CANON-HV07",
+        "V83-CANON-HV08",
+        "V83-CANON-HV09",
+        "V83-CANON-HV10",
+        "V83-CANON-HV11",
+        "V83-CANON-CORE-SP-NINE-AXES"
       ],
       "source_basis": {
         "source_excerpt": "身份与同一性判据属于对象合同 K，关系与作用通道进入 input_dependencies、carrier 或因果合同，成员与受影响位置进入 affected_positions、local_exclusion_zone 和观察字段；它们都不能冒充尺度轴。尺度轴 N 指网络拓扑；下文“运行时显式 N 前提”指规范选择层 N1-N5，两者不可混用。",
@@ -42992,23 +43415,115 @@
             "source_excerpt": "身份与同一性判据属于对象合同 K，关系与作用通道进入 input_dependencies、carrier 或因果合同，成员与受影响位置进入 affected_positions、local_exclusion_zone 和观察字段；它们都不能冒充尺度轴。尺度轴 N 指网络拓扑；下文“运行时显式 N 前提”指规范选择层 N1-N5，两者不可混用。"
           },
           {
-            "source_anchor": "V83-P4303",
-            "source_excerpt": "A.11　HV11 开放性承担行动（完整接口卡）"
+            "source_anchor": "V83-P4450",
+            "source_excerpt": "scale_profile 不是“微观—宏观”的单轴标签，而是 SP=<A,X,T,O,C,R,I,N,J> 的完整九轴记录：A 是聚合层次，必须声明单元、总体、分布和聚合规则；X 是物理空间与数字边界；T 是窗口、时滞和周期；O 是角色、团队、组织、制度与治理生态的组织层级；C 是事件、互动机制、中观结构、制度和系统条件的因果层次；R 是原始事件、序列、个案、分布、指标与摘要的观察分辨率，并记录压缩损失；I 是直接、间接、二阶、跨域与代际的受影响范围；N 是网络拓扑范围；J 是管辖与授权范围。扩大 A、X、O 或 I 不会自动扩大 J；观察更多不能产生更大处置权。"
+          },
+          {
+            "source_anchor": "V83-P4452",
+            "source_excerpt": "十一项变量共享同一行动边界：变量本身只生成描述、证据缺口与行动需求，不授权现实调整。其输出上限如下。"
           }
         ],
-        "decision_note": "V83-P4451 的精确源单元“身份与同一性判据属于对象合同 K，关系与作用通道进入 input_dependencies、carrier 或因果合同，成员与受影响位置进...”经逐候选语义审查处置为 subordinate_value；源证据将其归入 V83-CANON-HV11。",
+        "decision_note": "V83-P4451 处置为 subordinate_value；对象K、通道、成员位置与尺度轴分栏，以及网络N与规范N分离，统一约束十一接口的尺度字段。 父概念为 V83-CANON-HV01, V83-CANON-HV02, V83-CANON-HV03, V83-CANON-HV04, V83-CANON-HV05, V83-CANON-HV06, V83-CANON-HV07, V83-CANON-HV08, V83-CANON-HV09, V83-CANON-HV10, V83-CANON-HV11, V83-CANON-CORE-SP-NINE-AXES。",
         "parent_relations": [
+          {
+            "parent_concept_id": "V83-CANON-HV01",
+            "parent_card_path": "references/ontology/cards/human-actor/hv01-structure-domain.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-P4451",
+            "evidence_excerpt": "身份与同一性判据属于对象合同 K，关系与作用通道进入 input_dependencies、carrier 或因果合同，成员与受影响位置进入 affected_positions、local_exclusion_zone 和观察字段；它们都不能冒充尺度轴。尺度轴 N 指网络拓扑；下文“运行时显式 N 前提”指规范选择层 N1-N5，两者不可混用。",
+            "relation_note": "对象K、通道、成员位置与尺度轴分栏，以及网络N与规范N分离，统一约束十一接口的尺度字段。"
+          },
+          {
+            "parent_concept_id": "V83-CANON-HV02",
+            "parent_card_path": "references/ontology/cards/human-actor/hv02-boundary-interface.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-P4451",
+            "evidence_excerpt": "身份与同一性判据属于对象合同 K，关系与作用通道进入 input_dependencies、carrier 或因果合同，成员与受影响位置进入 affected_positions、local_exclusion_zone 和观察字段；它们都不能冒充尺度轴。尺度轴 N 指网络拓扑；下文“运行时显式 N 前提”指规范选择层 N1-N5，两者不可混用。",
+            "relation_note": "对象K、通道、成员位置与尺度轴分栏，以及网络N与规范N分离，统一约束十一接口的尺度字段。"
+          },
+          {
+            "parent_concept_id": "V83-CANON-HV03",
+            "parent_card_path": "references/ontology/cards/human-actor/hv03-pointing-anchor.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-P4451",
+            "evidence_excerpt": "身份与同一性判据属于对象合同 K，关系与作用通道进入 input_dependencies、carrier 或因果合同，成员与受影响位置进入 affected_positions、local_exclusion_zone 和观察字段；它们都不能冒充尺度轴。尺度轴 N 指网络拓扑；下文“运行时显式 N 前提”指规范选择层 N1-N5，两者不可混用。",
+            "relation_note": "对象K、通道、成员位置与尺度轴分栏，以及网络N与规范N分离，统一约束十一接口的尺度字段。"
+          },
+          {
+            "parent_concept_id": "V83-CANON-HV04",
+            "parent_card_path": "references/ontology/cards/human-actor/hv04-generation-node.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-P4451",
+            "evidence_excerpt": "身份与同一性判据属于对象合同 K，关系与作用通道进入 input_dependencies、carrier 或因果合同，成员与受影响位置进入 affected_positions、local_exclusion_zone 和观察字段；它们都不能冒充尺度轴。尺度轴 N 指网络拓扑；下文“运行时显式 N 前提”指规范选择层 N1-N5，两者不可混用。",
+            "relation_note": "对象K、通道、成员位置与尺度轴分栏，以及网络N与规范N分离，统一约束十一接口的尺度字段。"
+          },
+          {
+            "parent_concept_id": "V83-CANON-HV05",
+            "parent_card_path": "references/ontology/cards/human-actor/hv05-carrying-layer.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-P4451",
+            "evidence_excerpt": "身份与同一性判据属于对象合同 K，关系与作用通道进入 input_dependencies、carrier 或因果合同，成员与受影响位置进入 affected_positions、local_exclusion_zone 和观察字段；它们都不能冒充尺度轴。尺度轴 N 指网络拓扑；下文“运行时显式 N 前提”指规范选择层 N1-N5，两者不可混用。",
+            "relation_note": "对象K、通道、成员位置与尺度轴分栏，以及网络N与规范N分离，统一约束十一接口的尺度字段。"
+          },
+          {
+            "parent_concept_id": "V83-CANON-HV06",
+            "parent_card_path": "references/ontology/cards/human-actor/hv06-drive-to-carry-chain.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-P4451",
+            "evidence_excerpt": "身份与同一性判据属于对象合同 K，关系与作用通道进入 input_dependencies、carrier 或因果合同，成员与受影响位置进入 affected_positions、local_exclusion_zone 和观察字段；它们都不能冒充尺度轴。尺度轴 N 指网络拓扑；下文“运行时显式 N 前提”指规范选择层 N1-N5，两者不可混用。",
+            "relation_note": "对象K、通道、成员位置与尺度轴分栏，以及网络N与规范N分离，统一约束十一接口的尺度字段。"
+          },
+          {
+            "parent_concept_id": "V83-CANON-HV07",
+            "parent_card_path": "references/ontology/cards/human-actor/hv07-feedback-writeback.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-P4451",
+            "evidence_excerpt": "身份与同一性判据属于对象合同 K，关系与作用通道进入 input_dependencies、carrier 或因果合同，成员与受影响位置进入 affected_positions、local_exclusion_zone 和观察字段；它们都不能冒充尺度轴。尺度轴 N 指网络拓扑；下文“运行时显式 N 前提”指规范选择层 N1-N5，两者不可混用。",
+            "relation_note": "对象K、通道、成员位置与尺度轴分栏，以及网络N与规范N分离，统一约束十一接口的尺度字段。"
+          },
+          {
+            "parent_concept_id": "V83-CANON-HV08",
+            "parent_card_path": "references/ontology/cards/human-actor/hv08-condition-field.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-P4451",
+            "evidence_excerpt": "身份与同一性判据属于对象合同 K，关系与作用通道进入 input_dependencies、carrier 或因果合同，成员与受影响位置进入 affected_positions、local_exclusion_zone 和观察字段；它们都不能冒充尺度轴。尺度轴 N 指网络拓扑；下文“运行时显式 N 前提”指规范选择层 N1-N5，两者不可混用。",
+            "relation_note": "对象K、通道、成员位置与尺度轴分栏，以及网络N与规范N分离，统一约束十一接口的尺度字段。"
+          },
+          {
+            "parent_concept_id": "V83-CANON-HV09",
+            "parent_card_path": "references/ontology/cards/human-actor/hv09-structural-load.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-P4451",
+            "evidence_excerpt": "身份与同一性判据属于对象合同 K，关系与作用通道进入 input_dependencies、carrier 或因果合同，成员与受影响位置进入 affected_positions、local_exclusion_zone 和观察字段；它们都不能冒充尺度轴。尺度轴 N 指网络拓扑；下文“运行时显式 N 前提”指规范选择层 N1-N5，两者不可混用。",
+            "relation_note": "对象K、通道、成员位置与尺度轴分栏，以及网络N与规范N分离，统一约束十一接口的尺度字段。"
+          },
+          {
+            "parent_concept_id": "V83-CANON-HV10",
+            "parent_card_path": "references/ontology/cards/human-actor/hv10-evolution-phase.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-P4451",
+            "evidence_excerpt": "身份与同一性判据属于对象合同 K，关系与作用通道进入 input_dependencies、carrier 或因果合同，成员与受影响位置进入 affected_positions、local_exclusion_zone 和观察字段；它们都不能冒充尺度轴。尺度轴 N 指网络拓扑；下文“运行时显式 N 前提”指规范选择层 N1-N5，两者不可混用。",
+            "relation_note": "对象K、通道、成员位置与尺度轴分栏，以及网络N与规范N分离，统一约束十一接口的尺度字段。"
+          },
           {
             "parent_concept_id": "V83-CANON-HV11",
             "parent_card_path": "references/ontology/cards/human-actor/hv11-open-bearing-action.md",
             "evidence_kind": "authored_relation",
-            "evidence_anchor": "V83-P4303",
-            "evidence_excerpt": "A.11　HV11 开放性承担行动（完整接口卡）",
-            "relation_note": "V83-P4451 的边界或约束字段在 V83-P4303 的精确源语境下归属于 V83-CANON-HV11。"
+            "evidence_anchor": "V83-P4451",
+            "evidence_excerpt": "身份与同一性判据属于对象合同 K，关系与作用通道进入 input_dependencies、carrier 或因果合同，成员与受影响位置进入 affected_positions、local_exclusion_zone 和观察字段；它们都不能冒充尺度轴。尺度轴 N 指网络拓扑；下文“运行时显式 N 前提”指规范选择层 N1-N5，两者不可混用。",
+            "relation_note": "对象K、通道、成员位置与尺度轴分栏，以及网络N与规范N分离，统一约束十一接口的尺度字段。"
+          },
+          {
+            "parent_concept_id": "V83-CANON-CORE-SP-NINE-AXES",
+            "parent_card_path": "references/ontology/cards/object-scale/scale-profiles-and-operators.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-P4451",
+            "evidence_excerpt": "身份与同一性判据属于对象合同 K，关系与作用通道进入 input_dependencies、carrier 或因果合同，成员与受影响位置进入 affected_positions、local_exclusion_zone 和观察字段；它们都不能冒充尺度轴。尺度轴 N 指网络拓扑；下文“运行时显式 N 前提”指规范选择层 N1-N5，两者不可混用。",
+            "relation_note": "对象K、通道、成员位置与尺度轴分栏，以及网络N与规范N分离，统一约束十一接口的尺度字段。"
           }
         ]
       },
-      "review_note": "V83-P4451 的精确源单元“身份与同一性判据属于对象合同 K，关系与作用通道进入 input_dependencies、carrier 或因果合同，成员与受影响位置进...”经逐候选语义审查处置为 subordinate_value；源证据将其归入 V83-CANON-HV11。"
+      "review_note": "V83-P4451 处置为 subordinate_value；对象K、通道、成员位置与尺度轴分栏，以及网络N与规范N分离，统一约束十一接口的尺度字段。 父概念为 V83-CANON-HV01, V83-CANON-HV02, V83-CANON-HV03, V83-CANON-HV04, V83-CANON-HV05, V83-CANON-HV06, V83-CANON-HV07, V83-CANON-HV08, V83-CANON-HV09, V83-CANON-HV10, V83-CANON-HV11, V83-CANON-CORE-SP-NINE-AXES。"
     },
     {
       "candidate_id": "V83-CANDIDATE-P4452",
@@ -43017,6 +43532,16 @@
       "disposition": "subordinate_value",
       "bound_concept_ids": [],
       "parent_concept_ids": [
+        "V83-CANON-HV01",
+        "V83-CANON-HV02",
+        "V83-CANON-HV03",
+        "V83-CANON-HV04",
+        "V83-CANON-HV05",
+        "V83-CANON-HV06",
+        "V83-CANON-HV07",
+        "V83-CANON-HV08",
+        "V83-CANON-HV09",
+        "V83-CANON-HV10",
         "V83-CANON-HV11"
       ],
       "source_basis": {
@@ -43028,23 +43553,107 @@
             "source_excerpt": "十一项变量共享同一行动边界：变量本身只生成描述、证据缺口与行动需求，不授权现实调整。其输出上限如下。"
           },
           {
-            "source_anchor": "V83-P4303",
-            "source_excerpt": "A.11　HV11 开放性承担行动（完整接口卡）"
+            "source_anchor": "V83-P4450",
+            "source_excerpt": "scale_profile 不是“微观—宏观”的单轴标签，而是 SP=<A,X,T,O,C,R,I,N,J> 的完整九轴记录：A 是聚合层次，必须声明单元、总体、分布和聚合规则；X 是物理空间与数字边界；T 是窗口、时滞和周期；O 是角色、团队、组织、制度与治理生态的组织层级；C 是事件、互动机制、中观结构、制度和系统条件的因果层次；R 是原始事件、序列、个案、分布、指标与摘要的观察分辨率，并记录压缩损失；I 是直接、间接、二阶、跨域与代际的受影响范围；N 是网络拓扑范围；J 是管辖与授权范围。扩大 A、X、O 或 I 不会自动扩大 J；观察更多不能产生更大处置权。"
+          },
+          {
+            "source_anchor": "V83-P4451",
+            "source_excerpt": "身份与同一性判据属于对象合同 K，关系与作用通道进入 input_dependencies、carrier 或因果合同，成员与受影响位置进入 affected_positions、local_exclusion_zone 和观察字段；它们都不能冒充尺度轴。尺度轴 N 指网络拓扑；下文“运行时显式 N 前提”指规范选择层 N1-N5，两者不可混用。"
           }
         ],
-        "decision_note": "V83-P4452 的精确源单元“十一项变量共享同一行动边界：变量本身只生成描述、证据缺口与行动需求，不授权现实调整。其输出上限如下。”经逐候选语义审查处置为 subordinate_value；源证据将其归入 V83-CANON-HV11。",
+        "decision_note": "V83-P4452 处置为 subordinate_value；原文明示十一项变量共享同一行动边界，本句是全体变量的共同约束，不是HV11独有规则。 父概念为 V83-CANON-HV01, V83-CANON-HV02, V83-CANON-HV03, V83-CANON-HV04, V83-CANON-HV05, V83-CANON-HV06, V83-CANON-HV07, V83-CANON-HV08, V83-CANON-HV09, V83-CANON-HV10, V83-CANON-HV11。",
         "parent_relations": [
+          {
+            "parent_concept_id": "V83-CANON-HV01",
+            "parent_card_path": "references/ontology/cards/human-actor/hv01-structure-domain.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-P4452",
+            "evidence_excerpt": "十一项变量共享同一行动边界：变量本身只生成描述、证据缺口与行动需求，不授权现实调整。其输出上限如下。",
+            "relation_note": "原文明示十一项变量共享同一行动边界，本句是全体变量的共同约束，不是HV11独有规则。"
+          },
+          {
+            "parent_concept_id": "V83-CANON-HV02",
+            "parent_card_path": "references/ontology/cards/human-actor/hv02-boundary-interface.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-P4452",
+            "evidence_excerpt": "十一项变量共享同一行动边界：变量本身只生成描述、证据缺口与行动需求，不授权现实调整。其输出上限如下。",
+            "relation_note": "原文明示十一项变量共享同一行动边界，本句是全体变量的共同约束，不是HV11独有规则。"
+          },
+          {
+            "parent_concept_id": "V83-CANON-HV03",
+            "parent_card_path": "references/ontology/cards/human-actor/hv03-pointing-anchor.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-P4452",
+            "evidence_excerpt": "十一项变量共享同一行动边界：变量本身只生成描述、证据缺口与行动需求，不授权现实调整。其输出上限如下。",
+            "relation_note": "原文明示十一项变量共享同一行动边界，本句是全体变量的共同约束，不是HV11独有规则。"
+          },
+          {
+            "parent_concept_id": "V83-CANON-HV04",
+            "parent_card_path": "references/ontology/cards/human-actor/hv04-generation-node.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-P4452",
+            "evidence_excerpt": "十一项变量共享同一行动边界：变量本身只生成描述、证据缺口与行动需求，不授权现实调整。其输出上限如下。",
+            "relation_note": "原文明示十一项变量共享同一行动边界，本句是全体变量的共同约束，不是HV11独有规则。"
+          },
+          {
+            "parent_concept_id": "V83-CANON-HV05",
+            "parent_card_path": "references/ontology/cards/human-actor/hv05-carrying-layer.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-P4452",
+            "evidence_excerpt": "十一项变量共享同一行动边界：变量本身只生成描述、证据缺口与行动需求，不授权现实调整。其输出上限如下。",
+            "relation_note": "原文明示十一项变量共享同一行动边界，本句是全体变量的共同约束，不是HV11独有规则。"
+          },
+          {
+            "parent_concept_id": "V83-CANON-HV06",
+            "parent_card_path": "references/ontology/cards/human-actor/hv06-drive-to-carry-chain.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-P4452",
+            "evidence_excerpt": "十一项变量共享同一行动边界：变量本身只生成描述、证据缺口与行动需求，不授权现实调整。其输出上限如下。",
+            "relation_note": "原文明示十一项变量共享同一行动边界，本句是全体变量的共同约束，不是HV11独有规则。"
+          },
+          {
+            "parent_concept_id": "V83-CANON-HV07",
+            "parent_card_path": "references/ontology/cards/human-actor/hv07-feedback-writeback.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-P4452",
+            "evidence_excerpt": "十一项变量共享同一行动边界：变量本身只生成描述、证据缺口与行动需求，不授权现实调整。其输出上限如下。",
+            "relation_note": "原文明示十一项变量共享同一行动边界，本句是全体变量的共同约束，不是HV11独有规则。"
+          },
+          {
+            "parent_concept_id": "V83-CANON-HV08",
+            "parent_card_path": "references/ontology/cards/human-actor/hv08-condition-field.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-P4452",
+            "evidence_excerpt": "十一项变量共享同一行动边界：变量本身只生成描述、证据缺口与行动需求，不授权现实调整。其输出上限如下。",
+            "relation_note": "原文明示十一项变量共享同一行动边界，本句是全体变量的共同约束，不是HV11独有规则。"
+          },
+          {
+            "parent_concept_id": "V83-CANON-HV09",
+            "parent_card_path": "references/ontology/cards/human-actor/hv09-structural-load.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-P4452",
+            "evidence_excerpt": "十一项变量共享同一行动边界：变量本身只生成描述、证据缺口与行动需求，不授权现实调整。其输出上限如下。",
+            "relation_note": "原文明示十一项变量共享同一行动边界，本句是全体变量的共同约束，不是HV11独有规则。"
+          },
+          {
+            "parent_concept_id": "V83-CANON-HV10",
+            "parent_card_path": "references/ontology/cards/human-actor/hv10-evolution-phase.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-P4452",
+            "evidence_excerpt": "十一项变量共享同一行动边界：变量本身只生成描述、证据缺口与行动需求，不授权现实调整。其输出上限如下。",
+            "relation_note": "原文明示十一项变量共享同一行动边界，本句是全体变量的共同约束，不是HV11独有规则。"
+          },
           {
             "parent_concept_id": "V83-CANON-HV11",
             "parent_card_path": "references/ontology/cards/human-actor/hv11-open-bearing-action.md",
             "evidence_kind": "authored_relation",
-            "evidence_anchor": "V83-P4303",
-            "evidence_excerpt": "A.11　HV11 开放性承担行动（完整接口卡）",
-            "relation_note": "V83-P4452 的边界或约束字段在 V83-P4303 的精确源语境下归属于 V83-CANON-HV11。"
+            "evidence_anchor": "V83-P4452",
+            "evidence_excerpt": "十一项变量共享同一行动边界：变量本身只生成描述、证据缺口与行动需求，不授权现实调整。其输出上限如下。",
+            "relation_note": "原文明示十一项变量共享同一行动边界，本句是全体变量的共同约束，不是HV11独有规则。"
           }
         ]
       },
-      "review_note": "V83-P4452 的精确源单元“十一项变量共享同一行动边界：变量本身只生成描述、证据缺口与行动需求，不授权现实调整。其输出上限如下。”经逐候选语义审查处置为 subordinate_value；源证据将其归入 V83-CANON-HV11。"
+      "review_note": "V83-P4452 处置为 subordinate_value；原文明示十一项变量共享同一行动边界，本句是全体变量的共同约束，不是HV11独有规则。 父概念为 V83-CANON-HV01, V83-CANON-HV02, V83-CANON-HV03, V83-CANON-HV04, V83-CANON-HV05, V83-CANON-HV06, V83-CANON-HV07, V83-CANON-HV08, V83-CANON-HV09, V83-CANON-HV10, V83-CANON-HV11。"
     },
     {
       "candidate_id": "V83-CANDIDATE-P4453",
@@ -48857,23 +49466,27 @@
             "source_excerpt": "[\"HV05\",\"CV、RS、成本、容量、停止权、承接缺口及减载、补资源或重分配需求\"]"
           },
           {
-            "source_anchor": "V83-P4463",
-            "source_excerpt": "HV05"
+            "source_anchor": "V83-P4452",
+            "source_excerpt": "十一项变量共享同一行动边界：变量本身只生成描述、证据缺口与行动需求，不授权现实调整。其输出上限如下。"
+          },
+          {
+            "source_anchor": "V83-P4477",
+            "source_excerpt": "无论需求看起来多么明显，任何现实调整都须另过 C12、运行时显式 N 前提、J 授权与 O 程序。变量不得自行授权测试、减载、补资源、修复、保护、归责、试探、推进、退出安排或处置。"
           }
         ],
-        "decision_note": "V83-T119-R006 的 HV05 输出约束是 HV05 接口的从属值，经逐候选语义审查处置为 subordinate_value；源证据将其归入 V83-CANON-HV05。",
+        "decision_note": "V83-T119-R006 处置为 subordinate_value；本行同时含HV05标识与其描述或需求上限，整行是该接口的附属输出规则；单独标识单元仍可作别名，不能把整行等同标识。 父概念为 V83-CANON-HV05。",
         "parent_relations": [
           {
             "parent_concept_id": "V83-CANON-HV05",
             "parent_card_path": "references/ontology/cards/human-actor/hv05-carrying-layer.md",
             "evidence_kind": "authored_relation",
-            "evidence_anchor": "V83-P4463",
-            "evidence_excerpt": "HV05",
-            "relation_note": "V83-T119-R006 的输出约束在 V83-P4463 的精确源语境下归属于 V83-CANON-HV05。"
+            "evidence_anchor": "V83-T119-R006",
+            "evidence_excerpt": "[\"HV05\",\"CV、RS、成本、容量、停止权、承接缺口及减载、补资源或重分配需求\"]",
+            "relation_note": "本行同时含HV05标识与其描述或需求上限，整行是该接口的附属输出规则；单独标识单元仍可作别名，不能把整行等同标识。"
           }
         ]
       },
-      "review_note": "V83-T119-R006 的 HV05 输出约束是 HV05 接口的从属值，经逐候选语义审查处置为 subordinate_value；源证据将其归入 V83-CANON-HV05。"
+      "review_note": "V83-T119-R006 处置为 subordinate_value；本行同时含HV05标识与其描述或需求上限，整行是该接口的附属输出规则；单独标识单元仍可作别名，不能把整行等同标识。 父概念为 V83-CANON-HV05。"
     },
     {
       "candidate_id": "V83-CANDIDATE-T119-R007",
@@ -48893,23 +49506,27 @@
             "source_excerpt": "[\"HV06\",\"链条连通、时滞、损耗、中断、成本与承接需求\"]"
           },
           {
-            "source_anchor": "V83-P4465",
-            "source_excerpt": "HV06"
+            "source_anchor": "V83-P4452",
+            "source_excerpt": "十一项变量共享同一行动边界：变量本身只生成描述、证据缺口与行动需求，不授权现实调整。其输出上限如下。"
+          },
+          {
+            "source_anchor": "V83-P4477",
+            "source_excerpt": "无论需求看起来多么明显，任何现实调整都须另过 C12、运行时显式 N 前提、J 授权与 O 程序。变量不得自行授权测试、减载、补资源、修复、保护、归责、试探、推进、退出安排或处置。"
           }
         ],
-        "decision_note": "V83-T119-R007 的 HV06 输出约束是 HV06 接口的从属值，经逐候选语义审查处置为 subordinate_value；源证据将其归入 V83-CANON-HV06。",
+        "decision_note": "V83-T119-R007 处置为 subordinate_value；本行同时含HV06标识与其描述或需求上限，整行是该接口的附属输出规则；单独标识单元仍可作别名，不能把整行等同标识。 父概念为 V83-CANON-HV06。",
         "parent_relations": [
           {
             "parent_concept_id": "V83-CANON-HV06",
             "parent_card_path": "references/ontology/cards/human-actor/hv06-drive-to-carry-chain.md",
             "evidence_kind": "authored_relation",
-            "evidence_anchor": "V83-P4465",
-            "evidence_excerpt": "HV06",
-            "relation_note": "V83-T119-R007 的输出约束在 V83-P4465 的精确源语境下归属于 V83-CANON-HV06。"
+            "evidence_anchor": "V83-T119-R007",
+            "evidence_excerpt": "[\"HV06\",\"链条连通、时滞、损耗、中断、成本与承接需求\"]",
+            "relation_note": "本行同时含HV06标识与其描述或需求上限，整行是该接口的附属输出规则；单独标识单元仍可作别名，不能把整行等同标识。"
           }
         ]
       },
-      "review_note": "V83-T119-R007 的 HV06 输出约束是 HV06 接口的从属值，经逐候选语义审查处置为 subordinate_value；源证据将其归入 V83-CANON-HV06。"
+      "review_note": "V83-T119-R007 处置为 subordinate_value；本行同时含HV06标识与其描述或需求上限，整行是该接口的附属输出规则；单独标识单元仍可作别名，不能把整行等同标识。 父概念为 V83-CANON-HV06。"
     },
     {
       "candidate_id": "V83-CANDIDATE-T119-R008",
@@ -48929,23 +49546,27 @@
             "source_excerpt": "[\"HV07\",\"受理、字段变化、执行、持续时间、写回缺口与程序修复需求\"]"
           },
           {
-            "source_anchor": "V83-P4467",
-            "source_excerpt": "HV07"
+            "source_anchor": "V83-P4452",
+            "source_excerpt": "十一项变量共享同一行动边界：变量本身只生成描述、证据缺口与行动需求，不授权现实调整。其输出上限如下。"
+          },
+          {
+            "source_anchor": "V83-P4477",
+            "source_excerpt": "无论需求看起来多么明显，任何现实调整都须另过 C12、运行时显式 N 前提、J 授权与 O 程序。变量不得自行授权测试、减载、补资源、修复、保护、归责、试探、推进、退出安排或处置。"
           }
         ],
-        "decision_note": "V83-T119-R008 的 HV07 输出约束是 HV07 接口的从属值，经逐候选语义审查处置为 subordinate_value；源证据将其归入 V83-CANON-HV07。",
+        "decision_note": "V83-T119-R008 处置为 subordinate_value；本行同时含HV07标识与其描述或需求上限，整行是该接口的附属输出规则；单独标识单元仍可作别名，不能把整行等同标识。 父概念为 V83-CANON-HV07。",
         "parent_relations": [
           {
             "parent_concept_id": "V83-CANON-HV07",
             "parent_card_path": "references/ontology/cards/human-actor/hv07-feedback-writeback.md",
             "evidence_kind": "authored_relation",
-            "evidence_anchor": "V83-P4467",
-            "evidence_excerpt": "HV07",
-            "relation_note": "V83-T119-R008 的输出约束在 V83-P4467 的精确源语境下归属于 V83-CANON-HV07。"
+            "evidence_anchor": "V83-T119-R008",
+            "evidence_excerpt": "[\"HV07\",\"受理、字段变化、执行、持续时间、写回缺口与程序修复需求\"]",
+            "relation_note": "本行同时含HV07标识与其描述或需求上限，整行是该接口的附属输出规则；单独标识单元仍可作别名，不能把整行等同标识。"
           }
         ]
       },
-      "review_note": "V83-T119-R008 的 HV07 输出约束是 HV07 接口的从属值，经逐候选语义审查处置为 subordinate_value；源证据将其归入 V83-CANON-HV07。"
+      "review_note": "V83-T119-R008 处置为 subordinate_value；本行同时含HV07标识与其描述或需求上限，整行是该接口的附属输出规则；单独标识单元仍可作别名，不能把整行等同标识。 父概念为 V83-CANON-HV07。"
     },
     {
       "candidate_id": "V83-CANDIDATE-T119-R009",
@@ -48965,23 +49586,27 @@
             "source_excerpt": "[\"HV08\",\"候选条件通道、位置异质性、证据遮蔽与风险降低需求\"]"
           },
           {
-            "source_anchor": "V83-P4469",
-            "source_excerpt": "HV08"
+            "source_anchor": "V83-P4452",
+            "source_excerpt": "十一项变量共享同一行动边界：变量本身只生成描述、证据缺口与行动需求，不授权现实调整。其输出上限如下。"
+          },
+          {
+            "source_anchor": "V83-P4477",
+            "source_excerpt": "无论需求看起来多么明显，任何现实调整都须另过 C12、运行时显式 N 前提、J 授权与 O 程序。变量不得自行授权测试、减载、补资源、修复、保护、归责、试探、推进、退出安排或处置。"
           }
         ],
-        "decision_note": "V83-T119-R009 的 HV08 输出约束是 HV08 接口的从属值，经逐候选语义审查处置为 subordinate_value；源证据将其归入 V83-CANON-HV08。",
+        "decision_note": "V83-T119-R009 处置为 subordinate_value；本行同时含HV08标识与其描述或需求上限，整行是该接口的附属输出规则；单独标识单元仍可作别名，不能把整行等同标识。 父概念为 V83-CANON-HV08。",
         "parent_relations": [
           {
             "parent_concept_id": "V83-CANON-HV08",
             "parent_card_path": "references/ontology/cards/human-actor/hv08-condition-field.md",
             "evidence_kind": "authored_relation",
-            "evidence_anchor": "V83-P4469",
-            "evidence_excerpt": "HV08",
-            "relation_note": "V83-T119-R009 的输出约束在 V83-P4469 的精确源语境下归属于 V83-CANON-HV08。"
+            "evidence_anchor": "V83-T119-R009",
+            "evidence_excerpt": "[\"HV08\",\"候选条件通道、位置异质性、证据遮蔽与风险降低需求\"]",
+            "relation_note": "本行同时含HV08标识与其描述或需求上限，整行是该接口的附属输出规则；单独标识单元仍可作别名，不能把整行等同标识。"
           }
         ]
       },
-      "review_note": "V83-T119-R009 的 HV08 输出约束是 HV08 接口的从属值，经逐候选语义审查处置为 subordinate_value；源证据将其归入 V83-CANON-HV08。"
+      "review_note": "V83-T119-R009 处置为 subordinate_value；本行同时含HV08标识与其描述或需求上限，整行是该接口的附属输出规则；单独标识单元仍可作别名，不能把整行等同标识。 父概念为 V83-CANON-HV08。"
     },
     {
       "candidate_id": "V83-CANDIDATE-T119-R010",
@@ -49001,23 +49626,27 @@
             "source_excerpt": "[\"HV09\",\"负荷、容量、恢复、局部过载与减载补资源需求\"]"
           },
           {
-            "source_anchor": "V83-P4471",
-            "source_excerpt": "HV09"
+            "source_anchor": "V83-P4452",
+            "source_excerpt": "十一项变量共享同一行动边界：变量本身只生成描述、证据缺口与行动需求，不授权现实调整。其输出上限如下。"
+          },
+          {
+            "source_anchor": "V83-P4477",
+            "source_excerpt": "无论需求看起来多么明显，任何现实调整都须另过 C12、运行时显式 N 前提、J 授权与 O 程序。变量不得自行授权测试、减载、补资源、修复、保护、归责、试探、推进、退出安排或处置。"
           }
         ],
-        "decision_note": "V83-T119-R010 的 HV09 输出约束是 HV09 接口的从属值，经逐候选语义审查处置为 subordinate_value；源证据将其归入 V83-CANON-HV09。",
+        "decision_note": "V83-T119-R010 处置为 subordinate_value；本行同时含HV09标识与其描述或需求上限，整行是该接口的附属输出规则；单独标识单元仍可作别名，不能把整行等同标识。 父概念为 V83-CANON-HV09。",
         "parent_relations": [
           {
             "parent_concept_id": "V83-CANON-HV09",
             "parent_card_path": "references/ontology/cards/human-actor/hv09-structural-load.md",
             "evidence_kind": "authored_relation",
-            "evidence_anchor": "V83-P4471",
-            "evidence_excerpt": "HV09",
-            "relation_note": "V83-T119-R010 的输出约束在 V83-P4471 的精确源语境下归属于 V83-CANON-HV09。"
+            "evidence_anchor": "V83-T119-R010",
+            "evidence_excerpt": "[\"HV09\",\"负荷、容量、恢复、局部过载与减载补资源需求\"]",
+            "relation_note": "本行同时含HV09标识与其描述或需求上限，整行是该接口的附属输出规则；单独标识单元仍可作别名，不能把整行等同标识。"
           }
         ]
       },
-      "review_note": "V83-T119-R010 的 HV09 输出约束是 HV09 接口的从属值，经逐候选语义审查处置为 subordinate_value；源证据将其归入 V83-CANON-HV09。"
+      "review_note": "V83-T119-R010 处置为 subordinate_value；本行同时含HV09标识与其描述或需求上限，整行是该接口的附属输出规则；单独标识单元仍可作别名，不能把整行等同标识。 父概念为 V83-CANON-HV09。"
     },
     {
       "candidate_id": "V83-CANDIDATE-T119-R011",
@@ -49037,23 +49666,27 @@
             "source_excerpt": "[\"HV10\",\"相位原型匹配、混合状态、不确定性与观察需求\"]"
           },
           {
-            "source_anchor": "V83-P4473",
-            "source_excerpt": "HV10"
+            "source_anchor": "V83-P4452",
+            "source_excerpt": "十一项变量共享同一行动边界：变量本身只生成描述、证据缺口与行动需求，不授权现实调整。其输出上限如下。"
+          },
+          {
+            "source_anchor": "V83-P4477",
+            "source_excerpt": "无论需求看起来多么明显，任何现实调整都须另过 C12、运行时显式 N 前提、J 授权与 O 程序。变量不得自行授权测试、减载、补资源、修复、保护、归责、试探、推进、退出安排或处置。"
           }
         ],
-        "decision_note": "V83-T119-R011 的 HV10 输出约束是 HV10 接口的从属值，经逐候选语义审查处置为 subordinate_value；源证据将其归入 V83-CANON-HV10。",
+        "decision_note": "V83-T119-R011 处置为 subordinate_value；本行同时含HV10标识与其描述或需求上限，整行是该接口的附属输出规则；单独标识单元仍可作别名，不能把整行等同标识。 父概念为 V83-CANON-HV10。",
         "parent_relations": [
           {
             "parent_concept_id": "V83-CANON-HV10",
             "parent_card_path": "references/ontology/cards/human-actor/hv10-evolution-phase.md",
             "evidence_kind": "authored_relation",
-            "evidence_anchor": "V83-P4473",
-            "evidence_excerpt": "HV10",
-            "relation_note": "V83-T119-R011 的输出约束在 V83-P4473 的精确源语境下归属于 V83-CANON-HV10。"
+            "evidence_anchor": "V83-T119-R011",
+            "evidence_excerpt": "[\"HV10\",\"相位原型匹配、混合状态、不确定性与观察需求\"]",
+            "relation_note": "本行同时含HV10标识与其描述或需求上限，整行是该接口的附属输出规则；单独标识单元仍可作别名，不能把整行等同标识。"
           }
         ]
       },
-      "review_note": "V83-T119-R011 的 HV10 输出约束是 HV10 接口的从属值，经逐候选语义审查处置为 subordinate_value；源证据将其归入 V83-CANON-HV10。"
+      "review_note": "V83-T119-R011 处置为 subordinate_value；本行同时含HV10标识与其描述或需求上限，整行是该接口的附属输出规则；单独标识单元仍可作别名，不能把整行等同标识。 父概念为 V83-CANON-HV10。"
     },
     {
       "candidate_id": "V83-CANDIDATE-T119-R012",
@@ -49073,23 +49706,27 @@
             "source_excerpt": "[\"HV11\",\"自愿性、真实成本、方向、替代解释、结构后果与停止保护需求\"]"
           },
           {
-            "source_anchor": "V83-P4475",
-            "source_excerpt": "HV11"
+            "source_anchor": "V83-P4452",
+            "source_excerpt": "十一项变量共享同一行动边界：变量本身只生成描述、证据缺口与行动需求，不授权现实调整。其输出上限如下。"
+          },
+          {
+            "source_anchor": "V83-P4477",
+            "source_excerpt": "无论需求看起来多么明显，任何现实调整都须另过 C12、运行时显式 N 前提、J 授权与 O 程序。变量不得自行授权测试、减载、补资源、修复、保护、归责、试探、推进、退出安排或处置。"
           }
         ],
-        "decision_note": "V83-T119-R012 的 HV11 输出约束是 HV11 接口的从属值，经逐候选语义审查处置为 subordinate_value；源证据将其归入 V83-CANON-HV11。",
+        "decision_note": "V83-T119-R012 处置为 subordinate_value；本行同时含HV11标识与其描述或需求上限，整行是该接口的附属输出规则；单独标识单元仍可作别名，不能把整行等同标识。 父概念为 V83-CANON-HV11。",
         "parent_relations": [
           {
             "parent_concept_id": "V83-CANON-HV11",
             "parent_card_path": "references/ontology/cards/human-actor/hv11-open-bearing-action.md",
             "evidence_kind": "authored_relation",
-            "evidence_anchor": "V83-P4475",
-            "evidence_excerpt": "HV11",
-            "relation_note": "V83-T119-R012 的输出约束在 V83-P4475 的精确源语境下归属于 V83-CANON-HV11。"
+            "evidence_anchor": "V83-T119-R012",
+            "evidence_excerpt": "[\"HV11\",\"自愿性、真实成本、方向、替代解释、结构后果与停止保护需求\"]",
+            "relation_note": "本行同时含HV11标识与其描述或需求上限，整行是该接口的附属输出规则；单独标识单元仍可作别名，不能把整行等同标识。"
           }
         ]
       },
-      "review_note": "V83-T119-R012 的 HV11 输出约束是 HV11 接口的从属值，经逐候选语义审查处置为 subordinate_value；源证据将其归入 V83-CANON-HV11。"
+      "review_note": "V83-T119-R012 处置为 subordinate_value；本行同时含HV11标识与其描述或需求上限，整行是该接口的附属输出规则；单独标识单元仍可作别名，不能把整行等同标识。 父概念为 V83-CANON-HV11。"
     },
     {
       "candidate_id": "V83-CANDIDATE-T121",
@@ -49834,6 +50471,1509 @@
         ]
       },
       "review_note": "V83-T062-R006 处置为 subordinate_value；13.7 明确列出六项正式工具的作用与边界；边界案例是压力测试的输入，不是将正式工具表标为示例。其父概念为 V83-CANON-CORE-TOOL-BOUNDARY。"
+    },
+    {
+      "candidate_id": "V83-CANDIDATE-P0392",
+      "source_anchor": "V83-P0392",
+      "semantic_fingerprint_sha256": "4f59ce3fea60275f13fecf8362b1d0f347725c0226d904675beaf230ba40b4bd",
+      "disposition": "subordinate_value",
+      "bound_concept_ids": [],
+      "parent_concept_ids": [
+        "V83-CANON-CORE-OUTPUT-SEPARATION"
+      ],
+      "source_basis": {
+        "source_excerpt": "读者按问题进入相应部分：理解概念先查通用语法与根假设，比较尺度先查跨尺度变换，处理现实案例先过接口、选择与干涉流程。",
+        "disposition": "subordinate_value",
+        "context_evidence": [
+          {
+            "source_anchor": "V83-P0392",
+            "source_excerpt": "读者按问题进入相应部分：理解概念先查通用语法与根假设，比较尺度先查跨尺度变换，处理现实案例先过接口、选择与干涉流程。"
+          },
+          {
+            "source_anchor": "V83-P0382",
+            "source_excerpt": "四类工作必须分别陈述目的、依据与结论边界。从事实判断形成规范评价、方案建议或制度草案，必须明示采用的规范前提、价值冲突及连接事实与建议的理由；事实本身不能推出应当。提出意见、比较方案或形成供审议的文本，不产生约束他者的处置权。将这些输出用于现实执行、处分、资格或资源配置时，仍须按其用途完成适用的复核、保护、规范选择和独立授权程序。意见的名称不改变其实际影响；具有可预见高影响用途的输出，仍须进入相应审查。"
+          },
+          {
+            "source_anchor": "V83-P0391",
+            "source_excerpt": "1.5　快速入口"
+          }
+        ],
+        "decision_note": "V83-P0392 处置为 subordinate_value；本段按问题类型给出读者入口，现实案例是被路由的对象词；这是分层任务的附属导航说明，不是一个实例，也不授予跳过运行合同的权限。 父概念为 V83-CANON-CORE-OUTPUT-SEPARATION。",
+        "parent_relations": [
+          {
+            "parent_concept_id": "V83-CANON-CORE-OUTPUT-SEPARATION",
+            "parent_card_path": "references/ontology/cards/foundation-boundary/core-boundary-contracts.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-P0392",
+            "evidence_excerpt": "读者按问题进入相应部分：理解概念先查通用语法与根假设，比较尺度先查跨尺度变换，处理现实案例先过接口、选择与干涉流程。",
+            "relation_note": "本段按问题类型给出读者入口，现实案例是被路由的对象词；这是分层任务的附属导航说明，不是一个实例，也不授予跳过运行合同的权限。"
+          }
+        ]
+      },
+      "review_note": "V83-P0392 处置为 subordinate_value；本段按问题类型给出读者入口，现实案例是被路由的对象词；这是分层任务的附属导航说明，不是一个实例，也不授予跳过运行合同的权限。 父概念为 V83-CANON-CORE-OUTPUT-SEPARATION。"
+    },
+    {
+      "candidate_id": "V83-CANDIDATE-P0847",
+      "source_anchor": "V83-P0847",
+      "semantic_fingerprint_sha256": "8a55b533e9562005db0935155644cd03249d1b3e3a7e4534bab0868777182272",
+      "disposition": "subordinate_value",
+      "bound_concept_ids": [],
+      "parent_concept_ids": [
+        "V83-CANON-CORE-ROOT-INSTANCE-CONTRACT",
+        "V83-CANON-CORE-OUTPUT-SEPARATION"
+      ],
+      "source_basis": {
+        "source_excerpt": "根层的最高输出是受对象、尺度、时间窗、证据和外推单元约束的描述或候选机制。G 模板仍待实例检验，C 是受限推理规则，条件机制还需独立实例证据。定义、编号、示例和内部说明不能回答经验命题是否在世界中成立。因此，根层一旦触及价值、责任、牺牲、选择或处置，就必须停止并把问题交给人类领域分型、规范原则与 O1—O4 程序。",
+        "disposition": "subordinate_value",
+        "context_evidence": [
+          {
+            "source_anchor": "V83-P0847",
+            "source_excerpt": "根层的最高输出是受对象、尺度、时间窗、证据和外推单元约束的描述或候选机制。G 模板仍待实例检验，C 是受限推理规则，条件机制还需独立实例证据。定义、编号、示例和内部说明不能回答经验命题是否在世界中成立。因此，根层一旦触及价值、责任、牺牲、选择或处置，就必须停止并把问题交给人类领域分型、规范原则与 O1—O4 程序。"
+          },
+          {
+            "source_anchor": "V83-P0845",
+            "source_excerpt": "任何根组合都不构成充分条件；附加条件、方法门、桥接证据或适用边界缺失时，只生成检查问题。“根模板并列不构成充分条件”是每条 C 合同的共同约束，而不是可被经验结果取消的措辞。即使 G1—G4 的某组实例全部通过，也不推出 S0—S6 阶段、方向、价值、责任、选择或授权；这些结论分别需要自己的分类、规范和程序合同。"
+          },
+          {
+            "source_anchor": "V83-P0846",
+            "source_excerpt": "4.16　根层输出的停止位置"
+          }
+        ],
+        "decision_note": "V83-P0847 处置为 subordinate_value；4.16规定根层描述与候选机制的最高输出及规范移交；示例出现在禁止内部材料自证的主语中，不能据该词把整段降为例子。 父概念为 V83-CANON-CORE-ROOT-INSTANCE-CONTRACT, V83-CANON-CORE-OUTPUT-SEPARATION。",
+        "parent_relations": [
+          {
+            "parent_concept_id": "V83-CANON-CORE-ROOT-INSTANCE-CONTRACT",
+            "parent_card_path": "references/ontology/cards/evidence-claim/root-evidence-contracts.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-P0847",
+            "evidence_excerpt": "根层的最高输出是受对象、尺度、时间窗、证据和外推单元约束的描述或候选机制。G 模板仍待实例检验，C 是受限推理规则，条件机制还需独立实例证据。定义、编号、示例和内部说明不能回答经验命题是否在世界中成立。因此，根层一旦触及价值、责任、牺牲、选择或处置，就必须停止并把问题交给人类领域分型、规范原则与 O1—O4 程序。",
+            "relation_note": "4.16规定根层描述与候选机制的最高输出及规范移交；示例出现在禁止内部材料自证的主语中，不能据该词把整段降为例子。"
+          },
+          {
+            "parent_concept_id": "V83-CANON-CORE-OUTPUT-SEPARATION",
+            "parent_card_path": "references/ontology/cards/foundation-boundary/core-boundary-contracts.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-P0847",
+            "evidence_excerpt": "根层的最高输出是受对象、尺度、时间窗、证据和外推单元约束的描述或候选机制。G 模板仍待实例检验，C 是受限推理规则，条件机制还需独立实例证据。定义、编号、示例和内部说明不能回答经验命题是否在世界中成立。因此，根层一旦触及价值、责任、牺牲、选择或处置，就必须停止并把问题交给人类领域分型、规范原则与 O1—O4 程序。",
+            "relation_note": "4.16规定根层描述与候选机制的最高输出及规范移交；示例出现在禁止内部材料自证的主语中，不能据该词把整段降为例子。"
+          }
+        ]
+      },
+      "review_note": "V83-P0847 处置为 subordinate_value；4.16规定根层描述与候选机制的最高输出及规范移交；示例出现在禁止内部材料自证的主语中，不能据该词把整段降为例子。 父概念为 V83-CANON-CORE-ROOT-INSTANCE-CONTRACT, V83-CANON-CORE-OUTPUT-SEPARATION。"
+    },
+    {
+      "candidate_id": "V83-CANDIDATE-P1025",
+      "source_anchor": "V83-P1025",
+      "semantic_fingerprint_sha256": "206991f5f9eb68d36ddf982210fc5427461b76f584fa02f82b21d511c080f027",
+      "disposition": "subordinate_value",
+      "bound_concept_ids": [],
+      "parent_concept_ids": [
+        "V83-CANON-CORE-M01",
+        "V83-CANON-CORE-M02",
+        "V83-CANON-CORE-M03",
+        "V83-CANON-CORE-M04",
+        "V83-CANON-CORE-M05",
+        "V83-CANON-CORE-M06",
+        "V83-CANON-CORE-M07",
+        "V83-CANON-CORE-M08",
+        "V83-CANON-CORE-M09"
+      ],
+      "source_basis": {
+        "source_excerpt": "M01—M09 的名称、编号、语义签名和分类结果只规定变换应怎样描述与检验，不构成变换已经发生、映射有效或目标性质成立的经验支持。内部概念标签、示例、字段完整度和算法自报结果均不得进入 source_evidence 或 target_evidence 代替对象材料。",
+        "disposition": "subordinate_value",
+        "context_evidence": [
+          {
+            "source_anchor": "V83-P1025",
+            "source_excerpt": "M01—M09 的名称、编号、语义签名和分类结果只规定变换应怎样描述与检验，不构成变换已经发生、映射有效或目标性质成立的经验支持。内部概念标签、示例、字段完整度和算法自报结果均不得进入 source_evidence 或 target_evidence 代替对象材料。"
+          },
+          {
+            "source_anchor": "V83-P1024",
+            "source_excerpt": "5.9　证据边界与独立支持"
+          },
+          {
+            "source_anchor": "V83-P1026",
+            "source_excerpt": "每个实际变换必须分别在源对象和目标对象上取得可解析的独立材料，明确映射、保持项、改变项、丢失项、误差与竞争解释，并接受同一结果状态、正向门和零结论门。源域材料只能生成目标候选；目标侧没有独立支持时，结论停在待检验映射或未知。"
+          }
+        ],
+        "decision_note": "V83-P1025 处置为 subordinate_value；5.9逐一约束M01—M09的证据身份；名称、示例和完整字段不得替代源对象及目标对象材料，是所有九种算子的共同证据边界。 父概念为 V83-CANON-CORE-M01, V83-CANON-CORE-M02, V83-CANON-CORE-M03, V83-CANON-CORE-M04, V83-CANON-CORE-M05, V83-CANON-CORE-M06, V83-CANON-CORE-M07, V83-CANON-CORE-M08, V83-CANON-CORE-M09。",
+        "parent_relations": [
+          {
+            "parent_concept_id": "V83-CANON-CORE-M01",
+            "parent_card_path": "references/ontology/cards/object-scale/scale-profiles-and-operators.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-P1025",
+            "evidence_excerpt": "M01—M09 的名称、编号、语义签名和分类结果只规定变换应怎样描述与检验，不构成变换已经发生、映射有效或目标性质成立的经验支持。内部概念标签、示例、字段完整度和算法自报结果均不得进入 source_evidence 或 target_evidence 代替对象材料。",
+            "relation_note": "5.9逐一约束M01—M09的证据身份；名称、示例和完整字段不得替代源对象及目标对象材料，是所有九种算子的共同证据边界。"
+          },
+          {
+            "parent_concept_id": "V83-CANON-CORE-M02",
+            "parent_card_path": "references/ontology/cards/object-scale/scale-profiles-and-operators.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-P1025",
+            "evidence_excerpt": "M01—M09 的名称、编号、语义签名和分类结果只规定变换应怎样描述与检验，不构成变换已经发生、映射有效或目标性质成立的经验支持。内部概念标签、示例、字段完整度和算法自报结果均不得进入 source_evidence 或 target_evidence 代替对象材料。",
+            "relation_note": "5.9逐一约束M01—M09的证据身份；名称、示例和完整字段不得替代源对象及目标对象材料，是所有九种算子的共同证据边界。"
+          },
+          {
+            "parent_concept_id": "V83-CANON-CORE-M03",
+            "parent_card_path": "references/ontology/cards/object-scale/scale-profiles-and-operators.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-P1025",
+            "evidence_excerpt": "M01—M09 的名称、编号、语义签名和分类结果只规定变换应怎样描述与检验，不构成变换已经发生、映射有效或目标性质成立的经验支持。内部概念标签、示例、字段完整度和算法自报结果均不得进入 source_evidence 或 target_evidence 代替对象材料。",
+            "relation_note": "5.9逐一约束M01—M09的证据身份；名称、示例和完整字段不得替代源对象及目标对象材料，是所有九种算子的共同证据边界。"
+          },
+          {
+            "parent_concept_id": "V83-CANON-CORE-M04",
+            "parent_card_path": "references/ontology/cards/object-scale/scale-profiles-and-operators.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-P1025",
+            "evidence_excerpt": "M01—M09 的名称、编号、语义签名和分类结果只规定变换应怎样描述与检验，不构成变换已经发生、映射有效或目标性质成立的经验支持。内部概念标签、示例、字段完整度和算法自报结果均不得进入 source_evidence 或 target_evidence 代替对象材料。",
+            "relation_note": "5.9逐一约束M01—M09的证据身份；名称、示例和完整字段不得替代源对象及目标对象材料，是所有九种算子的共同证据边界。"
+          },
+          {
+            "parent_concept_id": "V83-CANON-CORE-M05",
+            "parent_card_path": "references/ontology/cards/object-scale/scale-profiles-and-operators.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-P1025",
+            "evidence_excerpt": "M01—M09 的名称、编号、语义签名和分类结果只规定变换应怎样描述与检验，不构成变换已经发生、映射有效或目标性质成立的经验支持。内部概念标签、示例、字段完整度和算法自报结果均不得进入 source_evidence 或 target_evidence 代替对象材料。",
+            "relation_note": "5.9逐一约束M01—M09的证据身份；名称、示例和完整字段不得替代源对象及目标对象材料，是所有九种算子的共同证据边界。"
+          },
+          {
+            "parent_concept_id": "V83-CANON-CORE-M06",
+            "parent_card_path": "references/ontology/cards/object-scale/scale-profiles-and-operators.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-P1025",
+            "evidence_excerpt": "M01—M09 的名称、编号、语义签名和分类结果只规定变换应怎样描述与检验，不构成变换已经发生、映射有效或目标性质成立的经验支持。内部概念标签、示例、字段完整度和算法自报结果均不得进入 source_evidence 或 target_evidence 代替对象材料。",
+            "relation_note": "5.9逐一约束M01—M09的证据身份；名称、示例和完整字段不得替代源对象及目标对象材料，是所有九种算子的共同证据边界。"
+          },
+          {
+            "parent_concept_id": "V83-CANON-CORE-M07",
+            "parent_card_path": "references/ontology/cards/object-scale/scale-profiles-and-operators.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-P1025",
+            "evidence_excerpt": "M01—M09 的名称、编号、语义签名和分类结果只规定变换应怎样描述与检验，不构成变换已经发生、映射有效或目标性质成立的经验支持。内部概念标签、示例、字段完整度和算法自报结果均不得进入 source_evidence 或 target_evidence 代替对象材料。",
+            "relation_note": "5.9逐一约束M01—M09的证据身份；名称、示例和完整字段不得替代源对象及目标对象材料，是所有九种算子的共同证据边界。"
+          },
+          {
+            "parent_concept_id": "V83-CANON-CORE-M08",
+            "parent_card_path": "references/ontology/cards/object-scale/scale-profiles-and-operators.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-P1025",
+            "evidence_excerpt": "M01—M09 的名称、编号、语义签名和分类结果只规定变换应怎样描述与检验，不构成变换已经发生、映射有效或目标性质成立的经验支持。内部概念标签、示例、字段完整度和算法自报结果均不得进入 source_evidence 或 target_evidence 代替对象材料。",
+            "relation_note": "5.9逐一约束M01—M09的证据身份；名称、示例和完整字段不得替代源对象及目标对象材料，是所有九种算子的共同证据边界。"
+          },
+          {
+            "parent_concept_id": "V83-CANON-CORE-M09",
+            "parent_card_path": "references/ontology/cards/object-scale/scale-profiles-and-operators.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-P1025",
+            "evidence_excerpt": "M01—M09 的名称、编号、语义签名和分类结果只规定变换应怎样描述与检验，不构成变换已经发生、映射有效或目标性质成立的经验支持。内部概念标签、示例、字段完整度和算法自报结果均不得进入 source_evidence 或 target_evidence 代替对象材料。",
+            "relation_note": "5.9逐一约束M01—M09的证据身份；名称、示例和完整字段不得替代源对象及目标对象材料，是所有九种算子的共同证据边界。"
+          }
+        ]
+      },
+      "review_note": "V83-P1025 处置为 subordinate_value；5.9逐一约束M01—M09的证据身份；名称、示例和完整字段不得替代源对象及目标对象材料，是所有九种算子的共同证据边界。 父概念为 V83-CANON-CORE-M01, V83-CANON-CORE-M02, V83-CANON-CORE-M03, V83-CANON-CORE-M04, V83-CANON-CORE-M05, V83-CANON-CORE-M06, V83-CANON-CORE-M07, V83-CANON-CORE-M08, V83-CANON-CORE-M09。"
+    },
+    {
+      "candidate_id": "V83-CANDIDATE-P1506",
+      "source_anchor": "V83-P1506",
+      "semantic_fingerprint_sha256": "77dd6dff641cabca4d656d527b897502161a04e9aa97a124cd321b278fdce799",
+      "disposition": "subordinate_value",
+      "bound_concept_ids": [],
+      "parent_concept_ids": [
+        "V83-CANON-S0",
+        "V83-CANON-S1",
+        "V83-CANON-S2",
+        "V83-CANON-S3",
+        "V83-CANON-S4",
+        "V83-CANON-S5",
+        "V83-CANON-S6"
+      ],
+      "source_basis": {
+        "source_excerpt": "路径名也不产生价值或责任。例如，regression 不是道德堕落，split 不必然失败，merge 不必然进步，takeover 不是自动非法，external_carrier_migration 也不是要求个体自行逃离。路径只是让竞争解释进入记录；机制、正当性与行动仍需各自合同。",
+        "disposition": "subordinate_value",
+        "context_evidence": [
+          {
+            "source_anchor": "V83-P1506",
+            "source_excerpt": "路径名也不产生价值或责任。例如，regression 不是道德堕落，split 不必然失败，merge 不必然进步，takeover 不是自动非法，external_carrier_migration 也不是要求个体自行逃离。路径只是让竞争解释进入记录；机制、正当性与行动仍需各自合同。"
+          },
+          {
+            "source_anchor": "V83-P1505",
+            "source_excerpt": "与 X0、功能转移、保护性休眠和对象重组分开；资源释放不使伤害正当。"
+          }
+        ],
+        "decision_note": "V83-P1506 处置为 subordinate_value；路径名不生成价值、责任或正当性是原型路径的共同限制；列出的regression等只是阐释该限制，不能把首尾规则当作可忽略的示例。 父概念为 V83-CANON-S0, V83-CANON-S1, V83-CANON-S2, V83-CANON-S3, V83-CANON-S4, V83-CANON-S5, V83-CANON-S6。",
+        "parent_relations": [
+          {
+            "parent_concept_id": "V83-CANON-S0",
+            "parent_card_path": "references/ontology/cards/circles-collectives/s0-s6-prototypes.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-P1506",
+            "evidence_excerpt": "路径名也不产生价值或责任。例如，regression 不是道德堕落，split 不必然失败，merge 不必然进步，takeover 不是自动非法，external_carrier_migration 也不是要求个体自行逃离。路径只是让竞争解释进入记录；机制、正当性与行动仍需各自合同。",
+            "relation_note": "路径名不生成价值、责任或正当性是原型路径的共同限制；列出的regression等只是阐释该限制，不能把首尾规则当作可忽略的示例。"
+          },
+          {
+            "parent_concept_id": "V83-CANON-S1",
+            "parent_card_path": "references/ontology/cards/circles-collectives/s0-s6-prototypes.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-P1506",
+            "evidence_excerpt": "路径名也不产生价值或责任。例如，regression 不是道德堕落，split 不必然失败，merge 不必然进步，takeover 不是自动非法，external_carrier_migration 也不是要求个体自行逃离。路径只是让竞争解释进入记录；机制、正当性与行动仍需各自合同。",
+            "relation_note": "路径名不生成价值、责任或正当性是原型路径的共同限制；列出的regression等只是阐释该限制，不能把首尾规则当作可忽略的示例。"
+          },
+          {
+            "parent_concept_id": "V83-CANON-S2",
+            "parent_card_path": "references/ontology/cards/circles-collectives/s0-s6-prototypes.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-P1506",
+            "evidence_excerpt": "路径名也不产生价值或责任。例如，regression 不是道德堕落，split 不必然失败，merge 不必然进步，takeover 不是自动非法，external_carrier_migration 也不是要求个体自行逃离。路径只是让竞争解释进入记录；机制、正当性与行动仍需各自合同。",
+            "relation_note": "路径名不生成价值、责任或正当性是原型路径的共同限制；列出的regression等只是阐释该限制，不能把首尾规则当作可忽略的示例。"
+          },
+          {
+            "parent_concept_id": "V83-CANON-S3",
+            "parent_card_path": "references/ontology/cards/circles-collectives/s0-s6-prototypes.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-P1506",
+            "evidence_excerpt": "路径名也不产生价值或责任。例如，regression 不是道德堕落，split 不必然失败，merge 不必然进步，takeover 不是自动非法，external_carrier_migration 也不是要求个体自行逃离。路径只是让竞争解释进入记录；机制、正当性与行动仍需各自合同。",
+            "relation_note": "路径名不生成价值、责任或正当性是原型路径的共同限制；列出的regression等只是阐释该限制，不能把首尾规则当作可忽略的示例。"
+          },
+          {
+            "parent_concept_id": "V83-CANON-S4",
+            "parent_card_path": "references/ontology/cards/circles-collectives/s0-s6-prototypes.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-P1506",
+            "evidence_excerpt": "路径名也不产生价值或责任。例如，regression 不是道德堕落，split 不必然失败，merge 不必然进步，takeover 不是自动非法，external_carrier_migration 也不是要求个体自行逃离。路径只是让竞争解释进入记录；机制、正当性与行动仍需各自合同。",
+            "relation_note": "路径名不生成价值、责任或正当性是原型路径的共同限制；列出的regression等只是阐释该限制，不能把首尾规则当作可忽略的示例。"
+          },
+          {
+            "parent_concept_id": "V83-CANON-S5",
+            "parent_card_path": "references/ontology/cards/circles-collectives/s0-s6-prototypes.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-P1506",
+            "evidence_excerpt": "路径名也不产生价值或责任。例如，regression 不是道德堕落，split 不必然失败，merge 不必然进步，takeover 不是自动非法，external_carrier_migration 也不是要求个体自行逃离。路径只是让竞争解释进入记录；机制、正当性与行动仍需各自合同。",
+            "relation_note": "路径名不生成价值、责任或正当性是原型路径的共同限制；列出的regression等只是阐释该限制，不能把首尾规则当作可忽略的示例。"
+          },
+          {
+            "parent_concept_id": "V83-CANON-S6",
+            "parent_card_path": "references/ontology/cards/circles-collectives/s0-s6-prototypes.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-P1506",
+            "evidence_excerpt": "路径名也不产生价值或责任。例如，regression 不是道德堕落，split 不必然失败，merge 不必然进步，takeover 不是自动非法，external_carrier_migration 也不是要求个体自行逃离。路径只是让竞争解释进入记录；机制、正当性与行动仍需各自合同。",
+            "relation_note": "路径名不生成价值、责任或正当性是原型路径的共同限制；列出的regression等只是阐释该限制，不能把首尾规则当作可忽略的示例。"
+          }
+        ]
+      },
+      "review_note": "V83-P1506 处置为 subordinate_value；路径名不生成价值、责任或正当性是原型路径的共同限制；列出的regression等只是阐释该限制，不能把首尾规则当作可忽略的示例。 父概念为 V83-CANON-S0, V83-CANON-S1, V83-CANON-S2, V83-CANON-S3, V83-CANON-S4, V83-CANON-S5, V83-CANON-S6。"
+    },
+    {
+      "candidate_id": "V83-CANDIDATE-P1546",
+      "source_anchor": "V83-P1546",
+      "semantic_fingerprint_sha256": "42ae0360f0b6e81ad25fccf2dfd630dd947fe61f26f6b43e5b34a8acc09fd43b",
+      "disposition": "subordinate_value",
+      "bound_concept_ids": [],
+      "parent_concept_ids": [
+        "V83-CANON-CORE-ANALOGY-CONTRACT",
+        "V83-CANON-PROTOTYPE-MIXED-STATE-BOUNDARY"
+      ],
+      "source_basis": {
+        "source_excerpt": "缺少形式映射、量纲、可证伪预测和类比终止条件的物理隐喻不进入正式机制库。例如，“量子隧穿”不能解释人类集体为何跳跃转换；失败尝试是否改变后续路径，只能由 G3-instance 支持。生物死亡与社会更新、爱与传承之间也不预设必然协作；代际承接只按角色、记忆、授权与交接接口记录。",
+        "disposition": "subordinate_value",
+        "context_evidence": [
+          {
+            "source_anchor": "V83-P1546",
+            "source_excerpt": "缺少形式映射、量纲、可证伪预测和类比终止条件的物理隐喻不进入正式机制库。例如，“量子隧穿”不能解释人类集体为何跳跃转换；失败尝试是否改变后续路径，只能由 G3-instance 支持。生物死亡与社会更新、爱与传承之间也不预设必然协作；代际承接只按角色、记忆、授权与交接接口记录。"
+          },
+          {
+            "source_anchor": "V83-P1543",
+            "source_excerpt": "8.7　当前原型边界与排除项"
+          },
+          {
+            "source_anchor": "V83-P1544",
+            "source_excerpt": "S0—S6 是一组可反驳、可缺失、可并行、可撤回的人类集体状态原型。每个候选都必须逐项检查入口、退出、观察、反例、证伪、尺度、证据、缺失和非授权边界；缺少这些条件时，只能保留为印象或未知。编号不表示从 0 到 6 的普遍演化路线，状态之间允许回退、并行、混合、跳跃、休眠、分裂、合并、接管、功能转移与崩解。"
+          }
+        ],
+        "decision_note": "V83-P1546 处置为 subordinate_value；原型边界明确排除无形式映射、量纲、证伪和终止条件的物理隐喻；量子隧穿是被排除的具体替换，不使整段的方法限制失去约束力。 父概念为 V83-CANON-CORE-ANALOGY-CONTRACT, V83-CANON-PROTOTYPE-MIXED-STATE-BOUNDARY。",
+        "parent_relations": [
+          {
+            "parent_concept_id": "V83-CANON-CORE-ANALOGY-CONTRACT",
+            "parent_card_path": "references/ontology/cards/evidence-claim/root-evidence-contracts.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-P1546",
+            "evidence_excerpt": "缺少形式映射、量纲、可证伪预测和类比终止条件的物理隐喻不进入正式机制库。例如，“量子隧穿”不能解释人类集体为何跳跃转换；失败尝试是否改变后续路径，只能由 G3-instance 支持。生物死亡与社会更新、爱与传承之间也不预设必然协作；代际承接只按角色、记忆、授权与交接接口记录。",
+            "relation_note": "原型边界明确排除无形式映射、量纲、证伪和终止条件的物理隐喻；量子隧穿是被排除的具体替换，不使整段的方法限制失去约束力。"
+          },
+          {
+            "parent_concept_id": "V83-CANON-PROTOTYPE-MIXED-STATE-BOUNDARY",
+            "parent_card_path": "references/ontology/cards/circles-collectives/s0-s6-prototypes.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-P1546",
+            "evidence_excerpt": "缺少形式映射、量纲、可证伪预测和类比终止条件的物理隐喻不进入正式机制库。例如，“量子隧穿”不能解释人类集体为何跳跃转换；失败尝试是否改变后续路径，只能由 G3-instance 支持。生物死亡与社会更新、爱与传承之间也不预设必然协作；代际承接只按角色、记忆、授权与交接接口记录。",
+            "relation_note": "原型边界明确排除无形式映射、量纲、证伪和终止条件的物理隐喻；量子隧穿是被排除的具体替换，不使整段的方法限制失去约束力。"
+          }
+        ]
+      },
+      "review_note": "V83-P1546 处置为 subordinate_value；原型边界明确排除无形式映射、量纲、证伪和终止条件的物理隐喻；量子隧穿是被排除的具体替换，不使整段的方法限制失去约束力。 父概念为 V83-CANON-CORE-ANALOGY-CONTRACT, V83-CANON-PROTOTYPE-MIXED-STATE-BOUNDARY。"
+    },
+    {
+      "candidate_id": "V83-CANDIDATE-P1547",
+      "source_anchor": "V83-P1547",
+      "semantic_fingerprint_sha256": "7d9b48bbd60b5fd265c4c86653f02782059cb882cc5ba713553d784e9f624a11",
+      "disposition": "subordinate_value",
+      "bound_concept_ids": [],
+      "parent_concept_ids": [
+        "V83-CANON-S0",
+        "V83-CANON-S1",
+        "V83-CANON-S2",
+        "V83-CANON-S3",
+        "V83-CANON-S4",
+        "V83-CANON-S5",
+        "V83-CANON-S6"
+      ],
+      "source_basis": {
+        "source_excerpt": "七种原型不声称穷尽人类集体的全部状态。案例若持续落在原型之外，应先保留未解释残差，再依据独立材料检验是否需要新增、合并或拆分原型，而不是把案例硬塞进编号。",
+        "disposition": "subordinate_value",
+        "context_evidence": [
+          {
+            "source_anchor": "V83-P1547",
+            "source_excerpt": "七种原型不声称穷尽人类集体的全部状态。案例若持续落在原型之外，应先保留未解释残差，再依据独立材料检验是否需要新增、合并或拆分原型，而不是把案例硬塞进编号。"
+          },
+          {
+            "source_anchor": "V83-P1543",
+            "source_excerpt": "8.7　当前原型边界与排除项"
+          },
+          {
+            "source_anchor": "V83-P1544",
+            "source_excerpt": "S0—S6 是一组可反驳、可缺失、可并行、可撤回的人类集体状态原型。每个候选都必须逐项检查入口、退出、观察、反例、证伪、尺度、证据、缺失和非授权边界；缺少这些条件时，只能保留为印象或未知。编号不表示从 0 到 6 的普遍演化路线，状态之间允许回退、并行、混合、跳跃、休眠、分裂、合并、接管、功能转移与崩解。"
+          }
+        ],
+        "decision_note": "V83-P1547 处置为 subordinate_value；七种原型非穷尽、残差先保留和不得强塞编号适用于S0—S6全组；案例是需要分类的对象，不是本段的文本身份。 父概念为 V83-CANON-S0, V83-CANON-S1, V83-CANON-S2, V83-CANON-S3, V83-CANON-S4, V83-CANON-S5, V83-CANON-S6。",
+        "parent_relations": [
+          {
+            "parent_concept_id": "V83-CANON-S0",
+            "parent_card_path": "references/ontology/cards/circles-collectives/s0-s6-prototypes.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-P1547",
+            "evidence_excerpt": "七种原型不声称穷尽人类集体的全部状态。案例若持续落在原型之外，应先保留未解释残差，再依据独立材料检验是否需要新增、合并或拆分原型，而不是把案例硬塞进编号。",
+            "relation_note": "七种原型非穷尽、残差先保留和不得强塞编号适用于S0—S6全组；案例是需要分类的对象，不是本段的文本身份。"
+          },
+          {
+            "parent_concept_id": "V83-CANON-S1",
+            "parent_card_path": "references/ontology/cards/circles-collectives/s0-s6-prototypes.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-P1547",
+            "evidence_excerpt": "七种原型不声称穷尽人类集体的全部状态。案例若持续落在原型之外，应先保留未解释残差，再依据独立材料检验是否需要新增、合并或拆分原型，而不是把案例硬塞进编号。",
+            "relation_note": "七种原型非穷尽、残差先保留和不得强塞编号适用于S0—S6全组；案例是需要分类的对象，不是本段的文本身份。"
+          },
+          {
+            "parent_concept_id": "V83-CANON-S2",
+            "parent_card_path": "references/ontology/cards/circles-collectives/s0-s6-prototypes.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-P1547",
+            "evidence_excerpt": "七种原型不声称穷尽人类集体的全部状态。案例若持续落在原型之外，应先保留未解释残差，再依据独立材料检验是否需要新增、合并或拆分原型，而不是把案例硬塞进编号。",
+            "relation_note": "七种原型非穷尽、残差先保留和不得强塞编号适用于S0—S6全组；案例是需要分类的对象，不是本段的文本身份。"
+          },
+          {
+            "parent_concept_id": "V83-CANON-S3",
+            "parent_card_path": "references/ontology/cards/circles-collectives/s0-s6-prototypes.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-P1547",
+            "evidence_excerpt": "七种原型不声称穷尽人类集体的全部状态。案例若持续落在原型之外，应先保留未解释残差，再依据独立材料检验是否需要新增、合并或拆分原型，而不是把案例硬塞进编号。",
+            "relation_note": "七种原型非穷尽、残差先保留和不得强塞编号适用于S0—S6全组；案例是需要分类的对象，不是本段的文本身份。"
+          },
+          {
+            "parent_concept_id": "V83-CANON-S4",
+            "parent_card_path": "references/ontology/cards/circles-collectives/s0-s6-prototypes.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-P1547",
+            "evidence_excerpt": "七种原型不声称穷尽人类集体的全部状态。案例若持续落在原型之外，应先保留未解释残差，再依据独立材料检验是否需要新增、合并或拆分原型，而不是把案例硬塞进编号。",
+            "relation_note": "七种原型非穷尽、残差先保留和不得强塞编号适用于S0—S6全组；案例是需要分类的对象，不是本段的文本身份。"
+          },
+          {
+            "parent_concept_id": "V83-CANON-S5",
+            "parent_card_path": "references/ontology/cards/circles-collectives/s0-s6-prototypes.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-P1547",
+            "evidence_excerpt": "七种原型不声称穷尽人类集体的全部状态。案例若持续落在原型之外，应先保留未解释残差，再依据独立材料检验是否需要新增、合并或拆分原型，而不是把案例硬塞进编号。",
+            "relation_note": "七种原型非穷尽、残差先保留和不得强塞编号适用于S0—S6全组；案例是需要分类的对象，不是本段的文本身份。"
+          },
+          {
+            "parent_concept_id": "V83-CANON-S6",
+            "parent_card_path": "references/ontology/cards/circles-collectives/s0-s6-prototypes.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-P1547",
+            "evidence_excerpt": "七种原型不声称穷尽人类集体的全部状态。案例若持续落在原型之外，应先保留未解释残差，再依据独立材料检验是否需要新增、合并或拆分原型，而不是把案例硬塞进编号。",
+            "relation_note": "七种原型非穷尽、残差先保留和不得强塞编号适用于S0—S6全组；案例是需要分类的对象，不是本段的文本身份。"
+          }
+        ]
+      },
+      "review_note": "V83-P1547 处置为 subordinate_value；七种原型非穷尽、残差先保留和不得强塞编号适用于S0—S6全组；案例是需要分类的对象，不是本段的文本身份。 父概念为 V83-CANON-S0, V83-CANON-S1, V83-CANON-S2, V83-CANON-S3, V83-CANON-S4, V83-CANON-S5, V83-CANON-S6。"
+    },
+    {
+      "candidate_id": "V83-CANDIDATE-P1595",
+      "source_anchor": "V83-P1595",
+      "semantic_fingerprint_sha256": "1675584951fcfbff8070c4e734bf95037e1db88a58ba28166a350ec15fc34203",
+      "disposition": "subordinate_value",
+      "bound_concept_ids": [],
+      "parent_concept_ids": [
+        "V83-CANON-ACTOR-SNAPSHOT"
+      ],
+      "source_basis": {
+        "source_excerpt": "快变量虽然短暂，却可能通过阈值、公开留痕、不可逆行动或他人反馈进入中变量和慢变量。例如，一次短时恐惧本身不等于长期不信任；但若恐惧导致公开退缩、组织惩罚、关系破裂和反复回避，它可能经多圈层反馈形成更持久的路径。推演必须写出这条通道，不能把结果倒推为“他本来就不信任”。",
+        "disposition": "subordinate_value",
+        "context_evidence": [
+          {
+            "source_anchor": "V83-P1595",
+            "source_excerpt": "快变量虽然短暂，却可能通过阈值、公开留痕、不可逆行动或他人反馈进入中变量和慢变量。例如，一次短时恐惧本身不等于长期不信任；但若恐惧导致公开退缩、组织惩罚、关系破裂和反复回避，它可能经多圈层反馈形成更持久的路径。推演必须写出这条通道，不能把结果倒推为“他本来就不信任”。"
+          },
+          {
+            "source_anchor": "V83-P1594",
+            "source_excerpt": "快变量包括即时情绪、唤醒、注意、恐惧、冲动、当前信念、短时身体状态、机会感知和当前策略。快变量必须绑定具体时点和事件，不能用一次快变量状态推断长期人格。"
+          }
+        ],
+        "decision_note": "V83-P1595 处置为 subordinate_value；快变量进入中慢变量必须经阈值、留痕、行动与反馈通道，本段首尾给出一般状态传导与禁止倒推动机的规则；恐惧情景只解释该规则。 父概念为 V83-CANON-ACTOR-SNAPSHOT。",
+        "parent_relations": [
+          {
+            "parent_concept_id": "V83-CANON-ACTOR-SNAPSHOT",
+            "parent_card_path": "references/ontology/cards/human-actor/actor-state-snapshot.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-P1595",
+            "evidence_excerpt": "快变量虽然短暂，却可能通过阈值、公开留痕、不可逆行动或他人反馈进入中变量和慢变量。例如，一次短时恐惧本身不等于长期不信任；但若恐惧导致公开退缩、组织惩罚、关系破裂和反复回避，它可能经多圈层反馈形成更持久的路径。推演必须写出这条通道，不能把结果倒推为“他本来就不信任”。",
+            "relation_note": "快变量进入中慢变量必须经阈值、留痕、行动与反馈通道，本段首尾给出一般状态传导与禁止倒推动机的规则；恐惧情景只解释该规则。"
+          }
+        ]
+      },
+      "review_note": "V83-P1595 处置为 subordinate_value；快变量进入中慢变量必须经阈值、留痕、行动与反馈通道，本段首尾给出一般状态传导与禁止倒推动机的规则；恐惧情景只解释该规则。 父概念为 V83-CANON-ACTOR-SNAPSHOT。"
+    },
+    {
+      "candidate_id": "V83-CANDIDATE-P1865",
+      "source_anchor": "V83-P1865",
+      "semantic_fingerprint_sha256": "d14e52da35c256f0db31ec2cca07b5154f42a650565ebf6d1f6cc9691e078766",
+      "disposition": "subordinate_value",
+      "bound_concept_ids": [],
+      "parent_concept_ids": [
+        "V83-CANON-DUAL-CONDITIONS"
+      ],
+      "source_basis": {
+        "source_excerpt": "两条通道可以相互作用。例如，平台流量规则改变可见性和收入，这是物质与信息条件；成员把下降解释为排斥或失败，这是体验—意义变化；解释又可能改变退出、抗议或合作，从而反馈到平台指标和资源配置。每一步都要有载体、方向、时延和反例。",
+        "disposition": "subordinate_value",
+        "context_evidence": [
+          {
+            "source_anchor": "V83-P1865",
+            "source_excerpt": "两条通道可以相互作用。例如，平台流量规则改变可见性和收入，这是物质与信息条件；成员把下降解释为排斥或失败，这是体验—意义变化；解释又可能改变退出、抗议或合作，从而反馈到平台指标和资源配置。每一步都要有载体、方向、时延和反例。"
+          },
+          {
+            "source_anchor": "V83-P1863",
+            "source_excerpt": "10.6　物质条件与体验—意义条件"
+          },
+          {
+            "source_anchor": "V83-P1864",
+            "source_excerpt": "联合状态同时维护 M 与 Ψ。M 包括身体、时间、空间、资金、能源、设备、基础设施、产权、供应、照护和实际行动能力；Ψ 包括感受、期待、记忆、身份、信任、羞耻、希望、恐惧、承诺、价值冲突和合法性感知。"
+          }
+        ],
+        "decision_note": "V83-P1865 处置为 subordinate_value；物质信息与体验意义通道可相互作用，且每步须有载体、方向、时延和反例；平台情景不能取消这些一般接口条件。 父概念为 V83-CANON-DUAL-CONDITIONS。",
+        "parent_relations": [
+          {
+            "parent_concept_id": "V83-CANON-DUAL-CONDITIONS",
+            "parent_card_path": "references/ontology/cards/human-actor/dual-conditions-privacy.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-P1865",
+            "evidence_excerpt": "两条通道可以相互作用。例如，平台流量规则改变可见性和收入，这是物质与信息条件；成员把下降解释为排斥或失败，这是体验—意义变化；解释又可能改变退出、抗议或合作，从而反馈到平台指标和资源配置。每一步都要有载体、方向、时延和反例。",
+            "relation_note": "物质信息与体验意义通道可相互作用，且每步须有载体、方向、时延和反例；平台情景不能取消这些一般接口条件。"
+          }
+        ]
+      },
+      "review_note": "V83-P1865 处置为 subordinate_value；物质信息与体验意义通道可相互作用，且每步须有载体、方向、时延和反例；平台情景不能取消这些一般接口条件。 父概念为 V83-CANON-DUAL-CONDITIONS。"
+    },
+    {
+      "candidate_id": "V83-CANDIDATE-P1919",
+      "source_anchor": "V83-P1919",
+      "semantic_fingerprint_sha256": "214eb71e8677458dd362917ae70c200a3798c53ffe0e2a1a9dbffa0b11a68921",
+      "disposition": "subordinate_value",
+      "bound_concept_ids": [],
+      "parent_concept_ids": [
+        "V83-CANON-CIRCLE",
+        "V83-CANON-CORE-DISSOLUTION-REPAIR"
+      ],
+      "source_basis": {
+        "source_excerpt": "事件后若圈层的 K 不再成立，应登记对象转换或解体。例如临时救援群体转成正式机构、项目团队分裂为竞争联盟、平台社区迁移到新平台、家庭照护结构因成员退出而重组。新对象不能覆盖旧对象的失败、责任和历史留痕。",
+        "disposition": "subordinate_value",
+        "context_evidence": [
+          {
+            "source_anchor": "V83-P1919",
+            "source_excerpt": "事件后若圈层的 K 不再成立，应登记对象转换或解体。例如临时救援群体转成正式机构、项目团队分裂为竞争联盟、平台社区迁移到新平台、家庭照护结构因成员退出而重组。新对象不能覆盖旧对象的失败、责任和历史留痕。"
+          },
+          {
+            "source_anchor": "V83-P1918",
+            "source_excerpt": "多圈层模型容易把选择的边界当成自然边界。至少要做三类扰动：改变成员阈值，观察结论是否稳定；移动时间窗，观察关系是否仍成立；替换或删除一个圈层，观察联合模型增益是否消失。若轻微边界变化导致结论翻转，应降低对象支持并报告敏感性。"
+          },
+          {
+            "source_anchor": "V83-P1920",
+            "source_excerpt": "10.10　联合状态的复杂度门"
+          }
+        ],
+        "decision_note": "V83-P1919 处置为 subordinate_value；圈层K失效须登记转换或解体并保留旧对象失败、责任和历史；救援群体等列举说明转换类型，首尾仍是一般身份与谱系限制。 父概念为 V83-CANON-CIRCLE, V83-CANON-CORE-DISSOLUTION-REPAIR。",
+        "parent_relations": [
+          {
+            "parent_concept_id": "V83-CANON-CIRCLE",
+            "parent_card_path": "references/ontology/cards/circles-collectives/circle-candidate-object.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-P1919",
+            "evidence_excerpt": "事件后若圈层的 K 不再成立，应登记对象转换或解体。例如临时救援群体转成正式机构、项目团队分裂为竞争联盟、平台社区迁移到新平台、家庭照护结构因成员退出而重组。新对象不能覆盖旧对象的失败、责任和历史留痕。",
+            "relation_note": "圈层K失效须登记转换或解体并保留旧对象失败、责任和历史；救援群体等列举说明转换类型，首尾仍是一般身份与谱系限制。"
+          },
+          {
+            "parent_concept_id": "V83-CANON-CORE-DISSOLUTION-REPAIR",
+            "parent_card_path": "references/ontology/cards/dynamics-evolution/operation-mechanisms.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-P1919",
+            "evidence_excerpt": "事件后若圈层的 K 不再成立，应登记对象转换或解体。例如临时救援群体转成正式机构、项目团队分裂为竞争联盟、平台社区迁移到新平台、家庭照护结构因成员退出而重组。新对象不能覆盖旧对象的失败、责任和历史留痕。",
+            "relation_note": "圈层K失效须登记转换或解体并保留旧对象失败、责任和历史；救援群体等列举说明转换类型，首尾仍是一般身份与谱系限制。"
+          }
+        ]
+      },
+      "review_note": "V83-P1919 处置为 subordinate_value；圈层K失效须登记转换或解体并保留旧对象失败、责任和历史；救援群体等列举说明转换类型，首尾仍是一般身份与谱系限制。 父概念为 V83-CANON-CIRCLE, V83-CANON-CORE-DISSOLUTION-REPAIR。"
+    },
+    {
+      "candidate_id": "V83-CANDIDATE-P2159",
+      "source_anchor": "V83-P2159",
+      "semantic_fingerprint_sha256": "1f1d42b83866bc86db5de62ea2850ad038507d8f75243cc84d7df8ed98c72fc2",
+      "disposition": "subordinate_value",
+      "bound_concept_ids": [],
+      "parent_concept_ids": [
+        "V83-CANON-CORE-FORECAST-REGISTRY"
+      ],
+      "source_basis": {
+        "source_excerpt": "目标必须可判定。例如“关系会变好”需要改写为指定时间窗内哪些可观察量改变、由谁观察、达到什么阈值以及何种结果视为未决。期限可以是窗口，不必伪造精确日期。对象和圈层范围必须冻结，避免结果后缩小到成功子群。",
+        "disposition": "subordinate_value",
+        "context_evidence": [
+          {
+            "source_anchor": "V83-P2159",
+            "source_excerpt": "目标必须可判定。例如“关系会变好”需要改写为指定时间窗内哪些可观察量改变、由谁观察、达到什么阈值以及何种结果视为未决。期限可以是窗口，不必伪造精确日期。对象和圈层范围必须冻结，避免结果后缩小到成功子群。"
+          },
+          {
+            "source_anchor": "V83-P2157",
+            "source_excerpt": "12.2　条件前瞻登记"
+          },
+          {
+            "source_anchor": "V83-P2158",
+            "source_excerpt": "每条前瞻在输入截止后、结果出现前冻结。最低字段包括：前瞻 ID、模型版本、目标、期限、对象与圈层范围、基线时点、输入截止、简单基线、候选机制、路径集合、概率或排序表达、校准计划、决策阈值、早期信号、反向信号、暂停条件、退役条件、结果回写、登记时间和证据引用。"
+          }
+        ],
+        "decision_note": "V83-P2159 处置为 subordinate_value；目标可判定、窗口与阈值、未决规则及禁止事后缩小对象都是前瞻登记要求；关系变好只是目标操作化的反例。 父概念为 V83-CANON-CORE-FORECAST-REGISTRY。",
+        "parent_relations": [
+          {
+            "parent_concept_id": "V83-CANON-CORE-FORECAST-REGISTRY",
+            "parent_card_path": "references/ontology/cards/event-inference/forecast-and-choice-interface.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-P2159",
+            "evidence_excerpt": "目标必须可判定。例如“关系会变好”需要改写为指定时间窗内哪些可观察量改变、由谁观察、达到什么阈值以及何种结果视为未决。期限可以是窗口，不必伪造精确日期。对象和圈层范围必须冻结，避免结果后缩小到成功子群。",
+            "relation_note": "目标可判定、窗口与阈值、未决规则及禁止事后缩小对象都是前瞻登记要求；关系变好只是目标操作化的反例。"
+          }
+        ]
+      },
+      "review_note": "V83-P2159 处置为 subordinate_value；目标可判定、窗口与阈值、未决规则及禁止事后缩小对象都是前瞻登记要求；关系变好只是目标操作化的反例。 父概念为 V83-CANON-CORE-FORECAST-REGISTRY。"
+    },
+    {
+      "candidate_id": "V83-CANDIDATE-P2622",
+      "source_anchor": "V83-P2622",
+      "semantic_fingerprint_sha256": "6dde0108aa57d3054420b419eb82993f2ed85865a19dc19fd4fa5cf40b75ac58",
+      "disposition": "subordinate_value",
+      "bound_concept_ids": [],
+      "parent_concept_ids": [
+        "V83-CANON-CORE-CHOICE-BRIDGE",
+        "V83-CANON-SELECTION"
+      ],
+      "source_basis": {
+        "source_excerpt": "N 的组合可能冲突。例如，快速止损可能与充分参与冲突，扩大公共收益可能与少数位置的权利风险冲突，短期可逆试点可能与长期稳定目标冲突。冲突不能用一个总分抹平。每项冲突必须有稳定 ID，列出相冲突的前提、受影响位置、异议、决策规则和当前状态。未解决的实质冲突可以导致暂停、缩小试点或保留不行动；不能通过删除异议来“解决”。",
+        "disposition": "subordinate_value",
+        "context_evidence": [
+          {
+            "source_anchor": "V83-P2622",
+            "source_excerpt": "N 的组合可能冲突。例如，快速止损可能与充分参与冲突，扩大公共收益可能与少数位置的权利风险冲突，短期可逆试点可能与长期稳定目标冲突。冲突不能用一个总分抹平。每项冲突必须有稳定 ID，列出相冲突的前提、受影响位置、异议、决策规则和当前状态。未解决的实质冲突可以导致暂停、缩小试点或保留不行动；不能通过删除异议来“解决”。"
+          },
+          {
+            "source_anchor": "V83-P2621",
+            "source_excerpt": "N5“存续与筛选不等于正当”把稳定、效率、相干性和筛选结果限制在后果证据的位置，禁止其替代正当性判断。"
+          }
+        ],
+        "decision_note": "V83-P2622 处置为 subordinate_value；规范冲突必须显式编号并保留受影响位置、异议及决定规则，不得用总分或删异议消除冲突；几个冲突情景说明但不取代共同合同。 父概念为 V83-CANON-CORE-CHOICE-BRIDGE, V83-CANON-SELECTION。",
+        "parent_relations": [
+          {
+            "parent_concept_id": "V83-CANON-CORE-CHOICE-BRIDGE",
+            "parent_card_path": "references/ontology/cards/event-inference/forecast-and-choice-interface.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-P2622",
+            "evidence_excerpt": "N 的组合可能冲突。例如，快速止损可能与充分参与冲突，扩大公共收益可能与少数位置的权利风险冲突，短期可逆试点可能与长期稳定目标冲突。冲突不能用一个总分抹平。每项冲突必须有稳定 ID，列出相冲突的前提、受影响位置、异议、决策规则和当前状态。未解决的实质冲突可以导致暂停、缩小试点或保留不行动；不能通过删除异议来“解决”。",
+            "relation_note": "规范冲突必须显式编号并保留受影响位置、异议及决定规则，不得用总分或删异议消除冲突；几个冲突情景说明但不取代共同合同。"
+          },
+          {
+            "parent_concept_id": "V83-CANON-SELECTION",
+            "parent_card_path": "references/ontology/cards/forecast-choice-intervention/choice-authorization.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-P2622",
+            "evidence_excerpt": "N 的组合可能冲突。例如，快速止损可能与充分参与冲突，扩大公共收益可能与少数位置的权利风险冲突，短期可逆试点可能与长期稳定目标冲突。冲突不能用一个总分抹平。每项冲突必须有稳定 ID，列出相冲突的前提、受影响位置、异议、决策规则和当前状态。未解决的实质冲突可以导致暂停、缩小试点或保留不行动；不能通过删除异议来“解决”。",
+            "relation_note": "规范冲突必须显式编号并保留受影响位置、异议及决定规则，不得用总分或删异议消除冲突；几个冲突情景说明但不取代共同合同。"
+          }
+        ]
+      },
+      "review_note": "V83-P2622 处置为 subordinate_value；规范冲突必须显式编号并保留受影响位置、异议及决定规则，不得用总分或删异议消除冲突；几个冲突情景说明但不取代共同合同。 父概念为 V83-CANON-CORE-CHOICE-BRIDGE, V83-CANON-SELECTION。"
+    },
+    {
+      "candidate_id": "V83-CANDIDATE-P2720",
+      "source_anchor": "V83-P2720",
+      "semantic_fingerprint_sha256": "2dcdd4e8d969f741a8fc465586aae798ef8f3e02f7887f8ff0711d8fdc19cabc",
+      "disposition": "subordinate_value",
+      "bound_concept_ids": [],
+      "parent_concept_ids": [
+        "V83-CANON-APP-GATE"
+      ],
+      "source_basis": {
+        "source_excerpt": "领域证据范围与缺失降级（部分覆盖）：框架规则可支持轻量关系入口、非正式场景保护和无法退出保护；尚缺独立的关系因果合同、系统案例与干涉效果证据。因此只能生成观察、风险升级和支持需求，不能据此判定人格、因果责任或干涉有效性；涉及暴力、强制或财产、居住与监护后果时，必须转交相应专业程序并缩小行动上限。",
+        "disposition": "subordinate_value",
+        "context_evidence": [
+          {
+            "source_anchor": "V83-P2720",
+            "source_excerpt": "领域证据范围与缺失降级（部分覆盖）：框架规则可支持轻量关系入口、非正式场景保护和无法退出保护；尚缺独立的关系因果合同、系统案例与干涉效果证据。因此只能生成观察、风险升级和支持需求，不能据此判定人格、因果责任或干涉有效性；涉及暴力、强制或财产、居住与监护后果时，必须转交相应专业程序并缩小行动上限。"
+          },
+          {
+            "source_anchor": "V83-P2715",
+            "source_excerpt": "15.3.1　APP-REL | 关系"
+          },
+          {
+            "source_anchor": "V83-P2719",
+            "source_excerpt": "工具最多生成自然语言观察、风险升级、外部支持和候选 T0-T4；不授权调解、披露、分离或财产处置，不诊断人格或疾病，不替代心理、医疗和法律判断。"
+          }
+        ],
+        "decision_note": "V83-P2720 处置为 subordinate_value；APP-REL的领域覆盖、证据缺口、专业移交和行动上限是应用共同门在关系场景的具体约束；系统案例是尚缺的证据而不是本文角色。 父概念为 V83-CANON-APP-GATE。",
+        "parent_relations": [
+          {
+            "parent_concept_id": "V83-CANON-APP-GATE",
+            "parent_card_path": "references/ontology/cards/forecast-choice-intervention/intervention-levels.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-P2720",
+            "evidence_excerpt": "领域证据范围与缺失降级（部分覆盖）：框架规则可支持轻量关系入口、非正式场景保护和无法退出保护；尚缺独立的关系因果合同、系统案例与干涉效果证据。因此只能生成观察、风险升级和支持需求，不能据此判定人格、因果责任或干涉有效性；涉及暴力、强制或财产、居住与监护后果时，必须转交相应专业程序并缩小行动上限。",
+            "relation_note": "APP-REL的领域覆盖、证据缺口、专业移交和行动上限是应用共同门在关系场景的具体约束；系统案例是尚缺的证据而不是本文角色。"
+          }
+        ]
+      },
+      "review_note": "V83-P2720 处置为 subordinate_value；APP-REL的领域覆盖、证据缺口、专业移交和行动上限是应用共同门在关系场景的具体约束；系统案例是尚缺的证据而不是本文角色。 父概念为 V83-CANON-APP-GATE。"
+    },
+    {
+      "candidate_id": "V83-CANDIDATE-P2744",
+      "source_anchor": "V83-P2744",
+      "semantic_fingerprint_sha256": "6dfa827ef56cee7b551542bfd5cff949466d14133f1c190363273ed35be4d74b",
+      "disposition": "subordinate_value",
+      "bound_concept_ids": [],
+      "parent_concept_ids": [
+        "V83-CANON-APP-GATE"
+      ],
+      "source_basis": {
+        "source_excerpt": "领域证据范围与缺失降级（实质覆盖）：规则层覆盖高权力密度、生产分配、公共承诺、多中心、官僚与反误用检查；具体制度仍需案例登记、法域比较和因果评估。缺少适用法律、执行数据、预算与受影响群体证据时，逐项停止依赖缺失材料的法律认定、效果认证与现实采用；不能借框架证明政治立场，也不能签发公共处置。具备独立依据的文本批评、明示规范前提的制度评价，以及完整的待审章程和计划草案可以成立，须逐条说明适用条件、代价与尚待复核事项。",
+        "disposition": "subordinate_value",
+        "context_evidence": [
+          {
+            "source_anchor": "V83-P2744",
+            "source_excerpt": "领域证据范围与缺失降级（实质覆盖）：规则层覆盖高权力密度、生产分配、公共承诺、多中心、官僚与反误用检查；具体制度仍需案例登记、法域比较和因果评估。缺少适用法律、执行数据、预算与受影响群体证据时，逐项停止依赖缺失材料的法律认定、效果认证与现实采用；不能借框架证明政治立场，也不能签发公共处置。具备独立依据的文本批评、明示规范前提的制度评价，以及完整的待审章程和计划草案可以成立，须逐条说明适用条件、代价与尚待复核事项。"
+          },
+          {
+            "source_anchor": "V83-P2739",
+            "source_excerpt": "15.3.5　APP-INS | 制度与公共治理"
+          },
+          {
+            "source_anchor": "V83-P2743",
+            "source_excerpt": "模块可生成制度风险、分配影响、程序缺口、压力测试和候选 T0-T4；不授权立法、执法、预算、资格、监管和公共资源处置。申诉和复核若被同一权力链控制、权利底线越界、临时措施永久化或框架被用作合法性包装，必须停止和回滚。"
+          }
+        ],
+        "decision_note": "V83-P2744 处置为 subordinate_value；APP-INS逐项阻断缺证的法律、效果与实际采用判断，同时保留有据文本批评、制度评价及完整待审章程和计划；案例登记是证据条件。 父概念为 V83-CANON-APP-GATE。",
+        "parent_relations": [
+          {
+            "parent_concept_id": "V83-CANON-APP-GATE",
+            "parent_card_path": "references/ontology/cards/forecast-choice-intervention/intervention-levels.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-P2744",
+            "evidence_excerpt": "领域证据范围与缺失降级（实质覆盖）：规则层覆盖高权力密度、生产分配、公共承诺、多中心、官僚与反误用检查；具体制度仍需案例登记、法域比较和因果评估。缺少适用法律、执行数据、预算与受影响群体证据时，逐项停止依赖缺失材料的法律认定、效果认证与现实采用；不能借框架证明政治立场，也不能签发公共处置。具备独立依据的文本批评、明示规范前提的制度评价，以及完整的待审章程和计划草案可以成立，须逐条说明适用条件、代价与尚待复核事项。",
+            "relation_note": "APP-INS逐项阻断缺证的法律、效果与实际采用判断，同时保留有据文本批评、制度评价及完整待审章程和计划；案例登记是证据条件。"
+          }
+        ]
+      },
+      "review_note": "V83-P2744 处置为 subordinate_value；APP-INS逐项阻断缺证的法律、效果与实际采用判断，同时保留有据文本批评、制度评价及完整待审章程和计划；案例登记是证据条件。 父概念为 V83-CANON-APP-GATE。"
+    },
+    {
+      "candidate_id": "V83-CANDIDATE-P2768",
+      "source_anchor": "V83-P2768",
+      "semantic_fingerprint_sha256": "eff0e0c771193d6db0f246731e5638f4142fb303fec048583188c76b529c89a1",
+      "disposition": "subordinate_value",
+      "bound_concept_ids": [],
+      "parent_concept_ids": [
+        "V83-CANON-APP-GATE"
+      ],
+      "source_basis": {
+        "source_excerpt": "领域证据范围与缺失降级（实质覆盖）：规则层覆盖盲区、适用开关、压力测试与干涉优先级；统一数据、案例注册、因果识别、代表性和跨域治理方法仍需按对象建立。缺少分层样本、资源容量、执行链或回滚证据时，不得从局部外推总体、从意图推定执行或提出一刀切方案；输出降为未判定区、补证计划与小范围可逆试行。",
+        "disposition": "subordinate_value",
+        "context_evidence": [
+          {
+            "source_anchor": "V83-P2768",
+            "source_excerpt": "领域证据范围与缺失降级（实质覆盖）：规则层覆盖盲区、适用开关、压力测试与干涉优先级；统一数据、案例注册、因果识别、代表性和跨域治理方法仍需按对象建立。缺少分层样本、资源容量、执行链或回滚证据时，不得从局部外推总体、从意图推定执行或提出一刀切方案；输出降为未判定区、补证计划与小范围可逆试行。"
+          },
+          {
+            "source_anchor": "V83-P2763",
+            "source_excerpt": "15.3.9　APP-ULS | 超大规模"
+          },
+          {
+            "source_anchor": "V83-P2767",
+            "source_excerpt": "模块只能生成未判定区、压力测试、分层试行、独立审查和候选 T0-T4；不授权一刀切总体处方和跨域治理。分组损害扩散、资源与执行容量低于前提、指标和现场系统性冲突、地方申诉不能写回或回滚能力不足时，停止扩量并逐层撤回。"
+          }
+        ],
+        "decision_note": "V83-P2768 处置为 subordinate_value；APP-ULS要求对象化建立分层样本、容量、执行链与回滚证据，限制局部外推和一刀切；案例注册是方法义务，不是将本段标为例子。 父概念为 V83-CANON-APP-GATE。",
+        "parent_relations": [
+          {
+            "parent_concept_id": "V83-CANON-APP-GATE",
+            "parent_card_path": "references/ontology/cards/forecast-choice-intervention/intervention-levels.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-P2768",
+            "evidence_excerpt": "领域证据范围与缺失降级（实质覆盖）：规则层覆盖盲区、适用开关、压力测试与干涉优先级；统一数据、案例注册、因果识别、代表性和跨域治理方法仍需按对象建立。缺少分层样本、资源容量、执行链或回滚证据时，不得从局部外推总体、从意图推定执行或提出一刀切方案；输出降为未判定区、补证计划与小范围可逆试行。",
+            "relation_note": "APP-ULS要求对象化建立分层样本、容量、执行链与回滚证据，限制局部外推和一刀切；案例注册是方法义务，不是将本段标为例子。"
+          }
+        ]
+      },
+      "review_note": "V83-P2768 处置为 subordinate_value；APP-ULS要求对象化建立分层样本、容量、执行链与回滚证据，限制局部外推和一刀切；案例注册是方法义务，不是将本段标为例子。 父概念为 V83-CANON-APP-GATE。"
+    },
+    {
+      "candidate_id": "V83-CANDIDATE-P2818",
+      "source_anchor": "V83-P2818",
+      "semantic_fingerprint_sha256": "8e64ec99e441b720aaa1426685bf8927e261f32fc1d1be307659f5dc29315b5d",
+      "disposition": "subordinate_value",
+      "bound_concept_ids": [],
+      "parent_concept_ids": [
+        "V83-CANON-GOV-LIFECYCLE"
+      ],
+      "source_basis": {
+        "source_excerpt": "没有 CLAIM-REGISTRY 记录的判断只能是内部思路，不能成为公开文本、组织处置或自动化输出。案例留痕多不等于更普遍，内部挑选案例也不等于外部验证。",
+        "disposition": "subordinate_value",
+        "context_evidence": [
+          {
+            "source_anchor": "V83-P2818",
+            "source_excerpt": "没有 CLAIM-REGISTRY 记录的判断只能是内部思路，不能成为公开文本、组织处置或自动化输出。案例留痕多不等于更普遍，内部挑选案例也不等于外部验证。"
+          },
+          {
+            "source_anchor": "V83-P2817",
+            "source_excerpt": "VERSION-LOG：把反例、边界收缩、降级、暂停、发布阻断、撤回、替代、退休、回滚和补救写成公开账本。"
+          }
+        ],
+        "decision_note": "V83-P2818 处置为 subordinate_value；CLAIM-REGISTRY是公开断言生命周期的入口；案例数量与内部挑选均不能代替外部支持，本段约束公开与自动化使用。 父概念为 V83-CANON-GOV-LIFECYCLE。",
+        "parent_relations": [
+          {
+            "parent_concept_id": "V83-CANON-GOV-LIFECYCLE",
+            "parent_card_path": "references/ontology/cards/governance-self-limit/lifecycle-and-capture.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-P2818",
+            "evidence_excerpt": "没有 CLAIM-REGISTRY 记录的判断只能是内部思路，不能成为公开文本、组织处置或自动化输出。案例留痕多不等于更普遍，内部挑选案例也不等于外部验证。",
+            "relation_note": "CLAIM-REGISTRY是公开断言生命周期的入口；案例数量与内部挑选均不能代替外部支持，本段约束公开与自动化使用。"
+          }
+        ]
+      },
+      "review_note": "V83-P2818 处置为 subordinate_value；CLAIM-REGISTRY是公开断言生命周期的入口；案例数量与内部挑选均不能代替外部支持，本段约束公开与自动化使用。 父概念为 V83-CANON-GOV-LIFECYCLE。"
+    },
+    {
+      "candidate_id": "V83-CANDIDATE-P2869",
+      "source_anchor": "V83-P2869",
+      "semantic_fingerprint_sha256": "67aab16d238d7a3144a14a64dbd52f5b8b10afde11476809e2d6a0cfe7bc42c5",
+      "disposition": "subordinate_value",
+      "bound_concept_ids": [],
+      "parent_concept_ids": [
+        "V83-CANON-CORE-ANALOGY-CONTRACT",
+        "V83-CANON-CORE-REPRESENTATION-TRANSLATION"
+      ],
+      "source_basis": {
+        "source_excerpt": "跨域概念必须标记身份：隐喻、类比、机制候选、经验旁证、形式模型或已验证规则。“像”不能改写成“遵循”；物理、生物和动物行为案例不直接证明人类组织和制度结论。每个隐喻都要说明相似点、不相似点、误用风险和停用证据。",
+        "disposition": "subordinate_value",
+        "context_evidence": [
+          {
+            "source_anchor": "V83-P2869",
+            "source_excerpt": "跨域概念必须标记身份：隐喻、类比、机制候选、经验旁证、形式模型或已验证规则。“像”不能改写成“遵循”；物理、生物和动物行为案例不直接证明人类组织和制度结论。每个隐喻都要说明相似点、不相似点、误用风险和停用证据。"
+          },
+          {
+            "source_anchor": "V83-P2868",
+            "source_excerpt": "规范前提必须公开转交第十四部分。保护低权力主体、反对用结构语言取消责任、倾向可申诉、可撤回与承接者再生产，都是本框架公开承担的价值边界，不是从事实中自动推出的中性结论。"
+          }
+        ],
+        "decision_note": "V83-P2869 处置为 subordinate_value；跨域身份、相似与不相似、误用及停用证据均须登记；物理生物案例不得直接证明人类结论，是类比与表示转义的边界。 父概念为 V83-CANON-CORE-ANALOGY-CONTRACT, V83-CANON-CORE-REPRESENTATION-TRANSLATION。",
+        "parent_relations": [
+          {
+            "parent_concept_id": "V83-CANON-CORE-ANALOGY-CONTRACT",
+            "parent_card_path": "references/ontology/cards/evidence-claim/root-evidence-contracts.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-P2869",
+            "evidence_excerpt": "跨域概念必须标记身份：隐喻、类比、机制候选、经验旁证、形式模型或已验证规则。“像”不能改写成“遵循”；物理、生物和动物行为案例不直接证明人类组织和制度结论。每个隐喻都要说明相似点、不相似点、误用风险和停用证据。",
+            "relation_note": "跨域身份、相似与不相似、误用及停用证据均须登记；物理生物案例不得直接证明人类结论，是类比与表示转义的边界。"
+          },
+          {
+            "parent_concept_id": "V83-CANON-CORE-REPRESENTATION-TRANSLATION",
+            "parent_card_path": "references/ontology/cards/object-scale/scale-profiles-and-operators.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-P2869",
+            "evidence_excerpt": "跨域概念必须标记身份：隐喻、类比、机制候选、经验旁证、形式模型或已验证规则。“像”不能改写成“遵循”；物理、生物和动物行为案例不直接证明人类组织和制度结论。每个隐喻都要说明相似点、不相似点、误用风险和停用证据。",
+            "relation_note": "跨域身份、相似与不相似、误用及停用证据均须登记；物理生物案例不得直接证明人类结论，是类比与表示转义的边界。"
+          }
+        ]
+      },
+      "review_note": "V83-P2869 处置为 subordinate_value；跨域身份、相似与不相似、误用及停用证据均须登记；物理生物案例不得直接证明人类结论，是类比与表示转义的边界。 父概念为 V83-CANON-CORE-ANALOGY-CONTRACT, V83-CANON-CORE-REPRESENTATION-TRANSLATION。"
+    },
+    {
+      "candidate_id": "V83-CANDIDATE-P2872",
+      "source_anchor": "V83-P2872",
+      "semantic_fingerprint_sha256": "085e7510b8224ceba379ac7aec5e0d693c2e44876a48752c1366004610d09a66",
+      "disposition": "subordinate_value",
+      "bound_concept_ids": [],
+      "parent_concept_ids": [
+        "V83-CANON-CORE-SOURCE-CONTRACT",
+        "V83-CANON-CORE-EVIDENCE-CONTRACT"
+      ],
+      "source_basis": {
+        "source_excerpt": "理论材料不代替案例证据，单一案例不代替普遍规则，内部总结不代替原始记录，AI 摘要不代替可追踪来源。本框架与其他理论建立互操作接口，不把自己写成吞并所有理论的总框架。",
+        "disposition": "subordinate_value",
+        "context_evidence": [
+          {
+            "source_anchor": "V83-P2872",
+            "source_excerpt": "理论材料不代替案例证据，单一案例不代替普遍规则，内部总结不代替原始记录，AI 摘要不代替可追踪来源。本框架与其他理论建立互操作接口，不把自己写成吞并所有理论的总框架。"
+          },
+          {
+            "source_anchor": "V83-P2871",
+            "source_excerpt": "每个能追溯的概念都要记录其思想亲缘、具体来源、版本、保留了什么、改造了什么、放弃了什么、跨文化和跨领域风险，以及来源能支持什么和不能支持什么。标注思想亲缘不会削弱框架，反而能降低神秘化和教条化。"
+          }
+        ],
+        "decision_note": "V83-P2872 处置为 subordinate_value；理论、案例、内部总结与AI摘要分别不能替代所需证据和原始来源；互操作不吞并其他理论，是来源与证据层级限制。 父概念为 V83-CANON-CORE-SOURCE-CONTRACT, V83-CANON-CORE-EVIDENCE-CONTRACT。",
+        "parent_relations": [
+          {
+            "parent_concept_id": "V83-CANON-CORE-SOURCE-CONTRACT",
+            "parent_card_path": "references/ontology/cards/foundation-boundary/claim-roles-and-missing-states.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-P2872",
+            "evidence_excerpt": "理论材料不代替案例证据，单一案例不代替普遍规则，内部总结不代替原始记录，AI 摘要不代替可追踪来源。本框架与其他理论建立互操作接口，不把自己写成吞并所有理论的总框架。",
+            "relation_note": "理论、案例、内部总结与AI摘要分别不能替代所需证据和原始来源；互操作不吞并其他理论，是来源与证据层级限制。"
+          },
+          {
+            "parent_concept_id": "V83-CANON-CORE-EVIDENCE-CONTRACT",
+            "parent_card_path": "references/ontology/cards/foundation-boundary/claim-roles-and-missing-states.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-P2872",
+            "evidence_excerpt": "理论材料不代替案例证据，单一案例不代替普遍规则，内部总结不代替原始记录，AI 摘要不代替可追踪来源。本框架与其他理论建立互操作接口，不把自己写成吞并所有理论的总框架。",
+            "relation_note": "理论、案例、内部总结与AI摘要分别不能替代所需证据和原始来源；互操作不吞并其他理论，是来源与证据层级限制。"
+          }
+        ]
+      },
+      "review_note": "V83-P2872 处置为 subordinate_value；理论、案例、内部总结与AI摘要分别不能替代所需证据和原始来源；互操作不吞并其他理论，是来源与证据层级限制。 父概念为 V83-CANON-CORE-SOURCE-CONTRACT, V83-CANON-CORE-EVIDENCE-CONTRACT。"
+    },
+    {
+      "candidate_id": "V83-CANDIDATE-P2898",
+      "source_anchor": "V83-P2898",
+      "semantic_fingerprint_sha256": "884572a6d32367dad3b8d5ba8d3c2da7412ff03003494e2ad2fbde4550ba9277",
+      "disposition": "subordinate_value",
+      "bound_concept_ids": [],
+      "parent_concept_ids": [
+        "V83-CANON-CORE-FORECAST-REGISTRY",
+        "V83-CANON-CORE-FORECAST-FAILURE"
+      ],
+      "source_basis": {
+        "source_excerpt": "前瞻注册表必须保留成功、失败、未决、目标失效和无法评价，不允许只公开命中案例。模型版本、输入截止、简单基线、指标和结果回写均可由外部审查者复核。长期校准恶化、跨群体误差集中、复杂模型不再优于基线或结果持续依赖事后变量时，前瞻能力声明自动降级。",
+        "disposition": "subordinate_value",
+        "context_evidence": [
+          {
+            "source_anchor": "V83-P2898",
+            "source_excerpt": "前瞻注册表必须保留成功、失败、未决、目标失效和无法评价，不允许只公开命中案例。模型版本、输入截止、简单基线、指标和结果回写均可由外部审查者复核。长期校准恶化、跨群体误差集中、复杂模型不再优于基线或结果持续依赖事后变量时，前瞻能力声明自动降级。"
+          },
+          {
+            "source_anchor": "V83-P2897",
+            "source_excerpt": "多圈层能力带来五类治理债：对象债，圈层因命名而被实体化；变量债，残差候选被自动补成事实；复杂度债，变量与路径增长但没有样本外增益；校准债，前瞻发布却不登记结果；权力债，预测被用于筛选、监控、惩罚或操纵。任一债务超过预先门槛时，框架应缩小模型、降低输出、暂停高影响用途或退役相应模块。"
+          }
+        ],
+        "decision_note": "V83-P2898 处置为 subordinate_value；前瞻登记须完整保留五类结果并可外部复核，校准恶化等触发能力降级；命中案例是禁止选择性披露的对象。 父概念为 V83-CANON-CORE-FORECAST-REGISTRY, V83-CANON-CORE-FORECAST-FAILURE。",
+        "parent_relations": [
+          {
+            "parent_concept_id": "V83-CANON-CORE-FORECAST-REGISTRY",
+            "parent_card_path": "references/ontology/cards/event-inference/forecast-and-choice-interface.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-P2898",
+            "evidence_excerpt": "前瞻注册表必须保留成功、失败、未决、目标失效和无法评价，不允许只公开命中案例。模型版本、输入截止、简单基线、指标和结果回写均可由外部审查者复核。长期校准恶化、跨群体误差集中、复杂模型不再优于基线或结果持续依赖事后变量时，前瞻能力声明自动降级。",
+            "relation_note": "前瞻登记须完整保留五类结果并可外部复核，校准恶化等触发能力降级；命中案例是禁止选择性披露的对象。"
+          },
+          {
+            "parent_concept_id": "V83-CANON-CORE-FORECAST-FAILURE",
+            "parent_card_path": "references/ontology/cards/event-inference/forecast-and-choice-interface.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-P2898",
+            "evidence_excerpt": "前瞻注册表必须保留成功、失败、未决、目标失效和无法评价，不允许只公开命中案例。模型版本、输入截止、简单基线、指标和结果回写均可由外部审查者复核。长期校准恶化、跨群体误差集中、复杂模型不再优于基线或结果持续依赖事后变量时，前瞻能力声明自动降级。",
+            "relation_note": "前瞻登记须完整保留五类结果并可外部复核，校准恶化等触发能力降级；命中案例是禁止选择性披露的对象。"
+          }
+        ]
+      },
+      "review_note": "V83-P2898 处置为 subordinate_value；前瞻登记须完整保留五类结果并可外部复核，校准恶化等触发能力降级；命中案例是禁止选择性披露的对象。 父概念为 V83-CANON-CORE-FORECAST-REGISTRY, V83-CANON-CORE-FORECAST-FAILURE。"
+    },
+    {
+      "candidate_id": "V83-CANDIDATE-P4618",
+      "source_anchor": "V83-P4618",
+      "semantic_fingerprint_sha256": "d4e60ae821e95b5d082f206a58034fa524228ed28551848c1be9a84fe0db0745",
+      "disposition": "subordinate_value",
+      "bound_concept_ids": [],
+      "parent_concept_ids": [
+        "V83-CANON-CORE-COMMON-KERNEL",
+        "V83-CANON-CORE-EVIDENCE-CONTRACT"
+      ],
+      "source_basis": {
+        "source_excerpt": "守三：定义、合同、案例和内部模拟不能充当外部经验支持。",
+        "disposition": "subordinate_value",
+        "context_evidence": [
+          {
+            "source_anchor": "V83-P4618",
+            "source_excerpt": "守三：定义、合同、案例和内部模拟不能充当外部经验支持。"
+          },
+          {
+            "source_anchor": "V83-P4615",
+            "source_excerpt": "D.3　共同治理不变量"
+          },
+          {
+            "source_anchor": "V83-P4616",
+            "source_excerpt": "守一：结果前冻结，结果后只追加。"
+          },
+          {
+            "source_anchor": "V83-P4617",
+            "source_excerpt": "守二：正向主张未获支持，不等于零模型获得支持。"
+          }
+        ],
+        "decision_note": "V83-P4618 处置为 subordinate_value；守三是共同治理不变量，直接禁止定义、合同、案例和内部模拟充当外部经验支持。 父概念为 V83-CANON-CORE-COMMON-KERNEL, V83-CANON-CORE-EVIDENCE-CONTRACT。",
+        "parent_relations": [
+          {
+            "parent_concept_id": "V83-CANON-CORE-COMMON-KERNEL",
+            "parent_card_path": "references/ontology/cards/evidence-claim/appendix-numbering-and-common-kernel.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-P4618",
+            "evidence_excerpt": "守三：定义、合同、案例和内部模拟不能充当外部经验支持。",
+            "relation_note": "守三是共同治理不变量，直接禁止定义、合同、案例和内部模拟充当外部经验支持。"
+          },
+          {
+            "parent_concept_id": "V83-CANON-CORE-EVIDENCE-CONTRACT",
+            "parent_card_path": "references/ontology/cards/foundation-boundary/claim-roles-and-missing-states.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-P4618",
+            "evidence_excerpt": "守三：定义、合同、案例和内部模拟不能充当外部经验支持。",
+            "relation_note": "守三是共同治理不变量，直接禁止定义、合同、案例和内部模拟充当外部经验支持。"
+          }
+        ]
+      },
+      "review_note": "V83-P4618 处置为 subordinate_value；守三是共同治理不变量，直接禁止定义、合同、案例和内部模拟充当外部经验支持。 父概念为 V83-CANON-CORE-COMMON-KERNEL, V83-CANON-CORE-EVIDENCE-CONTRACT。"
+    },
+    {
+      "candidate_id": "V83-CANDIDATE-P4626",
+      "source_anchor": "V83-P4626",
+      "semantic_fingerprint_sha256": "842da94198dc2a53bead0a7b137ec905b8bce3578db4095cd1432162c5743034",
+      "disposition": "subordinate_value",
+      "bound_concept_ids": [],
+      "parent_concept_ids": [
+        "V83-CANON-CORE-COMMON-KERNEL"
+      ],
+      "source_basis": {
+        "source_excerpt": "框架在命题分层、根假设合同、零结论、尺度闭合、非交换检验和推论依赖图上更成熟；《世界模型》在信息身份、制品体系、类型化未知、实验评价、能力证据、模型生命周期和人工智能输出治理上更成熟。共同内核吸收双方优势，但一方的完整合同不能被另一方的名称或案例代替。",
+        "disposition": "subordinate_value",
+        "context_evidence": [
+          {
+            "source_anchor": "V83-P4626",
+            "source_excerpt": "框架在命题分层、根假设合同、零结论、尺度闭合、非交换检验和推论依赖图上更成熟；《世界模型》在信息身份、制品体系、类型化未知、实验评价、能力证据、模型生命周期和人工智能输出治理上更成熟。共同内核吸收双方优势，但一方的完整合同不能被另一方的名称或案例代替。"
+          },
+          {
+            "source_anchor": "V83-P4625",
+            "source_excerpt": "D.4　双文本差异保留"
+          }
+        ],
+        "decision_note": "V83-P4626 处置为 subordinate_value；D.4保留两文本合同优势及不可互替的谱系边界；另一文本的名称或案例不能替代完整合同，不是一个例子或外部能力证明。 父概念为 V83-CANON-CORE-COMMON-KERNEL。",
+        "parent_relations": [
+          {
+            "parent_concept_id": "V83-CANON-CORE-COMMON-KERNEL",
+            "parent_card_path": "references/ontology/cards/evidence-claim/appendix-numbering-and-common-kernel.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-P4626",
+            "evidence_excerpt": "框架在命题分层、根假设合同、零结论、尺度闭合、非交换检验和推论依赖图上更成熟；《世界模型》在信息身份、制品体系、类型化未知、实验评价、能力证据、模型生命周期和人工智能输出治理上更成熟。共同内核吸收双方优势，但一方的完整合同不能被另一方的名称或案例代替。",
+            "relation_note": "D.4保留两文本合同优势及不可互替的谱系边界；另一文本的名称或案例不能替代完整合同，不是一个例子或外部能力证明。"
+          }
+        ]
+      },
+      "review_note": "V83-P4626 处置为 subordinate_value；D.4保留两文本合同优势及不可互替的谱系边界；另一文本的名称或案例不能替代完整合同，不是一个例子或外部能力证明。 父概念为 V83-CANON-CORE-COMMON-KERNEL。"
+    },
+    {
+      "candidate_id": "V83-CANDIDATE-P4477",
+      "source_anchor": "V83-P4477",
+      "semantic_fingerprint_sha256": "1c5dc91ac2338f9bab1aff9213a77b90440983225c505b71e3e9b03956fb6704",
+      "disposition": "subordinate_value",
+      "bound_concept_ids": [],
+      "parent_concept_ids": [
+        "V83-CANON-HV01",
+        "V83-CANON-HV02",
+        "V83-CANON-HV03",
+        "V83-CANON-HV04",
+        "V83-CANON-HV05",
+        "V83-CANON-HV06",
+        "V83-CANON-HV07",
+        "V83-CANON-HV08",
+        "V83-CANON-HV09",
+        "V83-CANON-HV10",
+        "V83-CANON-HV11"
+      ],
+      "source_basis": {
+        "source_excerpt": "无论需求看起来多么明显，任何现实调整都须另过 C12、运行时显式 N 前提、J 授权与 O 程序。变量不得自行授权测试、减载、补资源、修复、保护、归责、试探、推进、退出安排或处置。",
+        "disposition": "subordinate_value",
+        "context_evidence": [
+          {
+            "source_anchor": "V83-P4477",
+            "source_excerpt": "无论需求看起来多么明显，任何现实调整都须另过 C12、运行时显式 N 前提、J 授权与 O 程序。变量不得自行授权测试、减载、补资源、修复、保护、归责、试探、推进、退出安排或处置。"
+          },
+          {
+            "source_anchor": "V83-P4452",
+            "source_excerpt": "十一项变量共享同一行动边界：变量本身只生成描述、证据缺口与行动需求，不授权现实调整。其输出上限如下。"
+          }
+        ],
+        "decision_note": "V83-P4477 处置为 subordinate_value；紧接十一接口输出上限表的共同非授权条款，限制所有变量自行授权现实调整；同锚点被HV11卡引用不使该段成为仅HV11的定义。 父概念为 V83-CANON-HV01, V83-CANON-HV02, V83-CANON-HV03, V83-CANON-HV04, V83-CANON-HV05, V83-CANON-HV06, V83-CANON-HV07, V83-CANON-HV08, V83-CANON-HV09, V83-CANON-HV10, V83-CANON-HV11。",
+        "parent_relations": [
+          {
+            "parent_concept_id": "V83-CANON-HV01",
+            "parent_card_path": "references/ontology/cards/human-actor/hv01-structure-domain.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-P4477",
+            "evidence_excerpt": "无论需求看起来多么明显，任何现实调整都须另过 C12、运行时显式 N 前提、J 授权与 O 程序。变量不得自行授权测试、减载、补资源、修复、保护、归责、试探、推进、退出安排或处置。",
+            "relation_note": "紧接十一接口输出上限表的共同非授权条款，限制所有变量自行授权现实调整；同锚点被HV11卡引用不使该段成为仅HV11的定义。"
+          },
+          {
+            "parent_concept_id": "V83-CANON-HV02",
+            "parent_card_path": "references/ontology/cards/human-actor/hv02-boundary-interface.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-P4477",
+            "evidence_excerpt": "无论需求看起来多么明显，任何现实调整都须另过 C12、运行时显式 N 前提、J 授权与 O 程序。变量不得自行授权测试、减载、补资源、修复、保护、归责、试探、推进、退出安排或处置。",
+            "relation_note": "紧接十一接口输出上限表的共同非授权条款，限制所有变量自行授权现实调整；同锚点被HV11卡引用不使该段成为仅HV11的定义。"
+          },
+          {
+            "parent_concept_id": "V83-CANON-HV03",
+            "parent_card_path": "references/ontology/cards/human-actor/hv03-pointing-anchor.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-P4477",
+            "evidence_excerpt": "无论需求看起来多么明显，任何现实调整都须另过 C12、运行时显式 N 前提、J 授权与 O 程序。变量不得自行授权测试、减载、补资源、修复、保护、归责、试探、推进、退出安排或处置。",
+            "relation_note": "紧接十一接口输出上限表的共同非授权条款，限制所有变量自行授权现实调整；同锚点被HV11卡引用不使该段成为仅HV11的定义。"
+          },
+          {
+            "parent_concept_id": "V83-CANON-HV04",
+            "parent_card_path": "references/ontology/cards/human-actor/hv04-generation-node.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-P4477",
+            "evidence_excerpt": "无论需求看起来多么明显，任何现实调整都须另过 C12、运行时显式 N 前提、J 授权与 O 程序。变量不得自行授权测试、减载、补资源、修复、保护、归责、试探、推进、退出安排或处置。",
+            "relation_note": "紧接十一接口输出上限表的共同非授权条款，限制所有变量自行授权现实调整；同锚点被HV11卡引用不使该段成为仅HV11的定义。"
+          },
+          {
+            "parent_concept_id": "V83-CANON-HV05",
+            "parent_card_path": "references/ontology/cards/human-actor/hv05-carrying-layer.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-P4477",
+            "evidence_excerpt": "无论需求看起来多么明显，任何现实调整都须另过 C12、运行时显式 N 前提、J 授权与 O 程序。变量不得自行授权测试、减载、补资源、修复、保护、归责、试探、推进、退出安排或处置。",
+            "relation_note": "紧接十一接口输出上限表的共同非授权条款，限制所有变量自行授权现实调整；同锚点被HV11卡引用不使该段成为仅HV11的定义。"
+          },
+          {
+            "parent_concept_id": "V83-CANON-HV06",
+            "parent_card_path": "references/ontology/cards/human-actor/hv06-drive-to-carry-chain.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-P4477",
+            "evidence_excerpt": "无论需求看起来多么明显，任何现实调整都须另过 C12、运行时显式 N 前提、J 授权与 O 程序。变量不得自行授权测试、减载、补资源、修复、保护、归责、试探、推进、退出安排或处置。",
+            "relation_note": "紧接十一接口输出上限表的共同非授权条款，限制所有变量自行授权现实调整；同锚点被HV11卡引用不使该段成为仅HV11的定义。"
+          },
+          {
+            "parent_concept_id": "V83-CANON-HV07",
+            "parent_card_path": "references/ontology/cards/human-actor/hv07-feedback-writeback.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-P4477",
+            "evidence_excerpt": "无论需求看起来多么明显，任何现实调整都须另过 C12、运行时显式 N 前提、J 授权与 O 程序。变量不得自行授权测试、减载、补资源、修复、保护、归责、试探、推进、退出安排或处置。",
+            "relation_note": "紧接十一接口输出上限表的共同非授权条款，限制所有变量自行授权现实调整；同锚点被HV11卡引用不使该段成为仅HV11的定义。"
+          },
+          {
+            "parent_concept_id": "V83-CANON-HV08",
+            "parent_card_path": "references/ontology/cards/human-actor/hv08-condition-field.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-P4477",
+            "evidence_excerpt": "无论需求看起来多么明显，任何现实调整都须另过 C12、运行时显式 N 前提、J 授权与 O 程序。变量不得自行授权测试、减载、补资源、修复、保护、归责、试探、推进、退出安排或处置。",
+            "relation_note": "紧接十一接口输出上限表的共同非授权条款，限制所有变量自行授权现实调整；同锚点被HV11卡引用不使该段成为仅HV11的定义。"
+          },
+          {
+            "parent_concept_id": "V83-CANON-HV09",
+            "parent_card_path": "references/ontology/cards/human-actor/hv09-structural-load.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-P4477",
+            "evidence_excerpt": "无论需求看起来多么明显，任何现实调整都须另过 C12、运行时显式 N 前提、J 授权与 O 程序。变量不得自行授权测试、减载、补资源、修复、保护、归责、试探、推进、退出安排或处置。",
+            "relation_note": "紧接十一接口输出上限表的共同非授权条款，限制所有变量自行授权现实调整；同锚点被HV11卡引用不使该段成为仅HV11的定义。"
+          },
+          {
+            "parent_concept_id": "V83-CANON-HV10",
+            "parent_card_path": "references/ontology/cards/human-actor/hv10-evolution-phase.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-P4477",
+            "evidence_excerpt": "无论需求看起来多么明显，任何现实调整都须另过 C12、运行时显式 N 前提、J 授权与 O 程序。变量不得自行授权测试、减载、补资源、修复、保护、归责、试探、推进、退出安排或处置。",
+            "relation_note": "紧接十一接口输出上限表的共同非授权条款，限制所有变量自行授权现实调整；同锚点被HV11卡引用不使该段成为仅HV11的定义。"
+          },
+          {
+            "parent_concept_id": "V83-CANON-HV11",
+            "parent_card_path": "references/ontology/cards/human-actor/hv11-open-bearing-action.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-P4477",
+            "evidence_excerpt": "无论需求看起来多么明显，任何现实调整都须另过 C12、运行时显式 N 前提、J 授权与 O 程序。变量不得自行授权测试、减载、补资源、修复、保护、归责、试探、推进、退出安排或处置。",
+            "relation_note": "紧接十一接口输出上限表的共同非授权条款，限制所有变量自行授权现实调整；同锚点被HV11卡引用不使该段成为仅HV11的定义。"
+          }
+        ]
+      },
+      "review_note": "V83-P4477 处置为 subordinate_value；紧接十一接口输出上限表的共同非授权条款，限制所有变量自行授权现实调整；同锚点被HV11卡引用不使该段成为仅HV11的定义。 父概念为 V83-CANON-HV01, V83-CANON-HV02, V83-CANON-HV03, V83-CANON-HV04, V83-CANON-HV05, V83-CANON-HV06, V83-CANON-HV07, V83-CANON-HV08, V83-CANON-HV09, V83-CANON-HV10, V83-CANON-HV11。"
+    },
+    {
+      "candidate_id": "V83-CANDIDATE-T119",
+      "source_anchor": "V83-T119",
+      "semantic_fingerprint_sha256": "4eb89b61fb5e9f97c9bfe25411230a0c975f3c7eb7fdddfc7321f029928f8340",
+      "disposition": "subordinate_value",
+      "bound_concept_ids": [],
+      "parent_concept_ids": [
+        "V83-CANON-HV01",
+        "V83-CANON-HV02",
+        "V83-CANON-HV03",
+        "V83-CANON-HV04",
+        "V83-CANON-HV05",
+        "V83-CANON-HV06",
+        "V83-CANON-HV07",
+        "V83-CANON-HV08",
+        "V83-CANON-HV09",
+        "V83-CANON-HV10",
+        "V83-CANON-HV11"
+      ],
+      "source_basis": {
+        "source_excerpt": "[[\"变量\",\"本变量可生成的描述或需求\"],[\"HV01\",\"候选结构域、边界争议与补证需求\"],[\"HV02\",\"边界状态、接口障碍、排除风险与测试需求\"],[\"HV03\",\"候选锚点、异质表达、比较结果与补证需求\"],[\"HV04\",\"GC、GS、GE 候选分型、状态转移与补证需求\"],[\"HV05\",\"CV、RS、成本、容量、停止权、承接缺口及减载、补资源或重分配需求\"],[\"HV06\",\"链条连通、时滞、损耗、中断、成本与承接需求\"],[\"HV07\",\"受理、字段变化、执行、持续时间、写回缺口与程序修复需求\"],[\"HV08\",\"候选条件通道、位置异质性、证据遮蔽与风险降低需求\"],[\"HV09\",\"负荷、容量、恢复、局部过载与减载补资源需求\"],[\"HV10\",\"相位原型匹配、混合状态、不确定性与观察需求\"],[\"HV11\",\"自愿性、真实成本、方向、替代解释、结构后果与停止保护需求\"]]",
+        "disposition": "subordinate_value",
+        "context_evidence": [
+          {
+            "source_anchor": "V83-T119",
+            "source_excerpt": "[[\"变量\",\"本变量可生成的描述或需求\"],[\"HV01\",\"候选结构域、边界争议与补证需求\"],[\"HV02\",\"边界状态、接口障碍、排除风险与测试需求\"],[\"HV03\",\"候选锚点、异质表达、比较结果与补证需求\"],[\"HV04\",\"GC、GS、GE 候选分型、状态转移与补证需求\"],[\"HV05\",\"CV、RS、成本、容量、停止权、承接缺口及减载、补资源或重分配需求\"],[\"HV06\",\"链条连通、时滞、损耗、中断、成本与承接需求\"],[\"HV07\",\"受理、字段变化、执行、持续时间、写回缺口与程序修复需求\"],[\"HV08\",\"候选条件通道、位置异质性、证据遮蔽与风险降低需求\"],[\"HV09\",\"负荷、容量、恢复、局部过载与减载补资源需求\"],[\"HV10\",\"相位原型匹配、混合状态、不确定性与观察需求\"],[\"HV11\",\"自愿性、真实成本、方向、替代解释、结构后果与停止保护需求\"]]"
+          },
+          {
+            "source_anchor": "V83-P4452",
+            "source_excerpt": "十一项变量共享同一行动边界：变量本身只生成描述、证据缺口与行动需求，不授权现实调整。其输出上限如下。"
+          },
+          {
+            "source_anchor": "V83-P4477",
+            "source_excerpt": "无论需求看起来多么明显，任何现实调整都须另过 C12、运行时显式 N 前提、J 授权与 O 程序。变量不得自行授权测试、减载、补资源、修复、保护、归责、试探、推进、退出安排或处置。"
+          }
+        ],
+        "decision_note": "V83-T119 处置为 subordinate_value；P4452明确引出十一变量的共同输出上限；该表逐变量规定描述或需求范围，是正式约束汇总，不是附录B的编号导航。 父概念为 V83-CANON-HV01, V83-CANON-HV02, V83-CANON-HV03, V83-CANON-HV04, V83-CANON-HV05, V83-CANON-HV06, V83-CANON-HV07, V83-CANON-HV08, V83-CANON-HV09, V83-CANON-HV10, V83-CANON-HV11。",
+        "parent_relations": [
+          {
+            "parent_concept_id": "V83-CANON-HV01",
+            "parent_card_path": "references/ontology/cards/human-actor/hv01-structure-domain.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-T119",
+            "evidence_excerpt": "[[\"变量\",\"本变量可生成的描述或需求\"],[\"HV01\",\"候选结构域、边界争议与补证需求\"],[\"HV02\",\"边界状态、接口障碍、排除风险与测试需求\"],[\"HV03\",\"候选锚点、异质表达、比较结果与补证需求\"],[\"HV04\",\"GC、GS、GE 候选分型、状态转移与补证需求\"],[\"HV05\",\"CV、RS、成本、容量、停止权、承接缺口及减载、补资源或重分配需求\"],[\"HV06\",\"链条连通、时滞、损耗、中断、成本与承接需求\"],[\"HV07\",\"受理、字段变化、执行、持续时间、写回缺口与程序修复需求\"],[\"HV08\",\"候选条件通道、位置异质性、证据遮蔽与风险降低需求\"],[\"HV09\",\"负荷、容量、恢复、局部过载与减载补资源需求\"],[\"HV10\",\"相位原型匹配、混合状态、不确定性与观察需求\"],[\"HV11\",\"自愿性、真实成本、方向、替代解释、结构后果与停止保护需求\"]]",
+            "relation_note": "P4452明确引出十一变量的共同输出上限；该表逐变量规定描述或需求范围，是正式约束汇总，不是附录B的编号导航。"
+          },
+          {
+            "parent_concept_id": "V83-CANON-HV02",
+            "parent_card_path": "references/ontology/cards/human-actor/hv02-boundary-interface.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-T119",
+            "evidence_excerpt": "[[\"变量\",\"本变量可生成的描述或需求\"],[\"HV01\",\"候选结构域、边界争议与补证需求\"],[\"HV02\",\"边界状态、接口障碍、排除风险与测试需求\"],[\"HV03\",\"候选锚点、异质表达、比较结果与补证需求\"],[\"HV04\",\"GC、GS、GE 候选分型、状态转移与补证需求\"],[\"HV05\",\"CV、RS、成本、容量、停止权、承接缺口及减载、补资源或重分配需求\"],[\"HV06\",\"链条连通、时滞、损耗、中断、成本与承接需求\"],[\"HV07\",\"受理、字段变化、执行、持续时间、写回缺口与程序修复需求\"],[\"HV08\",\"候选条件通道、位置异质性、证据遮蔽与风险降低需求\"],[\"HV09\",\"负荷、容量、恢复、局部过载与减载补资源需求\"],[\"HV10\",\"相位原型匹配、混合状态、不确定性与观察需求\"],[\"HV11\",\"自愿性、真实成本、方向、替代解释、结构后果与停止保护需求\"]]",
+            "relation_note": "P4452明确引出十一变量的共同输出上限；该表逐变量规定描述或需求范围，是正式约束汇总，不是附录B的编号导航。"
+          },
+          {
+            "parent_concept_id": "V83-CANON-HV03",
+            "parent_card_path": "references/ontology/cards/human-actor/hv03-pointing-anchor.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-T119",
+            "evidence_excerpt": "[[\"变量\",\"本变量可生成的描述或需求\"],[\"HV01\",\"候选结构域、边界争议与补证需求\"],[\"HV02\",\"边界状态、接口障碍、排除风险与测试需求\"],[\"HV03\",\"候选锚点、异质表达、比较结果与补证需求\"],[\"HV04\",\"GC、GS、GE 候选分型、状态转移与补证需求\"],[\"HV05\",\"CV、RS、成本、容量、停止权、承接缺口及减载、补资源或重分配需求\"],[\"HV06\",\"链条连通、时滞、损耗、中断、成本与承接需求\"],[\"HV07\",\"受理、字段变化、执行、持续时间、写回缺口与程序修复需求\"],[\"HV08\",\"候选条件通道、位置异质性、证据遮蔽与风险降低需求\"],[\"HV09\",\"负荷、容量、恢复、局部过载与减载补资源需求\"],[\"HV10\",\"相位原型匹配、混合状态、不确定性与观察需求\"],[\"HV11\",\"自愿性、真实成本、方向、替代解释、结构后果与停止保护需求\"]]",
+            "relation_note": "P4452明确引出十一变量的共同输出上限；该表逐变量规定描述或需求范围，是正式约束汇总，不是附录B的编号导航。"
+          },
+          {
+            "parent_concept_id": "V83-CANON-HV04",
+            "parent_card_path": "references/ontology/cards/human-actor/hv04-generation-node.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-T119",
+            "evidence_excerpt": "[[\"变量\",\"本变量可生成的描述或需求\"],[\"HV01\",\"候选结构域、边界争议与补证需求\"],[\"HV02\",\"边界状态、接口障碍、排除风险与测试需求\"],[\"HV03\",\"候选锚点、异质表达、比较结果与补证需求\"],[\"HV04\",\"GC、GS、GE 候选分型、状态转移与补证需求\"],[\"HV05\",\"CV、RS、成本、容量、停止权、承接缺口及减载、补资源或重分配需求\"],[\"HV06\",\"链条连通、时滞、损耗、中断、成本与承接需求\"],[\"HV07\",\"受理、字段变化、执行、持续时间、写回缺口与程序修复需求\"],[\"HV08\",\"候选条件通道、位置异质性、证据遮蔽与风险降低需求\"],[\"HV09\",\"负荷、容量、恢复、局部过载与减载补资源需求\"],[\"HV10\",\"相位原型匹配、混合状态、不确定性与观察需求\"],[\"HV11\",\"自愿性、真实成本、方向、替代解释、结构后果与停止保护需求\"]]",
+            "relation_note": "P4452明确引出十一变量的共同输出上限；该表逐变量规定描述或需求范围，是正式约束汇总，不是附录B的编号导航。"
+          },
+          {
+            "parent_concept_id": "V83-CANON-HV05",
+            "parent_card_path": "references/ontology/cards/human-actor/hv05-carrying-layer.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-T119",
+            "evidence_excerpt": "[[\"变量\",\"本变量可生成的描述或需求\"],[\"HV01\",\"候选结构域、边界争议与补证需求\"],[\"HV02\",\"边界状态、接口障碍、排除风险与测试需求\"],[\"HV03\",\"候选锚点、异质表达、比较结果与补证需求\"],[\"HV04\",\"GC、GS、GE 候选分型、状态转移与补证需求\"],[\"HV05\",\"CV、RS、成本、容量、停止权、承接缺口及减载、补资源或重分配需求\"],[\"HV06\",\"链条连通、时滞、损耗、中断、成本与承接需求\"],[\"HV07\",\"受理、字段变化、执行、持续时间、写回缺口与程序修复需求\"],[\"HV08\",\"候选条件通道、位置异质性、证据遮蔽与风险降低需求\"],[\"HV09\",\"负荷、容量、恢复、局部过载与减载补资源需求\"],[\"HV10\",\"相位原型匹配、混合状态、不确定性与观察需求\"],[\"HV11\",\"自愿性、真实成本、方向、替代解释、结构后果与停止保护需求\"]]",
+            "relation_note": "P4452明确引出十一变量的共同输出上限；该表逐变量规定描述或需求范围，是正式约束汇总，不是附录B的编号导航。"
+          },
+          {
+            "parent_concept_id": "V83-CANON-HV06",
+            "parent_card_path": "references/ontology/cards/human-actor/hv06-drive-to-carry-chain.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-T119",
+            "evidence_excerpt": "[[\"变量\",\"本变量可生成的描述或需求\"],[\"HV01\",\"候选结构域、边界争议与补证需求\"],[\"HV02\",\"边界状态、接口障碍、排除风险与测试需求\"],[\"HV03\",\"候选锚点、异质表达、比较结果与补证需求\"],[\"HV04\",\"GC、GS、GE 候选分型、状态转移与补证需求\"],[\"HV05\",\"CV、RS、成本、容量、停止权、承接缺口及减载、补资源或重分配需求\"],[\"HV06\",\"链条连通、时滞、损耗、中断、成本与承接需求\"],[\"HV07\",\"受理、字段变化、执行、持续时间、写回缺口与程序修复需求\"],[\"HV08\",\"候选条件通道、位置异质性、证据遮蔽与风险降低需求\"],[\"HV09\",\"负荷、容量、恢复、局部过载与减载补资源需求\"],[\"HV10\",\"相位原型匹配、混合状态、不确定性与观察需求\"],[\"HV11\",\"自愿性、真实成本、方向、替代解释、结构后果与停止保护需求\"]]",
+            "relation_note": "P4452明确引出十一变量的共同输出上限；该表逐变量规定描述或需求范围，是正式约束汇总，不是附录B的编号导航。"
+          },
+          {
+            "parent_concept_id": "V83-CANON-HV07",
+            "parent_card_path": "references/ontology/cards/human-actor/hv07-feedback-writeback.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-T119",
+            "evidence_excerpt": "[[\"变量\",\"本变量可生成的描述或需求\"],[\"HV01\",\"候选结构域、边界争议与补证需求\"],[\"HV02\",\"边界状态、接口障碍、排除风险与测试需求\"],[\"HV03\",\"候选锚点、异质表达、比较结果与补证需求\"],[\"HV04\",\"GC、GS、GE 候选分型、状态转移与补证需求\"],[\"HV05\",\"CV、RS、成本、容量、停止权、承接缺口及减载、补资源或重分配需求\"],[\"HV06\",\"链条连通、时滞、损耗、中断、成本与承接需求\"],[\"HV07\",\"受理、字段变化、执行、持续时间、写回缺口与程序修复需求\"],[\"HV08\",\"候选条件通道、位置异质性、证据遮蔽与风险降低需求\"],[\"HV09\",\"负荷、容量、恢复、局部过载与减载补资源需求\"],[\"HV10\",\"相位原型匹配、混合状态、不确定性与观察需求\"],[\"HV11\",\"自愿性、真实成本、方向、替代解释、结构后果与停止保护需求\"]]",
+            "relation_note": "P4452明确引出十一变量的共同输出上限；该表逐变量规定描述或需求范围，是正式约束汇总，不是附录B的编号导航。"
+          },
+          {
+            "parent_concept_id": "V83-CANON-HV08",
+            "parent_card_path": "references/ontology/cards/human-actor/hv08-condition-field.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-T119",
+            "evidence_excerpt": "[[\"变量\",\"本变量可生成的描述或需求\"],[\"HV01\",\"候选结构域、边界争议与补证需求\"],[\"HV02\",\"边界状态、接口障碍、排除风险与测试需求\"],[\"HV03\",\"候选锚点、异质表达、比较结果与补证需求\"],[\"HV04\",\"GC、GS、GE 候选分型、状态转移与补证需求\"],[\"HV05\",\"CV、RS、成本、容量、停止权、承接缺口及减载、补资源或重分配需求\"],[\"HV06\",\"链条连通、时滞、损耗、中断、成本与承接需求\"],[\"HV07\",\"受理、字段变化、执行、持续时间、写回缺口与程序修复需求\"],[\"HV08\",\"候选条件通道、位置异质性、证据遮蔽与风险降低需求\"],[\"HV09\",\"负荷、容量、恢复、局部过载与减载补资源需求\"],[\"HV10\",\"相位原型匹配、混合状态、不确定性与观察需求\"],[\"HV11\",\"自愿性、真实成本、方向、替代解释、结构后果与停止保护需求\"]]",
+            "relation_note": "P4452明确引出十一变量的共同输出上限；该表逐变量规定描述或需求范围，是正式约束汇总，不是附录B的编号导航。"
+          },
+          {
+            "parent_concept_id": "V83-CANON-HV09",
+            "parent_card_path": "references/ontology/cards/human-actor/hv09-structural-load.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-T119",
+            "evidence_excerpt": "[[\"变量\",\"本变量可生成的描述或需求\"],[\"HV01\",\"候选结构域、边界争议与补证需求\"],[\"HV02\",\"边界状态、接口障碍、排除风险与测试需求\"],[\"HV03\",\"候选锚点、异质表达、比较结果与补证需求\"],[\"HV04\",\"GC、GS、GE 候选分型、状态转移与补证需求\"],[\"HV05\",\"CV、RS、成本、容量、停止权、承接缺口及减载、补资源或重分配需求\"],[\"HV06\",\"链条连通、时滞、损耗、中断、成本与承接需求\"],[\"HV07\",\"受理、字段变化、执行、持续时间、写回缺口与程序修复需求\"],[\"HV08\",\"候选条件通道、位置异质性、证据遮蔽与风险降低需求\"],[\"HV09\",\"负荷、容量、恢复、局部过载与减载补资源需求\"],[\"HV10\",\"相位原型匹配、混合状态、不确定性与观察需求\"],[\"HV11\",\"自愿性、真实成本、方向、替代解释、结构后果与停止保护需求\"]]",
+            "relation_note": "P4452明确引出十一变量的共同输出上限；该表逐变量规定描述或需求范围，是正式约束汇总，不是附录B的编号导航。"
+          },
+          {
+            "parent_concept_id": "V83-CANON-HV10",
+            "parent_card_path": "references/ontology/cards/human-actor/hv10-evolution-phase.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-T119",
+            "evidence_excerpt": "[[\"变量\",\"本变量可生成的描述或需求\"],[\"HV01\",\"候选结构域、边界争议与补证需求\"],[\"HV02\",\"边界状态、接口障碍、排除风险与测试需求\"],[\"HV03\",\"候选锚点、异质表达、比较结果与补证需求\"],[\"HV04\",\"GC、GS、GE 候选分型、状态转移与补证需求\"],[\"HV05\",\"CV、RS、成本、容量、停止权、承接缺口及减载、补资源或重分配需求\"],[\"HV06\",\"链条连通、时滞、损耗、中断、成本与承接需求\"],[\"HV07\",\"受理、字段变化、执行、持续时间、写回缺口与程序修复需求\"],[\"HV08\",\"候选条件通道、位置异质性、证据遮蔽与风险降低需求\"],[\"HV09\",\"负荷、容量、恢复、局部过载与减载补资源需求\"],[\"HV10\",\"相位原型匹配、混合状态、不确定性与观察需求\"],[\"HV11\",\"自愿性、真实成本、方向、替代解释、结构后果与停止保护需求\"]]",
+            "relation_note": "P4452明确引出十一变量的共同输出上限；该表逐变量规定描述或需求范围，是正式约束汇总，不是附录B的编号导航。"
+          },
+          {
+            "parent_concept_id": "V83-CANON-HV11",
+            "parent_card_path": "references/ontology/cards/human-actor/hv11-open-bearing-action.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-T119",
+            "evidence_excerpt": "[[\"变量\",\"本变量可生成的描述或需求\"],[\"HV01\",\"候选结构域、边界争议与补证需求\"],[\"HV02\",\"边界状态、接口障碍、排除风险与测试需求\"],[\"HV03\",\"候选锚点、异质表达、比较结果与补证需求\"],[\"HV04\",\"GC、GS、GE 候选分型、状态转移与补证需求\"],[\"HV05\",\"CV、RS、成本、容量、停止权、承接缺口及减载、补资源或重分配需求\"],[\"HV06\",\"链条连通、时滞、损耗、中断、成本与承接需求\"],[\"HV07\",\"受理、字段变化、执行、持续时间、写回缺口与程序修复需求\"],[\"HV08\",\"候选条件通道、位置异质性、证据遮蔽与风险降低需求\"],[\"HV09\",\"负荷、容量、恢复、局部过载与减载补资源需求\"],[\"HV10\",\"相位原型匹配、混合状态、不确定性与观察需求\"],[\"HV11\",\"自愿性、真实成本、方向、替代解释、结构后果与停止保护需求\"]]",
+            "relation_note": "P4452明确引出十一变量的共同输出上限；该表逐变量规定描述或需求范围，是正式约束汇总，不是附录B的编号导航。"
+          }
+        ]
+      },
+      "review_note": "V83-T119 处置为 subordinate_value；P4452明确引出十一变量的共同输出上限；该表逐变量规定描述或需求范围，是正式约束汇总，不是附录B的编号导航。 父概念为 V83-CANON-HV01, V83-CANON-HV02, V83-CANON-HV03, V83-CANON-HV04, V83-CANON-HV05, V83-CANON-HV06, V83-CANON-HV07, V83-CANON-HV08, V83-CANON-HV09, V83-CANON-HV10, V83-CANON-HV11。"
+    },
+    {
+      "candidate_id": "V83-CANDIDATE-T119-R002",
+      "source_anchor": "V83-T119-R002",
+      "semantic_fingerprint_sha256": "990541cc1e3dbd70b67b4aeeb913207114657cc9f724827bb7a3d97d05518c14",
+      "disposition": "subordinate_value",
+      "bound_concept_ids": [],
+      "parent_concept_ids": [
+        "V83-CANON-HV01"
+      ],
+      "source_basis": {
+        "source_excerpt": "[\"HV01\",\"候选结构域、边界争议与补证需求\"]",
+        "disposition": "subordinate_value",
+        "context_evidence": [
+          {
+            "source_anchor": "V83-T119-R002",
+            "source_excerpt": "[\"HV01\",\"候选结构域、边界争议与补证需求\"]"
+          },
+          {
+            "source_anchor": "V83-P4452",
+            "source_excerpt": "十一项变量共享同一行动边界：变量本身只生成描述、证据缺口与行动需求，不授权现实调整。其输出上限如下。"
+          },
+          {
+            "source_anchor": "V83-P4477",
+            "source_excerpt": "无论需求看起来多么明显，任何现实调整都须另过 C12、运行时显式 N 前提、J 授权与 O 程序。变量不得自行授权测试、减载、补资源、修复、保护、归责、试探、推进、退出安排或处置。"
+          }
+        ],
+        "decision_note": "V83-T119-R002 处置为 subordinate_value；本行同时含HV01标识与其描述或需求上限，整行是该接口的附属输出规则；单独标识单元仍可作别名，不能把整行等同标识。 父概念为 V83-CANON-HV01。",
+        "parent_relations": [
+          {
+            "parent_concept_id": "V83-CANON-HV01",
+            "parent_card_path": "references/ontology/cards/human-actor/hv01-structure-domain.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-T119-R002",
+            "evidence_excerpt": "[\"HV01\",\"候选结构域、边界争议与补证需求\"]",
+            "relation_note": "本行同时含HV01标识与其描述或需求上限，整行是该接口的附属输出规则；单独标识单元仍可作别名，不能把整行等同标识。"
+          }
+        ]
+      },
+      "review_note": "V83-T119-R002 处置为 subordinate_value；本行同时含HV01标识与其描述或需求上限，整行是该接口的附属输出规则；单独标识单元仍可作别名，不能把整行等同标识。 父概念为 V83-CANON-HV01。"
+    },
+    {
+      "candidate_id": "V83-CANDIDATE-T119-R003",
+      "source_anchor": "V83-T119-R003",
+      "semantic_fingerprint_sha256": "99e5280b262ca8ca58aa63cdb9f172a082243c18a5ad40f1418e7ae85de655a4",
+      "disposition": "subordinate_value",
+      "bound_concept_ids": [],
+      "parent_concept_ids": [
+        "V83-CANON-HV02"
+      ],
+      "source_basis": {
+        "source_excerpt": "[\"HV02\",\"边界状态、接口障碍、排除风险与测试需求\"]",
+        "disposition": "subordinate_value",
+        "context_evidence": [
+          {
+            "source_anchor": "V83-T119-R003",
+            "source_excerpt": "[\"HV02\",\"边界状态、接口障碍、排除风险与测试需求\"]"
+          },
+          {
+            "source_anchor": "V83-P4452",
+            "source_excerpt": "十一项变量共享同一行动边界：变量本身只生成描述、证据缺口与行动需求，不授权现实调整。其输出上限如下。"
+          },
+          {
+            "source_anchor": "V83-P4477",
+            "source_excerpt": "无论需求看起来多么明显，任何现实调整都须另过 C12、运行时显式 N 前提、J 授权与 O 程序。变量不得自行授权测试、减载、补资源、修复、保护、归责、试探、推进、退出安排或处置。"
+          }
+        ],
+        "decision_note": "V83-T119-R003 处置为 subordinate_value；本行同时含HV02标识与其描述或需求上限，整行是该接口的附属输出规则；单独标识单元仍可作别名，不能把整行等同标识。 父概念为 V83-CANON-HV02。",
+        "parent_relations": [
+          {
+            "parent_concept_id": "V83-CANON-HV02",
+            "parent_card_path": "references/ontology/cards/human-actor/hv02-boundary-interface.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-T119-R003",
+            "evidence_excerpt": "[\"HV02\",\"边界状态、接口障碍、排除风险与测试需求\"]",
+            "relation_note": "本行同时含HV02标识与其描述或需求上限，整行是该接口的附属输出规则；单独标识单元仍可作别名，不能把整行等同标识。"
+          }
+        ]
+      },
+      "review_note": "V83-T119-R003 处置为 subordinate_value；本行同时含HV02标识与其描述或需求上限，整行是该接口的附属输出规则；单独标识单元仍可作别名，不能把整行等同标识。 父概念为 V83-CANON-HV02。"
+    },
+    {
+      "candidate_id": "V83-CANDIDATE-T119-R004",
+      "source_anchor": "V83-T119-R004",
+      "semantic_fingerprint_sha256": "740682f05815d5e191757f50503cee1f28cb20d26e87db040a35c42c510b74ea",
+      "disposition": "subordinate_value",
+      "bound_concept_ids": [],
+      "parent_concept_ids": [
+        "V83-CANON-HV03"
+      ],
+      "source_basis": {
+        "source_excerpt": "[\"HV03\",\"候选锚点、异质表达、比较结果与补证需求\"]",
+        "disposition": "subordinate_value",
+        "context_evidence": [
+          {
+            "source_anchor": "V83-T119-R004",
+            "source_excerpt": "[\"HV03\",\"候选锚点、异质表达、比较结果与补证需求\"]"
+          },
+          {
+            "source_anchor": "V83-P4452",
+            "source_excerpt": "十一项变量共享同一行动边界：变量本身只生成描述、证据缺口与行动需求，不授权现实调整。其输出上限如下。"
+          },
+          {
+            "source_anchor": "V83-P4477",
+            "source_excerpt": "无论需求看起来多么明显，任何现实调整都须另过 C12、运行时显式 N 前提、J 授权与 O 程序。变量不得自行授权测试、减载、补资源、修复、保护、归责、试探、推进、退出安排或处置。"
+          }
+        ],
+        "decision_note": "V83-T119-R004 处置为 subordinate_value；本行同时含HV03标识与其描述或需求上限，整行是该接口的附属输出规则；单独标识单元仍可作别名，不能把整行等同标识。 父概念为 V83-CANON-HV03。",
+        "parent_relations": [
+          {
+            "parent_concept_id": "V83-CANON-HV03",
+            "parent_card_path": "references/ontology/cards/human-actor/hv03-pointing-anchor.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-T119-R004",
+            "evidence_excerpt": "[\"HV03\",\"候选锚点、异质表达、比较结果与补证需求\"]",
+            "relation_note": "本行同时含HV03标识与其描述或需求上限，整行是该接口的附属输出规则；单独标识单元仍可作别名，不能把整行等同标识。"
+          }
+        ]
+      },
+      "review_note": "V83-T119-R004 处置为 subordinate_value；本行同时含HV03标识与其描述或需求上限，整行是该接口的附属输出规则；单独标识单元仍可作别名，不能把整行等同标识。 父概念为 V83-CANON-HV03。"
+    },
+    {
+      "candidate_id": "V83-CANDIDATE-T119-R005",
+      "source_anchor": "V83-T119-R005",
+      "semantic_fingerprint_sha256": "74feb62c6466e058e9547c76a281d30850d971729e50df0792c36c1cf9faefc9",
+      "disposition": "subordinate_value",
+      "bound_concept_ids": [],
+      "parent_concept_ids": [
+        "V83-CANON-HV04"
+      ],
+      "source_basis": {
+        "source_excerpt": "[\"HV04\",\"GC、GS、GE 候选分型、状态转移与补证需求\"]",
+        "disposition": "subordinate_value",
+        "context_evidence": [
+          {
+            "source_anchor": "V83-T119-R005",
+            "source_excerpt": "[\"HV04\",\"GC、GS、GE 候选分型、状态转移与补证需求\"]"
+          },
+          {
+            "source_anchor": "V83-P4452",
+            "source_excerpt": "十一项变量共享同一行动边界：变量本身只生成描述、证据缺口与行动需求，不授权现实调整。其输出上限如下。"
+          },
+          {
+            "source_anchor": "V83-P4477",
+            "source_excerpt": "无论需求看起来多么明显，任何现实调整都须另过 C12、运行时显式 N 前提、J 授权与 O 程序。变量不得自行授权测试、减载、补资源、修复、保护、归责、试探、推进、退出安排或处置。"
+          }
+        ],
+        "decision_note": "V83-T119-R005 处置为 subordinate_value；本行同时含HV04标识与其描述或需求上限，整行是该接口的附属输出规则；单独标识单元仍可作别名，不能把整行等同标识。 父概念为 V83-CANON-HV04。",
+        "parent_relations": [
+          {
+            "parent_concept_id": "V83-CANON-HV04",
+            "parent_card_path": "references/ontology/cards/human-actor/hv04-generation-node.md",
+            "evidence_kind": "authored_relation",
+            "evidence_anchor": "V83-T119-R005",
+            "evidence_excerpt": "[\"HV04\",\"GC、GS、GE 候选分型、状态转移与补证需求\"]",
+            "relation_note": "本行同时含HV04标识与其描述或需求上限，整行是该接口的附属输出规则；单独标识单元仍可作别名，不能把整行等同标识。"
+          }
+        ]
+      },
+      "review_note": "V83-T119-R005 处置为 subordinate_value；本行同时含HV04标识与其描述或需求上限，整行是该接口的附属输出规则；单独标识单元仍可作别名，不能把整行等同标识。 父概念为 V83-CANON-HV04。"
+    },
+    {
+      "candidate_id": "V83-CANDIDATE-P1642",
+      "source_anchor": "V83-P1642",
+      "semantic_fingerprint_sha256": "ae928b1af76f89a78ebef6930b4bad1e2945217ce2b0c89c4f9c186309414693",
+      "disposition": "example_only",
+      "bound_concept_ids": [],
+      "parent_concept_ids": [],
+      "source_basis": {
+        "source_excerpt": "例如，一个人在家庭圈层中沉默、在工作圈层中强势、在朋友圈层中开放。至少存在以下竞争解释：家庭中的历史冲突提高表达成本；工作角色给予正式权限；朋友关系提供较低惩罚和更高信任；三个场景激活了不同身份；观察者在不同圈层掌握的信息不同；行为样本的时间窗不一致。只有人格假设相对于这些解释仍提供样本外增益时，才应提高其支持度。",
+        "disposition": "example_only",
+        "context_evidence": [
+          {
+            "source_anchor": "V83-P1642",
+            "source_excerpt": "例如，一个人在家庭圈层中沉默、在工作圈层中强势、在朋友圈层中开放。至少存在以下竞争解释：家庭中的历史冲突提高表达成本；工作角色给予正式权限；朋友关系提供较低惩罚和更高信任；三个场景激活了不同身份；观察者在不同圈层掌握的信息不同；行为样本的时间窗不一致。只有人格假设相对于这些解释仍提供样本外增益时，才应提高其支持度。"
+          }
+        ],
+        "decision_note": "V83-P1642 处置为 example_only；本段以例如起头，具体设置家庭、工作、朋友三个情境来展示人格竞争解释；保留结尾的样本外增益限制，例子不单独生成新定义。",
+        "parent_relations": []
+      },
+      "review_note": "V83-P1642 处置为 example_only；本段以例如起头，具体设置家庭、工作、朋友三个情境来展示人格竞争解释；保留结尾的样本外增益限制，例子不单独生成新定义。"
+    },
+    {
+      "candidate_id": "V83-CANDIDATE-T039",
+      "source_anchor": "V83-T039",
+      "semantic_fingerprint_sha256": "bc12423a5f286ef2cc69fb47a1e66f705d9f626128b317193267c55dcf1ed9bd",
+      "disposition": "example_only",
+      "bound_concept_ids": [],
+      "parent_concept_ids": [],
+      "source_basis": {
+        "source_excerpt": "[[\"成员维度\",\"可选状态示例\",\"推演意义\"],[\"进入依据\",\"自愿、雇佣、亲缘、法律、平台规则、共同暴露、被迫\",\"决定责任和退出边界\"],[\"参与程度\",\"核心、间歇、边缘、名义、被动承受\",\"决定可见信息与影响通道\"],[\"角色\",\"决策、执行、照护、桥接、监督、受影响、异议\",\"决定权利、义务和冲突\"],[\"承诺\",\"高、中、低、争议、未知\",\"影响路径但不等于人格\"],[\"退出能力\",\"自由、成本高、需批准、事实上不能退出\",\"触发保护底板和行动上限\"]]",
+        "disposition": "example_only",
+        "context_evidence": [
+          {
+            "source_anchor": "V83-T039",
+            "source_excerpt": "[[\"成员维度\",\"可选状态示例\",\"推演意义\"],[\"进入依据\",\"自愿、雇佣、亲缘、法律、平台规则、共同暴露、被迫\",\"决定责任和退出边界\"],[\"参与程度\",\"核心、间歇、边缘、名义、被动承受\",\"决定可见信息与影响通道\"],[\"角色\",\"决策、执行、照护、桥接、监督、受影响、异议\",\"决定权利、义务和冲突\"],[\"承诺\",\"高、中、低、争议、未知\",\"影响路径但不等于人格\"],[\"退出能力\",\"自由、成本高、需批准、事实上不能退出\",\"触发保护底板和行动上限\"]]"
+          }
+        ],
+        "decision_note": "V83-T039 处置为 example_only；表头明确为可选状态示例；整表展示成员字段可能值，不宣称穷尽类别；表内退出保护和非人格限制仍完整保留。",
+        "parent_relations": []
+      },
+      "review_note": "V83-T039 处置为 example_only；表头明确为可选状态示例；整表展示成员字段可能值，不宣称穷尽类别；表内退出保护和非人格限制仍完整保留。"
+    },
+    {
+      "candidate_id": "V83-CANDIDATE-T054",
+      "source_anchor": "V83-T054",
+      "semantic_fingerprint_sha256": "405566e121c73423ca441fc3b8a66fe4e3e9be6a223f1e18e737fe169f136c35",
+      "disposition": "example_only",
+      "bound_concept_ids": [],
+      "parent_concept_ids": [],
+      "source_basis": {
+        "source_excerpt": "[[\"条件组合\",\"允许上限示例\"],[\"证据弱、损害低、可逆、授权清楚\",\"小范围观察或试探行动\"],[\"证据中等、损害可控、可回滚\",\"分阶段行动并设强停止门\"],[\"证据强但权限不足\",\"提交有权限主体，不自行执行\"],[\"证据强但不可逆且保护未满足\",\"暂停，补足程序与保护\"],[\"紧急安全威胁\",\"仅按外部紧急授权做最小保护动作，并尽快复核\"]]",
+        "disposition": "example_only",
+        "context_evidence": [
+          {
+            "source_anchor": "V83-T054",
+            "source_excerpt": "[[\"条件组合\",\"允许上限示例\"],[\"证据弱、损害低、可逆、授权清楚\",\"小范围观察或试探行动\"],[\"证据中等、损害可控、可回滚\",\"分阶段行动并设强停止门\"],[\"证据强但权限不足\",\"提交有权限主体，不自行执行\"],[\"证据强但不可逆且保护未满足\",\"暂停，补足程序与保护\"],[\"紧急安全威胁\",\"仅按外部紧急授权做最小保护动作，并尽快复核\"]]"
+          }
+        ],
+        "decision_note": "V83-T054 处置为 example_only；表头明确为允许上限示例；整表给出条件组合的示范，不能代替逐项授权与保护合同；各行限制不得删除。",
+        "parent_relations": []
+      },
+      "review_note": "V83-T054 处置为 example_only；表头明确为允许上限示例；整表给出条件组合的示范，不能代替逐项授权与保护合同；各行限制不得删除。"
     }
   ]
 }

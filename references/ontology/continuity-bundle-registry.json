@@ -170,8 +170,10 @@
     },
     "references/ontology/bundles/human-variable-interface-complete.md": {
       "route_kind": "curated_semantic_closure",
-      "sha256": "3c2e0521a0c3e237cad23fdc87e7bc94f1b0a09e7dca6682d05be251d6b0ea91",
+      "sha256": "4c259cffed9b2c35a09a5e515b74876ae5a10f0751cb584399169cde8fb6a6d5",
       "source_anchors": [
+        "V83-P0504",
+        "V83-P0510",
         "V83-P1215",
         "V83-P1216",
         "V83-P1217",
