@@ -2052,6 +2052,71 @@ def _validate_red_team_repair_binding(
             )
 
 
+def validate_answer_basis_references(
+    packet: Mapping[str, Any],
+    *,
+    evidence_ledger: Mapping[str, Any] | None = None,
+) -> None:
+    """Check answer identities without granting source or execution authority."""
+
+    graph = packet.get("claim_mechanism_graph", {})
+    if not isinstance(graph, Mapping):
+        graph = {}
+    evidence = evidence_ledger if evidence_ledger is not None else packet.get("evidence", {})
+    if not isinstance(evidence, Mapping):
+        evidence = {}
+    allowed: set[str] = set()
+    for container, field, key in (
+        (evidence, "claims", "claim_id"), (evidence, "evidence", "evidence_id"),
+        (graph, "claims", "claim_id"), (graph, "evidence", "evidence_id"),
+        (graph, "mechanisms", "mechanism_id"),
+    ):
+        for record in container.get(field, []):
+            if isinstance(record, Mapping) and isinstance(record.get(key), str):
+                allowed.add(record[key])
+    if evidence_ledger is None and "support_edges" not in evidence:
+        for claim in evidence.get("claims", []):
+            if isinstance(claim, Mapping) and isinstance(claim.get("claim_id"), str):
+                for index, _support in enumerate(claim.get("support", []), start=1):
+                    allowed.add(f"{claim['claim_id']}-e{index}")
+    answer = packet.get("answer", {})
+    references = answer.get("basis_refs", []) if isinstance(answer, Mapping) else None
+    if (not isinstance(references, list)
+            or any(not isinstance(ref, str) or not ref.strip() for ref in references)
+            or len(references) != len(set(references))):
+        raise ValueError("answer.basis_refs must be a unique array of nonempty identity strings")
+    unresolved = sorted(set(references) - allowed)
+    if unresolved:
+        raise ValueError(
+            "answer basis reference does not resolve at answer.basis_refs: "
+            + ", ".join(unresolved)
+            + "; use claim_id, evidence_id or mechanism_id; source_id is only a source reference"
+        )
+    verdict = packet.get("verdict")
+    if not isinstance(verdict, Mapping) or verdict.get("judgment_kind") != "best-current":
+        return
+    current_best = verdict.get("current_best_judgment")
+    explanations = {
+        record.get("explanation_id"): record
+        for record in graph.get("explanations", []) if isinstance(record, Mapping)
+    }
+    best = explanations.get(current_best.get("best_explanation_id")) if isinstance(current_best, Mapping) else None
+    if not isinstance(best, Mapping):
+        raise ValueError("central judgment basis has no best explanation")
+    claims = set(best.get("claim_ids", []))
+    mechanisms = set(best.get("mechanism_ids", []))
+    edges = {
+        (edge.get("claim_id"), edge.get("evidence_id"))
+        for record in verdict.get("five_verdicts", []) if isinstance(record, Mapping)
+        for edge in record.get("claim_evidence_edges", []) if isinstance(edge, Mapping)
+        and edge.get("claim_id") in claims
+    }
+    if {claim for claim, _ in edges} != claims:
+        raise ValueError("central judgment basis lacks an exact claim support edge")
+    if set(references) != claims | mechanisms | {ref for _, ref in edges}:
+        raise ValueError("central judgment basis differs from its exact claim support edges")
+
+
 def validate_packet_references(
     packet: Mapping[str, Any],
     *,
@@ -2594,49 +2659,8 @@ def validate_packet_references(
             raise ValueError("claim source reference does not resolve")
 
     answer = packet.get("answer", {})
-    if not set(answer.get("basis_refs", [])).issubset(allowed):
-        raise ValueError("answer basis reference does not resolve")
     verdict = packet.get("verdict")
-    if (
-        isinstance(verdict, Mapping)
-        and verdict.get("judgment_kind") == "best-current"
-    ):
-        current_best = verdict.get("current_best_judgment")
-        explanations = {
-            record.get("explanation_id"): record
-            for record in graph.get("explanations", [])
-            if isinstance(record, Mapping)
-        }
-        best_explanation = (
-            explanations.get(current_best.get("best_explanation_id"))
-            if isinstance(current_best, Mapping)
-            else None
-        )
-        if not isinstance(best_explanation, Mapping):
-            raise ValueError("central judgment basis has no best explanation")
-        central_claim_ids = set(best_explanation.get("claim_ids", []))
-        central_mechanism_ids = set(best_explanation.get("mechanism_ids", []))
-        central_edges = {
-            (edge.get("claim_id"), edge.get("evidence_id"))
-            for record in verdict.get("five_verdicts", [])
-            if isinstance(record, Mapping)
-            for edge in record.get("claim_evidence_edges", [])
-            if isinstance(edge, Mapping)
-            and edge.get("claim_id") in central_claim_ids
-        }
-        if {claim_id for claim_id, _ in central_edges} != central_claim_ids:
-            raise ValueError(
-                "central judgment basis lacks an exact claim support edge"
-            )
-        exact_central_basis = (
-            central_claim_ids
-            | central_mechanism_ids
-            | {evidence_id for _, evidence_id in central_edges}
-        )
-        if set(answer.get("basis_refs", [])) != exact_central_basis:
-            raise ValueError(
-                "central judgment basis differs from its exact claim support edges"
-            )
+    validate_answer_basis_references(packet, evidence_ledger=evidence_ledger)
     red_team = packet.get("red_team")
     if isinstance(red_team, Mapping) and red_team.get("status") != "not_run":
         if not set(red_team.get("attacked_evidence_refs", [])).issubset(

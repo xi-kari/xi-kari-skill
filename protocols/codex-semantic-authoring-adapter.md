@@ -7,6 +7,27 @@ complete semantic object and observed provider execution evidence on standard
 output. Diagnostics are written to standard error. The executable
 accepts no command-line arguments.
 
+## Base author output preflight
+
+Before returning `SEMANTIC_OUTPUT_READY`, the base author reads its complete
+`semantic-output.json` with the bound repository's read-only checker:
+
+```text
+python -B <repository_root>/scripts/check_authoring_output.py semantic-output.json
+```
+
+The checker reports schema, answer reference, disclosure and full-body binding
+errors without modifying the output or creating run authority. Correct the
+semantic fields and their corresponding visibility and paragraph bindings,
+then rerun it. A passing preflight does not certify source reading, host
+observations, complete semantic execution or runtime sealing.
+
+`answer.basis_refs` contains existing claim, evidence or mechanism identities,
+never source identities. The runtime derives the evidence for a raw claim's
+one-based support number `n` as `<claim_id>-e<n>`. A `best-current` judgment
+retains the exact support set of its selected explanation. The runtime still
+checks these references against its independently constructed evidence ledger.
+
 ## Request envelope
 
 The envelope protocol is

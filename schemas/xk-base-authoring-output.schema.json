@@ -58,7 +58,21 @@
           "type": "array"
         },
         "answer": {
-          "type": "object"
+          "type": "object",
+          "required": ["direct_answer", "basis_refs", "withdrawal_conditions", "judgment_strength", "action_ceiling"],
+          "properties": {
+            "direct_answer": {"type": "string", "minLength": 1},
+            "withdrawal_conditions": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+            "judgment_strength": {"type": "string", "minLength": 1},
+            "action_ceiling": {"type": "string", "minLength": 1},
+            "basis_refs": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": {"type": "string", "minLength": 1},
+              "description": "Existing claim_id, evidence_id or mechanism_id identities, never source_id. Raw claim support number n produces claim_id-e<n>. Runtime checks identity resolution and the exact best-current support set separately."
+            }
+          }
         },
         "local_world_model": {
           "type": "object"

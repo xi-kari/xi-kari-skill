@@ -61,7 +61,7 @@ from .closed_input import (
     _normalize_closed_semantic,
     freeze_closed_input_materials,
 )
-from .contracts import build_execute_owned_binding, build_runtime_packet_binding
+from .contracts import build_execute_owned_binding, build_runtime_packet_binding, validate_answer_basis_references
 from .contract_authoring import (
     contract_authoring_request, contract_authoring_prompt, parse_contract_authoring_output,
     contract_authoring_evidence, validate_contract_authoring_evidence,
@@ -540,6 +540,12 @@ def _base_prompt(request: Mapping[str, Any]) -> bytes:
         "visibility_ledger 必须逐项覆盖全部模型交付语义，路径不得缺失、重复、额外或漂移；"
         "每项 purpose 必须等于只读 privacy_contract.purpose，来源 title/content 也必须显式分类；"
         "来源保持请求/检索顺序，逐来源评价必须与来源同序。\n"
+        "answer.basis_refs 只能引用本包 evidence/claim_mechanism_graph 已有的 claim_id、evidence_id 或 mechanism_id；"
+        "不能填 source_id、原文锚点、路径或说明句。原始命题的第 n 条 support 对应运行时证据 ID 为 claim_id-e<n>，n 从 1 开始。"
+        "best-current 判断的依据必须精确覆盖首选解释的命题、机制及裁决支持边；静态解释也必须使用真实命题或证据引用。"
+        "修改引用或分析字段时，同步更新 visibility_ledger 和正文 source_bindings，不能只改一个编号。"
+        "提交前必须在自己的工作目录执行 python -B <repository_root>/scripts/check_authoring_output.py semantic-output.json，"
+        "按报告修复引用、披露与正文覆盖问题后重新执行；这个只读预检不代表来源阅读或 runtime 封存通过。\n"
         f"{natural_instruction}{closed_query_instruction}\n"
         "运行时请求（只读绑定）：\n"
         f"{canonical_dumps(dict(request))}\n"
@@ -749,6 +755,7 @@ def _parse_base_output(
         raise ValueError("base authoring retrieval mode differs from the contract")
     _validate_model_retrieval_ownership(retrieval, mode=mode)
     packet = _project_base_applicability(packet)
+    validate_answer_basis_references(packet)
     trace = value.get("semantic_read_trace")
     if not isinstance(trace, Mapping):
         raise ValueError("base authoring semantic read trace is not an object")
