@@ -61,7 +61,10 @@ from .closed_input import (
     _normalize_closed_semantic,
     freeze_closed_input_materials,
 )
-from .contracts import build_execute_owned_binding, build_runtime_packet_binding, validate_answer_basis_references
+from .contracts import (
+    build_execute_owned_binding, build_runtime_packet_binding,
+    validate_answer_basis_references, validate_delivery_binding, validate_provenance,
+)
 from .contract_authoring import (
     contract_authoring_request, contract_authoring_prompt, parse_contract_authoring_output,
     contract_authoring_evidence, validate_contract_authoring_evidence,
@@ -531,7 +534,11 @@ def _base_prompt(request: Mapping[str, Any]) -> bytes:
         "每条问题关系理由必须明确写出该条 item_id，并在去除各类 ID 后仍包含该条 source observation，不能复制套话；"
         "这只证明 byte-access + problem-bound semantic trace，不声称证明类人理解；"
         "open-world 时严格按五向检索：每个方向先执行一次 search，再打开该方向引用的每个来源；"
-        "closed-input 时不得调用网络工具。对每条材料独立判断，建立 Ω、竞争机制、案例/反例和一至三阶路径。"
+        "closed-input 时不得调用网络工具。对每条材料独立判断，并依据已冻结问题和读源结果判定动态推演适用性。"
+        "仅当 dynamic_applicability=applicable 时，建立完整联合状态 Ω、变换、竞争机制与有继承条件的一至三阶路径。"
+        "dynamic_applicability=not_applicable 时，只展开适用的静态解释、逻辑对照和反例，说明动态阶段不适用的原因；"
+        "不得为了满足通用分析指令添加一阶/二阶/三阶演化情景，也不得把逻辑真值组合改称时间推演。"
+        "Ω 由本版本的联合状态合同定义，不能把它改用作竞争解释集合的名字。"
         "在当前私有工作目录内写出固定文件 semantic-output.json，内容是完整 JSON 对象，顶层恰有 semantic_packet、semantic_read_trace 与 ontology_read_trace 三项。"
         "可以分批生成记录并追加或合并为该完整文件，禁止摘要、省略或只写索引。源仓库在当前工作目录之外，仅允许读取。"
         "完整输出文件需满足源仓库 schemas/xk-base-authoring-output.schema.json；自行从磁盘回读检查后，最后消息只写 SEMANTIC_OUTPUT_READY。"
@@ -544,6 +551,18 @@ def _base_prompt(request: Mapping[str, Any]) -> bytes:
         "不能填 source_id、原文锚点、路径或说明句。原始命题的第 n 条 support 对应运行时证据 ID 为 claim_id-e<n>，n 从 1 开始。"
         "best-current 判断的依据必须精确覆盖首选解释的命题、机制及裁决支持边；静态解释也必须使用真实命题或证据引用。"
         "修改引用或分析字段时，同步更新 visibility_ledger 和正文 source_bindings，不能只改一个编号。"
+        "retrieval.assessments[].verdict 必须为 admitted、usable_with_limits、rejected 或 nonprobative；"
+        "解释理由写入 authority、relevance、limitations、cannot_prove 等相应字段，不能用说明句替代枚举。"
+        "evidence.claims[] 使用 claim_id、text、kind；命题正文的字段名是 text，不是 proposition。"
+        "每条 support 都是含 source_id 的对象，可填写 status、summary、cannot_prove，不能是裸说明字符串。"
+        "例如解释性命题可用 kind=interpretation，给定材料支持用 support:[{source_id:已评价材料ID,status:supports,summary:具体支持理由,cannot_prove:[证明不到的范围]}]；"
+        "现实事实、来源主张、授权边界等须使用相应真实种类并遵守独立证据责任，不能靠改 kind 绕过。"
+        "facts 必须含 known、claimed、inferred、unknown 四个数组；每项写 text、identity 与 source_refs/evidence_refs。"
+        "用户材料或事实报告还须用 evidence_refs 绑定本题命题或证据支持，未知不能写成已知。"
+        "case_ledger.cases 每项写合法 kind、source_refs、tests_claim_ids；条件场景使用 conditional_scenario、空 source_refs、"
+        "明确 conditions 和 stop_conditions，不能冒充材料中已经发生的案例。"
+        "retrieval.saturation_status 使用 bounded_saturation、evidence_saturated、authority_exhausted、capability_limited 或 source_internal_only，"
+        "不能填说明句；纯给定材料内部检查通常属于 source_internal_only，检索理由与剩余缺口分别保留。"
         "提交前必须在自己的工作目录执行 python -B <repository_root>/scripts/check_authoring_output.py semantic-output.json，"
         "按报告修复引用、披露与正文覆盖问题后重新执行；这个只读预检不代表来源阅读或 runtime 封存通过。\n"
         f"{natural_instruction}{closed_query_instruction}\n"
@@ -756,6 +775,8 @@ def _parse_base_output(
     _validate_model_retrieval_ownership(retrieval, mode=mode)
     packet = _project_base_applicability(packet)
     validate_answer_basis_references(packet)
+    validate_delivery_binding(packet)
+    validate_provenance(packet, mode=mode)
     trace = value.get("semantic_read_trace")
     if not isinstance(trace, Mapping):
         raise ValueError("base authoring semantic read trace is not an object")
@@ -1335,9 +1356,9 @@ def _rebind_visibility_ledger(
 ) -> None:
     """Rebind disclosure decisions after runtime-only retrieval projection.
 
-    The model's pre-projection ledger can contain semantic fields (such as a
-    query ``purpose``) that the host deliberately removes, while the host adds
-    observed execution fields (query IDs, status and timestamps).  Retaining
+    Projection preserves authored semantic fields, including query ``purpose``,
+    while the host adds observed execution fields (query IDs, status and
+    timestamps) and replaces host-owned metadata. Retaining
     the stale ledger would either leave dangling paths or silently omit the
     new fields.  Preserve every decision whose path survived and mark only the
     runtime-generated metadata as public; model-authored content paths retain

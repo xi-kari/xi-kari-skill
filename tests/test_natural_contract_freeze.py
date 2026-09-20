@@ -61,7 +61,7 @@ def envelope(problem):
         "semantic_packet": {
             "problem_contract": {**problem, "dynamic_applicability": "not_applicable", "applicability_rationale": "只评价条文"},
             "deliverable_type": problem["deliverable_type"], "dynamic_applicability": "not_applicable", "not_applicable_reason": "只评价条文",
-            "facts": {}, "case_ledger": {}, "cases": [],
+            "facts": {"known": [], "claimed": [], "inferred": [], "unknown": []}, "case_ledger": {}, "cases": [],
             "answer": {"direct_answer": "补偿条款需要保留。", "basis_refs": ["CLAIM-1"],
                        "withdrawal_conditions": ["条款范围变化时重评。"], "judgment_strength": "有限解释", "action_ceiling": "仅作分析"},
             "evidence": {"claims": [{"claim_id": "CLAIM-1", "text": "补偿条款需要保留。", "kind": "interpretation", "support": []}]},

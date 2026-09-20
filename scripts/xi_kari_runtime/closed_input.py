@@ -612,6 +612,7 @@ def _normalize_closed_semantic(
                 "query_id": query_id,
                 "direction": query["direction"],
                 "query": query["query"],
+                "purpose": query["purpose"],
                 "status": "executed",
                 "executed_at": completed_at,
                 "result_source_ids": source_ids,

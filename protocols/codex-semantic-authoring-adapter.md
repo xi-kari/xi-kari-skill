@@ -16,7 +16,7 @@ Before returning `SEMANTIC_OUTPUT_READY`, the base author reads its complete
 python -B <repository_root>/scripts/check_authoring_output.py semantic-output.json
 ```
 
-The checker reports schema, answer reference, disclosure and full-body binding
+The checker reports schema, answer reference, static/dynamic delivery, disclosure and full-body binding
 errors without modifying the output or creating run authority. Correct the
 semantic fields and their corresponding visibility and paragraph bindings,
 then rerun it. A passing preflight does not certify source reading, host
@@ -27,6 +27,20 @@ never source identities. The runtime derives the evidence for a raw claim's
 one-based support number `n` as `<claim_id>-e<n>`. A `best-current` judgment
 retains the exact support set of its selected explanation. The runtime still
 checks these references against its independently constructed evidence ledger.
+
+Dynamic construction follows the source-based applicability decision. A static
+explanation may use logical comparisons and counterexamples, but it does not
+invent first-, second- or third-order event paths merely to fill a general
+analysis template. The static delivery guard remains active during preflight
+and formal materialization. An applicable analysis still requires the complete
+joint-state, transformation and recursive-path contracts.
+
+The author schema also declares the source-assessment and saturation enums,
+typed fact buckets, source-bound evidence claims and case provenance. Query
+purposes are authored semantic content and remain in the host projection;
+query execution identities, status and timestamps remain host-owned. Closed
+input preflight can preview claim-specific references from the declared
+material set, but it does not authenticate that set or produce host receipts.
 
 ## Request envelope
 

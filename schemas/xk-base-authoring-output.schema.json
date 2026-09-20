@@ -49,10 +49,20 @@
           ]
         },
         "facts": {
-          "type": "object"
+          "type": "object",
+          "required": ["known", "claimed", "inferred", "unknown"],
+          "properties": {
+            "known": {"type": "array", "items": {"$ref": "#/$defs/modelFact"}},
+            "claimed": {"type": "array", "items": {"$ref": "#/$defs/modelFact"}},
+            "inferred": {"type": "array", "items": {"$ref": "#/$defs/modelFact"}},
+            "unknown": {"type": "array", "items": {"$ref": "#/$defs/modelFact"}}
+          }
         },
         "case_ledger": {
-          "type": "object"
+          "type": "object",
+          "properties": {
+            "cases": {"type": "array", "items": {"$ref": "#/$defs/modelCase"}}
+          }
         },
         "cases": {
           "type": "array"
@@ -143,7 +153,36 @@
           "$ref": "#/$defs/modelRetrieval"
         },
         "evidence": {
-          "type": "object"
+          "type": "object",
+          "required": ["claims"],
+          "properties": {
+            "claims": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": ["claim_id", "text", "kind"],
+                "properties": {
+                  "claim_id": {"type": "string", "minLength": 1},
+                  "text": {"type": "string", "minLength": 1},
+                  "kind": {"type": "string", "minLength": 1},
+                  "support": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "required": ["source_id"],
+                      "properties": {
+                        "source_id": {"type": "string", "minLength": 1},
+                        "status": {"enum": ["supports", "partially_supports", "refutes", "nonprobative"]},
+                        "summary": {"type": "string"},
+                        "cannot_prove": {"type": "array", "items": {"type": "string"}}
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "description": "Author raw claims with claim_id, text (not proposition), kind and source-bound support objects. Runtime constructs the normalized evidence ledger and support edges."
         },
         "deliverable_type": {
           "enum": [
@@ -363,6 +402,40 @@
     }
   },
   "$defs": {
+    "modelFact": {
+      "type": "object",
+      "required": ["text", "identity"],
+      "properties": {
+        "text": {"type": "string", "minLength": 1},
+        "identity": {"enum": ["user_material", "external_fact", "source_claim", "model_inference", "conditional_scenario", "structural_analogy", "unknown", "v8.3_definition"]},
+        "source_refs": {"type": "array", "items": {"type": "string", "minLength": 1}},
+        "evidence_refs": {"type": "array", "items": {"type": "string", "minLength": 1}}
+      },
+      "anyOf": [{"required": ["source_refs"]}, {"required": ["evidence_refs"]}],
+      "allOf": [{
+        "if": {"properties": {"identity": {"enum": ["user_material", "external_fact", "source_claim"]}}},
+        "then": {"required": ["evidence_refs"], "properties": {"evidence_refs": {"minItems": 1}}}
+      }]
+    },
+    "modelCase": {
+      "type": "object",
+      "required": ["kind", "source_refs", "tests_claim_ids"],
+      "properties": {
+        "kind": {"enum": ["documented_real_case", "user_material_case", "conditional_scenario", "structural_analogy"]},
+        "source_refs": {"type": "array", "items": {"type": "string", "minLength": 1}},
+        "tests_claim_ids": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+        "conditions": {"type": "array", "items": {"type": "string", "minLength": 1}},
+        "stop_conditions": {"type": "array", "items": {"type": "string", "minLength": 1}}
+      },
+      "allOf": [
+        {"if": {"properties": {"kind": {"enum": ["documented_real_case", "user_material_case"]}}},
+         "then": {"properties": {"source_refs": {"minItems": 1}}}},
+        {"if": {"properties": {"kind": {"const": "conditional_scenario"}}},
+         "then": {"required": ["conditions", "stop_conditions"], "properties": {
+           "source_refs": {"maxItems": 0}, "conditions": {"minItems": 1}, "stop_conditions": {"minItems": 1}
+         }}}
+      ]
+    },
     "schema_marker": {
       "type": "object",
       "properties": {
@@ -462,8 +535,8 @@
           "minLength": 1
         },
         "verdict": {
-          "type": "string",
-          "minLength": 1
+          "enum": ["admitted", "usable_with_limits", "rejected", "nonprobative", "usable"],
+          "description": "Source assessment decision, never explanatory prose. usable is accepted as the existing alias of admitted; explain limits in limitations and cannot_prove."
         },
         "limitations": {
           "type": "array"
@@ -594,8 +667,8 @@
           }
         },
         "saturation_status": {
-          "type": "string",
-          "minLength": 1
+          "enum": ["bounded_saturation", "evidence_saturated", "authority_exhausted", "capability_limited", "source_internal_only"],
+          "description": "Use a runtime-recognized state; put explanatory limits in capability_gap and remaining_unknowns."
         },
         "capability_gap": {
           "type": "string",

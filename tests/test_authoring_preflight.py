@@ -51,6 +51,91 @@ def test_base_parser_rejects_missing_answer_basis(monkeypatch):
         parse(value, request, frozen, monkeypatch)
 
 
+def test_static_base_parser_rejects_dynamic_narrative_before_receipts(monkeypatch):
+    request, frozen, value = authored_envelope()
+    value["semantic_packet"]["reader_sections"][0]["paragraphs"] = [
+        "一至三阶路径：二阶：组织状态被错误升级",
+    ]
+    with pytest.raises(ValueError, match="static packet cannot assert dynamic order narrative"):
+        parse(value, request, frozen, monkeypatch)
+
+
+def test_author_preflight_applies_the_same_static_delivery_gate(tmp_path):
+    _, _, value = authored_envelope()
+    value["semantic_packet"]["reader_sections"][0]["paragraphs"] = [
+        "一至三阶路径：二阶：组织状态被错误升级",
+    ]
+    output = tmp_path / "semantic-output.json"
+    raw = json.dumps(value, ensure_ascii=False).encode("utf-8")
+    output.write_bytes(raw)
+    result = subprocess.run(
+        [sys.executable, "-B", str(ROOT / "scripts/check_authoring_output.py"), str(output)],
+        capture_output=True, text=True, encoding="utf-8", cwd=tmp_path,
+    )
+    report = json.loads(result.stdout)
+    assert any("static packet cannot assert dynamic order narrative" in error for error in report["errors"])
+    assert output.read_bytes() == raw
+
+
+def test_base_parser_rejects_assessment_prose_instead_of_verdict(monkeypatch):
+    request, frozen, value = authored_envelope()
+    value["semantic_packet"]["retrieval"]["assessments"][0]["verdict"] = "This source supports the distinction but cannot prove actual approval."
+    with pytest.raises(ValueError, match="schema validation"):
+        parse(value, request, frozen, monkeypatch)
+
+
+@pytest.mark.parametrize("claim", [
+    {"claim_id": "CLAIM-1", "proposition": "A recommendation is not approval.", "support": ["The given text supports this."]},
+    {"claim_id": "CLAIM-1", "text": "A recommendation is not approval.", "kind": "interpretation", "support": ["The given text supports this."]},
+])
+def test_base_parser_rejects_unprojectable_evidence_claims(monkeypatch, claim):
+    request, frozen, value = authored_envelope()
+    value["semantic_packet"]["evidence"]["claims"] = [claim]
+    with pytest.raises(ValueError, match="schema validation"):
+        parse(value, request, frozen, monkeypatch)
+
+
+@pytest.mark.parametrize(("field", "invalid"), [
+    ("facts", {"central_judgment": "A recommendation is not approval."}),
+    ("case_ledger", {"cases": [{"case": "Someone recommends B.", "judgment": "No approval follows."}]}),
+])
+def test_base_parser_rejects_untyped_provenance(monkeypatch, field, invalid):
+    request, frozen, value = authored_envelope()
+    value["semantic_packet"][field] = invalid
+    with pytest.raises(ValueError, match="schema validation|provenance"):
+        parse(value, request, frozen, monkeypatch)
+
+
+def test_base_parser_rejects_saturation_prose_instead_of_state(monkeypatch):
+    request, frozen, value = authored_envelope()
+    value["semantic_packet"]["retrieval"]["saturation_status"] = "All given material was checked."
+    with pytest.raises(ValueError, match="schema validation"):
+        parse(value, request, frozen, monkeypatch)
+
+
+def test_closed_preflight_checks_claim_specific_fact_support(tmp_path):
+    _, _, value = authored_envelope()
+    packet = value["semantic_packet"]
+    packet["retrieval"]["mode"] = "closed-input"
+    packet["retrieval"]["sources"] = [{
+        "source_id": "SOURCE-1", "origin": "user_material", "title": "Terms",
+        "content": "A recommendation is not approval.",
+    }]
+    packet["facts"]["known"] = [{
+        "text": "The supplied text distinguishes recommendation and approval.",
+        "identity": "user_material", "source_refs": ["SOURCE-1"],
+        "evidence_refs": ["CLAIM-MISSING"],
+    }]
+    output = tmp_path / "semantic-output.json"
+    output.write_text(json.dumps(value), encoding="utf-8")
+    result = subprocess.run(
+        [sys.executable, "-B", str(ROOT / "scripts/check_authoring_output.py"), str(output)],
+        capture_output=True, text=True, encoding="utf-8", cwd=tmp_path,
+    )
+    errors = json.loads(result.stdout)["errors"]
+    assert any("claim-specific XK3 support" in error for error in errors)
+
+
 def test_author_preflight_reports_real_reference_and_body_errors_without_writing(tmp_path):
     _, _, value = authored_envelope()
     value["semantic_packet"]["answer"]["basis_refs"] = ["SOURCE-1"]

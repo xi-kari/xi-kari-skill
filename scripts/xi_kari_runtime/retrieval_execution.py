@@ -1654,6 +1654,7 @@ def project_runtime_retrieval(
                 "query_id": query_id,
                 "direction": query["direction"],
                 "query": query["query"],
+                "purpose": query["purpose"],
                 "status": "executed",
                 "executed_at": completed,
                 "result_source_ids": result_source_ids,
