@@ -168,3 +168,80 @@ def test_adapter_failure_retains_a_private_state_workspace(tmp_path, monkeypatch
     report = json.loads((diagnostic_path / "failure.json").read_text("utf-8"))
     assert report["state"] == "failed"
     assert report["error_chain"][0]["errno"] == errno.EACCES
+
+
+def test_retrieval_rejection_keeps_base_bytes_before_workspace_cleanup(tmp_path, monkeypatch):
+    payload = '{"fixture":"completed-base-output"}'
+    provider_path = tmp_path / "late_failure_provider.py"
+    provider_path.write_text(f"#!{Path(sys.executable).resolve()}\n" + '''import json, pathlib, sys
+prompt = sys.stdin.read()
+if "运行时请求（只读绑定）：\\n" not in prompt:
+ request = json.loads(prompt.rsplit("运行时请求（只读）：\\n", 1)[1])
+ output = json.dumps(request["draft_problem_contract"], ensure_ascii=False)
+else:
+ output = ''' + repr(payload) + '''
+pathlib.Path("semantic-output.json").write_text(output, encoding="utf-8")
+pathlib.Path(sys.argv[sys.argv.index("--output-last-message") + 1]).write_text("SEMANTIC_OUTPUT_READY", encoding="utf-8")
+for event in ({"type":"thread.started","thread_id":"late-failure-fixture"}, {"type":"turn.started"}, {"type":"turn.completed"}):
+ print(json.dumps(event), flush=True)
+''', encoding="utf-8")
+    provider_path.chmod(0o755)
+    materials = [{"source_id": "SOURCE-1", "title": "材料", "content": "建议不是执行许可。"}]
+    packet = {"retrieval": {
+        "mode": "closed-input",
+        "queries": [{"direction": "source_internal", "query": "给定说法", "purpose": "区分建议与许可"}],
+        "sources": [{**materials[0], "origin": "user_material"}],
+        "assessments": [], "saturation_status": "bounded", "capability_gap": "none",
+        "remaining_unknowns": [],
+    }}
+    monkeypatch.setattr(execution, "_parse_base_output", lambda *a, **k: (packet, {}, {}))
+    monkeypatch.setattr(execution, "validate_semantic_read_trace_input", lambda *a, **k: None)
+    monkeypatch.setattr(execution, "validate_visibility_ledger", lambda *a, **k: None)
+    destination = tmp_path / "runs"
+    with pytest.raises(ValueError, match="closed-input query direction is invalid") as captured:
+        execution.execute_authored_run(destination, request_text="解释建议与授权的区别",
+            mode="closed-input", run_id="late-failure", repository_root=ROOT,
+            codex_provider_executable=provider_path, closed_input_materials=materials,
+            timeout_seconds=30)
+    diagnostic_path = Path(captured.value.diagnostics_path)
+    assert (diagnostic_path / "semantic-output.bin").read_text("utf-8") == payload
+    assert (diagnostic_path / "completion-notice.bin").read_bytes() == b"SEMANTIC_OUTPUT_READY"
+    assert b"late-failure-fixture" in (diagnostic_path / "events.jsonl").read_bytes()
+    report = json.loads((diagnostic_path / "failure.json").read_text("utf-8"))
+    assert report["state"] == "failed"
+    assert report["exit_status"] == 0
+    assert report["stage"] == "retrieval-projection"
+    assert not (destination / "late-failure").exists()
+
+
+def test_query_direction_schema_matches_closed_runtime_vocabulary():
+    from jsonschema import Draft202012Validator
+    from xi_kari_runtime.closed_input import CLOSED_QUERY_DIRECTIONS
+
+    schema = json.loads((ROOT / "schemas/xk-base-authoring-output.schema.json").read_text("utf-8"))
+    query_schema = schema["$defs"]["modelQuery"]
+    validator = Draft202012Validator(query_schema)
+    for direction in CLOSED_QUERY_DIRECTIONS:
+        validator.validate({"direction": direction, "query": "给定材料", "purpose": "核查"})
+    assert list(validator.iter_errors({"direction": "source_internal", "query": "给定材料", "purpose": "核查"}))
+    assert set(query_schema["properties"]["direction"]["enum"]) == CLOSED_QUERY_DIRECTIONS
+
+
+def test_closed_author_prompt_exposes_existing_query_directions():
+    from xi_kari_runtime.closed_input import CLOSED_QUERY_DIRECTIONS
+
+    prompt = execution._base_prompt({"mode": "closed-input"}).decode("utf-8")
+    assert "queries.direction" in prompt
+    assert all(direction in prompt for direction in CLOSED_QUERY_DIRECTIONS)
+
+
+def test_open_author_query_schema_keeps_the_five_direction_boundary():
+    from jsonschema import Draft202012Validator
+    from xi_kari_runtime.retrieval_execution import FIVE_DIRECTION_QUERY_DIRECTIONS
+
+    schema = json.loads((ROOT / "schemas/xk-base-authoring-output.schema.json").read_text("utf-8"))
+    branch = schema["$defs"]["modelRetrieval"]["oneOf"][0]
+    validator = Draft202012Validator(branch)
+    for direction in FIVE_DIRECTION_QUERY_DIRECTIONS:
+        validator.validate({"mode": "open-world", "queries": [{"direction": direction}]})
+    assert list(validator.iter_errors({"mode": "open-world", "queries": [{"direction": "authoritative_definition"}]}))

@@ -56,6 +56,7 @@ from .canonical_json import (
 from .authoring_workspace import AuthoringFailure, failure_causes, private_authoring_directory
 from .concept_authority import load_concept_authority
 from .closed_input import (
+    CLOSED_QUERY_DIRECTIONS,
     _event_objects,
     _normalize_closed_semantic,
     freeze_closed_input_materials,
@@ -474,6 +475,13 @@ def _walk_for_forbidden_authority(value: Any, *, pointer: str = "$") -> str | No
 
 
 def _base_prompt(request: Mapping[str, Any]) -> bytes:
+    closed_query_instruction = ""
+    if request.get("mode") == "closed-input":
+        closed_query_instruction = (
+            "closed-input 的 queries.direction 只能使用："
+            + ", ".join(sorted(CLOSED_QUERY_DIRECTIONS))
+            + "。这些方向表示对给定材料的检查，不表示联网检索；不得自造方向别名。\n"
+        )
     natural_instruction = ""
     if isinstance(request.get("natural_request"), Mapping):
         natural_instruction = (
@@ -522,7 +530,7 @@ def _base_prompt(request: Mapping[str, Any]) -> bytes:
         "visibility_ledger 必须逐项覆盖全部模型交付语义，路径不得缺失、重复、额外或漂移；"
         "每项 purpose 必须等于只读 privacy_contract.purpose，来源 title/content 也必须显式分类；"
         "来源保持请求/检索顺序，逐来源评价必须与来源同序。\n"
-        f"{natural_instruction}\n"
+        f"{natural_instruction}{closed_query_instruction}\n"
         "运行时请求（只读绑定）：\n"
         f"{canonical_dumps(dict(request))}\n"
     ).encode("utf-8")
@@ -1682,6 +1690,7 @@ def execute_authored_run(
         )
         child_pid = int(process.pid)
         input_complete = False
+        failure_stage = "base-authoring"
         try:
             raw_events, stderr, input_complete = _communicate_limited(
                 process, prompt, timeout_seconds=timeout_seconds,
@@ -1709,167 +1718,170 @@ def execute_authored_run(
             validate_visibility_ledger(
                 packet, expected_purpose=str(frozen_privacy["purpose"])
             )
+            failure_stage = "base-finalization"
+            trace_bytes = canonical_bytes(trace_value) + b"\n"
+            ontology_trace_bytes = canonical_bytes(ontology_trace_value) + b"\n"
+            receipt = _receipt(
+                run_id=selected_run_id,
+                request_bytes=request_bytes,
+                prompt_bytes=prompt,
+                event_stream=raw_events,
+                stderr=stderr,
+                output=output,
+                trace=trace_bytes,
+                ontology_trace=ontology_trace_bytes,
+                ontology_read_plan_sha256=sha256_json(ontology_read_plan),
+                ontology_problem_contract_sha256=problem_contract_sha256,
+                ontology_content_access_challenge=content_access_challenge,
+                provider=base_provider,
+                adapter_sha256=binding["executable_sha256"],
+                command=launch_command,
+                child_pid=child_pid,
+                started_at=started_at,
+                completed_at=completed_at,
+                thread_id=str(thread_id),
+            )
+            if contract_evidence is not None:
+                validate_contract_authoring_evidence(contract_evidence, run_id=selected_run_id,
+                    natural_request=natural_request or {}, frozen_problem_contract=frozen,
+                    repository_root=repo, base_started_at=started_at,
+                    closed_input_materials=frozen_material_records,
+                    frozen_material_manifest=frozen_material_manifest)
+                receipt["contract_authoring_evidence"] = contract_evidence
+            receipt["receipt_sha256"] = sha256_json(
+                {key: value for key, value in receipt.items() if key != "receipt_sha256"}
+            )
+
+            # Validate and host-project retrieval before creating a run directory.  A
+            # model that invents closed material, omits a source, or lacks observed web
+            # events therefore leaves no resumable XK0/XK1 shell behind.
+            host_captures: dict[str, HostCapture] | None = None
+            failure_stage = "retrieval-projection"
+            if mode == "open-world":
+                host_captures = capture_host_sources(
+                    _semantic_retrieval_input(packet["retrieval"])
+                )
+            packet, host_receipt, semantic_retrieval = _project_retrieval(
+                packet,
+                event_stream=raw_events,
+                receipt=receipt,
+                request_bytes=request_bytes,
+                run_id=selected_run_id,
+                provider=base_provider,
+                adapter_sha256=binding["executable_sha256"],
+                child_pid=child_pid,
+                started_at=started_at,
+                completed_at=completed_at,
+                evidence_cutoff=frozen["evidence_cutoff"],
+                closed_input_materials=frozen_material_records,
+                frozen_material_manifest=frozen_material_manifest,
+                host_captures=host_captures,
+            )
+            host_capture_index: dict[str, Any] | None = None
+            if host_captures is not None:
+                host_capture_index = build_host_capture_index(
+                    run_id=selected_run_id,
+                    event_stream_sha256=str(host_receipt["event_stream_sha256"]),
+                    retrieval=packet["retrieval"],
+                    semantic_retrieval=semantic_retrieval,
+                    host_captures=host_captures,
+                )
+            packet["schema_id"] = "xi-kari.v3.analysis-packet"
+            packet["schema_version"] = 3
+            _rebind_visibility_ledger(
+                packet, privacy_purpose=str(frozen_privacy["purpose"])
+            )
+            execute_owned_binding = build_execute_owned_binding(receipt, host_receipt)
+
+            # Build the run only after both the semantic envelope and retrieval boundary
+            # are valid; successful runs retain every captured byte below.
+            staging_root = Path(runs_root or default_runs_root()).expanduser().resolve()
+            failure_stage = "run-preparation"
+            with tempfile.TemporaryDirectory(prefix="xi-kari-base-input-") as temporary:
+                trace_path = Path(temporary) / "semantic-read-trace.json"
+                trace_path.write_bytes(trace_bytes)
+                ontology_trace_path = Path(temporary) / "ontology-read-trace.json"
+                ontology_trace_path.write_bytes(ontology_trace_bytes)
+                preparation_capability = _issue_production_preparation_capability(
+                    run_id=selected_run_id,
+                    problem_contract=frozen,
+                    semantic_trace_path=trace_path,
+                    ontology_trace_path=ontology_trace_path,
+                    base_authoring_execution=receipt,
+                    base_authoring_events=raw_events,
+                    execute_owned_binding=execute_owned_binding,
+                    process=process,
+                    request_bytes=request_bytes,
+                    prompt_bytes=prompt,
+                    stderr_bytes=stderr,
+                    output_bytes=output,
+                    retrieval_receipt=host_receipt,
+                )
+                run_dir = _prepare_production_run(
+                    staging_root,
+                    capability=preparation_capability,
+                    problem_contract=frozen,
+                    mode=mode,
+                    run_id=selected_run_id,
+                    repository_root=repo,
+                    semantic_read_trace_path=trace_path,
+                    ontology_read_trace_path=ontology_trace_path,
+                    ontology_read_plan=ontology_read_plan,
+                    semantic_authoring_adapter=formal_adapter,
+                    semantic_authoring_timeout_seconds=timeout_seconds,
+                    semantic_authoring_profile=FORMAL_ADAPTER_PROFILE,
+                    codex_provider_executable=codex_provider_executable,
+                    privacy_purpose=str(frozen_privacy["purpose"]),
+                    delivery_audience=str(frozen_privacy["delivery_audience"]),
+                    base_authoring_execution=receipt,
+                    base_authoring_events=raw_events,
+                    base_authoring_request=request_bytes,
+                    base_authoring_prompt=prompt,
+                    base_authoring_output=output,
+                    semantic_retrieval_input={
+                        "schema_id": "xi-kari.v3.retrieval-semantic-input",
+                        "schema_version": 1,
+                        "run_id": selected_run_id,
+                        "mode": mode,
+                        **semantic_retrieval,
+                    },
+                    retrieval_execution_receipt=host_receipt,
+                    natural_request=natural_request,
+                    continuation_kind=_continuation_kind,
+                    generation=_generation,
+                    parent_run_id=_parent_run_id,
+                    parent_chain_head_sha256=_parent_chain_head_sha256,
+                )
+            _write_raw_events(run_dir / BASE_EVENTS_RELATIVE, raw_events)
+            atomic_write_bytes(run_dir / BASE_REQUEST_RELATIVE, request_bytes)
+            atomic_write_bytes(run_dir / BASE_PROMPT_RELATIVE, prompt)
+            atomic_write_bytes(run_dir / BASE_OUTPUT_RELATIVE, output)
+            atomic_write_json(run_dir / BASE_RECEIPT_RELATIVE, receipt)
+            atomic_write_json(
+                run_dir / SEMANTIC_RETRIEVAL_RELATIVE,
+                {
+                    "schema_id": "xi-kari.v3.retrieval-semantic-input",
+                    "schema_version": 1,
+                    "run_id": selected_run_id,
+                    "mode": mode,
+                    **semantic_retrieval,
+                },
+            )
+            atomic_write_json(run_dir / RETRIEVAL_RECEIPT_RELATIVE, host_receipt)
+            if host_capture_index is not None:
+                write_host_capture_bundle(
+                    run_dir,
+                    index=host_capture_index,
+                    host_captures=host_captures or {},
+                )
         except Exception as error:
             _terminate(process)
-            raise _preserve_authoring_failure(error, stage="base-authoring", run_id=selected_run_id,
+            raise _preserve_authoring_failure(error, stage=failure_stage, run_id=selected_run_id,
                 repository_root=repo, diagnostics_root=runs_root, process=process,
                 command=launch_command, provider=base_provider, request=request_bytes,
                 prompt=prompt, events=raw_events, stderr=stderr, input_complete=input_complete,
                 started_at=started_at, workspace=workspace, notice_path=notice_path,
                 output_limit=MAX_BASE_OUTPUT_BYTES) from error
-    trace_bytes = canonical_bytes(trace_value) + b"\n"
-    ontology_trace_bytes = canonical_bytes(ontology_trace_value) + b"\n"
-    receipt = _receipt(
-        run_id=selected_run_id,
-        request_bytes=request_bytes,
-        prompt_bytes=prompt,
-        event_stream=raw_events,
-        stderr=stderr,
-        output=output,
-        trace=trace_bytes,
-        ontology_trace=ontology_trace_bytes,
-        ontology_read_plan_sha256=sha256_json(ontology_read_plan),
-        ontology_problem_contract_sha256=problem_contract_sha256,
-        ontology_content_access_challenge=content_access_challenge,
-        provider=base_provider,
-        adapter_sha256=binding["executable_sha256"],
-        command=launch_command,
-        child_pid=child_pid,
-        started_at=started_at,
-        completed_at=completed_at,
-        thread_id=str(thread_id),
-    )
-    if contract_evidence is not None:
-        validate_contract_authoring_evidence(contract_evidence, run_id=selected_run_id,
-            natural_request=natural_request or {}, frozen_problem_contract=frozen,
-            repository_root=repo, base_started_at=started_at,
-            closed_input_materials=frozen_material_records,
-            frozen_material_manifest=frozen_material_manifest)
-        receipt["contract_authoring_evidence"] = contract_evidence
-    receipt["receipt_sha256"] = sha256_json(
-        {key: value for key, value in receipt.items() if key != "receipt_sha256"}
-    )
-
-    # Validate and host-project retrieval before creating a run directory.  A
-    # model that invents closed material, omits a source, or lacks observed web
-    # events therefore leaves no resumable XK0/XK1 shell behind.
-    host_captures: dict[str, HostCapture] | None = None
-    if mode == "open-world":
-        host_captures = capture_host_sources(
-            _semantic_retrieval_input(packet["retrieval"])
-        )
-    packet, host_receipt, semantic_retrieval = _project_retrieval(
-        packet,
-        event_stream=raw_events,
-        receipt=receipt,
-        request_bytes=request_bytes,
-        run_id=selected_run_id,
-        provider=base_provider,
-        adapter_sha256=binding["executable_sha256"],
-        child_pid=child_pid,
-        started_at=started_at,
-        completed_at=completed_at,
-        evidence_cutoff=frozen["evidence_cutoff"],
-        closed_input_materials=frozen_material_records,
-        frozen_material_manifest=frozen_material_manifest,
-        host_captures=host_captures,
-    )
-    host_capture_index: dict[str, Any] | None = None
-    if host_captures is not None:
-        host_capture_index = build_host_capture_index(
-            run_id=selected_run_id,
-            event_stream_sha256=str(host_receipt["event_stream_sha256"]),
-            retrieval=packet["retrieval"],
-            semantic_retrieval=semantic_retrieval,
-            host_captures=host_captures,
-        )
-    packet["schema_id"] = "xi-kari.v3.analysis-packet"
-    packet["schema_version"] = 3
-    _rebind_visibility_ledger(
-        packet, privacy_purpose=str(frozen_privacy["purpose"])
-    )
-    execute_owned_binding = build_execute_owned_binding(receipt, host_receipt)
-
-    # Build the run only after both the semantic envelope and retrieval boundary
-    # are valid; successful runs retain every captured byte below.
-    staging_root = Path(runs_root or default_runs_root()).expanduser().resolve()
-    with tempfile.TemporaryDirectory(prefix="xi-kari-base-input-") as temporary:
-        trace_path = Path(temporary) / "semantic-read-trace.json"
-        trace_path.write_bytes(trace_bytes)
-        ontology_trace_path = Path(temporary) / "ontology-read-trace.json"
-        ontology_trace_path.write_bytes(ontology_trace_bytes)
-        preparation_capability = _issue_production_preparation_capability(
-            run_id=selected_run_id,
-            problem_contract=frozen,
-            semantic_trace_path=trace_path,
-            ontology_trace_path=ontology_trace_path,
-            base_authoring_execution=receipt,
-            base_authoring_events=raw_events,
-            execute_owned_binding=execute_owned_binding,
-            process=process,
-            request_bytes=request_bytes,
-            prompt_bytes=prompt,
-            stderr_bytes=stderr,
-            output_bytes=output,
-            retrieval_receipt=host_receipt,
-        )
-        run_dir = _prepare_production_run(
-            staging_root,
-            capability=preparation_capability,
-            problem_contract=frozen,
-            mode=mode,
-            run_id=selected_run_id,
-            repository_root=repo,
-            semantic_read_trace_path=trace_path,
-            ontology_read_trace_path=ontology_trace_path,
-            ontology_read_plan=ontology_read_plan,
-            semantic_authoring_adapter=formal_adapter,
-            semantic_authoring_timeout_seconds=timeout_seconds,
-            semantic_authoring_profile=FORMAL_ADAPTER_PROFILE,
-            codex_provider_executable=codex_provider_executable,
-            privacy_purpose=str(frozen_privacy["purpose"]),
-            delivery_audience=str(frozen_privacy["delivery_audience"]),
-            base_authoring_execution=receipt,
-            base_authoring_events=raw_events,
-            base_authoring_request=request_bytes,
-            base_authoring_prompt=prompt,
-            base_authoring_output=output,
-            semantic_retrieval_input={
-                "schema_id": "xi-kari.v3.retrieval-semantic-input",
-                "schema_version": 1,
-                "run_id": selected_run_id,
-                "mode": mode,
-                **semantic_retrieval,
-            },
-            retrieval_execution_receipt=host_receipt,
-            natural_request=natural_request,
-            continuation_kind=_continuation_kind,
-            generation=_generation,
-            parent_run_id=_parent_run_id,
-            parent_chain_head_sha256=_parent_chain_head_sha256,
-        )
-    _write_raw_events(run_dir / BASE_EVENTS_RELATIVE, raw_events)
-    atomic_write_bytes(run_dir / BASE_REQUEST_RELATIVE, request_bytes)
-    atomic_write_bytes(run_dir / BASE_PROMPT_RELATIVE, prompt)
-    atomic_write_bytes(run_dir / BASE_OUTPUT_RELATIVE, output)
-    atomic_write_json(run_dir / BASE_RECEIPT_RELATIVE, receipt)
-    atomic_write_json(
-        run_dir / SEMANTIC_RETRIEVAL_RELATIVE,
-        {
-            "schema_id": "xi-kari.v3.retrieval-semantic-input",
-            "schema_version": 1,
-            "run_id": selected_run_id,
-            "mode": mode,
-            **semantic_retrieval,
-        },
-    )
-    atomic_write_json(run_dir / RETRIEVAL_RECEIPT_RELATIVE, host_receipt)
-    if host_capture_index is not None:
-        write_host_capture_bundle(
-            run_dir,
-            index=host_capture_index,
-            host_captures=host_captures or {},
-        )
     if _prepare_only:
         # A continuation may intentionally stop at XK1, but it still carries
         # the exact packet that the fresh base author produced.  Persist only

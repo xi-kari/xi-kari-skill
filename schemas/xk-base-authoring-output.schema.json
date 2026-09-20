@@ -368,7 +368,14 @@
       "properties": {
         "direction": {
           "type": "string",
-          "minLength": 1
+          "enum": [
+            "current_baseline",
+            "mechanism_support",
+            "counterevidence",
+            "comparable_case",
+            "affected_low_power_position",
+            "authoritative_definition"
+          ]
         },
         "query": {
           "type": "string",
@@ -592,6 +599,21 @@
           "properties": {
             "mode": {
               "const": "open-world"
+            },
+            "queries": {
+              "items": {
+                "properties": {
+                  "direction": {
+                    "enum": [
+                      "current_baseline",
+                      "mechanism_support",
+                      "counterevidence",
+                      "comparable_case",
+                      "affected_low_power_position"
+                    ]
+                  }
+                }
+              }
             },
             "sources": {
               "items": {

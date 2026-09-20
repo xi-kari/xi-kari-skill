@@ -140,8 +140,9 @@ for event in ({"type":"thread.started","thread_id":"two-stage-material"}, {"type
     monkeypatch.setattr(execution, '_parse_base_output', lambda *a, **k: ({}, {}, {}))
     monkeypatch.setattr(execution, 'validate_semantic_read_trace_input', lambda *a, **k: None)
     monkeypatch.setattr(execution, 'validate_visibility_ledger', lambda *a, **k: None)
-    with pytest.raises(ReplayObserved):
+    with pytest.raises(execution.AuthoringFailure) as captured:
         execution.execute_authored_run(tmp_path/'runs', request_text='只用给定材料解释这个决定',
             mode='closed-input', repository_root=ROOT, codex_provider_executable=provider_path,
             closed_input_materials=raw, timeout_seconds=30)
+    assert isinstance(captured.value.__cause__, ReplayObserved)
     assert len(observed) == 2
