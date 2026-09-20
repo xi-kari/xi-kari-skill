@@ -1,6 +1,7 @@
 from copy import deepcopy
 from importlib import import_module
 from pathlib import Path
+import json
 
 import pytest
 
@@ -45,3 +46,29 @@ def test_source_paths_are_bound_to_the_supplied_repository() -> None:
     root = Path("isolated-repository")
     assert binding.source_directory(root) == root / "references" / "source" / "v8.3"
     assert binding.source_document(root) == root / "source" / "跨尺度多圈层结构推演框架v8.3.docx"
+
+
+@pytest.mark.parametrize(("filename", "definition"), [
+    ("xk-semantic-read-trace.schema.json", "source_binding"),
+    ("xk-source-read.schema.json", "receipt"),
+])
+def test_reader_artifact_schemas_accept_current_paths_and_reject_legacy(filename, definition):
+    from jsonschema import Draft202012Validator
+
+    root = Path(__file__).resolve().parents[1]
+    schema = json.loads((root / "schemas" / filename).read_text(encoding="utf-8"))
+    path_schema = schema["$defs"][definition]["properties"]["path"]
+    validator = Draft202012Validator(path_schema)
+    assert validator.is_valid("references/source/v8.3/reader/00-source-envelope.md")
+    assert not validator.is_valid("references/source/v8.2/reader/00-source-envelope.md")
+    assert not validator.is_valid("references/source/v8x3/reader/00-source-envelope.md")
+
+
+@pytest.mark.parametrize("filename", ("xk-source-read.schema.json", "xk-source.schema.json"))
+def test_runtime_source_schemas_bind_the_current_authoritative_hashes(filename):
+    root = Path(__file__).resolve().parents[1]
+    manifest = json.loads((root / "references/source/v8.3/source-manifest.json").read_text(encoding="utf-8"))
+    schema = json.loads((root / "schemas" / filename).read_text(encoding="utf-8"))
+    properties = schema.get("properties") or schema["$defs"]["source_lock"]["properties"]
+    assert properties["source_raw_sha256"]["const"] == manifest["raw_sha256"]
+    assert properties["source_semantic_sha256"]["const"] == manifest["semantic_sha256"]
