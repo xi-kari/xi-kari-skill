@@ -1,0 +1,133 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-09-21T14:41:22.561Z",
+  "title": "Design System: Xi-Kari project introduction",
+  "extensions": {
+    "shadows": [],
+    "motion": [
+      {
+        "name": "signature-complete",
+        "value": "3500ms",
+        "purpose": "Original 23 Latin stroke masks and 3 dawn ornament masks reach the complete signature."
+      },
+      {
+        "name": "signature-easing",
+        "value": "cubic-bezier(.33, 0, .36, 1)",
+        "purpose": "Original stroke-mask drawing."
+      },
+      {
+        "name": "ink-letter",
+        "value": "350ms",
+        "purpose": "Chinese letter settling; 75ms initial delay, then 80ms between letters."
+      },
+      {
+        "name": "icon-field",
+        "value": "5200ms",
+        "purpose": "Spatially staggered repeating color cycle; paused when hidden and static for reduced motion."
+      },
+      {
+        "name": "tide-far",
+        "value": "29s linear infinite",
+        "purpose": "Rear tide; paused outside the cover or in a hidden document."
+      },
+      {
+        "name": "tide-middle",
+        "value": "21s linear infinite reverse",
+        "purpose": "Middle tide; same visibility and reduced-motion rules."
+      },
+      {
+        "name": "tide-front",
+        "value": "17s linear infinite",
+        "purpose": "Front tide; same visibility and reduced-motion rules."
+      },
+      {
+        "name": "section-reveal",
+        "value": "660ms cubic-bezier(.16,1,.3,1)",
+        "purpose": "One entrance per marked section; skipped for reduced motion."
+      },
+      {
+        "name": "navigation-reveal",
+        "value": "320ms cubic-bezier(.16,1,.3,1)",
+        "purpose": "Fine-pointer navigation reveal."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "intermediate",
+        "value": "(max-width: 1050px)"
+      },
+      {
+        "name": "mobile",
+        "value": "(max-width: 760px)"
+      },
+      {
+        "name": "short-desktop",
+        "value": "(min-width: 761px) and (max-height: 850px)"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Icon button",
+      "kind": "button",
+      "refersTo": "icon-button",
+      "description": "Circular quiet action with soft hover and visible keyboard focus.",
+      "html": "<button type=\"button\" class=\"ds-icon-button\" aria-label=\"返回顶部\"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 20V4m-6 6 6-6 6 6\"/></svg></button>",
+      "css": ".ds-icon-button{width:40px;height:40px;display:grid;place-items:center;border:0;border-radius:50%;padding:9px;background:none;color:rgb(var(--studio-ink,31 48 73));cursor:pointer}.ds-icon-button svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round}.ds-icon-button:hover{background:rgb(var(--studio-soft,231 237 249))}.ds-icon-button:focus-visible{outline:2px solid rgb(var(--studio-accent,68 91 159));outline-offset:5px}@media(max-width:760px){.ds-icon-button{width:34px;height:34px;padding:8px}}"
+    },
+    {
+      "name": "Status filter",
+      "kind": "chip",
+      "refersTo": "status-filter",
+      "description": "Completion filter with soft fill and accent text for selection.",
+      "html": "<div class=\"ds-status-filters\" role=\"group\" aria-label=\"按完成状态筛选\"><button type=\"button\" aria-pressed=\"true\">全部</button><button type=\"button\" aria-pressed=\"false\">待完成</button><button type=\"button\" aria-pressed=\"false\">已完成</button></div>",
+      "css": ".ds-status-filters{display:flex;gap:4px;flex-wrap:wrap}.ds-status-filters button{font-family:'PingFang SC','Microsoft YaHei',system-ui,sans-serif;border:0;border-radius:8px;background:none;color:rgb(var(--studio-ink,31 48 73));font-size:12px;line-height:1.8;padding:9px 14px;cursor:pointer}.ds-status-filters button[aria-pressed='true']{background:rgb(var(--studio-soft,231 237 249));color:rgb(var(--studio-accent,68 91 159))}.ds-status-filters button:focus-visible{outline:2px solid rgb(var(--studio-accent,68 91 159));outline-offset:5px}"
+    },
+    {
+      "name": "Research search",
+      "kind": "input",
+      "refersTo": "search",
+      "description": "Named search field with a fine bottom border.",
+      "html": "<label class=\"ds-search\"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><circle cx=\"10.5\" cy=\"10.5\" r=\"6.5\"/><path d=\"m16 16 5 5\"/></svg><input type=\"search\" placeholder=\"搜索思想、人物、主题或编号\" aria-label=\"搜索研究问题\"></label>",
+      "css": ".ds-search{display:flex;align-items:center;gap:12px;max-width:520px;padding:8px 0;border-bottom:1px solid rgb(var(--studio-muted,88 105 128));color:rgb(var(--studio-ink,31 48 73))}.ds-search svg{width:20px;height:20px;flex:0 0 auto;fill:none;stroke:currentColor;stroke-width:1.4;stroke-linecap:round}.ds-search input{font-family:'PingFang SC','Microsoft YaHei',system-ui,sans-serif;width:100%;min-width:0;border:0;background:transparent;color:inherit;font-size:14px;line-height:1.8;padding:3px 0;caret-color:rgb(var(--studio-accent,68 91 159))}.ds-search input::placeholder{color:rgb(var(--studio-muted,88 105 128));opacity:1}.ds-search input:focus-visible{outline:2px solid rgb(var(--studio-accent,68 91 159));outline-offset:5px}"
+    },
+    {
+      "name": "Research domain",
+      "kind": "custom",
+      "refersTo": "domain-title",
+      "description": "Native disclosure group with a domain identifier and official completion count.",
+      "html": "<details class=\"ds-domain\"><summary><span class=\"ds-domain-number\">01</span><h3>框架起点、理论借用与解释权</h3><span class=\"ds-domain-count\">0 / 8</span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"m6 9 6 6 6-6\"/></svg></summary><p>展开后按编号浏览研究问题。</p></details>",
+      "css": ".ds-domain{font-family:'PingFang SC','Microsoft YaHei',system-ui,sans-serif;color:rgb(var(--studio-ink,31 48 73));border-top:1px solid rgb(var(--studio-line,208 219 233))}.ds-domain summary{list-style:none;display:flex;align-items:center;gap:18px;padding:24px 0;cursor:pointer}.ds-domain summary::-webkit-details-marker{display:none}.ds-domain h3{flex:1;margin:0;font-family:var(--studio-serif,'Noto Serif SC','Source Han Serif SC','Songti SC',serif);font-size:19px;font-weight:500;line-height:1.65}.ds-domain-number{flex:0 0 23px;font-size:12px;color:rgb(var(--studio-muted,88 105 128));font-variant-numeric:tabular-nums}.ds-domain-count{color:rgb(var(--studio-muted,88 105 128));font-size:11px;white-space:nowrap;font-variant-numeric:tabular-nums}.ds-domain svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:1.4;transition:transform .2s}.ds-domain[open] svg{transform:rotate(180deg)}.ds-domain p{font-size:12px;color:rgb(var(--studio-muted,88 105 128));line-height:1.95}.ds-domain summary:focus-visible{outline:2px solid rgb(var(--studio-accent,68 91 159));outline-offset:5px}@media(max-width:760px){.ds-domain summary{gap:11px;padding:21px 0}.ds-domain h3{font-size:17px}.ds-domain-number{flex-basis:19px;font-size:11px}}@media(prefers-reduced-motion:reduce){.ds-domain svg{transition:none}}"
+    },
+    {
+      "name": "Usage command",
+      "kind": "custom",
+      "refersTo": "command",
+      "description": "Wrapped instruction in a lightly tinted outlined container.",
+      "html": "<div class=\"ds-command\"><code>使用 xi-kari-skill 分析：这个变化会怎样影响不同的人？</code></div>",
+      "css": ".ds-command{position:relative;border:1px solid rgb(var(--studio-line,208 219 233));padding:24px 56px 24px 22px;margin:22px 0;border-radius:12px;background:rgb(var(--studio-surface,255 255 255)/.65);color:rgb(var(--studio-ink,31 48 73));line-height:2}.ds-command code{font-family:ui-monospace,Consolas,monospace;font-size:13px;overflow-wrap:anywhere}@media(max-width:760px){.ds-command{padding:18px 48px 18px 16px}}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The existing blog, carried into a reading page",
+    "overview": "This document applies only to `docs/index.html` and its page assets. It does not define Xi-Kari theory, source documents, Skill semantics, or the design of the original blog. The visual authority is the user's existing [blog homepage](https://xi-kari.com/): blue-white surfaces, dark blue text, muted indigo, Chinese serif lettering, the original Chinese wordmark and Hiiragi Shinonome vector signature.\n\nOne static landscape anchors the opening scene. Below it, generous open sections, fine dividers and a grouped research list support reading. The page has no shadow-based card system. Asset identity and original image bytes are recorded in `docs/assets/provenance.json`.",
+    "keyCharacteristics": [
+      "Original signature, ink lettering, icon color field and three tide layers.",
+      "Open reading columns that become one column on small screens.",
+      "Quiet controls with explicit focus and selected states.",
+      "Shared published progress, with a separate local maintenance state."
+    ],
+    "rules": [],
+    "dos": [
+      "**Do** preserve the original blog identity assets and use the single landscape recorded in the provenance file.",
+      "**Do** use the current semantic color roles, open reading layout and native research controls.",
+      "**Do** retain keyboard focus, reduced-motion behavior, loading feedback and recoverable failures.",
+      "**Do** keep public progress read-only and local maintenance explicit."
+    ],
+    "donts": [
+      "**Don't** replace the signatures, invent another theme, introduce a dashboard card system or add a rotating wallpaper gallery.",
+      "**Don't** present visitor-local checkmarks as official project progress.",
+      "**Don't** apply this page's visual rules to theory sources or alter the original blog through this document."
+    ]
+  }
+}
