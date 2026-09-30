@@ -17,6 +17,12 @@ from referencing import Registry, Resource
 from build_source_snapshot import build as check_source_build
 from check_ontology import check as check_ontology
 from check_source_snapshot import check_candidate_index, check_coverage
+from xi_kari_runtime.schema_ownership import (
+    V4_SCHEMA_IDENTITIES,
+    root_schema_ids,
+    schema_identity_errors,
+    schema_reference_errors,
+)
 
 
 EXPECTED_COMMANDS = {
@@ -446,19 +452,7 @@ def _read_json(path: Path, errors: list[str]) -> dict[str, Any] | None:
 
 
 def _schema_id_constants(value: Any) -> set[str]:
-    found: set[str] = set()
-    if isinstance(value, dict):
-        properties = value.get("properties")
-        if isinstance(properties, dict):
-            schema_id = properties.get("schema_id")
-            if isinstance(schema_id, dict) and isinstance(schema_id.get("const"), str):
-                found.add(schema_id["const"])
-        for child in value.values():
-            found.update(_schema_id_constants(child))
-    elif isinstance(value, list):
-        for child in value:
-            found.update(_schema_id_constants(child))
-    return found
+    return root_schema_ids(value)
 
 
 def _runtime_schema_registry(
@@ -472,6 +466,7 @@ def _runtime_schema_registry(
     validators: dict[str, Draft202012Validator] = {}
     documents: list[tuple[Path, dict[str, Any]]] = []
     resources: Registry[Any] = Registry()
+    resource_owners: dict[str, Path] = {}
     for path in schema_paths:
         schema = _read_json(path, errors)
         if schema is None:
@@ -482,28 +477,36 @@ def _runtime_schema_registry(
             errors.append(f"invalid runtime schema {path}: {exc}")
             continue
         schema_uri = schema.get("$id")
-        if not isinstance(schema_uri, str) or not schema_uri.startswith(
-            "https://xi-kari.local/schemas/xi-kari.v3."
-        ):
-            errors.append(f"runtime schema has a non-v2 $id: {path}")
-        elif schema_uri:
-            try:
-                resources = resources.with_resource(
-                    schema_uri, Resource.from_contents(schema)
-                )
-            except Exception as exc:
-                errors.append(f"invalid runtime schema resource {path}: {exc}")
-                continue
+        identity_errors = schema_identity_errors(path, schema)
+        if identity_errors:
+            errors.extend(identity_errors)
+            continue
+        previous_resource = resource_owners.setdefault(schema_uri, path)
+        if previous_resource != path:
+            errors.append(
+                f"runtime schema $id has multiple owners: {schema_uri}: {previous_resource}, {path}"
+            )
+            continue
+        try:
+            resources = resources.with_resource(
+                schema_uri, Resource.from_contents(schema)
+            )
+        except Exception as exc:
+            errors.append(f"invalid runtime schema resource {path}: {exc}")
+            continue
         documents.append((path, schema))
     for path, schema in documents:
+        reference_errors = schema_reference_errors(path, schema, resources)
+        if reference_errors:
+            errors.extend(reference_errors)
+            continue
         for schema_id in sorted(_schema_id_constants(schema)):
-            if not schema_id.startswith("xi-kari.v3."):
-                errors.append(f"runtime schema contains a legacy schema_id {schema_id}: {path}")
             previous = owners.setdefault(schema_id, path)
             if previous != path:
                 errors.append(
                     f"runtime schema_id has multiple owners: {schema_id}: {previous}, {path}"
                 )
+                continue
             validators[schema_id] = Draft202012Validator(
                 schema,
                 format_checker=FormatChecker(),
@@ -514,6 +517,9 @@ def _runtime_schema_registry(
 
 def _check_runtime_schemas(root: Path) -> list[str]:
     registry, errors = _runtime_schema_registry(root)
+    for filename in V4_SCHEMA_IDENTITIES:
+        if not (root / "schemas" / filename).is_file():
+            errors.append(f"published runtime schema is missing: {filename}")
     emitted: set[str] = set()
     runtime_paths = [root / "scripts" / "xi_kari_runtime.py"]
     runtime_paths.extend(sorted((root / "scripts" / "xi_kari_runtime").glob("*.py")))
@@ -1011,8 +1017,8 @@ def check_run(root: Path, run_dir: Path) -> list[str]:
                     errors.append(f"Codex event has no type: {location}")
                 continue
             schema_id = value.get("schema_id")
-            if not isinstance(schema_id, str) or not schema_id.startswith("xi-kari.v3."):
-                errors.append(f"run artifact has no v2 schema_id: {location}")
+            if not isinstance(schema_id, str) or not schema_id:
+                errors.append(f"run artifact has no schema_id: {location}")
                 continue
             expected_schema_ids = _expected_artifact_schema_ids(relative)
             if expected_schema_ids is None:

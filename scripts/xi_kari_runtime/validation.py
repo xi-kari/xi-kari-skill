@@ -20,6 +20,7 @@ from .authority import validator_set_sha256 as compute_validator_set_sha256
 from .authoring import validate_semantic_probe_authorings
 from .canonical_json import confined_path, read_json, read_json_text, sha256_file, sha256_json
 from .concept_authority import load_concept_authority
+from .schema_ownership import root_schema_ids, schema_identity_errors, schema_reference_errors
 from .contracts import (
     COMPLETE_STATE_MISMATCH_ERROR,
     PREMATURE_COMPLETE_STATE_ERROR,
@@ -270,19 +271,7 @@ def _expected_artifact_schema_ids(relative: str) -> set[str] | None:
 
 
 def _schema_id_constants(value: Any) -> set[str]:
-    found: set[str] = set()
-    if isinstance(value, dict):
-        properties = value.get("properties")
-        if isinstance(properties, dict):
-            schema_id = properties.get("schema_id")
-            if isinstance(schema_id, dict) and isinstance(schema_id.get("const"), str):
-                found.add(schema_id["const"])
-        for child in value.values():
-            found.update(_schema_id_constants(child))
-    elif isinstance(value, list):
-        for child in value:
-            found.update(_schema_id_constants(child))
-    return found
+    return root_schema_ids(value)
 
 
 def _runtime_schema_registry(
@@ -292,6 +281,7 @@ def _runtime_schema_registry(
     owners: dict[str, Path] = {}
     documents: list[tuple[Path, dict[str, Any]]] = []
     resources: Registry[Any] = Registry()
+    resource_owners: dict[str, Path] = {}
     schema_paths = sorted((repository_root / "schemas").glob("xk-*.json"))
     if not schema_paths:
         errors.append("no Xi-Kari v3 runtime schemas found")
@@ -306,16 +296,29 @@ def _runtime_schema_registry(
             errors.append(f"invalid runtime schema {path}: {exc}")
             continue
         schema_uri = schema.get("$id")
-        if isinstance(schema_uri, str) and schema_uri:
-            try:
-                resources = resources.with_resource(
-                    schema_uri, Resource.from_contents(schema)
-                )
-            except Exception as exc:
-                errors.append(f"invalid runtime schema resource {path}: {exc}")
-                continue
+        identity_errors = schema_identity_errors(path, schema)
+        if identity_errors:
+            errors.extend(identity_errors)
+            continue
+        previous_resource = resource_owners.setdefault(schema_uri, path)
+        if previous_resource != path:
+            errors.append(
+                f"runtime schema $id has multiple owners: {schema_uri}: {previous_resource}, {path}"
+            )
+            continue
+        try:
+            resources = resources.with_resource(
+                schema_uri, Resource.from_contents(schema)
+            )
+        except Exception as exc:
+            errors.append(f"invalid runtime schema resource {path}: {exc}")
+            continue
         documents.append((path, schema))
     for path, schema in documents:
+        reference_errors = schema_reference_errors(path, schema, resources)
+        if reference_errors:
+            errors.extend(reference_errors)
+            continue
         for schema_id in sorted(_schema_id_constants(schema)):
             previous = owners.setdefault(schema_id, path)
             if previous != path:
