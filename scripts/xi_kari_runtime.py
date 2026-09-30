@@ -164,7 +164,7 @@ def _start_options(
 
 
 def build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(description="Xi-Kari v3 semantic run runtime")
+    parser = argparse.ArgumentParser(description="Xi-Kari semantic run runtime")
     sub = parser.add_subparsers(dest="command", required=True)
 
     init = sub.add_parser("init", help="read-only production preflight; execute creates the run")
