@@ -401,11 +401,17 @@ def test_disk_reread_and_fresh_reader_projection_keep_v4_fields(
         "problem_contract_sha256": "a" * 64,
         "stance_neutrality_key": "b" * 64,
         "privacy_contract": None,
-        "contract_profile": "production-authoring-v3",
+        "contract_profile": "production-authoring-v4",
+        "source_version": "v9.0",
     }
     run_dir = tmp_path / "run"
     (run_dir / "continuation").mkdir(parents=True)
-    monkeypatch.setattr(materialization, "load_concept_authority", lambda root: ([], {}))
+    def authority(root, *, source_version):
+        assert root == ROOT
+        assert source_version == "v9.0"
+        return [], {}
+
+    monkeypatch.setattr(materialization, "load_concept_authority", authority)
 
     persisted = materialization._load_packet_from_disk(
         run_dir,

@@ -11,6 +11,7 @@ from xi_kari_runtime import claims
 from xi_kari_runtime.empirical_instances import EvaluatedInstanceRegistry, freeze_empirical_instance
 from tests.test_causal_judgment_instances import root_contract, root_result
 from tests.test_causal_judgment_v4_graph import empirical_graph
+from tests.temporal_materials import record_temporal_inputs
 
 
 def instance_inputs():
@@ -33,29 +34,41 @@ def requested_graph():
     return graph
 
 
-def bind(graph=None, inputs=None):
+def observed_instance_inputs(tmp_path, inputs=None):
+    values = deepcopy(instance_inputs() if inputs is None else inputs)
+    assert len(values) == 1
+    registered, evaluated, audit = record_temporal_inputs(
+        tmp_path, values[0]['preregistration'], values[0]['evaluation']
+    )
+    values[0].update(preregistration=registered, evaluation=evaluated)
+    return values, audit
+
+
+def bind(graph=None, inputs=None, *, temporal_audit=None):
     from xi_kari_runtime.formal_results import bind_formal_claim_results
-    return bind_formal_claim_results(graph or requested_graph(), empirical_instances=inputs or instance_inputs())
+    return bind_formal_claim_results(graph or requested_graph(), empirical_instances=inputs or instance_inputs(), temporal_audit=temporal_audit)
 
 
-def test_public_binder_recomputes_qualification_and_keeps_actual_input_hashes():
+def test_public_binder_recomputes_qualification_and_keeps_actual_input_hashes(tmp_path):
     before = requested_graph()
-    checked = bind(before)
+    inputs, audit = observed_instance_inputs(tmp_path)
+    checked = bind(before, inputs, temporal_audit=audit)
     after = checked['claim_mechanism_graph']
     assert before['claims'][0]['formal_qualification']['status'] == 'not_evaluated'
     assert after['claims'][0]['formal_qualification']['status'] == 'qualified'
     assert after['claims'][0]['formal_qualification']['result_status'] == 'supported'
     result = checked['instance_results'][root_contract()['instance_id']]
-    assert result['preregistration_sha256'] == freeze_empirical_instance(root_contract())['preregistration_sha256']
+    assert result['preregistration_sha256'] == freeze_empirical_instance(inputs[0]['preregistration'])['preregistration_sha256']
     assert result['evaluation_sha256']
     assert checked['source_version'] == 'v9.0'
 
 
-def test_checked_graph_requires_its_actual_registry_and_rejects_changed_material():
+def test_checked_graph_requires_its_actual_registry_and_rejects_changed_material(tmp_path):
     from xi_kari_runtime.formal_results import rebuild_instance_registry
-    graph, inputs = requested_graph(), instance_inputs()
-    checked = bind(graph, inputs)['claim_mechanism_graph']
-    registry = rebuild_instance_registry(inputs, graph=graph)
+    graph = requested_graph()
+    inputs, audit = observed_instance_inputs(tmp_path)
+    checked = bind(graph, inputs, temporal_audit=audit)['claim_mechanism_graph']
+    registry = rebuild_instance_registry(inputs, graph=graph, temporal_audit=audit)
     assert claims.validate_claim_graph(checked, verified_instance_results=registry) == checked
     with pytest.raises(claims.ClaimMechanismError, match='verified real instance'):
         claims.validate_claim_graph(checked)
@@ -89,12 +102,14 @@ def test_negative_formal_result_preserves_independent_ordinary_support():
     assert claims.claim_constraints(result['claim_mechanism_graph'])['CLAIM-FACTUAL']['blocked'] is False
 
 
-def test_null_support_requires_all_three_actual_gates():
+def test_null_support_requires_all_three_actual_gates(tmp_path):
     inputs = instance_inputs()
     inputs[0]['evaluation']['metrics'].update(controlled_perturbation_effect=0.001, **{'equivalence-upper': 0.002})
-    assert bind(inputs=inputs)['claim_mechanism_graph']['claims'][0]['formal_qualification']['result_status'] == 'null_supported'
+    observed, audit = observed_instance_inputs(tmp_path, inputs)
+    assert bind(inputs=observed, temporal_audit=audit)['claim_mechanism_graph']['claims'][0]['formal_qualification']['result_status'] == 'null_supported'
     inputs[0]['evaluation']['metrics']['detectable-effect'] = 0.9
-    assert bind(inputs=inputs)['claim_mechanism_graph']['claims'][0]['formal_qualification']['result_status'] == 'unsupported_or_undecided'
+    observed, audit = observed_instance_inputs(tmp_path, inputs)
+    assert bind(inputs=observed, temporal_audit=audit)['claim_mechanism_graph']['claims'][0]['formal_qualification']['result_status'] == 'unsupported_or_undecided'
 
 
 def test_author_result_labels_cannot_override_the_recomputed_result():
@@ -106,13 +121,14 @@ def test_author_result_labels_cannot_override_the_recomputed_result():
 
 
 def test_fresh_process_recomputes_changed_disk_evidence(tmp_path):
-    graph, inputs = requested_graph(), instance_inputs()
+    graph = requested_graph()
+    inputs, audit = observed_instance_inputs(tmp_path)
     graph_path, inputs_path = tmp_path / 'graph.json', tmp_path / 'instances.json'
     graph_path.write_text(json.dumps(graph), encoding='utf-8')
     inputs_path.write_text(json.dumps(inputs), encoding='utf-8')
-    program = "import json,sys; from pathlib import Path; from scripts.xi_kari_runtime.formal_results import bind_formal_claim_results; r=bind_formal_claim_results(json.loads(Path(sys.argv[1]).read_text()),empirical_instances=json.loads(Path(sys.argv[2]).read_text())); print(r['claim_mechanism_graph']['claims'][0]['formal_qualification']['result_status'])"
+    program = "import json,sys; from pathlib import Path; from scripts.xi_kari_runtime.temporal_audit import load_temporal_audit; from scripts.xi_kari_runtime.formal_results import bind_formal_claim_results; audit=load_temporal_audit(Path(sys.argv[3]),expected_audit_sha256=sys.argv[4]); r=bind_formal_claim_results(json.loads(Path(sys.argv[1]).read_text()),empirical_instances=json.loads(Path(sys.argv[2]).read_text()),temporal_audit=audit); print(r['claim_mechanism_graph']['claims'][0]['formal_qualification']['result_status'])"
     def fresh():
-        return subprocess.run([sys.executable, '-B', '-c', program, str(graph_path), str(inputs_path)], cwd=Path(__file__).resolve().parents[1], capture_output=True, text=True, check=True).stdout.strip()
+        return subprocess.run([sys.executable, '-B', '-c', program, str(graph_path), str(inputs_path), str(audit.run_dir), audit.expected_audit_sha256], cwd=Path(__file__).resolve().parents[1], capture_output=True, text=True, check=True).stdout.strip()
     assert fresh() == 'supported'
     graph['evidence'][0]['support_checks']['world_fact_supported']['status'] = 'failed'
     graph_path.write_text(json.dumps(graph), encoding='utf-8')
@@ -140,27 +156,28 @@ def packet_inputs():
     return semantic, contract
 
 
-def test_packet_constructor_recomputes_actual_formal_results_and_rejects_tampering():
+def test_packet_constructor_recomputes_actual_formal_results_and_rejects_tampering(tmp_path):
     from xi_kari_runtime.contracts import build_analysis_packet, require_packet_contract
     from xi_kari_runtime.packet_v4 import prepare_analysis_packet_v4
     from xi_kari_runtime.semantic_projection import semantic_atom_paths
     semantic, contract = packet_inputs()
+    semantic['empirical_instances'], audit = observed_instance_inputs(tmp_path, semantic['empirical_instances'])
     root = Path(__file__).resolve().parents[1]
-    pending = prepare_analysis_packet_v4(semantic, run_contract=contract, repository_root=root)
+    pending = prepare_analysis_packet_v4(semantic, run_contract=contract, repository_root=root, temporal_audit=audit)
     with pytest.raises(ValueError, match='visibility'):
-        require_packet_contract(pending, mode=contract['mode'], run_contract=contract)
+        require_packet_contract(pending, mode=contract['mode'], run_contract=contract, temporal_audit=audit)
     explicit = {'entries': [
         {'canonical_path': path, 'classification': 'public', 'disclosure': 'include',
          'purpose': 'bounded source-scope analysis', 'authority_refs': [], 'protection_reason': None}
         for path in semantic_atom_paths(pending)
     ]}
     packet = build_analysis_packet(semantic, run_contract=contract, repository_root=root,
-        reader_finalization={'reader_sections': semantic['reader_sections'], 'visibility_ledger': explicit})
+        reader_finalization={'reader_sections': semantic['reader_sections'], 'visibility_ledger': explicit}, temporal_audit=audit)
     assert packet['claim_mechanism_graph']['claims'][0]['formal_qualification']['status'] == 'qualified'
     assert packet['formal_results']['instance_results'][root_contract()['instance_id']]['result']['result_state'] == 'supported'
     packet['formal_results']['instance_results'][root_contract()['instance_id']]['result']['result_state'] = 'null_supported'
     with pytest.raises(ValueError, match='recomputed'):
-        require_packet_contract(packet, mode=contract['mode'], run_contract=contract)
+        require_packet_contract(packet, mode=contract['mode'], run_contract=contract, temporal_audit=audit)
 
 
 def test_packet_constructor_cannot_accept_author_supplied_formal_result_controls():
