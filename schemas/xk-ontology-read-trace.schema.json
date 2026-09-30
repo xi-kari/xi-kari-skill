@@ -44,7 +44,8 @@
         "kind": {
           "enum": [
             "candidate", "canonical_or_structural_card",
-            "required_neighbor", "continuity_bundle"
+            "required_neighbor", "continuity_bundle",
+            "learning_pack", "domain_identity_index"
           ]
         },
         "subject_id": {"$ref": "#/$defs/nonempty"},

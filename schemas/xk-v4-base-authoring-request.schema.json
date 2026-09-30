@@ -384,7 +384,9 @@
             "candidate_census_sha256",
             "concept_registry_sha256",
             "concept_relations_sha256",
-            "continuity_bundle_registry_sha256"
+            "continuity_bundle_registry_sha256",
+            "domain_index_sha256",
+            "knowledge_index_sha256"
           ],
           "properties": {
             "candidate_census_sha256": {
@@ -397,6 +399,12 @@
               "$ref": "#/$defs/sha256"
             },
             "continuity_bundle_registry_sha256": {
+              "$ref": "#/$defs/sha256"
+            },
+            "domain_index_sha256": {
+              "$ref": "#/$defs/sha256"
+            },
+            "knowledge_index_sha256": {
               "$ref": "#/$defs/sha256"
             }
           }
