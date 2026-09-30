@@ -12,6 +12,7 @@ from pathlib import Path, PurePosixPath, PureWindowsPath
 import re
 import secrets
 import subprocess
+import sys
 import time
 import zipfile
 
@@ -223,9 +224,10 @@ def _package(descriptor: Mapping, *, arm: str, fixture_mode: bool) -> tuple[dict
 def _profile(profile: Mapping | None, *, fixture_mode: bool) -> tuple[dict, list[str]]:
     value = deepcopy(dict(profile or {}))
     if set(value) - {"kind", "executable", "executable_sha256", "model", "reasoning_effort",
-                     "preflight_receipt", "isolation_command_prefix"}:
+                     "preflight_receipt", "isolation_command_prefix", "launcher_files"}:
         raise EvaluationError("execution profile contains unsupported or credential-bearing fields")
     value.setdefault("isolation_command_prefix", [])
+    value.setdefault("launcher_files", {})
     issues = []
     expected_kind = "deterministic_fixture" if fixture_mode else "codex_subscription"
     if value.get("kind") != expected_kind:
@@ -238,7 +240,31 @@ def _profile(profile: Mapping | None, *, fixture_mode: bool) -> tuple[dict, list
     else:
         value["executable"] = str(_root(executable))
         value["executable_sha256"] = _sha(Path(executable).read_bytes())
+    launcher_files = value["launcher_files"]
+    if not isinstance(launcher_files, Mapping):
+        issues.append("isolation_launcher_files_invalid")
+        launcher_files = {}
+    for path, expected_hash in launcher_files.items():
+        try:
+            if not isinstance(path, str) or not Path(path).is_absolute() or not isinstance(expected_hash, str) or re.fullmatch(r"[0-9a-f]{64}", expected_hash) is None:
+                raise EvaluationError("invalid launcher file binding")
+            if _sha(_root(path).read_bytes()) != expected_hash:
+                issues.append("isolation_launcher_artifact_changed")
+        except (EvaluationError, OSError):
+            issues.append("isolation_launcher_artifact_unavailable")
+    prefix = value["isolation_command_prefix"]
+    if isinstance(prefix, list):
+        for item in prefix:
+            if isinstance(item, str) and Path(item).is_absolute() and Path(item).is_file() and item not in launcher_files:
+                issues.append("isolation_launcher_artifact_unbound")
     if not fixture_mode:
+        if not sys.platform.startswith("linux"):
+            issues.append("isolated_author_requires_linux")
+        prefix = value["isolation_command_prefix"]
+        if not isinstance(prefix, list) or not prefix or any(not isinstance(item, str) or not item for item in prefix):
+            issues.append("isolation_launcher_missing")
+        elif not Path(prefix[0]).is_absolute() or not Path(prefix[0]).is_file() or not launcher_files:
+            issues.append("isolation_launcher_artifact_unbound")
         reference = value.get("preflight_receipt")
         if not isinstance(reference, Mapping):
             issues.append("independent_execution_preflight_missing")
@@ -248,7 +274,7 @@ def _profile(profile: Mapping | None, *, fixture_mode: bool) -> tuple[dict, list
             required = ("subscription_only", "model_effort_available", "author_filesystem_isolated",
                 "network_tools_disabled", "external_context_disabled", "one_author_turn")
             profile_binding = {name: value.get(name) for name in ("kind", "executable", "executable_sha256",
-                "model", "reasoning_effort", "isolation_command_prefix")}
+                "model", "reasoning_effort", "isolation_command_prefix", "launcher_files")}
             if (_sha(raw) != reference.get("sha256") or receipt.get("executable_sha256") != value.get("executable_sha256")
                     or receipt.get("model") != MODEL or receipt.get("reasoning_effort") != EFFORT
                     or receipt.get("launch_profile_sha256") != _sha(canonical_bytes(profile_binding))
@@ -426,26 +452,35 @@ def execute_process(request: Mapping) -> dict:
 
 
 def _codex_argv(profile: Mapping, workspace: Path, last_message: Path) -> list[str]:
+    runtime_roots = {Path(profile["executable"]).resolve().parent.parent,
+                     Path(sys.prefix).resolve(), Path(sys.base_prefix).resolve()}
+    filesystem = {":root": "deny", ":minimal": "read", workspace.resolve().as_posix(): "write",
+                  **{path.as_posix(): "read" for path in sorted(runtime_roots)}}
+    filesystem_toml = "{" + ",".join(json.dumps(key) + "=" + json.dumps(value) for key, value in filesystem.items()) + "}"
     settings = {'model_reasoning_effort': '"max"', 'model_provider': '"openai"',
         'forced_login_method': '"chatgpt"', 'approval_policy': '"never"',
-        'sandbox_workspace_write.network_access': 'false', 'web_search': '"disabled"',
+        'default_permissions': '"xikari_p14_author"',
+        'permissions.xikari_p14_author': '{filesystem=' + filesystem_toml + ',network={enabled=false}}',
+        'web_search': '"disabled"',
         'features.apps': 'false', 'features.multi_agent': 'false', 'features.skill_mcp_dependency_install': 'false',
-        'project_doc_max_bytes': '0', 'mcp_servers': '{}',
-        'model_providers.openai': '{name="OpenAI", wire_api="responses", requires_openai_auth=true, request_max_retries=0, stream_max_retries=0}'}
+        'features.plugins': 'false', 'features.memories': 'false', 'features.hooks': 'false',
+        'features.shell_snapshot': 'false', 'check_for_update_on_startup': 'false',
+        'project_doc_max_bytes': '0', 'mcp_servers': '{}'}
     argv = [profile["executable"], "--no-daemon", "exec", "--ignore-user-config", "--ignore-rules",
-        "--strict-config", "--json", "--skip-git-repo-check", "--model", MODEL, "--sandbox", "workspace-write",
+        "--strict-config", "--json", "--skip-git-repo-check", "--model", MODEL,
         "--cd", str(workspace), "--output-last-message", str(last_message)]
     for name, value in settings.items():
         argv.extend(["--config", name + "=" + value])
     return [*profile.get("isolation_command_prefix", []), *argv, "-"]
 
 
-def _observed_session(thread_id: str | None) -> dict:
+def _observed_session(thread_id: str | None, *, session_root: Path | None = None) -> dict:
     """Inspect only the newly emitted thread ID's session, never old conversations."""
     if not thread_id or re.fullmatch(r"[0-9a-f-]{36}", thread_id) is None:
         return {}
-    home = Path(os.environ.get("CODEX_HOME", str(Path.home() / ".codex")))
-    candidates = list((home / "sessions").glob(f"*/*/*/*{thread_id}.jsonl"))
+    sessions = (_root(session_root) if session_root is not None else
+                Path(os.environ.get("CODEX_HOME", str(Path.home() / ".codex"))) / "sessions")
+    candidates = list(sessions.glob(f"*/*/*/*{thread_id}.jsonl"))
     if len(candidates) != 1:
         return {}
     value = {}
@@ -509,7 +544,7 @@ def _collect(root: Path, attempt: Path, process: Mapping, *, fixture_only: bool)
             if kind == "item.completed" and item.get("type") == "agent_message" and isinstance(item.get("text"), str):
                 messages.append(item["text"])
     if not fixture_only:
-        observed.update(_observed_session(thread_id))
+        observed.update(_observed_session(thread_id, session_root=attempt / "codex-sessions"))
     last_message = attempt / "last-message.md"
     answer = last_message.read_bytes() if last_message.is_file() else (messages[-1].encode("utf-8") if messages else b"")
     try:
@@ -630,6 +665,10 @@ def run_evaluation(output_root: Path, *, split: str = "holdout", execute: Callab
             continue
         workspace = root / cell["workspace_path"]
         for ordinal in (1, 2):
+            if not plan["fixture_only"]:
+                checked_profile, profile_issues = _profile(plan["execution_profile"], fixture_mode=False)
+                if profile_issues or checked_profile != plan["execution_profile"]:
+                    raise EvaluationError("frozen isolation launcher or provider changed before execution")
             attempt = root / cell["workspace_path"]
             attempt = attempt.parent / ("attempt-" + str(ordinal))
             if attempt.exists():
