@@ -80,7 +80,8 @@ USER_DELIVERY_ARTIFACTS = (
 
 def _public_payload(payload: dict[str, Any]) -> dict[str, Any]:
     sanitized = redact_payload_for_delivery(payload)
-    if sanitized.get("dynamic_applicability") != "not_applicable":
+    if (isinstance(sanitized.get('applicability'), dict)
+            or sanitized.get("dynamic_applicability") != "not_applicable"):
         return sanitized
     for field in DYNAMIC_PHASE_FIELDS:
         sanitized.pop(field, None)
@@ -292,7 +293,13 @@ def _reader_order_path(payload: dict[str, Any]) -> tuple[list[dict[str, Any]], s
 
 
 def _order_text(payload: dict[str, Any]) -> str:
-    if payload.get("dynamic_applicability") == "not_applicable":
+    stages = payload.get('applicability')
+    recursion = stages.get('recursion', {}) if isinstance(stages, dict) else None
+    if isinstance(recursion, dict) and recursion.get('status') in {'not_applicable', 'undetermined'}:
+        reason = _plain(recursion.get('rationale'), '未提供递归适用性的判断依据')
+        status = '三阶推演不适用' if recursion['status'] == 'not_applicable' else '递归适用性尚未确定'
+        return f'**{status}。** {reason}'
+    if stages is None and payload.get("dynamic_applicability") == "not_applicable":
         reason = _plain(payload.get("not_applicable_reason"), "没有真实动态载体或连续状态链")
         return f"**三阶推演不适用。** {reason}"
     path, stop_reason = _reader_order_path(payload)
@@ -542,7 +549,8 @@ def render_dossier(payload: dict[str, Any]) -> str:
         else {}
     )
     selected, rival, undecided = _selected_stance_pair(payload)
-    if payload.get("dynamic_applicability") == "not_applicable":
+    if (not isinstance(payload.get('applicability'), dict)
+            and payload.get("dynamic_applicability") == "not_applicable"):
         stance_summary = "本题是静态辨析，不形成动态立场定选或前瞻裁决。"
     elif undecided:
         stance_summary = (

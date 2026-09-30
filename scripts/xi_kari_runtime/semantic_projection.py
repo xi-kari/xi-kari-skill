@@ -252,6 +252,15 @@ _ENUM_LABELS.update({
     'protocol_requires': '相应用途的方法门', 'specializes': '对象或领域特化',
     'applies_to': '规范或程序适用范围',
     'native_exit': '本题由领域方法独立完成',
+    'empirical_frequency': '经验频率', 'conditional_model': '条件模型',
+    'probability_interval': '概率区间', 'subjective_belief': '主观信念',
+    'decision_weight': '决策权重', 'computation_priority': '计算优先级',
+    'model_conditional': '模型条件概率', 'not_tested': '尚未检验',
+    'insufficient': '证据不足', 'evaluated': '已评估',
+    'observed_trials': '已观察试次', 'beta_binomial_posterior_mean': '贝塔二项后验均值',
+    'specified': '已明确指定', 'provided': '已提供',
+    'no_action': '不新增动作的比较基线', 'external_action': '外部行动方案',
+    'no_new_action': '不新增动作', 'none': '无', 'authorized': '在登记范围内获准',
 })
 _REGISTRY_FIELDS = {"recursive_states", "instance_results"}
 _DELIVERY_VISIBILITY_ROOTS = (
@@ -2020,6 +2029,10 @@ def _binding_preserves_atom(atom: Mapping[str, Any], excerpt: str) -> bool:
     # comparisons. Punctuation changes cannot hide a missing cost or condition.
     if not normalized:
         return False
+    if re.fullmatch(r'[A-Za-z][A-Za-z0-9_-]*', expected):
+        return re.search(r'(?<![A-Za-z0-9_-])' + re.escape(expected)
+                         + r'(?![A-Za-z0-9_-])',
+                         unicodedata.normalize('NFKC', excerpt)) is not None
     pattern = re.escape(normalized)
     if normalized[0].isdigit():
         pattern = r"(?<![\d.\-])" + pattern
@@ -2034,6 +2047,10 @@ def validate_reader_sections(payload: Mapping[str, Any]) -> list[str]:
     sections = payload.get("reader_sections")
     if not isinstance(sections, list) or not sections:
         return ["reader_sections: complete authored body is required"]
+    try:
+        validate_reader_section_privacy(payload)
+    except ValueError as error:
+        return [str(error)]
     atoms = {item["canonical_path"]: item for item in substantive_semantic_atoms(payload)}
     all_atoms = {item["canonical_path"]: item for item in typed_semantic_atoms(payload)}
     errors: list[str] = []
@@ -2139,6 +2156,7 @@ def authored_reader_units(payload: Mapping[str, Any]) -> list[dict[str, Any]]:
     sections = payload.get("reader_sections", [])
     if not isinstance(sections, list):
         return units
+    validate_reader_section_privacy(payload)
     for index, section in enumerate(sections):
         if not isinstance(section, Mapping):
             continue

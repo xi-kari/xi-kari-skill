@@ -13,6 +13,7 @@ from xi_kari_runtime import domains, prose
 from xi_kari_runtime.canonical_json import sha256_file
 from xi_kari_runtime.coverage import build_semantic_coverage
 from xi_kari_runtime.semantic_projection import (
+    authored_reader_units,
     reader_projection_units, semantic_projection_units,
     semantic_atom_paths, substantive_semantic_atoms, typed_semantic_atoms,
     validate_reader_sections, validate_visibility_ledger,
@@ -197,7 +198,9 @@ def test_v4_protected_responsibility_requires_a_safe_bound_body_boundary(domain_
     path = 'domain_read_trace.records[0].reader_responsibilities.costs_exit'
     protect(payload, path)
     assert any(path in error for error in validate_reader_sections(payload))
-    assert not semantic_coverage(payload)['main_answer_complete']
+    report = semantic_coverage(payload)
+    assert not report['main_answer_complete']
+    assert path in report['substantive_unprojected_paths']
 
 
 def test_safe_withholding_boundary_preserves_identity_without_disclosing_the_value(domain_trace):
@@ -291,3 +294,38 @@ def test_typed_protection_text_cannot_repeat_a_private_numeric_value():
     with pytest.raises(ValueError) as caught:
         typed_semantic_atoms(payload)
     assert '0.742938' not in str(caught.value)
+
+
+def test_six_stage_applicability_preserves_mechanism_analysis_despite_a_legacy_global_flag():
+    from tests.test_p04_v4_claim_contracts import _v4_graph
+    from xi_kari_runtime.claims import validate_claim_graph
+    graph = validate_claim_graph(_v4_graph(), repository_root=ROOT)
+    payload = visibility({'schema_version': 4, 'dynamic_applicability': 'not_applicable',
+        'applicability': graph['applicability'], 'claim_mechanism_graph': graph})
+    name = graph['mechanisms'][0]['name']
+    assert name in prose.render_atlas(payload)
+
+
+def test_per_stage_recursion_reason_is_used_instead_of_a_global_default():
+    payload = visibility({'schema_version': 4, 'applicability': {
+        'recursion': {'status': 'not_applicable', 'rationale': '本题已经由静态文本对照回答。'}},
+        'reader_sections': []})
+    text = prose.render_atlas(payload)
+    assert '三阶推演不适用' in text
+    assert '本题已经由静态文本对照回答。' in text
+
+
+def test_safe_wording_cannot_hide_a_copied_private_value_in_authored_units(domain_trace):
+    payload = domain_body(domain_trace)
+    path = 'domain_read_trace.records[0].reader_responsibilities.costs_exit'
+    private = domain_trace['records'][0]['reader_responsibilities']['costs_exit']
+    protect(payload, path)
+    unsafe = private + '该信息暂不披露，原因是未取得当事人披露同意。'
+    payload['reader_sections'][-1].update(local_judgment=unsafe,
+        source_bindings=[{'source_path': path, 'paragraph_index': 0, 'excerpt': unsafe}])
+    errors = validate_reader_sections(payload)
+    assert errors
+    assert private not in '\n'.join(errors)
+    with pytest.raises(ValueError) as caught:
+        authored_reader_units(payload)
+    assert private not in str(caught.value)

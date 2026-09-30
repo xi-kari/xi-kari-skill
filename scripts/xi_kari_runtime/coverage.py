@@ -122,8 +122,11 @@ def build_semantic_coverage(
         for path in unit.get("source_paths", []):
             units_by_path.setdefault(path, []).append(unit["unit_id"])
     substantive = substantive_semantic_atoms(packet)
+    graph = packet.get('claim_mechanism_graph')
+    v4 = packet.get('schema_version') == 4 or (
+        isinstance(graph, Mapping) and graph.get('schema_version') == 4)
     unprojected_paths = [atom["canonical_path"] for atom in substantive
-        if atom["projection_status"] != "withheld_for_protection"
+        if (v4 or atom["projection_status"] != "withheld_for_protection")
         and atom["canonical_path"] not in units_by_path]
     typed_ledger = []
     for atom in typed_semantic_atoms(packet):
