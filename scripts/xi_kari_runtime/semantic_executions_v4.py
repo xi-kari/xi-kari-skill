@@ -176,6 +176,13 @@ def _require_temporal_request(request: Mapping[str, Any], temporal_audit: object
         if formal['claim_mechanism_graph'] != graph or 'formal_outcomes' in material and material['formal_outcomes'] != formal:
             raise ValueError('semantic qualification differs from current temporal materials')
     packet=material.get('computed_packet',{})
+    if packet:
+        if packet.get('claim_mechanism_graph') != graph or packet.get('empirical_instances',[]) != material['empirical_instances'] or packet.get('derived_instances',[]) != material['derived_instances']:
+            raise ValueError('computed packet differs from the verified material context')
+        if needs_formal and 'formal_results' in packet and packet['formal_results'] != {key:value for key,value in formal.items() if key!='claim_mechanism_graph'}:
+            raise ValueError('computed packet contains stale formal qualification controls')
+    if request['kind']=='final_reader' and _snapshot_without_reader(request['task']['readonly_packet']) != packet:
+        raise ValueError('final reader readonly packet differs from the verified material context')
     if 'causal_assessments' in packet:
         from .causal_results_v4 import recompute_causal_results_v4
         causal=recompute_causal_results_v4(packet['causal_assessments'],graph=graph,empirical_instances=material['empirical_instances'],derived_instances=material['derived_instances'],mode=request['evidence_mode'],repository_root=root,temporal_audit=temporal_audit)

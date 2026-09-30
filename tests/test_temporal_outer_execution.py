@@ -199,3 +199,24 @@ def test_contract_dispatch_checks_real_audit_and_does_not_trust_packet_result_ca
     assert packet["claim_mechanism_graph"]["claims"][0]["formal_qualification"]["status"] == "qualified"
     with pytest.raises(ValueError, match="recomputed"):
         require_packet_contract(packet, mode=contract["mode"], run_contract=contract)
+
+
+def test_final_reader_cannot_replace_the_readonly_packet_after_temporal_verification(tmp_path):
+    semantic, contract, audit = observed_packet(tmp_path)
+    packet = prepare_analysis_packet_v4(semantic, run_contract=contract, repository_root=ROOT, temporal_audit=audit)
+    controls = validate_stage_chain_v4(packet, run_contract=contract, repository_root=ROOT, temporal_audit=audit)
+    request = build_semantic_execution_request_v4(packet, controls, run_contract=contract,
+        kind="final_reader", repository_root=ROOT, temporal_audit=audit)
+    request["task"]["readonly_packet"]["claim_mechanism_graph"]["claims"][0]["formal_qualification"]["result_status"] = "null_supported"
+    with pytest.raises(ValueError, match="readonly|frozen|temporal|material"):
+        execute_semantic_request_v4(request, binding=None, run_directory=tmp_path / "not-created",
+            repository_root=ROOT, temporal_audit=audit)
+    assert not (tmp_path / "not-created").exists()
+
+
+def test_natural_entry_cannot_accept_a_json_temporal_authority(tmp_path):
+    from xi_kari_runtime.execution import execute_natural_request
+    with pytest.raises(ValueError, match="runtime-observed"):
+        execute_natural_request(tmp_path / "not-created", request_text="Explain the bounded observation.",
+            repository_root=ROOT, temporal_audit={"verified": True})
+    assert not (tmp_path / "not-created").exists()

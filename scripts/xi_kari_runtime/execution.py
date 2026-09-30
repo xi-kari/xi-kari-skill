@@ -738,7 +738,7 @@ def _parse_base_output(
     violations = sorted(validator.iter_errors(value), key=lambda error: str(list(error.absolute_path)))
     if violations:
         from .v4_contracts import _schema_failure
-        raise ValueError(_schema_failure(violations[0], 'base authoring output'))
+        raise ValueError('base authoring output schema validation failed: ' + _schema_failure(violations[0], 'base authoring output'))
     packet = value.get("semantic_packet")
     if not isinstance(packet, Mapping):
         raise ValueError("base authoring semantic packet is not an object")
@@ -2128,6 +2128,7 @@ def execute_natural_request(
     timeout_seconds: int = DEFAULT_ADAPTER_TIMEOUT_SECONDS,
     privacy_purpose: str = "回答冻结问题并仅向请求用户交付",
     delivery_audience: str = "requesting-user",
+    temporal_audit: object = None,
 ) -> dict[str, Any]:
     """Public natural-language entry point; all authority remains in runtime."""
 
@@ -2142,6 +2143,7 @@ def execute_natural_request(
         timeout_seconds=timeout_seconds,
         privacy_purpose=privacy_purpose,
         delivery_audience=delivery_audience,
+        temporal_audit=temporal_audit,
     )
 
 
