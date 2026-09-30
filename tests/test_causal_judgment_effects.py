@@ -227,3 +227,17 @@ def test_supported_temporary_recovery_keeps_support_dependency_and_limits():
     assert result["sustainability"] == result["reliability"] == "unsupported_or_undecided"
     assert result["support_conditions"] == ["temporary-building", "external-grant"]
     assert result["unexperienced_conditions"] == ["seasonal-demand-peak"]
+
+
+def test_formal_feedback_and_learning_need_their_own_roots_and_method_gates():
+    causal = import_module("xi_kari_runtime.causality")
+    support = {ref: {"blocked": False} for ref in ("return", "update", "E4", "CAUSAL", "EVIDENCE", "retain", "round-2", "round-3", "task")}
+    roots = {"g2": {"qualification": "qualified", "formal_result": "supported", "instance_family": "G2"}, "g3": {"qualification": "qualified", "formal_result": "supported", "instance_family": "G3"}}
+    feedback = {"instance_id": "feedback-1", "instance_family": "CM-FEEDBACK", "g2_instance_id": "g2", "channel_contract": {"channel": "handoff", "quantity_type": "tasks", "unit": "tasks", "window": "synthetic-window"}, "return_claim_ids": ["return"], "state_update_claim_ids": ["update"], "method_claim_ids": {method: [method] for method in ("E4", "CAUSAL", "EVIDENCE")}}
+    checked = causal.assess_derived_causal_instance(feedback, formal_results=roots, claim_constraints=support)
+    assert checked["formal_result"] == "supported"
+    roots["feedback-1"] = checked
+    learning = {"instance_id": "learning-1", "instance_family": "CM-LEARNING", "cm_feedback_instance_id": "feedback-1", "g3_instance_id": "g3", "retention_claim_ids": ["retain"], "later_round_claim_ids": [["round-2"], ["round-3"]], "task_change_claim_ids": ["task"], "task_version": "original-task", "comparison_task_version": "original-task", "method_claim_ids": feedback["method_claim_ids"]}
+    assert causal.assess_derived_causal_instance(learning, formal_results=roots, claim_constraints=support)["formal_result"] == "supported"
+    learning["task_version"] = "new-easier-task"
+    assert causal.assess_derived_causal_instance(learning, formal_results=roots, claim_constraints=support)["formal_result"] == "unsupported_or_undecided"

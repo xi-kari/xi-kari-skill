@@ -586,9 +586,111 @@ def qualifies_as_insight(candidate: Mapping[str, object]) -> bool:
     return any(bool(candidate.get(field)) for field in changed_fields)
 
 
+def validate_causal_assessments(
+    assessments: list[Mapping[str, Any]], *, claim_mechanism_graph: Mapping[str, Any],
+    evidence_mode: str = "open-world", repository_root: Path | None = None,
+    empirical_instances: list[Mapping[str, Any]] | None = None,
+    derived_instances: list[Mapping[str, Any]] | None = None,
+) -> dict[str, Any]:
+    """Bind causal responsibility records to a validated version-four graph."""
+    from .canonical_json import sha256_json
+    from .causality import CausalError, assess_derived_causal_instance, assess_effect, assess_feedback, assess_history, assess_measurement, assess_propagation, assess_recovery
+    graph = validate_claim_graph(claim_mechanism_graph, evidence_mode=evidence_mode, repository_root=repository_root)
+    if graph.get("schema_version") != 4:
+        raise ClaimMechanismError("causal assessments require the version-four claim contract")
+    constraints = claim_constraints(graph)
+    claim_records = {row["claim_id"]: row for row in graph["claims"]}
+    evidence_records = {row["evidence_id"]: row for row in graph["evidence"]}
+    roots = validate_empirical_instances(empirical_instances or [], claim_mechanism_graph=graph, evidence_mode=evidence_mode, repository_root=repository_root)
+    formal_results = {
+        item["preregistration"]["instance_id"]: {"instance_family": item["preregistration"].get("root_id", item["preregistration"].get("claim_id")), "qualification": item["qualification"], "formal_result": item["result"]["result_state"], "preregistration_sha256": item["preregistration_sha256"], "evaluation_sha256": item["evaluation_sha256"]}
+        for item in roots["instances"]
+    }
+    derived = []
+    for instance in derived_instances or []:
+        if instance.get("instance_id") in formal_results:
+            raise ClaimMechanismError("derived instance duplicates a registered empirical identity")
+        try:
+            result = assess_derived_causal_instance(instance, formal_results=formal_results, claim_constraints=constraints)
+        except (ValueError, KeyError, TypeError) as error:
+            raise ClaimMechanismError("derived instance does not satisfy its prerequisite contract") from error
+        formal_results[result["instance_id"]] = result
+        derived.append(result)
+    handlers = {"effect": assess_effect, "feedback": assess_feedback, "measurement": assess_measurement, "propagation": assess_propagation, "recovery": assess_recovery}
+    checked = []
+    identifiers = set()
+    for assessment in assessments:
+        identifier, kind, record = assessment.get("assessment_id"), assessment.get("kind"), assessment.get("record")
+        if not isinstance(identifier, str) or not identifier or identifier in identifiers or kind not in handlers | {"history": None} or not isinstance(record, Mapping):
+            raise ClaimMechanismError("causal assessment identity, type or record is invalid")
+        identifiers.add(identifier)
+        if kind == "effect":
+            for ref in record.get("identification_claim_ids", []):
+                claim = claim_records.get(ref)
+                if claim is None or claim["claim_basis"]["kind"] != "domain_empirical" or not claim["evidence_refs"]:
+                    raise ClaimMechanismError("total effect requires independent empirical claim support")
+                scope = claim["claim_basis"]["scope"]
+                if any(scope[field] != record.get(other) for field, other in (("object", "treatment_version"), ("population", "population"), ("window", "window"), ("target", "outcome"))):
+                    raise ClaimMechanismError("effect estimand scope differs from its evidence-supported claim")
+                if any(evidence_records[ref]["identity"] in {"model-candidate", "simulated-result", "user-claim", "unknown"} for ref in claim["evidence_refs"]):
+                    raise ClaimMechanismError("model or simulation evidence cannot certify an empirical total effect")
+        try:
+            if kind == "history":
+                result = assess_history(record["frozen_contract"], record.get("evaluation"), claim_constraints=constraints, ordinary_history_claim_ids=record.get("ordinary_history_claim_ids", []))
+            elif kind in {"feedback", "propagation"}:
+                result = handlers[kind](record, claim_constraints=constraints, formal_results=formal_results)
+            else:
+                result = handlers[kind](record, claim_constraints=constraints)
+        except (CausalError, KeyError, TypeError, ValueError) as error:
+            raise ClaimMechanismError("causal assessment failed its scoped responsibility contract") from error
+        checked.append({"assessment_id": identifier, "kind": kind, "result": result})
+    return {"claim_graph_sha256": sha256_json(graph), "assessments_sha256": sha256_json(assessments), "assessments": checked, "empirical_instances": roots["instances"], "derived_instances": derived}
+
+
+def validate_empirical_instances(
+    instances: list[Mapping[str, Any]], *, claim_mechanism_graph: Mapping[str, Any],
+    evidence_mode: str = "open-world", repository_root: Path | None = None,
+) -> dict[str, Any]:
+    """Recompute instance outcomes using the graph's actual material bindings."""
+    from .canonical_json import sha256_json
+    from .empirical_instances import evaluate_empirical_instance
+    graph = validate_claim_graph(claim_mechanism_graph, evidence_mode=evidence_mode, repository_root=repository_root)
+    if graph.get("schema_version") != 4:
+        raise ClaimMechanismError("empirical instances require the version-four graph")
+    constraints = claim_constraints(graph)
+    claims = {row["claim_id"]: row for row in graph["claims"]}
+    evidence = {row["evidence_id"]: row for row in graph["evidence"]}
+    checked, identifiers = [], set()
+    def physical_refs(value: object) -> set[str]:
+        if isinstance(value, Mapping):
+            return set().union(*(physical_refs(item) for item in value.values())) if value else set()
+        if isinstance(value, list):
+            return {ref for ref in value if isinstance(ref, str)} | (set().union(*(physical_refs(item) for item in value if not isinstance(item, str))) if value else set())
+        return set()
+    for item in instances:
+        frozen, evaluation = item.get("frozen"), item.get("evaluation")
+        if not isinstance(frozen, Mapping) or not isinstance(evaluation, Mapping):
+            raise ClaimMechanismError("empirical bundle requires frozen and evaluation records")
+        identifier = frozen.get("preregistration", {}).get("instance_id")
+        if not identifier or identifier in identifiers:
+            raise ClaimMechanismError("empirical instance identity is missing or duplicate")
+        identifiers.add(identifier)
+        for ref in physical_refs({"evidence_claim_ids": evaluation.get("evidence_claim_ids", []), "prerequisite_claim_ids": evaluation.get("prerequisite_claim_ids", {}), "dimension_claim_ids": evaluation.get("dimension_claim_ids", {})}):
+            claim = claims.get(ref)
+            if claim is None or claim["claim_basis"]["kind"] != "domain_empirical" or not claim["evidence_refs"] or any(evidence[ref]["identity"] in {"model-candidate", "simulated-result", "user-claim", "unknown"} for ref in claim["evidence_refs"]):
+                raise ClaimMechanismError("empirical instance requires external empirical support")
+        try:
+            checked.append(evaluate_empirical_instance(frozen, evaluation, claim_constraints=constraints))
+        except (ValueError, KeyError, TypeError) as error:
+            raise ClaimMechanismError("empirical instance failed its frozen responsibility contract") from error
+    return {"claim_graph_sha256": sha256_json(graph), "instance_inputs_sha256": sha256_json(instances), "instances": checked}
+
+
 __all__ = (
     "ClaimMechanismError",
     "claim_constraints",
     "qualifies_as_insight",
     "validate_claim_graph",
+    "validate_causal_assessments",
+    "validate_empirical_instances",
 )

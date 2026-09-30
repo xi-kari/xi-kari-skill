@@ -250,4 +250,42 @@ def assess_recovery(
     return result
 
 
-__all__ = ("CausalError", "assess_effect", "assess_history", "assess_feedback", "assess_measurement", "assess_propagation", "assess_recovery", "claim_support", "freeze_history_contract")
+def assess_derived_causal_instance(
+    record: Mapping[str, Any], *, formal_results: Mapping[str, Mapping[str, Any]],
+    claim_constraints: Mapping[str, Any],
+) -> dict[str, Any]:
+    _required(record, ("instance_id", "instance_family"))
+    family = record["instance_family"]
+    def root(field: str, expected: str) -> bool:
+        identifier = record.get(field)
+        if identifier not in formal_results:
+            raise CausalError("derived instance prerequisite does not resolve")
+        result = formal_results[identifier]
+        if result.get("instance_family") != expected:
+            raise CausalError("derived instance prerequisite has the wrong family")
+        return result.get("qualification") == "qualified" and result.get("formal_result") == "supported"
+    methods = record.get("method_claim_ids", {})
+    if not isinstance(methods, Mapping):
+        raise CausalError("derived method gates must be separately recorded")
+    method_passed = all(claim_support(methods.get(key, []), claim_constraints) == "supported" for key in ("E4", "CAUSAL", "EVIDENCE"))
+    if family == "CM-FEEDBACK":
+        channel = record.get("channel_contract", {})
+        _required(channel, ("channel", "quantity_type", "unit", "window"))
+        supported = root("g2_instance_id", "G2") and claim_support(record.get("return_claim_ids", []), claim_constraints) == "supported" and claim_support(record.get("state_update_claim_ids", []), claim_constraints) == "supported"
+    elif family == "CM-LEARNING":
+        supported = root("cm_feedback_instance_id", "CM-FEEDBACK") and root("g3_instance_id", "G3")
+        rounds = record.get("later_round_claim_ids", [])
+        if not isinstance(rounds, list):
+            raise CausalError("learning rounds must be separately bound")
+        supported = supported and len(rounds) >= 2 and all(claim_support(refs, claim_constraints) == "supported" for refs in rounds) and claim_support(record.get("retention_claim_ids", []), claim_constraints) == "supported" and claim_support(record.get("task_change_claim_ids", []), claim_constraints) == "supported" and bool(record.get("task_version")) and record.get("task_version") == record.get("comparison_task_version")
+    elif family == "C7":
+        supported = root("g2_instance_id", "G2") and root("g4_instance_id", "G4")
+        propagation = assess_propagation(record.get("propagation", {}), claim_constraints=claim_constraints)
+        supported = supported and propagation["cascade"] == "supported" and claim_support(record.get("cross_scale_bridge_claim_ids", []), claim_constraints) == "supported"
+    else:
+        raise CausalError("derived causal family is not supported by this interface")
+    passed = supported and method_passed
+    return {"instance_id": record["instance_id"], "instance_family": family, "qualification": "qualified" if passed else "unqualified", "formal_result": "supported" if passed else "unsupported_or_undecided", "method_gates_passed": method_passed}
+
+
+__all__ = ("CausalError", "assess_effect", "assess_history", "assess_feedback", "assess_measurement", "assess_propagation", "assess_recovery", "assess_derived_causal_instance", "claim_support", "freeze_history_contract")
