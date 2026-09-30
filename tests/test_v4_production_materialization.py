@@ -278,3 +278,31 @@ def test_frozen_provider_environment_change_is_rejected(tmp_path, monkeypatch):
     monkeypatch.setenv('XI_KARI_PROVIDER_BASE_URL', 'https://changed.invalid')
     with pytest.raises(ValueError, match='environment'):
         require_run_contract_v4(contract, repository_root=ROOT)
+
+
+def test_unsigned_complete_chain_does_not_gain_v4_terminal_authority(tmp_path):
+    from xi_kari_runtime.terminal_authority import generate_terminal_authority
+    from xi_kari_runtime.validation_v4 import validate_terminal_closure_v4
+
+    authority, _ = generate_terminal_authority('unsigned-test')
+    contract = {'run_id': 'unsigned-test', 'terminal_authority': authority}
+    records = [{'phase': 'XK' + str(index), 'record_sha256': str(index).zfill(64)} for index in range(13)]
+    terminal, errors = validate_terminal_closure_v4(tmp_path, contract, records, required=True)
+    assert terminal is None
+    assert errors == ['version-four signed terminal authority is missing']
+
+
+def test_real_lamport_signature_requires_v4_fresh_completion_disk_closure(tmp_path):
+    from xi_kari_runtime.terminal_authority import KEY_RELATIVE, commit_terminal_record, generate_terminal_authority
+    from xi_kari_runtime.validation_v4 import validate_terminal_closure_v4
+
+    authority, key = generate_terminal_authority('signature-test')
+    contract = {'run_id': 'signature-test', 'terminal_authority': authority, 'repository_root': str(ROOT)}
+    atomic_write_json(tmp_path / KEY_RELATIVE, key)
+    records = [{'phase': 'XK' + str(index), 'record_sha256': str(index).zfill(64)} for index in range(13)]
+    record = commit_terminal_record(tmp_path, contract, {'run_id': 'signature-test', 'terminal_state': 'complete', 'phase_count': 13, 'chain_head_sha256': records[-1]['record_sha256'], 'completion_sha256': 'a' * 64})
+    assert record['schema_id'] == 'xi-kari.v3.terminal-record'
+    assert not (tmp_path / KEY_RELATIVE).exists()
+    terminal, errors = validate_terminal_closure_v4(tmp_path, contract, records, required=True)
+    assert terminal is None
+    assert errors == ['version-four signed completion closure is unreadable or invalid']
