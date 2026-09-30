@@ -7,6 +7,7 @@ from xi_kari_runtime.semantic_executions_v4 import (
     build_semantic_execution_request_v4,
 )
 from xi_kari_runtime.semantic_projection import typed_semantic_atoms
+from xi_kari_runtime.prose import check_plain_language
 
 
 def _public_atoms(packet):
@@ -30,3 +31,12 @@ def test_audit_only_identifiers_do_not_renumber_reader_references():
     changed['runtime_binding'] = {'source_units': ['V90-P00001']}
     changed['concept_disposition'] = [{'source_ref': 'V90-P00002'}]
     assert _public_atoms(changed) == _public_atoms(packet)
+
+
+def test_evidence_support_reference_uses_reader_language():
+    packet = {'facts': [{'xk3_evidence_refs': ['EVIDENCE-e1']}]}
+    atoms = typed_semantic_atoms(packet)
+    assert len(atoms) == 1
+    assert check_plain_language(atoms[0]['public_text']) == []
+    assert atoms[0]['value_type'] == 'reference'
+    assert 'e1' not in atoms[0]['public_text']

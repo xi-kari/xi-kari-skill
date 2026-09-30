@@ -71,10 +71,10 @@ _ID_PREFIX_LABELS = {
 _ID_TOKEN = re.compile(
     r"(?<![A-Z0-9_-])(?:"
     + "|".join(sorted(_ID_PREFIX_LABELS, key=len, reverse=True))
-    + r")-[A-Z0-9_.:-]+\b"
+    + r")-[A-Za-z0-9_.:-]+\b"
 )
 INTERNAL_ID_TOKEN = _ID_TOKEN
-_EXACT_ID = re.compile(r"^([A-Z][A-Z0-9]*)-[A-Z0-9_.:-]+$")
+_EXACT_ID = re.compile(r"^([A-Z][A-Z0-9]*)-[A-Za-z0-9_.:-]+$")
 
 _FIELD_LABELS = {
     "A": "聚合尺度",
@@ -119,6 +119,7 @@ _FIELD_LABELS = {
     "discriminating_observations": "区分性观察",
     "evidence_identity": "证据身份",
     "evidence_refs": "证据边界",
+    "xk3_evidence_refs": "证据依据",
     "executor": "执行主体",
     "failure_condition": "失败条件",
     "from_position_id": "通道起点",
