@@ -145,7 +145,9 @@
             "candidate",
             "canonical_or_structural_card",
             "required_neighbor",
-            "continuity_bundle"
+            "continuity_bundle",
+            "learning_pack",
+            "domain_identity_index"
           ]
         },
         "subject_id": {
@@ -195,6 +197,47 @@
               "domain_index_sha256",
               "knowledge_index_sha256"
             ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "anyOf": [
+          {
+            "not": {
+              "required": [
+                "framework_version"
+              ]
+            }
+          },
+          {
+            "required": [
+              "framework_version"
+            ],
+            "properties": {
+              "framework_version": {
+                "const": "v8.3"
+              }
+            }
+          }
+        ]
+      },
+      "then": {
+        "properties": {
+          "records": {
+            "items": {
+              "properties": {
+                "kind": {
+                  "enum": [
+                    "candidate",
+                    "canonical_or_structural_card",
+                    "required_neighbor",
+                    "continuity_bundle"
+                  ]
+                }
+              }
+            }
           }
         }
       }

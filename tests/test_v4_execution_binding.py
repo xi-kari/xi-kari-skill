@@ -30,6 +30,12 @@ def test_public_v4_base_request_uses_actual_source_and_ontology_identity():
     assert 'empirical_instances' in prompt and 'applicability' in prompt
 
 
+def test_source_nine_ontology_plan_is_owned_by_its_real_auxiliary_schema():
+    from xi_kari_runtime.v4_contracts import validate_versioned_schema
+    _, _, plan, _, _ = _authoring_input()
+    validate_versioned_schema('xk-ontology-read-plan.schema.json', plan, repository_root=ROOT)
+
+
 def test_provider_default_records_exact_authorized_model_and_effort():
     binding = authoring.bind_base_authoring_provider(Path(sys.executable), mode='closed-input', repository_root=ROOT, timeout_seconds=30)
     assert binding['model'] == 'gpt-6.1-sol'
