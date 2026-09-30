@@ -28,6 +28,7 @@ from xi_kari_runtime.source_profile import (
     RAW_SHA256, SEMANTIC_SHA256, LIST_STRUCTURE_SHA256,
     EXPECTED_PARAGRAPHS, EXPECTED_LIST_PARAGRAPHS,
     EXPECTED_NON_WHITESPACE_CHARS, EXPECTED_TABLES, EXPECTED_DIVISIONS,
+    SOURCE_VERSION, get_source_profile,
 )
 
 SEMANTIC_NORMALIZATION_VERSION = 1
@@ -1018,7 +1019,7 @@ def _output_files(root: Path) -> dict[str, bytes]:
     return files
 
 
-def build(root: Path, *, check: bool) -> list[str]:
+def _build_v83(root: Path, *, check: bool) -> list[str]:
     source_path = root / "source" / "跨尺度多圈层结构推演框架v8.3.docx"
     if not source_path.is_file():
         return [f"missing source: {source_path}"]
@@ -1046,15 +1047,55 @@ def build(root: Path, *, check: bool) -> list[str]:
     return errors
 
 
+def extract_snapshot_for_version(source: bytes, source_version: str):
+    """Extract a source with its explicit repository-controlled build profile."""
+    if source_version == "v8.3":
+        return extract_snapshot(source)
+    if source_version == "v9.0":
+        from source_snapshot_v90 import extract_snapshot as extract_v90
+
+        return extract_v90(source, get_source_profile(source_version))
+    get_source_profile(source_version)
+    raise AssertionError("unreachable")
+
+
+def build(
+    root: Path, *, check: bool, source_version: str = SOURCE_VERSION
+) -> list[str]:
+    """Build one allow-listed source profile; the default remains the active runtime."""
+    if source_version == "v8.3":
+        return _build_v83(root, check=check)
+    if source_version == "v9.0":
+        from source_snapshot_v90 import build as build_v90
+
+        return build_v90(
+            root,
+            check=check,
+            profile=get_source_profile(source_version),
+        )
+    try:
+        get_source_profile(source_version)
+    except ValueError as exc:
+        return [str(exc)]
+    raise AssertionError("unreachable")
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--root", type=Path, default=Path.cwd())
     parser.add_argument("--check", action="store_true")
     parser.add_argument("--all", action="store_true", help="check source and generated files")
     parser.add_argument("--write", action="store_true", help="write generated source files")
+    parser.add_argument(
+        "--source-version",
+        default=SOURCE_VERSION,
+        help="repository-controlled source profile (default: active runtime source)",
+    )
     args = parser.parse_args()
     check = args.check or args.all or not args.write
-    errors = build(args.root.resolve(), check=check)
+    errors = build(
+        args.root.resolve(), check=check, source_version=args.source_version
+    )
     if errors:
         for error in errors:
             print(f"ERROR: {error}")

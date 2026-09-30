@@ -1,0 +1,215 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://xi-kari.local/schemas/source-candidate-v90.schema.json",
+  "title": "Xi-Kari v9.0 source candidate",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "schema_version",
+    "framework_version",
+    "framework_revision",
+    "candidate_ruleset_version",
+    "candidate_id",
+    "previous_candidate_id",
+    "next_candidate_id",
+    "ordinal",
+    "source_anchor",
+    "source_aliases",
+    "source_anchors",
+    "body_anchor",
+    "source_span",
+    "source_numbering",
+    "source_unit_type",
+    "source_style",
+    "source_text",
+    "candidate_kinds",
+    "matched_signals",
+    "source_undefined_fields",
+    "domain_id",
+    "text_sha256",
+    "semantic_fingerprint_sha256",
+    "source_raw_sha256",
+    "source_semantic_sha256",
+    "source_list_structure_sha256"
+  ],
+  "properties": {
+    "schema_id": {"const": "xi-kari.v9.0.source-candidate"},
+    "schema_version": {"const": 2},
+    "framework_version": {"const": "v9.0"},
+    "framework_revision": {"const": "local-delivery-2026-09-30"},
+    "candidate_ruleset_version": {"const": 5},
+    "candidate_id": {
+      "type": "string",
+      "pattern": "^V90-CANDIDATE-(?:P\\d{5}|T\\d{3}(?:-R\\d{3})?)$"
+    },
+    "previous_candidate_id": {
+      "anyOf": [
+        {"type": "null"},
+        {"type": "string", "pattern": "^V90-CANDIDATE-(?:P\\d{5}|T\\d{3}(?:-R\\d{3})?)$"}
+      ]
+    },
+    "next_candidate_id": {
+      "anyOf": [
+        {"type": "null"},
+        {"type": "string", "pattern": "^V90-CANDIDATE-(?:P\\d{5}|T\\d{3}(?:-R\\d{3})?)$"}
+      ]
+    },
+    "ordinal": {"type": "integer", "minimum": 1},
+    "source_anchor": {
+      "type": "string",
+      "pattern": "^V90-(?:P\\d{5}|T\\d{3}(?:-R\\d{3})?)$"
+    },
+    "source_aliases": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^XK9-(?:P\\d{5}|T\\d{3}(?:-R\\d{3})?)$"
+      }
+    },
+    "source_anchors": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"type": "string", "pattern": "^V90-P\\d{5}$"}
+    },
+    "body_anchor": {"type": "string", "pattern": "^V90-B\\d{5}$"},
+    "source_span": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["start_anchor", "end_anchor", "paragraph_anchors"],
+      "properties": {
+        "start_anchor": {"type": "string", "pattern": "^V90-P\\d{5}$"},
+        "end_anchor": {"type": "string", "pattern": "^V90-P\\d{5}$"},
+        "paragraph_anchors": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "pattern": "^V90-P\\d{5}$"}
+        }
+      }
+    },
+    "source_numbering": {
+      "anyOf": [
+        {"type": "null"},
+        {"$ref": "#/$defs/numbering"}
+      ]
+    },
+    "source_unit_type": {"enum": ["paragraph", "table", "table_row"]},
+    "source_style": {"type": "string"},
+    "source_text": {"type": "string"},
+    "candidate_kinds": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "heading",
+          "domain_entry",
+          "definition",
+          "table",
+          "variable",
+          "operator",
+          "constraint",
+          "undefined_field"
+        ]
+      }
+    },
+    "matched_signals": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "heading": {"$ref": "#/$defs/nonempty_strings"},
+        "domain_entry": {"$ref": "#/$defs/nonempty_strings"},
+        "definition": {"$ref": "#/$defs/nonempty_strings"},
+        "table": {"$ref": "#/$defs/nonempty_strings"},
+        "variable": {"$ref": "#/$defs/nonempty_strings"},
+        "operator": {"$ref": "#/$defs/nonempty_strings"},
+        "constraint": {"$ref": "#/$defs/nonempty_strings"},
+        "undefined_field": {"$ref": "#/$defs/nonempty_strings"}
+      }
+    },
+    "source_undefined_fields": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "domain_id": {
+      "anyOf": [
+        {"type": "null"},
+        {"type": "string", "pattern": "^D\\.(?:0[1-9]|[12]\\d|3[0-2])$"}
+      ]
+    },
+    "source_table_anchor": {
+      "type": "string",
+      "pattern": "^V90-T\\d{3}$"
+    },
+    "source_table_row_index": {"type": "integer", "minimum": 1},
+    "text_sha256": {"$ref": "#/$defs/sha256"},
+    "semantic_fingerprint_sha256": {"$ref": "#/$defs/sha256"},
+    "source_raw_sha256": {
+      "const": "ffc45afdc288ecd268fd02e46d47318b7ddf17bf7b47605aa6c413c95398544b"
+    },
+    "source_semantic_sha256": {
+      "const": "24bf22bad46be7369df5c3a99976b48561ca03ac7f85500b4dbd7819a92015ac"
+    },
+    "source_list_structure_sha256": {
+      "const": "0517e112d6c2d02c254eb42f8d139d293dff57e56ab53c5a7551e1f92f020de9"
+    }
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"source_unit_type": {"const": "table_row"}}},
+      "then": {"required": ["source_table_anchor", "source_table_row_index"]}
+    }
+  ],
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "nonempty_strings": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "numbering": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "num_id",
+        "abstract_num_id",
+        "ilvl",
+        "num_fmt",
+        "lvl_text",
+        "abstract_num_template",
+        "start",
+        "start_override",
+        "effective_start",
+        "lvl_restart",
+        "restart_numbering_after_break",
+        "sequence_ordinal",
+        "rendered_marker"
+      ],
+      "properties": {
+        "num_id": {"type": "integer", "minimum": 1},
+        "abstract_num_id": {"type": "integer", "minimum": 0},
+        "ilvl": {"type": "integer", "minimum": 0},
+        "num_fmt": {"enum": ["bullet", "decimal"]},
+        "lvl_text": {"type": "string", "minLength": 1},
+        "abstract_num_template": {"type": "string"},
+        "start": {"type": "integer", "minimum": 0},
+        "start_override": {
+          "anyOf": [{"type": "null"}, {"type": "integer", "minimum": 0}]
+        },
+        "effective_start": {"type": "integer", "minimum": 0},
+        "lvl_restart": {
+          "anyOf": [{"type": "null"}, {"type": "integer", "minimum": 0}]
+        },
+        "restart_numbering_after_break": {"type": "boolean"},
+        "sequence_ordinal": {"type": "integer", "minimum": 0},
+        "rendered_marker": {"type": "string", "minLength": 1}
+      }
+    }
+  }
+}
