@@ -492,10 +492,11 @@ def render_answer(payload: dict[str, Any]) -> str:
 def render_chat_projection(payload: dict[str, Any]) -> str:
     """The normal chat view is the complete file; only an explicit request permits a brief view."""
 
+    original = payload
     payload = _public_payload(payload)
     delivery = payload.get("answer_delivery", {})
     if not isinstance(delivery, dict) or delivery.get("visible_mode", "full") == "full":
-        return render_answer(payload)
+        return render_answer(original)
     if delivery.get("visible_mode") != "brief":
         raise ValueError("unknown visible delivery mode")
     if not isinstance(delivery.get("explicit_user_request"), str) or not delivery["explicit_user_request"].strip():

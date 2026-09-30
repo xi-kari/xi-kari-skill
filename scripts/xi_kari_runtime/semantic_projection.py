@@ -828,7 +828,7 @@ def _validate_protected_semantic_value_isolation(
     payload: Mapping[str, Any], entries: Sequence[Mapping[str, Any]]
 ) -> None:
     public_values: dict[str, str] = {}
-    protected_values: dict[str, str] = {}
+    protected_values: dict[str, Any] = {}
     for entry in entries:
         path = str(entry['canonical_path'])
         resolved = _resolve_path_parent(payload, path)
@@ -836,21 +836,51 @@ def _validate_protected_semantic_value_isolation(
             continue
         parent, leaf = resolved
         value = parent[leaf]
-        if not isinstance(value, str) or not value:
+        if not isinstance(value, (str, bool, int, float)) or value == '':
             continue
         if entry.get('disclosure') == 'withhold':
             protected_values[path] = value
         else:
-            public_values[path] = value
+            public_values[path] = str(value)
     for protected_path, protected_value in protected_values.items():
         for entry in entries:
             reason = entry.get('protection_reason')
-            if isinstance(reason, str) and protected_value in reason:
+            if isinstance(reason, str) and _protected_value_in_text(protected_value, reason):
                 raise ValueError('protection_reason contains a withheld semantic value')
         for public_path, public_value in public_values.items():
-            if protected_value in public_value:
+            if _protected_value_in_text(protected_value, public_value):
                 raise ValueError('protected semantic value appears in public semantic atom: '
                                  + protected_path + ' -> ' + public_path)
+
+
+def _protected_value_in_text(value: Any, text: str) -> bool:
+    normalized = unicodedata.normalize('NFKC', text)
+    if isinstance(value, str):
+        return bool(value) and unicodedata.normalize('NFKC', value) in normalized
+    if isinstance(value, bool):
+        return re.search(r'(?<![A-Za-z])' + str(value) + r'(?![A-Za-z])',
+                         normalized, flags=re.I) is not None
+    if isinstance(value, (int, float)):
+        return re.search(r'(?<![0-9A-Za-z_.-])' + re.escape(str(value))
+                         + r'(?![0-9A-Za-z_.])', normalized) is not None
+    return False
+
+
+def _v4_projection(payload: Mapping[str, Any]) -> bool:
+    graph = payload.get('claim_mechanism_graph')
+    return payload.get('schema_version') == 4 or (
+        isinstance(graph, Mapping) and graph.get('schema_version') == 4)
+
+
+def _safe_withholding_binding(payload: Mapping[str, Any], path: str, excerpt: Any) -> bool:
+    if not _v4_projection(payload) or not isinstance(excerpt, str):
+        return False
+    entry = _visibility_entries(payload).get(path, {})
+    reason = entry.get('protection_reason')
+    return (isinstance(reason, str) and bool(reason.strip())
+            and _content_normalized(reason) in _content_normalized(excerpt)
+            and re.search(r'不公开|不披露|不能披露|保护性扣留|已扣留|withheld|not disclosed|cannot disclose',
+                          excerpt, flags=re.I) is not None)
 
 
 def validate_visibility_ledger(
@@ -2007,7 +2037,8 @@ def validate_reader_sections(payload: Mapping[str, Any]) -> list[str]:
             if atom is None:
                 errors.append(f"{base}: unknown source path in source binding")
                 continue
-            if atom["projection_status"] == "withheld_for_protection":
+            protected = atom["projection_status"] == "withheld_for_protection"
+            if protected and not _safe_withholding_binding(payload, path, excerpt):
                 errors.append(f"{base}: protected value may not bind public prose: {path}")
                 continue
             if (not isinstance(paragraph_index, int) or isinstance(paragraph_index, bool)
@@ -2020,13 +2051,16 @@ def validate_reader_sections(payload: Mapping[str, Any]) -> list[str]:
                     or _is_summary_substitution(excerpt)):
                 errors.append(f"{base}: excerpt does not occur as real body prose for {path}")
                 continue
-            if not _binding_preserves_atom(atom, excerpt):
+            if not protected and not _binding_preserves_atom(atom, excerpt):
                 errors.append(f"{base}: bound excerpt omits substantive value for {path}")
                 continue
             covered.add(path)
     for path, atom in atoms.items():
-        if atom["projection_status"] != "withheld_for_protection" and path not in covered:
-            errors.append(f"substantive analysis is absent from the body: {path}")
+        if path not in covered:
+            if atom['projection_status'] != 'withheld_for_protection':
+                errors.append(f"substantive analysis is absent from the body: {path}")
+            elif _v4_projection(payload):
+                errors.append(f"protected analysis boundary is absent from the body: {path}")
     return errors
 
 
@@ -2048,14 +2082,16 @@ def validate_reader_section_privacy(payload: Mapping[str, Any]) -> None:
     for path, entry in _visibility_entries(payload).items():
         if entry.get("disclosure") != "withhold":
             continue
-        if any(binding.get("source_path") == path for binding in bindings):
+        if any(binding.get("source_path") == path
+               and not _safe_withholding_binding(payload, path, binding.get('excerpt'))
+               for binding in bindings):
             raise ValueError("protected source cannot bind authored prose: " + path)
         resolved = _resolve_path_parent(payload, path)
         if resolved is None:
             continue
         parent, leaf = resolved
         value = parent[leaf] if isinstance(parent, (list, Mapping)) else None
-        if isinstance(value, str) and value and value in body:
+        if _protected_value_in_text(value, body):
             raise ValueError("authored prose contains a protected source value: " + path)
 
 

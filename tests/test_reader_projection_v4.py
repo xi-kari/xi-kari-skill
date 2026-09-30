@@ -177,3 +177,54 @@ def test_dangling_visibility_diagnostics_do_not_echo_protected_values(domain_tra
     with pytest.raises(ValueError) as caught:
         prose.render_answer(payload)
     assert value not in str(caught.value)
+
+
+def test_protected_numeric_forecast_value_cannot_be_copied_into_a_public_summary():
+    payload = visibility({'schema_version': 4,
+        'forecast': {'expression': {'kind': 'conditional_model', 'value': 0.742938}},
+        'answer': {'direct_answer': '私密模型输出不能作为公开结果。',
+                   'closing': '模型给出的数值是0.742938。'}, 'reader_sections': []})
+    protect(payload, 'forecast.expression.value')
+    with pytest.raises(ValueError) as caught:
+        prose.render_chat_projection(payload)
+    assert '0.742938' not in str(caught.value)
+
+
+def test_v4_protected_responsibility_requires_a_safe_bound_body_boundary(domain_trace):
+    payload = domain_body(domain_trace)
+    payload['reader_sections'] = payload['reader_sections'][:-1]
+    path = 'domain_read_trace.records[0].reader_responsibilities.costs_exit'
+    protect(payload, path)
+    assert any(path in error for error in validate_reader_sections(payload))
+    assert not semantic_coverage(payload)['main_answer_complete']
+
+
+def test_safe_withholding_boundary_preserves_identity_without_disclosing_the_value(domain_trace):
+    payload = domain_body(domain_trace)
+    path = 'domain_read_trace.records[0].reader_responsibilities.costs_exit'
+    protect(payload, path)
+    section = payload['reader_sections'][-1]
+    boundary = '有关成本与退出的细节暂不披露，原因是未取得当事人披露同意。'
+    section.update(local_judgment=boundary,
+        paragraphs=['当前判断因此保留负担比较的限制，后续需要在授权范围内核验。'],
+        source_bindings=[{'source_path': path, 'paragraph_index': 0, 'excerpt': boundary}])
+    assert validate_reader_sections(payload) == []
+    answer = prose.render_answer(payload)
+    assert boundary in answer
+    assert domain_trace['records'][0]['reader_responsibilities']['costs_exit'] not in answer
+    report = semantic_coverage(payload)
+    assert report['main_answer_complete']
+    atom = next(item for item in report['typed_atom_ledger'] if item['canonical_path'] == path)
+    assert atom['projection_status'] == 'withheld_for_protection'
+    assert atom['reader_unit_ids']
+
+
+def test_full_chat_accepts_the_same_safe_withholding_text_as_the_full_file(domain_trace):
+    payload = domain_body(domain_trace)
+    path = 'domain_read_trace.records[0].reader_responsibilities.costs_exit'
+    protect(payload, path)
+    boundary = '有关成本的细节为保护而不公开（未取得当事人披露同意）。'
+    payload['reader_sections'][-1].update(local_judgment=boundary,
+        source_bindings=[{'source_path': path, 'paragraph_index': 0, 'excerpt': boundary}])
+    full = prose.render_answer(payload)
+    assert prose.render_chat_projection(payload) == full
