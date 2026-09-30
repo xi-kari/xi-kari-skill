@@ -109,11 +109,17 @@ def _recover_transaction(run_dir: Path, contract: Mapping[str, Any]) -> None:
     if not isinstance(candidate_name, str) or Path(candidate_name).name != candidate_name or not candidate_name.startswith('.' + run_dir.name + '.xk12-'):
         raise ValueError('version-four transaction candidate is unsafe')
     _rollback_xk12_transaction(run_dir, transaction)
-    candidate = run_dir.parent / candidate_name
-    if candidate.exists():
-        if candidate.is_symlink() or not candidate.is_dir() or candidate.resolve().parent != run_dir.parent.resolve():
-            raise ValueError('version-four transaction candidate does not stay in its isolated run parent')
-        shutil.rmtree(candidate)
+    _discard_candidate_v4(run_dir, run_dir.parent / candidate_name)
+
+
+def _discard_candidate_v4(run_dir: Path, candidate: Path) -> None:
+    target = Path(candidate).absolute()
+    if not target.exists():
+        return
+    parent = Path(run_dir).resolve().parent
+    if target.is_symlink() or not target.is_dir() or target.resolve().parent != parent or not target.name.startswith('.' + Path(run_dir).name + '.xk12-'):
+        raise ValueError('version-four transaction candidate does not stay in its isolated run parent')
+    shutil.rmtree(target)
 
 
 def _complete(run_dir: Path, *, packet: Mapping[str, Any], contract: Mapping[str, Any], repository_root: Path, packet_sha256: str) -> None:
@@ -146,7 +152,7 @@ def _complete(run_dir: Path, *, packet: Mapping[str, Any], contract: Mapping[str
             raise ValueError('version-four fresh official validation failed')
         atomic_write_json(run_dir / OFFICIAL_REPORT_RELATIVE, official)
         transaction = _write_xk12_transaction_state(run_dir, transaction, 'official_validated')
-        shutil.rmtree(candidate)
+        _discard_candidate_v4(run_dir, candidate)
         records = load_phase_records(run_dir)
         completion = {
             'schema_id': 'xi-kari.v4.completion', 'schema_version': 4, 'run_id': contract['run_id'],
@@ -170,8 +176,7 @@ def _complete(run_dir: Path, *, packet: Mapping[str, Any], contract: Mapping[str
             _rollback_xk12_transaction(run_dir, transaction)
         if not (run_dir / TERMINAL_RELATIVE).exists():
             _set_state(run_dir, 'needs_attention', next_phase='XK12')
-        if candidate.is_dir() and not candidate.is_symlink() and candidate.resolve().parent == run_dir.parent.resolve():
-            shutil.rmtree(candidate)
+        _discard_candidate_v4(run_dir, candidate)
         raise
 
 
