@@ -10,6 +10,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'scripts'))
 
 from xi_kari_runtime import domains, prose
+from xi_kari_runtime import coverage as coverage_api
 from xi_kari_runtime.canonical_json import sha256_file
 from xi_kari_runtime.coverage import build_semantic_coverage
 from xi_kari_runtime.semantic_projection import (
@@ -353,3 +354,68 @@ def test_a_negated_qualification_does_not_preserve_the_code_rebuilt_positive_sta
     payload['reader_sections'][0].update(local_judgment=valid,
         source_bindings=[{'source_path': path, 'paragraph_index': 0, 'excerpt': valid}])
     assert validate_reader_sections(payload) == []
+
+
+@pytest.fixture(scope='module')
+def source_locks():
+    from xi_kari_runtime.retrieval import build_full_source_lock
+    return {version: build_full_source_lock(ROOT, run_id='reader-source-' + version,
+                                           source_version=version)[0]
+            for version in ('v8.3', 'v9.0')}
+
+
+def test_production_v4_coverage_uses_the_actual_v9_source_lock(source_locks):
+    lock = source_locks['v9.0']
+    before = deepcopy(lock)
+    result = coverage_api.build_coverage_v4(run_id=lock['run_id'], source_lock=lock,
+        retrieval_index={'sources': [], 'source_count': 0, 'all_sources_assessed': True},
+        evidence_ledger={'claims': [], 'unsupported_claims': []})
+    assert result['schema_id'] == 'xi-kari.v4.coverage'
+    assert result['schema_version'] == 4
+    assert result['source_read']['source_units_expected'] == 4418
+    assert result['source_read']['source_units_observed'] == 4418
+    assert result['source_read']['expected'] == result['source_read']['observed'] == 21
+    assert result['source_read']['complete'] is True
+    assert result['complete'] is True
+    assert coverage_api.validate_coverage(result) == []
+    assert lock == before
+
+
+@pytest.mark.parametrize('mutation', ['source', 'revision', 'unit-count', 'reader-count', 'receipt', 'source-count', 'assessment', 'output'])
+def test_production_v4_coverage_does_not_claim_incomplete_or_mixed_inputs(source_locks, mutation):
+    lock = deepcopy(source_locks['v9.0'])
+    retrieval = {'sources': [], 'source_count': 0, 'all_sources_assessed': True}
+    outputs = coverage_api.REQUIRED_OUTPUTS
+    if mutation == 'source':
+        lock = deepcopy(source_locks['v8.3'])
+    elif mutation == 'revision':
+        lock['source_raw_sha256'] = '0' * 64
+    elif mutation == 'unit-count':
+        lock['source_unit_count'] = 4753
+    elif mutation == 'reader-count':
+        lock['reader_receipts'].pop()
+        lock['reader_unit_count'] -= 1
+    elif mutation == 'receipt':
+        lock['reader_receipts'][0]['observed_sha256'] = '0' * 64
+    elif mutation == 'source-count':
+        retrieval['source_count'] = 1
+    elif mutation == 'assessment':
+        retrieval['all_sources_assessed'] = False
+    elif mutation == 'output':
+        outputs = ('answer',)
+    result = coverage_api.build_coverage_v4(run_id=lock['run_id'], source_lock=lock,
+        retrieval_index=retrieval, evidence_ledger={'claims': [], 'unsupported_claims': []},
+        planned_outputs=outputs)
+    assert result['complete'] is False
+    assert coverage_api.validate_coverage(result)
+
+
+def test_legacy_source_coverage_remains_explicitly_bound_to_its_actual_lock(source_locks):
+    lock = source_locks['v8.3']
+    result = coverage_api.build_coverage(run_id=lock['run_id'], source_lock=lock,
+        retrieval_index={'sources': [], 'source_count': 0, 'all_sources_assessed': True},
+        evidence_ledger={'claims': [], 'unsupported_claims': []})
+    assert result['schema_version'] == 3
+    assert result['source_read']['source_units_expected'] == 4753
+    assert result['complete'] is True
+    assert coverage_api.validate_coverage(result) == []

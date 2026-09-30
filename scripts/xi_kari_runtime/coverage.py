@@ -7,6 +7,7 @@ from pathlib import Path
 from typing import Any
 
 from .prose import build_reader_trace
+from .source_profile import get_source_profile
 from .semantic_projection import (
     authored_reader_units,
     substantive_semantic_atoms,
@@ -78,6 +79,41 @@ def build_coverage(
     }
 
 
+def build_coverage_v4(
+    *, run_id: str, source_lock: dict[str, Any], retrieval_index: dict[str, Any],
+    evidence_ledger: dict[str, Any],
+    planned_outputs: list[str] | tuple[str, ...] = REQUIRED_OUTPUTS,
+) -> dict[str, Any]:
+    """Account for source-nine intake after the source lock's independent validation."""
+
+    profile = get_source_profile('v9.0')
+    result = build_coverage(run_id=run_id, source_lock=source_lock,
+        retrieval_index=retrieval_index, evidence_ledger=evidence_ledger,
+        planned_outputs=planned_outputs)
+    result.update(schema_id='xi-kari.v4.coverage', schema_version=4)
+    read = result['source_read']
+    read.update(expected=profile.expected_reader_units,
+                source_units_expected=profile.expected_paragraphs + profile.expected_tables)
+    identity_matches = (source_lock.get('framework_version') == profile.source_version
+        and source_lock.get('source_raw_sha256') == profile.raw_sha256
+        and source_lock.get('paragraph_count') == profile.expected_paragraphs
+        and source_lock.get('table_count') == profile.expected_tables)
+    receipts = source_lock.get('reader_receipts', [])
+    receipt_units = [item.get('unit') for item in receipts]
+    ordered_receipts = (len(receipt_units) == len(set(receipt_units))
+        and receipt_units == source_lock.get('reader_sequence'))
+    read['complete'] = (identity_matches and ordered_receipts
+        and source_lock.get('complete') is True
+        and source_lock.get('reader_unit_count') == read['expected'] == read['observed']
+        and read['source_units_expected'] == read['source_units_observed']
+        and not read['mismatched'])
+    result['complete'] = (read['complete']
+        and retrieval_index.get('source_count') == len(retrieval_index.get('sources', []))
+        and retrieval_index.get('all_sources_assessed') is True
+        and not result['outputs']['missing'])
+    return result
+
+
 def validate_coverage(coverage: dict[str, Any]) -> list[str]:
     errors: list[str] = []
     source_read = coverage.get("source_read", {})
@@ -86,7 +122,14 @@ def validate_coverage(coverage: dict[str, Any]) -> list[str]:
     if source_read.get("mismatched"):
         errors.append("source read coverage contains mismatches")
     if source_read.get("source_units_expected") != source_read.get("source_units_observed"):
-        errors.append("source unit coverage is not 4753")
+        errors.append('source unit coverage count mismatch' if coverage.get('schema_version') == 4
+                      else 'source unit coverage is not 4753')
+    if coverage.get('schema_version') == 4:
+        profile = get_source_profile('v9.0')
+        if (source_read.get('source_units_expected') != profile.expected_paragraphs + profile.expected_tables
+                or source_read.get('expected') != profile.expected_reader_units
+                or source_read.get('complete') is not True):
+            errors.append('version-four source coverage is incomplete or differs from its source profile')
     source_assessment = coverage.get("source_assessment", {})
     if source_assessment.get("sources") != source_assessment.get("assessments"):
         errors.append("not every source has a separate assessment")
