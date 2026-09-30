@@ -2040,7 +2040,7 @@
       "interpretation_layer": {
         "acceptance": {
           "identity_test": "Resolve bound E3 defining source and hash; changed source or mismatched object invalidates that binding.",
-          "negative": "E5硬前提D3；G4受E5方法门。",
+          "negative": "仅有时序先后或“被观察会改变对象”的机制故事不足以通过；必须定位通道，并建立未观测、替代观测或阻断反事实。",
           "positive": "仅在本项原文全部适用条件与分支条件内使用E3；独立对象材料支持实例，定义和接口只确定意义。",
           "role_test": "Only inferential_requires enters hard DAG; protocol_requires/specializes/applies_to remain distinct.",
           "status": "specified_not_executed"
@@ -2052,12 +2052,12 @@
         },
         "dependency_completeness": "explicit_base_and_conditional_edges; HV exact fields and 31 structured routes retained; enabling conditions are necessary in addition to graph edges",
         "dependency_edges": [],
-        "negative_boundary": "E5硬前提D3；G4受E5方法门。",
+        "negative_boundary": "仅有时序先后或“被观察会改变对象”的机制故事不足以通过；必须定位通道，并建立未观测、替代观测或阻断反事实。",
         "positive_boundary": "仅在本项原文全部适用条件与分支条件内使用E3；独立对象材料支持实例，定义和接口只确定意义。"
       },
       "legacy_identity_decision": {
-        "basis": "观测实际通道与尺度迁移依赖保持。",
-        "boundary": "E5硬前提D3；G4受E5方法门。",
+        "basis": "观测参与要求实际因果耦合、定位通道并建立反事实。",
+        "boundary": "仅有时序先后或“被观察会改变对象”的机制故事不足以通过；必须定位通道，并建立未观测、替代观测或阻断反事实。",
         "decision": "retain",
         "new_source_range": "9.0 4.8",
         "old_source_range": "8.3 4.8"

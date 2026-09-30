@@ -4023,8 +4023,8 @@
       "concept_id": "V90-CANON-E3",
       "identity_disposition": "retain_source_identity_with_v90_source_rebinding",
       "legacy_identity_decision": {
-        "basis": "观测实际通道与尺度迁移依赖保持。",
-        "boundary": "E5硬前提D3；G4受E5方法门。",
+        "basis": "观测参与要求实际因果耦合、定位通道并建立反事实。",
+        "boundary": "仅有时序先后或“被观察会改变对象”的机制故事不足以通过；必须定位通道，并建立未观测、替代观测或阻断反事实。",
         "decision": "retain",
         "new_source_range": "9.0 4.8",
         "old_source_range": "8.3 4.8"

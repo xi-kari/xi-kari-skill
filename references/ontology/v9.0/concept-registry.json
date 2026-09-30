@@ -560,7 +560,7 @@
       "concept_id": "V90-CANON-E3",
       "disposition": "canonical_concept",
       "hashes": {
-        "card_sha256": "114bd72348c00f2b68efa7ace9c96cd8cdbffc70cc6fa2a990ea25a4a660692a",
+        "card_sha256": "0c61b36ac6f6f3559fc21fc83cefe8567197d94aa50f400b367a1c51e1529a3c",
         "raw_sha256": "ffc45afdc288ecd268fd02e46d47318b7ddf17bf7b47605aa6c413c95398544b",
         "source_text_sha256": "c9771e54cbba849f543bb7946f7a1ae13e6bfe0e42a0e7def7d5d9bb49e1536c"
       },
@@ -13126,7 +13126,7 @@
   ],
   "extended_identity_register_sha256": "e96dae40d5b700bc7280626c189fd5b052af4a7e65dd6c2d5420d60bca680b92",
   "framework_version": "v9.0",
-  "identity_register_sha256": "ef575e28a4217c44494efc7d9a59a04fc4c0ea29568f47ba5cb2d3bbd7adb91d",
+  "identity_register_sha256": "532e3302c334c015782751bdf71ae2de800f09bfaf105ff9fd4cfc5f3f093a37",
   "neighbor_policy": "typed dependency graph; only inferential_requires is projected into required_neighbors",
   "schema_id": "xi-kari.concept-registry",
   "schema_version": 2,

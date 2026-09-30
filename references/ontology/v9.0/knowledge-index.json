@@ -11,9 +11,9 @@
       "sha256": "c140f29f9f12d3cf8a9b9dd142f9b96488b4771ffc0c6aaf381d053dde972be8"
     },
     {
-      "bytes": 2234,
+      "bytes": 2358,
       "path": "references/learning-packs/v9.0/02-evidence-qualification.md",
-      "sha256": "e034f8464ee6fb0cc0ae77ae288f84f9b59ef224595ffe1ad2ef702f2c4632a0"
+      "sha256": "077bdcd3c95c427972803719be2d501f79dc6cd5a0bd4bee063f3ab38bfc3700"
     },
     {
       "bytes": 2139,
@@ -46,9 +46,9 @@
       "sha256": "31851f6718288bbedf5935e72baa3e1e54bd3e938140ea86e1aca8fb35f37d7d"
     },
     {
-      "bytes": 186865,
+      "bytes": 186989,
       "path": "references/learning-packs/v9.0/09-dependency-roles.md",
-      "sha256": "a8d99a081d5cfc25d2bb7cb412426641e5f6f71d100248c590df56b2b2b1b63a"
+      "sha256": "296310ef0f4c1910e1c36610d321bedfdf18df8990caaed3103f42d739a3b2af"
     },
     {
       "bytes": 10396761,
@@ -71,9 +71,9 @@
       "sha256": "9b8e196b942c2eaf9f27049c5e241821409fecf960717b401967cf8ee49212f0"
     },
     {
-      "bytes": 1109760,
+      "bytes": 1110156,
       "path": "references/ontology/v9.0/authored/identity-register.json",
-      "sha256": "b31d63df0779a7f17d5c95a7ddeae1246e7e8906e368ced9b891fbf18bda2706"
+      "sha256": "dfbef449988f5a5f727003b34e232240b55de9fe4563199cf1c3309ed681ef5a"
     },
     {
       "bytes": 11405,
@@ -1216,9 +1216,9 @@
       "sha256": "a25eb673afb4d116942063f6d1640ec4e6085cec6c34d87145d42cd3dd3e6f0b"
     },
     {
-      "bytes": 881,
+      "bytes": 1005,
       "path": "references/ontology/v9.0/cards/e3.md",
-      "sha256": "114bd72348c00f2b68efa7ace9c96cd8cdbffc70cc6fa2a990ea25a4a660692a"
+      "sha256": "0c61b36ac6f6f3559fc21fc83cefe8567197d94aa50f400b367a1c51e1529a3c"
     },
     {
       "bytes": 1174,
@@ -2356,14 +2356,14 @@
       "sha256": "f5bc30ba7c7b3f474774de2aa4625d9f8ef911f40fa7fc7c22661ea0ffb2c17d"
     },
     {
-      "bytes": 164751,
+      "bytes": 164899,
       "path": "references/ontology/v9.0/concept-migration-map.json",
-      "sha256": "f0c2daf201d9632d4040254724505b717dc0a7dc2037850fdcadcc3e7f55e781"
+      "sha256": "9f7222fdcc23138322a42caa8fa57bb4eb4962938c8354a7cd933934618a98eb"
     },
     {
       "bytes": 484766,
       "path": "references/ontology/v9.0/concept-registry.json",
-      "sha256": "340ac3806aaa9f57d5b8893d2931dafef2fd5a7692f90035e8b0cd63b0babb86"
+      "sha256": "fb0a4c380cda6cc49bea3cec724729b7691c6267551e5808eea6fe124b7f37f6"
     },
     {
       "bytes": 80861,
@@ -3536,9 +3536,9 @@
       "sha256": "a25eb673afb4d116942063f6d1640ec4e6085cec6c34d87145d42cd3dd3e6f0b"
     },
     {
-      "bytes": 881,
+      "bytes": 1005,
       "path": "references/ontology/v9.0/cards/e3.md",
-      "sha256": "114bd72348c00f2b68efa7ace9c96cd8cdbffc70cc6fa2a990ea25a4a660692a"
+      "sha256": "0c61b36ac6f6f3559fc21fc83cefe8567197d94aa50f400b367a1c51e1529a3c"
     },
     {
       "bytes": 1174,
@@ -4677,9 +4677,9 @@
       "sha256": "c140f29f9f12d3cf8a9b9dd142f9b96488b4771ffc0c6aaf381d053dde972be8"
     },
     {
-      "bytes": 2234,
+      "bytes": 2358,
       "path": "references/learning-packs/v9.0/02-evidence-qualification.md",
-      "sha256": "e034f8464ee6fb0cc0ae77ae288f84f9b59ef224595ffe1ad2ef702f2c4632a0"
+      "sha256": "077bdcd3c95c427972803719be2d501f79dc6cd5a0bd4bee063f3ab38bfc3700"
     },
     {
       "bytes": 2139,
@@ -4712,9 +4712,9 @@
       "sha256": "31851f6718288bbedf5935e72baa3e1e54bd3e938140ea86e1aca8fb35f37d7d"
     },
     {
-      "bytes": 186865,
+      "bytes": 186989,
       "path": "references/learning-packs/v9.0/09-dependency-roles.md",
-      "sha256": "a8d99a081d5cfc25d2bb7cb412426641e5f6f71d100248c590df56b2b2b1b63a"
+      "sha256": "296310ef0f4c1910e1c36610d321bedfdf18df8990caaed3103f42d739a3b2af"
     }
   ],
   "preserved_identity_count": 93,
