@@ -128,12 +128,48 @@ def schema_registry_v4(repository_root: Path) -> tuple[dict[str, Path], list[str
                 if previous != path:
                     errors.append('duplicate root schema URI: ' + path.name)
             for identity in _root_schema_ids(schema):
+                if not identity.startswith(('xi-kari.v3.', 'xi-kari.v4.')):
+                    continue
                 previous = registry.setdefault(identity, path)
                 if previous != path:
                     errors.append('duplicate root schema owner: ' + identity)
         except Exception:
             errors.append('invalid schema resource: ' + path.name)
     return registry, errors
+
+
+def _expected_root_ids_v4(relative: str) -> set[str] | None:
+    exact = {
+        'run-contract.json': {'xi-kari.v4.run-contract'},
+        'capability-snapshot.json': {'xi-kari.v4.capability-snapshot'},
+        'source-lock.json': {'xi-kari.v4.source-lock'},
+        'authoring/XK01-read-plan.json': {'xi-kari.v4.read-plan'},
+        'authoring/XK01-read-events.jsonl': {'xi-kari.v4.source-read-event'},
+        'authoring/XK01-semantic-read-trace.json': {'xi-kari.v4.semantic-read-trace'},
+        SOURCE_TRACE_INPUT_RELATIVE: {'xi-kari.v4.semantic-read-trace-input'},
+        ONTOLOGY_TRACE_INPUT_RELATIVE: {'xi-kari.v3.ontology-read-trace-input'},
+        'authoring/XK01-base-authoring-request.json': {'xi-kari.v4.base-authoring-request'},
+        PACKET_RELATIVE: {'xi-kari.v4.analysis-packet'},
+        'artifacts/artifact-manifest.json': {'xi-kari.v4.artifact-manifest'},
+        DELIVERY_PATHS['final_chat']: {'xi-kari.v4.final-chat'},
+        COMPLETION_RELATIVE: {'xi-kari.v4.completion'},
+        'validation/attempts/final/validator-report.json': {'xi-kari.v4.validator-report'},
+        OFFICIAL_REPORT_RELATIVE: {'xi-kari.v4.validator-report'},
+    }
+    if relative in exact:
+        return exact[relative]
+    from .contracts import expected_phase_artifact_paths
+    wrapped = {path for phase in PHASES[2:12] for path in expected_phase_artifact_paths(phase, contract_profile='production-authoring-v3', mode='closed-input')
+               if path.startswith('authoring/') and path not in {'authoring/XK02-semantic-retrieval.json', 'authoring/XK02-retrieval-execution-receipt.json', 'authoring/XK04-ontology-read-plan.json', 'authoring/XK04-ontology-read-trace.json'}}
+    if relative in wrapped:
+        return {'xi-kari.v4.production-phase-artifact'}
+    path = Path(relative)
+    if path.match('validation/attempts/*/execution.json'):
+        return {'xi-kari.v4.validation-execution'}
+    if path.match('validation/attempts/*/validator-report.json'):
+        return {'xi-kari.v4.validator-report'}
+    from .validation import _expected_artifact_schema_ids
+    return _expected_artifact_schema_ids(relative)
 
 
 def validate_json_artifact_ownership_v4(run_dir: Path, repository_root: Path) -> list[str]:
@@ -149,6 +185,10 @@ def validate_json_artifact_ownership_v4(run_dir: Path, repository_root: Path) ->
         relative = path.relative_to(run_dir).as_posix()
         if relative == 'authoring/XK01-base-authoring-events.jsonl':
             continue
+        expected_ids = _expected_root_ids_v4(relative)
+        if expected_ids is None:
+            errors.append('artifact path has no runtime owner: ' + relative)
+            continue
         try:
             values = [read_json_text(line) for line in path.read_text('utf-8').splitlines() if line.strip()] if path.suffix == '.jsonl' else [read_json(path)]
         except Exception:
@@ -156,6 +196,9 @@ def validate_json_artifact_ownership_v4(run_dir: Path, repository_root: Path) ->
             continue
         for value in values:
             identity = value.get('schema_id') if isinstance(value, Mapping) else None
+            if identity not in expected_ids:
+                errors.append('artifact path root schema owner differs: ' + relative)
+                continue
             if identity in _CUSTOM_SOURCE_IDS:
                 continue
             owner = owners.get(identity)

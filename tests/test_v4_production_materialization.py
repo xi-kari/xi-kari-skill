@@ -101,6 +101,14 @@ def test_unknown_root_schema_is_rejected_without_leaking_its_values(tmp_path):
     assert all(secret not in error for error in errors)
 
 
+def test_recognized_source_protocol_cannot_be_relocated_to_an_unknown_path(tmp_path):
+    from xi_kari_runtime.validation_v4 import validate_json_artifact_ownership_v4
+
+    atomic_write_json(tmp_path / 'unowned-source.json', {'schema_id': 'xi-kari.v4.source-lock', 'schema_version': 4, 'complete': True})
+    errors = validate_json_artifact_ownership_v4(tmp_path, ROOT)
+    assert 'artifact path has no runtime owner: unowned-source.json' in errors
+
+
 def test_root_schema_registry_ignores_nested_compatible_protocol_owner(tmp_path):
     from xi_kari_runtime.validation_v4 import schema_registry_v4
 
@@ -175,3 +183,98 @@ def test_fresh_process_validator_reports_its_own_pid_and_retains_failure(tmp_pat
     assert record['child_pid'] == report['validator_pid']
     assert record['exit_status'] == 2
     assert read_json(attempts[0].parent / 'validator-report.json') == report
+
+
+def _source_prepared(tmp_path):
+    from tests.test_p04_v4_authoring import _authoring_input
+    from xi_kari_runtime.canonical_json import atomic_write_bytes, atomic_write_text, canonical_bytes
+    from xi_kari_runtime.contracts import EXECUTE_OWNED_BINDING_FIELDS
+    from xi_kari_runtime.ontology_read_trace import build_ontology_read_trace
+    from xi_kari_runtime.phase_chain import append_phase, load_phase_records
+    from xi_kari_runtime.problem_contract import contract_hash, stance_neutrality_key
+    from xi_kari_runtime.semantic_read_trace import build_semantic_read_trace
+    from xi_kari_runtime.terminal_authority import generate_terminal_authority
+    from xi_kari_runtime.validation_v4 import expected_phase_paths_v4, phase_input_sha256_v4, provider_environment_sha256, validator_set_sha256_v4
+
+    value, problem, ontology_plan, lock, events = _authoring_input()
+    _, adapter = _provider_pair()
+    run_id = lock['run_id']
+    execute = {field: 'a' * 64 for field in EXECUTE_OWNED_BINDING_FIELDS}
+    execute.update(protocol='xi-kari.v3.execute-owned-binding/v1', owner='execute_authored_run', run_id=run_id, parent_pid=1, child_pid=2, exit_status=0)
+    authority, key = generate_terminal_authority(run_id)
+    contract = {
+        'schema_id': 'xi-kari.v4.run-contract', 'schema_version': 4, 'runtime_version': '4.0.0',
+        'source_version': 'v9.0', 'contract_profile': 'production-authoring-v4', 'run_id': run_id,
+        'question': problem['question'], 'mode': 'open-world', 'problem_contract': problem,
+        'problem_contract_sha256': contract_hash(problem), 'evidence_cutoff': problem['evidence_cutoff'],
+        'repository_root': str(ROOT), 'validator_set_sha256': validator_set_sha256_v4(ROOT),
+        'provider_environment_sha256': provider_environment_sha256(), 'created_at': '2026-09-30T05:00:00Z',
+        'privacy_contract': {'purpose': 'bounded source-scope analysis', 'delivery_audience': 'requesting-user', 'classification_scheme': ['public', 'context_limited', 'sensitive', 'highly_sensitive', 'refused_disclosure'], 'fail_closed': True},
+        'continuation': {'kind': 'original', 'generation': 0, 'parent_run_id': None, 'parent_chain_head_sha256': None},
+        'dynamic_applicability': 'pending', 'stance_neutrality_key': stance_neutrality_key(problem, mode='open-world'),
+        'terminal_authority': authority,
+        'capability_snapshot': {'contract_profile': 'production-authoring-v4', 'network_retrieval': True, 'full_source_read_required': True, 'source_unit_count': 4418, 'reader_unit_count': 21, 'semantic_authoring_adapter': adapter, 'execute_owned_binding': execute},
+    }
+    atomic_write_json(tmp_path / 'run-contract.json', contract)
+    atomic_write_json(tmp_path / 'capability-snapshot.json', {'schema_id': 'xi-kari.v4.capability-snapshot', 'schema_version': 4, 'run_id': run_id, 'mode': 'open-world', **contract['capability_snapshot'], 'captured_at': contract['created_at']})
+    xk0 = append_phase(tmp_path, run_id=run_id, phase='XK0', artifact_path=expected_phase_paths_v4('XK0', mode='open-world'), input_sha256=sha256_json({key: contract[key] for key in ('question', 'mode', 'problem_contract', 'privacy_contract')}), created_at=contract['created_at'])
+    atomic_write_json(tmp_path / 'source-lock.json', lock)
+    atomic_write_text(tmp_path / 'authoring/XK01-read-events.jsonl', ''.join(json.dumps(event) + '\n' for event in events))
+    atomic_write_json(tmp_path / 'authoring/XK01-read-plan.json', {'schema_id': 'xi-kari.v4.read-plan', 'schema_version': 4, 'run_id': run_id, 'framework_version': 'v9.0', **{field: lock[field] for field in ('reader_sequence', 'reader_unit_count', 'paragraph_count', 'table_count', 'source_unit_count')}, 'requires_complete_semantic_read': True})
+    raw_path = tmp_path / 'authoring/XK01-semantic-read-trace-input.json'
+    atomic_write_json(raw_path, value['semantic_read_trace'])
+    trace = build_semantic_read_trace(raw_path, repository_root=ROOT, run_contract=contract, source_lock=lock, source_events=events, xk0_record_sha256=xk0['record_sha256'], imported_at=contract['created_at'])
+    atomic_write_json(tmp_path / 'authoring/XK01-semantic-read-trace.json', trace)
+    atomic_write_json(tmp_path / 'authoring/XK04-ontology-read-plan.json', ontology_plan)
+    atomic_write_json(tmp_path / 'authoring/XK04-ontology-read-trace-input.json', value['ontology_read_trace'])
+    ontology = build_ontology_read_trace(value['ontology_read_trace'], plan=ontology_plan, run_id=run_id, repository_root=ROOT, problem_contract_sha256=contract_hash(problem))
+    atomic_write_json(tmp_path / 'authoring/XK04-ontology-read-trace.json', ontology)
+    for relative, raw in (
+        ('authoring/XK01-base-authoring-events.jsonl', b'{"type":"synthetic-preparation-only"}\n'),
+        ('authoring/XK01-base-authoring-request.json', b'{"fixture":"synthetic-preparation-only"}\n'),
+        ('authoring/XK01-base-authoring-prompt.txt', b'Synthetic preparation skeleton; no provider execution.'),
+        ('authoring/XK01-base-authoring-output.bin', b'Synthetic preparation skeleton; no provider execution.'),
+        ('authoring/XK01-base-authoring-receipt.json', b'{"fixture":"synthetic-preparation-only"}\n'),
+        ('authoring/XK01-base-authoring-stderr.bin', b''),
+    ):
+        atomic_write_bytes(tmp_path / relative, raw)
+    append_phase(tmp_path, run_id=run_id, phase='XK1', artifact_path=expected_phase_paths_v4('XK1', mode='open-world'), input_sha256=phase_input_sha256_v4(xk0, {'source_lock': lock, 'semantic_read_trace': trace}), created_at=contract['created_at'])
+    return contract, load_phase_records(tmp_path)
+
+
+def test_preparation_checks_actual_v90_source_and_ontology_without_claiming_execution(tmp_path):
+    from xi_kari_runtime.validation_v4 import require_run_contract_v4, validate_preparation_v4
+
+    contract, records = _source_prepared(tmp_path)
+    assert require_run_contract_v4(contract, repository_root=ROOT) == ROOT
+    validate_preparation_v4(tmp_path, contract=contract, repository_root=ROOT, records=records)
+    assert len(records) == 2
+    assert not (tmp_path / 'continuation/terminal-record.json').exists()
+
+
+@pytest.mark.parametrize('relative,field', [
+    ('source-lock.json', 'source_unit_count'),
+    ('authoring/XK01-read-plan.json', 'framework_version'),
+    ('authoring/XK01-semantic-read-trace.json', 'source_manifest_sha256'),
+    ('authoring/XK04-ontology-read-trace.json', 'ontology_read_plan_sha256'),
+])
+def test_preparation_recomputes_source_and_ontology_tamper_even_without_event_hash_check(tmp_path, relative, field):
+    from xi_kari_runtime.validation_v4 import validate_preparation_v4
+
+    contract, records = _source_prepared(tmp_path)
+    value = read_json(tmp_path / relative)
+    value[field] = 'tampered-binding'
+    atomic_write_json(tmp_path / relative, value)
+    before = (tmp_path / relative).read_bytes()
+    with pytest.raises(ValueError, match='source|read|ontology|trace|plan'):
+        validate_preparation_v4(tmp_path, contract=contract, repository_root=ROOT, records=records)
+    assert (tmp_path / relative).read_bytes() == before
+
+
+def test_frozen_provider_environment_change_is_rejected(tmp_path, monkeypatch):
+    from xi_kari_runtime.validation_v4 import require_run_contract_v4
+
+    contract, _ = _source_prepared(tmp_path)
+    monkeypatch.setenv('XI_KARI_PROVIDER_BASE_URL', 'https://changed.invalid')
+    with pytest.raises(ValueError, match='environment'):
+        require_run_contract_v4(contract, repository_root=ROOT)
