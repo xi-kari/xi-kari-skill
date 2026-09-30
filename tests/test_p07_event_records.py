@@ -129,3 +129,48 @@ def test_transition_replay_refuses_parent_K_or_unknown_content_change():
     changed["unknowns"][0]["reason"] = "Hidden cause claimed resolved"
     with pytest.raises(world_volume.WorldVolumeError, match="parent"):
         transition.replay(changed)
+
+
+def test_mechanism_propagation_consumes_independent_channel_and_timing():
+    state = frozen_state()
+    event, evidence = observed_event(state)
+    event.update(kind="simulated", update_path="mechanism_inference", occurrence_status="not_occurred", channel_id="CHANNEL-1", mechanism_id="MECH-1")
+    evidence["EV-1"].update(identity="simulated")
+    channel = {"CHANNEL-1": {
+        "channel_id": "CHANNEL-1", "mechanism_id": "MECH-1", "from_object_id": "OBJECT-1", "to_object_id": "OBJECT-1",
+        "active": True, "identity_preserved": True, "acl_authorized": True,
+        "evidence_refs": ["EV-CHANNEL"], "lag_seconds": 0, "capacity": 1, "threshold_conditions": [],
+        "valid_from": "2026-09-30T00:00:00Z", "valid_until": "2026-10-01T00:00:00Z",
+    }}
+    evidence["EV-CHANNEL"] = {"evidence_id": "EV-CHANNEL", "identity": "observed", "source_refs": ["SYNTHETIC-MECHANISM"], "available_at": "2026-09-30T10:00:00Z", "channel_id": "CHANNEL-1", "mechanism_id": "MECH-1", "support_status": "supported"}
+    transition = world_volume.apply_registered_event(state, event, evidence_registry=evidence, channel_registry=channel)
+    assert transition.evidence_identity == "simulated"
+    assert transition.event_role == "mechanism_inference"
+    for field, value in (("active", False), ("acl_authorized", False), ("capacity", 0), ("mechanism_id", "GHOST")):
+        bad = deepcopy(channel)
+        bad["CHANNEL-1"][field] = value
+        with pytest.raises(world_volume.WorldVolumeError, match="channel"):
+            world_volume.apply_registered_event(state, event, evidence_registry=evidence, channel_registry=bad)
+    with pytest.raises(world_volume.WorldVolumeError, match="channel"):
+        world_volume.apply_registered_event(state, event, evidence_registry=evidence)
+
+
+def test_inferred_cause_cannot_be_laundered_into_direct_observation():
+    state = frozen_state()
+    event, evidence = observed_event(state)
+    event["mechanism_id"] = "INFERRED-CAUSE"
+    with pytest.raises(world_volume.WorldVolumeError, match="mechanism"):
+        world_volume.apply_registered_event(state, event, evidence_registry=evidence)
+
+
+def test_multiple_events_replay_in_time_order_with_independent_evidence():
+    state = frozen_state()
+    first, evidence = observed_event(state)
+    second = deepcopy(first)
+    second.update(event_id="EVENT-2", occurred_at="2026-09-30T11:15:00Z", evidence_refs=["EV-2"])
+    second["deltas"][0].update(before="new", after="latest", evidence_refs=["EV-2"])
+    evidence["EV-2"] = {**evidence["EV-1"], "evidence_id": "EV-2", "event_id": "EVENT-2", "observed_value": "latest"}
+    output = world_volume.apply_registered_events(state, [first, second], evidence_registry=evidence)
+    assert output[-1].output_state["objects"][0]["variables"][0]["value"] == "latest"
+    with pytest.raises(world_volume.WorldVolumeError, match="time"):
+        world_volume.apply_registered_events(state, [second, first], evidence_registry=evidence)

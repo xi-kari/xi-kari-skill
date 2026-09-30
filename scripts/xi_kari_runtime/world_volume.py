@@ -16,6 +16,7 @@ import hashlib
 import json
 from pathlib import Path
 import re
+import unicodedata
 from typing import Any
 
 from jsonschema import Draft202012Validator, FormatChecker
@@ -1567,6 +1568,135 @@ def _registered_time(value: object, label: str) -> datetime:
     return instant
 
 
+def freeze_object_identity(record: Mapping[str, Any]) -> dict[str, Any]:
+    """Bind tracking criteria independently of changing observed membership."""
+
+    obj = _native_snapshot(record, label="object identity", error_type=WorldVolumeError)
+    fields = ("object_id", "object_type", "K", "SP", "window", "subsystem", "source_revision")
+    if not isinstance(obj, dict) or any(key not in obj for key in fields):
+        raise WorldVolumeError("object identity requires frozen object/K/SP/window/subsystem/source")
+    if not all(isinstance(obj[key], str) and obj[key].strip() for key in ("object_id", "object_type", "subsystem", "source_revision")):
+        raise WorldVolumeError("object identity has an empty scope")
+    if not isinstance(obj["K"], dict) or set(obj["K"]) != {"version", "definition"} or not all(obj["K"].values()):
+        raise WorldVolumeError("object K requires a version and tracking definition")
+    if not isinstance(obj["SP"], dict) or set(obj["SP"]) != set(AXES):
+        raise WorldVolumeError("object identity requires exactly nine SP axes")
+    if not isinstance(obj["window"], dict) or not obj["window"]:
+        raise WorldVolumeError("object identity requires a frozen window")
+    frozen = {key: obj[key] for key in fields}
+    return {**frozen, "K_sha256": _canonical_sha256(obj["K"]), "binding_sha256": _canonical_sha256(frozen)}
+
+
+def validate_identity_continuation(
+    previous: Mapping[str, Any], current: Mapping[str, Any], *,
+    recheck_id: str | None = None,
+    identity_rechecks: Mapping[str, Mapping[str, Any]] | None = None,
+) -> str:
+    before, after = freeze_object_identity(previous), freeze_object_identity(current)
+    if before["K"]["definition"] != after["K"]["definition"] and before["K"]["version"] == after["K"]["version"]:
+        raise WorldVolumeError("changed K definition requires a new immutable version")
+    compatible = all(before[key] == after[key] for key in ("object_id", "object_type", "K", "SP", "subsystem", "source_revision"))
+    if compatible:
+        return "same_K"
+    check = (identity_rechecks or {}).get(recheck_id)
+    if (
+        not isinstance(check, Mapping) or check.get("recheck_id") != recheck_id
+        or check.get("previous_binding_sha256") != before["binding_sha256"]
+        or check.get("current_binding_sha256") != after["binding_sha256"]
+        or check.get("status") != "supported" or not check.get("evidence_refs")
+        or check.get("independent") is not True
+    ):
+        raise WorldVolumeError("cross-K or scope continuation requires an independent identity recheck")
+    return "rechecked"
+
+
+def validate_prototype_record(
+    record: Mapping[str, Any], *, identity_record: Mapping[str, Any],
+    evidence_registry: Mapping[str, Mapping[str, Any]],
+) -> dict[str, Any]:
+    """Validate item-level descriptive prototype responsibilities."""
+
+    snapshot = _native_snapshot(record, label="prototype", error_type=WorldVolumeError)
+    frozen = freeze_object_identity(identity_record)
+    if snapshot.get("object_id") != frozen["object_id"] or snapshot.get("identity_binding_sha256") != frozen["binding_sha256"]:
+        raise WorldVolumeError("prototype does not bind the immutable object/K/scope")
+    if frozen["object_type"] != "human":
+        raise WorldVolumeError("human prototypes require a human collective object")
+    if snapshot.get("normative_status") != "descriptive_only" or snapshot.get("action_authorization") != "none":
+        raise WorldVolumeError("prototype classification cannot grant action authority")
+    candidates = snapshot.get("candidate_states")
+    if not isinstance(candidates, list) or len(candidates) != len(set(candidates)) or not set(candidates).issubset({f"S{i}" for i in range(7)}):
+        raise WorldVolumeError("prototype candidates must be unique S0-S6 states")
+    mode = snapshot.get("classification_mode")
+    if mode == "single_dominant" and len(candidates) != 1 or mode in {"mixed", "parallel"} and (len(candidates) < 2 or not snapshot.get("path_candidates")) or mode == "unknown" and candidates or mode not in {"single_dominant", "mixed", "parallel", "unknown"}:
+        raise WorldVolumeError("prototype classification mode differs from candidate coverage")
+    conditions = snapshot.get("conditions")
+    categories = {"entry", "exit", "observation", "counterexample", "falsification"}
+    if not isinstance(conditions, dict) or set(conditions) != categories:
+        raise WorldVolumeError("prototype requires all five item-level condition families")
+    object_refs = snapshot.get("object_evidence_refs")
+    if not isinstance(object_refs, list) or not object_refs:
+        raise WorldVolumeError("prototype requires independently resolved object evidence")
+
+    def evidence_check(refs: object, *, supported: bool = False) -> None:
+        if not isinstance(refs, list) or supported and not refs:
+            raise WorldVolumeError("prototype supported item requires object evidence")
+        for ref in refs:
+            item = evidence_registry.get(ref)
+            if ref not in object_refs or not isinstance(item, Mapping) or item.get("evidence_id") != ref or item.get("object_id") != frozen["object_id"] or not item.get("source_refs"):
+                raise WorldVolumeError("prototype evidence does not resolve the external object registry")
+            if supported and item.get("identity") != "observed":
+                raise WorldVolumeError("prototype cannot upgrade report content or simulation to object observation")
+
+    evidence_check(object_refs)
+    seen: set[str] = set()
+    for category, rows in conditions.items():
+        if not isinstance(rows, list) or candidates and {row.get("state_id") for row in rows} != set(candidates):
+            raise WorldVolumeError("prototype condition items do not cover each candidate")
+        for row in rows:
+            if not isinstance(row, dict) or set(row) != {"item_id", "state_id", "status", "evidence_refs", "reason"} or row["item_id"] in seen or not row["reason"]:
+                raise WorldVolumeError("prototype condition item is missing, duplicate or unexplained")
+            seen.add(row["item_id"])
+            if row["status"] not in {"supported", "null_supported", "unsupported_or_undecided", "not_evaluated"}:
+                raise WorldVolumeError("prototype condition result is invalid")
+            evidence_check(row["evidence_refs"], supported=row["status"] in {"supported", "null_supported"})
+            if mode == "unknown" and row["status"] in {"supported", "null_supported"}:
+                raise WorldVolumeError("unknown prototype cannot retain supported condition results")
+            if category == "falsification" and row["status"] == "supported" and row["state_id"] in candidates:
+                raise WorldVolumeError("supported falsification blocks the candidate")
+    for category in ("entry", "observation"):
+        if any(not any(row["state_id"] == candidate and row["status"] == "supported" for row in conditions[category]) for candidate in candidates):
+            raise WorldVolumeError("candidate lacks supported entry and observation evidence")
+    for missing in snapshot.get("missing_data", []):
+        if missing.get("status") not in {"not_collected", "not_observable", "not_applicable", "conflicted", "unknown"} or not missing.get("reason"):
+            raise WorldVolumeError("prototype missing-data state is not explicit")
+    if mode == "unknown" and not snapshot.get("missing_data"):
+        raise WorldVolumeError("unknown prototype must explain missing distinctions")
+    for path in snapshot.get("path_candidates", []):
+        if path.get("origin_state") not in candidates or not path.get("path_id") or not path.get("reason"):
+            raise WorldVolumeError("prototype path must bind a registered origin")
+        evidence_check(path.get("evidence_refs", []))
+        if path.get("path_type") == "X0" and path.get("exit_status") == "completed" and not all(path.get(key) for key in ("receiver_refs", "debt_disposition_refs", "commitment_disposition_refs")):
+            raise WorldVolumeError("completed X0 requires resolved receivers, debt and commitments")
+    reviewers = snapshot.get("reviewers")
+    if not isinstance(reviewers, list) or not reviewers:
+        raise WorldVolumeError("prototype requires structured independent review")
+    object_alias = unicodedata.normalize("NFKC", frozen["object_id"]).strip().casefold()
+    for reviewer in reviewers:
+        reviewer_id = reviewer.get("reviewer_id")
+        if not isinstance(reviewer_id, str):
+            raise WorldVolumeError("prototype reviewer identity is missing")
+        normalized = unicodedata.normalize("NFKC", reviewer_id).strip().casefold()
+        if not normalized or normalized == object_alias or normalized.startswith(object_alias + "/") or normalized.startswith(object_alias + "-") or normalized.startswith(object_alias + "_") or reviewer.get("independent") is not True or reviewer.get("material_version") != snapshot.get("material_version") or not reviewer.get("outcome"):
+            raise WorldVolumeError("prototype review is not independently identity-bound")
+        _registered_time(reviewer.get("reviewed_at"), "prototype review time")
+    for field in ("appeal", "rollback"):
+        procedure = snapshot.get(field)
+        if not isinstance(procedure, dict) or not procedure.get("procedure_id") or not procedure.get("status"):
+            raise WorldVolumeError("prototype requires structured appeal and rollback")
+    return snapshot
+
+
 def apply_registered_event(
     parent: Mapping[str, Any],
     event: Mapping[str, Any],
@@ -1587,16 +1717,19 @@ def apply_registered_event(
     allowed_kinds = {
         "observed_direct": {"observed"}, "reported_belief": {"reported"},
         "scenario": {"planned", "hypothetical", "simulated"},
+        "mechanism_inference": {"hypothetical", "simulated", "inferred"},
     }
     if kind not in allowed_kinds.get(path, set()):
         raise WorldVolumeError("unsupported event update path")
     if path in {"observed_direct", "reported_belief"} and record.get("occurrence_status") != "occurred":
         raise WorldVolumeError("direct observation requires actual occurrence")
-    if path == "scenario" and record.get("occurrence_status") != "not_occurred":
+    if path in {"scenario", "mechanism_inference"} and record.get("occurrence_status") != "not_occurred":
         raise WorldVolumeError("scenario cannot claim actual occurrence")
+    if path == "observed_direct" and record.get("mechanism_id") is not None:
+        raise WorldVolumeError("direct observation cannot manufacture a mechanism inference")
     cutoff = _registered_time(state.get("evidence_cutoff"), "evidence cutoff")
     occurred = _registered_time(record.get("occurred_at"), "event occurrence")
-    if path != "scenario" and occurred > cutoff:
+    if path in {"observed_direct", "reported_belief"} and occurred > cutoff:
         raise WorldVolumeError("event occurs after frozen evidence cutoff")
     if record.get("authorization_status") not in {"authorized", "unauthorized", "unknown"}:
         raise WorldVolumeError("event authorization status is missing")
@@ -1612,6 +1745,39 @@ def apply_registered_event(
         ):
             raise WorldVolumeError("event lacks exact independent external authorization")
     objects = _records_by_id(state["objects"], "object_id", label="registered object")
+    if record.get("object_id") not in objects:
+        raise WorldVolumeError("event object does not resolve the registered state")
+    channel: Mapping[str, Any] | None = None
+    if path == "mechanism_inference":
+        channel = (channel_registry or {}).get(record.get("channel_id"))
+        if (
+            not isinstance(channel, Mapping) or channel.get("channel_id") != record.get("channel_id")
+            or channel.get("mechanism_id") != record.get("mechanism_id") or not record.get("mechanism_id")
+            or channel.get("from_object_id") != record["object_id"]
+            or channel.get("to_object_id") not in objects
+            or channel.get("active") is not True or channel.get("identity_preserved") is not True
+            or channel.get("acl_authorized") is not True
+            or type(channel.get("capacity")) is not int or channel["capacity"] < len(record["deltas"])
+            or type(channel.get("lag_seconds")) not in {int, float} or channel["lag_seconds"] < 0
+            or not channel.get("evidence_refs") or not isinstance(channel.get("threshold_conditions"), list)
+        ):
+            raise WorldVolumeError("inferred propagation requires a real identity/ACL/capacity-bound channel")
+        source_time = _registered_time(record.get("source_time", record.get("occurred_at")), "channel source time")
+        if not (_registered_time(channel.get("valid_from"), "channel start") <= source_time <= occurred <= _registered_time(channel.get("valid_until"), "channel end")) or (occurred - source_time).total_seconds() < channel["lag_seconds"]:
+            raise WorldVolumeError("inferred propagation exceeds channel temporal validity")
+        for ref in channel["evidence_refs"]:
+            item = evidence.get(ref)
+            if not isinstance(item, Mapping) or item.get("evidence_id") != ref or item.get("channel_id") != channel["channel_id"] or item.get("mechanism_id") != record["mechanism_id"] or item.get("support_status") != "supported" or item.get("identity") != "observed" or not item.get("source_refs") or _registered_time(item.get("available_at"), "channel evidence time") > cutoff:
+                raise WorldVolumeError("channel lacks independent causal/timing evidence")
+        for condition in channel["threshold_conditions"]:
+            target = objects.get(condition.get("object_id"))
+            variable = next((v for v in target["variables"] if v["variable_id"] == condition.get("variable_id")), None) if target else None
+            if variable is None:
+                raise WorldVolumeError("channel threshold targets an unknown variable")
+            value, operand, op = variable["value"], condition.get("operand"), condition.get("operator")
+            matches = _same_json_value(value, operand) if op == "eq" else type(value) in {int, float} and type(operand) in {int, float} and (value >= operand if op == "ge" else value <= operand if op == "le" else False)
+            if not matches:
+                raise WorldVolumeError("channel structured local threshold is not met")
     seen: set[tuple[str, str]] = set()
     for delta in record["deltas"]:
         key = (delta["object_id"], delta["variable_id"])
@@ -1622,6 +1788,10 @@ def apply_registered_event(
         variable = variables.get(delta["variable_id"])
         if path == "reported_belief" and delta.get("category") != "beliefs":
             raise WorldVolumeError("reported content can only update source-labelled beliefs")
+        if channel is not None and delta["object_id"] != channel["to_object_id"]:
+            raise WorldVolumeError("propagation delta is outside channel target")
+        if delta.get("category") not in {"resources", "rules", "relations", "beliefs", "feasible_actions"} or delta.get("clock_id") not in CLOCK_KINDS:
+            raise WorldVolumeError("delta category or clock is not registered")
         if (
             variable is None
             or variable["category"] != delta["category"]
@@ -1647,16 +1817,34 @@ def apply_registered_event(
             if _registered_time(item.get("available_at"), "evidence availability") > cutoff:
                 raise WorldVolumeError("late evidence requires a new frozen run")
         variable["value"] = copy.deepcopy(delta["after"])
-        variable["provenance"] = {"event_id": record["event_id"], "identity": kind, "update_path": path, "evidence_refs": list(refs), "conditions": copy.deepcopy(record["conditions"])}
-    payload = {"parent": parent, "event": record, "evidence": evidence, "output": state}
+        variable["provenance"] = {"event_id": record["event_id"], "identity": kind, "update_path": path, "evidence_refs": list(refs), "conditions": copy.deepcopy(record["conditions"]), "channel_id": record.get("channel_id"), "mechanism_id": record.get("mechanism_id")}
+    payload = {"parent": parent, "event": record, "evidence": evidence, "channel": channel, "authorization": (authorization_registry or {}).get(record.get("authorization_ref")), "output": state}
     return RegisteredTransition(
         state_diff_id="DIFF-" + _canonical_sha256(payload)[:20].upper(),
         source_state_sha256=_canonical_sha256(parent), result_state_sha256=_canonical_sha256(state),
-        event_id=record["event_id"], event_role=("scenario" if path == "scenario" else "u(t)" if path == "observed_direct" and record["authorization_status"] == "authorized" else "e(t)"), evidence_identity=kind,
+        event_id=record["event_id"], event_role=(path if path in {"scenario", "mechanism_inference"} else "u(t)" if path == "observed_direct" and record["authorization_status"] == "authorized" else "e(t)"), evidence_identity=kind,
         authorization_status=record["authorization_status"], external_action_authorized=False,
         reported_content_status="unknown" if kind == "reported" else None,
         _output_json=json.dumps(state, ensure_ascii=False, allow_nan=False, sort_keys=True),
     )
+
+
+def apply_registered_events(
+    parent: Mapping[str, Any], events: Sequence[Mapping[str, Any]], *,
+    evidence_registry: Mapping[str, Mapping[str, Any]],
+    channel_registry: Mapping[str, Mapping[str, Any]] | None = None,
+    authorization_registry: Mapping[str, Mapping[str, Any]] | None = None,
+) -> tuple[RegisteredTransition, ...]:
+    times = [_registered_time(event.get("occurred_at"), "event time order") for event in events]
+    if times != sorted(times) or len({event.get("event_id") for event in events}) != len(events):
+        raise WorldVolumeError("events require unique identities and frozen time order")
+    state: Mapping[str, Any] = parent
+    transitions: list[RegisteredTransition] = []
+    for event in events:
+        transition = apply_registered_event(state, event, evidence_registry=evidence_registry, channel_registry=channel_registry, authorization_registry=authorization_registry)
+        transitions.append(transition)
+        state = transition.output_state
+    return tuple(transitions)
 
 
 __all__ = (
