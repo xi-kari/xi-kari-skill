@@ -768,7 +768,8 @@ def validate_provider_pair_v4(base_provider: Mapping[str, Any], adapter: Mapping
 
 
 def reader_payload_v4(packet: Mapping[str, Any], contract: Mapping[str, Any]) -> dict[str, Any]:
-    return {**deepcopy(dict(packet)), 'question': contract['question'], 'sources': deepcopy(packet['retrieval']['sources']), 'assessments': deepcopy(packet['retrieval']['assessments'])}
+    canonical = read_json_text(canonical_bytes(dict(packet)).decode('utf-8'))
+    return {**canonical, 'question': contract['question'], 'sources': deepcopy(canonical['retrieval']['sources']), 'assessments': deepcopy(canonical['retrieval']['assessments'])}
 
 
 def build_reader_artifacts_v4(run_dir: Path, *, packet: Mapping[str, Any], contract: Mapping[str, Any], repository_root: Path) -> tuple[dict[str, Any], dict[str, str]]:

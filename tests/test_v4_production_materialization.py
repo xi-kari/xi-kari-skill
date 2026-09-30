@@ -400,8 +400,9 @@ def test_explicit_v4_static_production_rebuilds_base_packet_and_seals_actual_dis
 request = json.loads(''')
     program = program.replace('from tests.test_v4_pipeline_e2e_fixtures import static_author_output', 'from tests.test_v4_pipeline_e2e_fixtures import BODY, static_author_output')
     program = program.replace('if PROTECTED:', '''for index, assessment in enumerate(value["semantic_packet"]["retrieval"]["assessments"]):
-    assessment["cannot_prove"] = ["该合成条文只供程序验证，不能证明现实执行、经验效果或正式实例资格。"]
-    value["semantic_packet"]["visibility_ledger"]["entries"].append({"canonical_path": "retrieval.assessments[" + str(index) + "].cannot_prove[0]", "classification": "public", "disclosure": "include", "purpose": request["privacy_contract"]["purpose"], "authority_refs": [], "protection_reason": None})
+    for field, statement in {"cannot_prove": "该合成条文只供程序验证，不能证明现实执行、经验效果或正式实例资格。", "affected_positions": "补偿安排涉及者的具体身份没有在给定合成条文中说明。", "low_power_positions": "给定合成条文未提供识别具体低权力位置所需的事实。"}.items():
+        assessment[field] = [statement]
+        value["semantic_packet"]["visibility_ledger"]["entries"].append({"canonical_path": "retrieval.assessments[" + str(index) + "]." + field + "[0]", "classification": "public", "disclosure": "include", "purpose": request["privacy_contract"]["purpose"], "authority_refs": [], "protection_reason": None})
 for claim in value["semantic_packet"]["evidence"]["claims"]:
     for support in claim["support"]:
         if support.get("summary") == "A source-scope fixture.":
@@ -658,3 +659,15 @@ def test_production_retrieval_does_not_invent_missing_author_limitations(tmp_pat
         materialize_retrieval_bundle(tmp_path, retrieval['sources'], retrieval['assessments'], mode='closed-input', run_id='synthetic-empty-limit')
     assert retrieval == before
     assert not (tmp_path / 'retrieval/index.json').exists()
+
+
+def test_reader_materialization_is_independent_of_author_dictionary_order(replay_inputs_v4):
+    from xi_kari_runtime.canonical_json import canonical_bytes, read_json_text
+    from xi_kari_runtime.semantic_projection import typed_semantic_atoms
+    from xi_kari_runtime.validation_v4 import reader_payload_v4
+
+    _, contract, pending, _ = deepcopy(replay_inputs_v4)
+    from_disk = read_json_text(canonical_bytes(pending).decode('utf-8'))
+    authored_order = typed_semantic_atoms(reader_payload_v4(pending, contract))
+    disk_order = typed_semantic_atoms(reader_payload_v4(from_disk, contract))
+    assert authored_order == disk_order

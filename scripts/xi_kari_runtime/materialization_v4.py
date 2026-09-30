@@ -350,6 +350,7 @@ def materialize_run_v4(run_dir: Path, packet: Mapping[str, Any] | None = None, *
         atomic_write_json(packet_path, persisted)
     else:
         raise ValueError('version-four prepared run has no canonical analysis packet')
+    persisted = read_json(packet_path)
     require_packet_contract_v4(persisted, mode=contract['mode'], run_contract=contract, repository_root=repo)
     validate_authoring_replay_v4(root, contract=contract, packet=persisted, repository_root=repo)
     packet_sha256 = sha256_file(packet_path)
