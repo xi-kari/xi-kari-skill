@@ -120,18 +120,15 @@ def test_nontrivial_K_mapping_uses_all_four_criteria_and_verification_artifact()
 
 
 def test_object_conversion_requires_exact_supported_G4b_root():
-    record, registries = scale_fixture()
-    record["objects"]["target_object"]["boundary"].append("unit-3")
-    record["objects"]["target_K"] = {"version": "2", "definition": "same three bounded synthetic units"}
-    record["evidence"]["target_refs"] = ["E-TARGET"]
-    registries["evidence_registry"]["E-TARGET"] = {"evidence_id": "E-TARGET", "identity": "observed", "source_refs": ["SYNTHETIC-TARGET-FIXTURE"], "object_sha256": world_volume._canonical_sha256(record["objects"]["target_object"])}
-    attach_mapping(record, registries, "converted_object")
-    record["transformation"].update(claim_mode="object_conversion", selected_operator_branch="object_conversion", root_instance_ids=["ROOT-1"], selected_subtype="G4b", selected_success_criterion="object_conversion", causal_bridge=["synthetic verified bridge"])
-    root = {"instance_id": "ROOT-1", "root_id": "G4", "contract_version": "4.0.0", "selected_subtype": "G4b", "selected_success_criterion": "object_conversion", "result_state": "supported", "eligibility_status": "eligible", "scope_sha256": world_volume._canonical_sha256({"SP0": record["scale"]["SP0"], "SP1": record["scale"]["SP1"], "source_K": record["objects"]["source_K"], "target_K": record["objects"]["target_K"], "task": record["identity"]["purpose"]}), "preregistration_timestamp": "2026-09-29T00:00:00Z", "result_timestamp": "2026-09-30T00:00:00Z", "evidence_refs": ["E-OBJECT"], "analysis_artifact_refs": ["VER-MAP-1"]}
-    registries["root_instances"]["ROOT-1"] = {**root, "artifact_sha256": world_volume._canonical_sha256(root)}
+    from tests.test_p06_empirical_root_binding import empirical_scale_fixture, bind
+    record, registries, inputs, graph, objects = empirical_scale_fixture()
+    bundle = bind(record, inputs, graph, objects)
+    registries["root_instances"] = bundle["root_instances"]
+    registries["verification_artifacts"].update(bundle["verification_artifacts"])
+    registries["evidence_registry"].update(bundle["evidence_registry"])
     assert transformations.validate_scale_instance(record, **registries)["mapping_class"] == "converted_object"
     for field, value in (("selected_subtype", "G4a"), ("result_state", "unsupported_or_undecided"), ("eligibility_status", "ineligible")):
-        changed = deepcopy(registries)
+        changed = {**registries, "root_instances": {key: bundle["root_instances"][key] for key in bundle["root_instances"]}}
         changed["root_instances"]["ROOT-1"][field] = value
         with pytest.raises(transformations.TransformationError):
             transformations.validate_scale_instance(record, **changed)

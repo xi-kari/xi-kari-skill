@@ -322,6 +322,10 @@ def validate_scale_instance(
         if any(not _missing(transform[key]) or transform[key]["status"] != "not_applicable" for key in ("root_instance_ids", "selected_subtype", "selected_success_criterion")):
             raise ScaleContractError("descriptive mapping must explicitly mark root-only responsibility not applicable")
     else:
+        from .scale_root_bindings import EvaluatedScaleRootRegistry
+
+        if result in {"supported", "null_supported"} and type(root_instances) is not EvaluatedScaleRootRegistry:
+            raise ScaleContractError("formal root support requires a code-recomputed P05 registry from raw frozen inputs")
         if not isinstance(transform["root_instance_ids"], list) or not transform["root_instance_ids"]:
             raise ScaleContractError("non-descriptive scale claims require actual immutable root instances")
         if mode in {"causal", "object_conversion", "intervention_conversion"} and (not isinstance(transform["causal_bridge"], list) or not transform["causal_bridge"]):
@@ -333,6 +337,8 @@ def validate_scale_instance(
             raise ScaleContractError("scale root instance IDs must be unique")
         for instance_id in transform["root_instance_ids"]:
             root = _artifact(root_instances, instance_id, "instance_id")
+            if type(root_instances) is EvaluatedScaleRootRegistry and (root.get("operator_ids") != transform["operator_ids"] or root.get("selected_operator_branch") != transform["selected_operator_branch"] or root.get("claim_mode") != mode):
+                raise ScaleContractError("scale root mode differs from its preselected operator and branch")
             if root.get("root_id") not in {"G1", "G2", "G3", "G4"} or any(root.get(key) != expected for key, expected in {"contract_version": identity["version"], "selected_subtype": transform["selected_subtype"], "selected_success_criterion": transform["selected_success_criterion"], "result_state": result, "scope_sha256": scope_hash}.items()):
                 raise ScaleContractError("scale root family, version, criterion, result or scope does not match")
             if result in {"supported", "null_supported"}:

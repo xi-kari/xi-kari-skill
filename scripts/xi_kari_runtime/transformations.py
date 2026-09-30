@@ -77,6 +77,15 @@ def validate_scale_chain(records: list[Mapping[str, Any]], **registries: Any) ->
         raise TransformationError(str(error)) from error
 
 
+def bind_scale_root_instances(record: Mapping[str, Any], **inputs: Any) -> dict[str, Any]:
+    from .scale_root_bindings import ScaleRootBindingError, bind_scale_root_instances as bind
+
+    try:
+        return bind(record, **inputs)
+    except (ScaleRootBindingError, WorldVolumeError) as error:
+        raise TransformationError(str(error)) from error
+
+
 def _world_catalogs(volume: Mapping[str, Any]) -> tuple[set[str], set[str]]:
     represented = [*volume["actors"], *volume["circles"], *volume["positions"]]
     locations = {
