@@ -159,10 +159,10 @@ def test_authorized_override_reaches_provider_binding(case_dir: Path) -> None:
 
 
 @pytest.mark.parametrize(("overrides", "model", "effort"), [
-    ({}, "gpt-6.1-sol", "max"),
-    ({"XI_KARI_PROVIDER_MODEL": "gpt-6-astra"}, "gpt-6-astra", "max"),
+    ({}, "gpt-6-astra", "max"),
+    ({"XI_KARI_PROVIDER_MODEL": "gpt-6-sol"}, "gpt-6-sol", "max"),
     ({"XI_KARI_PROVIDER_MODEL": "gpt-6-astra", "XI_KARI_REASONING_EFFORT": "high"}, "gpt-6-astra", "high"),
-    ({"XI_KARI_REASONING_EFFORT": ""}, "gpt-6.1-sol", ""),
+    ({"XI_KARI_REASONING_EFFORT": ""}, "gpt-6-astra", ""),
 ], ids=["defaults", "model_override", "effort_override", "provider_default_effort"])
 def test_override_reaches_request_fixture_receipt_and_fresh_readback(
     case_dir: Path, overrides: dict[str, str], model: str, effort: str
