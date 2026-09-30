@@ -138,10 +138,10 @@
           }
         },
         "local_world_model": {
-          "type": "object"
+          "$ref": "https://xi-kari.local/schemas/xi-kari.v4.xk.stage-inputs.schema.json#/$defs/localWorldModel"
         },
         "transformation_ledger": {
-          "type": "object"
+          "$ref": "https://xi-kari.local/schemas/xi-kari.v4.xk.stage-inputs.schema.json#/$defs/transformation"
         },
         "cascade": {
           "type": "object"
@@ -150,7 +150,7 @@
           "$ref": "https://xi-kari.local/schemas/xi-kari.v4.xk.claim-mechanism-graph.schema.json"
         },
         "recursive_lineage": {
-          "type": "object"
+          "$ref": "https://xi-kari.local/schemas/xi-kari.v4.xk.stage-inputs.schema.json#/$defs/recursiveLineage"
         },
         "recursive_states": {
           "type": "object"
@@ -168,10 +168,10 @@
           "type": "object"
         },
         "action_ranking": {
-          "type": "object"
+          "$ref": "https://xi-kari.local/schemas/xi-kari.v4.xk.stage-inputs.schema.json#/$defs/actionRanking"
         },
         "forecast": {
-          "type": "object"
+          "$ref": "https://xi-kari.local/schemas/xi-kari.v4.xk.stage-inputs.schema.json#/$defs/forecast"
         },
         "framework_gap": {
           "type": "object"
@@ -356,6 +356,137 @@
         },
         "derived_instances": {
           "$ref": "https://xi-kari.local/schemas/xi-kari.v4.formal-input.schema.json#/$defs/derivedInstances"
+        },
+        "domain_trace": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "records",
+            "claim_links"
+          ],
+          "properties": {
+            "records": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "domain_id",
+                  "content_witness",
+                  "content_excerpt",
+                  "problem_relation",
+                  "reader_responsibilities"
+                ],
+                "properties": {
+                  "domain_id": {
+                    "type": "string",
+                    "pattern": "^D\\.(0[1-9]|[12][0-9]|3[0-2])$"
+                  },
+                  "content_witness": {
+                    "type": "string",
+                    "pattern": "^[0-9a-f]{64}$"
+                  },
+                  "content_excerpt": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "problem_relation": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "status",
+                      "rationale"
+                    ],
+                    "properties": {
+                      "status": {
+                        "enum": [
+                          "applied",
+                          "boundary_only",
+                          "native_exit"
+                        ]
+                      },
+                      "rationale": {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    }
+                  },
+                  "reader_responsibilities": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "native_method",
+                      "additional_distinction",
+                      "inputs_outputs",
+                      "limits_counterargument",
+                      "costs_exit"
+                    ],
+                    "properties": {
+                      "native_method": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "additional_distinction": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "inputs_outputs": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "limits_counterargument": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "costs_exit": {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "claim_links": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "domain_id",
+                  "claim_ids",
+                  "use_kind",
+                  "rationale"
+                ],
+                "properties": {
+                  "domain_id": {
+                    "type": "string",
+                    "pattern": "^D\\.(0[1-9]|[12][0-9]|3[0-2])$"
+                  },
+                  "claim_ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "minItems": 1,
+                    "uniqueItems": true
+                  },
+                  "use_kind": {
+                    "enum": [
+                      "method_reference",
+                      "boundary_reference",
+                      "native_exit"
+                    ]
+                  },
+                  "rationale": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                }
+              }
+            }
+          }
         }
       },
       "allOf": [

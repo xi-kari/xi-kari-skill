@@ -12,6 +12,9 @@ def projection_roots(payload: Mapping[str, Any]) -> dict[str, Any]:
     roots: dict[str, Any] = {key: payload[key] for key in (
         'empirical_instances', 'derived_instances', 'formal_results',
     ) if key in payload}
+    outcomes = payload.get('stage_outcomes')
+    if isinstance(outcomes, Mapping):
+        roots['stage_outcomes'] = {stage: value for stage, value in outcomes.items() if value is not None}
     trace = payload.get('domain_read_trace')
     if isinstance(trace, Mapping):
         roots['domain_read_trace'] = {'records': domain_reader_records(trace)}

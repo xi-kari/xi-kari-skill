@@ -2999,11 +2999,13 @@ def validate_delivery_binding(packet: Mapping[str, Any]) -> None:
 
 
 def build_analysis_packet(
-    semantic_packet: Mapping[str, Any], *, run_contract: Mapping[str, Any], repository_root: Path
+    semantic_packet: Mapping[str, Any], *, run_contract: Mapping[str, Any], repository_root: Path,
+    domain_read_plan: Mapping[str, Any] | None = None, reader_finalization: Mapping[str, Any] | None = None,
 ) -> dict[str, Any]:
     """Assemble a version-four semantic packet with runtime-owned authority."""
     from .packet_v4 import build_analysis_packet_v4
-    return build_analysis_packet_v4(semantic_packet, run_contract=run_contract, repository_root=repository_root)
+    return build_analysis_packet_v4(semantic_packet, run_contract=run_contract, repository_root=repository_root,
+        domain_read_plan=domain_read_plan, reader_finalization=reader_finalization)
 
 
 def require_packet_contract(

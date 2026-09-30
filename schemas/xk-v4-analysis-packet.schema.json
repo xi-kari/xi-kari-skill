@@ -17,7 +17,8 @@
     "schema_id",
     "schema_version",
     "runtime_binding",
-    "concept_disposition"
+    "concept_disposition",
+    "stage_outcomes"
   ],
   "properties": {
     "problem_contract": {
@@ -130,10 +131,10 @@
       }
     },
     "local_world_model": {
-      "type": "object"
+      "$ref": "https://xi-kari.local/schemas/xi-kari.v4.xk.stage-inputs.schema.json#/$defs/localWorldModel"
     },
     "transformation_ledger": {
-      "type": "object"
+      "$ref": "https://xi-kari.local/schemas/xi-kari.v4.xk.stage-inputs.schema.json#/$defs/transformation"
     },
     "cascade": {
       "type": "object"
@@ -142,7 +143,7 @@
       "$ref": "https://xi-kari.local/schemas/xi-kari.v4.xk.claim-mechanism-graph.schema.json"
     },
     "recursive_lineage": {
-      "type": "object"
+      "$ref": "https://xi-kari.local/schemas/xi-kari.v4.xk.stage-inputs.schema.json#/$defs/recursiveLineage"
     },
     "recursive_states": {
       "type": "object"
@@ -160,10 +161,10 @@
       "type": "object"
     },
     "action_ranking": {
-      "type": "object"
+      "$ref": "https://xi-kari.local/schemas/xi-kari.v4.xk.stage-inputs.schema.json#/$defs/actionRanking"
     },
     "forecast": {
-      "type": "object"
+      "$ref": "https://xi-kari.local/schemas/xi-kari.v4.xk.stage-inputs.schema.json#/$defs/forecast"
     },
     "framework_gap": {
       "type": "object"
@@ -392,6 +393,249 @@
     },
     "formal_results": {
       "$ref": "https://xi-kari.local/schemas/xi-kari.v4.formal-input.schema.json#/$defs/formalResults"
+    },
+    "domain_trace": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "records",
+        "claim_links"
+      ],
+      "properties": {
+        "records": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "domain_id",
+              "content_witness",
+              "content_excerpt",
+              "problem_relation",
+              "reader_responsibilities"
+            ],
+            "properties": {
+              "domain_id": {
+                "type": "string",
+                "pattern": "^D\\.(0[1-9]|[12][0-9]|3[0-2])$"
+              },
+              "content_witness": {
+                "type": "string",
+                "pattern": "^[0-9a-f]{64}$"
+              },
+              "content_excerpt": {
+                "type": "string",
+                "minLength": 1
+              },
+              "problem_relation": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "status",
+                  "rationale"
+                ],
+                "properties": {
+                  "status": {
+                    "enum": [
+                      "applied",
+                      "boundary_only",
+                      "native_exit"
+                    ]
+                  },
+                  "rationale": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                }
+              },
+              "reader_responsibilities": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "native_method",
+                  "additional_distinction",
+                  "inputs_outputs",
+                  "limits_counterargument",
+                  "costs_exit"
+                ],
+                "properties": {
+                  "native_method": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "additional_distinction": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "inputs_outputs": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "limits_counterargument": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "costs_exit": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                }
+              }
+            }
+          }
+        },
+        "claim_links": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "domain_id",
+              "claim_ids",
+              "use_kind",
+              "rationale"
+            ],
+            "properties": {
+              "domain_id": {
+                "type": "string",
+                "pattern": "^D\\.(0[1-9]|[12][0-9]|3[0-2])$"
+              },
+              "claim_ids": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "minItems": 1,
+                "uniqueItems": true
+              },
+              "use_kind": {
+                "enum": [
+                  "method_reference",
+                  "boundary_reference",
+                  "native_exit"
+                ]
+              },
+              "rationale": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        }
+      }
+    },
+    "domain_binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "plan",
+        "read_trace",
+        "authority",
+        "claim_links",
+        "domain_reader_records",
+        "result"
+      ],
+      "properties": {
+        "plan": {
+          "type": "object"
+        },
+        "read_trace": {
+          "type": "object"
+        },
+        "authority": {
+          "type": "object"
+        },
+        "claim_links": {
+          "type": "object"
+        },
+        "result": {
+          "type": "object"
+        },
+        "domain_reader_records": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        }
+      }
+    },
+    "domain_read_trace": {
+      "type": "object"
+    },
+    "stage_outcomes": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "world_state",
+        "transformation",
+        "mechanism",
+        "recursion",
+        "forecast",
+        "action_choice"
+      ],
+      "properties": {
+        "world_state": {
+          "oneOf": [
+            {
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "transformation": {
+          "oneOf": [
+            {
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "mechanism": {
+          "oneOf": [
+            {
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "recursion": {
+          "oneOf": [
+            {
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "forecast": {
+          "oneOf": [
+            {
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "action_choice": {
+          "oneOf": [
+            {
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
     }
   },
   "allOf": [

@@ -205,6 +205,7 @@ MODEL_AUTHORITY_KEYS = frozenset(
         "formal_results",
         "domain_usage",
         "stage_results",
+        "stage_outcomes",
         "material_responsibility_binding",
     }
 )
@@ -1443,9 +1444,10 @@ def _bind_v4_projected_materials(
 ) -> dict[str, Any]:
     from .evidence import build_evidence_ledger
     from .v4_retrieval import bind_material_responsibilities, bind_graph_materials
+    from .stage_consumers_v4 import stage_input_target_hashes_v4
     value = deepcopy(dict(packet))
     value['retrieval'] = bind_material_responsibilities(projected, semantic_retrieval)
-    value['evidence'] = build_evidence_ledger(run_id=projected['run_id'], claims=value['evidence']['claims'], retrieval_index=value['retrieval'], contract_version=4)
+    value['evidence'] = build_evidence_ledger(run_id=projected['run_id'], claims=value['evidence']['claims'], retrieval_index=value['retrieval'], contract_version=4, world_target_hashes=stage_input_target_hashes_v4(value))
     value['claim_mechanism_graph'] = bind_graph_materials(value['claim_mechanism_graph'], value['evidence'])
     return value
 

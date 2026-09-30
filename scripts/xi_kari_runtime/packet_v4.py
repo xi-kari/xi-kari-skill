@@ -72,13 +72,28 @@ def validate_world_stage(
 
 
 def build_analysis_packet_v4(
-    semantic_packet: Mapping[str, Any], *, run_contract: Mapping[str, Any], repository_root: Path
+    semantic_packet: Mapping[str, Any], *, run_contract: Mapping[str, Any], repository_root: Path,
+    domain_read_plan: Mapping[str, Any] | None = None, reader_finalization: Mapping[str, Any] | None = None,
 ) -> dict[str, Any]:
+    packet = prepare_analysis_packet_v4(semantic_packet, run_contract=run_contract, repository_root=repository_root, domain_read_plan=domain_read_plan)
+    if reader_finalization is not None:
+        if not isinstance(reader_finalization, Mapping) or set(reader_finalization) != {'reader_sections', 'visibility_ledger'}:
+            raise ValueError('reader finalization may only provide complete sections and disclosure decisions')
+        packet.update(deepcopy(dict(reader_finalization)))
+    require_packet_contract_v4(packet, mode=run_contract['mode'], run_contract=run_contract, repository_root=repository_root)
+    return packet
+
+
+def prepare_analysis_packet_v4(
+    semantic_packet: Mapping[str, Any], *, run_contract: Mapping[str, Any], repository_root: Path,
+    domain_read_plan: Mapping[str, Any] | None = None,
+) -> dict[str, Any]:
+    """Compute semantic outcomes for reader authoring; delivery still needs validation."""
     from .contracts import build_runtime_packet_binding
     if run_contract.get('contract_profile') != 'production-authoring-v4':
         raise ValueError('version-four packet requires its version-four run profile')
     packet = deepcopy(dict(semantic_packet))
-    if any(field in packet for field in ('runtime_binding', 'concept_disposition', 'formal_results')):
+    if any(field in packet for field in ('runtime_binding', 'concept_disposition', 'formal_results', 'domain_binding', 'domain_read_trace', 'domain_usage', 'stage_outcomes')):
         raise ValueError('semantic author cannot supply runtime-owned packet authority')
     if 'empirical_instances' in packet or 'derived_instances' in packet:
         from .formal_results import bind_formal_claim_results
@@ -93,8 +108,20 @@ def build_analysis_packet_v4(
         schema_id='xi-kari.v4.analysis-packet', schema_version=4,
         runtime_binding=build_runtime_packet_binding(run_contract), concept_disposition=dispositions,
     )
+    if 'domain_trace' in packet:
+        from .domain_pipeline_v4 import validate_domain_inputs
+        from .formal_results import rebuild_instance_registry
+        if domain_read_plan is None:
+            raise ValueError('domain author semantics require the frozen runtime reading plan')
+        registry = rebuild_instance_registry(packet.get('empirical_instances', []), graph=packet['claim_mechanism_graph'], derived_instances=packet.get('derived_instances', []), evidence_mode=run_contract['mode'], repository_root=repository_root)
+        checked = validate_domain_inputs(domain_read_plan, packet['domain_trace'], graph=packet['claim_mechanism_graph'], run_contract=run_contract, repository_root=repository_root, verified_instance_results=registry)
+        packet['domain_binding'] = {'plan': deepcopy(dict(domain_read_plan)), **checked}
+        packet['domain_read_trace'] = checked['read_trace']
+    from .stage_consumers_v4 import validate_stage_chain_v4
+    stages = validate_stage_chain_v4(packet, run_contract=run_contract, repository_root=repository_root)
+    packet['stage_outcomes'] = {stage: deepcopy(row['result']) for stage, row in stages['stage_results'].items()}
     validate_versioned_schema('xk-v4-analysis-packet.schema.json', packet, repository_root=repository_root)
-    require_packet_contract_v4(packet, mode=run_contract['mode'], run_contract=run_contract, repository_root=repository_root)
+    _require_packet_semantics_v4(packet, mode=run_contract['mode'], run_contract=run_contract, repository_root=repository_root)
     return packet
 
 
@@ -102,6 +129,17 @@ def require_packet_contract_v4(
     packet: Mapping[str, Any], *, mode: str,
     run_contract: Mapping[str, Any] | None = None, repository_root: Path | None = None
 ) -> None:
+    _require_packet_semantics_v4(packet, mode=mode, run_contract=run_contract, repository_root=repository_root)
+    from .contracts import validate_visibility_ledger
+    validate_visibility_ledger(packet, privacy_contract=run_contract.get('privacy_contract') if run_contract else None)
+
+
+def _require_packet_semantics_v4(
+    packet: Mapping[str, Any], *, mode: str,
+    run_contract: Mapping[str, Any] | None = None, repository_root: Path | None = None,
+) -> None:
+    from .v4_contracts import repository_path
+    repository_root = repository_path(repository_root)
     from .contracts import build_runtime_packet_binding, validate_answer_basis_references, validate_visibility_ledger
     validate_versioned_schema('xk-v4-analysis-packet.schema.json', packet, repository_root=repository_root)
     if mode not in {'open-world', 'closed-input'} or packet['retrieval'].get('mode') != mode:
@@ -133,18 +171,6 @@ def require_packet_contract_v4(
     if packet['applicability'] != graph['applicability']:
         raise ValueError('version-four packet and claim applicability differ')
     validate_applicability(packet['applicability'], claims=graph['claims'], repository_root=repository_root)
-    for stage, field in {
-        'world_state': 'local_world_model', 'transformation': 'transformation_ledger',
-        'recursion': 'recursive_lineage', 'forecast': 'forecast', 'action_choice': 'action_ranking',
-    }.items():
-        if packet['applicability'][stage]['status'] == 'applicable':
-            value = packet.get(field)
-            if not isinstance(value, Mapping) or not value:
-                raise ValueError(f'{stage} consumer requires substantive {field} inputs')
-            if stage == 'world_state':
-                validate_world_stage(value, evidence_ledger=packet['evidence'], retrieval_index=packet['retrieval'], repository_root=repository_root)
-            else:
-                raise ValueError(f'{stage} version-four production consumer is not integrated')
     ledger = packet['evidence']
     errors = validate_evidence_ledger(dict(ledger), dict(packet['retrieval']))
     if errors:
@@ -159,7 +185,22 @@ def require_packet_contract_v4(
                 if row[field] != actual[field]:
                     raise ValueError('claim graph material differs from the actual evidence ledger')
     validate_answer_basis_references(packet, evidence_ledger=ledger)
-    validate_visibility_ledger(packet, privacy_contract=run_contract.get('privacy_contract') if run_contract else None)
+    from .stage_consumers_v4 import validate_stage_chain_v4
+    stage_contract = run_contract or {**dict(binding), 'problem_contract': problem}
+    checked_stages = validate_stage_chain_v4(packet, run_contract=stage_contract, repository_root=repository_root)
+    outcomes = {stage: row['result'] for stage, row in checked_stages['stage_results'].items()}
+    if packet.get('stage_outcomes') != outcomes:
+        raise ValueError('stage outcomes differ from freshly recomputed semantic inputs')
+    if 'domain_trace' in packet:
+        from .domain_pipeline_v4 import validate_domain_inputs
+        domain = packet.get('domain_binding')
+        if not isinstance(domain, Mapping) or not isinstance(domain.get('plan'), Mapping):
+            raise ValueError('domain packet requires its frozen runtime binding')
+        checked = validate_domain_inputs(domain['plan'], packet['domain_trace'], graph=graph, run_contract=stage_contract, repository_root=repository_root, verified_instance_results=registry)
+        if {key: value for key, value in domain.items() if key != 'plan'} != checked or packet.get('domain_read_trace') != checked['read_trace']:
+            raise ValueError('domain packet differs from freshly reread domain content and semantic inputs')
+    elif any(field in packet for field in ('domain_binding', 'domain_read_trace')):
+        raise ValueError('domain runtime outcomes require their actual author semantic inputs')
 
 
-__all__ = ('build_analysis_packet_v4', 'require_packet_contract_v4', 'validate_world_stage')
+__all__ = ('build_analysis_packet_v4', 'prepare_analysis_packet_v4', 'require_packet_contract_v4', 'validate_world_stage')

@@ -2644,6 +2644,9 @@ def materialize_run(
 def status_run(run_dir: Path) -> dict[str, Any]:
     run_dir = _resolve_run_directory(run_dir)
     request = read_json(run_dir / "run-contract.json")
+    if request.get('schema_version') == 4:
+        from .materialization_v4 import status_run_v4
+        return status_run_v4(run_dir)
     _require_mutable_contract_profile(request)
     records, errors = validate_phase_chain(run_dir)
     status = _status_from_records(run_dir, records, request)

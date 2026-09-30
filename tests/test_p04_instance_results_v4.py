@@ -142,8 +142,20 @@ def packet_inputs():
 
 def test_packet_constructor_recomputes_actual_formal_results_and_rejects_tampering():
     from xi_kari_runtime.contracts import build_analysis_packet, require_packet_contract
+    from xi_kari_runtime.packet_v4 import prepare_analysis_packet_v4
+    from xi_kari_runtime.semantic_projection import semantic_atom_paths
     semantic, contract = packet_inputs()
-    packet = build_analysis_packet(semantic, run_contract=contract, repository_root=Path(__file__).resolve().parents[1])
+    root = Path(__file__).resolve().parents[1]
+    pending = prepare_analysis_packet_v4(semantic, run_contract=contract, repository_root=root)
+    with pytest.raises(ValueError, match='visibility'):
+        require_packet_contract(pending, mode=contract['mode'], run_contract=contract)
+    explicit = {'entries': [
+        {'canonical_path': path, 'classification': 'public', 'disclosure': 'include',
+         'purpose': 'bounded source-scope analysis', 'authority_refs': [], 'protection_reason': None}
+        for path in semantic_atom_paths(pending)
+    ]}
+    packet = build_analysis_packet(semantic, run_contract=contract, repository_root=root,
+        reader_finalization={'reader_sections': semantic['reader_sections'], 'visibility_ledger': explicit})
     assert packet['claim_mechanism_graph']['claims'][0]['formal_qualification']['status'] == 'qualified'
     assert packet['formal_results']['instance_results'][root_contract()['instance_id']]['result']['result_state'] == 'supported'
     packet['formal_results']['instance_results'][root_contract()['instance_id']]['result']['result_state'] = 'null_supported'
