@@ -39,6 +39,7 @@
         "transformation-ledger",
         "cascade",
         "claim-mechanism-graph",
+        "causal-results",
         "case-ledger",
         "recursive-lineage",
         "semantic-authoring-bundle",

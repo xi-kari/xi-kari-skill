@@ -281,6 +281,7 @@ def _expected_root_ids_v4(relative: str) -> set[str] | None:
         AUTHOR_EXECUTIONS_RELATIVE: {'xi-kari.v4.production-author-executions'},
         'authoring/XK04-domain-binding.json': {'xi-kari.v4.production-phase-artifact'},
         'authoring/XK04-domain-read-plan.json': {'xi-kari.v4.domain-read-plan'},
+        'authoring/XK07-causal-results.json': {'xi-kari.v4.production-phase-artifact'},
         'artifacts/artifact-manifest.json': {'xi-kari.v4.artifact-manifest'},
         DELIVERY_PATHS['final_chat']: {'xi-kari.v4.final-chat'},
         COMPLETION_RELATIVE: {'xi-kari.v4.completion'},
@@ -432,6 +433,14 @@ def build_semantic_phase_artifacts_v4(packet: Mapping[str, Any], *, contract: Ma
     add('XK6', 'XK06-transformation-ledger', 'transformation-ledger', packet.get('transformation_ledger'), stages['transformation'])
     add('XK6', 'XK06-cascade', 'cascade', packet.get('cascade'), stages['transformation'])
     add('XK7', 'XK07-claim-mechanism-graph', 'claim-mechanism-graph', packet['claim_mechanism_graph'], graph)
+    if 'causal_assessments' in packet:
+        from .causal_results_v4 import recompute_causal_results_v4
+        causal = recompute_causal_results_v4(packet['causal_assessments'], graph=graph, empirical_instances=packet.get('empirical_instances', []), derived_instances=packet.get('derived_instances', []), mode=contract['mode'], repository_root=repository_root)
+        if causal != packet.get('causal_results'):
+            raise ValueError('version-four causal outcomes differ from actual scoped assessments')
+    else:
+        causal = {'assessments': [], 'status': 'not_requested'}
+    add('XK7', 'XK07-causal-results', 'causal-results', packet.get('causal_assessments'), causal)
     add('XK7', 'XK07-case-ledger', 'case-ledger', packet['case_ledger'], {'case_count': len(packet['case_ledger'].get('cases', [])), 'cases': packet['cases']})
     add('XK8', 'XK08-recursive-lineage', 'recursive-lineage', {'lineage': packet.get('recursive_lineage'), 'states': packet.get('recursive_states')}, stages['recursion'])
     requires_probes = any(row['status'] == 'applicable' for row in packet['applicability'].values())
@@ -474,6 +483,8 @@ def expected_phase_paths_v4(phase: str, *, mode: str, run_dir: Path | None = Non
         paths.extend((ONTOLOGY_TRACE_INPUT_RELATIVE, 'authoring/XK04-domain-binding.json'))
         if run_dir is not None and (run_dir / 'authoring/XK04-domain-read-plan.json').is_file():
             paths.append('authoring/XK04-domain-read-plan.json')
+    if phase == 'XK7':
+        paths.append('authoring/XK07-causal-results.json')
     if phase == 'XK2':
         paths.append(AUTHOR_EXECUTIONS_RELATIVE)
         if run_dir is not None and (run_dir / AUTHOR_EXECUTIONS_RELATIVE).is_file():
