@@ -202,10 +202,14 @@ def test_v90_domain_index_establishes_identities_without_faking_p11_content() ->
     assert entries[-1]["source_anchors"][0] == "V90-P04292"
     for entry in entries:
         assert entry["candidate_ids"]
-        assert entry["content_status"] == "identity_only"
-        assert entry["content_path"] is None
-        assert entry["content_sha256"] is None
-        assert entry["read_trace_status"] == "not_yet_available"
+        relative = f"references/learning-packs/domains/{entry['domain_id']}.md"
+        raw = (ROOT / relative).read_bytes()
+        assert raw.decode("utf-8").startswith(f"# {entry['domain_id']} ")
+        assert entry["content_status"] == "available"
+        assert entry["content_path"] == relative
+        assert entry["content_sha256"] == sha256(raw).hexdigest()
+        assert entry["read_trace_status"] == "requires_run_trace"
+        assert not {"content_witness", "problem_relation", "reader_responsibilities", "trace_sha256"}.intersection(entry)
         assert len(entry["source_anchors"]) >= 7
         primary = candidates[entry["primary_candidate_id"]]
         assert primary["domain_id"] == entry["domain_id"]

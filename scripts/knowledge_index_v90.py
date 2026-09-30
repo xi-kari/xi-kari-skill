@@ -691,6 +691,28 @@ def _render_learning_pack(
     return ("\n".join(lines).rstrip() + "\n").encode("utf-8")
 
 
+def _domain_content_binding(root: Path, domain_id: str) -> tuple[dict[str, Any] | None, list[str]]:
+    if not isinstance(domain_id, str) or re.fullmatch(r"D\.(?:0[1-9]|[12]\d|3[0-2])", domain_id) is None:
+        return None, ["v9.0 domain content has an invalid identity"]
+    relative = f"references/learning-packs/domains/{domain_id}.md"
+    boundary = root.resolve()
+    path = boundary
+    for part in Path(relative).parts:
+        path = path / part
+        if path.is_symlink() or (hasattr(path, "is_junction") and path.is_junction()):
+            return None, [f"{domain_id}: domain content path contains a symlink or junction"]
+    try:
+        path.resolve(strict=True).relative_to(boundary)
+        raw = path.read_bytes()
+        text = raw.decode("utf-8")
+    except (OSError, ValueError, UnicodeDecodeError):
+        return None, [f"{domain_id}: domain content is missing, unreadable or outside the repository"]
+    if not text.startswith(f"# {domain_id} "):
+        return None, [f"{domain_id}: domain content title does not match its identity"]
+    return {"content_status": "available", "content_path": relative,
+        "content_sha256": sha256(raw).hexdigest(), "read_trace_status": "requires_run_trace"}, []
+
+
 def _render_outputs(
     root: Path,
     profile: Any,
@@ -763,6 +785,10 @@ def _render_outputs(
 
     domain_entries = []
     for domain in domains:
+        content_binding, content_errors = _domain_content_binding(root, domain["domain_id"])
+        errors.extend(content_errors)
+        if content_binding is None:
+            continue
         fingerprint_payload = {
             "domain_id": domain["domain_id"],
             "source_refs": domain["source_refs"],
@@ -774,10 +800,7 @@ def _render_outputs(
                 "source_fingerprint_sha256": sha256(
                     _canonical(fingerprint_payload)
                 ).hexdigest(),
-                "content_status": "identity_only",
-                "content_path": None,
-                "content_sha256": None,
-                "read_trace_status": "not_yet_available",
+                **content_binding,
             }
         )
     domain_index = {

@@ -331,7 +331,8 @@ def validate_domain_run(repository: Path, run_directory: Path, *,
 
 def build_domain_claim_links(repository: Path, plan: Mapping[str, Any],
         trace: Mapping[str, Any], claim_graph: Mapping[str, Any],
-        links: Sequence[Mapping[str, Any]], *, evidence_mode: str = "open-world") -> dict[str, Any]:
+        links: Sequence[Mapping[str, Any]], *, evidence_mode: str = "open-world",
+        verified_instance_results: Mapping[str, Any] | None = None) -> dict[str, Any]:
     """Bind domain method use to P04 claims without manufacturing evidence or status."""
     from .claims import validate_claim_graph
 
@@ -360,7 +361,7 @@ def build_domain_claim_links(repository: Path, plan: Mapping[str, Any],
         normalized_links.append(deepcopy(dict(link)))
     try:
         checked = validate_claim_graph(claim_graph, evidence_mode=evidence_mode,
-                                       repository_root=Path(repository))
+            repository_root=Path(repository), verified_instance_results=verified_instance_results)
     except ValueError as exc:
         raise DomainReadError("public P04 validation rejected a domain-linked claim graph") from exc
     value = {"schema_id": "xi-kari.v4.domain-claim-links", "schema_version": 1,
@@ -373,18 +374,21 @@ def build_domain_claim_links(repository: Path, plan: Mapping[str, Any],
 
 def validate_domain_claim_links(repository: Path, plan: Mapping[str, Any],
         trace: Mapping[str, Any], claim_graph: Mapping[str, Any], binding: Mapping[str, Any],
-        *, evidence_mode: str = "open-world") -> None:
+        *, evidence_mode: str = "open-world",
+        verified_instance_results: Mapping[str, Any] | None = None) -> None:
     if not isinstance(binding, Mapping):
         raise DomainReadError("domain claim-link binding is invalid")
     expected = build_domain_claim_links(repository, plan, trace, claim_graph,
-        binding.get("links"), evidence_mode=evidence_mode)
+        binding.get("links"), evidence_mode=evidence_mode,
+        verified_instance_results=verified_instance_results)
     if expected != dict(binding):
         raise DomainReadError("domain claim-link binding differs from the current claim graph")
 
 
 def validate_domain_claim_run(repository: Path, run_directory: Path, *,
         problem_contract_sha256: str, run_id: str,
-        evidence_mode: str = "open-world", claim_graph_path: str = "claim-mechanism-graph.json") -> dict[str, Any]:
+        evidence_mode: str = "open-world", claim_graph_path: str = "claim-mechanism-graph.json",
+        verified_instance_results: Mapping[str, Any] | None = None) -> dict[str, Any]:
     """Re-read the materialized P04 graph and links after domain/prose validation."""
     result = validate_domain_run(repository, run_directory,
         problem_contract_sha256=problem_contract_sha256, run_id=run_id)
@@ -393,6 +397,7 @@ def validate_domain_claim_run(repository: Path, run_directory: Path, *,
     trace = _json(_bytes(run, "domain-read-trace.json"), "materialized trace")
     graph = _json(_bytes(run, claim_graph_path), "materialized P04 claim graph")
     binding = _json(_bytes(run, "domain-claim-links.json"), "materialized P04 domain links")
-    validate_domain_claim_links(repository, plan, trace, graph, binding, evidence_mode=evidence_mode)
+    validate_domain_claim_links(repository, plan, trace, graph, binding, evidence_mode=evidence_mode,
+        verified_instance_results=verified_instance_results)
     return {**result, "claim_graph_sha256": binding["claim_graph_sha256"],
         "claim_links_sha256": binding["binding_sha256"]}

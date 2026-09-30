@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://xi-kari.local/schemas/domain-index-v90.schema.json",
-  "title": "Xi-Kari v9.0 domain identity index",
+  "title": "Xi-Kari v9.0 domain content and source identity index",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -74,10 +74,10 @@
         "contract": {"type": "string", "minLength": 1},
         "required_runtime_evidence": {"type": "array", "minItems": 1, "uniqueItems": true},
         "source_fingerprint_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
-        "content_status": {"const": "identity_only"},
-        "content_path": {"type": "null"},
-        "content_sha256": {"type": "null"},
-        "read_trace_status": {"const": "not_yet_available"}
+        "content_status": {"const": "available"},
+        "content_path": {"type": "string", "pattern": "^references/learning-packs/domains/D\\.(?:0[1-9]|[12]\\d|3[0-2])\\.md$"},
+        "content_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "read_trace_status": {"const": "requires_run_trace"}
       }
     }
   }
