@@ -13,6 +13,7 @@ from xi_kari_runtime import domains, prose
 from xi_kari_runtime.canonical_json import sha256_file
 from xi_kari_runtime.coverage import build_semantic_coverage
 from xi_kari_runtime.semantic_projection import (
+    reader_projection_units, semantic_projection_units,
     semantic_atom_paths, substantive_semantic_atoms, typed_semantic_atoms,
     validate_reader_sections, validate_visibility_ledger,
 )
@@ -228,3 +229,65 @@ def test_full_chat_accepts_the_same_safe_withholding_text_as_the_full_file(domai
         source_bindings=[{'source_path': path, 'paragraph_index': 0, 'excerpt': boundary}])
     full = prose.render_answer(payload)
     assert prose.render_chat_projection(payload) == full
+
+
+def test_code_rebuilt_empirical_inputs_and_results_require_visibility_and_body_bindings():
+    from tests.test_causal_judgment_v4_graph import empirical_graph
+    from tests.test_causal_judgment_instances import root_contract, root_result
+    from xi_kari_runtime.empirical_instances import EvaluatedInstanceRegistry, freeze_empirical_instance
+
+    graph = empirical_graph()
+    preregistration, evaluation = root_contract(), root_result()
+    evaluation.update(evidence_claim_ids=['CLAIM-FACTUAL'], analysis_artifact_claim_ids=['CLAIM-FACTUAL'],
+        prerequisite_claim_ids={key: ['CLAIM-FACTUAL'] for key in evaluation['prerequisite_claim_ids']},
+        null_gate_claim_ids={key: ['CLAIM-FACTUAL'] for key in evaluation['null_gate_claim_ids']},
+        dimension_claim_ids={'delay': ['CLAIM-FACTUAL']})
+    registry = EvaluatedInstanceRegistry(
+        [{'frozen': freeze_empirical_instance(preregistration), 'evaluation': evaluation}], graph=graph)
+    payload = {'schema_version': 4,
+        'empirical_instances': [{'preregistration': preregistration, 'evaluation': evaluation}],
+        'formal_results': {'source_version': 'v9.0', 'source_revision': 'a' * 64,
+            'claim_input_sha256': registry.graph_sha256, 'instance_inputs_sha256': registry.inputs_sha256,
+            'instance_results': dict(registry)},
+        'reader_sections': [{'section_id': 'ordinary', 'heading': '普通结论的范围',
+            'local_judgment': '观测支持有限结果。',
+            'paragraphs': ['它没有替代正式实例的逐项责任。'], 'source_bindings': []}]}
+    paths = set(semantic_atom_paths(payload))
+    required = {
+        'empirical_instances[0].preregistration.selected_success_criterion',
+        'empirical_instances[0].evaluation.metrics.controlled_perturbation_effect',
+        'formal_results.instance_results[0].qualification',
+        'formal_results.instance_results[0].result.result_state',
+        'formal_results.instance_results[0].result.observed_primary_result',
+    }
+    assert required <= paths
+    assert not any(path.endswith(('_hash', '_sha256', '.source_revision')) for path in paths)
+    visibility(payload)
+    validate_visibility_ledger(payload)
+    errors = validate_reader_sections(payload)
+    assert all(any(path in error for error in errors) for path in required)
+    payload['visibility_ledger']['entries'] = [entry for entry in payload['visibility_ledger']['entries']
+        if entry['canonical_path'] != 'formal_results.instance_results[0].qualification']
+    with pytest.raises(ValueError, match='missing semantic atom'):
+        prose.render_answer(payload)
+
+
+def test_domain_responsibility_units_preserve_costs_and_counterarguments(domain_trace):
+    payload = domain_body(domain_trace)
+    path = 'domain_read_trace.records[0].reader_responsibilities.costs_exit'
+    units = reader_projection_units(payload)
+    text = '\n'.join(fragment for unit in units for fragment in unit['fragments'])
+    assert '追加重建会增加成本，目标任务完成时可以退出。' in text
+    assert '同一输出仍可能对应不同隐藏状态。' in text
+    assert path in {path for unit in units for path in unit['source_paths']}
+    audit_units = semantic_projection_units(payload)
+    assert path in {atom['canonical_path'] for unit in audit_units for atom in unit['atoms']}
+
+
+def test_typed_protection_text_cannot_repeat_a_private_numeric_value():
+    payload = visibility({'schema_version': 4, 'forecast': {'private_metric': 0.742938}})
+    protect(payload, 'forecast.private_metric')
+    payload['visibility_ledger']['entries'][0]['protection_reason'] = '私密估计0.742938未授权披露'
+    with pytest.raises(ValueError) as caught:
+        typed_semantic_atoms(payload)
+    assert '0.742938' not in str(caught.value)

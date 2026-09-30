@@ -17,6 +17,7 @@ _SKIP_KEYS = {
     "schema_id",
     "schema_version",
     "source_version",
+    "source_revision",
     "ontology_refs",
     "source_anchors",
     "run_id",
@@ -24,7 +25,7 @@ _SKIP_KEYS = {
     "visibility_ledger",
     "evidence_state",
 }
-_SKIP_SUFFIXES = ("_sha256",)
+_SKIP_SUFFIXES = ("_sha256", "_hash")
 _ID_PREFIX_LABELS = {
     "ACTOR": "行动者",
     "BRANCH": "分支",
@@ -252,7 +253,7 @@ _ENUM_LABELS.update({
     'applies_to': '规范或程序适用范围',
     'native_exit': '本题由领域方法独立完成',
 })
-_REGISTRY_FIELDS = {"recursive_states"}
+_REGISTRY_FIELDS = {"recursive_states", "instance_results"}
 _DELIVERY_VISIBILITY_ROOTS = (
     "problem_contract",
     "applicability",
@@ -393,8 +394,10 @@ def _atom(
     classification = str(entry.get("classification", "public"))
     disclosure = str(entry.get("disclosure", "include"))
     label = _field_label(key)
-    if disclosure == "withhold":
+    if disclosure == "withhold" or classification != 'public':
         reason = str(entry.get("protection_reason") or "披露风险超过本题的信息价值")
+        if _protected_value_in_text(value, reason):
+            raise ValueError('protection_reason contains a withheld atom')
         public_text = f"{label}：为保护而不公开（{reason}）"
         projection_status = "withheld_for_protection"
     else:
@@ -510,6 +513,7 @@ def semantic_projection_units(payload: Mapping[str, Any]) -> list[dict[str, Any]
 
     if payload.get("dynamic_applicability") == "not_applicable" and not isinstance(payload.get('applicability'), Mapping):
         return []
+    validate_visibility_ledger(payload)
     aliases = _alias_book(payload)
     visibility = _visibility_entries(payload)
     units: list[dict[str, Any]] = []
@@ -545,6 +549,9 @@ def semantic_projection_units(payload: Mapping[str, Any]) -> list[dict[str, Any]
         payload.get('applicability'),
         base_path='applicability',
     )
+    for root, value in projection_roots(payload).items():
+        add(f'semantic.{root}', 'v4_responsibility', '实例与领域的依据和边界',
+            value, base_path=root, key=root)
     add(
         "semantic.omega",
         "local_world_model",
@@ -1182,8 +1189,38 @@ def _identity_value(
     )
 
 
-def _v4_reader_units(payload: Mapping[str, Any], aliases: Mapping[str, str]) -> list[dict[str, Any]]:
+def _domain_reader_units(payload: Mapping[str, Any], aliases: Mapping[str, str]) -> list[dict[str, Any]]:
     units: list[dict[str, Any]] = []
+    roots = projection_roots(payload)
+    for root in ('domain_read_trace', 'domain_usage'):
+        value = roots.get(root)
+        records = value.get('records', []) if isinstance(value, Mapping) else value
+        if not isinstance(records, list):
+            continue
+        for index, record in enumerate(records):
+            if not isinstance(record, Mapping):
+                continue
+            base = f'{root}.records[{index}]' if isinstance(value, Mapping) else f'{root}[{index}]'
+            relation = record.get('problem_relation', {})
+            status = _reader_value(relation.get('status'), f'{base}.problem_relation.status', aliases)
+            reason = _reader_value(relation.get('rationale'), f'{base}.problem_relation.rationale', aliases)
+            fragments = [_reader_fragment(f'{status.text}；{reason.text}', status, reason)]
+            responsibilities = record.get('reader_responsibilities', {})
+            for field in ('native_method', 'additional_distinction', 'inputs_outputs',
+                          'limits_counterargument', 'costs_exit'):
+                content = _reader_value(responsibilities.get(field),
+                    f'{base}.reader_responsibilities.{field}', aliases)
+                if content.exact_source_paths:
+                    fragments.append(_reader_fragment(content.text, content))
+            unit = _reader_unit(f'reader.{root}.{index + 1}', 'domain_responsibility',
+                                '本题的领域方法、反方和退出边界', fragments)
+            if unit is not None:
+                units.append(unit)
+    return units
+
+
+def _v4_reader_units(payload: Mapping[str, Any], aliases: Mapping[str, str]) -> list[dict[str, Any]]:
+    units: list[dict[str, Any]] = _domain_reader_units(payload, aliases)
     stages = payload.get('applicability')
     if isinstance(stages, Mapping):
         names = {
