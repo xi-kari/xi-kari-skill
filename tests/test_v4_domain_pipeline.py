@@ -259,14 +259,14 @@ def test_fabricated_formal_registry_is_rejected_by_actual_public_graph_validator
 
 
 def test_genuine_graph_bound_instance_registry_validates_final_qualification_and_disk_binding(api, tmp_path):
-    from tests.test_p04_instance_results_v4 import requested_graph, instance_inputs
+    from tests.test_p04_instance_results_v4 import requested_graph, observed_instance_inputs
     from xi_kari_runtime.formal_results import bind_formal_claim_results, rebuild_instance_registry
     from xi_kari_runtime.canonical_json import sha256_json
-    inputs = instance_inputs()
+    inputs, audit = observed_instance_inputs(tmp_path)
     input_graph = requested_graph()
     graph = bind_formal_claim_results(input_graph, empirical_instances=inputs,
-        repository_root=ROOT)["claim_mechanism_graph"]
-    registry = rebuild_instance_registry(inputs, graph=input_graph, repository_root=ROOT)
+        repository_root=ROOT, temporal_audit=audit)["claim_mechanism_graph"]
+    registry = rebuild_instance_registry(inputs, graph=input_graph, repository_root=ROOT, temporal_audit=audit)
     prepared = _prepare(api, ROOT, ("D.04",))
     authored = _author_trace(prepared)
     authored["claim_links"][0]["claim_ids"] = [graph["claims"][0]["claim_id"]]

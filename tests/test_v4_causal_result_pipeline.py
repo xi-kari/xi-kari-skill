@@ -13,7 +13,7 @@ import pytest
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 
-from tests.test_p04_instance_results_v4 import requested_graph, instance_inputs
+from tests.test_p04_instance_results_v4 import requested_graph, instance_inputs, observed_instance_inputs
 from tests.test_causal_judgment_effects import history_contract, history_result
 from xi_kari_runtime import claims
 from xi_kari_runtime.canonical_json import sha256_json
@@ -51,15 +51,23 @@ def inputs(*, hard_root=False):
     return qualified, empirical, [assessment]
 
 
-def recompute(api, graph, empirical, assessments, *, derived=()):
+def audited_inputs(tmp_path, *, hard_root=False):
+    graph, empirical, assessments = inputs(hard_root=hard_root)
+    empirical, audit = observed_instance_inputs(tmp_path, empirical)
+    graph = bind_formal_claim_results(claim_graph_input(graph), empirical_instances=empirical,
+        repository_root=ROOT, temporal_audit=audit)["claim_mechanism_graph"]
+    return graph, empirical, assessments, audit
+
+
+def recompute(api, graph, empirical, assessments, *, derived=(), temporal_audit=None):
     return api.recompute_causal_results_v4(assessments, graph=graph, empirical_instances=empirical,
-        derived_instances=derived, mode="open-world", repository_root=ROOT)
+        derived_instances=derived, mode="open-world", repository_root=ROOT, temporal_audit=temporal_audit)
 
 
-def test_real_g2_qualified_graph_keeps_total_effect_after_local_mechanism_failure(api):
-    graph, empirical, assessments = inputs()
+def test_real_g2_qualified_graph_keeps_total_effect_after_local_mechanism_failure(api, tmp_path):
+    graph, empirical, assessments, audit = audited_inputs(tmp_path)
     before = deepcopy((graph, empirical, assessments))
-    result = recompute(api, graph, empirical, assessments)
+    result = recompute(api, graph, empirical, assessments, temporal_audit=audit)
     json.dumps(result, allow_nan=False)
     assert set(result) == {"claim_graph_sha256", "assessments_sha256", "assessments", "empirical_instances", "derived_instances"}
     assert result["claim_graph_sha256"] == sha256_json(graph)
@@ -73,33 +81,33 @@ def test_real_g2_qualified_graph_keeps_total_effect_after_local_mechanism_failur
     assert (graph, empirical, assessments) == before
 
 
-def test_actual_registry_supplies_formal_premise_to_causal_constraints(api):
-    graph, empirical, assessments = inputs(hard_root=True)
+def test_actual_registry_supplies_formal_premise_to_causal_constraints(api, tmp_path):
+    graph, empirical, assessments, audit = audited_inputs(tmp_path, hard_root=True)
     assessments.append({"assessment_id": "MEASURE-ROOT", "kind": "measurement", "record": {
         "construct": "registered structural use", "indicator": "task delay", "indicator_role": "direct_record",
         "unit": "hours", "version": "v1", "selection_mechanism": "registered team",
         "recording_mechanism": "registered observations", "reporting_mechanism": "all outcomes",
         "indicator_claim_ids": ["CLAIM-FACTUAL"], "construct_claim_ids": ["CLAIM-STRUCTURAL"],
         "cross_group_comparison": False, "cross_time_comparison": False}})
-    result = recompute(api, graph, empirical, assessments)
+    result = recompute(api, graph, empirical, assessments, temporal_audit=audit)
     assert result["assessments"][1]["result"]["construct"] == "supported"
-    registry = rebuild_instance_registry(empirical, graph=graph, repository_root=ROOT)
+    registry = rebuild_instance_registry(empirical, graph=graph, repository_root=ROOT, temporal_audit=audit)
     frozen = [{"frozen": freeze_empirical_instance(item["preregistration"]), "evaluation": item["evaluation"]} for item in empirical]
     assert claims.validate_causal_assessments(assessments, claim_mechanism_graph=graph,
-        empirical_instances=frozen, repository_root=ROOT, verified_instance_results=registry) == result
+        empirical_instances=frozen, repository_root=ROOT, verified_instance_results=registry, temporal_audit=audit) == result
     with pytest.raises(claims.ClaimMechanismError, match="registry|verified|evaluated"):
         claims.validate_causal_assessments(assessments, claim_mechanism_graph=graph,
-            empirical_instances=frozen, repository_root=ROOT, verified_instance_results=dict(registry))
+            empirical_instances=frozen, repository_root=ROOT, verified_instance_results=dict(registry), temporal_audit=audit)
 
 
-def test_changed_prerequisite_rejects_stale_qualified_graph_but_preserves_ordinary_effect_after_rebinding(api):
-    graph, empirical, assessments = inputs()
+def test_changed_prerequisite_rejects_stale_qualified_graph_but_preserves_ordinary_effect_after_rebinding(api, tmp_path):
+    graph, empirical, assessments, audit = audited_inputs(tmp_path)
     empirical[0]["evaluation"]["prerequisite_claim_ids"] = {}
     with pytest.raises(ValueError):
-        recompute(api, graph, empirical, assessments)
+        recompute(api, graph, empirical, assessments, temporal_audit=audit)
     unqualified = bind_formal_claim_results(claim_graph_input(graph), empirical_instances=empirical,
-        repository_root=ROOT)["claim_mechanism_graph"]
-    result = recompute(api, unqualified, empirical, assessments)
+        repository_root=ROOT, temporal_audit=audit)["claim_mechanism_graph"]
+    result = recompute(api, unqualified, empirical, assessments, temporal_audit=audit)
     assert unqualified["claims"][0]["formal_qualification"]["status"] == "unqualified"
     assert result["empirical_instances"][0]["qualification"] == "unqualified"
     assert result["assessments"][0]["result"]["total_effect"] == "supported"
@@ -168,11 +176,11 @@ def test_all_six_native_record_shapes_recompute_without_word_quota_or_output_fla
 
 
 def test_fresh_process_rejects_changed_disk_prerequisite_after_success(api, tmp_path):
-    graph, empirical, assessments = inputs()
+    graph, empirical, assessments, audit = audited_inputs(tmp_path)
     for name, value in (("graph.json", graph), ("instances.json", empirical), ("assessments.json", assessments)):
         (tmp_path / name).write_text(json.dumps(value), encoding="utf-8")
-    program = "import json,sys;from pathlib import Path;from xi_kari_runtime.causal_results_v4 import recompute_causal_results_v4;r=Path(sys.argv[1]);print(json.dumps(recompute_causal_results_v4(json.loads((r/'assessments.json').read_text()),graph=json.loads((r/'graph.json').read_text()),empirical_instances=json.loads((r/'instances.json').read_text()),mode='open-world',repository_root=Path(sys.argv[2]))))"
-    command = [sys.executable, "-B", "-c", program, str(tmp_path), str(ROOT)]
+    program = "import json,sys;from pathlib import Path;from xi_kari_runtime.temporal_audit import load_temporal_audit;from xi_kari_runtime.causal_results_v4 import recompute_causal_results_v4;r=Path(sys.argv[1]);audit=load_temporal_audit(Path(sys.argv[3]),expected_audit_sha256=sys.argv[4]);print(json.dumps(recompute_causal_results_v4(json.loads((r/'assessments.json').read_text()),graph=json.loads((r/'graph.json').read_text()),empirical_instances=json.loads((r/'instances.json').read_text()),mode='open-world',repository_root=Path(sys.argv[2]),temporal_audit=audit)))"
+    command = [sys.executable, "-B", "-c", program, str(tmp_path), str(ROOT), str(audit.run_dir), audit.expected_audit_sha256]
     environment = dict(os.environ, PYTHONPATH=str(ROOT / "scripts"), PYTHONDONTWRITEBYTECODE="1")
     before = subprocess.run(command, cwd=tmp_path, env=environment, capture_output=True, text=True)
     assert before.returncode == 0, before.stderr
