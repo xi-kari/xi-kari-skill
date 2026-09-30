@@ -303,9 +303,11 @@ def empirical_scale_inputs():
     return packet,contract
 
 
-def test_public_scale_root_uses_actual_preregistration_evaluation_and_P07_identity():
+def test_public_scale_root_uses_actual_preregistration_evaluation_and_P07_identity(tmp_path):
+    from tests.test_p04_instance_results_v4 import observed_instance_inputs
     packet,contract=empirical_scale_inputs()
-    result=validate_stage_chain_v4(packet,run_contract=contract,repository_root=ROOT)
+    packet['empirical_instances'],audit=observed_instance_inputs(tmp_path,packet['empirical_instances'])
+    result=validate_stage_chain_v4(packet,run_contract=contract,repository_root=ROOT,temporal_audit=audit)
     scale=result['stage_results']['transformation']['result']
     assert scale['root_results'][0]['ROOT-CHAIN']['eligibility_status']=='eligible'
     assert scale['root_results'][0]['ROOT-CHAIN']['result_state']=='supported'
@@ -327,11 +329,13 @@ def test_root_scope_change_and_missing_P07_object_binding_are_rejected():
         validate_stage_chain_v4(packet,run_contract=contract,repository_root=ROOT)
 
 
-def test_real_instance_registry_reaches_forecast_and_choice_without_clearing_hard_edges():
+def test_real_instance_registry_reaches_forecast_and_choice_without_clearing_hard_edges(tmp_path):
     from tests.test_causal_judgment_instances import root_contract,root_result
+    from tests.temporal_materials import record_temporal_inputs
     packet,contract=dynamic_inputs(choice=True)
     preregistration,evaluation=root_contract(),root_result()
     evaluation.update(evidence_claim_ids=['CLAIM-RULE'],analysis_artifact_claim_ids=['CLAIM-RULE'],prerequisite_claim_ids={key:['CLAIM-RULE'] for key in evaluation['prerequisite_claim_ids']},null_gate_claim_ids={key:['CLAIM-RULE'] for key in evaluation['null_gate_claim_ids']},dimension_claim_ids={'delay':['CLAIM-RULE']})
+    preregistration,evaluation,audit=record_temporal_inputs(tmp_path,preregistration,evaluation)
     packet['empirical_instances']=[{'preregistration':preregistration,'evaluation':evaluation}]
     graph=packet['claim_mechanism_graph']
     factual=next(row for row in graph['claims'] if row['claim_id']=='CLAIM-RULE')
@@ -340,12 +344,12 @@ def test_real_instance_registry_reaches_forecast_and_choice_without_clearing_har
     graph['dependency_edges'].append(edge)
     graph['dependency_targets']=[{'kind':'instance','id':preregistration['instance_id'],'status':'passed','reason':'This marker cannot replace the actual root registry'}]
     before=deepcopy(graph['dependency_edges'])
-    result=validate_stage_chain_v4(packet,run_contract=contract,repository_root=ROOT)
+    result=validate_stage_chain_v4(packet,run_contract=contract,repository_root=ROOT,temporal_audit=audit)
     assert result['stage_results']['action_choice']['result']['comparison']['permission_effect']=='none'
     assert graph['dependency_edges']==before
     packet['empirical_instances'][0]['evaluation']['prerequisite_claim_ids']={}
     with pytest.raises(ValueError):
-        validate_stage_chain_v4(packet,run_contract=contract,repository_root=ROOT)
+        validate_stage_chain_v4(packet,run_contract=contract,repository_root=ROOT,temporal_audit=audit)
 
 
 def test_failed_branch_premise_blocks_dependent_next_author_and_all_downstream_orders():
