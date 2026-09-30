@@ -32,6 +32,7 @@ from .validation_v4 import (
     validate_authoring_replay_v4, validate_preparation_v4, validate_run_v4,
     validate_terminal_closure_v4, checked_execution_v4, domain_plan_v4, prepare_packet_v4,
     probe_outcomes_v4, recursive_author_targets_v4, replay_author_executions_v4,
+    validation_execution_for_report_v4,
 )
 
 
@@ -89,7 +90,7 @@ def _author_input_v4(run_dir: Path, semantic_base: Mapping[str, Any], *, contrac
     )
     from .stage_consumers_v4 import validate_stage_chain_v4
     semantic = deepcopy(dict(semantic_base))
-    domain = domain_plan_v4(run_dir)
+    domain = domain_plan_v4(run_dir, repository_root=repository_root)
     pending = prepare_packet_v4(semantic, contract=contract, repository_root=repository_root, domain_read_plan=domain)
     controls = validate_stage_chain_v4(pending, run_contract=contract, repository_root=repository_root)
     bundle = {
@@ -260,12 +261,16 @@ def _complete(run_dir: Path, *, packet: Mapping[str, Any], contract: Mapping[str
         promotion = run_fresh_validator_v4(candidate, repository_root=repository_root, promotion=True)
         if not promotion['valid']:
             raise ValueError('version-four fresh promotion validation failed')
+        promotion_execution = validation_execution_for_report_v4(candidate, promotion, boundary='promotion', repository_root=repository_root)
+        promotion_directory = Path(promotion_execution).parent
+        shutil.copytree(candidate / promotion_directory, run_dir / promotion_directory)
         transaction = _begin_xk12_transaction(run_dir, candidate)
         transaction = _promote_xk12_candidate(run_dir, candidate, transaction)
         _set_state(run_dir, 'in_progress', next_phase='XK12')
         official = run_fresh_validator_v4(run_dir, repository_root=repository_root, official=True)
         if not official['valid']:
             raise ValueError('version-four fresh official validation failed')
+        official_execution = validation_execution_for_report_v4(run_dir, official, boundary='official', repository_root=repository_root)
         atomic_write_json(run_dir / OFFICIAL_REPORT_RELATIVE, official)
         transaction = _write_xk12_transaction_state(run_dir, transaction, 'official_validated')
         _discard_candidate_v4(run_dir, candidate)
@@ -273,6 +278,8 @@ def _complete(run_dir: Path, *, packet: Mapping[str, Any], contract: Mapping[str
         completion = {
             'schema_id': 'xi-kari.v4.completion', 'schema_version': 4, 'run_id': contract['run_id'],
             'official_validation_path': OFFICIAL_REPORT_RELATIVE, 'official_validation_sha256': sha256_file(run_dir / OFFICIAL_REPORT_RELATIVE),
+            'official_validation_execution_path': official_execution, 'official_validation_execution_sha256': sha256_file(run_dir / official_execution),
+            'promotion_validation_execution_path': promotion_execution, 'promotion_validation_execution_sha256': sha256_file(run_dir / promotion_execution),
             'chain_head_sha256': records[-1]['record_sha256'], 'phase_count': 13, 'validator_set_sha256': contract['validator_set_sha256'],
             'manifest_sha256': sha256_file(run_dir / 'artifacts/artifact-manifest.json'),
             'final_chat_sha256': sha256_file(run_dir / DELIVERY_PATHS['final_chat']),

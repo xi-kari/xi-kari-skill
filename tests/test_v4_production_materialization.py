@@ -399,6 +399,14 @@ def test_explicit_v4_static_production_rebuilds_base_packet_and_seals_actual_dis
     raise SystemExit(0)
 request = json.loads(''')
     program = program.replace('from tests.test_v4_pipeline_e2e_fixtures import static_author_output', 'from tests.test_v4_pipeline_e2e_fixtures import BODY, static_author_output')
+    program = program.replace('if PROTECTED:', '''for index, assessment in enumerate(value["semantic_packet"]["retrieval"]["assessments"]):
+    assessment["cannot_prove"] = ["该合成条文只供程序验证，不能证明现实执行、经验效果或正式实例资格。"]
+    value["semantic_packet"]["visibility_ledger"]["entries"].append({"canonical_path": "retrieval.assessments[" + str(index) + "].cannot_prove[0]", "classification": "public", "disclosure": "include", "purpose": request["privacy_contract"]["purpose"], "authority_refs": [], "protection_reason": None})
+for claim in value["semantic_packet"]["evidence"]["claims"]:
+    for support in claim["support"]:
+        if support.get("summary") == "A source-scope fixture.":
+            support["summary"] = "该合成记录用于验证条文解释的材料范围。"
+if PROTECTED:''')
     provider.write_text(program, encoding='utf-8', newline='\n')
     result = execution.execute_authored_run(transport / 'runs', problem_contract=problem,
         run_id='synthetic-v4-production', repository_root=ROOT,
@@ -414,6 +422,32 @@ request = json.loads(''')
     assert not (run / 'continuation/terminal-authority-key.json').exists()
     assert (run / 'continuation/terminal-record.json').is_file()
     assert all(paragraph in (run / 'delivery/xi-kari-answer.md').read_text('utf-8') for paragraph in BODY)
+    original = read_json(run / 'authoring/XK01-base-authoring-output.bin')
+    limitations = original['semantic_packet']['retrieval']['assessments'][0]['cannot_prove']
+    packet = read_json(run / 'continuation/input-packet.json')
+    index = read_json(run / 'retrieval/index.json')
+    assert packet['retrieval']['assessments'][0]['cannot_prove'] == limitations
+    assert read_json(run / index['sources'][0]['assessment_path'])['cannot_prove'] == limitations
+    assert limitations[0] in (run / 'delivery/xi-kari-answer.md').read_text('utf-8')
+    from xi_kari_runtime.phase_chain import load_phase_records
+    from xi_kari_runtime.validation_v4 import validate_terminal_closure_v4, validation_capture_paths_v4, validation_execution_for_report_v4
+    records = load_phase_records(run)
+    contract = read_json(run / 'run-contract.json')
+    completion = read_json(run / 'continuation/completion.json')
+    preseal = validation_execution_for_report_v4(run, read_json(run / 'validation/attempts/final/validator-report.json'), boundary='preseal', repository_root=ROOT)
+    assert set(validation_capture_paths_v4(preseal)) <= {row['path'] for row in records[12]['artifact_bindings']}
+    for field in ('official_validation_execution_path', 'promotion_validation_execution_path'):
+        path = run / completion[field]
+        prior = path.read_bytes()
+        captured = read_json(path)
+        captured['child_pid'] += 1
+        try:
+            atomic_write_json(path, captured)
+            terminal, errors = validate_terminal_closure_v4(run, contract, records, required=True)
+            assert terminal is None and errors
+        finally:
+            path.write_bytes(prior)
+    assert validate_terminal_closure_v4(run, contract, records, required=True) == ('complete', [])
 
 
 def test_production_gate_reopens_signed_process_proof_and_rejects_synthetic_model_flags(tmp_path):
@@ -437,6 +471,141 @@ def test_production_gate_reopens_signed_process_proof_and_rejects_synthetic_mode
         checked_execution_v4(result, expected_request=request, binding=binding, run_dir=run, original_run_dir=str(run), repository_root=ROOT)
 
 
+@pytest.fixture(scope='module')
+def replay_inputs_v4():
+    from xi_kari_runtime.validation_v4 import prepare_packet_v4
+    from xi_kari_runtime.stage_consumers_v4 import validate_stage_chain_v4
+
+    semantic, contract = _packet_inputs()
+    _, adapter = _provider_pair()
+    contract['capability_snapshot'] = {'semantic_authoring_adapter': adapter}
+    pending = prepare_packet_v4(semantic, contract=contract, repository_root=ROOT, domain_read_plan=None)
+    controls = validate_stage_chain_v4(pending, run_contract=contract, repository_root=ROOT)
+    return semantic, contract, pending, controls
+
+
+def _replay_bundle_v4(tmp_path, replay_inputs_v4):
+    semantic, contract, pending, controls = deepcopy(replay_inputs_v4)
+    atomic_write_json(tmp_path / 'authoring/XK01-base-authoring-request.json', {'source_inputs': {}})
+    bundle = {
+        'schema_id': 'xi-kari.v4.production-author-executions', 'schema_version': 4,
+        'run_id': contract['run_id'], 'run_directory': str(tmp_path),
+        'semantic_base_sha256': sha256_json(semantic), 'prepared_packet_sha256': sha256_json(pending),
+        'stage_controls': controls, 'provider_binding': None, 'next_author_executions': [],
+        'probe_bundle': None, 'sensitivity_changes': [], 'reader_execution': None, 'reader_reused': True,
+    }
+    return semantic, contract, pending, bundle
+
+
+def test_reused_reader_replay_rejects_unconsumed_provider_authority(tmp_path, replay_inputs_v4):
+    from xi_kari_runtime.validation_v4 import replay_author_executions_v4
+
+    semantic, contract, _, bundle = _replay_bundle_v4(tmp_path, replay_inputs_v4)
+    bundle['provider_binding'] = {'kind': 'codex_provider', 'provider': contract['capability_snapshot']['semantic_authoring_adapter']['provider_binding']}
+    with pytest.raises(ValueError, match='provider.*unused|unused.*provider'):
+        replay_author_executions_v4(tmp_path, semantic, contract=contract, repository_root=ROOT, bundle=bundle)
+
+
+@pytest.mark.parametrize('field', ['executable_path', 'model', 'timeout_seconds', 'argv_sha256'])
+def test_reader_execution_replay_requires_exact_frozen_provider(tmp_path, monkeypatch, replay_inputs_v4, field):
+    from xi_kari_runtime import validation_v4
+
+    semantic, contract, pending, bundle = _replay_bundle_v4(tmp_path, replay_inputs_v4)
+    provider = deepcopy(contract['capability_snapshot']['semantic_authoring_adapter']['provider_binding'])
+    provider[field] = 19 if field == 'timeout_seconds' else 'unfrozen-provider'
+    bundle.update(provider_binding={'kind': 'codex_provider', 'provider': provider}, reader_execution={}, reader_reused=False)
+    consumed = []
+
+    def synthetic_reader(*args, **kwargs):
+        consumed.append(True)
+        return {'semantic_response': {'reader_sections': pending['reader_sections'], 'visibility_ledger': pending['visibility_ledger']}}
+
+    monkeypatch.setattr(validation_v4, 'checked_execution_v4', synthetic_reader)
+    with pytest.raises(ValueError, match='frozen.*provider|provider.*frozen'):
+        validation_v4.replay_author_executions_v4(tmp_path, semantic, contract=contract, repository_root=ROOT, bundle=bundle)
+    assert consumed == []
+
+
+@pytest.fixture(scope='module')
+def rejected_fresh_capture_v4(tmp_path_factory):
+    from xi_kari_runtime.validation_v4 import run_fresh_validator_v4
+
+    run = tmp_path_factory.mktemp('synthetic-rejected-fresh-capture')
+    atomic_write_json(run / 'run-contract.json', {'schema_id': 'xi-kari.v4.run-contract', 'schema_version': 4})
+    report = run_fresh_validator_v4(run, repository_root=ROOT, require_complete=False)
+    assert report['valid'] is False
+    return run
+
+
+def test_failed_fresh_validation_remains_a_readonly_process_record(rejected_fresh_capture_v4):
+    from xi_kari_runtime.validation_v4 import validate_validation_execution_v4
+
+    run = rejected_fresh_capture_v4
+    path = next((run / 'validation/attempts').glob('final-*/execution.json'))
+    before = {item.name: item.read_bytes() for item in path.parent.iterdir()}
+    capture = validate_validation_execution_v4(run, path.relative_to(run).as_posix(), repository_root=ROOT)
+    assert capture['report']['valid'] is False
+    assert capture['execution']['exit_status'] == 2
+    assert {item.name: item.read_bytes() for item in path.parent.iterdir()} == before
+
+
+@pytest.mark.parametrize('mutation', ['stdout_bytes', 'stderr_bytes', 'command', 'child_pid', 'report_bytes', 'environment'])
+def test_disk_validation_consumes_physical_fresh_process_receipt(tmp_path, rejected_fresh_capture_v4, mutation):
+    import shutil
+    from xi_kari_runtime.validation_v4 import validate_json_artifact_ownership_v4
+
+    run = tmp_path / 'copy'
+    shutil.copytree(rejected_fresh_capture_v4, run)
+    attempt = next((run / 'validation/attempts').glob('final-*'))
+    execution = read_json(attempt / 'execution.json')
+    if mutation in {'stdout_bytes', 'stderr_bytes'}:
+        path = attempt / ('stdout.bin' if mutation == 'stdout_bytes' else 'stderr.bin')
+        path.write_bytes(path.read_bytes() + b'\n')
+    elif mutation == 'report_bytes':
+        path = attempt / 'validator-report.json'
+        path.write_bytes(path.read_bytes() + b'\n')
+    else:
+        if mutation == 'command':
+            execution['command'][-1] = '--invented-boundary'
+            execution['command_sha256'] = sha256_json(execution['command'])
+        elif mutation == 'child_pid':
+            execution['child_pid'] += 1
+        elif mutation == 'environment':
+            execution['provider_environment_sha256'] = '0' * 64
+        atomic_write_json(attempt / 'execution.json', execution)
+    errors = validate_json_artifact_ownership_v4(run, ROOT)
+    assert any('validation execution' in error for error in errors), errors
+
+
+def test_signed_terminal_cannot_promote_marker_only_fresh_report(tmp_path):
+    from xi_kari_runtime.canonical_json import sha256_file
+    from xi_kari_runtime.terminal_authority import COMPLETION_RELATIVE, KEY_RELATIVE, OFFICIAL_REPORT_RELATIVE, TRANSACTION_RELATIVE, commit_terminal_record, generate_terminal_authority
+    from xi_kari_runtime.validation_v4 import validate_terminal_closure_v4
+
+    authority, key = generate_terminal_authority('synthetic-marker-completion')
+    contract = {'run_id': 'synthetic-marker-completion', 'terminal_authority': authority, 'repository_root': str(ROOT), 'validator_set_sha256': 'a' * 64, 'provider_environment_sha256': 'b' * 64}
+    records = [{'phase': 'XK' + str(index), 'record_sha256': str(index).zfill(64)} for index in range(13)]
+    official = {'schema_id': 'xi-kari.v4.validator-report', 'run_id': contract['run_id'], 'fresh': True, 'fresh_process': True, 'validation_boundary': 'official', 'valid': True, 'validated_phase': 'XK12', 'phase_count': 13, 'chain_head_sha256': records[-1]['record_sha256'], 'validator_set_sha256': contract['validator_set_sha256']}
+    atomic_write_json(tmp_path / OFFICIAL_REPORT_RELATIVE, official)
+    atomic_write_json(tmp_path / 'artifacts/artifact-manifest.json', {})
+    atomic_write_json(tmp_path / 'delivery/final-chat.json', {'validation_authority_path': COMPLETION_RELATIVE})
+    atomic_write_json(tmp_path / TRANSACTION_RELATIVE, {'state': 'official_validated'})
+    completion = {
+        'schema_id': 'xi-kari.v4.completion', 'schema_version': 4, 'run_id': contract['run_id'],
+        'official_validation_path': OFFICIAL_REPORT_RELATIVE, 'official_validation_sha256': sha256_file(tmp_path / OFFICIAL_REPORT_RELATIVE),
+        'chain_head_sha256': records[-1]['record_sha256'], 'phase_count': 13, 'validator_set_sha256': contract['validator_set_sha256'],
+        'manifest_sha256': sha256_file(tmp_path / 'artifacts/artifact-manifest.json'), 'final_chat_sha256': sha256_file(tmp_path / 'delivery/final-chat.json'),
+        'xk12_transaction_sha256': sha256_file(tmp_path / TRANSACTION_RELATIVE), 'provider_environment_sha256': contract['provider_environment_sha256'],
+        'completed_at': '2026-09-30T05:00:00Z',
+    }
+    atomic_write_json(tmp_path / COMPLETION_RELATIVE, completion)
+    atomic_write_json(tmp_path / KEY_RELATIVE, key)
+    commit_terminal_record(tmp_path, contract, {'run_id': contract['run_id'], 'terminal_state': 'complete', 'phase_count': 13, 'chain_head_sha256': records[-1]['record_sha256'], 'completion_sha256': sha256_file(tmp_path / COMPLETION_RELATIVE)})
+    terminal, errors = validate_terminal_closure_v4(tmp_path, contract, records, required=True)
+    assert terminal is None
+    assert errors
+
+
 @pytest.mark.parametrize('directory', ['sem', 'semantic-executions'])
 def test_semantic_execution_replay_owns_short_and_historical_run_paths(tmp_path, directory):
     from xi_kari_runtime.validation_v4 import _expected_root_ids_v4, _rebased_execution_v4
@@ -454,3 +623,38 @@ def test_semantic_execution_replay_owns_short_and_historical_run_paths(tmp_path,
         _rebased_execution_v4({'attempt_directory': str(original / relative / 'nested')}, run_dir=candidate, original_run_dir=str(original))
     with pytest.raises(ValueError, match='outside'):
         _rebased_execution_v4({'attempt_directory': str(tmp_path / relative)}, run_dir=candidate, original_run_dir=str(original))
+
+
+@pytest.mark.parametrize('mutation', ['unchanged', 'content_utf8', 'content_witness', 'missing_item', 'duplicate_item'])
+def test_domain_author_input_replay_consumes_original_scoped_bytes(tmp_path, mutation):
+    from xi_kari_runtime.domain_pipeline_v4 import prepare_domain_inputs
+    from xi_kari_runtime.validation_v4 import domain_plan_v4
+
+    prepared = prepare_domain_inputs(['D.04'], run_id='synthetic-domain-replay', problem_contract_sha256='a' * 64, repository_root=ROOT)
+    inputs = {'plan': prepared['plan'], 'author_inputs': [{key: item[key] for key in ('domain_id', 'content_utf8', 'content_witness')} for item in prepared['author_inputs']]}
+    atomic_write_json(tmp_path / 'authoring/XK04-domain-read-plan.json', inputs['plan'])
+    if mutation == 'unchanged':
+        assert domain_plan_v4(tmp_path, {'source_inputs': {'domain_inputs': inputs}}) == inputs['plan']
+        return
+    if mutation == 'missing_item':
+        inputs['author_inputs'] = []
+    elif mutation == 'duplicate_item':
+        inputs['author_inputs'].append(deepcopy(inputs['author_inputs'][0]))
+    else:
+        inputs['author_inputs'][0][mutation] = 'tampered-domain-input'
+    with pytest.raises(ValueError, match='domain.*input|input.*domain'):
+        domain_plan_v4(tmp_path, {'source_inputs': {'domain_inputs': inputs}})
+
+
+def test_production_retrieval_does_not_invent_missing_author_limitations(tmp_path):
+    from tests.test_v4_pipeline_e2e_fixtures import static_author_output
+    from xi_kari_runtime.retrieval import materialize_retrieval_bundle
+
+    value, _, _, _, _ = static_author_output(mode='closed-input')
+    retrieval = value['semantic_packet']['retrieval']
+    assert retrieval['assessments'][0]['cannot_prove'] == []
+    before = deepcopy(retrieval)
+    with pytest.raises(ValueError, match='cannot_prove'):
+        materialize_retrieval_bundle(tmp_path, retrieval['sources'], retrieval['assessments'], mode='closed-input', run_id='synthetic-empty-limit')
+    assert retrieval == before
+    assert not (tmp_path / 'retrieval/index.json').exists()

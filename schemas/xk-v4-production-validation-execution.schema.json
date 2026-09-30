@@ -3,7 +3,7 @@
   "$id": "https://xi-kari.local/schemas/xi-kari.v4.validation-execution.schema.json",
   "type": "object",
   "additionalProperties": false,
-  "required": ["schema_id", "schema_version", "run_id", "boundary", "parent_pid", "launcher_pid", "child_pid", "command", "command_sha256", "exit_status", "provider_environment_sha256", "stdout_sha256", "stderr_sha256", "report_sha256", "completed_at"],
+  "required": ["schema_id", "schema_version", "run_id", "boundary", "parent_pid", "launcher_pid", "child_pid", "command", "command_sha256", "exit_status", "run_directory", "python_executable_sha256", "started_at", "provider_environment_sha256", "stdout_sha256", "stderr_sha256", "report_sha256", "completed_at"],
   "properties": {
     "schema_id": {"const": "xi-kari.v4.validation-execution"},
     "schema_version": {"const": 4},
@@ -15,6 +15,9 @@
     "command": {"type": "array", "minItems": 1, "items": {"type": "string"}},
     "command_sha256": {"$ref": "#/$defs/sha256"},
     "exit_status": {"type": "integer"},
+    "run_directory": {"type": "string", "minLength": 1},
+    "python_executable_sha256": {"$ref": "#/$defs/sha256"},
+    "started_at": {"type": "string", "format": "date-time"},
     "provider_environment_sha256": {"$ref": "#/$defs/sha256"},
     "stdout_sha256": {"$ref": "#/$defs/sha256"},
     "stderr_sha256": {"$ref": "#/$defs/sha256"},

@@ -12,7 +12,7 @@
     "semantic_base_sha256": {"$ref": "#/$defs/sha256"},
     "prepared_packet_sha256": {"$ref": "#/$defs/sha256"},
     "stage_controls": {"type": "object"},
-    "provider_binding": {"type": ["object", "null"]},
+    "provider_binding": {"oneOf": [{"type": "null"}, {"type": "object", "additionalProperties": false, "required": ["kind", "provider"], "properties": {"kind": {"const": "codex_provider"}, "provider": {"type": "object"}}}]},
     "next_author_executions": {"type": "array", "items": {"type": "object", "additionalProperties": false, "required": ["path_id", "step_index", "prior_pending_sha256", "after_pending_sha256", "author_request", "execution"], "properties": {"path_id": {"type": "string", "minLength": 1}, "step_index": {"type": "integer", "minimum": 0}, "prior_pending_sha256": {"$ref": "#/$defs/sha256"}, "after_pending_sha256": {"$ref": "#/$defs/sha256"}, "author_request": {"type": "object"}, "execution": {"type": "object"}}}},
     "probe_bundle": {"type": ["object", "null"]},
     "sensitivity_changes": {"type": "array", "items": {"type": "object", "additionalProperties": false, "required": ["path", "before", "after", "reason"], "properties": {"path": {"type": "string", "minLength": 1}, "before": {}, "after": {}, "reason": {"type": "string", "minLength": 1}}}},

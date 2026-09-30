@@ -101,7 +101,7 @@ def phase_input_sha256_v4(previous: Mapping[str, Any] | None, value: Any) -> str
     return sha256_json({'predecessor': previous.get('record_sha256') if previous else None, 'value': value})
 
 
-def domain_plan_v4(run_dir: Path, request: Mapping[str, Any] | None = None) -> dict[str, Any] | None:
+def domain_plan_v4(run_dir: Path, request: Mapping[str, Any] | None = None, *, repository_root: Path | None = None) -> dict[str, Any] | None:
     request = request or read_json(run_dir / 'authoring/XK01-base-authoring-request.json')
     inputs = request['source_inputs'].get('domain_inputs')
     if inputs is None:
@@ -109,6 +109,15 @@ def domain_plan_v4(run_dir: Path, request: Mapping[str, Any] | None = None) -> d
     plan = inputs['plan']
     if read_json(run_dir / 'authoring/XK04-domain-read-plan.json') != plan:
         raise ValueError('version-four domain reading plan differs from actual author inputs')
+    from .domains import build_domain_read_plan, domain_content_witness, read_domain_item_bytes
+    repo = Path(repository_root or DEFAULT_REPOSITORY_ROOT)
+    expected = build_domain_read_plan(repo, domain_ids=[row['domain_id'] for row in plan['records']], problem_contract_sha256=plan['problem_contract_sha256'], run_id=plan['run_id'], challenge=plan['challenge'])
+    author_inputs = []
+    for row in expected['records']:
+        raw = read_domain_item_bytes(repo, row)
+        author_inputs.append({'domain_id': row['domain_id'], 'content_utf8': raw.decode('utf-8'), 'content_witness': domain_content_witness(expected, row, raw)})
+    if inputs != {'plan': expected, 'author_inputs': author_inputs}:
+        raise ValueError('version-four domain author inputs differ from original scoped source bytes')
     return deepcopy(dict(plan))
 
 
@@ -183,10 +192,17 @@ def replay_author_executions_v4(run_dir: Path, semantic_base: Mapping[str, Any],
     validate_versioned_schema('xk-v4-production-authors.schema.json', bundle, repository_root=repository_root)
     if bundle['run_id'] != contract['run_id'] or bundle['semantic_base_sha256'] != sha256_json(semantic_base):
         raise ValueError('version-four author executions differ from actual base semantic inputs')
-    domain = domain_plan_v4(run_dir)
+    has_execution = bool(bundle['next_author_executions']) or bundle['probe_bundle'] is not None or bundle['reader_execution'] is not None
+    binding = bundle['provider_binding']
+    if has_execution:
+        frozen = contract['capability_snapshot']['semantic_authoring_adapter']['provider_binding']
+        if binding != {'kind': 'codex_provider', 'provider': frozen}:
+            raise ValueError('version-four author execution differs from the frozen provider binding')
+    elif binding is not None:
+        raise ValueError('version-four unused provider authority is not an author execution')
+    domain = domain_plan_v4(run_dir, repository_root=repository_root)
     semantic = deepcopy(dict(semantic_base))
     pending = prepare_packet_v4(semantic, contract=contract, repository_root=repository_root, domain_read_plan=domain)
-    binding = bundle['provider_binding']
     consumed = set()
     for row in bundle['next_author_executions']:
         target = (row['path_id'], row['step_index'])
@@ -349,7 +365,84 @@ def validate_json_artifact_ownership_v4(run_dir: Path, repository_root: Path) ->
                 failure = True
             if failure is not None:
                 errors.append('artifact root schema contract failed: ' + relative)
+            elif identity == 'xi-kari.v4.validation-execution':
+                try:
+                    validate_validation_execution_v4(run_dir, relative, repository_root=repository_root)
+                except Exception:
+                    errors.append('version-four validation execution disk closure failed: ' + relative)
     return errors
+
+
+def validate_validation_execution_v4(run_dir: Path, relative: str, *, repository_root: Path) -> dict[str, Any]:
+    path = confined_path(run_dir, relative, must_exist=True)
+    execution = read_json(path)
+    validate_versioned_schema('xk-v4-production-validation-execution.schema.json', execution, repository_root=repository_root)
+    boundary = execution['boundary']
+    parts = Path(relative).parts
+    name = parts[2] if len(parts) == 4 else ''
+    suffix = name.removeprefix(boundary + '-')
+    if parts[:2] != ('validation', 'attempts') or parts[-1] != 'execution.json' or name == suffix or len(suffix) != 32 or any(character not in '0123456789abcdef' for character in suffix):
+        raise ValueError('version-four validation execution path is not owned')
+    command = execution['command']
+    origin = Path(execution['run_directory'])
+    interpreter = Path(command[0])
+    expected = [command[0], '-B', '-m', 'xi_kari_runtime.validation_v4', '--run-dir', str(origin), '--repository-root', str(repository_root), '--boundary', boundary]
+    allowed = [expected + ['--allow-incomplete']] if boundary == 'preseal' else [expected, expected + ['--allow-incomplete']] if boundary == 'final' else [expected]
+    if not origin.is_absolute() or not interpreter.is_absolute() or command not in allowed or execution['command_sha256'] != sha256_json(command):
+        raise ValueError('version-four validation execution command differs from its boundary')
+    if sha256_file(interpreter) != execution['python_executable_sha256']:
+        raise ValueError('version-four validation execution interpreter bytes differ')
+    if execution['provider_environment_sha256'] != provider_environment_sha256_v4():
+        raise ValueError('version-four validation execution environment differs from execute')
+    stdout = read_bounded_regular_file(path.parent / 'stdout.bin', limit=64 * 1024 * 1024)
+    stderr = read_bounded_regular_file(path.parent / 'stderr.bin', limit=64 * 1024 * 1024)
+    if sha256_bytes(stdout) != execution['stdout_sha256'] or sha256_bytes(stderr) != execution['stderr_sha256']:
+        raise ValueError('version-four validation execution capture bytes differ')
+    started = datetime.fromisoformat(execution['started_at'].replace('Z', '+00:00'))
+    completed = datetime.fromisoformat(execution['completed_at'].replace('Z', '+00:00'))
+    if started.tzinfo is None or completed.tzinfo is None or started > completed:
+        raise ValueError('version-four validation execution time boundary differs')
+    if execution['child_pid'] == execution['parent_pid'] or execution['launcher_pid'] == execution['parent_pid']:
+        raise ValueError('version-four validation execution is not an independent process')
+    report_path = path.parent / 'validator-report.json'
+    if execution['report_sha256'] is None:
+        if report_path.exists() or execution['exit_status'] == 0:
+            raise ValueError('version-four validation execution missing report cannot succeed')
+        return {'execution': execution, 'report': None}
+    report_bytes = read_bounded_regular_file(report_path, limit=64 * 1024 * 1024)
+    if sha256_bytes(report_bytes) != execution['report_sha256'] or stdout != report_bytes:
+        raise ValueError('version-four validation execution report differs from captured stdout')
+    report = read_json_text(report_bytes.decode('utf-8'))
+    validate_versioned_schema('xk-v4-production-validator.schema.json', report, repository_root=repository_root)
+    checked = datetime.fromisoformat(report['checked_at'].replace('Z', '+00:00'))
+    if checked.tzinfo is None or not started <= checked <= completed:
+        raise ValueError('version-four validation execution report time differs')
+    direct = execution['launcher_pid'] == execution['child_pid'] and report['validator_parent_pid'] == execution['parent_pid']
+    redirected = os.name == 'nt' and execution['launcher_pid'] != execution['child_pid'] and report['validator_parent_pid'] == execution['launcher_pid']
+    if report['validator_pid'] != execution['child_pid'] or not (direct or redirected):
+        raise ValueError('version-four validation execution child identity differs')
+    if report['run_id'] != execution['run_id'] or report['validation_boundary'] != boundary or report['fresh_process'] is not True:
+        raise ValueError('version-four validation execution report identity differs')
+    if execution['exit_status'] != (0 if report['valid'] else 2) or bool(report['errors']) == report['valid'] or report['complete'] and (not report['valid'] or boundary != 'final'):
+        raise ValueError('version-four validation execution exit and report differ')
+    return {'execution': execution, 'report': report}
+
+
+def validation_execution_for_report_v4(run_dir: Path, report: Mapping[str, Any], *, boundary: str, repository_root: Path) -> str:
+    matches = []
+    for path in sorted((run_dir / 'validation/attempts').glob(boundary + '-*/execution.json')):
+        relative = path.relative_to(run_dir).as_posix()
+        capture = validate_validation_execution_v4(run_dir, relative, repository_root=repository_root)
+        if capture['report'] == report:
+            matches.append(relative)
+    if len(matches) != 1:
+        raise ValueError('version-four validation report lacks one exact physical execution receipt')
+    return matches[0]
+
+
+def validation_capture_paths_v4(execution_relative: str) -> tuple[str, ...]:
+    parent = Path(execution_relative).parent
+    return tuple((parent / name).as_posix() for name in ('execution.json', 'stdout.bin', 'stderr.bin', 'validator-report.json'))
 
 
 def require_run_contract_v4(contract: Mapping[str, Any], *, repository_root: Path | None = None) -> Path:
@@ -503,6 +596,12 @@ def expected_phase_paths_v4(phase: str, *, mode: str, run_dir: Path | None = Non
     if phase == 'XK2' and run_dir is not None and (run_dir / 'retrieval/index.json').is_file():
         index = read_json(run_dir / 'retrieval/index.json')
         paths.extend(sorted({row[field] for row in index['sources'] for field in ('source_path', 'assessment_path')}))
+    if phase == 'XK12' and run_dir is not None:
+        report_path = run_dir / 'validation/attempts/final/validator-report.json'
+        if report_path.is_file():
+            contract = read_json(run_dir / 'run-contract.json')
+            execution = validation_execution_for_report_v4(run_dir, read_json(report_path), boundary='preseal', repository_root=Path(contract['repository_root']))
+            paths.extend(validation_capture_paths_v4(execution))
     return tuple(paths)
 
 
@@ -717,16 +816,37 @@ def validate_terminal_closure_v4(run_dir: Path, contract: Mapping[str, Any], rec
     if payload.get('terminal_state') != 'complete' or payload.get('phase_count') != 13 or len(records) != 13 or payload.get('chain_head_sha256') != records[-1]['record_sha256']:
         return None, ['version-four signed terminal completion boundary differs']
     try:
+        repository_root = Path(contract['repository_root'])
         completion = read_json(run_dir / COMPLETION_RELATIVE)
-        validate_versioned_schema('xk-v4-production-completion.schema.json', completion, repository_root=Path(contract['repository_root']))
-        expected = {'schema_id': 'xi-kari.v4.completion', 'schema_version': 4, 'run_id': contract['run_id'], 'official_validation_path': OFFICIAL_REPORT_RELATIVE, 'official_validation_sha256': sha256_file(run_dir / OFFICIAL_REPORT_RELATIVE), 'chain_head_sha256': records[-1]['record_sha256'], 'phase_count': 13, 'validator_set_sha256': contract['validator_set_sha256'], 'manifest_sha256': sha256_file(run_dir / 'artifacts/artifact-manifest.json'), 'final_chat_sha256': sha256_file(run_dir / 'delivery/final-chat.json'), 'xk12_transaction_sha256': sha256_file(run_dir / TRANSACTION_RELATIVE), 'provider_environment_sha256': contract['provider_environment_sha256'], 'completed_at': completion['completed_at']}
+        validate_versioned_schema('xk-v4-production-completion.schema.json', completion, repository_root=repository_root)
+        official = read_json(run_dir / OFFICIAL_REPORT_RELATIVE)
+        official_execution = validation_execution_for_report_v4(run_dir, official, boundary='official', repository_root=repository_root)
+        promotion_execution = completion['promotion_validation_execution_path']
+        promotion = validate_validation_execution_v4(run_dir, promotion_execution, repository_root=repository_root)
+        expected = {'schema_id': 'xi-kari.v4.completion', 'schema_version': 4, 'run_id': contract['run_id'], 'official_validation_path': OFFICIAL_REPORT_RELATIVE, 'official_validation_sha256': sha256_file(run_dir / OFFICIAL_REPORT_RELATIVE), 'chain_head_sha256': records[-1]['record_sha256'], 'phase_count': 13, 'validator_set_sha256': contract['validator_set_sha256'], 'manifest_sha256': sha256_file(run_dir / 'artifacts/artifact-manifest.json'), 'final_chat_sha256': sha256_file(run_dir / 'delivery/final-chat.json'), 'xk12_transaction_sha256': sha256_file(run_dir / TRANSACTION_RELATIVE), 'provider_environment_sha256': contract['provider_environment_sha256'], 'completed_at': completion['completed_at'], 'official_validation_execution_path': official_execution, 'official_validation_execution_sha256': sha256_file(run_dir / official_execution), 'promotion_validation_execution_path': promotion_execution, 'promotion_validation_execution_sha256': sha256_file(confined_path(run_dir, promotion_execution, must_exist=True))}
         if completion != expected or payload.get('completion_sha256') != sha256_file(run_dir / COMPLETION_RELATIVE):
             errors.append('version-four signed completion disk closure differs')
-        official = read_json(run_dir / OFFICIAL_REPORT_RELATIVE)
-        if any(official.get(field) != value for field, value in {'schema_id': 'xi-kari.v4.validator-report', 'run_id': contract['run_id'], 'fresh': True, 'fresh_process': True, 'validation_boundary': 'official', 'valid': True, 'validated_phase': 'XK12', 'phase_count': 13, 'chain_head_sha256': records[-1]['record_sha256'], 'validator_set_sha256': contract['validator_set_sha256']}.items()):
-            errors.append('version-four official report is not authoritative')
-        if read_json(run_dir / TRANSACTION_RELATIVE).get('state') != 'official_validated':
+        for boundary, report in (('official', official), ('promotion', promotion['report'])):
+            if not isinstance(report, Mapping) or any(report.get(field) != value for field, value in {'schema_id': 'xi-kari.v4.validator-report', 'run_id': contract['run_id'], 'fresh': True, 'fresh_process': True, 'validation_boundary': boundary, 'valid': True, 'complete': False, 'validated_phase': 'XK12', 'phase_count': 13, 'chain_head_sha256': records[-1]['record_sha256'], 'validator_set_sha256': contract['validator_set_sha256']}.items()):
+                errors.append('version-four ' + boundary + ' report is not authoritative')
+        transaction = read_json(run_dir / TRANSACTION_RELATIVE)
+        if transaction.get('state') != 'official_validated':
             errors.append('version-four XK12 transaction is not finalized')
+        preseal_report = read_json(run_dir / 'validation/attempts/final/validator-report.json')
+        preseal_path = validation_execution_for_report_v4(run_dir, preseal_report, boundary='preseal', repository_root=repository_root)
+        preseal = validate_validation_execution_v4(run_dir, preseal_path, repository_root=repository_root)
+        official_capture = validate_validation_execution_v4(run_dir, official_execution, repository_root=repository_root)
+        if any(preseal_report.get(field) != value for field, value in {'run_id': contract['run_id'], 'valid': True, 'complete': False, 'validated_phase': 'XK11', 'phase_count': 12, 'chain_head_sha256': records[11]['record_sha256'], 'validator_set_sha256': contract['validator_set_sha256']}.items()):
+            errors.append('version-four preseal report is not authoritative')
+        original = Path(read_json(run_dir / AUTHOR_EXECUTIONS_RELATIVE)['run_directory'])
+        expected_directories = (original, original.parent / transaction['candidate_name'], original)
+        captures = (preseal, promotion, official_capture)
+        if any(Path(capture['execution']['run_directory']) != directory for capture, directory in zip(captures, expected_directories, strict=True)):
+            errors.append('version-four completion execution origin differs from the isolated transaction')
+        def stamp(value: str) -> datetime:
+            return datetime.fromisoformat(value.replace('Z', '+00:00'))
+        if any(stamp(left['execution']['completed_at']) > stamp(right['execution']['started_at']) for left, right in zip(captures, captures[1:])) or stamp(official_capture['execution']['completed_at']) > stamp(completion['completed_at']):
+            errors.append('version-four completion validation order differs')
         if read_json(run_dir / 'delivery/final-chat.json').get('validation_authority_path') != COMPLETION_RELATIVE:
             errors.append('version-four final chat does not bind signed completion')
     except Exception:
@@ -869,6 +989,8 @@ def run_fresh_validator_v4(run_dir: Path, *, repository_root: Path, preseal: boo
     environment = os.environ.copy()
     environment['PYTHONDONTWRITEBYTECODE'] = '1'
     environment['PYTHONPATH'] = str(root / 'scripts')
+    interpreter_sha256 = sha256_file(Path(command[0]))
+    started_at = utc_now_v4()
     process = subprocess.Popen(command, cwd=root, env=environment, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     stdout, stderr = process.communicate()
     attempt = confined_path(Path(run_dir).resolve(), 'validation/attempts/' + boundary + '-' + uuid.uuid4().hex)
@@ -879,6 +1001,7 @@ def run_fresh_validator_v4(run_dir: Path, *, repository_root: Path, preseal: boo
         'schema_id': 'xi-kari.v4.validation-execution', 'schema_version': 4,
         'run_id': None, 'boundary': boundary, 'parent_pid': os.getpid(), 'launcher_pid': process.pid, 'child_pid': process.pid,
         'command': command, 'command_sha256': sha256_json(command), 'exit_status': process.returncode,
+        'run_directory': str(Path(run_dir).absolute()), 'python_executable_sha256': interpreter_sha256, 'started_at': started_at,
         'provider_environment_sha256': provider_environment_sha256_v4(), 'stdout_sha256': sha256_bytes(stdout),
         'stderr_sha256': sha256_bytes(stderr), 'report_sha256': None, 'completed_at': utc_now_v4(),
     }
@@ -895,6 +1018,7 @@ def run_fresh_validator_v4(run_dir: Path, *, repository_root: Path, preseal: boo
         raise ValueError('version-four validation did not originate in the required new process')
     if (process.returncode == 0) != (report.get('valid') is True):
         raise ValueError('version-four fresh validator exit code differs from its report')
+    validate_validation_execution_v4(Path(run_dir), (attempt / 'execution.json').relative_to(Path(run_dir).resolve()).as_posix(), repository_root=root)
     return report
 
 

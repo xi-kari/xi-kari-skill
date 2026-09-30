@@ -20,6 +20,22 @@
       "type": "string",
       "pattern": "^[0-9a-f]{64}$"
     },
+    "official_validation_execution_path": {
+      "type": "string",
+      "pattern": "^validation/attempts/official-[0-9a-f]{32}/execution\\.json$"
+    },
+    "official_validation_execution_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "promotion_validation_execution_path": {
+      "type": "string",
+      "pattern": "^validation/attempts/promotion-[0-9a-f]{32}/execution\\.json$"
+    },
+    "promotion_validation_execution_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
     "chain_head_sha256": {
       "type": "string",
       "pattern": "^[0-9a-f]{64}$"
@@ -58,6 +74,10 @@
     "run_id",
     "official_validation_path",
     "official_validation_sha256",
+    "official_validation_execution_path",
+    "official_validation_execution_sha256",
+    "promotion_validation_execution_path",
+    "promotion_validation_execution_sha256",
     "chain_head_sha256",
     "phase_count",
     "validator_set_sha256",
