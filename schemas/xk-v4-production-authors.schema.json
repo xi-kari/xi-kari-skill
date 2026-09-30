@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://xi-kari.local/schemas/xi-kari.v4.production-author-executions.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_id", "schema_version", "run_id", "run_directory", "semantic_base_sha256", "prepared_packet_sha256", "stage_controls", "provider_binding", "next_author_executions", "probe_bundle", "sensitivity_changes", "reader_execution", "reader_reused"],
+  "properties": {
+    "schema_id": {"const": "xi-kari.v4.production-author-executions"},
+    "schema_version": {"const": 4},
+    "run_id": {"type": "string", "minLength": 1},
+    "run_directory": {"type": "string", "minLength": 1},
+    "semantic_base_sha256": {"$ref": "#/$defs/sha256"},
+    "prepared_packet_sha256": {"$ref": "#/$defs/sha256"},
+    "stage_controls": {"type": "object"},
+    "provider_binding": {"type": ["object", "null"]},
+    "next_author_executions": {"type": "array", "items": {"type": "object", "additionalProperties": false, "required": ["path_id", "step_index", "prior_pending_sha256", "after_pending_sha256", "author_request", "execution"], "properties": {"path_id": {"type": "string", "minLength": 1}, "step_index": {"type": "integer", "minimum": 0}, "prior_pending_sha256": {"$ref": "#/$defs/sha256"}, "after_pending_sha256": {"$ref": "#/$defs/sha256"}, "author_request": {"type": "object"}, "execution": {"type": "object"}}}},
+    "probe_bundle": {"type": ["object", "null"]},
+    "sensitivity_changes": {"type": "array", "items": {"type": "object", "additionalProperties": false, "required": ["path", "before", "after", "reason"], "properties": {"path": {"type": "string", "minLength": 1}, "before": {}, "after": {}, "reason": {"type": "string", "minLength": 1}}}},
+    "reader_execution": {"type": ["object", "null"]},
+    "reader_reused": {"type": "boolean"}
+  },
+  "$defs": {"sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}}
+}

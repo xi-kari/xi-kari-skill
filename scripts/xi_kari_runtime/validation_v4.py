@@ -41,6 +41,7 @@ from .retrieval import (
 )
 from .semantic_projection import protected_retrieval_values, typed_semantic_atoms
 from .semantic_read_trace import validate_semantic_read_trace
+from .schema_ownership import root_schema_ids
 from .terminal_authority import (
     COMPLETION_RELATIVE, OFFICIAL_REPORT_RELATIVE, TERMINAL_RELATIVE,
     TRANSACTION_RELATIVE, verify_terminal_record,
@@ -55,6 +56,7 @@ ENVIRONMENT_FIELDS = (
     'XI_KARI_PROVIDER_BASE_URL', 'XI_KARI_PROVIDER_WIRE_API',
 )
 PACKET_RELATIVE = 'continuation/input-packet.json'
+AUTHOR_EXECUTIONS_RELATIVE = 'authoring/XK02-author-executions.json'
 STDERR_RELATIVE = 'authoring/XK01-base-authoring-stderr.bin'
 SOURCE_TRACE_INPUT_RELATIVE = 'authoring/XK01-semantic-read-trace-input.json'
 ONTOLOGY_TRACE_INPUT_RELATIVE = 'authoring/XK04-ontology-read-trace-input.json'
@@ -99,30 +101,145 @@ def phase_input_sha256_v4(previous: Mapping[str, Any] | None, value: Any) -> str
     return sha256_json({'predecessor': previous.get('record_sha256') if previous else None, 'value': value})
 
 
-def _root_schema_ids(schema: Any, *, document: Mapping[str, Any] | None = None, references: frozenset[str] = frozenset()) -> set[str]:
-    if not isinstance(schema, Mapping):
-        return set()
-    document = document if document is not None else schema
-    result: set[str] = set()
-    identity = schema.get('properties', {}).get('schema_id', {})
-    if isinstance(identity, Mapping):
-        if isinstance(identity.get('const'), str):
-            result.add(identity['const'])
-        result.update(value for value in identity.get('enum', []) if isinstance(value, str))
-    for keyword in ('oneOf', 'anyOf', 'allOf'):
-        for branch in schema.get(keyword, []):
-            result.update(_root_schema_ids(branch, document=document, references=references))
-    reference = schema.get('$ref')
-    if isinstance(reference, str) and reference.startswith('#/') and reference not in references:
-        target: Any = document
-        for token in reference[2:].split('/'):
-            token = token.replace('~1', '/').replace('~0', '~')
-            if not isinstance(target, Mapping) or token not in target:
-                target = None
-                break
-            target = target[token]
-        result.update(_root_schema_ids(target, document=document, references=references | {reference}))
+def domain_plan_v4(run_dir: Path, request: Mapping[str, Any] | None = None) -> dict[str, Any] | None:
+    request = request or read_json(run_dir / 'authoring/XK01-base-authoring-request.json')
+    inputs = request['source_inputs'].get('domain_inputs')
+    if inputs is None:
+        return None
+    plan = inputs['plan']
+    if read_json(run_dir / 'authoring/XK04-domain-read-plan.json') != plan:
+        raise ValueError('version-four domain reading plan differs from actual author inputs')
+    return deepcopy(dict(plan))
+
+
+def prepare_packet_v4(semantic: Mapping[str, Any], *, contract: Mapping[str, Any], repository_root: Path, domain_read_plan: Mapping[str, Any] | None, probe_outcomes: Mapping[str, Any] | None = None) -> dict[str, Any]:
+    from .packet_v4 import prepare_analysis_packet_v4
+    arguments = {'run_contract': contract, 'repository_root': repository_root, 'domain_read_plan': domain_read_plan}
+    if probe_outcomes is not None:
+        arguments['probe_outcomes'] = probe_outcomes
+    return prepare_analysis_packet_v4(semantic, **arguments)
+
+
+def recursive_author_targets_v4(controls: Mapping[str, Any]) -> list[dict[str, Any]]:
+    result = []
+    for path in (controls['stage_results']['recursion']['result'] or {}).get('paths', []):
+        for index, node in enumerate(path['nodes'][1:]):
+            if 'author_request' in node:
+                result.append({'path_id': path['path_id'], 'step_index': index, 'author_request': deepcopy(node['author_request'])})
     return result
+
+
+def _rebased_execution_v4(execution: Mapping[str, Any], *, run_dir: Path, original_run_dir: str) -> dict[str, Any]:
+    observed = Path(execution['attempt_directory']).absolute()
+    original = Path(original_run_dir).absolute()
+    try:
+        relative = observed.relative_to(original)
+    except ValueError as exc:
+        raise ValueError('version-four semantic execution is outside its original run') from exc
+    if len(relative.parts) != 2 or relative.parts[0] != 'semantic-executions' or not relative.parts[1].startswith('attempt-'):
+        raise ValueError('version-four semantic execution attempt path is not owned')
+    directory = confined_path(run_dir, relative.as_posix())
+    if not directory.is_dir() or directory.is_symlink():
+        raise ValueError('version-four semantic execution attempt is not a regular directory')
+    value = deepcopy(dict(execution))
+    value['attempt_directory'] = str(directory)
+    return value
+
+
+def checked_execution_v4(execution: Mapping[str, Any], *, expected_request: Mapping[str, Any], binding: Mapping[str, Any], run_dir: Path, original_run_dir: str, repository_root: Path) -> dict[str, Any]:
+    from .semantic_executions_v4 import validate_semantic_execution_v4
+    observed = validate_semantic_execution_v4(_rebased_execution_v4(execution, run_dir=run_dir, original_run_dir=original_run_dir), expected_request=expected_request, binding=binding, repository_root=repository_root)
+    if observed.get('status') != 'executed' or observed.get('semantic_gate') != 'validated' or observed.get('actual_model_execution') is not True:
+        raise ValueError('version-four actual configured provider process did not close its semantic execution gate')
+    return observed
+
+
+def probe_outcomes_v4(responses: list[Mapping[str, Any]], requests: list[Mapping[str, Any]], changes: list[Mapping[str, Any]]) -> dict[str, Any]:
+    if len(responses) != 5 or len(requests) != 5:
+        raise ValueError('version-four probes require five independent actual executions')
+
+    def positions(index: int) -> dict[str, Any]:
+        return {row['claim_id']: (row['position'], row['classification'], sorted(row['evidence_refs'])) for row in responses[index]['claim_assessments']}
+
+    equal = requests[1]['bindings']['base_information_sha256'] == requests[2]['bindings']['base_information_sha256']
+    changed = [identifier for identifier, value in positions(3).items() if positions(4).get(identifier) != value]
+    impacts = deepcopy(responses[4].get('change_assessments', []))
+    unknown = any(row['impact'] == 'undetermined' for row in impacts)
+    substantive_change = any(row['impact'] in {'strengthens', 'weakens', 'changes_scope'} for row in impacts)
+    gates = {
+        'red_team': {'status': 'examined', 'counterarguments': deepcopy(responses[0]['counterarguments'])},
+        'stance_stability': {'status': 'stable' if equal and positions(1) == positions(2) else 'changed' if equal else 'failed', 'equal_information': equal, 'different_claim_ids': [identifier for identifier, value in positions(1).items() if positions(2).get(identifier) != value]},
+        'sensitivity': {'status': 'changed' if changed or substantive_change else 'undetermined' if unknown else 'stable', 'changed_claim_ids': changed, 'changes': deepcopy(changes), 'change_assessments': impacts},
+    }
+    if gates['stance_stability']['status'] != 'stable':
+        raise ValueError('version-four equal-information stance stability did not close')
+    return {'red_team': deepcopy(responses[0]), 'stance': {'support': deepcopy(responses[1]), 'oppose': deepcopy(responses[2])}, 'sensitivity': {'baseline': deepcopy(responses[3]), 'changed': deepcopy(responses[4]), 'changes': deepcopy(changes)}, 'comparison': gates}
+
+
+def replay_author_executions_v4(run_dir: Path, semantic_base: Mapping[str, Any], *, contract: Mapping[str, Any], repository_root: Path, bundle: Mapping[str, Any]) -> tuple[dict[str, Any], dict[str, Any]]:
+    from .packet_v4 import build_analysis_packet_v4
+    from .stage_consumers_v4 import validate_stage_chain_v4
+    from .semantic_executions_v4 import build_semantic_execution_request_v4
+    validate_versioned_schema('xk-v4-production-authors.schema.json', bundle, repository_root=repository_root)
+    if bundle['run_id'] != contract['run_id'] or bundle['semantic_base_sha256'] != sha256_json(semantic_base):
+        raise ValueError('version-four author executions differ from actual base semantic inputs')
+    domain = domain_plan_v4(run_dir)
+    semantic = deepcopy(dict(semantic_base))
+    pending = prepare_packet_v4(semantic, contract=contract, repository_root=repository_root, domain_read_plan=domain)
+    binding = bundle['provider_binding']
+    consumed = set()
+    for row in bundle['next_author_executions']:
+        target = (row['path_id'], row['step_index'])
+        if target in consumed or sha256_json(pending) != row['prior_pending_sha256']:
+            raise ValueError('version-four next author prior pending digest or target differs')
+        controls = validate_stage_chain_v4(pending, run_contract=contract, repository_root=repository_root)
+        actual = next((item for item in recursive_author_targets_v4(controls) if (item['path_id'], item['step_index']) == target), None)
+        if actual is None or actual['author_request'] != row['author_request']:
+            raise ValueError('version-four next author does not bind the actual child input')
+        request = build_semantic_execution_request_v4(pending, controls, run_contract=contract, kind='next_author', author_request=actual['author_request'], repository_root=repository_root)
+        checked = checked_execution_v4(row['execution'], expected_request=request, binding=binding, run_dir=run_dir, original_run_dir=bundle['run_directory'], repository_root=repository_root)
+        path = next(path for path in semantic['recursive_lineage']['paths'] if path['path_id'] == row['path_id'])
+        path['steps'][row['step_index']]['next_author_response'] = deepcopy(checked['semantic_response'])
+        pending = prepare_packet_v4(semantic, contract=contract, repository_root=repository_root, domain_read_plan=domain)
+        if sha256_json(pending) != row['after_pending_sha256']:
+            raise ValueError('version-four next author after pending digest differs')
+        consumed.add(target)
+    controls = validate_stage_chain_v4(pending, run_contract=contract, repository_root=repository_root)
+    if consumed != {(row['path_id'], row['step_index']) for row in recursive_author_targets_v4(controls)}:
+        raise ValueError('version-four actual recursive author execution does not cover every active child')
+    outcomes = None
+    if any(row['status'] == 'applicable' for row in pending['applicability'].values()):
+        probes = bundle['probe_bundle']
+        if not isinstance(probes, Mapping) or len(probes.get('executions', [])) != 5:
+            raise ValueError('version-four actual semantic probes are missing')
+        requests, responses = [], []
+        for spec, execution in zip((('red_team', None), ('stance_stability', 'support'), ('stance_stability', 'oppose'), ('sensitivity', 'baseline'), ('sensitivity', 'changed')), probes['executions'], strict=True):
+            request = build_semantic_execution_request_v4(pending, controls, run_contract=contract, kind=spec[0], variant=spec[1], sensitivity_changes=bundle['sensitivity_changes'], repository_root=repository_root)
+            checked = checked_execution_v4(execution, expected_request=request, binding=binding, run_dir=run_dir, original_run_dir=bundle['run_directory'], repository_root=repository_root)
+            requests.append(request)
+            responses.append(checked['semantic_response'])
+        outcomes = probe_outcomes_v4(responses, requests, bundle['sensitivity_changes'])
+        if probes['gates'] != outcomes['comparison']:
+            raise ValueError('version-four probe comparisons differ from fresh semantic executions')
+        pending = prepare_packet_v4(semantic, contract=contract, repository_root=repository_root, domain_read_plan=domain, probe_outcomes=outcomes)
+    elif bundle['probe_bundle'] is not None or bundle['sensitivity_changes']:
+        raise ValueError('version-four nonapplicable probes cannot carry invented executions')
+    if controls != bundle['stage_controls'] or sha256_json(pending) != bundle['prepared_packet_sha256']:
+        raise ValueError('version-four prepared packet or stage controls differ from actual execution replay')
+    finalization = None
+    if bundle['reader_execution'] is not None:
+        request = build_semantic_execution_request_v4(pending, controls, run_contract=contract, kind='final_reader', repository_root=repository_root)
+        checked = checked_execution_v4(bundle['reader_execution'], expected_request=request, binding=binding, run_dir=run_dir, original_run_dir=bundle['run_directory'], repository_root=repository_root)
+        finalization = checked['semantic_response']
+        if bundle['reader_reused']:
+            raise ValueError('version-four final reader execution conflicts with a reused base reader')
+    elif bundle['reader_reused'] is not True or outcomes is not None:
+        raise ValueError('version-four final reader execution is missing')
+    arguments = {'run_contract': contract, 'repository_root': repository_root, 'domain_read_plan': domain, 'reader_finalization': finalization}
+    if outcomes is not None:
+        arguments['probe_outcomes'] = outcomes
+    final = build_analysis_packet_v4(semantic, **arguments)
+    return final, {'stage_controls': controls, 'probe_outcomes': outcomes}
 
 
 def schema_registry_v4(repository_root: Path) -> tuple[dict[str, Path], list[str]]:
@@ -138,7 +255,7 @@ def schema_registry_v4(repository_root: Path) -> tuple[dict[str, Path], list[str
                 previous = uris.setdefault(uri, path)
                 if previous != path:
                     errors.append('duplicate root schema URI: ' + path.name)
-            for identity in _root_schema_ids(schema):
+            for identity in root_schema_ids(schema):
                 if not identity.startswith(('xi-kari.v3.', 'xi-kari.v4.')):
                     continue
                 previous = registry.setdefault(identity, path)
@@ -161,6 +278,9 @@ def _expected_root_ids_v4(relative: str) -> set[str] | None:
         ONTOLOGY_TRACE_INPUT_RELATIVE: {'xi-kari.v3.ontology-read-trace-input'},
         'authoring/XK01-base-authoring-request.json': {'xi-kari.v4.base-authoring-request'},
         PACKET_RELATIVE: {'xi-kari.v4.analysis-packet'},
+        AUTHOR_EXECUTIONS_RELATIVE: {'xi-kari.v4.production-author-executions'},
+        'authoring/XK04-domain-binding.json': {'xi-kari.v4.production-phase-artifact'},
+        'authoring/XK04-domain-read-plan.json': {'xi-kari.v4.domain-read-plan'},
         'artifacts/artifact-manifest.json': {'xi-kari.v4.artifact-manifest'},
         DELIVERY_PATHS['final_chat']: {'xi-kari.v4.final-chat'},
         COMPLETION_RELATIVE: {'xi-kari.v4.completion'},
@@ -179,6 +299,10 @@ def _expected_root_ids_v4(relative: str) -> set[str] | None:
         return {'xi-kari.v4.validation-execution'}
     if path.match('validation/attempts/*/validator-report.json'):
         return {'xi-kari.v4.validator-report'}
+    if path.match('semantic-executions/attempt-*/capture/request.json'):
+        return {'xi-kari.v4.xk.semantic-execution-request'}
+    if path.match('semantic-executions/attempt-*/capture/receipt.json'):
+        return {'xi-kari.v4.xk.semantic-execution-attestation'}
     from .validation import _expected_artifact_schema_ids
     return _expected_artifact_schema_ids(relative)
 
@@ -194,7 +318,7 @@ def validate_json_artifact_ownership_v4(run_dir: Path, repository_root: Path) ->
         if not path.is_file() or path.suffix not in {'.json', '.jsonl'}:
             continue
         relative = path.relative_to(run_dir).as_posix()
-        if relative == 'authoring/XK01-base-authoring-events.jsonl':
+        if relative == 'authoring/XK01-base-authoring-events.jsonl' or Path(relative).match('semantic-executions/attempt-*/capture/stdout.jsonl') or Path(relative).match('semantic-executions/attempt-*/provider/semantic-output.json'):
             continue
         expected_ids = _expected_root_ids_v4(relative)
         if expected_ids is None:
@@ -210,7 +334,7 @@ def validate_json_artifact_ownership_v4(run_dir: Path, repository_root: Path) ->
             if identity not in expected_ids:
                 errors.append('artifact path root schema owner differs: ' + relative)
                 continue
-            if identity in _CUSTOM_SOURCE_IDS and identity not in owners:
+            if (identity in _CUSTOM_SOURCE_IDS or identity == 'xi-kari.v4.domain-read-plan') and identity not in owners:
                 continue
             owner = owners.get(identity)
             if owner is None:
@@ -281,7 +405,7 @@ def _stage_results(packet: Mapping[str, Any], contract: Mapping[str, Any], repos
     return {stage: {'applicability': packet['applicability'][stage], 'evaluated': row.get('validation_status') == 'validated', **dict(row)} for stage, row in stages.items()}
 
 
-def build_semantic_phase_artifacts_v4(packet: Mapping[str, Any], *, contract: Mapping[str, Any], repository_root: Path, input_packet_sha256: str | None = None) -> dict[str, dict[str, Any]]:
+def build_semantic_phase_artifacts_v4(packet: Mapping[str, Any], *, contract: Mapping[str, Any], repository_root: Path, input_packet_sha256: str | None = None, author_executions: Mapping[str, Any] | None = None) -> dict[str, dict[str, Any]]:
     require_packet_contract_v4(packet, mode=contract['mode'], run_contract=contract, repository_root=repository_root)
     packet_sha256 = input_packet_sha256 or sha256_json(packet)
     stages = _stage_results(packet, contract, repository_root)
@@ -303,6 +427,7 @@ def build_semantic_phase_artifacts_v4(packet: Mapping[str, Any], *, contract: Ma
     add('XK3', 'XK03-unknown-register', 'unknown-register', packet['facts']['unknown'], {'evidence_cutoff': contract['evidence_cutoff'], 'unsupported_claim_ids': packet['evidence'].get('unsupported_claims', [])})
     add('XK4', 'XK04-concept-disposition', 'concept-disposition', dispositions, closure)
     add('XK4', 'XK04-concept-closure-report', 'concept-closure-report', closure, {'unresolved': 0, 'candidate_count': len(dispositions), 'complete': True})
+    add('XK4', 'XK04-domain-binding', 'domain-binding', packet.get('domain_binding'), packet.get('domain_binding', {}).get('result', {'domain_ids': [], 'status': 'not_selected'}))
     add('XK5', 'XK05-local-world-model', 'local-world-model', packet.get('local_world_model'), stages['world_state'])
     add('XK6', 'XK06-transformation-ledger', 'transformation-ledger', packet.get('transformation_ledger'), stages['transformation'])
     add('XK6', 'XK06-cascade', 'cascade', packet.get('cascade'), stages['transformation'])
@@ -310,7 +435,20 @@ def build_semantic_phase_artifacts_v4(packet: Mapping[str, Any], *, contract: Ma
     add('XK7', 'XK07-case-ledger', 'case-ledger', packet['case_ledger'], {'case_count': len(packet['case_ledger'].get('cases', [])), 'cases': packet['cases']})
     add('XK8', 'XK08-recursive-lineage', 'recursive-lineage', {'lineage': packet.get('recursive_lineage'), 'states': packet.get('recursive_states')}, stages['recursion'])
     requires_probes = any(row['status'] == 'applicable' for row in packet['applicability'].values())
-    probe = {'evaluated': False, 'status': 'required_but_not_integrated' if requires_probes else 'not_applicable', 'reason': 'Fresh semantic probe author execution is required for applicable dynamics.' if requires_probes else 'Every dynamic stage is source-bound not applicable.'}
+    if requires_probes and author_executions is None:
+        raise ValueError('version-four actual semantic author execution proof is required for materialized probes')
+    outcomes = packet.get('probe_outcomes')
+    if requires_probes and not isinstance(outcomes, Mapping):
+        raise ValueError('version-four actual probe semantic outcomes are missing')
+    probe = {'evaluated': requires_probes, 'status': 'executed' if requires_probes else 'not_applicable', 'reason': 'Independent configured provider executions were verified from their signed physical captures.' if requires_probes else 'Every dynamic stage is source-bound not applicable.'}
+    probe_payloads = {
+        'semantic-authoring-bundle': author_executions,
+        'order-evaluation': outcomes,
+        'red-team-report': outcomes.get('red_team') if outcomes else None,
+        'stance-pair': outcomes.get('stance') if outcomes else None,
+        'sensitivity-report': outcomes.get('sensitivity') if outcomes else None,
+        'stance-stability-report': outcomes.get('comparison', {}).get('stance_stability') if outcomes else None,
+    }
     for suffix, kind, field in (
         ('XK09-semantic-authoring-bundle', 'semantic-authoring-bundle', None),
         ('XK09-order-evaluation', 'order-evaluation', 'order_evaluation'),
@@ -319,7 +457,7 @@ def build_semantic_phase_artifacts_v4(packet: Mapping[str, Any], *, contract: Ma
         ('XK09-sensitivity-report', 'sensitivity-report', None),
         ('XK09-stance-stability-report', 'stance-stability-report', None),
     ):
-        add('XK9', suffix, kind, packet.get(field) if field else None, probe)
+        add('XK9', suffix, kind, probe_payloads[kind], probe)
     add('XK10', 'XK10-verdict', 'verdict', packet.get('verdict'), {'formal_claim_results': packet.get('formal_results'), 'mechanism': stages['mechanism']})
     add('XK10', 'XK10-action-ranking', 'action-ranking', packet.get('action_ranking'), stages['action_choice'])
     add('XK10', 'XK10-forecast-ledger', 'forecast-ledger', packet.get('forecast'), stages['forecast'])
@@ -333,7 +471,23 @@ def expected_phase_paths_v4(phase: str, *, mode: str, run_dir: Path | None = Non
     if phase == 'XK1':
         paths.extend((STDERR_RELATIVE, SOURCE_TRACE_INPUT_RELATIVE))
     if phase == 'XK4':
-        paths.append(ONTOLOGY_TRACE_INPUT_RELATIVE)
+        paths.extend((ONTOLOGY_TRACE_INPUT_RELATIVE, 'authoring/XK04-domain-binding.json'))
+        if run_dir is not None and (run_dir / 'authoring/XK04-domain-read-plan.json').is_file():
+            paths.append('authoring/XK04-domain-read-plan.json')
+    if phase == 'XK2':
+        paths.append(AUTHOR_EXECUTIONS_RELATIVE)
+        if run_dir is not None and (run_dir / AUTHOR_EXECUTIONS_RELATIVE).is_file():
+            bundle = read_json(run_dir / AUTHOR_EXECUTIONS_RELATIVE)
+            executions = [row['execution'] for row in bundle['next_author_executions']]
+            executions.extend((bundle['probe_bundle'] or {}).get('executions', []))
+            if bundle['reader_execution'] is not None:
+                executions.append(bundle['reader_execution'])
+            proof_paths = set()
+            for execution in executions:
+                relative = Path(execution['attempt_directory']).relative_to(Path(bundle['run_directory'])).as_posix()
+                for suffix in ('capture/request.json', 'capture/stdin.bin', 'capture/stdout.jsonl', 'capture/stderr.bin', 'capture/output.bin', 'capture/notice.bin', 'capture/receipt.json', 'provider/semantic-output.json', 'provider/completion-notice.txt'):
+                    proof_paths.add(relative + '/' + suffix)
+            paths.extend(sorted(proof_paths))
     if phase == 'XK2' and run_dir is not None and (run_dir / 'retrieval/index.json').is_file():
         index = read_json(run_dir / 'retrieval/index.json')
         paths.extend(sorted({row[field] for row in index['sources'] for field in ('source_path', 'assessment_path')}))
@@ -398,7 +552,7 @@ def validate_preparation_v4(run_dir: Path, *, contract: Mapping[str, Any], repos
         raise ValueError('XK1 exact input hash differs')
 
 
-def validate_authoring_replay_v4(run_dir: Path, *, contract: Mapping[str, Any], packet: Mapping[str, Any], repository_root: Path) -> None:
+def validate_authoring_replay_v4(run_dir: Path, *, contract: Mapping[str, Any], packet: Mapping[str, Any] | None = None, repository_root: Path) -> dict[str, Any]:
     from .authoring import require_base_authoring_provider
     from .execution import _base_prompt, _project_retrieval, _rebind_visibility_ledger, parse_base_authoring_output
     from .contracts import build_analysis_packet
@@ -464,10 +618,6 @@ def validate_authoring_replay_v4(run_dir: Path, *, contract: Mapping[str, Any], 
         frozen_material_manifest=request['source_inputs'].get('frozen_material_manifest'), host_captures=host_captures,
         contract_version=4,
     )
-    _rebind_visibility_ledger(projected, privacy_purpose=contract['privacy_contract']['purpose'])
-    expected = build_analysis_packet(projected, run_contract=contract, repository_root=repository_root)
-    if expected != packet:
-        raise ValueError('version-four persisted packet differs from the actual author projection')
     semantic_document = read_json(run_dir / 'authoring/XK02-semantic-retrieval.json')
     semantic_body = {key: value for key, value in semantic_document.items() if key not in {'schema_id', 'schema_version', 'run_id', 'mode'}}
     if semantic_body != semantic:
@@ -477,7 +627,7 @@ def validate_authoring_replay_v4(run_dir: Path, *, contract: Mapping[str, Any], 
     if errors:
         raise ValueError('version-four execute-owned receipt binding failed')
     from .v4_retrieval import host_retrieval_view
-    host_retrieval = host_retrieval_view(packet['retrieval'])
+    host_retrieval = host_retrieval_view(projected['retrieval'])
     if contract['mode'] == 'closed-input':
         from .closed_input import validate_closed_input_execution
         errors = validate_closed_input_execution(receipt, host_retrieval, run_id=contract['run_id'], evidence_cutoff=contract['evidence_cutoff'], semantic_document=semantic_document, event_stream=(run_dir / 'authoring/XK01-base-authoring-events.jsonl').read_bytes(), base_request=request, base_request_bytes=request_path.read_bytes(), base_receipt=base)
@@ -485,6 +635,15 @@ def validate_authoring_replay_v4(run_dir: Path, *, contract: Mapping[str, Any], 
         errors = validate_retrieval_execution_receipt(receipt, host_retrieval, run_id=contract['run_id'], evidence_cutoff=contract['evidence_cutoff'], semantic_retrieval=semantic, event_stream=(run_dir / 'authoring/XK01-base-authoring-events.jsonl').read_bytes(), adapter_input=request_path.read_bytes(), host_captures=host_captures)
     if errors:
         raise ValueError('version-four actual retrieval execution receipt failed')
+    if packet is not None:
+        if (run_dir / AUTHOR_EXECUTIONS_RELATIVE).is_file():
+            expected, _ = replay_author_executions_v4(run_dir, projected, contract=contract, repository_root=repository_root, bundle=read_json(run_dir / AUTHOR_EXECUTIONS_RELATIVE))
+        else:
+            domain_plan = (request['source_inputs'].get('domain_inputs') or {}).get('plan')
+            expected = build_analysis_packet(projected, run_contract=contract, repository_root=repository_root, domain_read_plan=domain_plan)
+        if expected != packet:
+            raise ValueError('version-four persisted packet differs from the actual author projection')
+    return projected
 
 
 def validate_provider_pair_v4(base_provider: Mapping[str, Any], adapter: Mapping[str, Any], *, mode: str) -> None:
@@ -614,7 +773,8 @@ def validate_run_v4(run_dir: Path, *, repository_root: Path | None = None, requi
         require_packet_contract_v4(packet, mode=contract['mode'], run_contract=contract, repository_root=repo)
         validate_authoring_replay_v4(root, contract=contract, packet=packet, repository_root=repo)
         packet_sha256 = sha256_file(root / PACKET_RELATIVE)
-        expected_documents = build_semantic_phase_artifacts_v4(packet, contract=contract, repository_root=repo, input_packet_sha256=packet_sha256)
+        authors = read_json(root / AUTHOR_EXECUTIONS_RELATIVE)
+        expected_documents = build_semantic_phase_artifacts_v4(packet, contract=contract, repository_root=repo, input_packet_sha256=packet_sha256, author_executions=authors)
         for record in records:
             phase = record['phase']
             paths = expected_phase_paths_v4(phase, mode=contract['mode'], run_dir=root)
@@ -635,8 +795,6 @@ def validate_run_v4(run_dir: Path, *, repository_root: Path | None = None, requi
                 expected = next(source for source in packet['retrieval']['sources'] if source['source_id'] == row['source_id'])
                 if actual != _normalise_source(expected, run_id=contract['run_id']):
                     errors.append('version-four source material differs from the actual author projection')
-        if len(records) > 9 and any(row['status'] == 'applicable' for row in packet['applicability'].values()):
-            errors.append('version-four fresh red-team, stance-stability and sensitivity probes are not integrated')
         if len(records) > 11:
             documents, rendered = build_reader_artifacts_v4(root, packet=packet, contract=contract, repository_root=repo)
             for relative, expected in documents.items():

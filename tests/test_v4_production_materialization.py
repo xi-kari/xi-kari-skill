@@ -49,7 +49,15 @@ def test_semantic_materialization_rebuilds_the_actual_formal_instance_registry()
     from xi_kari_runtime.validation_v4 import build_semantic_phase_artifacts_v4
 
     semantic, contract = packet_inputs()
-    packet = build_analysis_packet_v4(semantic, run_contract=contract, repository_root=ROOT)
+    from xi_kari_runtime.packet_v4 import prepare_analysis_packet_v4
+    from xi_kari_runtime.semantic_projection import semantic_atom_paths
+    pending = prepare_analysis_packet_v4(semantic, run_contract=contract, repository_root=ROOT)
+    finalization = {'reader_sections': semantic['reader_sections'], 'visibility_ledger': {'entries': [
+        {'canonical_path': path, 'classification': 'public', 'disclosure': 'include',
+         'purpose': 'bounded source-scope analysis', 'authority_refs': [], 'protection_reason': None}
+        for path in semantic_atom_paths(pending)
+    ]}}
+    packet = build_analysis_packet_v4(semantic, run_contract=contract, repository_root=ROOT, reader_finalization=finalization)
     documents = build_semantic_phase_artifacts_v4(packet, contract=contract, repository_root=ROOT)
     claim = documents['XK7']['authoring/XK07-claim-mechanism-graph.json']['result']['claims'][0]
     assert claim['formal_qualification']['status'] == 'qualified'
@@ -354,3 +362,76 @@ def test_real_lamport_signature_requires_v4_fresh_completion_disk_closure(tmp_pa
     terminal, errors = validate_terminal_closure_v4(tmp_path, contract, records, required=True)
     assert terminal is None
     assert errors == ['version-four signed completion closure is unreadable or invalid']
+
+
+def test_explicit_v4_static_production_rebuilds_base_packet_and_seals_actual_disk_chain(tmp_path):
+    from tests.test_v4_pipeline_e2e_fixtures import BODY, CLOSED_MATERIALS, deterministic_provider, static_author_output
+    from xi_kari_runtime import execution
+    from xi_kari_runtime.validation_v4 import run_fresh_validator_v4
+
+    _, problem, _, _, _ = static_author_output(mode='closed-input')
+    problem['evidence_cutoff'] = '2030-01-01T00:00:00Z'
+    transport = tmp_path / 'synthetic-production'
+    transport.mkdir()
+    provider, observation = deterministic_provider(transport)
+    program = provider.read_text('utf-8').replace('prompt = sys.stdin.read()', "prompt = sys.stdin.buffer.read().decode('utf-8')")
+    program = program.replace('运行时请求（只读绑定）：\\n', '运行时请求：\\n')
+    program = program.replace('request = json.loads(', '''if 'REQUEST_JSON\\n' in prompt:
+    request = json.loads(prompt.split('REQUEST_JSON\\n', 1)[1])
+    from copy import deepcopy
+    from xi_kari_runtime.semantic_projection import semantic_atom_paths, substantive_semantic_atoms
+    view = deepcopy(request['task']['readonly_packet'])
+    view['visibility_ledger'] = {'entries': [
+        {'canonical_path': path, 'classification': 'public', 'disclosure': 'include', 'purpose': request['reader_requirements']['purpose'], 'authority_refs': [], 'protection_reason': None}
+        for path in semantic_atom_paths(view)
+    ]}
+    section = {'section_id': 'synthetic-final-reader', 'heading': '合成条文与执行材料', 'local_judgment': '条文解释不产生现实执行资格。', 'paragraphs': list(BODY), 'source_bindings': []}
+    for atom in substantive_semantic_atoms(view):
+        excerpt = atom['public_text']
+        section['paragraphs'].append('本题合成记录明确写明：' + excerpt + '。这一范围只用于合成条文程序验证，不证明现实执行或正式实例成立。')
+        section['source_bindings'].append({'source_path': atom['canonical_path'], 'paragraph_index': len(section['paragraphs']), 'excerpt': excerpt})
+    graph = request['material_context']['claim_mechanism_graph']
+    result = {'semantic_response': {'reader_sections': [section], 'visibility_ledger': view['visibility_ledger']}, 'source_bindings': [{'claim_id': row['claim_id'], 'material_refs': row['claim_basis']['material_refs']} for row in graph['claims']]}
+    pathlib.Path('semantic-output.json').write_text(json.dumps(result, ensure_ascii=False), encoding='utf-8')
+    pathlib.Path(sys.argv[sys.argv.index('--output-last-message') + 1]).write_text('SEMANTIC_OUTPUT_READY', encoding='utf-8')
+    for event in ({'type': 'thread.started', 'thread_id': 'synthetic-final-reader'}, {'type': 'turn.started'}, {'type': 'turn.completed', 'usage': {'input_tokens': 11, 'output_tokens': 17}}):
+        print(json.dumps(event), flush=True)
+    raise SystemExit(0)
+request = json.loads(''')
+    program = program.replace('from tests.test_v4_pipeline_e2e_fixtures import static_author_output', 'from tests.test_v4_pipeline_e2e_fixtures import BODY, static_author_output')
+    provider.write_text(program, encoding='utf-8', newline='\n')
+    result = execution.execute_authored_run(transport / 'runs', problem_contract=problem,
+        run_id='synthetic-v4-production', repository_root=ROOT,
+        codex_provider_executable=provider, timeout_seconds=60, mode='closed-input',
+        closed_input_materials=CLOSED_MATERIALS, contract_version=4, source_version='v9.0')
+    assert read_json(observation)['synthetic'] is True
+    assert read_json(observation)['actual_model_runs'] == 0
+    run = Path(result['run_dir'])
+    report = run_fresh_validator_v4(run, repository_root=ROOT)
+    assert report['valid'] is report['complete'] is True
+    assert report['phase_count'] == 13
+    assert report['fresh_process'] is True
+    assert not (run / 'continuation/terminal-authority-key.json').exists()
+    assert (run / 'continuation/terminal-record.json').is_file()
+    assert all(paragraph in (run / 'delivery/xi-kari-answer.md').read_text('utf-8') for paragraph in BODY)
+
+
+def test_production_gate_reopens_signed_process_proof_and_rejects_synthetic_model_flags(tmp_path):
+    from tests.test_v4_semantic_executions import fixture_binding
+    from tests.test_v4_stage_chain_integration import dynamic_inputs
+    from xi_kari_runtime.semantic_executions_v4 import build_semantic_execution_request_v4, execute_semantic_request_v4
+    from xi_kari_runtime.stage_consumers_v4 import validate_stage_chain_v4
+    from xi_kari_runtime.validation_v4 import checked_execution_v4
+
+    packet, contract = dynamic_inputs()
+    controls = validate_stage_chain_v4(packet, run_contract=contract, repository_root=ROOT)
+    author_request = controls['stage_results']['recursion']['result']['paths'][0]['nodes'][1]['author_request']
+    request = build_semantic_execution_request_v4(packet, controls, run_contract=contract, kind='next_author', author_request=author_request, repository_root=ROOT)
+    binding = fixture_binding(tmp_path)
+    run = tmp_path / 'isolated-run'
+    result = execute_semantic_request_v4(request, binding=binding, run_directory=run, repository_root=ROOT)
+    assert result['status'] == 'executed'
+    result['actual_model_execution'] = True
+    result['semantic_gate'] = 'validated'
+    with pytest.raises(ValueError, match='actual configured provider'):
+        checked_execution_v4(result, expected_request=request, binding=binding, run_dir=run, original_run_dir=str(run), repository_root=ROOT)

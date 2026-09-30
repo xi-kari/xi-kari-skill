@@ -3,6 +3,8 @@
 from __future__ import annotations
 
 from collections.abc import Mapping
+from copy import deepcopy
+import math
 from pathlib import Path
 import shutil
 from typing import Any
@@ -23,13 +25,127 @@ from .terminal_authority import (
     TRANSACTION_RELATIVE, commit_terminal_record,
 )
 from .validation_v4 import (
-    DEFAULT_REPOSITORY_ROOT, PACKET_RELATIVE, PRODUCTION_PROFILE_V4, RUNTIME_VERSION_V4,
+    AUTHOR_EXECUTIONS_RELATIVE, DEFAULT_REPOSITORY_ROOT, PACKET_RELATIVE, PRODUCTION_PROFILE_V4, RUNTIME_VERSION_V4,
     build_reader_artifacts_v4, build_semantic_phase_artifacts_v4,
     expected_phase_paths_v4, phase_input_sha256_v4, require_run_contract_v4,
     run_fresh_validator_v4, semantic_phase_input_v4, utc_now_v4,
     validate_authoring_replay_v4, validate_preparation_v4, validate_run_v4,
-    validate_terminal_closure_v4,
+    validate_terminal_closure_v4, checked_execution_v4, domain_plan_v4, prepare_packet_v4,
+    probe_outcomes_v4, recursive_author_targets_v4, replay_author_executions_v4,
 )
+
+
+def _complete_base_reader_v4(pending: Mapping[str, Any], contract: Mapping[str, Any], repository_root: Path) -> bool:
+    from .semantic_projection import validate_reader_sections, validate_reader_section_privacy
+    from .prose import check_plain_language, reader_contract_gaps, render_reader_outputs
+    from .validation_v4 import reader_payload_v4
+    try:
+        require_packet_contract_v4(pending, mode=contract['mode'], run_contract=contract, repository_root=repository_root)
+        validate_reader_section_privacy(pending)
+        if validate_reader_sections(pending):
+            return False
+        rendered = render_reader_outputs(reader_payload_v4(pending, contract))
+        return not reader_contract_gaps(dict(pending), rendered['answer']) and not any(check for text in rendered.values() for check in check_plain_language(text))
+    except ValueError:
+        return False
+
+
+def _sensitivity_changes_v4(packet: Mapping[str, Any]) -> list[dict[str, Any]]:
+    roots = ('local_world_model', 'recursive_lineage', 'transformation_ledger', 'forecast', 'action_ranking')
+
+    def locate(value: Any, path: str) -> list[dict[str, Any]]:
+        if isinstance(value, Mapping):
+            for key, item in value.items():
+                if key in {'schema_version', 'source_version', 'run_id', 'model_version', 'source_anchors', 'ontology_refs', 'evidence_refs'}:
+                    continue
+                child = path + '.' + key
+                if key in {'value', 'observed_value', 'threshold', 'weight', 'probability'} and isinstance(item, (int, float)) and not isinstance(item, bool) and math.isfinite(item):
+                    return [{'path': child, 'before': item, 'after': item + max(abs(item) * 0.1, 0.1), 'reason': '检查当前已登记数值在明确假设变化下对本题结论的影响；原始材料保持冻结。'}]
+                found = locate(item, child)
+                if found:
+                    return found
+        elif isinstance(value, list):
+            for index, item in enumerate(value):
+                found = locate(item, path + '[' + str(index) + ']')
+                if found:
+                    return found
+        return []
+
+    for field in roots:
+        found = locate(packet.get(field), field)
+        if found:
+            return found
+    conditions = packet.get('recursive_lineage', {}).get('conditions', {})
+    for name, value in conditions.items():
+        if isinstance(value, bool):
+            return [{'path': 'recursive_lineage.conditions.' + name, 'before': value, 'after': not value, 'reason': '检查当前明确条件改变后本题的条件结论；不把该假设当作已发生事实。'}]
+    raise ValueError('version-four applicable dynamics have no registered semantic perturbation for sensitivity authoring')
+
+
+def _author_input_v4(run_dir: Path, semantic_base: Mapping[str, Any], *, contract: Mapping[str, Any], repository_root: Path) -> dict[str, Any]:
+    from .semantic_executions_v4 import (
+        bind_semantic_execution_provider_v4, build_semantic_execution_request_v4,
+        execute_next_author_v4, execute_semantic_probes_v4, execute_final_reader_v4,
+    )
+    from .stage_consumers_v4 import validate_stage_chain_v4
+    semantic = deepcopy(dict(semantic_base))
+    domain = domain_plan_v4(run_dir)
+    pending = prepare_packet_v4(semantic, contract=contract, repository_root=repository_root, domain_read_plan=domain)
+    controls = validate_stage_chain_v4(pending, run_contract=contract, repository_root=repository_root)
+    bundle = {
+        'schema_id': 'xi-kari.v4.production-author-executions', 'schema_version': 4,
+        'run_id': contract['run_id'], 'run_directory': str(run_dir),
+        'semantic_base_sha256': sha256_json(semantic_base), 'prepared_packet_sha256': sha256_json(pending),
+        'stage_controls': controls, 'provider_binding': None, 'next_author_executions': [],
+        'probe_bundle': None, 'sensitivity_changes': [], 'reader_execution': None, 'reader_reused': False,
+    }
+    requires = any(row['status'] == 'applicable' for row in pending['applicability'].values())
+    if requires or not _complete_base_reader_v4(pending, contract, repository_root):
+        provider = contract['capability_snapshot']['semantic_authoring_adapter']['provider_binding']
+        bundle['provider_binding'] = bind_semantic_execution_provider_v4(provider['executable_path'], repository_root=repository_root, timeout_seconds=provider['timeout_seconds'])
+    else:
+        bundle['reader_reused'] = True
+    atomic_write_json(run_dir / AUTHOR_EXECUTIONS_RELATIVE, bundle)
+    consumed = set()
+    while True:
+        controls = validate_stage_chain_v4(pending, run_contract=contract, repository_root=repository_root)
+        target = next((row for row in recursive_author_targets_v4(controls) if (row['path_id'], row['step_index']) not in consumed), None)
+        if target is None:
+            break
+        request = build_semantic_execution_request_v4(pending, controls, run_contract=contract, kind='next_author', author_request=target['author_request'], repository_root=repository_root)
+        prior = sha256_json(pending)
+        execution = execute_next_author_v4(pending, controls, author_request=target['author_request'], run_contract=contract, binding=bundle['provider_binding'], run_directory=run_dir, repository_root=repository_root)
+        checked = checked_execution_v4(execution, expected_request=request, binding=bundle['provider_binding'], run_dir=run_dir, original_run_dir=str(run_dir), repository_root=repository_root)
+        path = next(row for row in semantic['recursive_lineage']['paths'] if row['path_id'] == target['path_id'])
+        path['steps'][target['step_index']]['next_author_response'] = deepcopy(checked['semantic_response'])
+        pending = prepare_packet_v4(semantic, contract=contract, repository_root=repository_root, domain_read_plan=domain)
+        bundle['next_author_executions'].append({**target, 'prior_pending_sha256': prior, 'after_pending_sha256': sha256_json(pending), 'execution': execution})
+        consumed.add((target['path_id'], target['step_index']))
+        atomic_write_json(run_dir / AUTHOR_EXECUTIONS_RELATIVE, bundle)
+    controls = validate_stage_chain_v4(pending, run_contract=contract, repository_root=repository_root)
+    if requires:
+        changes = _sensitivity_changes_v4(pending)
+        bundle['sensitivity_changes'] = changes
+        probes = execute_semantic_probes_v4(pending, controls, run_contract=contract, binding=bundle['provider_binding'], run_directory=run_dir, sensitivity_changes=changes, repository_root=repository_root)
+        bundle['probe_bundle'] = probes
+        atomic_write_json(run_dir / AUTHOR_EXECUTIONS_RELATIVE, bundle)
+        requests, responses = [], []
+        for spec, execution in zip((('red_team', None), ('stance_stability', 'support'), ('stance_stability', 'oppose'), ('sensitivity', 'baseline'), ('sensitivity', 'changed')), probes['executions'], strict=True):
+            request = build_semantic_execution_request_v4(pending, controls, run_contract=contract, kind=spec[0], variant=spec[1], sensitivity_changes=changes, repository_root=repository_root)
+            checked = checked_execution_v4(execution, expected_request=request, binding=bundle['provider_binding'], run_dir=run_dir, original_run_dir=str(run_dir), repository_root=repository_root)
+            requests.append(request)
+            responses.append(checked['semantic_response'])
+        outcomes = probe_outcomes_v4(responses, requests, changes)
+        if probes['gates'] != outcomes['comparison']:
+            raise ValueError('version-four actual probe comparisons do not match recomputed semantic responses')
+        pending = prepare_packet_v4(semantic, contract=contract, repository_root=repository_root, domain_read_plan=domain, probe_outcomes=outcomes)
+    if not bundle['reader_reused']:
+        execution = execute_final_reader_v4(pending, controls, run_contract=contract, binding=bundle['provider_binding'], run_directory=run_dir, repository_root=repository_root)
+        bundle['reader_execution'] = execution
+    bundle.update(prepared_packet_sha256=sha256_json(pending), stage_controls=controls)
+    atomic_write_json(run_dir / AUTHOR_EXECUTIONS_RELATIVE, bundle)
+    final, _ = replay_author_executions_v4(run_dir, semantic_base, contract=contract, repository_root=repository_root, bundle=bundle)
+    return final
 
 
 def build_manifest_v4(run_dir: Path, *, contract: Mapping[str, Any], records: list[dict[str, Any]], packet: Mapping[str, Any]) -> dict[str, Any]:
@@ -209,8 +325,20 @@ def materialize_run_v4(run_dir: Path, packet: Mapping[str, Any] | None = None, *
         if packet is not None and dict(packet) != persisted:
             raise ValueError('version-four supplied packet differs from persisted canonical input')
     elif packet is not None:
-        require_packet_contract_v4(packet, mode=contract['mode'], run_contract=contract, repository_root=repo)
-        persisted = dict(packet)
+        from .packet_v4 import build_analysis_packet_v4
+        projected = validate_authoring_replay_v4(root, contract=contract, repository_root=repo)
+        request = read_json(root / 'authoring/XK01-base-authoring-request.json')
+        domain_plan = (request['source_inputs'].get('domain_inputs') or {}).get('plan')
+        if packet.get('schema_id') == 'xi-kari.v4.analysis-packet':
+            persisted = dict(packet)
+        else:
+            if dict(packet) != projected:
+                raise ValueError('version-four semantic base packet differs from actual author projection')
+            try:
+                persisted = _author_input_v4(root, projected, contract=contract, repository_root=repo)
+            except Exception:
+                _set_state(root, 'needs_attention', next_phase='XK2')
+                raise
         validate_authoring_replay_v4(root, contract=contract, packet=persisted, repository_root=repo)
         atomic_write_json(packet_path, persisted)
     else:
@@ -218,14 +346,12 @@ def materialize_run_v4(run_dir: Path, packet: Mapping[str, Any] | None = None, *
     require_packet_contract_v4(persisted, mode=contract['mode'], run_contract=contract, repository_root=repo)
     validate_authoring_replay_v4(root, contract=contract, packet=persisted, repository_root=repo)
     packet_sha256 = sha256_file(packet_path)
-    documents = build_semantic_phase_artifacts_v4(persisted, contract=contract, repository_root=repo, input_packet_sha256=packet_sha256)
+    authors = read_json(root / AUTHOR_EXECUTIONS_RELATIVE)
+    documents = build_semantic_phase_artifacts_v4(persisted, contract=contract, repository_root=repo, input_packet_sha256=packet_sha256, author_executions=authors)
     _set_state(root, 'in_progress', next_phase=PHASES[len(records)])
     if len(records) == 2:
         materialize_retrieval_bundle(root, persisted['retrieval']['sources'], persisted['retrieval']['assessments'], mode=contract['mode'], run_id=contract['run_id'], evidence_cutoff=contract['evidence_cutoff'])
     for phase in PHASES[2:11]:
-        if phase == 'XK9' and any(row['status'] == 'applicable' for row in persisted['applicability'].values()):
-            _set_state(root, 'needs_attention', next_phase='XK9')
-            raise ValueError('version-four fresh red-team, stance-stability and sensitivity probe execution is not integrated')
         _append(root, phase, contract=contract, packet_sha256=packet_sha256, documents=documents[phase])
     if len(load_phase_records(root)) == 11:
         reader_documents, outputs = build_reader_artifacts_v4(root, packet=persisted, contract=contract, repository_root=repo)
