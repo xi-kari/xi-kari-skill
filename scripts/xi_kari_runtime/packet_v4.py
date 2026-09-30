@@ -1,0 +1,84 @@
+"""Runtime assembly and validation of source-bound version-four analysis packets."""
+
+from __future__ import annotations
+
+from collections.abc import Mapping
+from copy import deepcopy
+from pathlib import Path
+from typing import Any
+
+from .canonical_json import sha256_json
+from .claims import validate_claim_graph
+from .concept_authority import load_concept_authority
+from .evidence import validate_evidence_ledger
+from .problem_contract import FROZEN_FIELDS, contract_hash, stance_neutrality_key, validate_problem_contract
+from .v4_contracts import validate_applicability, validate_versioned_schema
+
+
+def build_analysis_packet_v4(
+    semantic_packet: Mapping[str, Any], *, run_contract: Mapping[str, Any], repository_root: Path
+) -> dict[str, Any]:
+    from .contracts import build_runtime_packet_binding
+    if run_contract.get('contract_profile') != 'production-authoring-v4':
+        raise ValueError('version-four packet requires its version-four run profile')
+    packet = deepcopy(dict(semantic_packet))
+    if any(field in packet for field in ('runtime_binding', 'concept_disposition')):
+        raise ValueError('semantic author cannot supply runtime-owned packet authority')
+    dispositions, _ = load_concept_authority(repository_root, source_version='v9.0')
+    packet.update(
+        schema_id='xi-kari.v4.analysis-packet', schema_version=4,
+        runtime_binding=build_runtime_packet_binding(run_contract), concept_disposition=dispositions,
+    )
+    validate_versioned_schema('xk-v4-analysis-packet.schema.json', packet, repository_root=repository_root)
+    require_packet_contract_v4(packet, mode=run_contract['mode'], run_contract=run_contract, repository_root=repository_root)
+    return packet
+
+
+def require_packet_contract_v4(
+    packet: Mapping[str, Any], *, mode: str,
+    run_contract: Mapping[str, Any] | None = None, repository_root: Path | None = None
+) -> None:
+    from .contracts import build_runtime_packet_binding, validate_answer_basis_references, validate_visibility_ledger
+    validate_versioned_schema('xk-v4-analysis-packet.schema.json', packet, repository_root=repository_root)
+    if mode not in {'open-world', 'closed-input'} or packet['retrieval'].get('mode') != mode:
+        raise ValueError('version-four packet evidence mode differs from the contract')
+    problem = validate_problem_contract({field: packet['problem_contract'].get(field) for field in FROZEN_FIELDS}, mode=mode)
+    binding = packet['runtime_binding']
+    if binding['mode'] != mode or binding['problem_contract_sha256'] != contract_hash(problem):
+        raise ValueError('version-four packet problem binding differs from its frozen problem')
+    if binding['stance_neutrality_key'] != stance_neutrality_key(problem, mode=mode):
+        raise ValueError('version-four packet neutrality binding differs')
+    if run_contract is not None:
+        if dict(binding) != build_runtime_packet_binding(run_contract) or problem != run_contract['problem_contract']:
+            raise ValueError('version-four packet differs from its frozen run contract')
+    graph = validate_claim_graph(packet['claim_mechanism_graph'], evidence_mode=mode, repository_root=repository_root)
+    if packet['applicability'] != graph['applicability']:
+        raise ValueError('version-four packet and claim applicability differ')
+    validate_applicability(packet['applicability'], claims=graph['claims'], repository_root=repository_root)
+    for stage, field in {
+        'world_state': 'local_world_model', 'transformation': 'transformation_ledger',
+        'recursion': 'recursive_lineage', 'forecast': 'forecast', 'action_choice': 'action_ranking',
+    }.items():
+        if packet['applicability'][stage]['status'] == 'applicable':
+            value = packet.get(field)
+            if not isinstance(value, Mapping) or not value:
+                raise ValueError(f'{stage} consumer requires substantive {field} inputs')
+            raise ValueError(f'{stage} version-four production consumer is not integrated')
+    ledger = packet['evidence']
+    errors = validate_evidence_ledger(dict(ledger), dict(packet['retrieval']))
+    if errors:
+        raise ValueError('version-four evidence ledger failed its material bindings: ' + errors[0])
+    evidence = {row['evidence_id']: row for row in ledger['evidence']}
+    for row in graph['evidence']:
+        for reference in row['xk3_evidence_refs']:
+            actual = evidence.get(reference)
+            if actual is None:
+                raise ValueError('claim graph material does not resolve to the actual evidence ledger')
+            for field in ('evidence_identity', 'support_checks', 'availability_status', 'visibility', 'protected_review'):
+                if row[field] != actual[field]:
+                    raise ValueError('claim graph material differs from the actual evidence ledger')
+    validate_answer_basis_references(packet, evidence_ledger=ledger)
+    validate_visibility_ledger(packet, privacy_contract=run_contract.get('privacy_contract') if run_contract else None)
+
+
+__all__ = ('build_analysis_packet_v4', 'require_packet_contract_v4')

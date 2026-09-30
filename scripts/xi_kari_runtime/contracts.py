@@ -2997,6 +2997,14 @@ def validate_delivery_binding(packet: Mapping[str, Any]) -> None:
             raise ValueError("static packet cannot assert dynamic order narrative in brief projection")
 
 
+def build_analysis_packet(
+    semantic_packet: Mapping[str, Any], *, run_contract: Mapping[str, Any], repository_root: Path
+) -> dict[str, Any]:
+    """Assemble a version-four semantic packet with runtime-owned authority."""
+    from .packet_v4 import build_analysis_packet_v4
+    return build_analysis_packet_v4(semantic_packet, run_contract=run_contract, repository_root=repository_root)
+
+
 def require_packet_contract(
     packet: Mapping[str, Any],
     *,
@@ -3005,6 +3013,10 @@ def require_packet_contract(
 ) -> None:
     if not isinstance(packet, Mapping):
         raise ValueError("analysis packet must be an object")
+    if packet.get('schema_version') == 4:
+        from .packet_v4 import require_packet_contract_v4
+        require_packet_contract_v4(packet, mode=mode, run_contract=run_contract)
+        return
     if packet.get("schema_id") != "xi-kari.v3.analysis-packet" or packet.get("schema_version") != 3:
         raise ValueError("analysis packet must use xi-kari.v3.analysis-packet schema version 3")
     if "stance" in packet:
