@@ -344,7 +344,8 @@ def _execution_directories(run: Path) -> tuple[Path, Path, Path]:
     attempt=run/'sem'/('attempt-'+uuid.uuid4().hex)
     capture,workspace=attempt/'capture',attempt/'provider'
     capture.mkdir(parents=True,mode=0o700)
-    workspace.mkdir(mode=0o700)
+    if os.name=='nt':workspace.mkdir()
+    else:workspace.mkdir(mode=0o700)
     return attempt,capture,workspace
 
 
