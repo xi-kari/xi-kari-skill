@@ -309,6 +309,14 @@ def _validate_output(request: Mapping[str, Any],payload: Mapping[str, Any],root:
     return deepcopy(response)
 
 
+def _execution_directories(run: Path) -> tuple[Path, Path, Path]:
+    attempt=run/'sem'/('attempt-'+uuid.uuid4().hex)
+    capture,workspace=attempt/'capture',attempt/'provider'
+    capture.mkdir(parents=True,mode=0o700)
+    workspace.mkdir(mode=0o700)
+    return attempt,capture,workspace
+
+
 def execute_semantic_request_v4(request: Mapping[str, Any],*,binding: Mapping[str, Any] | None,run_directory: Path,repository_root: Path | None=None) -> dict[str, Any]:
     from .authoring import _communicate_limited,AuthoringCommunicationError
     from .materialization import _require_external_runs_root
@@ -320,10 +328,7 @@ def execute_semantic_request_v4(request: Mapping[str, Any],*,binding: Mapping[st
     run=Path(run_directory).resolve()
     _require_external_runs_root(run,root)
     run.mkdir(parents=True,exist_ok=True)
-    attempt=run/'semantic-executions'/('attempt-'+uuid.uuid4().hex)
-    capture,workspace=attempt/'capture',attempt/'provider'
-    capture.mkdir(parents=True,mode=0o700)
-    workspace.mkdir(mode=0o700)
+    attempt,capture,workspace=_execution_directories(run)
     request_bytes=canonical_bytes(request)
     prompt=_prompt(request)
     (capture/'request.json').write_bytes(request_bytes)
