@@ -1448,6 +1448,11 @@ def validate_run(
             fresh_process=fresh_process,
         )
     bound_root_value = contract.get("repository_root")
+    if contract.get('schema_version') == 4:
+        from .validation_v4 import validate_run_v4
+        return validate_run_v4(run_dir, repository_root=repository_root, require_complete=require_complete,
+            check_manifest=check_manifest, validation_boundary=validation_boundary, fresh_process=fresh_process,
+            _lineage_ancestors=_lineage_ancestors)
     if not isinstance(bound_root_value, str) or not bound_root_value:
         errors.append("run contract has no repository root authority")
         repository_root = report_root.resolve()

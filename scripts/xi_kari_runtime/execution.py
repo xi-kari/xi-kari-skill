@@ -202,6 +202,10 @@ MODEL_AUTHORITY_KEYS = frozenset(
         "semantic_probe_authorings",
         "runtime_binding",
         "concept_disposition",
+        "formal_results",
+        "domain_usage",
+        "stage_results",
+        "material_responsibility_binding",
     }
 )
 RUNTIME_OWNED_VISIBILITY_POLICIES = {
@@ -968,6 +972,8 @@ def _base_request(
         request["natural_request"] = deepcopy(dict(natural_request))
     if contract_authoring_binding is not None:
         request["contract_authoring_binding"] = deepcopy(dict(contract_authoring_binding))
+    if version == 4:
+        request['contract_version'] = 4
     return request
 
 
@@ -1324,9 +1330,11 @@ def _project_retrieval(
     closed_input_materials: Sequence[Mapping[str, Any]] | None = None,
     frozen_material_manifest: Mapping[str, Any] | None = None,
     host_captures: Mapping[str, HostCapture] | None = None,
+    contract_version: int = 3,
 ) -> tuple[dict[str, Any], dict[str, Any], dict[str, Any]]:
     mode = packet["retrieval"]["mode"]
-    _validate_model_retrieval_ownership(packet["retrieval"], mode=mode)
+    authored_retrieval = deepcopy(packet['retrieval'])
+    _validate_model_retrieval_ownership(packet["retrieval"], mode=mode, contract_version=contract_version)
     if mode == "closed-input":
         if closed_input_materials is None or frozen_material_manifest is None:
             raise ValueError("closed-input projection has no frozen material binding")
@@ -1372,6 +1380,8 @@ def _project_retrieval(
                 if key != "receipt_sha256"
             }
         )
+        if contract_version == 4:
+            packet = _bind_v4_projected_materials(packet, projected, semantic_retrieval=authored_retrieval)
         return packet, closed_receipt, semantic
     semantic = _semantic_retrieval_input(packet["retrieval"])
     if host_captures is not None and not isinstance(host_captures, Mapping):
@@ -1423,7 +1433,21 @@ def _project_retrieval(
             aliases[key] = runtime_ids[url]
     packet = _remap_source_ids(packet, aliases)
     packet["retrieval"] = projected
+    if contract_version == 4:
+        packet = _bind_v4_projected_materials(packet, projected, semantic_retrieval=authored_retrieval)
     return packet, host_receipt, semantic
+
+
+def _bind_v4_projected_materials(
+    packet: Mapping[str, Any], projected: Mapping[str, Any], *, semantic_retrieval: Mapping[str, Any],
+) -> dict[str, Any]:
+    from .evidence import build_evidence_ledger
+    from .v4_retrieval import bind_material_responsibilities, bind_graph_materials
+    value = deepcopy(dict(packet))
+    value['retrieval'] = bind_material_responsibilities(projected, semantic_retrieval)
+    value['evidence'] = build_evidence_ledger(run_id=projected['run_id'], claims=value['evidence']['claims'], retrieval_index=value['retrieval'], contract_version=4)
+    value['claim_mechanism_graph'] = bind_graph_materials(value['claim_mechanism_graph'], value['evidence'])
+    return value
 
 
 def _write_raw_events(path: Path, raw: bytes) -> None:
@@ -1793,6 +1817,14 @@ def execute_authored_run(
              "problem_contract_sha256": contract_hash(frozen)} if contract_evidence is not None else None
         ),
     )
+    domain_inputs = None
+    if contract_version == 4:
+        from .domain_pipeline_v4 import prepare_domain_inputs
+        domain_inputs = prepare_domain_inputs(selected_domain_ids, run_id=selected_run_id, problem_contract_sha256=problem_contract_sha256, repository_root=repo)
+        request['source_inputs']['domain_inputs'] = {
+            'plan': domain_inputs['plan'],
+            'author_inputs': [{key: item[key] for key in ('domain_id', 'content_utf8', 'content_witness')} for item in domain_inputs['author_inputs']],
+        }
     request_bytes = canonical_bytes(request) + b"\n"
     prompt = build_base_authoring_prompt(request)
     schema_path = repo / ('schemas/xk-v4-base-authoring-output.schema.json' if contract_version == 4 else BASE_OUTPUT_SCHEMA_RELATIVE)
@@ -1910,6 +1942,7 @@ def execute_authored_run(
                 closed_input_materials=frozen_material_records,
                 frozen_material_manifest=frozen_material_manifest,
                 host_captures=host_captures,
+                contract_version=contract_version,
             )
             host_capture_index: dict[str, Any] | None = None
             if host_captures is not None:
@@ -1920,8 +1953,9 @@ def execute_authored_run(
                     semantic_retrieval=semantic_retrieval,
                     host_captures=host_captures,
                 )
-            packet["schema_id"] = "xi-kari.v3.analysis-packet"
-            packet["schema_version"] = 3
+            if contract_version == 3:
+                packet["schema_id"] = "xi-kari.v3.analysis-packet"
+                packet["schema_version"] = 3
             _rebind_visibility_ledger(
                 packet, privacy_purpose=str(frozen_privacy["purpose"])
             )
@@ -1972,6 +2006,7 @@ def execute_authored_run(
                     base_authoring_request=request_bytes,
                     base_authoring_prompt=prompt,
                     base_authoring_output=output,
+                    base_authoring_stderr=stderr,
                     semantic_retrieval_input={
                         "schema_id": "xi-kari.v3.retrieval-semantic-input",
                         "schema_version": 1,
@@ -1985,7 +2020,14 @@ def execute_authored_run(
                     generation=_generation,
                     parent_run_id=_parent_run_id,
                     parent_chain_head_sha256=_parent_chain_head_sha256,
+                    contract_version=contract_version,
                 )
+            if contract_version == 4:
+                atomic_write_bytes(run_dir / 'authoring/XK01-base-authoring-stderr.bin', stderr)
+                atomic_write_bytes(run_dir / 'authoring/XK01-semantic-read-trace-input.json', trace_bytes)
+                atomic_write_bytes(run_dir / 'authoring/XK04-ontology-read-trace-input.json', ontology_trace_bytes)
+                if domain_inputs is not None:
+                    atomic_write_json(run_dir / 'authoring/XK04-domain-read-plan.json', domain_inputs['plan'])
             _write_raw_events(run_dir / BASE_EVENTS_RELATIVE, raw_events)
             atomic_write_bytes(run_dir / BASE_REQUEST_RELATIVE, request_bytes)
             atomic_write_bytes(run_dir / BASE_PROMPT_RELATIVE, prompt)
@@ -2022,7 +2064,7 @@ def execute_authored_run(
         # runtime-owned bindings here; later materialization rereads these
         # bytes and revalidates the full base/retrieval replay.
         packet_for_disk = dict(packet)
-        concept_dispositions, _authority = load_concept_authority(repo)
+        concept_dispositions, _authority = load_concept_authority(repo, source_version=selected_source)
         packet_for_disk["concept_disposition"] = concept_dispositions
         packet_for_disk["runtime_binding"] = build_runtime_packet_binding(
             read_json(run_dir / "run-contract.json")

@@ -1,0 +1,199 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://xi-kari.local/schemas/xi-kari.v4.source-artifact.schema.json",
+  "title": "Source-nine locks and actual reader events",
+  "type": "object",
+  "oneOf": [
+    {
+      "$ref": "#/$defs/source_lock"
+    },
+    {
+      "$ref": "#/$defs/read_event"
+    }
+  ],
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "source_lock": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_id",
+        "schema_version",
+        "run_id",
+        "framework_version",
+        "source_manifest_sha256",
+        "source_raw_sha256",
+        "source_semantic_sha256",
+        "validator_set_sha256",
+        "paragraph_count",
+        "table_count",
+        "source_unit_count",
+        "reader_unit_count",
+        "reader_sequence",
+        "reader_receipts",
+        "source_unit_event_sha256",
+        "complete"
+      ],
+      "properties": {
+        "schema_id": {
+          "const": "xi-kari.v4.source-lock"
+        },
+        "schema_version": {
+          "const": 4
+        },
+        "run_id": {
+          "type": "string"
+        },
+        "framework_version": {
+          "const": "v9.0"
+        },
+        "source_manifest_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "source_raw_sha256": {
+          "const": "ffc45afdc288ecd268fd02e46d47318b7ddf17bf7b47605aa6c413c95398544b"
+        },
+        "source_semantic_sha256": {
+          "const": "24bf22bad46be7369df5c3a99976b48561ca03ac7f85500b4dbd7819a92015ac"
+        },
+        "validator_set_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "paragraph_count": {
+          "const": 4298
+        },
+        "table_count": {
+          "const": 120
+        },
+        "source_unit_count": {
+          "const": 4418
+        },
+        "reader_unit_count": {
+          "const": 21
+        },
+        "reader_sequence": {
+          "type": "array",
+          "minItems": 21,
+          "maxItems": 21,
+          "items": {
+            "type": "string"
+          }
+        },
+        "reader_receipts": {
+          "type": "array",
+          "minItems": 21,
+          "maxItems": 21,
+          "items": {
+            "$ref": "#/$defs/reader_receipt"
+          }
+        },
+        "source_unit_event_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "complete": {
+          "const": true
+        }
+      }
+    },
+    "reader_receipt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "receipt_id",
+        "sequence",
+        "unit",
+        "path",
+        "bytes_read",
+        "expected_sha256",
+        "observed_sha256",
+        "read_complete"
+      ],
+      "properties": {
+        "receipt_id": {
+          "type": "string"
+        },
+        "sequence": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 21
+        },
+        "unit": {
+          "type": "string"
+        },
+        "path": {
+          "type": "string"
+        },
+        "bytes_read": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "expected_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "observed_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "read_complete": {
+          "const": true
+        }
+      }
+    },
+    "read_event": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_id",
+        "schema_version",
+        "run_id",
+        "event_id",
+        "ordinal",
+        "source_anchor",
+        "source_unit_type",
+        "reader_unit",
+        "source_sha256",
+        "status"
+      ],
+      "properties": {
+        "schema_id": {
+          "const": "xi-kari.v4.source-read-event"
+        },
+        "schema_version": {
+          "const": 4
+        },
+        "run_id": {
+          "type": "string"
+        },
+        "event_id": {
+          "type": "string"
+        },
+        "ordinal": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 4418
+        },
+        "source_anchor": {
+          "type": "string",
+          "pattern": "^V90-(?:P[0-9]{5}|T[0-9]{3})$"
+        },
+        "source_unit_type": {
+          "enum": [
+            "paragraph",
+            "table"
+          ]
+        },
+        "reader_unit": {
+          "type": "string"
+        },
+        "source_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "status": {
+          "const": "read"
+        }
+      }
+    }
+  }
+}

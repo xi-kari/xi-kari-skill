@@ -65,6 +65,7 @@ DELIVERY_PATHS = {
 }
 XK_PHASES = tuple(f"XK{index}" for index in range(13))
 PRODUCTION_CONTRACT_PROFILE = "production-authoring-v3"
+PRODUCTION_V4_CONTRACT_PROFILE = "production-authoring-v4"
 EXECUTE_OWNED_BINDING_PROTOCOL = "xi-kari.v3.execute-owned-binding/v1"
 EXECUTE_OWNED_BINDING_OWNER = "execute_authored_run"
 EXECUTE_OWNED_BINDING_FIELDS = frozenset(
@@ -93,7 +94,7 @@ EXECUTE_OWNED_BINDING_FIELDS = frozenset(
         "retrieval_sha256",
     }
 )
-CONTRACT_PROFILES = frozenset({PRODUCTION_CONTRACT_PROFILE})
+CONTRACT_PROFILES = frozenset({PRODUCTION_CONTRACT_PROFILE, PRODUCTION_V4_CONTRACT_PROFILE})
 
 
 def build_execute_owned_binding(
@@ -3155,6 +3156,9 @@ def expected_phase_artifact_paths(
     contract_profile: str = PRODUCTION_CONTRACT_PROFILE,
     mode: str | None = None,
 ) -> tuple[str, ...]:
+    if contract_profile == PRODUCTION_V4_CONTRACT_PROFILE:
+        from .validation_v4 import phase_artifact_paths_v4
+        return phase_artifact_paths_v4(phase, mode=mode)
     paths = {
         "XK0": ("run-contract.json", "capability-snapshot.json"),
         "XK1": (

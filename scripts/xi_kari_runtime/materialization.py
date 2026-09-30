@@ -51,6 +51,7 @@ from .contracts import (
     PREMATURE_COMPLETE_STATE_ERROR,
     PHASE_RESPONSIBILITIES,
     PRODUCTION_CONTRACT_PROFILE,
+    PRODUCTION_V4_CONTRACT_PROFILE,
     build_phase_artifact_bindings,
     build_continuity_bundle_binding,
     build_execute_owned_binding,
@@ -279,6 +280,10 @@ def _safe_run_id(value: str) -> str:
 
 
 def _require_mutable_contract_profile(contract: Mapping[str, Any]) -> None:
+    if contract.get('contract_profile') == PRODUCTION_V4_CONTRACT_PROFILE:
+        if contract.get('source_version') != 'v9.0' or contract.get('schema_id') != 'xi-kari.v4.run-contract' or contract.get('schema_version') != 4 or contract.get('runtime_version') != '4.0.0':
+            raise ValueError('version-four run identity is incompatible; automatic migration is not supported')
+        return
     require_current_source(contract)
     if contract.get("schema_id") != "xi-kari.v3.run-contract" or contract.get("schema_version") != ARTIFACT_SCHEMA_VERSION or contract.get("runtime_version") != RUNTIME_VERSION:
         raise ValueError("run identity is incompatible with runtime 3.0.0; automatic migration is not supported")
@@ -420,6 +425,7 @@ def _write_run_contract(
     contract_profile: str,
     privacy_purpose: str,
     delivery_audience: str,
+    source_lock: Mapping[str, Any] | None = None,
     natural_request: Mapping[str, Any] | None = None,
 ) -> dict[str, Any]:
     question = str(problem_contract["question"])
@@ -435,16 +441,17 @@ def _write_run_contract(
         ],
         "fail_closed": True,
     }
+    version = 4 if contract_profile == PRODUCTION_V4_CONTRACT_PROFILE else 3
     contract = {
-        "schema_id": "xi-kari.v3.run-contract",
-        "schema_version": 3,
-        "runtime_version": RUNTIME_VERSION,
+        "schema_id": f"xi-kari.v{version}.run-contract",
+        "schema_version": version,
+        "runtime_version": '4.0.0' if version == 4 else RUNTIME_VERSION,
         "run_id": run_id,
         "question": question,
         "problem_contract": dict(problem_contract),
         "problem_contract_sha256": contract_hash(problem_contract),
         "mode": mode,
-        "source_version": "v8.3",
+        "source_version": 'v9.0' if version == 4 else 'v8.3',
         "contract_profile": contract_profile,
         "repository_root": str(repository_root),
         "validator_set_sha256": authority_sha256,
@@ -462,8 +469,8 @@ def _write_run_contract(
             "contract_profile": contract_profile,
             "network_retrieval": mode == "open-world",
             "full_source_read_required": True,
-            "source_unit_count": 4753,
-            "reader_unit_count": 21,
+            "source_unit_count": source_lock['source_unit_count'] if source_lock is not None else 4753,
+            "reader_unit_count": source_lock['reader_unit_count'] if source_lock is not None else 21,
             "semantic_authoring_adapter": (
                 dict(semantic_authoring_adapter_binding)
                 if semantic_authoring_adapter_binding is not None
@@ -481,6 +488,9 @@ def _write_run_contract(
         contract["capability_snapshot"]["execute_owned_binding"] = dict(
             execute_owned_binding
         )
+    if version == 4:
+        from .validation_v4 import provider_environment_sha256
+        contract['provider_environment_sha256'] = provider_environment_sha256()
     atomic_write_json(run_dir / "run-contract.json", contract)
     return contract
 
@@ -542,6 +552,7 @@ def _prepare_run_impl(
     base_authoring_request: bytes | None = None,
     base_authoring_prompt: bytes | None = None,
     base_authoring_output: bytes | None = None,
+    base_authoring_stderr: bytes | None = None,
     semantic_retrieval_input: Mapping[str, Any] | None = None,
     retrieval_execution_receipt: Mapping[str, Any] | None = None,
     natural_request: Mapping[str, Any] | None = None,
@@ -560,12 +571,12 @@ def _prepare_run_impl(
         )
     if contract_profile not in CONTRACT_PROFILES:
         raise ValueError(f"unsupported contract profile: {contract_profile}")
-    if contract_profile == PRODUCTION_CONTRACT_PROFILE and not isinstance(
+    if contract_profile in CONTRACT_PROFILES and not isinstance(
         _production_capability, _ProductionPreparationCapability
     ):
         raise ValueError("production preparation requires execute-owned capability")
     if (
-        contract_profile == PRODUCTION_CONTRACT_PROFILE
+        contract_profile in CONTRACT_PROFILES
         and semantic_authoring_profile != FORMAL_ADAPTER_PROFILE
     ):
         raise ValueError(
@@ -573,14 +584,14 @@ def _prepare_run_impl(
             "semantic authoring profile"
         )
     if (
-        contract_profile == PRODUCTION_CONTRACT_PROFILE
+        contract_profile in CONTRACT_PROFILES
         and semantic_read_trace_path is None
     ):
         raise ValueError(
             "production-authoring-v3 requires a semantic read trace"
         )
     if (
-        contract_profile == PRODUCTION_CONTRACT_PROFILE
+        contract_profile in CONTRACT_PROFILES
         and base_authoring_execution is not None
         and ontology_read_trace_path is None
     ):
@@ -594,7 +605,12 @@ def _prepare_run_impl(
     if not isinstance(delivery_audience, str) or not delivery_audience.strip():
         raise ValueError("delivery audience must be non-empty text")
     repo = resolve_repository_root(repository_root or DEFAULT_REPOSITORY_ROOT)
-    authority_sha256 = validator_set_sha256(repo)
+    source_version = 'v9.0' if contract_profile == PRODUCTION_V4_CONTRACT_PROFILE else 'v8.3'
+    if contract_profile == PRODUCTION_V4_CONTRACT_PROFILE:
+        from .validation_v4 import validator_set_sha256_v4
+        authority_sha256 = validator_set_sha256_v4(repo)
+    else:
+        authority_sha256 = validator_set_sha256(repo)
     semantic_authoring_adapter_binding = bind_semantic_authoring_adapter(
         semantic_authoring_adapter,
         timeout_seconds=semantic_authoring_timeout_seconds,
@@ -603,6 +619,7 @@ def _prepare_run_impl(
         repository_root=repo,
     )
     run_id = _safe_run_id(run_id or _new_run_id())
+    lock, events = build_full_source_lock(repo, run_id=run_id, source_version=source_version)
     execute_owned_binding = None
     if _production_capability is not None:
         if (
@@ -660,12 +677,13 @@ def _prepare_run_impl(
         contract_profile=contract_profile,
         privacy_purpose=privacy_purpose.strip(),
         delivery_audience=delivery_audience.strip(),
+        source_lock=lock,
         natural_request=natural_request,
     )
     atomic_write_json(run_dir / KEY_RELATIVE, terminal_private_key)
     capability_snapshot = {
-        "schema_id": "xi-kari.v3.capability-snapshot",
-        "schema_version": 3,
+        "schema_id": f"xi-kari.v{contract['schema_version']}.capability-snapshot",
+        "schema_version": contract['schema_version'],
         "run_id": run_id,
         "mode": mode,
         **contract["capability_snapshot"],
@@ -687,15 +705,14 @@ def _prepare_run_impl(
         ),
         created_at=contract["created_at"],
     )
-    lock, events = build_full_source_lock(repo, run_id=run_id)
     atomic_write_json(run_dir / "source-lock.json", lock)
     atomic_write_text(
         run_dir / "authoring" / "XK01-read-events.jsonl",
         "".join(__import__("json").dumps(event, ensure_ascii=False, sort_keys=True, separators=(",", ":")) + "\n" for event in events),
     )
     read_plan = {
-        "schema_id": "xi-kari.v3.read-plan",
-        "schema_version": 3,
+        "schema_id": f"xi-kari.v{contract['schema_version']}.read-plan",
+        "schema_version": contract['schema_version'],
         "run_id": run_id,
         "framework_version": lock["framework_version"],
         "reader_sequence": lock["reader_sequence"],
@@ -708,7 +725,7 @@ def _prepare_run_impl(
     atomic_write_json(run_dir / "authoring" / "XK01-read-plan.json", read_plan)
     semantic_read_trace = None
     ontology_read_trace = None
-    if contract_profile == PRODUCTION_CONTRACT_PROFILE:
+    if contract_profile in CONTRACT_PROFILES:
         semantic_read_trace = build_semantic_read_trace(
             semantic_read_trace_path,
             repository_root=repo,
@@ -730,7 +747,7 @@ def _prepare_run_impl(
                 run_dir / "authoring" / "XK01-base-authoring-events.jsonl",
                 base_authoring_events,
             )
-        if contract_profile == PRODUCTION_CONTRACT_PROFILE:
+        if contract_profile in CONTRACT_PROFILES:
             if not all(
                 isinstance(value, bytes)
                 for value in (
@@ -766,6 +783,11 @@ def _prepare_run_impl(
                 run_dir / "authoring" / "XK02-retrieval-execution-receipt.json",
                 retrieval_execution_receipt,
             )
+            if contract_profile == PRODUCTION_V4_CONTRACT_PROFILE:
+                if not isinstance(base_authoring_stderr, bytes) or sha256_bytes(base_authoring_stderr) != base_authoring_execution.get('stderr_sha256'):
+                    raise ValueError('version-four stderr differs from actual execute capture')
+                atomic_write_bytes(run_dir / 'authoring/XK01-base-authoring-stderr.bin', base_authoring_stderr)
+                atomic_write_bytes(run_dir / 'authoring/XK01-semantic-read-trace-input.json', read_bounded_regular_file(Path(semantic_read_trace_path), limit=64 * 1024 * 1024))
         if ontology_read_trace_path is not None:
             if not isinstance(ontology_read_plan, Mapping):
                 raise ValueError(
@@ -773,6 +795,7 @@ def _prepare_run_impl(
                 )
             fresh_ontology_read_plan = build_ontology_read_plan(
                 repo,
+                source_version=source_version,
                 run_id=run_id,
                 problem_contract_sha256=contract_hash(frozen_problem),
                 content_access_challenge=ontology_read_plan.get(
@@ -784,6 +807,8 @@ def _prepare_run_impl(
                     "production ontology read plan differs from current authority"
                 )
             raw_ontology_trace = read_json(Path(ontology_read_trace_path))
+            if contract_profile == PRODUCTION_V4_CONTRACT_PROFILE:
+                atomic_write_bytes(run_dir / 'authoring/XK04-ontology-read-trace-input.json', read_bounded_regular_file(Path(ontology_read_trace_path), limit=64 * 1024 * 1024))
             if not isinstance(raw_ontology_trace, Mapping):
                 raise ValueError("ontology read trace input is not an object")
             ontology_read_trace = build_ontology_read_trace(
@@ -848,7 +873,7 @@ def prepare_run(*args: Any, **kwargs: Any) -> dict[str, Any]:
         raise TypeError("prepare accepts only the runs root as a positional argument")
     if kwargs.get("semantic_read_trace_path") is not None or kwargs.get("ontology_read_trace_path") is not None:
         raise ValueError("read trace evidence is owned by execute; preflight does not accept caller receipts")
-    if kwargs.get("contract_profile") != PRODUCTION_CONTRACT_PROFILE:
+    if kwargs.get("contract_profile") not in CONTRACT_PROFILES:
         raise ValueError("preflight requires the current production contract profile")
     if kwargs.get("semantic_authoring_profile") != FORMAL_ADAPTER_PROFILE:
         raise ValueError("preflight requires the production-codex semantic authoring profile")
@@ -875,11 +900,13 @@ def prepare_run(*args: Any, **kwargs: Any) -> dict[str, Any]:
         _safe_run_id(requested_id)
     runs_root = _resolve_run_directory((args[0] if args else kwargs.get("runs_root")) or default_runs_root())
     _require_external_runs_root(runs_root, repo)
-    source_lock, _events = build_full_source_lock(repo, run_id="preflight")
+    profile = kwargs['contract_profile']
+    source_version = 'v9.0' if profile == PRODUCTION_V4_CONTRACT_PROFILE else 'v8.3'
+    source_lock, _events = build_full_source_lock(repo, run_id="preflight", source_version=source_version)
     return {
         "status": "ready-for-execute", "preflight_only": True, "run_created": False,
-        "analysis_complete": False, "runtime_version": RUNTIME_VERSION,
-        "contract_profile": PRODUCTION_CONTRACT_PROFILE,
+        "analysis_complete": False, "runtime_version": '4.0.0' if profile == PRODUCTION_V4_CONTRACT_PROFILE else RUNTIME_VERSION,
+        "contract_profile": profile,
         "source_version": source_lock["framework_version"],
         "problem_contract_sha256": contract_hash(problem),
         "source_unit_count": source_lock["source_unit_count"],
@@ -917,6 +944,8 @@ def _prepare_production_run(
     generation: int,
     parent_run_id: str | None,
     parent_chain_head_sha256: str | None,
+    contract_version: int = 3,
+    base_authoring_stderr: bytes | None = None,
 ) -> Path:
     if not isinstance(capability, _ProductionPreparationCapability):
         raise ValueError("production preparation requires execute-owned capability")
@@ -928,7 +957,7 @@ def _prepare_production_run(
         repository_root=repository_root,
         semantic_authoring_adapter=semantic_authoring_adapter,
         semantic_authoring_timeout_seconds=semantic_authoring_timeout_seconds,
-        contract_profile=PRODUCTION_CONTRACT_PROFILE,
+        contract_profile=PRODUCTION_V4_CONTRACT_PROFILE if contract_version == 4 else PRODUCTION_CONTRACT_PROFILE,
         semantic_read_trace_path=semantic_read_trace_path,
         ontology_read_trace_path=ontology_read_trace_path,
         ontology_read_plan=ontology_read_plan,
@@ -941,6 +970,7 @@ def _prepare_production_run(
         base_authoring_request=base_authoring_request,
         base_authoring_prompt=base_authoring_prompt,
         base_authoring_output=base_authoring_output,
+        base_authoring_stderr=base_authoring_stderr,
         semantic_retrieval_input=semantic_retrieval_input,
         retrieval_execution_receipt=retrieval_execution_receipt,
         natural_request=natural_request,
@@ -968,7 +998,7 @@ def _load_packet_from_disk(
         incoming = dict(packet)
         if "semantic_probe_authorings" in incoming:
             raise ValueError("semantic probe authoring control is runtime-owned")
-        authoritative_dispositions, _ = load_concept_authority(repository_root)
+        authoritative_dispositions, _ = load_concept_authority(repository_root, source_version=contract['source_version'])
         omitted_dispositions = object()
         supplied_dispositions = incoming.pop(
             "concept_disposition", omitted_dispositions
@@ -1908,6 +1938,9 @@ def materialize_run(
     contract = read_json(run_dir / "run-contract.json")
     if not isinstance(contract, Mapping):
         raise ValueError("run contract is not an object")
+    if contract.get('schema_version') == 4:
+        from .materialization_v4 import materialize_run_v4
+        return materialize_run_v4(run_dir, packet, repository_root=repository_root)
     _require_mutable_contract_profile(contract)
     _recover_xk12_transaction(run_dir)
     contract = read_json(run_dir / "run-contract.json")
