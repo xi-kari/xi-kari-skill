@@ -88,7 +88,7 @@ def read_bounded_regular_file(path: Path, *, limit: int) -> bytes:
         raise ValueError(f"output is not a regular file: {path}")
     if initial.st_size > limit:
         raise ValueError("file exceeds size limit")
-    flags = os.O_RDONLY
+    flags = os.O_RDONLY | getattr(os, 'O_BINARY', 0)
     nofollow = getattr(os, "O_NOFOLLOW", 0)
     if nofollow:
         flags |= nofollow

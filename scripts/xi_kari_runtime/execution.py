@@ -730,7 +730,8 @@ def _parse_base_output(
     validator = _schema_validator(BASE_OUTPUT_SCHEMA_RELATIVE.name, str(repository_root))
     violations = sorted(validator.iter_errors(value), key=lambda error: str(list(error.absolute_path)))
     if violations:
-        raise ValueError(f"base authoring output file fails schema validation: {violations[0].message}")
+        from .v4_contracts import _schema_failure
+        raise ValueError(_schema_failure(violations[0], 'base authoring output'))
     packet = value.get("semantic_packet")
     if not isinstance(packet, Mapping):
         raise ValueError("base authoring semantic packet is not an object")
@@ -1340,8 +1341,14 @@ def _project_retrieval(
         if closed_input_materials is None or frozen_material_manifest is None:
             raise ValueError("closed-input projection has no frozen material binding")
         _events, thread_id = _event_objects(event_stream)
+        transport = deepcopy(packet['retrieval'])
+        if contract_version == 4:
+            from .v4_retrieval import MATERIAL_FIELDS
+            for source in transport['sources']:
+                for field in MATERIAL_FIELDS:
+                    source.pop(field, None)
         semantic, projected, query_bindings, source_bindings = _normalize_closed_semantic(
-            packet["retrieval"],
+            transport,
             closed_input_materials,
             manifest=frozen_material_manifest,
             run_id=run_id,

@@ -882,7 +882,7 @@ def _check_production_prepare_authority(root: Path) -> list[str]:
     except (OSError, SyntaxError, ValueError) as exc:
         return errors + [f"cannot inspect production preparation authority: {exc}"]
     if (
-        "PRODUCTION_CONTRACT_PROFILE" not in public_prepare
+        'kwargs.get("contract_profile") not in CONTRACT_PROFILES' not in public_prepare
         or '"preflight_only": True' not in public_prepare
         or '"run_created": False' not in public_prepare
         or "build_full_source_lock" not in public_prepare
@@ -900,7 +900,7 @@ def _check_production_prepare_authority(root: Path) -> list[str]:
     required_order = (
         "subprocess.Popen",
         "_strict_event_stream",
-        "_parse_base_output",
+        "parse_base_authoring_output",
         "validate_semantic_read_trace_input",
         "_project_retrieval",
         "build_execute_owned_binding",
