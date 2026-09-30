@@ -44,6 +44,21 @@ def test_static_v4_phase_artifacts_preserve_real_claims_and_no_world_invention()
     assert world['result']['evaluated'] is False
 
 
+def test_semantic_materialization_rebuilds_the_actual_formal_instance_registry():
+    from tests.test_p04_instance_results_v4 import packet_inputs
+    from xi_kari_runtime.validation_v4 import build_semantic_phase_artifacts_v4
+
+    semantic, contract = packet_inputs()
+    packet = build_analysis_packet_v4(semantic, run_contract=contract, repository_root=ROOT)
+    documents = build_semantic_phase_artifacts_v4(packet, contract=contract, repository_root=ROOT)
+    claim = documents['XK7']['authoring/XK07-claim-mechanism-graph.json']['result']['claims'][0]
+    assert claim['formal_qualification']['status'] == 'qualified'
+    assert claim['formal_qualification']['result_status'] == 'supported'
+    packet['empirical_instances'][0]['evaluation']['prerequisite_claim_ids'] = {}
+    with pytest.raises(ValueError, match='recomputed|qualification|instance'):
+        build_semantic_phase_artifacts_v4(packet, contract=contract, repository_root=ROOT)
+
+
 def test_materializer_rejects_v3_source_and_never_mutates_it(tmp_path):
     from xi_kari_runtime.materialization_v4 import materialize_run_v4
 
@@ -129,6 +144,23 @@ def test_two_actual_root_schema_owners_are_rejected(tmp_path):
         atomic_write_json(tmp_path / 'schemas' / name, {'$schema': 'https://json-schema.org/draft/2020-12/schema', '$id': 'urn:' + name, 'properties': {'schema_id': {'const': 'xi-kari.v4.owner'}}})
     _, errors = schema_registry_v4(tmp_path)
     assert any('duplicate' in error for error in errors)
+
+
+def test_root_registry_resolves_only_local_references_reachable_from_artifact_root(tmp_path):
+    from xi_kari_runtime.validation_v4 import schema_registry_v4
+
+    atomic_write_json(tmp_path / 'schemas' / 'branch.json', {
+        '$schema': 'https://json-schema.org/draft/2020-12/schema', '$id': 'urn:branches',
+        'oneOf': [{'$ref': '#/$defs/left'}, {'$ref': '#/$defs/right'}],
+        '$defs': {
+            'left': {'properties': {'schema_id': {'const': 'xi-kari.v4.left'}}},
+            'right': {'properties': {'schema_id': {'const': 'xi-kari.v4.right'}, 'nested': {'properties': {'schema_id': {'const': 'xi-kari.v3.nested'}}}}},
+            'unreferenced': {'properties': {'schema_id': {'const': 'xi-kari.v4.unreferenced'}}},
+        },
+    })
+    owners, errors = schema_registry_v4(tmp_path)
+    assert errors == []
+    assert set(owners) == {'xi-kari.v4.left', 'xi-kari.v4.right'}
 
 
 def test_v4_run_schema_fixes_profile_source_and_real_unit_count():

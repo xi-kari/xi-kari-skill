@@ -99,9 +99,10 @@ def phase_input_sha256_v4(previous: Mapping[str, Any] | None, value: Any) -> str
     return sha256_json({'predecessor': previous.get('record_sha256') if previous else None, 'value': value})
 
 
-def _root_schema_ids(schema: Any) -> set[str]:
+def _root_schema_ids(schema: Any, *, document: Mapping[str, Any] | None = None, references: frozenset[str] = frozenset()) -> set[str]:
     if not isinstance(schema, Mapping):
         return set()
+    document = document if document is not None else schema
     result: set[str] = set()
     identity = schema.get('properties', {}).get('schema_id', {})
     if isinstance(identity, Mapping):
@@ -110,7 +111,17 @@ def _root_schema_ids(schema: Any) -> set[str]:
         result.update(value for value in identity.get('enum', []) if isinstance(value, str))
     for keyword in ('oneOf', 'anyOf', 'allOf'):
         for branch in schema.get(keyword, []):
-            result.update(_root_schema_ids(branch))
+            result.update(_root_schema_ids(branch, document=document, references=references))
+    reference = schema.get('$ref')
+    if isinstance(reference, str) and reference.startswith('#/') and reference not in references:
+        target: Any = document
+        for token in reference[2:].split('/'):
+            token = token.replace('~1', '/').replace('~0', '~')
+            if not isinstance(target, Mapping) or token not in target:
+                target = None
+                break
+            target = target[token]
+        result.update(_root_schema_ids(target, document=document, references=references | {reference}))
     return result
 
 
@@ -199,7 +210,7 @@ def validate_json_artifact_ownership_v4(run_dir: Path, repository_root: Path) ->
             if identity not in expected_ids:
                 errors.append('artifact path root schema owner differs: ' + relative)
                 continue
-            if identity in _CUSTOM_SOURCE_IDS:
+            if identity in _CUSTOM_SOURCE_IDS and identity not in owners:
                 continue
             owner = owners.get(identity)
             if owner is None:
@@ -274,7 +285,11 @@ def build_semantic_phase_artifacts_v4(packet: Mapping[str, Any], *, contract: Ma
     require_packet_contract_v4(packet, mode=contract['mode'], run_contract=contract, repository_root=repository_root)
     packet_sha256 = input_packet_sha256 or sha256_json(packet)
     stages = _stage_results(packet, contract, repository_root)
-    graph = validate_claim_graph(packet['claim_mechanism_graph'], evidence_mode=contract['mode'], repository_root=repository_root)
+    registry = None
+    if 'empirical_instances' in packet or 'derived_instances' in packet:
+        from .formal_results import rebuild_instance_registry
+        registry = rebuild_instance_registry(packet.get('empirical_instances', []), graph=packet['claim_mechanism_graph'], derived_instances=packet.get('derived_instances', []), evidence_mode=contract['mode'], repository_root=repository_root)
+    graph = validate_claim_graph(packet['claim_mechanism_graph'], evidence_mode=contract['mode'], repository_root=repository_root, verified_instance_results=registry)
     dispositions, closure = load_concept_authority(repository_root, source_version='v9.0')
     if packet['concept_disposition'] != dispositions:
         raise ValueError('version-four packet candidate dispositions differ from source authority')
