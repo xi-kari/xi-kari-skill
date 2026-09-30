@@ -99,18 +99,18 @@ def _changes(packet: Mapping[str, Any],changes: Sequence[Mapping[str, Any]]) -> 
     return result
 
 
-def _fresh_controls(packet: Mapping[str, Any],controls: Mapping[str, Any],contract: Mapping[str, Any],root: Path) -> dict[str, Any]:
-    fresh=validate_stage_chain_v4(packet,run_contract=contract,repository_root=root)
+def _fresh_controls(packet: Mapping[str, Any],controls: Mapping[str, Any],contract: Mapping[str, Any],root: Path,temporal_audit: object=None) -> dict[str, Any]:
+    fresh=validate_stage_chain_v4(packet,run_contract=contract,repository_root=root,temporal_audit=temporal_audit)
     if _native(controls)!=fresh:raise ValueError('semantic execution requires actual fresh stage controls')
     return fresh
 
 
-def build_semantic_execution_request_v4(packet: Mapping[str, Any],stage_controls: Mapping[str, Any],*,run_contract: Mapping[str, Any],kind: str,author_request: Mapping[str, Any] | None=None,variant: str | None=None,sensitivity_changes: Sequence[Mapping[str, Any]]=(),computed_outcomes: Mapping[str, Any] | None=None,repository_root: Path | None=None) -> dict[str, Any]:
+def build_semantic_execution_request_v4(packet: Mapping[str, Any],stage_controls: Mapping[str, Any],*,run_contract: Mapping[str, Any],kind: str,author_request: Mapping[str, Any] | None=None,variant: str | None=None,sensitivity_changes: Sequence[Mapping[str, Any]]=(),computed_outcomes: Mapping[str, Any] | None=None,repository_root: Path | None=None,temporal_audit: object=None) -> dict[str, Any]:
     root=repository_path(repository_root)
     packet=_native(packet)
     if kind not in KINDS:raise ValueError('semantic execution kind is not registered')
-    controls=_fresh_controls(packet,stage_controls,run_contract,root)
-    formal=bind_formal_claim_results(packet['claim_mechanism_graph'],empirical_instances=packet.get('empirical_instances',[]),derived_instances=packet.get('derived_instances',[]),evidence_mode=run_contract['mode'],repository_root=root)
+    controls=_fresh_controls(packet,stage_controls,run_contract,root,temporal_audit)
+    formal=bind_formal_claim_results(packet['claim_mechanism_graph'],empirical_instances=packet.get('empirical_instances',[]),derived_instances=packet.get('derived_instances',[]),evidence_mode=run_contract['mode'],repository_root=root,temporal_audit=temporal_audit)
     task={}
     context={'problem_contract':deepcopy(run_contract['problem_contract']),'claim_mechanism_graph':deepcopy(formal['claim_mechanism_graph']),'evidence':deepcopy(packet['evidence']),'retrieval':deepcopy(packet['retrieval']),'empirical_instances':deepcopy(packet.get('empirical_instances',[])),'derived_instances':deepcopy(packet.get('derived_instances',[]))}
     if kind=='next_author':
@@ -119,6 +119,7 @@ def build_semantic_execution_request_v4(packet: Mapping[str, Any],stage_controls
         if not isinstance(value,dict) or value not in requests:raise ValueError('next author request differs from the actual replayed child input')
         task={'author_request':value}
         context['state']=deepcopy(value['input_state'])
+        context['stage_controls']={'temporal_audit_binding':deepcopy(controls['temporal_audit_binding'])}
         state_hash=sha256_json(value['input_state'])
     else:
         context['computed_packet']=_snapshot_without_reader(packet)
@@ -156,7 +157,30 @@ def build_semantic_execution_request_v4(packet: Mapping[str, Any],stage_controls
                 atom['visibility']='undecided'
                 atom['projection_status']='requires_visibility_decision'
     validate_versioned_schema('xk-v4-semantic-execution-request.schema.json',request,repository_root=root)
+    _require_temporal_request(request,temporal_audit,root)
     return request
+
+
+def _require_temporal_request(request: Mapping[str, Any], temporal_audit: object, root: Path) -> None:
+    from .temporal_audit import TemporalAudit
+    if temporal_audit is not None and type(temporal_audit) is not TemporalAudit:
+        raise ValueError('semantic temporal context must be runtime-owned')
+    expected = {'status':'supplied','audit_sha256':temporal_audit.expected_audit_sha256,'evidence_scope':'isolated_runtime_reads'} if temporal_audit is not None else {'status':'unavailable','audit_sha256':None,'evidence_scope':'isolated_runtime_reads'}
+    material=request['material_context']
+    if material.get('stage_controls',{}).get('temporal_audit_binding') != expected or request['bindings']['base_information_sha256'] != sha256_json(material):
+        raise ValueError('semantic temporal pin differs from the runtime request binding')
+    graph=material['claim_mechanism_graph']
+    needs_formal = bool(material['empirical_instances'] or material['derived_instances']) or any(row.get('formal_qualification',{}).get('requested') for row in graph['claims'])
+    if needs_formal:
+        formal=bind_formal_claim_results(graph,empirical_instances=material['empirical_instances'],derived_instances=material['derived_instances'],evidence_mode=request['evidence_mode'],repository_root=root,temporal_audit=temporal_audit)
+        if formal['claim_mechanism_graph'] != graph or 'formal_outcomes' in material and material['formal_outcomes'] != formal:
+            raise ValueError('semantic qualification differs from current temporal materials')
+    packet=material.get('computed_packet',{})
+    if 'causal_assessments' in packet:
+        from .causal_results_v4 import recompute_causal_results_v4
+        causal=recompute_causal_results_v4(packet['causal_assessments'],graph=graph,empirical_instances=material['empirical_instances'],derived_instances=material['derived_instances'],mode=request['evidence_mode'],repository_root=root,temporal_audit=temporal_audit)
+        if packet.get('causal_results') != causal:
+            raise ValueError('semantic causal qualification differs from current temporal materials')
 
 
 def bind_semantic_execution_provider_v4(executable_path: str | Path,*,repository_root: Path,timeout_seconds: int=1200) -> dict[str, Any]:
@@ -247,7 +271,8 @@ def _repo_state(root: Path) -> dict[str, Any]:
     return result
 
 
-def _validate_output(request: Mapping[str, Any],payload: Mapping[str, Any],root: Path) -> dict[str, Any]:
+def _validate_output(request: Mapping[str, Any],payload: Mapping[str, Any],root: Path,temporal_audit: object=None) -> dict[str, Any]:
+    _require_temporal_request(request,temporal_audit,root)
     validate_versioned_schema('xk-v4-semantic-execution-response.schema.json',payload,repository_root=root)
     graph=request['material_context']['claim_mechanism_graph']
     claims={row['claim_id']:row for row in graph['claims']}
@@ -284,7 +309,7 @@ def _validate_output(request: Mapping[str, Any],payload: Mapping[str, Any],root:
         from .claims import claim_constraints
         from .formal_results import rebuild_instance_registry
         material=request['material_context']
-        registry=rebuild_instance_registry(material['empirical_instances'],graph=graph,derived_instances=material['derived_instances'],evidence_mode=request['evidence_mode'],repository_root=root)
+        registry=rebuild_instance_registry(material['empirical_instances'],graph=graph,derived_instances=material['derived_instances'],evidence_mode=request['evidence_mode'],repository_root=root,temporal_audit=temporal_audit)
         constraints=claim_constraints(graph,verified_instance_results=registry)
         for identifier,row in assessments.items():
             claim=claims[identifier]
@@ -316,13 +341,14 @@ def _execution_directories(run: Path) -> tuple[Path, Path, Path]:
     return attempt,capture,workspace
 
 
-def execute_semantic_request_v4(request: Mapping[str, Any],*,binding: Mapping[str, Any] | None,run_directory: Path,repository_root: Path | None=None) -> dict[str, Any]:
+def execute_semantic_request_v4(request: Mapping[str, Any],*,binding: Mapping[str, Any] | None,run_directory: Path,repository_root: Path | None=None,temporal_audit: object=None) -> dict[str, Any]:
     from .authoring import _communicate_limited,AuthoringCommunicationError
     from .materialization import _require_external_runs_root
     from .execution import _provider_launch_argv
     root=repository_path(repository_root)
     request=_native(request)
     validate_versioned_schema('xk-v4-semantic-execution-request.schema.json',request,repository_root=root)
+    _require_temporal_request(request,temporal_audit,root)
     if request['source_inputs']!=_source(root) or request['model']!=MODEL or request['reasoning_effort']!=EFFORT:raise ValueError('semantic execution source or model drifted before launch')
     run=Path(run_directory).resolve()
     _require_external_runs_root(run,root)
@@ -369,7 +395,7 @@ def execute_semantic_request_v4(request: Mapping[str, Any],*,binding: Mapping[st
         read_semantic_output(workspace,notice=notice,limit=MAX_BYTES)
         output=_raw_file(workspace/'semantic-output.json')
         payload=read_json_text(output.decode('utf-8'))
-        response=_validate_output(request,payload,root)
+        response=_validate_output(request,payload,root,temporal_audit)
         _binding(binding,root)
         status='executed'
     except (ValueError,OSError,UnicodeError,KeyError,TypeError):
@@ -391,7 +417,7 @@ def execute_semantic_request_v4(request: Mapping[str, Any],*,binding: Mapping[st
     return {'status':status,'semantic_gate':'validated' if status=='executed' else 'failed' if process else 'not_evaluated','actual_model_execution':status=='executed' and binding['kind']=='codex_provider','attempt_directory':str(attempt),'authority_commitment_sha256':commitment,'receipt':receipt,'semantic_response':response,'errors':errors,'permission_effect':'none','qualification_effect':'none','external_action_executed':False}
 
 
-def validate_semantic_execution_v4(execution: Mapping[str, Any],*,expected_request: Mapping[str, Any],binding: Mapping[str, Any] | None,repository_root: Path | None=None) -> dict[str, Any]:
+def validate_semantic_execution_v4(execution: Mapping[str, Any],*,expected_request: Mapping[str, Any],binding: Mapping[str, Any] | None,repository_root: Path | None=None,temporal_audit: object=None) -> dict[str, Any]:
     root=repository_path(repository_root)
     expected_request=_native(expected_request)
     validate_versioned_schema('xk-v4-semantic-execution-request.schema.json',expected_request,repository_root=root)
@@ -411,6 +437,7 @@ def validate_semantic_execution_v4(execution: Mapping[str, Any],*,expected_reque
         if sha256_bytes(raw)!=record['sha256'] or len(raw)!=record['bytes']:raise ValueError('semantic execution captured bytes differ from signed receipt')
     request=read_json_text((capture/'request.json').read_text(encoding='utf-8'))
     if request!=_native(expected_request) or (capture/'stdin.bin').read_bytes()!=_prompt(expected_request):raise ValueError('semantic execution request/input bytes changed')
+    _require_temporal_request(request,temporal_audit,root)
     if payload['source_repository_before']!=payload['source_repository_after']:raise ValueError('semantic execution altered its readonly source repository')
     if payload['status']!='executed':
         return {'status':payload['status'],'semantic_gate':'failed' if payload['child_pid'] else 'not_evaluated','actual_model_execution':False,'semantic_response':None,'receipt':receipt}
@@ -423,14 +450,14 @@ def validate_semantic_execution_v4(execution: Mapping[str, Any],*,expected_reque
     read_semantic_output(attempt/'provider',notice=notice,limit=MAX_BYTES)
     output=_raw_file(attempt/'provider/semantic-output.json')
     if output!=(capture/'output.bin').read_bytes():raise ValueError('semantic execution output file bytes differ from captured receipt')
-    response=_validate_output(request,read_json_text(output.decode('utf-8')),root)
+    response=_validate_output(request,read_json_text(output.decode('utf-8')),root,temporal_audit)
     if sha256_json(response)!=payload['semantic_response_sha256']:raise ValueError('semantic execution semantic output differs from runtime receipt')
     return {'status':'executed','semantic_gate':'validated','actual_model_execution':binding['kind']=='codex_provider','semantic_response':response,'receipt':receipt}
 
 
-def execute_next_author_v4(packet: Mapping[str, Any],stage_controls: Mapping[str, Any],*,author_request: Mapping[str, Any],run_contract: Mapping[str, Any],binding: Mapping[str, Any] | None,run_directory: Path,repository_root: Path | None=None) -> dict[str, Any]:
-    request=build_semantic_execution_request_v4(packet,stage_controls,run_contract=run_contract,kind='next_author',author_request=author_request,repository_root=repository_root)
-    result=execute_semantic_request_v4(request,binding=binding,run_directory=run_directory,repository_root=repository_root)
+def execute_next_author_v4(packet: Mapping[str, Any],stage_controls: Mapping[str, Any],*,author_request: Mapping[str, Any],run_contract: Mapping[str, Any],binding: Mapping[str, Any] | None,run_directory: Path,repository_root: Path | None=None,temporal_audit: object=None) -> dict[str, Any]:
+    request=build_semantic_execution_request_v4(packet,stage_controls,run_contract=run_contract,kind='next_author',author_request=author_request,repository_root=repository_root,temporal_audit=temporal_audit)
+    result=execute_semantic_request_v4(request,binding=binding,run_directory=run_directory,repository_root=repository_root,temporal_audit=temporal_audit)
     nodes=[node for path in (stage_controls['stage_results']['recursion']['result'] or {}).get('paths',[]) for node in path['nodes'] if node.get('author_request')==author_request]
     matched=result['semantic_response'] is not None and bool(nodes) and all(node['author_response']==result['semantic_response'] for node in nodes)
     result.update(matches_frozen_response=matched,continuation_gate='matched' if matched else 'needs_restaging' if result['status']=='executed' else 'failed')
@@ -438,14 +465,14 @@ def execute_next_author_v4(packet: Mapping[str, Any],stage_controls: Mapping[str
     return result
 
 
-def execute_semantic_probes_v4(packet: Mapping[str, Any],stage_controls: Mapping[str, Any],*,run_contract: Mapping[str, Any],binding: Mapping[str, Any] | None,run_directory: Path,sensitivity_changes: Sequence[Mapping[str, Any]],repository_root: Path | None=None) -> dict[str, Any]:
+def execute_semantic_probes_v4(packet: Mapping[str, Any],stage_controls: Mapping[str, Any],*,run_contract: Mapping[str, Any],binding: Mapping[str, Any] | None,run_directory: Path,sensitivity_changes: Sequence[Mapping[str, Any]],repository_root: Path | None=None,temporal_audit: object=None) -> dict[str, Any]:
     specs=[('red_team',None),('stance_stability','support'),('stance_stability','oppose'),('sensitivity','baseline'),('sensitivity','changed')]
     executions=[]
     requests=[]
     for kind,variant in specs:
-        request=build_semantic_execution_request_v4(packet,stage_controls,run_contract=run_contract,kind=kind,variant=variant,sensitivity_changes=sensitivity_changes,repository_root=repository_root)
+        request=build_semantic_execution_request_v4(packet,stage_controls,run_contract=run_contract,kind=kind,variant=variant,sensitivity_changes=sensitivity_changes,repository_root=repository_root,temporal_audit=temporal_audit)
         requests.append(request)
-        executions.append(execute_semantic_request_v4(request,binding=binding,run_directory=run_directory,repository_root=repository_root))
+        executions.append(execute_semantic_request_v4(request,binding=binding,run_directory=run_directory,repository_root=repository_root,temporal_audit=temporal_audit))
     def positions(index: int) -> dict[str, Any]:
         response=executions[index]['semantic_response']
         return {row['claim_id']:(row['position'],row['classification'],sorted(row['evidence_refs'])) for row in response['claim_assessments']} if response else {}
@@ -459,9 +486,9 @@ def execute_semantic_probes_v4(packet: Mapping[str, Any],stage_controls: Mapping
     return {'executions':executions,'gates':gates,'actual_model_execution':all(row['actual_model_execution'] for row in executions),'permission_effect':'none','qualification_effect':'none','external_action_executed':False}
 
 
-def execute_final_reader_v4(packet: Mapping[str, Any],stage_controls: Mapping[str, Any],*,run_contract: Mapping[str, Any],binding: Mapping[str, Any] | None,run_directory: Path,computed_outcomes: Mapping[str, Any] | None=None,repository_root: Path | None=None) -> dict[str, Any]:
-    request=build_semantic_execution_request_v4(packet,stage_controls,run_contract=run_contract,kind='final_reader',computed_outcomes=computed_outcomes,repository_root=repository_root)
-    result=execute_semantic_request_v4(request,binding=binding,run_directory=run_directory,repository_root=repository_root)
+def execute_final_reader_v4(packet: Mapping[str, Any],stage_controls: Mapping[str, Any],*,run_contract: Mapping[str, Any],binding: Mapping[str, Any] | None,run_directory: Path,computed_outcomes: Mapping[str, Any] | None=None,repository_root: Path | None=None,temporal_audit: object=None) -> dict[str, Any]:
+    request=build_semantic_execution_request_v4(packet,stage_controls,run_contract=run_contract,kind='final_reader',computed_outcomes=computed_outcomes,repository_root=repository_root,temporal_audit=temporal_audit)
+    result=execute_semantic_request_v4(request,binding=binding,run_directory=run_directory,repository_root=repository_root,temporal_audit=temporal_audit)
     result['reader_finalization']=result['semantic_response'] if result['status']=='executed' else None
     return result
 

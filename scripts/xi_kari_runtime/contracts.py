@@ -3002,11 +3002,12 @@ def build_analysis_packet(
     semantic_packet: Mapping[str, Any], *, run_contract: Mapping[str, Any], repository_root: Path,
     domain_read_plan: Mapping[str, Any] | None = None, reader_finalization: Mapping[str, Any] | None = None,
     probe_outcomes: Mapping[str, Any] | None = None,
+    temporal_audit: object = None,
 ) -> dict[str, Any]:
     """Assemble a version-four semantic packet with runtime-owned authority."""
     from .packet_v4 import build_analysis_packet_v4
     return build_analysis_packet_v4(semantic_packet, run_contract=run_contract, repository_root=repository_root,
-        domain_read_plan=domain_read_plan, reader_finalization=reader_finalization, probe_outcomes=probe_outcomes)
+        domain_read_plan=domain_read_plan, reader_finalization=reader_finalization, probe_outcomes=probe_outcomes, temporal_audit=temporal_audit)
 
 
 def require_packet_contract(
@@ -3014,13 +3015,16 @@ def require_packet_contract(
     *,
     mode: str,
     run_contract: Mapping[str, Any] | None = None,
+    temporal_audit: object = None,
 ) -> None:
     if not isinstance(packet, Mapping):
         raise ValueError("analysis packet must be an object")
     if packet.get('schema_version') == 4:
         from .packet_v4 import require_packet_contract_v4
-        require_packet_contract_v4(packet, mode=mode, run_contract=run_contract)
+        require_packet_contract_v4(packet, mode=mode, run_contract=run_contract, temporal_audit=temporal_audit)
         return
+    if temporal_audit is not None:
+        raise ValueError('runtime temporal evidence requires a version-four packet')
     if packet.get("schema_id") != "xi-kari.v3.analysis-packet" or packet.get("schema_version") != 3:
         raise ValueError("analysis packet must use xi-kari.v3.analysis-packet schema version 3")
     if "stance" in packet:

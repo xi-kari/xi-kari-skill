@@ -11,6 +11,9 @@ from referencing import Registry, Resource
 
 
 V4_SCHEMA_IDENTITIES = {
+    "xk-temporal-audit-context.schema.json": (
+        "xi-kari.runtime.temporal-audit-context", frozenset({"xi-kari.runtime.temporal-audit-context"}),
+    ),
     "xk-temporal-audit.schema.json": (
         "xi-kari.runtime.temporal-audit", frozenset({"xi-kari.runtime.temporal-audit"}),
     ),

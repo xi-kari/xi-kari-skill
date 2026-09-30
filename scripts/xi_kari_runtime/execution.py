@@ -100,6 +100,7 @@ from .retrieval_execution import (
 )
 from .semantic_projection import semantic_atom_paths, validate_visibility_ledger
 from .semantic_read_trace import validate_semantic_read_trace_input
+from .source_profile import DEFAULT_CONTRACT_VERSION, SOURCE_VERSION
 from .validation import run_fresh_validator
 from .world_volume import _schema_validator
 from .output_transport import (
@@ -210,6 +211,9 @@ MODEL_AUTHORITY_KEYS = frozenset(
         "stage_outcomes",
         "probe_outcomes",
         "material_responsibility_binding",
+        "temporal_audit",
+        "temporal_audit_binding",
+        "temporal_context",
     }
 )
 RUNTIME_OWNED_VISIBILITY_POLICIES = {
@@ -911,6 +915,7 @@ def _base_request(
     base_provider_binding: Mapping[str, Any] | None = None,
     natural_request: Mapping[str, Any] | None = None,
     contract_authoring_binding: Mapping[str, Any] | None = None,
+    temporal_audit_binding: Mapping[str, Any] | None = None,
 ) -> dict[str, Any]:
     source_version = str(source_lock['framework_version'])
     version = 4 if source_version == 'v9.0' else 3
@@ -963,6 +968,10 @@ def _base_request(
         )
     if base_provider_binding is not None:
         source_inputs["base_provider_binding"] = deepcopy(dict(base_provider_binding))
+    if temporal_audit_binding is not None:
+        if version != 4:
+            raise ValueError("temporal input binding requires the active version-four contract")
+        source_inputs["temporal_audit_binding"] = deepcopy(dict(temporal_audit_binding))
     request = {
         "schema_id": 'xi-kari.v4.base-authoring-request' if version == 4 else BASE_REQUEST_SCHEMA_ID,
         "schema_version": 1,
@@ -1677,9 +1686,10 @@ def execute_authored_run(
     timeout_seconds: int = DEFAULT_ADAPTER_TIMEOUT_SECONDS,
     privacy_purpose: str = "回答冻结问题并仅向请求用户交付",
     delivery_audience: str = "requesting-user",
-    contract_version: int = 3,
+    contract_version: int = DEFAULT_CONTRACT_VERSION,
     source_version: str | None = None,
     selected_domain_ids: Sequence[str] = (),
+    temporal_audit: object = None,
     _continuation_kind: str = "original",
     _parent_run_id: str | None = None,
     _parent_chain_head_sha256: str | None = None,
@@ -1701,11 +1711,12 @@ def execute_authored_run(
     from .authority import repository_root as resolve_repository_root
     from .materialization import default_runs_root
 
-    selected_source = source_version or ('v9.0' if contract_version == 4 else 'v8.3')
-    if contract_version == 4 and selected_source != 'v9.0':
-        raise ValueError('version-four execution requires source v9.0')
-    if contract_version not in {3, 4} or (contract_version == 3 and selected_source != 'v8.3'):
-        raise ValueError('unsupported execution source and contract version')
+    selected_source = source_version or SOURCE_VERSION
+    if contract_version != DEFAULT_CONTRACT_VERSION or selected_source != SOURCE_VERSION:
+        raise ValueError('active production execution requires the current v9.0 source and version-four contract')
+    from .temporal_audit import TemporalAudit
+    if temporal_audit is not None and type(temporal_audit) is not TemporalAudit:
+        raise ValueError('execute temporal evidence must be a runtime-observed audit, not author JSON')
     if mode not in {"open-world", "closed-input"}:
         raise ValueError("unsupported execution mode")
     if _continuation_kind not in {"original", "fork", "repair"}:
@@ -1805,6 +1816,9 @@ def execute_authored_run(
     lock, source_events = build_full_source_lock(repo, run_id=selected_run_id, source_version=selected_source)
     read_plan = _read_plan(lock, run_id=selected_run_id)
     problem_contract_sha256 = contract_hash(frozen)
+    from .temporal_context import freeze_temporal_context_v4, persist_temporal_context_v4
+    temporal_context = freeze_temporal_context_v4(temporal_audit, run_id=selected_run_id,
+        problem_contract_sha256=problem_contract_sha256, repository_root=repo)
     content_access_challenge = secrets.token_hex(32)
     ontology_read_plan = build_ontology_read_plan(
         repo,
@@ -1832,6 +1846,7 @@ def execute_authored_run(
             {"receipt_sha256": contract_evidence["receipt"]["receipt_sha256"],
              "problem_contract_sha256": contract_hash(frozen)} if contract_evidence is not None else None
         ),
+        temporal_audit_binding=temporal_context.binding if temporal_context is not None else None,
     )
     domain_inputs = None
     if contract_version == 4:
@@ -2038,6 +2053,8 @@ def execute_authored_run(
                     contract_version=contract_version,
                 )
             if contract_version == 4:
+                persist_temporal_context_v4(temporal_context, run_dir=run_dir,
+                    run_contract=read_json(run_dir / 'run-contract.json'))
                 atomic_write_bytes(run_dir / 'authoring/XK01-base-authoring-stderr.bin', stderr)
                 atomic_write_bytes(run_dir / 'authoring/XK01-semantic-read-trace-input.json', trace_bytes)
                 atomic_write_bytes(run_dir / 'authoring/XK04-ontology-read-trace-input.json', ontology_trace_bytes)
@@ -2089,7 +2106,11 @@ def execute_authored_run(
         )
         return status_run(run_dir)
     # The materializer owns packet injection and all downstream phase seals.
-    result = materialize_run(run_dir, packet, repository_root=repo)
+    if temporal_context is not None:
+        from .materialization_v4 import materialize_run_v4
+        result = materialize_run_v4(run_dir, packet, repository_root=repo, temporal_audit=temporal_context.audit)
+    else:
+        result = materialize_run(run_dir, packet, repository_root=repo)
     if result.get("state") != "complete":
         raise ValueError(f"production execution did not reach signed completion: {result}")
     return result

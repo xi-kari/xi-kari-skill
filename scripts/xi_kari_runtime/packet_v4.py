@@ -75,13 +75,14 @@ def build_analysis_packet_v4(
     semantic_packet: Mapping[str, Any], *, run_contract: Mapping[str, Any], repository_root: Path,
     domain_read_plan: Mapping[str, Any] | None = None, reader_finalization: Mapping[str, Any] | None = None,
     probe_outcomes: Mapping[str, Any] | None = None,
+    temporal_audit: object = None,
 ) -> dict[str, Any]:
-    packet = prepare_analysis_packet_v4(semantic_packet, run_contract=run_contract, repository_root=repository_root, domain_read_plan=domain_read_plan, probe_outcomes=probe_outcomes)
+    packet = prepare_analysis_packet_v4(semantic_packet, run_contract=run_contract, repository_root=repository_root, domain_read_plan=domain_read_plan, probe_outcomes=probe_outcomes, temporal_audit=temporal_audit)
     if reader_finalization is not None:
         if not isinstance(reader_finalization, Mapping) or set(reader_finalization) != {'reader_sections', 'visibility_ledger'}:
             raise ValueError('reader finalization may only provide complete sections and disclosure decisions')
         packet.update(deepcopy(dict(reader_finalization)))
-    require_packet_contract_v4(packet, mode=run_contract['mode'], run_contract=run_contract, repository_root=repository_root)
+    require_packet_contract_v4(packet, mode=run_contract['mode'], run_contract=run_contract, repository_root=repository_root, temporal_audit=temporal_audit)
     return packet
 
 
@@ -89,25 +90,26 @@ def prepare_analysis_packet_v4(
     semantic_packet: Mapping[str, Any], *, run_contract: Mapping[str, Any], repository_root: Path,
     domain_read_plan: Mapping[str, Any] | None = None,
     probe_outcomes: Mapping[str, Any] | None = None,
+    temporal_audit: object = None,
 ) -> dict[str, Any]:
     """Compute semantic outcomes for reader authoring; delivery still needs validation."""
     from .contracts import build_runtime_packet_binding
     if run_contract.get('contract_profile') != 'production-authoring-v4':
         raise ValueError('version-four packet requires its version-four run profile')
     packet = deepcopy(dict(semantic_packet))
-    if any(field in packet for field in ('runtime_binding', 'concept_disposition', 'formal_results', 'causal_results', 'domain_binding', 'domain_read_trace', 'domain_usage', 'stage_outcomes', 'probe_outcomes')):
+    if any(field in packet for field in ('runtime_binding', 'concept_disposition', 'formal_results', 'causal_results', 'domain_binding', 'domain_read_trace', 'domain_usage', 'stage_outcomes', 'probe_outcomes', 'temporal_audit', 'temporal_audit_binding', 'temporal_context')):
         raise ValueError('semantic author cannot supply runtime-owned packet authority')
     if 'empirical_instances' in packet or 'derived_instances' in packet:
         from .formal_results import bind_formal_claim_results
         resolved = bind_formal_claim_results(
             packet['claim_mechanism_graph'], empirical_instances=packet.get('empirical_instances', []),
-            derived_instances=packet.get('derived_instances', []), evidence_mode=run_contract['mode'], repository_root=repository_root,
+            derived_instances=packet.get('derived_instances', []), evidence_mode=run_contract['mode'], repository_root=repository_root, temporal_audit=temporal_audit,
         )
         packet['claim_mechanism_graph'] = resolved['claim_mechanism_graph']
         packet['formal_results'] = {key: value for key, value in resolved.items() if key != 'claim_mechanism_graph'}
     if 'causal_assessments' in packet:
         from .causal_results_v4 import recompute_causal_results_v4
-        packet['causal_results'] = recompute_causal_results_v4(packet['causal_assessments'], graph=packet['claim_mechanism_graph'], empirical_instances=packet.get('empirical_instances', []), derived_instances=packet.get('derived_instances', []), mode=run_contract['mode'], repository_root=repository_root)
+        packet['causal_results'] = recompute_causal_results_v4(packet['causal_assessments'], graph=packet['claim_mechanism_graph'], empirical_instances=packet.get('empirical_instances', []), derived_instances=packet.get('derived_instances', []), mode=run_contract['mode'], repository_root=repository_root, temporal_audit=temporal_audit)
     dispositions, _ = load_concept_authority(repository_root, source_version='v9.0')
     packet.update(
         schema_id='xi-kari.v4.analysis-packet', schema_version=4,
@@ -118,26 +120,27 @@ def prepare_analysis_packet_v4(
         from .formal_results import rebuild_instance_registry
         if domain_read_plan is None:
             raise ValueError('domain author semantics require the frozen runtime reading plan')
-        registry = rebuild_instance_registry(packet.get('empirical_instances', []), graph=packet['claim_mechanism_graph'], derived_instances=packet.get('derived_instances', []), evidence_mode=run_contract['mode'], repository_root=repository_root)
+        registry = rebuild_instance_registry(packet.get('empirical_instances', []), graph=packet['claim_mechanism_graph'], derived_instances=packet.get('derived_instances', []), evidence_mode=run_contract['mode'], repository_root=repository_root, temporal_audit=temporal_audit)
         checked = validate_domain_inputs(domain_read_plan, packet['domain_trace'], graph=packet['claim_mechanism_graph'], run_contract=run_contract, repository_root=repository_root, verified_instance_results=registry)
         packet['domain_binding'] = {'plan': deepcopy(dict(domain_read_plan)), **checked}
         packet['domain_read_trace'] = checked['read_trace']
     from .stage_consumers_v4 import validate_stage_chain_v4
-    stages = validate_stage_chain_v4(packet, run_contract=run_contract, repository_root=repository_root)
+    stages = validate_stage_chain_v4(packet, run_contract=run_contract, repository_root=repository_root, temporal_audit=temporal_audit)
     packet['stage_outcomes'] = {stage: deepcopy(row['result']) for stage, row in stages['stage_results'].items()}
     if probe_outcomes is not None:
         validate_versioned_schema('xk-v4-probe-outcomes.schema.json', probe_outcomes, repository_root=repository_root)
         packet['probe_outcomes'] = deepcopy(dict(probe_outcomes))
     validate_versioned_schema('xk-v4-analysis-packet.schema.json', packet, repository_root=repository_root)
-    _require_packet_semantics_v4(packet, mode=run_contract['mode'], run_contract=run_contract, repository_root=repository_root)
+    _require_packet_semantics_v4(packet, mode=run_contract['mode'], run_contract=run_contract, repository_root=repository_root, temporal_audit=temporal_audit)
     return packet
 
 
 def require_packet_contract_v4(
     packet: Mapping[str, Any], *, mode: str,
-    run_contract: Mapping[str, Any] | None = None, repository_root: Path | None = None
+    run_contract: Mapping[str, Any] | None = None, repository_root: Path | None = None,
+    temporal_audit: object = None,
 ) -> None:
-    _require_packet_semantics_v4(packet, mode=mode, run_contract=run_contract, repository_root=repository_root)
+    _require_packet_semantics_v4(packet, mode=mode, run_contract=run_contract, repository_root=repository_root, temporal_audit=temporal_audit)
     from .contracts import validate_visibility_ledger
     validate_visibility_ledger(packet, privacy_contract=run_contract.get('privacy_contract') if run_contract else None)
 
@@ -145,6 +148,7 @@ def require_packet_contract_v4(
 def _require_packet_semantics_v4(
     packet: Mapping[str, Any], *, mode: str,
     run_contract: Mapping[str, Any] | None = None, repository_root: Path | None = None,
+    temporal_audit: object = None,
 ) -> None:
     from .v4_contracts import repository_path
     repository_root = repository_path(repository_root)
@@ -169,18 +173,18 @@ def _require_packet_semantics_v4(
         from .formal_results import bind_formal_claim_results, rebuild_instance_registry
         resolved = bind_formal_claim_results(
             packet['claim_mechanism_graph'], empirical_instances=packet.get('empirical_instances', []),
-            derived_instances=packet.get('derived_instances', []), evidence_mode=mode, repository_root=repository_root,
+            derived_instances=packet.get('derived_instances', []), evidence_mode=mode, repository_root=repository_root, temporal_audit=temporal_audit,
         )
         control = {key: value for key, value in resolved.items() if key != 'claim_mechanism_graph'}
         if sha256_json(control) != sha256_json(packet.get('formal_results')) or packet['claim_mechanism_graph'] != resolved['claim_mechanism_graph']:
             raise ValueError('packet formal qualification differs from its freshly recomputed instance results')
-        registry = rebuild_instance_registry(packet.get('empirical_instances', []), graph=packet['claim_mechanism_graph'], derived_instances=packet.get('derived_instances', []), evidence_mode=mode, repository_root=repository_root)
+        registry = rebuild_instance_registry(packet.get('empirical_instances', []), graph=packet['claim_mechanism_graph'], derived_instances=packet.get('derived_instances', []), evidence_mode=mode, repository_root=repository_root, temporal_audit=temporal_audit)
     elif 'formal_results' in packet:
         raise ValueError('packet formal results require the actual semantic instance inputs')
     graph = validate_claim_graph(packet['claim_mechanism_graph'], evidence_mode=mode, repository_root=repository_root, verified_instance_results=registry)
     if 'causal_assessments' in packet:
         from .causal_results_v4 import recompute_causal_results_v4
-        recomputed = recompute_causal_results_v4(packet['causal_assessments'], graph=graph, empirical_instances=packet.get('empirical_instances', []), derived_instances=packet.get('derived_instances', []), mode=mode, repository_root=repository_root)
+        recomputed = recompute_causal_results_v4(packet['causal_assessments'], graph=graph, empirical_instances=packet.get('empirical_instances', []), derived_instances=packet.get('derived_instances', []), mode=mode, repository_root=repository_root, temporal_audit=temporal_audit)
         if packet.get('causal_results') != recomputed:
             raise ValueError('causal results differ from freshly recomputed material and instance inputs')
     elif 'causal_results' in packet:
@@ -204,7 +208,7 @@ def _require_packet_semantics_v4(
     validate_answer_basis_references(packet, evidence_ledger=ledger)
     from .stage_consumers_v4 import validate_stage_chain_v4
     stage_contract = run_contract or {**dict(binding), 'problem_contract': problem}
-    checked_stages = validate_stage_chain_v4(packet, run_contract=stage_contract, repository_root=repository_root)
+    checked_stages = validate_stage_chain_v4(packet, run_contract=stage_contract, repository_root=repository_root, temporal_audit=temporal_audit)
     outcomes = {stage: row['result'] for stage, row in checked_stages['stage_results'].items()}
     if packet.get('stage_outcomes') != outcomes:
         raise ValueError('stage outcomes differ from freshly recomputed semantic inputs')
