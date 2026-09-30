@@ -28,6 +28,7 @@ EFFORT='max'
 KINDS={'next_author','red_team','stance_stability','sensitivity','final_reader'}
 DOMAIN=b'xi-kari.v4.semantic-execution-receipt/v1'
 MAX_BYTES=16*1024*1024
+MAX_CAPTURE_BYTES=128*1024*1024
 
 
 def _native(value: object) -> Any:
@@ -150,6 +151,11 @@ def build_semantic_execution_request_v4(packet: Mapping[str, Any],stage_controls
     if kind=='final_reader':
         from .semantic_projection import typed_semantic_atoms
         request['reader_requirements']['atoms']=typed_semantic_atoms(packet)
+        classified={row['canonical_path'] for row in packet.get('visibility_ledger',{}).get('entries',[])}
+        for atom in request['reader_requirements']['atoms']:
+            if atom['canonical_path'] not in classified:
+                atom['visibility']='undecided'
+                atom['projection_status']='requires_visibility_decision'
     validate_versioned_schema('xk-v4-semantic-execution-request.schema.json',request,repository_root=root)
     return request
 
@@ -193,7 +199,15 @@ def _binding(binding: Mapping[str, Any] | None,root: Path) -> tuple[list[str],in
 
 def _prompt(request: Mapping[str, Any]) -> bytes:
     instructions=('Use only the exact frozen source-v9.0 material and scope in this request. Preserve observations, source assertions, inference, normative arguments, formal qualification outcomes and source_undefined. Do not grant authorization, qualify instances, execute external actions, or write receipts. Read source_inputs as readonly. Write one strict JSON object to semantic-output.json in the current private workspace, with exactly semantic_response and source_bindings. source_bindings cites each claim_id and its actual material_refs. For next_author, semantic_response has only possible_choice_ids and optional choice_basis/rationale, using the actual feasible actions in task.author_request. For probes, supply complete claim_assessments, concrete scoped counterarguments, and unchanged source_undefined_refs; never output a passed boolean. Claim assessments contain claim_id, semantic position (affirm/withhold/reject/source_undefined), original classification, concrete judgment, evidence_refs, limits and withdrawal_conditions. Counterarguments contain claim_id, evidence_refs, argument, defeat_condition, actual scope and costs. Sensitivity also contains exact changes_considered. For final_reader, semantic_response contains ONLY complete reader_sections and an explicit visibility_ledger for every typed atom, including new runtime outcomes. Follow the frozen disclosure purpose and protected constraints. Write full developed paragraphs with exact source_bindings; do not substitute a summary or invent missing analysis. Put SEMANTIC_OUTPUT_READY in completion-notice.txt and in the final message.\nREQUEST_JSON\n')
-    raw=instructions.encode('utf-8')+canonical_bytes(request)
+    exposed=deepcopy(request)
+    for context in (exposed.get('material_context',{}).get('computed_packet'),exposed.get('task',{}).get('readonly_packet')):
+        if isinstance(context,dict):
+            for key in ('runtime_binding','concept_disposition'):context.pop(key,None)
+    raw=instructions.encode('utf-8')+canonical_bytes(exposed)
+    if request['kind']=='sensitivity':
+        raw=b'For every changed path, also provide change_assessments with path, affected_claim_ids, actual evidence_refs, semantic impact (strengthens/weakens/changes_scope/unchanged/undetermined), a concrete explanation and limits. Preserve undetermined effects.\n'+raw
+    if request['kind']=='final_reader':
+        raw=b'Write the complete reader body in the language requested by the frozen question, using Chinese when no other language is requested. Every atom marked undecided requires your explicit disclosure decision; there are no default-public approvals.\n'+raw
     if len(raw)>MAX_BYTES:raise ValueError('semantic request exceeds bounded transport capacity')
     return raw
 
@@ -264,7 +278,7 @@ def _validate_output(request: Mapping[str, Any],payload: Mapping[str, Any],root:
         outputs=render_reader_outputs(view)
         if reader_contract_gaps(view,outputs['answer']):raise ValueError('final reader body fails its actual complete prose contract')
     else:
-        required={'claim_assessments','counterarguments','source_undefined_refs'} | ({'changes_considered'} if kind=='sensitivity' else set())
+        required={'claim_assessments','counterarguments','source_undefined_refs'} | ({'changes_considered','change_assessments'} if kind=='sensitivity' else set())
         if set(response)!=required or response['source_undefined_refs']!=request['source_undefined_refs']:raise ValueError('probe response changed classification/source_undefined or supplied authority flags')
         assessments={row['claim_id']:row for row in response['claim_assessments']}
         if len(assessments)!=len(response['claim_assessments']) or set(assessments)!=set(claims):raise ValueError('probe must assess the actual frozen claim set')
@@ -281,6 +295,12 @@ def _validate_output(request: Mapping[str, Any],payload: Mapping[str, Any],root:
             claim=claims.get(row['claim_id'])
             if claim is None or row['scope']!=claim['claim_basis']['scope'] or not row['evidence_refs'] or not set(row['evidence_refs']).issubset(claim['evidence_refs']):raise ValueError('counterargument does not resolve its actual claim scope and material')
         if kind=='sensitivity' and response['changes_considered']!=request['task']['sensitivity_changes']:raise ValueError('sensitivity response omitted its actual registered change')
+        if kind=='sensitivity':
+            changes=request['task']['sensitivity_changes']
+            impacts={row['path']:row for row in response['change_assessments']}
+            if len(impacts)!=len(response['change_assessments']) or set(impacts)!={row['path'] for row in changes}:raise ValueError('sensitivity requires substantive reasoning for each actual changed path')
+            for row in impacts.values():
+                if not set(row['affected_claim_ids']).issubset(claims) or not set(row['evidence_refs']).issubset({ref for identifier in row['affected_claim_ids'] for ref in claims[identifier]['evidence_refs']}):raise ValueError('sensitivity impact does not resolve its actual claim/material scope')
         from .semantic_projection import validate_reader_section_privacy
         view=deepcopy(request['material_context'].get('computed_packet',{}))
         view['visibility_ledger']={'entries':deepcopy(request['reader_requirements']['protected_constraints'])}
@@ -379,7 +399,7 @@ def validate_semantic_execution_v4(execution: Mapping[str, Any],*,expected_reque
     validate_versioned_schema('xk-v4-semantic-execution-receipt.schema.json',payload,repository_root=root)
     if receipt!=execution['receipt'] or payload['binding_sha256']!=sha256_json(binding) or payload['request_sha256']!=sha256_json(expected_request) or payload['source_inputs']!=_source(root):raise ValueError('semantic execution receipt differs from expected runtime input')
     for name,record in payload['files'].items():
-        raw=_raw_file(capture/name,limit=MAX_BYTES if name!='stdout.jsonl' else 64*1024*1024)
+        raw=_raw_file(capture/name,limit=MAX_CAPTURE_BYTES if name=='request.json' else MAX_BYTES if name!='stdout.jsonl' else 64*1024*1024)
         if sha256_bytes(raw)!=record['sha256'] or len(raw)!=record['bytes']:raise ValueError('semantic execution captured bytes differ from signed receipt')
     request=read_json_text((capture/'request.json').read_text(encoding='utf-8'))
     if request!=_native(expected_request) or (capture/'stdin.bin').read_bytes()!=_prompt(expected_request):raise ValueError('semantic execution request/input bytes changed')
@@ -424,7 +444,10 @@ def execute_semantic_probes_v4(packet: Mapping[str, Any],stage_controls: Mapping
     good=all(row['status']=='executed' for row in executions)
     equal=requests[1]['bindings']['base_information_sha256']==requests[2]['bindings']['base_information_sha256']
     changed=[identifier for identifier,row in positions(3).items() if positions(4).get(identifier)!=row]
-    gates={'red_team':{'status':'examined' if executions[0]['status']=='executed' else 'failed','counterarguments':(executions[0]['semantic_response'] or {}).get('counterarguments',[])},'stance_stability':{'status':'stable' if good and equal and positions(1)==positions(2) else 'changed' if good and equal else 'failed','equal_information':equal,'different_claim_ids':[identifier for identifier,row in positions(1).items() if positions(2).get(identifier)!=row]},'sensitivity':{'status':'changed' if good and changed else 'stable' if good else 'failed','changed_claim_ids':changed,'changes':_native(list(sensitivity_changes))}}
+    impacts=(executions[4]['semantic_response'] or {}).get('change_assessments',[])
+    unknown=any(row['impact']=='undetermined' for row in impacts)
+    substantive_change=any(row['impact'] in {'strengthens','weakens','changes_scope'} for row in impacts)
+    gates={'red_team':{'status':'examined' if executions[0]['status']=='executed' else 'failed','counterarguments':(executions[0]['semantic_response'] or {}).get('counterarguments',[])},'stance_stability':{'status':'stable' if good and equal and positions(1)==positions(2) else 'changed' if good and equal else 'failed','equal_information':equal,'different_claim_ids':[identifier for identifier,row in positions(1).items() if positions(2).get(identifier)!=row]},'sensitivity':{'status':'failed' if not good else 'changed' if changed or substantive_change else 'undetermined' if unknown else 'stable','changed_claim_ids':changed,'changes':_native(list(sensitivity_changes)),'change_assessments':impacts}}
     return {'executions':executions,'gates':gates,'actual_model_execution':all(row['actual_model_execution'] for row in executions),'permission_effect':'none','qualification_effect':'none','external_action_executed':False}
 
 

@@ -43,18 +43,25 @@ if kind=='next_author':
 elif kind in {'red_team','stance_stability','sensitivity'}:
     assessments=[{'claim_id':row['claim_id'],'position':'withhold','classification':row['claim_basis']['kind'],'judgment':'The frozen materials retain a bounded claim; further observation can change it.','evidence_refs':row['evidence_refs'],'limits':['No new permission or qualification follows.'],'withdrawal_conditions':row['withdrawal_conditions']} for row in claims]
     response={'claim_assessments':assessments,'counterarguments':[{'claim_id':claims[0]['claim_id'],'evidence_refs':claims[0]['evidence_refs'],'argument':'The registered observation does not identify every competing mechanism.','defeat_condition':'An independent discriminating measurement rejects the assumed channel.','scope':claims[0]['claim_basis']['scope'],'costs':['Additional measurement has a real resource cost.']}],'source_undefined_refs':r['source_undefined_refs']}
-    if kind=='sensitivity': response['changes_considered']=r['task']['sensitivity_changes']
+    if kind=='sensitivity':
+        response['changes_considered']=r['task']['sensitivity_changes']
+        response['change_assessments']=[{'path':row['path'],'affected_claim_ids':[claims[0]['claim_id']],'evidence_refs':claims[0]['evidence_refs'],'impact':'unchanged','explanation':'The hypothetical rule variation does not identify a new real observation or grant permission.','limits':['Further discriminating observations remain necessary.']} for row in r['task']['sensitivity_changes']]
+    if behavior=='affirm':
+        for row in response['claim_assessments']:row['position']='affirm'
 else:
     atoms=r['reader_requirements']['atoms']
-    sections=[{'section_id':'reader-'+str(i),'heading':'依据与边界','local_judgment':a['projected_text'],'paragraphs':['这项材料限定了本题可以成立的判断范围，追加资料时仍需重新检查。'],'source_bindings':[{'source_path':a['canonical_path'],'paragraph_index':0,'excerpt':a['projected_text']}]} for i,a in enumerate(atoms) if a['projection_status']!='withheld_for_protection']
+    sections=[{'section_id':'reader-'+str(i),'heading':'依据与边界','local_judgment':a['public_text'],'paragraphs':['这项材料限定了本题可以成立的判断范围，追加资料时仍需重新检查。'],'source_bindings':[{'source_path':a['canonical_path'],'paragraph_index':0,'excerpt':a['public_text']}]} for i,a in enumerate(atoms) if a['projection_status']!='withheld_for_protection']
     visibility=[{'canonical_path':a['canonical_path'],'classification':'public','disclosure':'include','purpose':r['reader_requirements']['purpose'],'authority_refs':[],'protection_reason':None} for a in atoms]
     response={'reader_sections':sections,'visibility_ledger':{'entries':visibility}}
 if behavior=='passed': response={'passed':True}
 if behavior=='mismatch': response={'possible_choice_ids':['CURRENT'],'choice_basis':'A different frozen continuation'}
+if behavior=='incomplete_reader' and kind=='final_reader': response['reader_sections']=response['reader_sections'][:1]
+if behavior=='protected_leak' and kind=='final_reader': response['reader_sections'][0]['paragraphs'].append('PRIVATE-EXECUTION-V4-SECRET-8122')
+if behavior=='bad_pid': pass
 output={'semantic_response':response,'source_bindings':bindings}
 if behavior!='missing': pathlib.Path('semantic-output.json').write_text(json.dumps(output),encoding='utf-8')
 pathlib.Path('completion-notice.txt').write_bytes(b'SEMANTIC_OUTPUT_READY')
-events=[{'type':'thread.started','thread_id':'fixture-'+str(os.getpid()),'pid':os.getpid()},{'type':'turn.started'},{'type':'item.completed','item':{'type':'agent_message','text':'SEMANTIC_OUTPUT_READY'}},{'type':'turn.completed','usage':{'input_tokens':11,'cached_input_tokens':0,'output_tokens':17}}]
+events=[{'type':'thread.started','thread_id':'fixture-'+str(os.getpid()),'pid':os.getpid()+1 if behavior=='bad_pid' else os.getpid()},{'type':'turn.started'},{'type':'item.completed','item':{'type':'agent_message','text':'SEMANTIC_OUTPUT_READY'}},{'type':'turn.completed','usage':{'input_tokens':11,'cached_input_tokens':0,'output_tokens':17}}]
 for event in events: print(json.dumps(event),flush=True)
 print('controlled fixture diagnostic',file=sys.stderr)
 ''',encoding='utf-8')
@@ -126,3 +133,72 @@ def test_independent_probe_calls_keep_equal_stance_information_and_no_reality_ga
     assert result['gates']['stance_stability']['equal_information'] is True
     assert result['gates']['sensitivity']['status'] in {'stable','changed'}
     assert result['gates']['red_team']['counterarguments']
+
+
+def pending_reader_inputs():
+    from xi_kari_runtime.packet_v4 import prepare_analysis_packet_v4
+    packet,contract=static_inputs()
+    pending=prepare_analysis_packet_v4(packet,run_contract=contract,repository_root=ROOT)
+    return pending,contract,validate_stage_chain_v4(pending,run_contract=contract,repository_root=ROOT)
+
+
+def test_final_reader_actual_process_authors_only_two_fields_and_full_body(tmp_path):
+    from xi_kari_runtime.semantic_projection import validate_reader_sections,validate_visibility_ledger
+    packet,contract,controls=pending_reader_inputs()
+    before=deepcopy(packet)
+    result=execute_final_reader_v4(packet,controls,run_contract=contract,binding=fixture_binding(tmp_path),run_directory=tmp_path/'run',repository_root=ROOT)
+    assert result['status']=='executed'
+    assert set(result['reader_finalization'])=={'reader_sections','visibility_ledger'}
+    after={**packet,**result['reader_finalization']}
+    assert {key:value for key,value in after.items() if key not in {'reader_sections','visibility_ledger'}}=={key:value for key,value in before.items() if key not in {'reader_sections','visibility_ledger'}}
+    validate_visibility_ledger(after)
+    assert validate_reader_sections(after)==[]
+    assert packet==before and result['actual_model_execution'] is False
+
+
+def test_final_reader_missing_analysis_is_not_autofilled(tmp_path):
+    packet,contract,controls=pending_reader_inputs()
+    result=execute_final_reader_v4(packet,controls,run_contract=contract,binding=fixture_binding(tmp_path,behavior='incomplete_reader'),run_directory=tmp_path/'run',repository_root=ROOT)
+    assert result['status']=='failed'
+    assert result['reader_finalization'] is None
+
+
+def test_protected_output_error_does_not_echo_raw_value(tmp_path):
+    from xi_kari_runtime.semantic_projection import semantic_atom_paths
+    packet,contract,controls=pending_reader_inputs()
+    path='claim_mechanism_graph.claims[0].statement'
+    packet['claim_mechanism_graph']['claims'][0]['statement']='PRIVATE-EXECUTION-V4-SECRET-8122'
+    packet['visibility_ledger']={'entries':[{'canonical_path':p,'classification':'sensitive' if p==path else 'public','disclosure':'withhold' if p==path else 'include','purpose':'bounded source-scope analysis','authority_refs':['privacy-contract'] if p==path else [],'protection_reason':'当事人未同意公开该材料。' if p==path else None} for p in semantic_atom_paths(packet)]}
+    controls=validate_stage_chain_v4(packet,run_contract=contract,repository_root=ROOT)
+    result=execute_final_reader_v4(packet,controls,run_contract=contract,binding=fixture_binding(tmp_path,behavior='protected_leak'),run_directory=tmp_path/'run',repository_root=ROOT)
+    assert result['status']=='failed'
+    assert 'PRIVATE-EXECUTION-V4-SECRET-8122' not in json.dumps(result['errors'])
+
+
+def test_missing_process_is_not_run_and_bad_declared_pid_is_failed(dynamic,tmp_path):
+    packet,contract,controls,author_request=dynamic
+    request=build_semantic_execution_request_v4(packet,controls,run_contract=contract,kind='next_author',author_request=author_request,repository_root=ROOT)
+    missing=execute_semantic_request_v4(request,binding=None,run_directory=tmp_path/'no-process',repository_root=ROOT)
+    assert missing['status']=='not_run'
+    assert missing['receipt']['signed_payload']['child_pid'] is None
+    bad=execute_semantic_request_v4(request,binding=fixture_binding(tmp_path,behavior='bad_pid'),run_directory=tmp_path/'bad-pid',repository_root=ROOT)
+    assert bad['status']=='failed'
+    assert bad['actual_model_execution'] is False
+
+
+def test_probe_actual_registry_preserves_qualified_G_root_and_hard_premise(tmp_path):
+    from tests.test_v4_stage_chain_integration import empirical_scale_inputs
+    packet,contract=empirical_scale_inputs()
+    claim=next(row for row in packet['claim_mechanism_graph']['claims'] if row['claim_id']=='CLAIM-OBJECT')
+    prereg=packet['empirical_instances'][0]['preregistration']
+    claim['claim_basis']['scope']['population']=prereg['generalization_unit']
+    claim['formal_qualification'].update(requested=True,family='G',concept_ref='V90-CANON-G4',instance_refs=['ROOT-CHAIN'],status='not_evaluated',result_status='not_evaluated')
+    packet['claim_mechanism_graph']['dependency_edges'].append({'edge_id':'EDGE-ACTUAL-PROBE-ROOT','from_id':'CLAIM-VALUE','to_ref':{'kind':'instance','id':'ROOT-CHAIN'},'role':'inferential_requires','source_refs':['V90-P00158'],'condition':'Actual G4 comparison required','scope':'Conditional ordinary recommendation'})
+    packet['claim_mechanism_graph']['dependency_targets']=[{'kind':'instance','id':'ROOT-CHAIN','status':'not_run','reason':'Only code registry can establish support'}]
+    controls=validate_stage_chain_v4(packet,run_contract=contract,repository_root=ROOT)
+    request=build_semantic_execution_request_v4(packet,controls,run_contract=contract,kind='red_team',repository_root=ROOT)
+    assert next(row for row in request['material_context']['claim_mechanism_graph']['claims'] if row['claim_id']=='CLAIM-OBJECT')['formal_qualification']['status']=='qualified'
+    result=execute_semantic_request_v4(request,binding=fixture_binding(tmp_path,behavior='affirm'),run_directory=tmp_path/'run',repository_root=ROOT)
+    assert result['status']=='executed'
+    assert result['qualification_effect']=='none'
+    assert result['actual_model_execution'] is False
