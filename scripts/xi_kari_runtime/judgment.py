@@ -758,14 +758,16 @@ def validate_decision_from_recursive_forecast(
     claim_mechanism_graph: Mapping[str, Any], repository_root: Path | None = None,
     channel_registry: Mapping[str, Mapping[str, Any]] | None = None,
     authorization_registry: Mapping[str, Mapping[str, Any]] | None = None,
+    verified_instance_results: Mapping[str, Any] | None = None,
+    evidence_mode: str = "open-world",
 ) -> dict[str, Any]:
     """Validate deliberation against its replayed state and frozen prospective input."""
     from .stability import freeze_forecast_from_recursive_child
     from .recursion import current_action_set
-    fresh = freeze_forecast_from_recursive_child(forecast["contract"], child=child, parent=parent, event=event, action_catalog=action_catalog, evidence_registry=evidence_registry, claim_mechanism_graph=claim_mechanism_graph, channel_registry=channel_registry, authorization_registry=authorization_registry, repository_root=repository_root)
+    fresh = freeze_forecast_from_recursive_child(forecast["contract"], child=child, parent=parent, event=event, action_catalog=action_catalog, evidence_registry=evidence_registry, claim_mechanism_graph=claim_mechanism_graph, channel_registry=channel_registry, authorization_registry=authorization_registry, repository_root=repository_root, verified_instance_results=verified_instance_results, evidence_mode=evidence_mode)
     if any(forecast.get(field) != fresh.get(field) for field in ("contract_sha256", "parent_state_sha256", "parent_transition_sha256", "recursive_child_sha256", "claim_graph_sha256")):
         raise JudgmentError("decision forecast differs from its fresh recursive input")
-    graph = validate_claim_graph(claim_mechanism_graph, repository_root=repository_root)
+    graph = validate_claim_graph(claim_mechanism_graph, repository_root=repository_root, evidence_mode=evidence_mode, verified_instance_results=verified_instance_results)
     if graph["applicability"]["action_choice"]["status"] != "applicable":
         raise JudgmentError("requested choice cannot bypass action applicability")
     claims_by_id = {row["claim_id"]: row for row in graph["claims"]}
@@ -777,7 +779,7 @@ def validate_decision_from_recursive_forecast(
     if any(f"V90-CANON-{premise}" not in registered_premises for premise in record.get("normative_premises", [])):
         raise JudgmentError("choice uses a registered N premise that its normative argument does not bind")
     try:
-        checked = validate_action_comparison(record, action_state=current_action_set(child["output_state"], action_catalog), claim_constraints=claim_constraints(graph))
+        checked = validate_action_comparison(record, action_state=current_action_set(child["output_state"], action_catalog), claim_constraints=claim_constraints(graph, verified_instance_results=verified_instance_results))
     except ValueError:
         raise JudgmentError("decision does not satisfy its current normative comparison") from None
     checked["forecast_contract_sha256"] = fresh["contract_sha256"]

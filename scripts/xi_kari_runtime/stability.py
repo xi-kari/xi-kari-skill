@@ -27,6 +27,8 @@ def freeze_forecast_from_recursive_child(
     channel_registry: Mapping[str, Mapping[str, Any]] | None = None,
     authorization_registry: Mapping[str, Mapping[str, Any]] | None = None,
     repository_root: Path | None = None,
+    verified_instance_results: Mapping[str, Any] | None = None,
+    evidence_mode: str = "open-world",
 ) -> dict[str, Any]:
     """Freeze a forecast only after replaying its actual immediate recursive child."""
     from .canonical_json import sha256_json
@@ -34,12 +36,12 @@ def freeze_forecast_from_recursive_child(
     from .recursion import validate_registered_child
     from .world_volume import apply_registered_event
     checked = validate_registered_child(child, parent=parent, event=event, action_catalog=action_catalog, evidence_registry=evidence_registry, channel_registry=channel_registry, authorization_registry=authorization_registry)
-    graph = validate_claim_graph(claim_mechanism_graph, repository_root=repository_root)
+    graph = validate_claim_graph(claim_mechanism_graph, repository_root=repository_root, evidence_mode=evidence_mode, verified_instance_results=verified_instance_results)
     if graph.get("schema_version") != 4 or record.get("order") != checked["order"] or record.get("model_version") != checked["model_version"]:
         raise ForecastError("forecast differs from its actual v4 recursive boundary")
     transition = apply_registered_event(parent["output_state"], event, evidence_registry=evidence_registry, channel_registry=channel_registry, authorization_registry=authorization_registry)
     transition_record = {"state_diff_id": transition.state_diff_id, "source_state_sha256": transition.source_state_sha256, "result_state_sha256": transition.result_state_sha256, "output_state": transition.output_state}
-    frozen = freeze_forecast(record, parent_state=checked["output_state"], parent_transition=transition_record, claim_constraints=claim_constraints(graph))
+    frozen = freeze_forecast(record, parent_state=checked["output_state"], parent_transition=transition_record, claim_constraints=claim_constraints(graph, verified_instance_results=verified_instance_results))
     frozen["recursive_child_sha256"] = sha256_json(checked)
     frozen["claim_graph_sha256"] = sha256_json(graph)
     return frozen
