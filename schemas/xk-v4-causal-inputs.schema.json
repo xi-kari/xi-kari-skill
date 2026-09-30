@@ -1,0 +1,149 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://xi-kari.local/schemas/xi-kari.v4.causal-inputs.schema.json",
+  "$ref": "#/$defs/assessments",
+  "$defs": {
+    "text": {"type": "string", "minLength": 1, "pattern": "\\S"},
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "refs": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/text"}},
+    "rounds": {"type": "array", "items": {"$ref": "#/$defs/refs"}},
+    "nullable_ref": {"oneOf": [{"type": "null"}, {"$ref": "#/$defs/text"}]},
+    "scope": {"oneOf": [{"$ref": "#/$defs/text"}, {"type": "object", "minProperties": 1}]},
+    "metric_map": {"type": "object", "additionalProperties": {"type": "number"}},
+    "measured_dimension": {
+      "type": "object", "additionalProperties": false,
+      "required": ["channel_id", "quantity_type", "unit", "window"],
+      "properties": {
+        "channel_id": {"$ref": "#/$defs/text"}, "quantity_type": {"$ref": "#/$defs/text"},
+        "unit": {"$ref": "#/$defs/text"}, "window": {"$ref": "#/$defs/text"},
+        "claim_ids": {"$ref": "#/$defs/refs"}, "value": {"type": ["number", "null"]},
+        "uncertainty": {"type": ["number", "string", "null"]}
+      }
+    },
+    "effect": {
+      "type": "object", "additionalProperties": false,
+      "required": ["treatment_version", "estimand", "population", "outcome", "window", "scale", "identification_assumptions"],
+      "properties": {
+        "treatment_version": {"$ref": "#/$defs/text"}, "estimand": {"$ref": "#/$defs/text"},
+        "population": {"$ref": "#/$defs/text"}, "outcome": {"$ref": "#/$defs/text"},
+        "window": {"$ref": "#/$defs/text"}, "scale": {"$ref": "#/$defs/scope"},
+        "identification_assumptions": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/text"}},
+        "identification_claim_ids": {"$ref": "#/$defs/refs"}, "mechanism_claim_ids": {"$ref": "#/$defs/refs"},
+        "transport_claim_ids": {"$ref": "#/$defs/refs"},
+        "measured_dimensions": {
+          "type": "object", "additionalProperties": false,
+          "properties": {
+            "capacity": {"$ref": "#/$defs/measured_dimension"}, "delay": {"$ref": "#/$defs/measured_dimension"},
+            "reliability": {"$ref": "#/$defs/measured_dimension"}, "controllability": {"$ref": "#/$defs/measured_dimension"},
+            "loss": {"$ref": "#/$defs/measured_dimension"}
+          }
+        }
+      }
+    },
+    "null_gate": {
+      "type": "object", "additionalProperties": false, "required": ["metric", "relation", "threshold"],
+      "properties": {"metric": {"$ref": "#/$defs/text"}, "relation": {"enum": ["at_most", "at_least"]}, "threshold": {"type": "number"}}
+    },
+    "history_contract": {
+      "type": "object", "additionalProperties": false,
+      "required": ["instance_id", "subtype", "criterion", "registered_at", "input_cutoff", "current_state", "known_current_state_fields", "environment", "measurement_protocol", "history_variable", "target", "window", "split_id", "model_version", "study_mode", "preregistration_status", "zero_model", "gain_threshold", "criterion_threshold", "deviation_record"],
+      "properties": {
+        "instance_id": {"$ref": "#/$defs/text"}, "subtype": {"enum": ["G3a", "G3b"]},
+        "criterion": {"enum": ["historical_conditional_predictive_gain", "history_erasure_effect", "history_restoration_effect", "equivalent_intervention_effect"]},
+        "registered_at": {"type": "string", "format": "date-time"}, "input_cutoff": {"type": "string", "format": "date-time"},
+        "current_state": {"type": "object", "minProperties": 1}, "known_current_state_fields": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/$defs/text"}},
+        "environment": {"$ref": "#/$defs/scope"}, "measurement_protocol": {"$ref": "#/$defs/scope"},
+        "history_variable": {"$ref": "#/$defs/text"}, "target": {"$ref": "#/$defs/text"}, "window": {"$ref": "#/$defs/text"},
+        "split_id": {"$ref": "#/$defs/text"}, "model_version": {"$ref": "#/$defs/text"},
+        "study_mode": {"enum": ["confirmatory", "replication", "falsification", "exploratory"]},
+        "preregistration_status": {"$ref": "#/$defs/text"}, "zero_model": {"$ref": "#/$defs/scope"},
+        "gain_threshold": {"type": "number"}, "criterion_threshold": {"type": "number"},
+        "deviation_record": {"type": "array", "items": {"type": ["string", "object"]}},
+        "null_rule": {"oneOf": [{"type": "null"}, {"type": "object", "additionalProperties": false,
+          "required": ["equivalence", "sensitivity", "tolerance"], "properties": {
+            "equivalence": {"$ref": "#/$defs/null_gate"}, "sensitivity": {"$ref": "#/$defs/null_gate"}, "tolerance": {"$ref": "#/$defs/null_gate"}
+          }}]}
+      }
+    },
+    "frozen_history": {
+      "type": "object", "additionalProperties": false, "required": ["contract", "contract_sha256"],
+      "properties": {"contract": {"$ref": "#/$defs/history_contract"}, "contract_sha256": {"$ref": "#/$defs/sha256"}}
+    },
+    "history_evaluation": {
+      "type": "object", "additionalProperties": false,
+      "required": ["outcome_first_seen_at", "target", "window", "split_id", "model_version", "predictive_gain"],
+      "properties": {
+        "outcome_first_seen_at": {"type": "string", "format": "date-time"}, "target": {"$ref": "#/$defs/text"},
+        "window": {"$ref": "#/$defs/text"}, "split_id": {"$ref": "#/$defs/text"}, "model_version": {"$ref": "#/$defs/text"},
+        "predictive_gain": {"type": "number"}, "criterion_values": {"$ref": "#/$defs/metric_map"},
+        "out_of_sample_claim_ids": {"$ref": "#/$defs/refs"}, "analysis_artifact_claim_ids": {"$ref": "#/$defs/refs"},
+        "criterion_claim_ids": {"$ref": "#/$defs/refs"}, "null_claim_ids": {"$ref": "#/$defs/refs"}, "null_metrics": {"$ref": "#/$defs/metric_map"}
+      }
+    },
+    "history": {
+      "type": "object", "additionalProperties": false, "required": ["frozen_contract"],
+      "properties": {"frozen_contract": {"$ref": "#/$defs/frozen_history"},
+        "evaluation": {"oneOf": [{"type": "null"}, {"$ref": "#/$defs/history_evaluation"}]},
+        "ordinary_history_claim_ids": {"$ref": "#/$defs/refs"}}
+    },
+    "feedback": {
+      "type": "object", "additionalProperties": false,
+      "properties": {
+        "receipt_claim_ids": {"$ref": "#/$defs/refs"}, "return_update_claim_ids": {"$ref": "#/$defs/refs"},
+        "retention_claim_ids": {"$ref": "#/$defs/refs"}, "later_round_claim_ids": {"$ref": "#/$defs/rounds"},
+        "ordinary_learning_claim_ids": {"$ref": "#/$defs/refs"}, "institutional_writeback_claim_ids": {"$ref": "#/$defs/refs"},
+        "task_change_claim_ids": {"$ref": "#/$defs/refs"}, "task_version": {"$ref": "#/$defs/text"},
+        "comparison_task_version": {"$ref": "#/$defs/text"}, "cm_feedback_instance_id": {"$ref": "#/$defs/nullable_ref"},
+        "g3_instance_id": {"$ref": "#/$defs/nullable_ref"}
+      }
+    },
+    "measurement": {
+      "type": "object", "additionalProperties": false,
+      "required": ["construct", "indicator", "indicator_role", "unit", "version", "selection_mechanism", "recording_mechanism", "reporting_mechanism", "cross_group_comparison", "cross_time_comparison"],
+      "properties": {
+        "construct": {"$ref": "#/$defs/text"}, "indicator": {"$ref": "#/$defs/text"},
+        "indicator_role": {"enum": ["direct_record", "reflective_indicator", "formative_component", "predictive_proxy"]},
+        "unit": {"$ref": "#/$defs/text"}, "version": {"$ref": "#/$defs/text"},
+        "selection_mechanism": {"$ref": "#/$defs/text"}, "recording_mechanism": {"$ref": "#/$defs/text"}, "reporting_mechanism": {"$ref": "#/$defs/text"},
+        "indicator_claim_ids": {"$ref": "#/$defs/refs"}, "construct_claim_ids": {"$ref": "#/$defs/refs"},
+        "durable_capacity_claim_ids": {"$ref": "#/$defs/refs"}, "manipulation_claim_ids": {"$ref": "#/$defs/refs"},
+        "comparability_claim_ids": {"$ref": "#/$defs/refs"}, "cross_group_comparison": {"type": "boolean"}, "cross_time_comparison": {"type": "boolean"}
+      }
+    },
+    "hop": {
+      "type": "object", "additionalProperties": false, "required": ["from_id", "to_id", "channel", "window"],
+      "properties": {"from_id": {"$ref": "#/$defs/text"}, "to_id": {"$ref": "#/$defs/text"}, "channel": {"$ref": "#/$defs/text"},
+        "window": {"$ref": "#/$defs/text"}, "temporal_claim_ids": {"$ref": "#/$defs/refs"}, "causal_claim_ids": {"$ref": "#/$defs/refs"}}
+    },
+    "propagation": {
+      "type": "object", "additionalProperties": false,
+      "properties": {"hops": {"type": "array", "items": {"$ref": "#/$defs/hop"}},
+        "common_cause_claim_ids": {"$ref": "#/$defs/refs"}, "ordinary_externality_claim_ids": {"$ref": "#/$defs/refs"},
+        "formal_c7_instance_id": {"$ref": "#/$defs/nullable_ref"}}
+    },
+    "recovery": {
+      "type": "object", "additionalProperties": false, "required": ["function", "population", "window", "support_conditions"],
+      "properties": {
+        "function": {"$ref": "#/$defs/text"}, "population": {"$ref": "#/$defs/text"}, "window": {"$ref": "#/$defs/text"},
+        "support_conditions": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/text"}},
+        "function_claim_ids": {"$ref": "#/$defs/refs"}, "sustainability_claim_ids": {"$ref": "#/$defs/refs"},
+        "internal_margin_claim_ids": {"$ref": "#/$defs/refs"}, "external_burden_claim_ids": {"$ref": "#/$defs/refs"},
+        "reliability_test_claim_ids": {"$ref": "#/$defs/refs"}, "unexperienced_conditions": {"$ref": "#/$defs/refs"},
+        "backup_count": {"type": "integer", "minimum": 0}, "common_cause_exposures": {"$ref": "#/$defs/refs"}
+      }
+    },
+    "assessment_envelope": {
+      "type": "object", "additionalProperties": false, "required": ["assessment_id", "kind", "record"],
+      "properties": {"assessment_id": {"$ref": "#/$defs/text"}, "kind": {"enum": ["effect", "history", "feedback", "measurement", "propagation", "recovery"]}, "record": {"type": "object"}}
+    },
+    "assessment": {"allOf": [{"$ref": "#/$defs/assessment_envelope"}], "oneOf": [
+      {"properties": {"kind": {"const": "effect"}, "record": {"$ref": "#/$defs/effect"}}},
+      {"properties": {"kind": {"const": "history"}, "record": {"$ref": "#/$defs/history"}}},
+      {"properties": {"kind": {"const": "feedback"}, "record": {"$ref": "#/$defs/feedback"}}},
+      {"properties": {"kind": {"const": "measurement"}, "record": {"$ref": "#/$defs/measurement"}}},
+      {"properties": {"kind": {"const": "propagation"}, "record": {"$ref": "#/$defs/propagation"}}},
+      {"properties": {"kind": {"const": "recovery"}, "record": {"$ref": "#/$defs/recovery"}}}
+    ]},
+    "assessments": {"type": "array", "items": {"$ref": "#/$defs/assessment"}}
+  }
+}

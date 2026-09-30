@@ -31,10 +31,12 @@ V4_SCHEMA_IDENTITIES = {
         frozenset({"xi-kari.v4.xk.claim-mechanism-graph"}),
     ),
     "xk-v4-common.schema.json": ("xi-kari.v4.xk.common", frozenset()),
+    "xk-v4-causal-inputs.schema.json": ("xi-kari.v4.causal-inputs", frozenset()),
     "xk-v4-formal-input.schema.json": ("xi-kari.v4.formal-input", frozenset()),
     "xk-v4-production-capability.schema.json": (
         "xi-kari.v4.capability-snapshot", frozenset({"xi-kari.v4.capability-snapshot"}),
     ),
+    "xk-v4-probe-outcomes.schema.json": ("xi-kari.v4.probe-outcomes", frozenset()),
     "xk-v4-production-completion.schema.json": (
         "xi-kari.v4.completion", frozenset({"xi-kari.v4.completion"}),
     ),

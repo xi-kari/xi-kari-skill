@@ -611,17 +611,21 @@ def validate_causal_assessments(
     evidence_mode: str = "open-world", repository_root: Path | None = None,
     empirical_instances: list[Mapping[str, Any]] | None = None,
     derived_instances: list[Mapping[str, Any]] | None = None,
+    verified_instance_results: Mapping[str, Any] | None = None,
 ) -> dict[str, Any]:
     """Bind causal responsibility records to a validated version-four graph."""
     from .canonical_json import sha256_json
     from .causality import CausalError, assess_derived_causal_instance, assess_effect, assess_feedback, assess_history, assess_measurement, assess_propagation, assess_recovery
-    graph = validate_claim_graph(claim_mechanism_graph, evidence_mode=evidence_mode, repository_root=repository_root)
+    from .v4_contracts import claim_graph_input
+    graph = validate_claim_graph(claim_mechanism_graph, evidence_mode=evidence_mode,
+        repository_root=repository_root, verified_instance_results=verified_instance_results)
     if graph.get("schema_version") != 4:
         raise ClaimMechanismError("causal assessments require the version-four claim contract")
-    constraints = claim_constraints(graph)
+    constraints = claim_constraints(graph, verified_instance_results=verified_instance_results)
     claim_records = {row["claim_id"]: row for row in graph["claims"]}
     evidence_records = {row["evidence_id"]: row for row in graph["evidence"]}
-    roots = validate_empirical_instances(empirical_instances or [], claim_mechanism_graph=graph, evidence_mode=evidence_mode, repository_root=repository_root)
+    roots = validate_empirical_instances(empirical_instances or [], claim_mechanism_graph=claim_graph_input(graph),
+        evidence_mode=evidence_mode, repository_root=repository_root)
     formal_results = {
         item["preregistration"]["instance_id"]: {"instance_family": item["preregistration"].get("root_id", item["preregistration"].get("claim_id")), "qualification": item["qualification"], "formal_result": item["result"]["result_state"], "preregistration_sha256": item["preregistration_sha256"], "evaluation_sha256": item["evaluation_sha256"]}
         for item in roots["instances"]
