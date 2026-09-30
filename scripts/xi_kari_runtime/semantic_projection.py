@@ -59,6 +59,11 @@ _ID_PREFIX_LABELS = {
     "VAR": "变量",
     "VERDICT": "裁决",
     "VOLUME": "局部世界",
+    "V90": "原文引用",
+    "INSTANCE": "正式实例",
+    "EDGE": "依赖关系",
+    "INPUT": "输入材料",
+    "LINEAGE": "来源谱系",
 }
 _ID_TOKEN = re.compile(
     r"(?<![A-Z0-9_-])(?:"
@@ -233,9 +238,21 @@ _BRANCH_LABELS = {
     "mixture": "混合路径",
     "residual": "残差路径",
 }
+_ENUM_LABELS.update({
+    'source_fact': '可定位的来源事实', 'domain_empirical': '领域经验材料',
+    'text_interpretation': '文本解释', 'formal_proof': '形式证明',
+    'normative_argument': '明示前提的规范论证', 'formal_framework_instance': '框架实例记录',
+    'not_requested': '未申请', 'not_evaluated': '未评估',
+    'qualified': '取得资格', 'unqualified': '未取得资格', 'undetermined': '尚未确定',
+    'null_supported': '零结论获支持', 'unsupported_or_undecided': '未获支持或仍未决',
+    'not_applicable': '不适用', 'inferential_requires': '结论所需的推理前提',
+    'protocol_requires': '相应用途的方法门', 'specializes': '对象或领域特化',
+    'applies_to': '规范或程序适用范围',
+})
 _REGISTRY_FIELDS = {"recursive_states"}
 _DELIVERY_VISIBILITY_ROOTS = (
     "problem_contract",
+    "applicability",
     "facts",
     "retrieval",
     "evidence",
@@ -488,7 +505,7 @@ def _unit(
 def semantic_projection_units(payload: Mapping[str, Any]) -> list[dict[str, Any]]:
     """Build typed, destination-bound readable authority units for XK5-XK10."""
 
-    if payload.get("dynamic_applicability") == "not_applicable":
+    if payload.get("dynamic_applicability") == "not_applicable" and not isinstance(payload.get('applicability'), Mapping):
         return []
     aliases = _alias_book(payload)
     visibility = _visibility_entries(payload)
@@ -519,6 +536,13 @@ def semantic_projection_units(payload: Mapping[str, Any]) -> list[dict[str, Any]
             units.append(unit)
 
     add(
+        'semantic.applicability',
+        'stage_applicability',
+        '本题各项分析的适用范围',
+        payload.get('applicability'),
+        base_path='applicability',
+    )
+    add(
         "semantic.omega",
         "local_world_model",
         "局部世界模型：对象、关系、未知与残差",
@@ -538,6 +562,13 @@ def semantic_projection_units(payload: Mapping[str, Any]) -> list[dict[str, Any]
         )
 
     graph = payload.get("claim_mechanism_graph")
+    if isinstance(graph, Mapping) and graph.get('schema_version') == 4:
+        for field in ('claims', 'evidence', 'dependency_edges', 'input_requirements', 'rival_assessment'):
+            add(
+                f'semantic.claim-responsibility.{field}', 'claim_responsibility',
+                '结论依据、正式资格与局部限制', graph.get(field),
+                base_path=f'claim_mechanism_graph.{field}',
+            )
     explanations = graph.get("explanations", []) if isinstance(graph, Mapping) else []
     for index, explanation in enumerate(explanations):
         kind = explanation.get("kind") if isinstance(explanation, Mapping) else None
@@ -1085,14 +1116,112 @@ def _identity_value(
     )
 
 
+def _v4_reader_units(payload: Mapping[str, Any], aliases: Mapping[str, str]) -> list[dict[str, Any]]:
+    units: list[dict[str, Any]] = []
+    stages = payload.get('applicability')
+    if isinstance(stages, Mapping):
+        names = {
+            'world_state': '世界状态', 'transformation': '尺度与表示变换',
+            'mechanism': '机制说明', 'recursion': '递归推演',
+            'forecast': '前瞻', 'action_choice': '行动选择',
+        }
+        fragments: list[ReaderFragment] = []
+        for stage, row in stages.items():
+            if not isinstance(row, Mapping):
+                continue
+            base = f'applicability.{stage}'
+            status = _reader_value(row.get('status'), f'{base}.status', aliases)
+            reason = _reader_value(row.get('rationale'), f'{base}.rationale', aliases)
+            refs = _reader_value(row.get('dependency_refs'), f'{base}.dependency_refs', aliases)
+            fragments.append(_reader_fragment(
+                f"{names.get(stage, '相应分析')}在本题中{status.text}，理由是{reason.text}。"
+                + (f'该限制只作用于{refs.text}。' if refs.text else ''),
+                status, reason, refs,
+            ))
+        unit = _reader_unit('reader.applicability', 'stage_applicability', '本题的分析范围', fragments)
+        if unit is not None:
+            units.append(unit)
+    graph = payload.get('claim_mechanism_graph')
+    if not isinstance(graph, Mapping) or graph.get('schema_version') != 4:
+        return units
+    for index, claim in enumerate(graph.get('claims', [])):
+        if not isinstance(claim, Mapping):
+            continue
+        base = f'claim_mechanism_graph.claims[{index}]'
+        statement = _reader_value(claim.get('statement'), f'{base}.statement', aliases)
+        basis = claim.get('claim_basis', {})
+        qualification = claim.get('formal_qualification', {})
+        if not isinstance(basis, Mapping) or not isinstance(qualification, Mapping):
+            continue
+        kind = _reader_value(basis.get('kind'), f'{base}.claim_basis.kind', aliases)
+        scope = basis.get('scope', {})
+        scope_values = [
+            _reader_value(scope.get(field), f'{base}.claim_basis.scope.{field}', aliases)
+            for field in ('object', 'population', 'window', 'target')
+        ] if isinstance(scope, Mapping) else []
+        material = _reader_value(basis.get('material_refs'), f'{base}.claim_basis.material_refs', aliases)
+        status = _reader_value(qualification.get('status'), f'{base}.formal_qualification.status', aliases)
+        result = _reader_value(qualification.get('result_status'), f'{base}.formal_qualification.result_status', aliases)
+        reason = _reader_value(qualification.get('reason'), f'{base}.formal_qualification.reason', aliases)
+        requested = _reader_value(qualification.get('requested'), f'{base}.formal_qualification.requested', aliases)
+        family = _reader_value(qualification.get('family'), f'{base}.formal_qualification.family', aliases)
+        concept = _reader_value(qualification.get('concept_ref'), f'{base}.formal_qualification.concept_ref', aliases)
+        instances = _reader_value(qualification.get('instance_refs'), f'{base}.formal_qualification.instance_refs', aliases)
+        responsibilities = _reader_value(claim.get('responsibility_refs'), f'{base}.responsibility_refs', aliases)
+        fragments = [
+            _reader_fragment(
+                f'“{statement.text}”以{kind.text}为依据，材料为{material.text}；'
+                f"范围限定为{'；'.join(value.text for value in scope_values)}。",
+                statement, kind, material, *scope_values,
+            ),
+            _reader_fragment(
+                f'这项结论的正式资格为{status.text}，实例结果为{result.text}；{reason.text}。',
+                status, result, reason,
+            ),
+        ]
+        if qualification.get('requested'):
+            fragments.append(_reader_fragment(
+                f'它另申请{family.text}所对应的正式资格，概念责任为{concept.text}，'
+                f'登记的实例为{instances.text or "尚未核验"}；这些引用本身不授予支持或许可。',
+                requested, family, concept, instances, responsibilities,
+            ))
+        unit = _reader_unit(f'reader.claim-responsibility.{index + 1}', 'claim_responsibility', '结论的依据与资格', fragments)
+        if unit is not None:
+            units.append(unit)
+    for field, heading in (('dependency_edges', '结论和用途的依赖'), ('input_requirements', '输入不足的局部影响')):
+        fragments = []
+        for index, row in enumerate(graph.get(field, [])):
+            if not isinstance(row, Mapping):
+                continue
+            base = f'claim_mechanism_graph.{field}[{index}]'
+            values = [
+                _reader_value(row.get(key), f'{base}.{key}', aliases)
+                for key in ('from_id', 'role' if field == 'dependency_edges' else 'status', 'condition', 'scope')
+            ]
+            if field == 'dependency_edges':
+                target = row.get('to_ref', {})
+                target_value = _reader_value(target.get('id'), f'{base}.to_ref.id', aliases)
+            else:
+                target_value = _reader_value(row.get('input_ref'), f'{base}.input_ref', aliases)
+            fragments.append(_reader_fragment(
+                f'{values[0].text}对{target_value.text}的记录为{values[1].text}，'
+                f'条件是{values[2].text}，影响范围是{values[3].text}。',
+                *values, target_value,
+            ))
+        unit = _reader_unit(f'reader.{field}', 'claim_responsibility', heading, fragments)
+        if unit is not None:
+            units.append(unit)
+    return units
+
+
 def reader_projection_units(payload: Mapping[str, Any]) -> list[dict[str, Any]]:
     """Select decision-relevant relation sentences from the complete typed atom ledger."""
 
     sanitized = redact_payload_for_delivery(payload)
-    if sanitized.get("dynamic_applicability") == "not_applicable":
+    if sanitized.get("dynamic_applicability") == "not_applicable" and not isinstance(sanitized.get('applicability'), Mapping):
         return []
     aliases = _alias_book(sanitized)
-    units: list[dict[str, Any]] = []
+    units: list[dict[str, Any]] = _v4_reader_units(sanitized, aliases)
 
     world = sanitized.get("local_world_model")
     if isinstance(world, Mapping):

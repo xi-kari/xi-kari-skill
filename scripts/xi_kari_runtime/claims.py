@@ -1,4 +1,4 @@
-"""Claim/mechanism graph semantics for Xi-Kari v3."""
+"""Versioned claim, mechanism and evidence dependency semantics."""
 
 from __future__ import annotations
 
@@ -6,6 +6,16 @@ from collections.abc import Mapping
 from pathlib import Path
 from typing import Any
 
+from .v4_contracts import (
+    dependency_is_active,
+    evidence_supports_claim,
+    hard_claim_dependencies,
+    validate_applicability,
+    validate_claim_responsibilities,
+    validate_evidence_responsibilities,
+    validate_v4_binding,
+    validate_versioned_schema,
+)
 from .world_volume import (
     _native_snapshot,
     _validate_ontology_binding,
@@ -49,7 +59,7 @@ def validate_claim_graph(
     evidence_mode: str = "open-world",
     repository_root: Path | None = None,
 ) -> dict[str, Any]:
-    """Validate a v8.3-bound claim/mechanism graph and return its snapshot."""
+    """Validate a source-bound claim/mechanism graph and return its snapshot."""
 
     if evidence_mode not in {"open-world", "closed-input"}:
         raise ClaimMechanismError(f"unsupported evidence mode: {evidence_mode}")
@@ -59,8 +69,9 @@ def validate_claim_graph(
     )
     if not isinstance(snapshot, dict):
         raise ClaimMechanismError("claim mechanism graph must be a mapping")
+    is_v4 = snapshot.get("schema_version") == 4
     raw_countercases = snapshot.get("countercases")
-    if isinstance(raw_countercases, list) and any(
+    if not is_v4 and isinstance(raw_countercases, list) and any(
         isinstance(countercase, Mapping)
         and not countercase.get("attacks_mechanism_ids")
         for countercase in raw_countercases
@@ -68,20 +79,31 @@ def validate_claim_graph(
         raise ClaimMechanismError(
             "countercase must bind and attack a decisive mechanism"
         )
-    _validate_schema(
-        "xk-claim-mechanism.schema.json",
-        snapshot,
-        label="claim mechanism graph",
-        error_type=ClaimMechanismError,
-        repository_root=repository_root,
-    )
-    _validate_ontology_binding(
-        snapshot,
-        required=REQUIRED_CLAIM_ONTOLOGY,
-        label="claim mechanism graph",
-        error_type=ClaimMechanismError,
-        repository_root=repository_root,
-    )
+    if is_v4:
+        try:
+            validate_versioned_schema('xk-v4-claim-mechanism.schema.json', snapshot, repository_root=repository_root)
+        except ValueError as error:
+            raise ClaimMechanismError(str(error)) from error
+    else:
+        _validate_schema(
+            'xk-claim-mechanism.schema.json', snapshot,
+            label='claim mechanism graph', error_type=ClaimMechanismError,
+            repository_root=repository_root,
+        )
+    authority = None
+    if is_v4:
+        try:
+            authority = validate_v4_binding(snapshot, repository_root=repository_root)
+        except ValueError as error:
+            raise ClaimMechanismError(str(error)) from error
+    else:
+        _validate_ontology_binding(
+            snapshot,
+            required=REQUIRED_CLAIM_ONTOLOGY,
+            label="claim mechanism graph",
+            error_type=ClaimMechanismError,
+            repository_root=repository_root,
+        )
 
     evidence = _unique_ids(snapshot["evidence"], "evidence_id", "evidence")
     claims = _unique_ids(snapshot["claims"], "claim_id", "claim")
@@ -101,6 +123,30 @@ def validate_claim_graph(
     evidence_ids = set(evidence)
     mechanism_ids = set(mechanisms)
     claim_ids = set(claims)
+    try:
+        dependencies = hard_claim_dependencies(snapshot)
+        if is_v4:
+            assert authority is not None
+            validate_applicability(
+                snapshot['applicability'], claims=list(claims.values()),
+                anchors=authority['anchors'], dependency_ids=claim_ids | set(authority['concepts']),
+                repository_root=repository_root,
+            )
+            _validate_v4_dependencies(snapshot, claims, authority)
+            material_ids = evidence_ids | {
+                ref for row in evidence.values() for ref in row['source_refs']
+            } | authority['anchors']
+            for claim in claims.values():
+                validate_claim_responsibilities(
+                    claim, material_ids=material_ids, concepts=authority['concepts'],
+                    repository_root=repository_root,
+                )
+                if claim['kind'] == 'mechanism' and not claim['mechanism_ids']:
+                    raise ValueError('a specific mechanism claim requires a mechanism contract')
+            for row in evidence.values():
+                validate_evidence_responsibilities(row, repository_root=repository_root)
+    except ValueError as error:
+        raise ClaimMechanismError(str(error)) from error
     residual_ids = {
         residual_id
         for explanation in explanations.values()
@@ -125,7 +171,7 @@ def validate_claim_graph(
             raise ClaimMechanismError("claim evidence reference does not resolve")
         if not set(claim["mechanism_ids"]).issubset(mechanism_ids):
             raise ClaimMechanismError("claim mechanism reference does not resolve")
-        if not set(claim["depends_on_claim_ids"]).issubset(claim_ids):
+        if not set(dependencies[claim['claim_id']]).issubset(claim_ids):
             raise ClaimMechanismError("claim dependency does not resolve")
 
     visiting: set[str] = set()
@@ -137,7 +183,7 @@ def validate_claim_graph(
         if claim_id in visited:
             return
         visiting.add(claim_id)
-        for parent in claims[claim_id]["depends_on_claim_ids"]:
+        for parent in dependencies[claim_id]:
             visit(parent)
         visiting.remove(claim_id)
         visited.add(claim_id)
@@ -149,7 +195,7 @@ def validate_claim_graph(
         affected = set(missing["affected_claim_ids"])
         if not affected.issubset(claim_ids):
             raise ClaimMechanismError("missing input affected claim does not resolve")
-        if missing["scope"] == "global" and affected != claim_ids:
+        if not is_v4 and missing["scope"] == "global" and affected != claim_ids:
             raise ClaimMechanismError("global missing input must cover every claim")
 
     signatures: set[tuple[object, ...]] = set()
@@ -168,22 +214,26 @@ def validate_claim_graph(
             )
         signatures.add(signature)
 
-    if len(explanations) != len(EXPLANATION_KINDS) or {
+    if not is_v4 and (len(explanations) != len(EXPLANATION_KINDS) or {
         explanation["kind"] for explanation in explanations.values()
-    } != set(EXPLANATION_KINDS):
+    } != set(EXPLANATION_KINDS)):
         raise ClaimMechanismError(
             "claim graph must preserve simple-baseline, main, strongest-rival, mixture, and residual explanations"
         )
     explanation_by_kind = {
         explanation["kind"]: explanation for explanation in explanations.values()
     }
+    if len(explanation_by_kind) != len(explanations):
+        raise ClaimMechanismError('explanation kinds must have unique responsibilities')
+    if is_v4 and not {'simple-baseline', 'main'}.issubset(explanation_by_kind):
+        raise ClaimMechanismError('claim graph requires a simple baseline and main explanation')
     explanation_signatures: set[tuple[object, ...]] = set()
     for explanation in explanations.values():
         if not set(explanation["claim_ids"]).issubset(claim_ids):
             raise ClaimMechanismError("explanation claim reference does not resolve")
         if not set(explanation["mechanism_ids"]).issubset(mechanism_ids):
             raise ClaimMechanismError("explanation mechanism reference does not resolve")
-        if explanation["applicability"] == "not-applicable":
+        if explanation["applicability"] in {"not-applicable", "not_applicable"}:
             if any(explanation[field] for field in ("claim_ids", "mechanism_ids", "residual_ids")):
                 raise ClaimMechanismError("not-applicable explanation cannot fabricate claim or mechanism bindings")
             continue
@@ -191,7 +241,7 @@ def validate_claim_graph(
             raise ClaimMechanismError("applicable explanation requires a claim")
         if explanation["kind"] == "residual" and not explanation["residual_ids"]:
             raise ClaimMechanismError("residual explanation must retain a residual")
-        if explanation["kind"] == "strongest-rival" and not explanation["mechanism_ids"]:
+        if not is_v4 and explanation["kind"] == "strongest-rival" and not explanation["mechanism_ids"]:
             raise ClaimMechanismError("strongest-rival explanation needs a mechanism")
         signature = (
             tuple(sorted(explanation["claim_ids"])),
@@ -207,11 +257,14 @@ def validate_claim_graph(
 
     baseline = explanation_by_kind["simple-baseline"]
     main = explanation_by_kind["main"]
-    rival = explanation_by_kind["strongest-rival"]
-    mixture = explanation_by_kind["mixture"]
+    absent = {'applicability': 'not_applicable', 'claim_ids': [], 'mechanism_ids': []}
+    rival = explanation_by_kind.get("strongest-rival", absent)
+    mixture = explanation_by_kind.get("mixture", absent)
+    if is_v4:
+        _validate_v4_rivals(snapshot, explanation_by_kind, claim_ids, material_ids)
     if baseline["mechanism_ids"]:
         raise ClaimMechanismError("simple baseline cannot hide a mechanism")
-    if main["applicability"] == "applicable" and not main["mechanism_ids"]:
+    if not is_v4 and main["applicability"] == "applicable" and not main["mechanism_ids"]:
         raise ClaimMechanismError("main explanation needs a mechanism")
     main_mechanism_ids = set(main["mechanism_ids"])
     baseline_claim_mechanisms = {
@@ -225,6 +278,7 @@ def validate_claim_graph(
         )
     if (
         main["applicability"] == rival["applicability"] == "applicable"
+        and (not is_v4 or main['mechanism_ids'] or rival['mechanism_ids'])
         and set(main["mechanism_ids"]) == set(rival["mechanism_ids"])
     ):
         raise ClaimMechanismError(
@@ -270,7 +324,7 @@ def validate_claim_graph(
             for claim_id in countercase["attacks_claim_ids"]
             for mechanism_id in claims[claim_id]["mechanism_ids"]
         }
-        if (
+        if (not is_v4 or countercase['rival_target'] == 'mechanism') and (
             not expected_mechanism_ids
             or set(countercase["attacks_mechanism_ids"])
             != expected_mechanism_ids
@@ -326,6 +380,69 @@ def validate_claim_graph(
     return snapshot
 
 
+def _validate_v4_dependencies(
+    graph: Mapping[str, Any], claims: Mapping[str, Any], authority: Mapping[str, Any]
+) -> None:
+    targets = {(row['kind'], row['id']): row for row in graph.get('dependency_targets', [])}
+    external = authority['dependencies'].get('external_nodes', [])
+    external_ids = {
+        row.get('id', row.get('node_id', row.get('concept_id')))
+        for row in external if isinstance(row, Mapping)
+    }
+    for edge in graph['dependency_edges']:
+        if edge['from_id'] not in claims:
+            raise ValueError('dependency source claim does not resolve')
+        if set(edge['source_refs']) - authority['anchors']:
+            raise ValueError('dependency source reference does not resolve')
+        target = edge['to_ref']
+        kind, identifier = target['kind'], target['id']
+        if kind == 'claim' and identifier not in claims:
+            raise ValueError('dependency target claim does not resolve')
+        if kind == 'concept' and identifier not in authority['concepts']:
+            raise ValueError('dependency target concept does not resolve')
+        if kind in {'protocol', 'instance'}:
+            if (kind, identifier) not in targets and identifier not in external_ids:
+                raise ValueError('dependency target obligation does not resolve')
+            if kind == 'instance' and (identifier in authority['concepts'] or identifier in external_ids):
+                raise ValueError('a concept template or external obligation is not a real instance')
+        dependency_is_active(edge, graph)
+        for responsibility in claims[edge['from_id']]['responsibility_refs']:
+            expected = [
+                row for row in authority['dependencies']['edges']
+                if row['from_id'] == responsibility and row['to_id'] == identifier
+                and row['condition'] == edge['condition']
+            ]
+            if expected and edge['role'] not in {row['role'] for row in expected}:
+                raise ValueError('dependency role differs from the selected source obligation')
+    for requirement in graph['input_requirements']:
+        if requirement['from_id'] not in claims:
+            raise ValueError('input requirement claim does not resolve')
+        if set(requirement['source_refs']) - authority['anchors']:
+            raise ValueError('input requirement source reference does not resolve')
+        dependency_is_active(requirement, graph)
+
+
+def _validate_v4_rivals(
+    graph: Mapping[str, Any], explanations: Mapping[str, Any],
+    claim_ids: set[str], material_ids: set[str],
+) -> None:
+    assessment = graph.get('rival_assessment')
+    if assessment is None:
+        rival = explanations.get('strongest-rival')
+        if rival is None or rival['applicability'] != 'applicable':
+            raise ClaimMechanismError('no rival requires explicit search scope and failure conditions')
+        return
+    if assessment['status'] == 'identified':
+        for rival in assessment['rivals']:
+            if set(rival['claim_refs']) - claim_ids or set(rival['material_refs']) - material_ids:
+                raise ClaimMechanismError('rival claim or material reference does not resolve')
+    elif any(
+        row['applicability'] == 'applicable' and row['kind'] == 'strongest-rival'
+        for row in explanations.values()
+    ):
+        raise ClaimMechanismError('a known reasonable rival cannot be erased by a no-rival declaration')
+
+
 def claim_constraints(
     graph: Mapping[str, Any], *, undecidable_claim_ids: set[str] | None = None
 ) -> dict[str, dict[str, Any]]:
@@ -339,6 +456,8 @@ def claim_constraints(
     claims = {row["claim_id"]: row for row in graph["claims"]}
     evidence = {row["evidence_id"]: row for row in graph["evidence"]}
     mechanisms = {row["mechanism_id"]: row for row in graph["mechanisms"]}
+    dependencies = hard_claim_dependencies(graph)
+    is_v4 = graph.get('schema_version') == 4
     parent = {identifier: identifier for identifier in evidence}
 
     def root(identifier: str) -> str:
@@ -354,7 +473,12 @@ def claim_constraints(
     owners: dict[tuple[str, str], str] = {}
     for identifier, row in evidence.items():
         keys = [("atom", atom) for atom in row["xk3_evidence_refs"]]
-        keys.extend(("source", source) for source in row["source_refs"] if source in invalid_sources)
+        if is_v4:
+            identity = row['evidence_identity']
+            keys.append(('material', identity['source_revision'], identity['canonical_locator'], identity['content_sha256']))
+            keys.extend(('source-revision', source, identity['source_revision']) for source in row['source_refs'] if source in invalid_sources)
+        else:
+            keys.extend(("source", source) for source in row["source_refs"] if source in invalid_sources)
         for key in keys:
             if key in owners:
                 parent[root(identifier)] = root(owners[key])
@@ -365,7 +489,11 @@ def claim_constraints(
         groups.setdefault(root(identifier), set()).add(identifier)
     failed_groups = {
         group for group, identifiers in groups.items()
-        if any(evidence[identifier]["support_status"] != "available" for identifier in identifiers)
+        if any(
+            evidence[identifier]['support_status'] in {'conflicted', 'invalidated'}
+            or (not is_v4 and evidence[identifier]['support_status'] != 'available')
+            for identifier in identifiers
+        )
     }
     missing_by_claim: dict[str, list[Mapping[str, Any]]] = {identifier: [] for identifier in claims}
     for missing in graph["missing_inputs"]:
@@ -384,11 +512,31 @@ def claim_constraints(
         blocked_evidence = set().union(*(
             groups[root(ref)] for ref in evidence_refs if root(ref) in failed_groups
         )) if evidence_refs else set()
+        if is_v4:
+            blocked_evidence.update(ref for ref in evidence_refs if not evidence_supports_claim(evidence[ref], claim))
         missing_ids = {row["missing_id"] for row in missing_by_claim[identifier]}
         blocked = bool(blocked_evidence) or any(row["effect"] == "blocking" for row in missing_by_claim[identifier])
         limiting = any(row["effect"] == "limiting" for row in missing_by_claim[identifier])
         blocked_claims: set[str] = set()
-        for dependency in claim["depends_on_claim_ids"]:
+        input_requirement_ids: set[str] = set()
+        blocked_use_refs: set[str] = set()
+        if is_v4:
+            for requirement in graph['input_requirements']:
+                if requirement['from_id'] == identifier and dependency_is_active(requirement, graph) and requirement['status'] not in {'available', 'not_applicable'}:
+                    input_requirement_ids.add(requirement['requirement_id'])
+                    limiting = True
+            targets = {(row['kind'], row['id']): row for row in graph.get('dependency_targets', [])}
+            for edge in graph['dependency_edges']:
+                if edge['from_id'] != identifier or not dependency_is_active(edge, graph):
+                    continue
+                target = edge['to_ref']
+                if target['kind'] in {'protocol', 'instance'}:
+                    state = targets.get((target['kind'], target['id']), {}).get('status')
+                    if state != 'passed':
+                        blocked_use_refs.add(edge.get('edge_id', target['id']))
+                        if edge['role'] == 'inferential_requires':
+                            blocked = True
+        for dependency in dependencies[identifier]:
             inherited = derive(dependency)
             missing_ids.update(inherited["missing_input_ids"])
             blocked_evidence.update(inherited["blocking_evidence_refs"])
@@ -403,11 +551,22 @@ def claim_constraints(
             "blocking_evidence_refs": sorted(blocked_evidence),
             "missing_input_ids": sorted(missing_ids),
         }
+        if is_v4:
+            value['input_requirement_ids'] = sorted(input_requirement_ids)
+            value['blocked_use_refs'] = sorted(blocked_use_refs)
         result[identifier] = value
         return value
 
     for identifier in claims:
         derive(identifier)
+    if is_v4:
+        for edge in graph['dependency_edges']:
+            target = edge['to_ref']
+            if edge['role'] == 'inferential_requires' or target['kind'] != 'claim' or not dependency_is_active(edge, graph):
+                continue
+            if result[target['id']]['blocked'] or target['id'] in undecidable:
+                row = result[edge['from_id']]
+                row['blocked_use_refs'] = sorted(set(row['blocked_use_refs']) | {edge.get('edge_id', target['id'])})
     return result
 
 

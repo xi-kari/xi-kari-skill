@@ -7,6 +7,11 @@ from collections.abc import Mapping
 from typing import Any
 
 from .retrieval import ADMITTED_ASSESSMENT_VERDICTS, has_bound_host_observation
+from .v4_contracts import (
+    evidence_supports_claim,
+    validate_claim_responsibilities,
+    validate_evidence_responsibilities,
+)
 
 
 FACTUAL_KINDS = {
@@ -136,17 +141,79 @@ def _source_records(retrieval_index: dict[str, Any]) -> dict[str, dict[str, Any]
     }
 
 
+def _v4_evidence_fields(source: Mapping[str, Any], support: Mapping[str, Any]) -> dict[str, Any]:
+    required = {
+        'source_revision', 'canonical_locator', 'content_sha256', 'lineage_refs',
+        'research_design', 'read_extent', 'provenance_refs', 'independence_key',
+        'availability_status', 'visibility', 'protected_review',
+    }
+    if required - set(source):
+        raise ValueError('version-four source evidence responsibilities are incomplete')
+    if 'support_checks' not in support:
+        raise ValueError('version-four support relation requires four material checks')
+    value = {
+        'evidence_identity': {
+            key: deepcopy(source[key])
+            for key in ('source_revision', 'canonical_locator', 'content_sha256', 'lineage_refs')
+        },
+        'research_context': {
+            key: deepcopy(source[key])
+            for key in ('research_design', 'read_extent', 'provenance_refs', 'independence_key')
+        },
+        'support_checks': deepcopy(support['support_checks']),
+        'availability_status': source['availability_status'],
+        'visibility': source['visibility'],
+        'protected_review': deepcopy(source['protected_review']),
+    }
+    validate_evidence_responsibilities(value)
+    return value
+
+
+def _v4_independence_identities(sources: Mapping[str, Mapping[str, Any]]) -> dict[str, str]:
+    parent = {identifier: identifier for identifier in sources}
+
+    def root(identifier: str) -> str:
+        while parent[identifier] != identifier:
+            parent[identifier] = parent[parent[identifier]]
+            identifier = parent[identifier]
+        return identifier
+
+    owners: dict[tuple[Any, ...], str] = {}
+    for identifier, source in sources.items():
+        identity_fields = ('source_revision', 'canonical_locator', 'content_sha256', 'lineage_refs')
+        if any(field not in source for field in identity_fields):
+            raise ValueError('version-four source material identity is incomplete')
+        keys = [('content', source['content_sha256'])]
+        keys.extend(('lineage', lineage) for lineage in source['lineage_refs'])
+        keys.append(('locator', source['source_revision'], source['canonical_locator']))
+        for key in keys:
+            if key in owners:
+                parent[root(identifier)] = root(owners[key])
+            else:
+                owners[key] = identifier
+    groups: dict[str, list[str]] = {}
+    for identifier in sources:
+        groups.setdefault(root(identifier), []).append(identifier)
+    return {identifier: min(groups[root(identifier)]) for identifier in sources}
+
+
 def build_evidence_ledger(
     *,
     run_id: str,
     claims: list[dict[str, Any]],
     retrieval_index: dict[str, Any],
     world_target_hashes: Mapping[str, str] | None = None,
+    contract_version: int = 3,
 ) -> dict[str, Any]:
+    if contract_version not in {3, 4}:
+        raise ValueError('unsupported evidence ledger contract version')
     source_ids = {item["source_id"] for item in retrieval_index.get("sources", [])}
     source_records = _source_records(retrieval_index)
     assessment_verdicts = _assessment_verdicts(retrieval_index)
-    independence_identities = _independence_identities(retrieval_index)
+    independence_identities = (
+        _v4_independence_identities(source_records)
+        if contract_version == 4 else _independence_identities(retrieval_index)
+    )
     normalised_claims: list[dict[str, Any]] = []
     evidence: list[dict[str, Any]] = []
     support_edges: list[dict[str, str]] = []
@@ -161,6 +228,8 @@ def build_evidence_ledger(
         if claim_id in seen_claims:
             raise ValueError(f"duplicate claim_id: {claim_id}")
         seen_claims.add(claim_id)
+        if contract_version == 4:
+            validate_claim_responsibilities(raw_claim, material_ids=source_ids)
         authorization_boundary = _authorization_boundary(
             raw_claim.get("authorization_boundary"),
             kind=kind,
@@ -201,11 +270,14 @@ def build_evidence_ledger(
                 "summary": support.get("summary", ""),
                 "cannot_prove": list(support.get("cannot_prove", [])),
             }
+            if contract_version == 4:
+                entry.update(_v4_evidence_fields(source_records[source_id], support))
             evidence.append(entry)
             if (
                 status in SUPPORTING_STATUSES
                 and assessment_verdicts.get(source_id)
                 in ADMITTED_ASSESSMENT_VERDICTS
+                and (contract_version != 4 or evidence_supports_claim(entry, raw_claim))
             ):
                 identity = independence_identities[source_id]
                 if identity not in seen_support_identities:
@@ -230,14 +302,19 @@ def build_evidence_ledger(
                 "world_targets": world_targets,
             }
         )
+        if contract_version == 4:
+            normalised_claims[-1].update({
+                key: deepcopy(raw_claim[key])
+                for key in ('claim_basis', 'formal_qualification', 'responsibility_refs')
+            })
         if kind in FACTUAL_KINDS and not claim_evidence_ids:
             raise ValueError(
                 "factual claim has no assessed source support; "
                 f"no admitted supporting evidence: {claim_id}"
             )
     return {
-        "schema_id": "xi-kari.v3.evidence-ledger",
-        "schema_version": 3,
+        "schema_id": f"xi-kari.v{contract_version}.evidence-ledger",
+        "schema_version": contract_version,
         "run_id": run_id,
         "claims": normalised_claims,
         "evidence": evidence,
@@ -253,7 +330,11 @@ def validate_evidence_ledger(
     source_ids = {item.get("source_id") for item in retrieval_index.get("sources", [])}
     source_records = _source_records(retrieval_index)
     assessment_verdicts = _assessment_verdicts(retrieval_index)
-    independence_identities = _independence_identities(retrieval_index)
+    is_v4 = ledger.get('schema_version') == 4
+    try:
+        independence_identities = _v4_independence_identities(source_records) if is_v4 else _independence_identities(retrieval_index)
+    except ValueError as error:
+        return [str(error)]
     claims = ledger.get("claims", [])
     evidence = ledger.get("evidence", [])
     edges = ledger.get("support_edges", [])
@@ -269,6 +350,11 @@ def validate_evidence_ledger(
             errors.append(f"duplicate evidence claim_id: {claim_id}")
             continue
         claim_by_id[claim_id] = claim
+        if is_v4:
+            try:
+                validate_claim_responsibilities(claim, material_ids=source_ids)
+            except ValueError as error:
+                errors.append(str(error))
         try:
             _authorization_boundary(
                 claim.get("authorization_boundary"),
@@ -305,6 +391,14 @@ def validate_evidence_ledger(
             evidence_by_claim[claim_id].append(evidence_id)
         if source_id not in source_ids:
             errors.append(f"evidence has unassessed source: {evidence_id}")
+        if is_v4:
+            try:
+                validate_evidence_responsibilities(entry)
+                expected_fields = _v4_evidence_fields(source_records.get(source_id, {}), entry)
+                if any(entry.get(key) != value for key, value in expected_fields.items()):
+                    errors.append(f'evidence responsibilities differ from the frozen material: {evidence_id}')
+            except ValueError as error:
+                errors.append(str(error))
         status = entry.get("status")
         if status not in EVIDENCE_STATUSES:
             errors.append(f"evidence has invalid status: {evidence_id}")
@@ -360,6 +454,7 @@ def validate_evidence_ledger(
                         source_records.get(source_id, {})
                     )
                 )
+                or (is_v4 and not evidence_supports_claim(entry, claim))
             ):
                 continue
             identity = independence_identities.get(source_id, source_id)
