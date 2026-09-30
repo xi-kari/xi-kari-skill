@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from collections.abc import Mapping, Sequence
+import copy
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
@@ -14,6 +15,7 @@ from .world_volume import (
     _validate_ontology_binding,
     _validate_schema,
     validate_world_volume,
+    apply_registered_event,
 )
 
 
@@ -47,6 +49,138 @@ class LineageValidation:
     not_run_orders: tuple[tuple[str, int], ...]
     inherited_unknown_ids: tuple[str, ...]
     inherited_residual_ids: tuple[str, ...]
+
+
+def current_action_set(
+    state: Mapping[str, Any], action_catalog: Sequence[Mapping[str, Any]],
+) -> dict[str, Any]:
+    catalog = _native_snapshot(list(action_catalog), label="action catalog", error_type=RecursiveInferenceError)
+    objects = {obj["object_id"]: obj for obj in state["objects"]}
+    if not catalog or len({option.get("option_id") for option in catalog}) != len(catalog) or any(not option.get("option_id") for option in catalog):
+        raise RecursiveInferenceError("action options require unique stable IDs")
+    no_action = [option for option in catalog if option.get("option_kind") == "no_action"]
+    if len(no_action) != 1:
+        raise RecursiveInferenceError("action comparison requires exactly one no_action baseline")
+    available, excluded = [], []
+    for option in catalog:
+        if option.get("target_object") not in objects or option.get("option_kind") not in {"no_action", "external_action"} or not option.get("action_type") or not isinstance(option.get("requirements"), list):
+            raise RecursiveInferenceError("action option has an unregistered target, type or constraints")
+        reasons = []
+        for condition in option["requirements"]:
+            obj = objects.get(condition.get("object_id"))
+            variable = next((item for item in obj["variables"] if item["variable_id"] == condition.get("variable_id")), None) if obj else None
+            if variable is None or not condition.get("source_refs"):
+                raise RecursiveInferenceError("action restriction must bind a registered variable and its source")
+            actual, operand, operator = variable["value"], condition.get("operand"), condition.get("operator")
+            if operator == "eq":
+                met = _canonical_sha256(actual) == _canonical_sha256(operand)
+            elif operator in {"ge", "le"} and type(actual) in {int, float} and type(operand) in {int, float}:
+                met = actual >= operand if operator == "ge" else actual <= operand
+            else:
+                raise RecursiveInferenceError("action restriction requires a typed supported comparator")
+            if not met:
+                reasons.append({"constraint": copy.deepcopy(condition), "actual_value": copy.deepcopy(actual), "status": "constraint_not_met"})
+        if reasons:
+            excluded.append({"option_id": option["option_id"], "reasons": reasons, "option": option})
+        else:
+            available.append(option)
+    return {"available_actions": available, "excluded_actions": excluded, "no_action_option_id": no_action[0]["option_id"], "existing_obligations": copy.deepcopy(state.get("existing_obligations", []))}
+
+
+def registered_parent_binding(parent: Mapping[str, Any]) -> dict[str, Any]:
+    return {"run_id": parent["run_id"], "path_id": parent["path_id"], "node_id": parent["node_id"], "order": parent["order"], "node_sha256": _canonical_sha256(parent), "output_state_sha256": _canonical_sha256(parent["output_state"])}
+
+
+def execute_recursive_step(
+    parent: Mapping[str, Any], event: Mapping[str, Any], *,
+    action_catalog: Sequence[Mapping[str, Any]], author: Any,
+    evidence_registry: Mapping[str, Mapping[str, Any]],
+    independent_question: str | None, incremental_gain: str | None,
+    channel_registry: Mapping[str, Mapping[str, Any]] | None = None,
+    authorization_registry: Mapping[str, Mapping[str, Any]] | None = None,
+    proposed_input_state: Mapping[str, Any] | None = None,
+) -> dict[str, Any]:
+    """Call the next author with the actual replayed conditional state."""
+
+    frozen = _native_snapshot(parent, label="recursive parent", error_type=RecursiveInferenceError)
+    if not isinstance(frozen, dict) or type(frozen.get("order")) is not int or frozen["order"] not in {1, 2, 3} or frozen.get("declared_evidence_grade") not in GRADE_ORDER:
+        raise RecursiveInferenceError("recursive parent order or evidence grade is invalid")
+    binding = registered_parent_binding(frozen)
+    if frozen.get("status") in {"stopped", "failed", "not_run"}:
+        return {"status": "not_run", "order": frozen["order"] + 1, "blocked_by_node_id": frozen["node_id"], "reason": frozen.get("stop_reason", frozen.get("reason", "parent premise failed")), "parent_binding": binding}
+    if not independent_question or not incremental_gain or frozen.get("status") == "completed":
+        return {**frozen, "status": "completed", "completion_reason": "no_independent_next_question" if not independent_question else "no_incremental_gain", "parent_binding": binding}
+    if frozen["order"] == 3:
+        return {**frozen, "status": "completed", "completion_reason": "third_order_limit", "parent_binding": binding}
+    if event.get("kind") == "observed" and frozen.get("evidence_identity") != "observed":
+        raise RecursiveInferenceError("new observed feedback requires a new frozen run, not promotion of a simulated child")
+    try:
+        transition = apply_registered_event(frozen["output_state"], event, evidence_registry=evidence_registry, channel_registry=channel_registry, authorization_registry=authorization_registry)
+        child_input = transition.replay(frozen["output_state"])
+    except WorldVolumeError as error:
+        raise RecursiveInferenceError(str(error)) from error
+    if proposed_input_state is not None and _canonical_sha256(proposed_input_state) != _canonical_sha256(child_input):
+        raise RecursiveInferenceError("proposed child input differs from the actual typed post-state")
+    if not event.get("deltas") or _canonical_sha256(frozen["output_state"]) == _canonical_sha256(child_input):
+        raise RecursiveInferenceError("next recursive step requires a substantive registered state change")
+    action_state = current_action_set(child_input, action_catalog)
+    request = {"parent_binding": binding, "order": frozen["order"] + 1, "independent_question": independent_question, "incremental_gain": incremental_gain, "input_state": child_input, "input_state_sha256": _canonical_sha256(child_input), "state_diff_id": transition.state_diff_id, "event_identity": transition.evidence_identity, "event_role": transition.event_role, "inherited_conditions": copy.deepcopy(frozen.get("conditions", [])), "new_conditions": copy.deepcopy(event.get("conditions", [])), "model_version": frozen["model_version"], "dimensions": copy.deepcopy(frozen.get("dimensions", {})), **action_state}
+    request_hash = _canonical_sha256(request)
+    response = _native_snapshot(author(copy.deepcopy(request)), label="next author response", error_type=RecursiveInferenceError)
+    if not isinstance(response, dict) or set(response) - {"possible_choice_ids", "choice_basis", "rationale"}:
+        raise RecursiveInferenceError("next author may only fill semantic choice fields")
+    choices = response.get("possible_choice_ids", [])
+    available_ids = {option["option_id"] for option in action_state["available_actions"]}
+    if not isinstance(choices, list) or len(choices) != len(set(choices)) or not set(choices).issubset(available_ids):
+        raise RecursiveInferenceError("author choice is not in the derived current action set")
+    node_payload = {"parent": binding, "event": event, "request": request, "response": response}
+    return {"node_id": "NODE-" + _canonical_sha256(node_payload)[:20].upper(), "path_id": frozen["path_id"], "run_id": frozen["run_id"], "order": request["order"], "status": "active", "input_state": child_input, "output_state": copy.deepcopy(child_input), "state_diff_id": transition.state_diff_id, "event_record": copy.deepcopy(event), "parent_binding": binding, "author_request": request, "author_request_sha256": request_hash, "author_response": response, "evidence_identity": "simulated", "event_identity": transition.evidence_identity, "declared_evidence_grade": frozen["declared_evidence_grade"], "model_version": frozen["model_version"], "conditions": [*copy.deepcopy(frozen.get("conditions", [])), *copy.deepcopy(event.get("conditions", []))], "history": [*copy.deepcopy(frozen.get("history", [])), event["event_id"]], "dimensions": request["dimensions"]}
+
+
+def validate_registered_child(
+    child: Mapping[str, Any], *, parent: Mapping[str, Any], event: Mapping[str, Any],
+    action_catalog: Sequence[Mapping[str, Any]],
+    evidence_registry: Mapping[str, Mapping[str, Any]],
+    channel_registry: Mapping[str, Mapping[str, Any]] | None = None,
+    authorization_registry: Mapping[str, Mapping[str, Any]] | None = None,
+) -> dict[str, Any]:
+    snapshot = _native_snapshot(child, label="recursive child", error_type=RecursiveInferenceError)
+    binding = registered_parent_binding(parent)
+    if parent.get("status") not in {"active"} or snapshot.get("parent_binding") != binding or snapshot.get("order") != parent["order"] + 1 or snapshot["order"] > 3 or snapshot.get("node_id") == parent["node_id"]:
+        raise RecursiveInferenceError("recursive child lacks exact immediate parent content continuity")
+    if snapshot.get("event_record") != event:
+        raise RecursiveInferenceError("recursive event content differs from its frozen record")
+    try:
+        transition = apply_registered_event(parent["output_state"], event, evidence_registry=evidence_registry, channel_registry=channel_registry, authorization_registry=authorization_registry)
+        derived = transition.replay(parent["output_state"])
+    except WorldVolumeError as error:
+        raise RecursiveInferenceError(str(error)) from error
+    if any(_canonical_sha256(snapshot.get(key)) != _canonical_sha256(derived) for key in ("input_state", "output_state")) or snapshot.get("state_diff_id") != transition.state_diff_id:
+        raise RecursiveInferenceError("recursive state differs from the recomputed typed post-state")
+    if snapshot.get("evidence_identity") != "simulated" or snapshot.get("declared_evidence_grade") != parent["declared_evidence_grade"] or snapshot.get("model_version") != parent["model_version"]:
+        raise RecursiveInferenceError("recursive depth cannot promote evidence identity, grade or model version")
+    for field in ("run_id", "path_id", "dimensions"):
+        if snapshot.get(field) != parent.get(field):
+            raise RecursiveInferenceError("recursive scope or orthogonal dimensions changed without a new binding")
+    if snapshot.get("conditions") != [*parent.get("conditions", []), *event.get("conditions", [])] or snapshot.get("history") != [*parent.get("history", []), event["event_id"]]:
+        raise RecursiveInferenceError("recursive child erased inherited conditions or history")
+    request = snapshot.get("author_request")
+    if not isinstance(request, dict) or snapshot.get("author_request_sha256") != _canonical_sha256(request):
+        raise RecursiveInferenceError("actual author request content binding changed")
+    actions = current_action_set(derived, action_catalog)
+    expected_fields = {"parent_binding": binding, "order": snapshot["order"], "input_state": derived, "input_state_sha256": _canonical_sha256(derived), "state_diff_id": transition.state_diff_id, "event_identity": transition.evidence_identity, "event_role": transition.event_role, "inherited_conditions": parent.get("conditions", []), "new_conditions": event.get("conditions", []), "model_version": parent["model_version"], "dimensions": parent.get("dimensions", {}), **actions}
+    if any(request.get(key) != value for key, value in expected_fields.items()) or not request.get("independent_question") or not request.get("incremental_gain"):
+        raise RecursiveInferenceError("actual next author input or action set differs from the typed post-state")
+    response = snapshot.get("author_response")
+    if not isinstance(response, dict) or set(response) - {"possible_choice_ids", "choice_basis", "rationale"}:
+        raise RecursiveInferenceError("recursive author response includes runtime control fields")
+    choices = response.get("possible_choice_ids", [])
+    if not isinstance(choices, list) or len(set(choices)) != len(choices) or not set(choices).issubset({option["option_id"] for option in actions["available_actions"]}):
+        raise RecursiveInferenceError("recursive choice does not resolve the actual action set")
+    expected_node_id = "NODE-" + _canonical_sha256({"parent": binding, "event": event, "request": request, "response": response})[:20].upper()
+    if snapshot.get("node_id") != expected_node_id:
+        raise RecursiveInferenceError("recursive node identity differs from its actual transition content")
+    return snapshot
 
 
 def _validate_identity_roles(state: Mapping[str, Any]) -> None:
