@@ -110,6 +110,20 @@
         "base_provider_binding": {
           "type": "object"
         },
+        "temporal_audit_binding": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "context_sha256",
+            "audit_sha256",
+            "evidence_scope"
+          ],
+          "properties": {
+            "context_sha256": {"$ref": "#/$defs/sha256"},
+            "audit_sha256": {"$ref": "#/$defs/sha256"},
+            "evidence_scope": {"const": "isolated_runtime_reads"}
+          }
+        },
         "closed_input_materials": {
           "type": "array",
           "minItems": 1,

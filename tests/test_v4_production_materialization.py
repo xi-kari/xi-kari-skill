@@ -732,3 +732,30 @@ def test_failed_promotion_capture_survives_candidate_cleanup(tmp_path, monkeypat
     assert read_json(run / Path(relative).parent / 'validator-report.json') == failed
     assert (run / Path(relative).parent / 'stdout.bin').read_bytes() == b'synthetic failed validation capture'
     assert not list(tmp_path.glob('.synthetic-failed-promotion.xk12-*'))
+
+
+def test_base_request_accepts_only_the_closed_temporal_context_binding():
+    from jsonschema import Draft202012Validator
+    from tests.test_p04_v4_authoring import _authoring_input
+    from xi_kari_runtime.execution import _base_request
+
+    _, problem, plan, lock, _ = _authoring_input()
+    provider, _ = _provider_pair()
+    request = _base_request(run_id=plan['run_id'], mode='open-world', problem_contract=problem,
+        repository_root=ROOT, source_lock=lock, read_plan={}, concept_authority={},
+        privacy_contract={}, ontology_read_plan=plan, base_provider_binding=provider)
+    schema = read_json(ROOT / 'schemas/xk-v4-base-authoring-request.schema.json')
+    validator = Draft202012Validator({'$defs': schema['$defs'], **schema['properties']['source_inputs']})
+    inputs = request['source_inputs']
+    assert validator.is_valid(inputs)
+    binding = {'context_sha256': 'a' * 64, 'audit_sha256': 'b' * 64, 'evidence_scope': 'isolated_runtime_reads'}
+    inputs['temporal_audit_binding'] = binding
+    assert validator.is_valid(inputs)
+    for field in binding:
+        bad = deepcopy(inputs)
+        bad['temporal_audit_binding'].pop(field)
+        assert not validator.is_valid(bad)
+    for field, value in (('origin_run_directory', 'private-origin'), ('evidence_scope', 'qualified'), ('context_sha256', 'unbound')):
+        bad = deepcopy(inputs)
+        bad['temporal_audit_binding'][field] = value
+        assert not validator.is_valid(bad)
