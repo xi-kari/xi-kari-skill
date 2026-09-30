@@ -6,6 +6,7 @@ from collections.abc import Mapping
 from copy import deepcopy
 import json
 from typing import Any
+from pathlib import Path
 
 from .canonical_json import sha256_json
 from .causality import CausalError, _number, claim_support
@@ -146,10 +147,12 @@ def evaluate_empirical_instance(
 
 class EvaluatedInstanceRegistry(Mapping[str, Mapping[str, Any]]):
     """A per-input registry rebuilt by actual validation, never from result labels."""
-    def __init__(self, inputs: list[Mapping[str, Any]], *, graph: Mapping[str, Any], derived_instances: list[Mapping[str, Any]] | None = None):
+    def __init__(self, inputs: list[Mapping[str, Any]], *, graph: Mapping[str, Any], derived_instances: list[Mapping[str, Any]] | None = None, evidence_mode: str = 'open-world', repository_root: Path | None = None):
         from .claims import claim_constraints, validate_empirical_instances
         from .causality import assess_derived_causal_instance
-        checked = validate_empirical_instances(inputs, claim_mechanism_graph=graph)
+        from .v4_contracts import claim_graph_input
+        graph = claim_graph_input(graph)
+        checked = validate_empirical_instances(inputs, claim_mechanism_graph=graph, evidence_mode=evidence_mode, repository_root=repository_root)
         results = {}
         for instance in checked["instances"]:
             prereg = instance["preregistration"]
@@ -164,6 +167,14 @@ class EvaluatedInstanceRegistry(Mapping[str, Mapping[str, Any]]):
         self._results_json = json.dumps(results, ensure_ascii=False, sort_keys=True)
         self.graph_sha256 = checked["claim_graph_sha256"]
         self.inputs_sha256 = sha256_json({"empirical": inputs, "derived": derived_instances or []})
+        self._inputs_json = json.dumps({**{item['frozen']['preregistration']['instance_id']: item for item in inputs}, **{item['instance_id']: item for item in derived_instances or []}}, ensure_ascii=False, sort_keys=True, allow_nan=False)
+
+    def matches_graph(self, graph: Mapping[str, Any]) -> bool:
+        from .v4_contracts import claim_graph_input
+        return self.graph_sha256 == sha256_json(claim_graph_input(graph))
+
+    def instance_input(self, identifier: str) -> Mapping[str, Any]:
+        return json.loads(self._inputs_json)[identifier]
 
     def __getitem__(self, identifier: str) -> Mapping[str, Any]:
         return json.loads(self._results_json)[identifier]

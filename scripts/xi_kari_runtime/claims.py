@@ -58,6 +58,7 @@ def validate_claim_graph(
     *,
     evidence_mode: str = "open-world",
     repository_root: Path | None = None,
+    verified_instance_results: Mapping[str, Any] | None = None,
 ) -> dict[str, Any]:
     """Validate a source-bound claim/mechanism graph and return its snapshot."""
 
@@ -70,6 +71,10 @@ def validate_claim_graph(
     if not isinstance(snapshot, dict):
         raise ClaimMechanismError("claim mechanism graph must be a mapping")
     is_v4 = snapshot.get("schema_version") == 4
+    if verified_instance_results is not None:
+        from .empirical_instances import EvaluatedInstanceRegistry
+        if not is_v4 or not isinstance(verified_instance_results, EvaluatedInstanceRegistry) or not verified_instance_results.matches_graph(snapshot):
+            raise ClaimMechanismError('formal qualification requires an actual evaluated registry for the same graph')
     raw_countercases = snapshot.get("countercases")
     if not is_v4 and isinstance(raw_countercases, list) and any(
         isinstance(countercase, Mapping)
@@ -140,6 +145,7 @@ def validate_claim_graph(
                 validate_claim_responsibilities(
                     claim, material_ids=material_ids, concepts=authority['concepts'],
                     repository_root=repository_root,
+                    verified_instance_results=verified_instance_results,
                 )
                 if claim['kind'] == 'mechanism' and not claim['mechanism_ids']:
                     raise ValueError('a specific mechanism claim requires a mechanism contract')
@@ -455,9 +461,8 @@ def claim_constraints(
     """
 
     if verified_instance_results is not None:
-        from .canonical_json import sha256_json
         from .empirical_instances import EvaluatedInstanceRegistry
-        if not isinstance(verified_instance_results, EvaluatedInstanceRegistry) or verified_instance_results.graph_sha256 != sha256_json(graph):
+        if not isinstance(verified_instance_results, EvaluatedInstanceRegistry) or not verified_instance_results.matches_graph(graph):
             raise ClaimMechanismError("formal premise support requires an actual evaluated registry for the same graph")
 
     claims = {row["claim_id"]: row for row in graph["claims"]}

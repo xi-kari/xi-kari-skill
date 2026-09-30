@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from collections.abc import Mapping, Sequence
+from copy import deepcopy
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
@@ -10,7 +11,7 @@ from typing import Any
 from jsonschema import Draft202012Validator, FormatChecker
 from referencing import Registry, Resource
 
-from .canonical_json import read_json
+from .canonical_json import read_json, sha256_json
 from .concept_authority import load_concept_authority
 
 
@@ -125,12 +126,60 @@ def formal_responsibility_kind(concept: Mapping[str, Any]) -> str:
     return 'derived_framework_instance'
 
 
+def claim_graph_input(graph: Mapping[str, Any]) -> dict[str, Any]:
+    """Return semantic graph inputs without runtime qualification outcomes."""
+    value = deepcopy(dict(graph))
+    for claim in value.get('claims', []):
+        qualification = claim.get('formal_qualification', {})
+        if qualification.get('requested') is True:
+            qualification['status'] = 'not_evaluated'
+            qualification['result_status'] = 'not_evaluated'
+    return value
+
+
+def formal_claim_outcome(
+    claim: Mapping[str, Any], *, concepts: Mapping[str, Any], verified_instance_results: Mapping[str, Any],
+) -> tuple[str, str]:
+    qualification = claim['formal_qualification']
+    references = qualification['instance_refs']
+    if not references or any(ref not in verified_instance_results for ref in references):
+        return 'not_evaluated', 'not_evaluated'
+    concept = concepts[qualification['concept_ref']]
+    identity = concept['source_concept_id'].upper()
+    outcomes = []
+    for ref in references:
+        result = verified_instance_results[ref]
+        if result.get('instance_family', '').upper() != identity:
+            raise ValueError('formal claim instance family differs from the actual source concept')
+        preregistration = result.get('preregistration')
+        if not isinstance(preregistration, Mapping):
+            scope = verified_instance_results.instance_input(ref).get('scope')
+            if not isinstance(scope, Mapping) or sha256_json(scope) != sha256_json(claim['claim_basis']['scope']):
+                raise ValueError('derived formal claim scope differs from its actual instance input')
+        else:
+            scope = claim['claim_basis']['scope']
+            if (
+                scope['object'] != preregistration['candidate_object_id']
+                or scope['population'] != preregistration['generalization_unit']
+                or sha256_json(scope['window']) != sha256_json(preregistration['time_window'])
+                or scope['target'] not in preregistration['target_variables']
+            ):
+                raise ValueError('formal claim scope differs from its actual frozen instance')
+            if result.get('preregistration_sha256') != sha256_json(preregistration) or not result.get('evaluation_sha256'):
+                raise ValueError('formal instance lacks recomputed preregistration and evaluation bindings')
+        outcomes.append((result['qualification'], result.get('result', {}).get('result_state', result.get('formal_result'))))
+    status = 'qualified' if all(row[0] == 'qualified' for row in outcomes) else 'unqualified'
+    result = outcomes[0][1] if all(row[1] == outcomes[0][1] for row in outcomes) else 'unsupported_or_undecided'
+    return status, result
+
+
 def validate_claim_responsibilities(
     claim: Mapping[str, Any],
     *,
     material_ids: set[str] | None = None,
     concepts: Mapping[str, Any] | None = None,
     repository_root: Path | None = None,
+    verified_instance_results: Mapping[str, Any] | None = None,
 ) -> None:
     for field, schema in (('claim_basis', 'claimBasis'), ('formal_qualification', 'formalQualification')):
         if field not in claim:
@@ -165,7 +214,13 @@ def validate_claim_responsibilities(
         identity = concept.get('source_concept_id', '')
         if not identity.startswith(qualification['family']):
             raise ValueError('formal qualification family differs from its source concept')
-    if qualification['status'] == 'qualified' or qualification['result_status'] in {'supported', 'null_supported'}:
+    if verified_instance_results is not None:
+        if concepts is None:
+            raise ValueError('formal instance validation requires source concepts')
+        status, result = formal_claim_outcome(claim, concepts=concepts, verified_instance_results=verified_instance_results)
+        if (qualification['status'], qualification['result_status']) != (status, result):
+            raise ValueError('formal qualification differs from its verified real instance result')
+    elif qualification['status'] == 'qualified' or qualification['result_status'] in {'supported', 'null_supported'}:
         raise ValueError('formal qualification requires a verified real instance, not a concept template or instance obligation')
 
 
