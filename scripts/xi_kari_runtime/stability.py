@@ -10,6 +10,7 @@ from typing import Any, Mapping
 
 from .canonical_json import read_json, sha256_file
 from .forecasting import (
+    ForecastError,
     append_forecast_result,
     evaluate_alert,
     evaluate_information_value,
@@ -17,6 +18,31 @@ from .forecasting import (
     freeze_forecast,
     validate_probability_expression,
 )
+
+
+def freeze_forecast_from_recursive_child(
+    record: Mapping[str, Any], *, child: Mapping[str, Any], parent: Mapping[str, Any],
+    event: Mapping[str, Any], action_catalog: list[Mapping[str, Any]],
+    evidence_registry: Mapping[str, Mapping[str, Any]], claim_mechanism_graph: Mapping[str, Any],
+    channel_registry: Mapping[str, Mapping[str, Any]] | None = None,
+    authorization_registry: Mapping[str, Mapping[str, Any]] | None = None,
+    repository_root: Path | None = None,
+) -> dict[str, Any]:
+    """Freeze a forecast only after replaying its actual immediate recursive child."""
+    from .canonical_json import sha256_json
+    from .claims import claim_constraints, validate_claim_graph
+    from .recursion import validate_registered_child
+    from .world_volume import apply_registered_event
+    checked = validate_registered_child(child, parent=parent, event=event, action_catalog=action_catalog, evidence_registry=evidence_registry, channel_registry=channel_registry, authorization_registry=authorization_registry)
+    graph = validate_claim_graph(claim_mechanism_graph, repository_root=repository_root)
+    if graph.get("schema_version") != 4 or record.get("order") != checked["order"] or record.get("model_version") != checked["model_version"]:
+        raise ForecastError("forecast differs from its actual v4 recursive boundary")
+    transition = apply_registered_event(parent["output_state"], event, evidence_registry=evidence_registry, channel_registry=channel_registry, authorization_registry=authorization_registry)
+    transition_record = {"state_diff_id": transition.state_diff_id, "source_state_sha256": transition.source_state_sha256, "result_state_sha256": transition.result_state_sha256, "output_state": transition.output_state}
+    frozen = freeze_forecast(record, parent_state=checked["output_state"], parent_transition=transition_record, claim_constraints=claim_constraints(graph))
+    frozen["recursive_child_sha256"] = sha256_json(checked)
+    frozen["claim_graph_sha256"] = sha256_json(graph)
+    return frozen
 
 
 def _probe(
@@ -417,6 +443,7 @@ __all__ = (
     "evaluate_information_value",
     "evaluate_order_comparison",
     "freeze_forecast",
+    "freeze_forecast_from_recursive_child",
     "validate_probability_expression",
     "build_stance_stability_report",
     "build_sensitivity_report",

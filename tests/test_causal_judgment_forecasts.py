@@ -88,3 +88,20 @@ def test_formal_information_value_can_be_positive_while_net_inquiry_value_is_neg
     assert result["net_value"] == pytest.approx(-0.3)
     record["real_costs"][0]["unit"] = "unconverted-privacy-burden"
     assert forecast.evaluate_information_value(record, claim_constraints={ref: {"blocked": False} for ref in ("model", "normative-premise")})["net_value"] is None
+
+
+def test_forecast_consumes_the_actual_p08_child_and_rejects_stale_state():
+    from tests.test_p08_recursive_transitions import recursive_fixture
+    from tests.test_p04_v4_claim_contracts import _v4_graph
+    from xi_kari_runtime import recursion, stability
+    parent, event, evidence, actions = recursive_fixture()
+    child = recursion.execute_recursive_step(parent, event, action_catalog=actions, author=lambda request: {"possible_choice_ids": ["WAIT"], "choice_basis": "conditional baseline"}, evidence_registry=evidence, independent_question="Next conditional consequences?", incremental_gain="Changed resource availability")
+    record, _, _ = forecast_inputs()
+    record.update(object_id="actor", identity_criterion={"version": "1", "definition": "same actor"}, model_version=child["model_version"], order=child["order"], parent_state_diff_id=child["state_diff_id"], baseline_time="2026-09-30T12:00:00Z", input_cutoff="2026-09-30T12:00:00Z", registered_at="2026-09-30T12:01:00Z", deadline="2026-10-30T12:00:00Z")
+    kwargs = dict(child=child, parent=parent, event=event, action_catalog=actions, evidence_registry=evidence, claim_mechanism_graph=_v4_graph())
+    frozen = stability.freeze_forecast_from_recursive_child(record, **kwargs)
+    assert frozen["contract"]["order"] == 2
+    assert frozen["parent_state_sha256"] == sha256_json(child["output_state"])
+    child["output_state"]["objects"][0]["variables"][0]["value"] = 100
+    with pytest.raises(recursion.RecursiveInferenceError):
+        stability.freeze_forecast_from_recursive_child(record, **kwargs)
