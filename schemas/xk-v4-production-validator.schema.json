@@ -13,6 +13,7 @@
     "fresh",
     "fresh_process",
     "validator_pid",
+    "validator_parent_pid",
     "validation_boundary",
     "complete",
     "checked_at",
@@ -50,6 +51,10 @@
       "type": "boolean"
     },
     "validator_pid": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "validator_parent_pid": {
       "type": "integer",
       "minimum": 1
     },

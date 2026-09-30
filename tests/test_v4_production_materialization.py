@@ -130,3 +130,48 @@ def test_v4_run_schema_fixes_profile_source_and_real_unit_count():
     capability = schema['properties']['capability_snapshot']
     assert capability['properties']['source_unit_count'] == {'const': 4418}
     assert capability['properties']['reader_unit_count'] == {'const': 21}
+
+
+def _provider_pair():
+    from xi_kari_runtime.authoring import bind_base_authoring_provider, bind_semantic_authoring_adapter
+
+    base = bind_base_authoring_provider(Path(sys.executable).resolve(), mode='open-world', repository_root=ROOT, timeout_seconds=120)
+    adapter = bind_semantic_authoring_adapter(ROOT / 'scripts/xi_kari_codex_authoring_adapter.py', codex_provider_executable=Path(sys.executable).resolve(), repository_root=ROOT, profile='production-codex', timeout_seconds=120)
+    return base, adapter
+
+
+def test_actual_base_and_probe_web_policy_difference_is_preserved():
+    from xi_kari_runtime.validation_v4 import validate_provider_pair_v4
+
+    base, adapter = _provider_pair()
+    assert base['web_search'] == 'live'
+    assert adapter['provider_binding']['web_search'] == 'disabled'
+    validate_provider_pair_v4(base, adapter, mode='open-world')
+
+
+@pytest.mark.parametrize('field', ['model', 'reasoning_effort', 'executable_sha256', 'sandbox'])
+def test_actual_base_and_probe_identity_mismatch_is_rejected(field):
+    from xi_kari_runtime.validation_v4 import validate_provider_pair_v4
+
+    base, adapter = _provider_pair()
+    adapter['provider_binding'][field] = 'unmatched-identity'
+    adapter['provider_binding_sha256'] = sha256_json(adapter['provider_binding'])
+    with pytest.raises(ValueError, match='provider|binding|identity'):
+        validate_provider_pair_v4(base, adapter, mode='open-world')
+
+
+def test_fresh_process_validator_reports_its_own_pid_and_retains_failure(tmp_path):
+    from xi_kari_runtime.validation_v4 import run_fresh_validator_v4
+    import os
+
+    atomic_write_json(tmp_path / 'run-contract.json', {'schema_id': 'xi-kari.v4.run-contract', 'schema_version': 4})
+    report = run_fresh_validator_v4(tmp_path, repository_root=ROOT, require_complete=False)
+    assert report['fresh_process'] is True
+    assert report['validator_pid'] != os.getpid()
+    assert report['valid'] is False
+    attempts = list((tmp_path / 'validation/attempts').glob('final-*/execution.json'))
+    assert len(attempts) == 1
+    record = read_json(attempts[0])
+    assert record['child_pid'] == report['validator_pid']
+    assert record['exit_status'] == 2
+    assert read_json(attempts[0].parent / 'validator-report.json') == report

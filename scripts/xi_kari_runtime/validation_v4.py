@@ -11,13 +11,14 @@ from pathlib import Path
 import subprocess
 import sys
 from typing import Any
+import uuid
 
 from jsonschema import Draft202012Validator, FormatChecker
 from referencing import Registry, Resource
 
 from .authority import authority_paths, repository_root as resolve_repository_root
 from .canonical_json import (
-    canonical_bytes, confined_path, read_bounded_regular_file, read_json,
+    atomic_write_bytes, atomic_write_json, canonical_bytes, confined_path, read_bounded_regular_file, read_json,
     read_json_text, sha256_bytes, sha256_file, sha256_json,
 )
 from .claims import validate_claim_graph
@@ -379,7 +380,8 @@ def validate_authoring_replay_v4(run_dir: Path, *, contract: Mapping[str, Any], 
         if base.get(field) != expected:
             raise ValueError('version-four base provider binding differs: ' + field)
     adapter = contract['capability_snapshot']['semantic_authoring_adapter']
-    if adapter['provider_binding'] != provider or adapter['provider_binding_sha256'] != sha256_json(provider) or adapter['executable_sha256'] != base.get('adapter_executable_sha256'):
+    validate_provider_pair_v4(provider, adapter, mode=contract['mode'])
+    if adapter['executable_sha256'] != base.get('adapter_executable_sha256'):
         raise ValueError('version-four execute provider differs from XK0 capability')
     ontology_plan = read_json(run_dir / 'authoring/XK04-ontology-read-plan.json')
     lock = read_json(run_dir / 'source-lock.json')
@@ -416,13 +418,25 @@ def validate_authoring_replay_v4(run_dir: Path, *, contract: Mapping[str, Any], 
     errors = validate_execute_owned_binding(contract['capability_snapshot']['execute_owned_binding'], run_contract=contract, base_receipt=base, retrieval_receipt=receipt)
     if errors:
         raise ValueError('version-four execute-owned receipt binding failed')
+    from .v4_retrieval import host_retrieval_view
+    host_retrieval = host_retrieval_view(packet['retrieval'])
     if contract['mode'] == 'closed-input':
         from .closed_input import validate_closed_input_execution
-        errors = validate_closed_input_execution(receipt, packet['retrieval'], run_id=contract['run_id'], evidence_cutoff=contract['evidence_cutoff'], semantic_document=semantic_document, event_stream=(run_dir / 'authoring/XK01-base-authoring-events.jsonl').read_bytes(), base_request=request, base_request_bytes=request_path.read_bytes(), base_receipt=base)
+        errors = validate_closed_input_execution(receipt, host_retrieval, run_id=contract['run_id'], evidence_cutoff=contract['evidence_cutoff'], semantic_document=semantic_document, event_stream=(run_dir / 'authoring/XK01-base-authoring-events.jsonl').read_bytes(), base_request=request, base_request_bytes=request_path.read_bytes(), base_receipt=base)
     else:
-        errors = validate_retrieval_execution_receipt(receipt, packet['retrieval'], run_id=contract['run_id'], evidence_cutoff=contract['evidence_cutoff'], semantic_retrieval=semantic, event_stream=(run_dir / 'authoring/XK01-base-authoring-events.jsonl').read_bytes(), adapter_input=request_path.read_bytes(), host_captures=host_captures)
+        errors = validate_retrieval_execution_receipt(receipt, host_retrieval, run_id=contract['run_id'], evidence_cutoff=contract['evidence_cutoff'], semantic_retrieval=semantic, event_stream=(run_dir / 'authoring/XK01-base-authoring-events.jsonl').read_bytes(), adapter_input=request_path.read_bytes(), host_captures=host_captures)
     if errors:
         raise ValueError('version-four actual retrieval execution receipt failed')
+
+
+def validate_provider_pair_v4(base_provider: Mapping[str, Any], adapter: Mapping[str, Any], *, mode: str) -> None:
+    from .authoring import require_base_authoring_provider, require_semantic_authoring_adapter
+    require_base_authoring_provider(base_provider, mode=mode, verify_executable=False)
+    require_semantic_authoring_adapter(adapter, verify_executable=False)
+    probe = adapter['provider_binding']
+    identity_fields = ('protocol', 'repository_root', 'executable_path', 'executable_sha256', 'model', 'reasoning_effort', 'approval_policy', 'sandbox', 'ephemeral', 'ignore_user_config', 'strict_config', 'timeout_seconds')
+    if any(base_provider.get(field) != probe.get(field) for field in identity_fields):
+        raise ValueError('version-four base and probe provider identities differ')
 
 
 def reader_payload_v4(packet: Mapping[str, Any], contract: Mapping[str, Any]) -> dict[str, Any]:
@@ -500,7 +514,7 @@ def _report(contract: Mapping[str, Any] | None, records: list[dict[str, Any]], e
         'schema_id': 'xi-kari.v4.validator-report', 'schema_version': 4,
         'validator_version': RUNTIME_VERSION_V4, 'validator_set_sha256': authority,
         'run_id': contract.get('run_id') if contract else None, 'fresh': True,
-        'fresh_process': fresh_process, 'validator_pid': os.getpid(), 'validation_boundary': boundary,
+        'fresh_process': fresh_process, 'validator_pid': os.getpid(), 'validator_parent_pid': os.getppid(), 'validation_boundary': boundary,
         'complete': complete and not errors, 'checked_at': utc_now_v4(),
         'validated_phase': records[-1]['phase'] if records else None,
         'chain_head_sha256': records[-1]['record_sha256'] if records else None,
@@ -623,14 +637,31 @@ def run_fresh_validator_v4(run_dir: Path, *, repository_root: Path, preseal: boo
     environment = os.environ.copy()
     environment['PYTHONDONTWRITEBYTECODE'] = '1'
     environment['PYTHONPATH'] = str(root / 'scripts')
-    completed = subprocess.run(command, cwd=root, env=environment, capture_output=True, check=False)
+    process = subprocess.Popen(command, cwd=root, env=environment, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    stdout, stderr = process.communicate()
+    attempt = confined_path(Path(run_dir).resolve(), 'validation/attempts/' + boundary + '-' + uuid.uuid4().hex)
+    attempt.mkdir(parents=True, exist_ok=False)
+    atomic_write_bytes(attempt / 'stdout.bin', stdout)
+    atomic_write_bytes(attempt / 'stderr.bin', stderr)
+    execution = {
+        'schema_id': 'xi-kari.v4.validation-execution', 'schema_version': 4,
+        'run_id': None, 'boundary': boundary, 'parent_pid': os.getpid(), 'launcher_pid': process.pid, 'child_pid': process.pid,
+        'command': command, 'command_sha256': sha256_json(command), 'exit_status': process.returncode,
+        'provider_environment_sha256': provider_environment_sha256_v4(), 'stdout_sha256': sha256_bytes(stdout),
+        'stderr_sha256': sha256_bytes(stderr), 'report_sha256': None, 'completed_at': utc_now_v4(),
+    }
     try:
-        report = read_json_text(completed.stdout.decode('utf-8'))
+        report = read_json_text(stdout.decode('utf-8'))
     except Exception as exc:
+        atomic_write_json(attempt / 'execution.json', execution)
         raise ValueError('version-four fresh validator returned no readable report') from exc
-    if report.get('schema_id') != 'xi-kari.v4.validator-report' or report.get('fresh_process') is not True or report.get('validator_pid') == os.getpid() or report.get('validation_boundary') != boundary:
+    atomic_write_json(attempt / 'validator-report.json', report)
+    execution.update(run_id=report.get('run_id'), child_pid=report.get('validator_pid'), report_sha256=sha256_file(attempt / 'validator-report.json'))
+    atomic_write_json(attempt / 'execution.json', execution)
+    owned_process = report.get('validator_pid') == process.pid or (os.name == 'nt' and report.get('validator_parent_pid') == process.pid)
+    if report.get('schema_id') != 'xi-kari.v4.validator-report' or report.get('fresh_process') is not True or not owned_process or report.get('validator_pid') == os.getpid() or report.get('validation_boundary') != boundary:
         raise ValueError('version-four validation did not originate in the required new process')
-    if (completed.returncode == 0) != (report.get('valid') is True):
+    if (process.returncode == 0) != (report.get('valid') is True):
         raise ValueError('version-four fresh validator exit code differs from its report')
     return report
 
