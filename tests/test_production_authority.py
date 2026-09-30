@@ -30,7 +30,7 @@ def test_legacy_receipt_protocol_is_not_a_supported_authority():
 
 
 def test_current_runtime_version_comes_from_source_profile():
-    assert materialization.RUNTIME_VERSION == RUNTIME_VERSION == "3.0.0"
+    assert materialization.RUNTIME_VERSION == RUNTIME_VERSION == "4.0.0"
 
 
 def test_full_source_provider_timeout_accepts_two_hours():
@@ -109,7 +109,7 @@ def test_historical_run_status_is_rejected_without_rewriting(tmp_path):
     path = tmp_path / "run-contract.json"
     path.write_text(json.dumps(contract), encoding="utf-8")
     original = path.read_bytes()
-    with pytest.raises(ValueError, match="v8.3|incompatible"):
+    with pytest.raises(ValueError, match="requires v9.0|incompatible"):
         materialization.status_run(tmp_path)
     assert path.read_bytes() == original
     assert list(tmp_path.iterdir()) == [path]

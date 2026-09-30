@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Xi-Kari v3 isolated semantic run CLI."""
+"""Xi-Kari isolated semantic run CLI."""
 
 from __future__ import annotations
 
@@ -18,6 +18,7 @@ if __name__ == "__main__":
     sys.modules.setdefault("scripts.xi_kari_runtime", sys.modules[__name__])
 
 from scripts.xi_kari_runtime.authoring import DEFAULT_ADAPTER_TIMEOUT_SECONDS
+from scripts.xi_kari_runtime.source_profile import DEFAULT_CONTRACT_VERSION
 from scripts.xi_kari_runtime.canonical_json import canonical_dumps, read_json
 from scripts.xi_kari_runtime.contracts import (
     CONTRACT_PROFILES,
@@ -283,7 +284,7 @@ def build_parser() -> argparse.ArgumentParser:
         help="read a xi-kari.v3.closed-input-materials envelope",
     )
     execute.add_argument("--timeout-seconds", type=int, default=DEFAULT_ADAPTER_TIMEOUT_SECONDS)
-    execute.add_argument('--contract-version', type=int, choices=(3, 4), default=3)
+    execute.add_argument('--contract-version', type=int, choices=(3, 4), default=DEFAULT_CONTRACT_VERSION)
     execute.add_argument('--source-version', choices=('v8.3', 'v9.0'))
     execute.add_argument('--domain-id', action='append', default=[])
 
