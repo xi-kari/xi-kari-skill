@@ -96,3 +96,10 @@ def test_preselected_operator_branch_and_mode_cannot_change_after_root_evaluatio
     registries["evidence_registry"].update(bundle["evidence_registry"])
     with pytest.raises(transformations.TransformationError):
         transformations.validate_scale_instance(record, **registries)
+
+
+def test_root_retained_variables_cannot_be_changed_in_the_formal_record():
+    record, registries, inputs, graph, objects = empirical_scale_fixture()
+    record["variables"]["states"] = ["a different retained variable"]
+    with pytest.raises(transformations.TransformationError, match="scope"):
+        bind(record, inputs, graph, objects)

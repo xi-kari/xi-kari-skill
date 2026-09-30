@@ -339,6 +339,8 @@ def validate_scale_instance(
             root = _artifact(root_instances, instance_id, "instance_id")
             if type(root_instances) is EvaluatedScaleRootRegistry and (root.get("operator_ids") != transform["operator_ids"] or root.get("selected_operator_branch") != transform["selected_operator_branch"] or root.get("claim_mode") != mode):
                 raise ScaleContractError("scale root mode differs from its preselected operator and branch")
+            if type(root_instances) is EvaluatedScaleRootRegistry and root.get("retained_variables") != contract["variables"]["states"]:
+                raise ScaleContractError("scale root retained variables differ from the frozen conditioning scope")
             if root.get("root_id") not in {"G1", "G2", "G3", "G4"} or any(root.get(key) != expected for key, expected in {"contract_version": identity["version"], "selected_subtype": transform["selected_subtype"], "selected_success_criterion": transform["selected_success_criterion"], "result_state": result, "scope_sha256": scope_hash}.items()):
                 raise ScaleContractError("scale root family, version, criterion, result or scope does not match")
             if result in {"supported", "null_supported"}:

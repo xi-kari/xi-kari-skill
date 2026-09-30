@@ -88,7 +88,7 @@ def bind_scale_root_instances(
             "selected_subtype": transform["selected_subtype"],
             "selected_success_criterion": transform["selected_success_criterion"],
         }
-        expected_candidate = {"mapping_id": objects["identity_mapping"]["mapping_id"], "source_scale": scale["SP0"], "target_scale": scale["SP1"], "source_K": objects["source_K"], "target_K": objects["target_K"], "target_task": task, "operator_ids": transform["operator_ids"], "selected_operator_branch": transform["selected_operator_branch"], "claim_mode": transform["claim_mode"]}
+        expected_candidate = {"mapping_id": objects["identity_mapping"]["mapping_id"], "source_scale": scale["SP0"], "target_scale": scale["SP1"], "source_K": objects["source_K"], "target_K": objects["target_K"], "target_task": task, "operator_ids": transform["operator_ids"], "selected_operator_branch": transform["selected_operator_branch"], "claim_mode": transform["claim_mode"], "retained_variables": record["variables"]["states"]}
         if object_binding["object_id"] != objects["source_object"]["object_id"] or object_binding["source_revision"] != dependencies["source_raw_sha256"] or _canonical_sha256(object_binding["K"]) != _canonical_sha256(objects["source_K"]) or _canonical_sha256(object_binding["SP"]) != _canonical_sha256(scale["SP0"]) or any(_canonical_sha256(contract.get(key)) != _canonical_sha256(value) for key, value in expected.items()) or any(_canonical_sha256(candidate.get(key)) != _canonical_sha256(value) for key, value in expected_candidate.items()) or task["target_quantity"] not in contract["target_variables"]:
             raise ScaleRootBindingError("actual root scope differs from frozen object/K/mapping/scale/window/task")
         if contract.get("root_id") not in {"G1", "G2", "G3", "G4"}:
@@ -107,6 +107,7 @@ def bind_scale_root_instances(
             "contract_version": contract["contract_version"], "selected_subtype": contract["selected_subtype"],
             "selected_success_criterion": contract["selected_success_criterion"],
             "operator_ids": candidate["operator_ids"], "selected_operator_branch": candidate["selected_operator_branch"], "claim_mode": candidate["claim_mode"],
+            "retained_variables": candidate["retained_variables"],
             "result_state": result["result_state"], "eligibility_status": "eligible" if checked["qualification"] == "qualified" else "ineligible",
             "scope_sha256": _canonical_sha256(scope), "object_contract_sha256": object_binding["binding_sha256"],
             "preregistration_timestamp": contract["preregistration_timestamp"], "result_timestamp": result["result_timestamp"],
