@@ -1,4 +1,4 @@
-# Xi-Kari v3 运行协议
+# Xi-Kari v4 运行协议
 
 每次真实调用都建立一个新的隔离 run 包；本协议不提供轻量旁路。宿主可以把内部语义字段交给运行时物化，但运行时只信任磁盘重载后的字节。
 
@@ -7,7 +7,7 @@
 | 阶段 | 固定责任 | 主要绑定文件 |
 | --- | --- | --- |
 | XK0 | 问题合同、时间窗、模式、能力、立场中和键、隐私用途与交付对象 | `run-contract.json`、`capability-snapshot.json` |
-| XK1 | v8.3 源锁、21 卷和 4631 段+122 表全单元读取 | `source-lock.json`、`authoring/XK01-read-plan.json`、`authoring/XK01-read-events.jsonl`；生产 profile 另含 `authoring/XK01-semantic-read-trace.json` |
+| XK1 | v9.0 源锁、21 卷和 4298 段+120 表全单元读取 | `source-lock.json`、`authoring/XK01-read-plan.json`、`authoring/XK01-read-events.jsonl`；生产 profile 另含 `authoring/XK01-semantic-read-trace.json` |
 | XK2 | 开放/封闭检索、查询前沿、来源材料与逐来源评价输入 | `authoring/XK02-retrieval-ledger.json` |
 | XK3 | 证据身份、谱系、冲突、不能证明什么和未知冻结 | `authoring/XK03-evidence-ledger.json`、`authoring/XK03-unknown-register.json` |
 | XK4 | 全候选逐项终态处置、概念卡/邻接/bundle 实际联读和 census hash | `authoring/XK04-concept-disposition.json`、`authoring/XK04-concept-closure-report.json`；生产 profile 另含 `XK04-ontology-read-plan.json`、`XK04-ontology-read-trace.json` |
@@ -24,7 +24,9 @@
 
 `init` 与 `prepare` 只执行只读生产预检并返回 JSON，不创建正式 run、阶段记录或终态权威。`execute` 启动真实基础作者，观察执行证据并创建正式运行；模型自报回执不能替代这一边界。正式运行冻结一次性 Lamport SHA-256 终态公钥承诺。`materialize` 必须先把请求包写入 `continuation/input-packet.json`，再从磁盘重新读取，依次封存 XK2—XK11。XK12 先在候选目录验证，再用可恢复 journal 推广到正式目录；正式目录通过独立 fresh validation 后，写入 `completion.json`，签发 `terminal-record.json` 并销毁私钥。只有有效签名终态可以产生 `complete` 或 `cancelled`；`state.json` 只是非权威投影。
 
-正式运行只接受 `contract_profile=production-authoring-v3` 与 `semantic_authoring_profile=production-codex`，绑定仓库内 adapter、外部 provider、按 manifest 顺序排列的 21 卷语义轨迹，以及覆盖全部候选、正式/结构卡、必读邻接和连续性 bundle 的 ontology read plan/trace。旧源、旧 profile 或混版绑定均在创建正式 run 前拒绝，不自动迁移或重签。runtime 只接受模型语义字段，自行追加卷路径、卷散列、manifest 绑定和 import receipt；import receipt 证明导入边界，不证明作者进程。`fork`/`repair` 必须从父合同重新验证并冻结同一 adapter/provider 路径与散列，在创建子目录前重新执行基础作者并持久化新鲜的 request、prompt、完整语义文件、events、base receipt、21 卷语义读痕和 ontology read trace；不得仅导入父 trace。
+正式运行只接受 `contract_profile=production-authoring-v4` 与 `semantic_authoring_profile=production-codex`，绑定仓库内 adapter、外部 provider、按 manifest 顺序排列的 21 卷语义轨迹，以及覆盖全部候选、正式/结构卡、必读邻接和连续性 bundle 的 ontology read plan/trace。源锁与生产工件使用仓库明确登记的 v4 schema 身份；共享协议和引用的 schema 逐项按真实身份核对，不通过替换版本字符串产生兼容性。旧源、旧 profile 或混版绑定均在创建正式 run 前拒绝，不自动迁移或重签。runtime 只接受模型语义字段，自行追加卷路径、卷散列、manifest 绑定和 import receipt；import receipt 证明导入边界，不证明作者进程。`fork`/`repair` 必须从父合同重新验证并冻结同一 adapter/provider 路径与散列，在创建子目录前重新执行基础作者并持久化新鲜的 request、prompt、完整语义文件、events、base receipt、21 卷语义读痕和 ontology read trace；不得仅导入父 trace。
+
+正式实例结果、状态重放、因果证据、领域加载与读者投影分别绑定。领域资产中的 `available` 仅表示当前正文及散列可核对，本轮仍需独立读痕、权威绑定与投影；字段存在不证明源定义已被理解，合成测试通过也不证明真实模型完成运行。
 
 `final-chat.json` 只能指向 `continuation/completion.json`，不能预先自称有效。13 个阶段、manifest 或可改写的状态旁路都不能单独铸造完成；只有 Lamport 验证得到 `terminal_state=complete` 后，fresh validation 才可依赖已封存 receipt 而不再要求外部 provider 文件仍存在。XK12 中断时只按 journal 中的 before/after 字节恢复；出现第三种未知字节时停止，不猜测覆盖。有效终态签发后，本 run 的写接口全部关闭；新的输入使用 `fork`。真实验证失败先由 `repair-plan` 绑定父 run 全文件快照、合同、phase chain、validator authority、实际错误和最早可归属阶段；`resume` 只消费仍与磁盘和 fresh validation 完全一致的计划，并建立 fresh repair 子 run。缺失、改写、过期计划或 cancelled parent 均不得创建子目录。
 
@@ -56,7 +58,7 @@ run/
 ├── phase-events.jsonl
 ├── authoring/
 │   ├── XK01-read-plan.json
-│   ├── XK01-semantic-read-trace.json  # production-authoring-v3
+│   ├── XK01-semantic-read-trace.json  # production-authoring-v4
 │   ├── XK03-unknown-register.json
 │   ├── XK04-concept-closure-report.json
 │   ├── XK06-cascade.json

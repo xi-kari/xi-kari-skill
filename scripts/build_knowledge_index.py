@@ -12,6 +12,8 @@ import re
 import sys
 from typing import Any
 
+from xi_kari_runtime.source_profile import SOURCE_VERSION
+
 
 # Keep canonical concepts and source-level candidates in one auditable ID
 # namespace.  A candidate/heading is not thereby promoted to a concept.
@@ -47,7 +49,7 @@ STRUCTURAL_SECTION_STYLES = {
     "CardLabel": 4,
 }
 NAVIGATION_TABLES = {"V83-T001", "V83-T120"}
-DEFAULT_KNOWLEDGE_SOURCE_VERSION = "v8.3"
+DEFAULT_KNOWLEDGE_SOURCE_VERSION = SOURCE_VERSION
 
 
 @dataclass(frozen=True)

@@ -58,12 +58,14 @@ def _rewrite_xml_member(source: bytes, member_name: str, mutate) -> bytes:
     return output.getvalue()
 
 
-def test_v90_build_profile_does_not_switch_the_active_runtime() -> None:
+def test_explicit_build_profiles_do_not_rebind_the_active_runtime() -> None:
     profile_module = import_module("scripts.xi_kari_runtime.source_profile")
 
     profile = profile_module.get_source_profile("v9.0")
+    legacy = profile_module.get_source_profile("v8.3")
 
-    assert profile_module.SOURCE_VERSION == "v8.3"
+    assert profile_module.SOURCE_VERSION == profile_module.get_source_profile().source_version == "v9.0"
+    assert legacy.source_version == "v8.3"
     assert profile.source_version == "v9.0"
     assert profile.anchor_prefix == "V90"
     assert profile.document_name == "跨尺度多圈层结构推演框架v9.0.docx"

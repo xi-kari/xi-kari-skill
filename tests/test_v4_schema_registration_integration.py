@@ -54,7 +54,7 @@ def test_all_actual_published_v4_schema_resources_and_artifact_roots_register(re
         for identifier in schema_ownership.root_schema_ids(document):
             assert registered[identifier].schema["$id"] == document["$id"]
     assert {path: path.read_bytes() for path in paths} == before
-    assert (RUNTIME_VERSION, SOURCE_VERSION) == ("3.0.0", "v8.3")
+    assert (RUNTIME_VERSION, SOURCE_VERSION) == ("4.0.0", "v9.0")
 
 
 def test_source_v4_multi_root_and_pure_definition_resources_keep_distinct_ownership(registry):

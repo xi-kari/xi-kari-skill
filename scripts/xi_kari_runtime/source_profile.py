@@ -8,27 +8,26 @@ from pathlib import Path
 from typing import Any
 
 
-SOURCE_VERSION = "v8.3"
-ANCHOR_PREFIX = "V83"
-RUNTIME_VERSION = "3.0.0"
-SOURCE_DOCUMENT_NAME = "跨尺度多圈层结构推演框架v8.3.docx"
-RAW_SHA256 = "4a3ad8e8692b7a906f733096bbc8e05d0ac4f8cfbf79d3926eb1729df828c7f5"
-SEMANTIC_SHA256 = "f190a80be88033ba21d717a310f4419c00489b3a6dea17b6a1e2b14af1447d9f"
-LIST_STRUCTURE_SHA256 = "967dd396860e4b5d246ae2e3699eb33b8ab8ee46ca12bb72959e1249216d7a5f"
-EXPECTED_PARAGRAPHS = 4631
+SOURCE_VERSION = "v9.0"
+ANCHOR_PREFIX = "V90"
+RUNTIME_VERSION = "4.0.0"
+LEGACY_RUNTIME_VERSION = "3.0.0"
+DEFAULT_CONTRACT_VERSION = 4
+DEFAULT_CONTRACT_PROFILE = "production-authoring-v4"
+SOURCE_DOCUMENT_NAME = "跨尺度多圈层结构推演框架v9.0.docx"
+RAW_SHA256 = "ffc45afdc288ecd268fd02e46d47318b7ddf17bf7b47605aa6c413c95398544b"
+SEMANTIC_SHA256 = "24bf22bad46be7369df5c3a99976b48561ca03ac7f85500b4dbd7819a92015ac"
+LIST_STRUCTURE_SHA256 = "0517e112d6c2d02c254eb42f8d139d293dff57e56ab53c5a7551e1f92f020de9"
+EXPECTED_PARAGRAPHS = 4298
 EXPECTED_LIST_PARAGRAPHS = 162
-EXPECTED_NON_WHITESPACE_CHARS = 168241
-EXPECTED_TABLES = 122
+EXPECTED_NON_WHITESPACE_CHARS = 204514
+EXPECTED_TABLES = 120
 EXPECTED_DIVISIONS = 20
 
 
 @dataclass(frozen=True)
 class SourceProfile:
-    """A repository-controlled source build profile.
-
-    The active runtime constants above intentionally remain bound to v8.3
-    until the full v9.0 runtime migration is integrated.
-    """
+    """An immutable, repository-controlled source content and build identity."""
 
     source_version: str
     anchor_prefix: str
@@ -66,25 +65,25 @@ _SOURCE_PROFILES = {
     "v8.3": SourceProfile(
         source_version="v8.3",
         anchor_prefix="V83",
-        document_name=SOURCE_DOCUMENT_NAME,
+        document_name="跨尺度多圈层结构推演框架v8.3.docx",
         snapshot_directory="references/source/v8.3",
         manifest_schema_path="schemas/source-manifest.schema.json",
         candidate_schema_path="schemas/source-candidate.schema.json",
         framework_revision="v8.3",
-        raw_sha256=RAW_SHA256,
-        semantic_sha256=SEMANTIC_SHA256,
-        list_structure_sha256=LIST_STRUCTURE_SHA256,
+        raw_sha256="4a3ad8e8692b7a906f733096bbc8e05d0ac4f8cfbf79d3926eb1729df828c7f5",
+        semantic_sha256="f190a80be88033ba21d717a310f4419c00489b3a6dea17b6a1e2b14af1447d9f",
+        list_structure_sha256="967dd396860e4b5d246ae2e3699eb33b8ab8ee46ca12bb72959e1249216d7a5f",
         semantic_normalization_version=1,
         list_structure_normalization_version=1,
         candidate_ruleset_version=4,
         expected_body_blocks=None,
-        expected_paragraphs=EXPECTED_PARAGRAPHS,
-        expected_nonempty_paragraphs=EXPECTED_PARAGRAPHS,
+        expected_paragraphs=4631,
+        expected_nonempty_paragraphs=4631,
         expected_top_level_paragraphs=None,
-        expected_list_paragraphs=EXPECTED_LIST_PARAGRAPHS,
-        expected_non_whitespace_chars=EXPECTED_NON_WHITESPACE_CHARS,
-        expected_tables=EXPECTED_TABLES,
-        expected_reader_units=EXPECTED_DIVISIONS + 1,
+        expected_list_paragraphs=162,
+        expected_non_whitespace_chars=168241,
+        expected_tables=122,
+        expected_reader_units=21,
         division_style="PartTitle",
         division_start_title="第一部分　导读",
         division_titles=None,
@@ -140,7 +139,7 @@ _SOURCE_PROFILES = {
 
 
 def get_source_profile(source_version: str = SOURCE_VERSION) -> SourceProfile:
-    """Return an allow-listed build profile without changing runtime identity."""
+    """Return an allow-listed source profile without changing runtime identity."""
     try:
         return _SOURCE_PROFILES[source_version]
     except KeyError as exc:
@@ -160,9 +159,15 @@ def source_document(repository_root: Path) -> Path:
 
 def require_current_source(record: Mapping[str, Any]) -> None:
     """Reject older source identities without altering their artifacts."""
-    if record.get("source_version") != SOURCE_VERSION:
-        raise ValueError(f"This runtime requires {SOURCE_VERSION}; source migration is not automatic")
+    require_source_profile(record, source_version=SOURCE_VERSION)
+
+
+def require_source_profile(record: Mapping[str, Any], *, source_version: str) -> None:
+    """Check an explicitly selected source without changing its artifacts."""
+    profile = get_source_profile(source_version)
+    if record.get("source_version") != profile.source_version:
+        raise ValueError(f"This runtime requires {profile.source_version}; source migration is not automatic")
     for field in ("source_anchors", "ontology_refs"):
         for reference in record.get(field, ()):
-            if not isinstance(reference, str) or not reference.startswith(ANCHOR_PREFIX + "-"):
-                raise ValueError(f"Mixed source identity: {reference!r}; expected {ANCHOR_PREFIX}")
+            if not isinstance(reference, str) or not reference.startswith(profile.anchor_prefix + "-"):
+                raise ValueError(f"Mixed source identity: expected {profile.anchor_prefix}-prefixed references")

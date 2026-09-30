@@ -62,7 +62,11 @@ its SHA-256, its one-element invocation vector, the complete provider binding,
 and the provider-binding SHA-256. The public `init` and `prepare` commands are
 read-only production preflights. Only `execute` starts and observes the real
 author before creating a formal run. The active contract is
-`production-authoring-v3`; earlier profiles are rejected without migration.
+`production-authoring-v4`; earlier profiles are rejected without migration.
+The envelope and provider binding protocol identifiers below retain their
+published transport identities. Their `v3` spelling does not select a legacy
+source or downgrade the active v4 contract; source and schema identities are
+validated separately against the repository-owned bindings.
 A production fork or repair revalidates and freezes the parent
 formal adapter and provider into the child, starts a fresh base-authoring
 process, and persists its new request, prompt, raw output, event stream,

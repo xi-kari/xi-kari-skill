@@ -24,12 +24,7 @@ from zipfile import BadZipFile, ZipFile
 import xml.etree.ElementTree as ET
 
 
-from xi_kari_runtime.source_profile import (
-    RAW_SHA256, SEMANTIC_SHA256, LIST_STRUCTURE_SHA256,
-    EXPECTED_PARAGRAPHS, EXPECTED_LIST_PARAGRAPHS,
-    EXPECTED_NON_WHITESPACE_CHARS, EXPECTED_TABLES, EXPECTED_DIVISIONS,
-    SOURCE_VERSION, get_source_profile,
-)
+from xi_kari_runtime.source_profile import SOURCE_VERSION, get_source_profile
 
 SEMANTIC_NORMALIZATION_VERSION = 1
 LIST_STRUCTURE_NORMALIZATION_VERSION = 1
@@ -964,38 +959,39 @@ def _reader_index(snapshot: Snapshot) -> str:
 
 
 def _validate_snapshot(snapshot: Snapshot) -> list[str]:
+    profile = get_source_profile("v8.3")
     errors: list[str] = []
-    if snapshot.raw_sha256 != RAW_SHA256:
+    if snapshot.raw_sha256 != profile.raw_sha256:
         errors.append(f"raw SHA256 mismatch: {snapshot.raw_sha256}")
-    if snapshot.semantic_sha256 != SEMANTIC_SHA256:
+    if snapshot.semantic_sha256 != profile.semantic_sha256:
         errors.append(f"semantic SHA256 mismatch: {snapshot.semantic_sha256}")
-    if snapshot.list_structure_sha256 != LIST_STRUCTURE_SHA256:
+    if snapshot.list_structure_sha256 != profile.list_structure_sha256:
         errors.append(
             f"list structure SHA256 mismatch: {snapshot.list_structure_sha256}"
         )
-    if len(snapshot.paragraphs) != EXPECTED_PARAGRAPHS:
+    if len(snapshot.paragraphs) != profile.expected_paragraphs:
         errors.append(f"paragraph count mismatch: {len(snapshot.paragraphs)}")
     list_paragraph_count = sum(
         paragraph.numbering is not None for paragraph in snapshot.paragraphs
     )
-    if list_paragraph_count != EXPECTED_LIST_PARAGRAPHS:
+    if list_paragraph_count != profile.expected_list_paragraphs:
         errors.append(f"list paragraph count mismatch: {list_paragraph_count}")
-    if len(snapshot.tables) != EXPECTED_TABLES:
+    if len(snapshot.tables) != profile.expected_tables:
         errors.append(f"table count mismatch: {len(snapshot.tables)}")
-    if len(snapshot.divisions) != EXPECTED_DIVISIONS:
+    if len(snapshot.divisions) != profile.expected_reader_units - 1:
         errors.append(f"division count mismatch: {len(snapshot.divisions)}")
-    if tuple(p.ordinal for p in snapshot.paragraphs) != tuple(range(1, EXPECTED_PARAGRAPHS + 1)):
+    if tuple(p.ordinal for p in snapshot.paragraphs) != tuple(range(1, profile.expected_paragraphs + 1)):
         errors.append("paragraph ordinals are not continuous")
-    if tuple(t.ordinal for t in snapshot.tables) != tuple(range(1, EXPECTED_TABLES + 1)):
+    if tuple(t.ordinal for t in snapshot.tables) != tuple(range(1, profile.expected_tables + 1)):
         errors.append("table ordinals are not continuous")
-    if len(snapshot.source_unit_sequence) != EXPECTED_PARAGRAPHS + EXPECTED_TABLES:
+    if len(snapshot.source_unit_sequence) != profile.expected_paragraphs + profile.expected_tables:
         errors.append(
             f"source unit sequence count mismatch: {len(snapshot.source_unit_sequence)}"
         )
     if len(set(snapshot.source_unit_sequence)) != len(snapshot.source_unit_sequence):
         errors.append("source unit sequence anchors are not unique")
     measured = sum(not c.isspace() for p in snapshot.paragraphs for c in p.text)
-    if measured != EXPECTED_NON_WHITESPACE_CHARS:
+    if measured != profile.expected_non_whitespace_chars:
         errors.append(f"non-whitespace count mismatch: {measured}")
     paragraph_by_ordinal = {p.ordinal: p.text for p in snapshot.paragraphs}
     for table in snapshot.tables:

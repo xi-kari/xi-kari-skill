@@ -10,8 +10,18 @@ import re
 import sys
 
 from check_ontology import check as check_ontology
-from check_source_snapshot import check_coverage
+from check_source_snapshot import (
+    check_candidate_index,
+    check_coverage,
+    check_inventory_candidate_coverage,
+    check_manifest,
+    check_source_unit_contract,
+    check_v90_candidate_index,
+    check_v90_manifest,
+    check_v90_source_units,
+)
 from build_source_snapshot import build as check_source
+from xi_kari_runtime.source_profile import SOURCE_VERSION
 
 
 LINK_RE = re.compile(r"\]\(([^)#]+)(?:#[^)]+)?\)")
@@ -95,6 +105,25 @@ def _validate_json_schemas(root: Path) -> list[str]:
                 errors.append(f"manifest schema {location}: {error.message}")
         except (OSError, json.JSONDecodeError) as exc:
             errors.append(f"cannot read source manifest: {exc}")
+    for relative, schema_name, label in (
+        ("references/source/v9.0/source-manifest.json", "source-manifest-v90.schema.json", "v9.0 manifest"),
+        ("references/ontology/v9.0/concept-registry.json", "concept-registry-v90.schema.json", "v9.0 registry"),
+    ):
+        schema = schemas.get(schema_name)
+        artifact_path = root / relative
+        if schema is None:
+            errors.append(f"missing {label} schema: {schema_name}")
+            continue
+        if not artifact_path.is_file():
+            errors.append(f"missing {label}: {relative}")
+            continue
+        try:
+            artifact = json.loads(artifact_path.read_text(encoding="utf-8"))
+            for error in Draft202012Validator(schema).iter_errors(artifact):
+                location = ".".join(str(part) for part in error.path) or "<root>"
+                errors.append(f"{label} schema {location}: {error.message}")
+        except (OSError, json.JSONDecodeError) as exc:
+            errors.append(f"cannot read {label}: {exc}")
     return errors
 
 
@@ -105,7 +134,10 @@ def _check_markdown_links(root: Path) -> list[str]:
         for path in sorted(search_root.glob("**/*.md")):
             # The lossless reader is source data; its HTML/comments are
             # checked by the source snapshot validator, not this route pass.
-            if "references/source/v8.3/reader" in path.relative_to(root).as_posix():
+            if path.relative_to(root).parts[:4] in {
+                ("references", "source", "v8.3", "reader"),
+                ("references", "source", "v9.0", "reader"),
+            }:
                 continue
             text = path.read_text(encoding="utf-8")
             for target in LINK_RE.findall(text):
@@ -169,10 +201,19 @@ def check(root: Path, *, all_checks: bool) -> list[str]:
         if stale.exists():
             errors.append(f"stale pre-v1 surface remains: {stale}")
     if all_checks:
-        errors.extend(check_source(root, check=True))
-        errors.extend(check_coverage(root))
-        if (root / "references" / "ontology" / "inventory").is_dir():
-            errors.extend(check_ontology(root))
+        for source_version in dict.fromkeys((SOURCE_VERSION, "v8.3")):
+            errors.extend(check_source(root, check=True, source_version=source_version))
+            if source_version == "v9.0":
+                errors.extend(check_v90_manifest(root))
+                errors.extend(check_v90_source_units(root))
+                errors.extend(check_v90_candidate_index(root))
+            elif source_version == "v8.3":
+                errors.extend(check_manifest(root))
+                errors.extend(check_source_unit_contract(root))
+                errors.extend(check_coverage(root))
+                errors.extend(check_candidate_index(root))
+                errors.extend(check_inventory_candidate_coverage(root))
+            errors.extend(check_ontology(root, source_version=source_version))
     return list(dict.fromkeys(errors))
 
 

@@ -288,14 +288,35 @@ def check(root: Path) -> list[str]:
     for entry in domain_entries:
         if not isinstance(entry, dict):
             continue
-        if (
-            entry.get("content_status") != "identity_only"
-            or entry.get("content_path") is not None
-            or entry.get("content_sha256") is not None
-            or entry.get("read_trace_status") != "not_yet_available"
-        ):
+        domain_id = entry.get("domain_id")
+        if entry.get("content_status") == "identity_only":
+            if (
+                entry.get("content_path") is not None
+                or entry.get("content_sha256") is not None
+                or entry.get("read_trace_status") != "not_yet_available"
+            ):
+                errors.append(f"{domain_id}: domain identity claims unavailable content or reading")
+            continue
+        if entry.get("content_status") != "available":
+            errors.append(f"{domain_id}: unsupported domain content status")
+            continue
+        expected_path = f"references/learning-packs/domains/{domain_id}.md"
+        if entry.get("content_path") != expected_path:
+            errors.append(f"{domain_id}: domain content path does not match its identity")
+        if entry.get("read_trace_status") != "requires_run_trace":
+            errors.append(f"{domain_id}: available content still requires a run-owned read trace")
+        if domains.get("source_raw_sha256") != source_manifest.get("raw_sha256"):
+            errors.append(f"{domain_id}: domain source identity differs from current source")
+        content_path = root / expected_path
+        try:
+            content_path.resolve(strict=True).relative_to(root)
+            content = content_path.read_bytes()
+        except (OSError, ValueError):
+            errors.append(f"{domain_id}: domain content is missing or outside the repository")
+            continue
+        if entry.get("content_sha256") != sha256(content).hexdigest():
             errors.append(
-                f"{entry.get('domain_id')}: P03 domain identity fakes P11 content"
+                f"{domain_id}: domain content hash differs from the current bytes"
             )
 
     assets = knowledge.get("assets")

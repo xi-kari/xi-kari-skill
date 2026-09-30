@@ -302,7 +302,7 @@ wheels = [
 
 [[package]]
 name = "xi-kari-skill"
-version = "3.0.0"
+version = "4.0.0"
 source = { virtual = "." }
 
 [package.dev-dependencies]

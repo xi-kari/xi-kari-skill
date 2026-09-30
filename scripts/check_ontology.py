@@ -18,6 +18,7 @@ import sys
 from typing import Any
 
 from build_knowledge_index import run as check_index
+from xi_kari_runtime.source_profile import SOURCE_VERSION
 
 
 ID_RE = re.compile(r"^V83-(?:CANON|CANDIDATE|HEADING|PROVISIONAL|SOURCE)(?:-[A-Z0-9]+)+$")
@@ -529,11 +530,11 @@ def _check_v83(root: Path) -> list[str]:
         if entry.get("route_kind") != "curated_semantic_closure":
             errors.append(f"continuity bundle registry route is invalid: {relative}")
 
-    errors.extend(check_index(root, check=True))
+    errors.extend(check_index(root, check=True, source_version="v8.3"))
     return list(dict.fromkeys(errors))
 
 
-def check(root: Path, *, source_version: str = "v8.3") -> list[str]:
+def check(root: Path, *, source_version: str = SOURCE_VERSION) -> list[str]:
     if source_version == "v8.3":
         return _check_v83(root)
     if source_version == "v9.0":
@@ -547,7 +548,7 @@ def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--root", type=Path, default=Path.cwd())
     parser.add_argument("--all", action="store_true")
-    parser.add_argument("--source-version", default="v8.3")
+    parser.add_argument("--source-version", default=SOURCE_VERSION)
     args = parser.parse_args()
     errors = check(args.root.resolve(), source_version=args.source_version)
     if errors:

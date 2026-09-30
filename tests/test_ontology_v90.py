@@ -61,12 +61,14 @@ def _expected_source_ids() -> set[str]:
     }
 
 
-def test_v90_knowledge_profile_is_explicit_without_switching_default() -> None:
+def test_explicit_knowledge_profiles_preserve_the_active_default() -> None:
     builder = import_module("build_knowledge_index")
 
     profile = builder.get_knowledge_profile("v9.0")
+    legacy = builder.get_knowledge_profile("v8.3")
 
-    assert builder.DEFAULT_KNOWLEDGE_SOURCE_VERSION == "v8.3"
+    assert builder.DEFAULT_KNOWLEDGE_SOURCE_VERSION == builder.get_knowledge_profile().source_version == "v9.0"
+    assert legacy.source_version == "v8.3"
     assert profile.source_version == "v9.0"
     assert profile.source_root == "references/source/v9.0"
     assert profile.ontology_root == "references/ontology/v9.0"
