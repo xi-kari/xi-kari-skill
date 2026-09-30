@@ -127,6 +127,7 @@ def test_v4_pipeline_e2e_observed_unauthorized_event_changes_fact_without_granti
 
 def test_v4_pipeline_e2e_packet_world_consumer_rejects_stale_registered_parent_data(tmp_path):
     from tests.test_p07_v4_world_bundle import bundle_fixture
+    from xi_kari_runtime.packet_v4 import prepare_analysis_packet_v4
     bundle, world_ledger, world_retrieval = bundle_fixture()
     _, problem, _, _, _ = static_author_output()
     problem["evidence_cutoff"] = bundle["registered_state"]["evidence_cutoff"]
@@ -140,7 +141,10 @@ def test_v4_pipeline_e2e_packet_world_consumer_rejects_stale_registered_parent_d
     semantic["claim_mechanism_graph"]["applicability"] = deepcopy(bundle["applicability"])
     semantic["claim_mechanism_graph"]["world_volume_id"] = "WORLD-SYNTHETIC-1"
     semantic["visibility_ledger"] = public_visibility(semantic)
-    packet = contracts.build_analysis_packet(semantic, run_contract=contract, repository_root=ROOT)
+    pending = prepare_analysis_packet_v4(semantic, run_contract=contract, repository_root=ROOT)
+    packet = contracts.build_analysis_packet(semantic, run_contract=contract, repository_root=ROOT,
+        reader_finalization={"reader_sections": semantic["reader_sections"],
+                             "visibility_ledger": public_visibility(pending)})
     result = fresh_result(fresh_boundary(tmp_path, "packet", {"packet": packet, "contract": contract}))
     assert "local_world_model.registered_state.objects[0].variables[0].value" in result["atom_paths"]
     packet["local_world_model"]["registered_state"]["objects"][0]["variables"][0]["value"] = "stale parent"
