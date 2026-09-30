@@ -203,6 +203,7 @@ MODEL_AUTHORITY_KEYS = frozenset(
         "runtime_binding",
         "concept_disposition",
         "formal_results",
+        "causal_results",
         "domain_usage",
         "stage_results",
         "stage_outcomes",

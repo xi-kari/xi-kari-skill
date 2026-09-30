@@ -95,7 +95,7 @@ def prepare_analysis_packet_v4(
     if run_contract.get('contract_profile') != 'production-authoring-v4':
         raise ValueError('version-four packet requires its version-four run profile')
     packet = deepcopy(dict(semantic_packet))
-    if any(field in packet for field in ('runtime_binding', 'concept_disposition', 'formal_results', 'domain_binding', 'domain_read_trace', 'domain_usage', 'stage_outcomes', 'probe_outcomes')):
+    if any(field in packet for field in ('runtime_binding', 'concept_disposition', 'formal_results', 'causal_results', 'domain_binding', 'domain_read_trace', 'domain_usage', 'stage_outcomes', 'probe_outcomes')):
         raise ValueError('semantic author cannot supply runtime-owned packet authority')
     if 'empirical_instances' in packet or 'derived_instances' in packet:
         from .formal_results import bind_formal_claim_results
@@ -105,6 +105,9 @@ def prepare_analysis_packet_v4(
         )
         packet['claim_mechanism_graph'] = resolved['claim_mechanism_graph']
         packet['formal_results'] = {key: value for key, value in resolved.items() if key != 'claim_mechanism_graph'}
+    if 'causal_assessments' in packet:
+        from .causal_results_v4 import recompute_causal_results_v4
+        packet['causal_results'] = recompute_causal_results_v4(packet['causal_assessments'], graph=packet['claim_mechanism_graph'], empirical_instances=packet.get('empirical_instances', []), derived_instances=packet.get('derived_instances', []), mode=run_contract['mode'], repository_root=repository_root)
     dispositions, _ = load_concept_authority(repository_root, source_version='v9.0')
     packet.update(
         schema_id='xi-kari.v4.analysis-packet', schema_version=4,
@@ -175,6 +178,13 @@ def _require_packet_semantics_v4(
     elif 'formal_results' in packet:
         raise ValueError('packet formal results require the actual semantic instance inputs')
     graph = validate_claim_graph(packet['claim_mechanism_graph'], evidence_mode=mode, repository_root=repository_root, verified_instance_results=registry)
+    if 'causal_assessments' in packet:
+        from .causal_results_v4 import recompute_causal_results_v4
+        recomputed = recompute_causal_results_v4(packet['causal_assessments'], graph=graph, empirical_instances=packet.get('empirical_instances', []), derived_instances=packet.get('derived_instances', []), mode=mode, repository_root=repository_root)
+        if packet.get('causal_results') != recomputed:
+            raise ValueError('causal results differ from freshly recomputed material and instance inputs')
+    elif 'causal_results' in packet:
+        raise ValueError('causal results require their actual semantic assessment inputs')
     if packet['applicability'] != graph['applicability']:
         raise ValueError('version-four packet and claim applicability differ')
     validate_applicability(packet['applicability'], claims=graph['claims'], repository_root=repository_root)

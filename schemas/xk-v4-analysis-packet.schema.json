@@ -639,6 +639,48 @@
     },
     "probe_outcomes": {
       "$ref": "https://xi-kari.local/schemas/xi-kari.v4.probe-outcomes.schema.json"
+    },
+    "causal_assessments": {
+      "$ref": "https://xi-kari.local/schemas/xi-kari.v4.causal-inputs.schema.json#/$defs/assessments"
+    },
+    "causal_results": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "claim_graph_sha256",
+        "assessments_sha256",
+        "assessments",
+        "empirical_instances",
+        "derived_instances"
+      ],
+      "properties": {
+        "claim_graph_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "assessments_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "assessments": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "empirical_instances": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "derived_instances": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        }
+      }
     }
   },
   "allOf": [

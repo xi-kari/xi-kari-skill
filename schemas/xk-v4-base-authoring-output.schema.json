@@ -487,6 +487,9 @@
               }
             }
           }
+        },
+        "causal_assessments": {
+          "$ref": "https://xi-kari.local/schemas/xi-kari.v4.causal-inputs.schema.json#/$defs/assessments"
         }
       },
       "allOf": [
