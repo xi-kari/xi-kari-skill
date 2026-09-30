@@ -671,3 +671,64 @@ def test_reader_materialization_is_independent_of_author_dictionary_order(replay
     authored_order = typed_semantic_atoms(reader_payload_v4(pending, contract))
     disk_order = typed_semantic_atoms(reader_payload_v4(from_disk, contract))
     assert authored_order == disk_order
+
+
+@pytest.mark.parametrize('relative,accepted', [
+    ('authoring/XK01-base-authoring-stderr.bin', True),
+    ('sem/attempt-' + 'a' * 32 + '/capture/stderr.bin', True),
+    ('semantic-executions/attempt-' + 'a' * 32 + '/capture/stderr.bin', True),
+    ('authoring/XK01-base-authoring-output.bin', False),
+    ('sem/attempt-' + 'a' * 32 + '/capture/output.bin', False),
+    ('unknown/stderr.bin', False),
+])
+def test_manifest_accepts_empty_success_stderr_only(relative, accepted):
+    from jsonschema import Draft202012Validator
+    from xi_kari_runtime.canonical_json import sha256_bytes
+
+    record = {'path': relative, 'sha256': sha256_bytes(b''), 'bytes': 0}
+    manifest = {
+        'schema_id': 'xi-kari.v4.artifact-manifest', 'schema_version': 4,
+        'runtime_version': '4.0.0', 'artifact_schema_version': 4, 'source_version': 'v9.0',
+        'run_id': 'synthetic-empty-stderr', 'input_packet_sha256': 'a' * 64,
+        'candidate_census_sha256': 'a' * 64, 'validated_chain_head_sha256': 'a' * 64,
+        'validator_set_sha256': 'a' * 64, 'phase_responsibilities': {},
+        'phase_artifacts': {'XK1': [record]},
+        'delivery': {name: {'path': 'delivery/' + name, 'sha256': 'a' * 64, 'bytes': 1} for name in ('answer', 'dossier', 'atlas', 'casebook', 'artifact_index', 'final_chat')},
+    }
+    assert Draft202012Validator(read_json(ROOT / 'schemas/xk-v4-production-manifest.schema.json')).is_valid(manifest) is accepted
+
+
+@pytest.mark.parametrize('unreadable_report', [False, True])
+def test_failed_promotion_capture_survives_candidate_cleanup(tmp_path, monkeypatch, unreadable_report):
+    from xi_kari_runtime import materialization_v4 as materializer
+    from xi_kari_runtime.canonical_json import atomic_write_bytes
+
+    run = tmp_path / 'synthetic-failed-promotion'
+    run.mkdir()
+    relative = 'validation/attempts/promotion-' + 'a' * 32 + '/execution.json'
+    failed = {'valid': False, 'errors': ['synthetic refusal']}
+
+    def synthetic_validator(directory, **arguments):
+        if arguments.get('preseal'):
+            return {'valid': True}
+        assert arguments.get('promotion') is True
+        capture = directory / Path(relative).parent
+        atomic_write_json(capture / 'execution.json', {'synthetic': True, 'exit_status': 2})
+        atomic_write_json(capture / 'validator-report.json', failed)
+        atomic_write_bytes(capture / 'stdout.bin', b'synthetic failed validation capture')
+        atomic_write_bytes(capture / 'stderr.bin', b'')
+        if unreadable_report:
+            raise ValueError('synthetic unreadable validator report')
+        return failed
+
+    monkeypatch.setattr(materializer, 'run_fresh_validator_v4', synthetic_validator)
+    monkeypatch.setattr(materializer, 'validation_execution_for_report_v4', lambda *args, **kwargs: relative)
+    monkeypatch.setattr(materializer, '_set_state', lambda *args, **kwargs: None)
+    monkeypatch.setattr(materializer, '_append', lambda *args, **kwargs: None)
+    monkeypatch.setattr(materializer, 'load_phase_records', lambda *args: [])
+    monkeypatch.setattr(materializer, 'build_manifest_v4', lambda *args, **kwargs: {})
+    with pytest.raises(ValueError, match='synthetic unreadable validator report' if unreadable_report else 'fresh promotion validation failed'):
+        materializer._complete(run, packet={}, contract={'run_id': 'synthetic-failed-promotion'}, repository_root=ROOT, packet_sha256='a' * 64)
+    assert read_json(run / Path(relative).parent / 'validator-report.json') == failed
+    assert (run / Path(relative).parent / 'stdout.bin').read_bytes() == b'synthetic failed validation capture'
+    assert not list(tmp_path.glob('.synthetic-failed-promotion.xk12-*'))

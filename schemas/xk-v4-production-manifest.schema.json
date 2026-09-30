@@ -65,9 +65,25 @@
             },
             "bytes": {
               "type": "integer",
-              "minimum": 1
+              "minimum": 0
             }
-          }
+          },
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "path": {
+                    "pattern": "^(?:authoring/XK01-base-authoring-stderr\\.bin|(?:sem|semantic-executions)/attempt-[0-9a-f]{32}/capture/stderr\\.bin)$"
+                  }
+                }
+              },
+              "else": {
+                "properties": {
+                  "bytes": {"minimum": 1}
+                }
+              }
+            }
+          ]
         }
       }
     },

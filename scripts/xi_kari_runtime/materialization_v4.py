@@ -258,12 +258,19 @@ def _complete(run_dir: Path, *, packet: Mapping[str, Any], contract: Mapping[str
             DELIVERY_PATHS['final_chat']: final_chat, 'artifacts/artifact-manifest.json': manifest,
         })
         _set_state(candidate, 'in_progress', next_phase='XK12')
-        promotion = run_fresh_validator_v4(candidate, repository_root=repository_root, promotion=True)
+        previous_promotions = set((candidate / 'validation/attempts').glob('promotion-*'))
+        try:
+            promotion = run_fresh_validator_v4(candidate, repository_root=repository_root, promotion=True)
+        finally:
+            for attempt in sorted(set((candidate / 'validation/attempts').glob('promotion-*')) - previous_promotions):
+                relative = attempt.relative_to(candidate)
+                source = confined_path(candidate, relative)
+                if not source.is_dir():
+                    raise ValueError('version-four promotion capture is not a regular directory')
+                shutil.copytree(source, confined_path(run_dir, relative), symlinks=True)
+        promotion_execution = validation_execution_for_report_v4(candidate, promotion, boundary='promotion', repository_root=repository_root)
         if not promotion['valid']:
             raise ValueError('version-four fresh promotion validation failed')
-        promotion_execution = validation_execution_for_report_v4(candidate, promotion, boundary='promotion', repository_root=repository_root)
-        promotion_directory = Path(promotion_execution).parent
-        shutil.copytree(candidate / promotion_directory, run_dir / promotion_directory)
         transaction = _begin_xk12_transaction(run_dir, candidate)
         transaction = _promote_xk12_candidate(run_dir, candidate, transaction)
         _set_state(run_dir, 'in_progress', next_phase='XK12')
