@@ -39,8 +39,6 @@ def test_natural_refinement_is_frozen_before_read_plan(tmp_path, monkeypatch):
         observed.append("contract-author")
         return candidate, {"receipt": {"receipt_sha256": "a" * 64}}
     monkeypatch.setattr(execution, "_author_natural_contract", author, raising=False)
-    monkeypatch.setattr(execution, "bind_semantic_authoring_adapter", lambda *a, **k: {"provider_binding": {}, "executable_sha256": "b" * 64})
-    monkeypatch.setattr(execution, "bind_base_authoring_provider", lambda *a, **k: {})
     monkeypatch.setattr(execution, "build_full_source_lock", lambda *a, **k: ({}, []))
     def plan(*args, **kwargs):
         assert observed == ["contract-author"]
@@ -113,8 +111,6 @@ def test_manual_contract_skips_the_contract_author(tmp_path, monkeypatch):
     def forbidden(**kwargs):
         raise AssertionError("manual contract must not be reauthored")
     monkeypatch.setattr(execution, "_author_natural_contract", forbidden, raising=False)
-    monkeypatch.setattr(execution, "bind_semantic_authoring_adapter", lambda *a, **k: {"provider_binding": {}, "executable_sha256": "b" * 64})
-    monkeypatch.setattr(execution, "bind_base_authoring_provider", lambda *a, **k: {})
     monkeypatch.setattr(execution, "build_full_source_lock", lambda *a, **k: ({}, []))
     def plan(*args, **kwargs):
         assert kwargs["problem_contract_sha256"] == contract_hash(final)
@@ -193,12 +189,11 @@ def test_contract_stage_rejects_runtime_authority_and_question_rewrite():
 def test_two_real_provider_processes_receive_the_frozen_contract_in_order(tmp_path, monkeypatch):
     provider_path = tmp_path / "two_stage_provider.py"
     provider_path.write_text(f"#!{Path(sys.executable).resolve()}\n" + '''import json, os, pathlib, sys
-prompt = sys.stdin.read()
-if "运行时请求（只读绑定）：\\n" in prompt:
- request = json.loads(prompt.rsplit("运行时请求（只读绑定）：\\n", 1)[1])
+prompt = sys.stdin.buffer.read().decode("utf-8")
+request = json.loads(prompt.splitlines()[-1])
+if "source_inputs" in request:
  result = {"observed_contract": request["problem_contract"], "ontology_hash": request["source_inputs"]["ontology_read_plan"]["problem_contract_sha256"], "contract_binding": request["contract_authoring_binding"], "observed_base_pid": os.getpid()}
 else:
- request = json.loads(prompt.rsplit("运行时请求（只读）：\\n", 1)[1])
  result = dict(request["draft_problem_contract"])
  result.update(boundary="唯一允许的本团队排班边界", time_window="六周")
 pathlib.Path("semantic-output.json").write_text(json.dumps(result, ensure_ascii=False), encoding="utf-8")
@@ -215,6 +210,7 @@ for event in ({"type":"thread.started","thread_id":str(os.getpid())}, {"type":"t
         return result
     monkeypatch.setattr(execution, "_author_natural_contract", author)
     def stop_after_transport(raw, **kwargs):
+        assert kwargs["contract_version"] == 4
         result = json.loads(raw)
         final = kwargs["problem_contract"]
         assert final["boundary"] == "唯一允许的本团队排班边界"
@@ -224,7 +220,7 @@ for event in ({"type":"thread.started","thread_id":str(os.getpid())}, {"type":"t
         assert len(observed_contract_pid) == 1
         assert result["observed_base_pid"] != observed_contract_pid[0]
         raise PlanObserved
-    monkeypatch.setattr(execution, "_parse_base_output", stop_after_transport)
+    monkeypatch.setattr(execution, "parse_base_authoring_output", stop_after_transport)
     destination = tmp_path / "runs-not-created"
     with pytest.raises(execution.AuthoringFailure) as captured:
         execution.execute_authored_run(destination, request_text="评价六周轮班计划", repository_root=ROOT,

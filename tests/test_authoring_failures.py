@@ -11,7 +11,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 
 from xi_kari_runtime import execution, materialization
-from xi_kari_runtime.authoring import bind_base_authoring_provider
+from xi_kari_runtime.authoring import bind_base_authoring_provider, bind_semantic_authoring_adapter
 from xi_kari_runtime.problem_contract import build_natural_request_envelope, draft_problem_contract_from_natural_request
 
 
@@ -36,11 +36,11 @@ def test_execute_preserves_timeout_in_every_provider_binding(tmp_path, monkeypat
 
     def adapter(*args, **kwargs):
         observed.append(("adapter", kwargs["timeout_seconds"]))
-        return {"provider_binding": {}}
+        return bind_semantic_authoring_adapter(*args, **kwargs)
 
     def provider(*args, **kwargs):
         observed.append(("provider", kwargs["timeout_seconds"]))
-        return {"timeout_seconds": kwargs["timeout_seconds"]}
+        return bind_base_authoring_provider(*args, **kwargs)
 
     def contract(**kwargs):
         observed.append(("contract-execution", kwargs["timeout_seconds"]))
@@ -119,9 +119,9 @@ print(json.dumps({"type":"turn.completed"}), flush=True)
 def test_base_transport_failure_keeps_diagnostics_without_creating_a_run(tmp_path, base_output):
     provider_path = tmp_path / "two_stage_provider.py"
     provider_path.write_text(f"#!{Path(sys.executable).resolve()}\n" + '''import json, pathlib, sys
-prompt = sys.stdin.read()
-if "运行时请求（只读绑定）：\\n" not in prompt:
- request = json.loads(prompt.rsplit("运行时请求（只读）：\\n", 1)[1])
+prompt = sys.stdin.buffer.read().decode("utf-8")
+request = json.loads(prompt.splitlines()[-1])
+if "draft_problem_contract" in request:
  pathlib.Path("semantic-output.json").write_text(json.dumps(request["draft_problem_contract"], ensure_ascii=False), encoding="utf-8")
 ''' + (f'else:\n pathlib.Path("semantic-output.json").write_text({base_output!r}, encoding="utf-8")\n' if base_output is not None else '') + '''pathlib.Path(sys.argv[sys.argv.index("--output-last-message") + 1]).write_text("SEMANTIC_OUTPUT_READY", encoding="utf-8")
 for event in ({"type":"thread.started","thread_id":"two-stage-fixture"}, {"type":"turn.started"}, {"type":"turn.completed"}):
@@ -174,9 +174,9 @@ def test_retrieval_rejection_keeps_base_bytes_before_workspace_cleanup(tmp_path,
     payload = '{"fixture":"completed-base-output"}'
     provider_path = tmp_path / "late_failure_provider.py"
     provider_path.write_text(f"#!{Path(sys.executable).resolve()}\n" + '''import json, pathlib, sys
-prompt = sys.stdin.read()
-if "运行时请求（只读绑定）：\\n" not in prompt:
- request = json.loads(prompt.rsplit("运行时请求（只读）：\\n", 1)[1])
+prompt = sys.stdin.buffer.read().decode("utf-8")
+request = json.loads(prompt.splitlines()[-1])
+if "draft_problem_contract" in request:
  output = json.dumps(request["draft_problem_contract"], ensure_ascii=False)
 else:
  output = ''' + repr(payload) + '''
@@ -194,7 +194,7 @@ for event in ({"type":"thread.started","thread_id":"late-failure-fixture"}, {"ty
         "assessments": [], "saturation_status": "bounded", "capability_gap": "none",
         "remaining_unknowns": [],
     }}
-    monkeypatch.setattr(execution, "_parse_base_output", lambda *a, **k: (packet, {}, {}))
+    monkeypatch.setattr(execution, "parse_base_authoring_output", lambda *a, **k: (packet, {}, {}))
     monkeypatch.setattr(execution, "validate_semantic_read_trace_input", lambda *a, **k: None)
     monkeypatch.setattr(execution, "validate_visibility_ledger", lambda *a, **k: None)
     destination = tmp_path / "runs"
