@@ -41,6 +41,42 @@ class ChannelContinuityError(TransformationError):
     """Raised when a cascade hop lacks a revalidated real channel."""
 
 
+def classify_scale_relations(relations: set[str]) -> str:
+    from .scale_instances import ScaleContractError, classify_scale_relations as classify
+
+    try:
+        return classify(relations)
+    except ScaleContractError as error:
+        raise TransformationError(str(error)) from error
+
+
+def validate_scale_instance(record: Mapping[str, Any], **registries: Any) -> dict[str, Any]:
+    from .scale_instances import ScaleContractError, validate_scale_instance as validate
+
+    try:
+        return validate(record, **registries)
+    except (ScaleContractError, WorldVolumeError) as error:
+        raise TransformationError(str(error)) from error
+
+
+def evaluate_task_partition(representation_by_source: Mapping[str, Any], answer_by_source: Mapping[str, Any]) -> dict[str, Any]:
+    from .scale_instances import ScaleContractError, evaluate_task_partition as evaluate
+
+    try:
+        return evaluate(representation_by_source, answer_by_source)
+    except ScaleContractError as error:
+        raise TransformationError(str(error)) from error
+
+
+def validate_scale_chain(records: list[Mapping[str, Any]], **registries: Any) -> dict[str, Any]:
+    from .scale_instances import ScaleContractError, validate_scale_chain as validate
+
+    try:
+        return validate(records, **registries)
+    except (ScaleContractError, WorldVolumeError) as error:
+        raise TransformationError(str(error)) from error
+
+
 def _world_catalogs(volume: Mapping[str, Any]) -> tuple[set[str], set[str]]:
     represented = [*volume["actors"], *volume["circles"], *volume["positions"]]
     locations = {
