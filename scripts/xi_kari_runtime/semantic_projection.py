@@ -345,7 +345,9 @@ def _collect_ids(value: Any, result: set[str]) -> None:
 
 def _alias_book(payload: Mapping[str, Any]) -> dict[str, str]:
     identifiers: set[str] = set()
-    _collect_ids(payload, identifiers)
+    for key, value in payload.items():
+        if key not in {"runtime_binding", "concept_disposition", "reader_sections", "answer_delivery"}:
+            _collect_ids(value, identifiers)
     counters: dict[str, int] = {}
     aliases: dict[str, str] = {}
     for identifier in sorted(identifiers):
