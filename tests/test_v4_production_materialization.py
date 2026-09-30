@@ -435,3 +435,22 @@ def test_production_gate_reopens_signed_process_proof_and_rejects_synthetic_mode
     result['semantic_gate'] = 'validated'
     with pytest.raises(ValueError, match='actual configured provider'):
         checked_execution_v4(result, expected_request=request, binding=binding, run_dir=run, original_run_dir=str(run), repository_root=ROOT)
+
+
+@pytest.mark.parametrize('directory', ['sem', 'semantic-executions'])
+def test_semantic_execution_replay_owns_short_and_historical_run_paths(tmp_path, directory):
+    from xi_kari_runtime.validation_v4 import _expected_root_ids_v4, _rebased_execution_v4
+
+    original = tmp_path / 'original'
+    candidate = tmp_path / 'candidate'
+    relative = directory + '/attempt-' + 'a' * 32
+    (candidate / relative).mkdir(parents=True)
+    rebased = _rebased_execution_v4({'attempt_directory': str(original / relative)}, run_dir=candidate, original_run_dir=str(original))
+    assert rebased['attempt_directory'] == str(candidate / relative)
+    assert _expected_root_ids_v4(relative + '/capture/request.json') == {'xi-kari.v4.xk.semantic-execution-request'}
+    assert _expected_root_ids_v4(relative + '/capture/receipt.json') == {'xi-kari.v4.xk.semantic-execution-attestation'}
+    assert _expected_root_ids_v4('extra/' + relative + '/capture/request.json') is None
+    with pytest.raises(ValueError, match='not owned'):
+        _rebased_execution_v4({'attempt_directory': str(original / relative / 'nested')}, run_dir=candidate, original_run_dir=str(original))
+    with pytest.raises(ValueError, match='outside'):
+        _rebased_execution_v4({'attempt_directory': str(tmp_path / relative)}, run_dir=candidate, original_run_dir=str(original))

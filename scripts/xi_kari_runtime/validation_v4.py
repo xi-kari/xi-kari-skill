@@ -136,7 +136,7 @@ def _rebased_execution_v4(execution: Mapping[str, Any], *, run_dir: Path, origin
         relative = observed.relative_to(original)
     except ValueError as exc:
         raise ValueError('version-four semantic execution is outside its original run') from exc
-    if len(relative.parts) != 2 or relative.parts[0] != 'semantic-executions' or not relative.parts[1].startswith('attempt-'):
+    if len(relative.parts) != 2 or relative.parts[0] not in {'sem', 'semantic-executions'} or not relative.parts[1].startswith('attempt-'):
         raise ValueError('version-four semantic execution attempt path is not owned')
     directory = confined_path(run_dir, relative.as_posix())
     if not directory.is_dir() or directory.is_symlink():
@@ -300,9 +300,9 @@ def _expected_root_ids_v4(relative: str) -> set[str] | None:
         return {'xi-kari.v4.validation-execution'}
     if path.match('validation/attempts/*/validator-report.json'):
         return {'xi-kari.v4.validator-report'}
-    if path.match('semantic-executions/attempt-*/capture/request.json'):
+    if len(path.parts) == 4 and any(path.parts[0] == base and path.match(base + '/attempt-*/capture/request.json') for base in ('sem', 'semantic-executions')):
         return {'xi-kari.v4.xk.semantic-execution-request'}
-    if path.match('semantic-executions/attempt-*/capture/receipt.json'):
+    if len(path.parts) == 4 and any(path.parts[0] == base and path.match(base + '/attempt-*/capture/receipt.json') for base in ('sem', 'semantic-executions')):
         return {'xi-kari.v4.xk.semantic-execution-attestation'}
     from .validation import _expected_artifact_schema_ids
     return _expected_artifact_schema_ids(relative)
@@ -319,7 +319,8 @@ def validate_json_artifact_ownership_v4(run_dir: Path, repository_root: Path) ->
         if not path.is_file() or path.suffix not in {'.json', '.jsonl'}:
             continue
         relative = path.relative_to(run_dir).as_posix()
-        if relative == 'authoring/XK01-base-authoring-events.jsonl' or Path(relative).match('semantic-executions/attempt-*/capture/stdout.jsonl') or Path(relative).match('semantic-executions/attempt-*/provider/semantic-output.json'):
+        relative_path = Path(relative)
+        if relative == 'authoring/XK01-base-authoring-events.jsonl' or len(relative_path.parts) == 4 and any(relative_path.parts[0] == base and relative_path.match(base + '/attempt-*/' + suffix) for base in ('sem', 'semantic-executions') for suffix in ('capture/stdout.jsonl', 'provider/semantic-output.json')):
             continue
         expected_ids = _expected_root_ids_v4(relative)
         if expected_ids is None:
