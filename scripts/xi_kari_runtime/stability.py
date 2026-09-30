@@ -9,6 +9,14 @@ import sys
 from typing import Any, Mapping
 
 from .canonical_json import read_json, sha256_file
+from .forecasting import (
+    append_forecast_result,
+    evaluate_alert,
+    evaluate_information_value,
+    evaluate_order_comparison,
+    freeze_forecast,
+    validate_probability_expression,
+)
 
 
 def _probe(
@@ -404,6 +412,12 @@ def validate_sensitivity_report(
 
 
 __all__ = (
+    "append_forecast_result",
+    "evaluate_alert",
+    "evaluate_information_value",
+    "evaluate_order_comparison",
+    "freeze_forecast",
+    "validate_probability_expression",
     "build_stance_stability_report",
     "build_sensitivity_report",
     "validate_stance_stability_report",
