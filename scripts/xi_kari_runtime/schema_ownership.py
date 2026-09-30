@@ -36,6 +36,10 @@ V4_SCHEMA_IDENTITIES = {
     "xk-v4-production-capability.schema.json": (
         "xi-kari.v4.capability-snapshot", frozenset({"xi-kari.v4.capability-snapshot"}),
     ),
+    "xk-v4-production-authors.schema.json": (
+        "xi-kari.v4.production-author-executions",
+        frozenset({"xi-kari.v4.production-author-executions"}),
+    ),
     "xk-v4-probe-outcomes.schema.json": ("xi-kari.v4.probe-outcomes", frozenset()),
     "xk-v4-production-completion.schema.json": (
         "xi-kari.v4.completion", frozenset({"xi-kari.v4.completion"}),
