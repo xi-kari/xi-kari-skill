@@ -252,6 +252,7 @@ if PROTECTED:
             entry.update(classification="sensitive", disclosure="withhold",
                 authority_refs=["XK0-PRIVACY-CONTRACT-SYNTHETIC"],
                 protection_reason="The material body is protected for this audience")
+    value["semantic_packet"]["evidence"]["claims"][0]["support"][0]["support_checks"]["source_exists"]["status"] = "invalid-schema-status"
 pathlib.Path(OBSERVATION).write_text(json.dumps({"pid": os.getpid(),
     "source_version": request["source_inputs"]["source_version"],
     "synthetic": True, "actual_model_runs": 0}), encoding="utf-8")

@@ -304,6 +304,7 @@ def test_v4_pipeline_e2e_production_schema_failure_cannot_disclose_protected_mat
     transport.mkdir()
     provider, observation = deterministic_provider(transport, protected_content=secret)
     disclosed = False
+    rejected = False
     try:
         execution.execute_authored_run(
             transport / "runs", problem_contract=problem, run_id="synthetic-v4-private-e2e",
@@ -311,7 +312,9 @@ def test_v4_pipeline_e2e_production_schema_failure_cannot_disclose_protected_mat
             mode="closed-input", closed_input_materials=materials,
         )
     except ValueError as error:
+        rejected = True
         disclosed = secret in str(error)
     assert observation.is_file(), "The synthetic author did not reach its output boundary"
     assert json.loads(observation.read_text("utf-8"))["pid"] != os.getpid()
+    assert rejected is True, "The intentionally invalid author schema was accepted"
     assert disclosed is False, "The production error disclosed protected synthetic material"
