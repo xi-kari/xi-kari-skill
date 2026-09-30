@@ -78,8 +78,16 @@ def build_analysis_packet_v4(
     if run_contract.get('contract_profile') != 'production-authoring-v4':
         raise ValueError('version-four packet requires its version-four run profile')
     packet = deepcopy(dict(semantic_packet))
-    if any(field in packet for field in ('runtime_binding', 'concept_disposition')):
+    if any(field in packet for field in ('runtime_binding', 'concept_disposition', 'formal_results')):
         raise ValueError('semantic author cannot supply runtime-owned packet authority')
+    if 'empirical_instances' in packet or 'derived_instances' in packet:
+        from .formal_results import bind_formal_claim_results
+        resolved = bind_formal_claim_results(
+            packet['claim_mechanism_graph'], empirical_instances=packet.get('empirical_instances', []),
+            derived_instances=packet.get('derived_instances', []), evidence_mode=run_contract['mode'], repository_root=repository_root,
+        )
+        packet['claim_mechanism_graph'] = resolved['claim_mechanism_graph']
+        packet['formal_results'] = {key: value for key, value in resolved.items() if key != 'claim_mechanism_graph'}
     dispositions, _ = load_concept_authority(repository_root, source_version='v9.0')
     packet.update(
         schema_id='xi-kari.v4.analysis-packet', schema_version=4,
@@ -107,7 +115,21 @@ def require_packet_contract_v4(
     if run_contract is not None:
         if dict(binding) != build_runtime_packet_binding(run_contract) or problem != run_contract['problem_contract']:
             raise ValueError('version-four packet differs from its frozen run contract')
-    graph = validate_claim_graph(packet['claim_mechanism_graph'], evidence_mode=mode, repository_root=repository_root)
+    registry = None
+    if 'empirical_instances' in packet or 'derived_instances' in packet:
+        from .canonical_json import sha256_json
+        from .formal_results import bind_formal_claim_results, rebuild_instance_registry
+        resolved = bind_formal_claim_results(
+            packet['claim_mechanism_graph'], empirical_instances=packet.get('empirical_instances', []),
+            derived_instances=packet.get('derived_instances', []), evidence_mode=mode, repository_root=repository_root,
+        )
+        control = {key: value for key, value in resolved.items() if key != 'claim_mechanism_graph'}
+        if sha256_json(control) != sha256_json(packet.get('formal_results')) or packet['claim_mechanism_graph'] != resolved['claim_mechanism_graph']:
+            raise ValueError('packet formal qualification differs from its freshly recomputed instance results')
+        registry = rebuild_instance_registry(packet.get('empirical_instances', []), graph=packet['claim_mechanism_graph'], derived_instances=packet.get('derived_instances', []), evidence_mode=mode, repository_root=repository_root)
+    elif 'formal_results' in packet:
+        raise ValueError('packet formal results require the actual semantic instance inputs')
+    graph = validate_claim_graph(packet['claim_mechanism_graph'], evidence_mode=mode, repository_root=repository_root, verified_instance_results=registry)
     if packet['applicability'] != graph['applicability']:
         raise ValueError('version-four packet and claim applicability differ')
     validate_applicability(packet['applicability'], claims=graph['claims'], repository_root=repository_root)

@@ -117,3 +117,43 @@ def test_fresh_process_recomputes_changed_disk_evidence(tmp_path):
     graph['evidence'][0]['support_checks']['world_fact_supported']['status'] = 'failed'
     graph_path.write_text(json.dumps(graph), encoding='utf-8')
     assert fresh() == 'unsupported_or_undecided'
+
+
+def packet_inputs():
+    from tests.test_p04_v4_packet import _packet_inputs
+    semantic, contract = _packet_inputs()
+    scope = deepcopy(requested_graph()['claims'][0]['claim_basis']['scope'])
+    graph_claim = semantic['claim_mechanism_graph']['claims'][0]
+    graph_claim['claim_basis'].update(kind='domain_empirical', scope=scope)
+    graph_claim['formal_qualification'] = deepcopy(requested_graph()['claims'][0]['formal_qualification'])
+    for record in semantic['evidence']['evidence'] + semantic['claim_mechanism_graph']['evidence']:
+        record['support_checks']['world_fact_supported']['status'] = 'passed'
+        record['identity'] = 'observed'
+    semantic['empirical_instances'] = instance_inputs()
+    semantic['derived_instances'] = []
+    from xi_kari_runtime.semantic_projection import semantic_atom_paths
+    semantic['visibility_ledger'] = {'entries': [
+        {'canonical_path': path, 'classification': 'public', 'disclosure': 'include',
+         'purpose': 'bounded source-scope analysis', 'authority_refs': [], 'protection_reason': None}
+        for path in semantic_atom_paths(semantic)
+    ]}
+    return semantic, contract
+
+
+def test_packet_constructor_recomputes_actual_formal_results_and_rejects_tampering():
+    from xi_kari_runtime.contracts import build_analysis_packet, require_packet_contract
+    semantic, contract = packet_inputs()
+    packet = build_analysis_packet(semantic, run_contract=contract, repository_root=Path(__file__).resolve().parents[1])
+    assert packet['claim_mechanism_graph']['claims'][0]['formal_qualification']['status'] == 'qualified'
+    assert packet['formal_results']['instance_results'][root_contract()['instance_id']]['result']['result_state'] == 'supported'
+    packet['formal_results']['instance_results'][root_contract()['instance_id']]['result']['result_state'] = 'null_supported'
+    with pytest.raises(ValueError, match='recomputed'):
+        require_packet_contract(packet, mode=contract['mode'], run_contract=contract)
+
+
+def test_packet_constructor_cannot_accept_author_supplied_formal_result_controls():
+    from xi_kari_runtime.contracts import build_analysis_packet
+    semantic, contract = packet_inputs()
+    semantic['formal_results'] = {'instance_results': {'forged': {'qualification': 'qualified'}}}
+    with pytest.raises(ValueError, match='runtime-owned'):
+        build_analysis_packet(semantic, run_contract=contract, repository_root=Path(__file__).resolve().parents[1])

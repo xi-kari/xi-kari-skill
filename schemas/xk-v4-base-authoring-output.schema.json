@@ -350,6 +350,12 @@
         },
         "applicability": {
           "$ref": "https://xi-kari.local/schemas/xi-kari.v4.xk.common.schema.json#/$defs/applicability"
+        },
+        "empirical_instances": {
+          "$ref": "https://xi-kari.local/schemas/xi-kari.v4.formal-input.schema.json#/$defs/empiricalInstances"
+        },
+        "derived_instances": {
+          "$ref": "https://xi-kari.local/schemas/xi-kari.v4.formal-input.schema.json#/$defs/derivedInstances"
         }
       },
       "allOf": [

@@ -1,0 +1,615 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://xi-kari.local/schemas/xi-kari.v4.formal-input.schema.json",
+  "title": "Source-bound formal instance inputs and runtime result bindings",
+  "$defs": {
+    "preregistration": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "instance_id",
+        "contract_version",
+        "preregistration_timestamp",
+        "candidate_object_id",
+        "object_contract_id",
+        "selected_subtype",
+        "selected_success_criterion",
+        "zero_model",
+        "sampling_unit",
+        "generalization_unit",
+        "evaluation_metric",
+        "falsifier",
+        "pause_condition",
+        "scale_profile",
+        "time_window",
+        "identity_criterion",
+        "target_variables",
+        "candidate_specification",
+        "controls",
+        "model_classes",
+        "decision_threshold",
+        "decision_rule",
+        "null_decision_rule",
+        "evidence_mode",
+        "deviation_record",
+        "preregistration_status"
+      ],
+      "properties": {
+        "instance_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "contract_version": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "preregistration_timestamp": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "candidate_object_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "object_contract_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "selected_subtype": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "selected_success_criterion": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "zero_model": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "sampling_unit": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "generalization_unit": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "evaluation_metric": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "falsifier": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "pause_condition": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "root_id": {
+          "enum": [
+            "G1",
+            "G2",
+            "G3",
+            "G4"
+          ]
+        },
+        "claim_id": {
+          "enum": [
+            "H1",
+            "H4",
+            "H5"
+          ]
+        },
+        "scale_profile": {
+          "type": "object",
+          "minProperties": 1
+        },
+        "time_window": {
+          "oneOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "start",
+                "end"
+              ],
+              "properties": {
+                "start": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S"
+                },
+                "end": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S"
+                }
+              }
+            }
+          ]
+        },
+        "identity_criterion": {
+          "oneOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            },
+            {
+              "type": "object",
+              "minProperties": 1
+            }
+          ]
+        },
+        "target_variables": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "uniqueItems": true,
+          "minItems": 1
+        },
+        "candidate_specification": {
+          "type": "object",
+          "minProperties": 1
+        },
+        "controls": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "uniqueItems": true,
+          "minItems": 1
+        },
+        "model_classes": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "uniqueItems": true,
+          "minItems": 1
+        },
+        "decision_threshold": {
+          "type": "number"
+        },
+        "decision_rule": {
+          "type": "object",
+          "minProperties": 1
+        },
+        "null_decision_rule": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "equivalence",
+            "sensitivity",
+            "tolerance"
+          ],
+          "properties": {
+            "equivalence": {
+              "type": "object",
+              "minProperties": 1
+            },
+            "sensitivity": {
+              "type": "object",
+              "minProperties": 1
+            },
+            "tolerance": {
+              "type": "object",
+              "minProperties": 1
+            }
+          }
+        },
+        "evidence_mode": {
+          "enum": [
+            "confirmatory",
+            "replication",
+            "falsification",
+            "exploratory"
+          ]
+        },
+        "deviation_record": {
+          "type": "array"
+        },
+        "preregistration_status": {
+          "enum": [
+            "frozen_before_evidence",
+            "not_frozen_before_evidence",
+            "unknown"
+          ]
+        },
+        "selected_carrier_family_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "selected_carrier": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        }
+      },
+      "oneOf": [
+        {
+          "required": [
+            "root_id"
+          ],
+          "not": {
+            "required": [
+              "claim_id"
+            ]
+          }
+        },
+        {
+          "required": [
+            "claim_id"
+          ],
+          "not": {
+            "required": [
+              "root_id"
+            ]
+          }
+        }
+      ]
+    },
+    "evaluation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "result_timestamp",
+        "first_result_access_timestamp",
+        "contract_version",
+        "completion_status",
+        "metrics",
+        "evidence_claim_ids",
+        "analysis_artifact_claim_ids",
+        "null_gate_claim_ids",
+        "prerequisite_claim_ids",
+        "deviation_record"
+      ],
+      "properties": {
+        "result_timestamp": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "first_result_access_timestamp": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "contract_version": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "completion_status": {
+          "enum": [
+            "completed_from_frozen",
+            "not_completed_from_frozen",
+            "unknown"
+          ]
+        },
+        "metrics": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "number"
+          }
+        },
+        "evidence_claim_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "uniqueItems": true
+        },
+        "analysis_artifact_claim_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "uniqueItems": true
+        },
+        "null_gate_claim_ids": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            },
+            "uniqueItems": true
+          }
+        },
+        "prerequisite_claim_ids": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            },
+            "uniqueItems": true
+          }
+        },
+        "dimension_claim_ids": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            },
+            "uniqueItems": true
+          }
+        },
+        "deviation_record": {
+          "type": "array"
+        },
+        "historical_conditional_predictive_gain": {
+          "type": "number"
+        }
+      }
+    },
+    "empiricalInstances": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "preregistration",
+          "evaluation"
+        ],
+        "properties": {
+          "preregistration": {
+            "$ref": "#/$defs/preregistration"
+          },
+          "evaluation": {
+            "$ref": "#/$defs/evaluation"
+          }
+        }
+      }
+    },
+    "derivedInstances": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "instance_id",
+          "instance_family",
+          "scope",
+          "method_claim_ids"
+        ],
+        "properties": {
+          "g2_instance_id": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "g3_instance_id": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "g4_instance_id": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "cm_feedback_instance_id": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "task_version": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "comparison_task_version": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "instance_id": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "instance_family": {
+            "enum": [
+              "CM-FEEDBACK",
+              "CM-LEARNING",
+              "C7"
+            ]
+          },
+          "scope": {
+            "$ref": "https://xi-kari.local/schemas/xi-kari.v4.xk.common.schema.json#/$defs/claimBasis/properties/scope"
+          },
+          "method_claim_ids": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "E4",
+              "CAUSAL",
+              "EVIDENCE"
+            ],
+            "properties": {
+              "E4": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S"
+                },
+                "uniqueItems": true
+              },
+              "CAUSAL": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S"
+                },
+                "uniqueItems": true
+              },
+              "EVIDENCE": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S"
+                },
+                "uniqueItems": true
+              }
+            }
+          },
+          "channel_contract": {
+            "type": "object",
+            "minProperties": 1
+          },
+          "return_claim_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            },
+            "uniqueItems": true
+          },
+          "state_update_claim_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            },
+            "uniqueItems": true
+          },
+          "later_round_claim_ids": {
+            "type": "array",
+            "items": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              },
+              "uniqueItems": true
+            }
+          },
+          "retention_claim_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            },
+            "uniqueItems": true
+          },
+          "task_change_claim_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            },
+            "uniqueItems": true
+          },
+          "propagation": {
+            "type": "object",
+            "minProperties": 1
+          },
+          "cross_scale_bridge_claim_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            },
+            "uniqueItems": true
+          }
+        }
+      }
+    },
+    "formalResults": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_version",
+        "source_revision",
+        "claim_input_sha256",
+        "instance_inputs_sha256",
+        "instance_results"
+      ],
+      "properties": {
+        "source_version": {
+          "const": "v9.0"
+        },
+        "source_revision": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "claim_input_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "instance_inputs_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "instance_results": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "required": [
+              "qualification"
+            ],
+            "properties": {
+              "qualification": {
+                "enum": [
+                  "not_evaluated",
+                  "qualified",
+                  "unqualified"
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

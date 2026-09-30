@@ -192,7 +192,11 @@
     },
     "retrieval": {
       "type": "object",
-      "required": ["run_id", "mode", "sources"]
+      "required": [
+        "run_id",
+        "mode",
+        "sources"
+      ]
     },
     "evidence": {
       "type": "object",
@@ -379,6 +383,15 @@
         "applicable",
         "not_applicable"
       ]
+    },
+    "empirical_instances": {
+      "$ref": "https://xi-kari.local/schemas/xi-kari.v4.formal-input.schema.json#/$defs/empiricalInstances"
+    },
+    "derived_instances": {
+      "$ref": "https://xi-kari.local/schemas/xi-kari.v4.formal-input.schema.json#/$defs/derivedInstances"
+    },
+    "formal_results": {
+      "$ref": "https://xi-kari.local/schemas/xi-kari.v4.formal-input.schema.json#/$defs/formalResults"
     }
   },
   "allOf": [
