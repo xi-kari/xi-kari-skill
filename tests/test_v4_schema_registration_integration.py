@@ -75,10 +75,20 @@ def test_real_production_completion_schema_accepts_its_artifact_shape_only(regis
         "official_validation_path": "validation/attempts/official/validator-report.json", "phase_count": 13,
         "completed_at": "2026-09-30T12:00:00Z"}
     for field in ("official_validation_sha256", "chain_head_sha256", "validator_set_sha256", "manifest_sha256",
-                  "final_chat_sha256", "xk12_transaction_sha256", "provider_environment_sha256"):
+                  "final_chat_sha256", "xk12_transaction_sha256", "provider_environment_sha256",
+                  "official_validation_execution_sha256", "promotion_validation_execution_sha256"):
         artifact[field] = "0" * 64
+    for boundary in ("official", "promotion"):
+        artifact[f"{boundary}_validation_execution_path"] = (
+            f"validation/attempts/{boundary}-{'0' * 32}/execution.json"
+        )
     validator = registered["xi-kari.v4.completion"]
     assert list(validator.iter_errors(artifact)) == []
+    for boundary in ("official", "promotion"):
+        for suffix in ("path", "sha256"):
+            missing_capture = deepcopy(artifact)
+            del missing_capture[f"{boundary}_validation_execution_{suffix}"]
+            assert list(validator.iter_errors(missing_capture))
     artifact["schema_version"] = 3
     assert list(validator.iter_errors(artifact))
 
