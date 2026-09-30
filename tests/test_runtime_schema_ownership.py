@@ -169,6 +169,19 @@ def test_missing_published_v4_schema_is_rejected(tmp_path):
     assert any("xk-v4-common" in error or "xi-kari.v4.xk.common" in error for error in errors)
 
 
+@pytest.mark.parametrize(("filename", "identifier"), [
+    ("xk-run.schema.json", "xi-kari.v3.run-contract"),
+    ("xk-cancel.schema.json", "xi-kari.v3.cancel"),
+    ("xk-prose.schema.json", "xi-kari.v3.prose-plan"),
+])
+def test_missing_legacy_path_owner_schema_is_rejected(tmp_path, filename, identifier):
+    shutil.copytree(ROOT / "schemas", tmp_path / "schemas")
+    shutil.copytree(ROOT / "scripts", tmp_path / "scripts")
+    (tmp_path / "schemas" / filename).unlink()
+    errors = checker._check_runtime_schemas(tmp_path)
+    assert any("schema owner" in error and identifier in error for error in errors)
+
+
 @pytest.mark.parametrize("identifier", ["xi-kari.v3.unknown", "xi-kari.v4.unknown"])
 def test_run_artifacts_with_unknown_ids_are_rejected(tmp_path, identifier):
     path = tmp_path / "run-contract.json"

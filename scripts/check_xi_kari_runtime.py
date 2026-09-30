@@ -520,6 +520,19 @@ def _check_runtime_schemas(root: Path) -> list[str]:
     for filename in V4_SCHEMA_IDENTITIES:
         if not (root / "schemas" / filename).is_file():
             errors.append(f"published runtime schema is missing: {filename}")
+    path_owned_ids = {
+        schema_id
+        for relative, schema_ids in ARTIFACT_SCHEMA_IDS.items()
+        if relative != "authoring/XK01-base-authoring-events.jsonl"
+        for schema_id in schema_ids
+    }
+    for _, schema_ids in ARTIFACT_SCHEMA_PATTERNS:
+        path_owned_ids.update(schema_ids)
+    missing_path_owners = sorted(path_owned_ids - set(registry))
+    if missing_path_owners:
+        errors.append(
+            f"artifact path bindings have no schema owner: {missing_path_owners}"
+        )
     emitted: set[str] = set()
     runtime_paths = [root / "scripts" / "xi_kari_runtime.py"]
     runtime_paths.extend(sorted((root / "scripts" / "xi_kari_runtime").glob("*.py")))
