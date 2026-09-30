@@ -327,3 +327,72 @@ def validate_domain_run(repository: Path, run_directory: Path, *,
     return {"domain_ids": [record["domain_id"] for record in plan["records"]],
         "plan_sha256": plan["plan_sha256"], "trace_sha256": trace["trace_sha256"],
         "fingerprint_sha256": binding["fingerprint_sha256"]}
+
+
+def build_domain_claim_links(repository: Path, plan: Mapping[str, Any],
+        trace: Mapping[str, Any], claim_graph: Mapping[str, Any],
+        links: Sequence[Mapping[str, Any]], *, evidence_mode: str = "open-world") -> dict[str, Any]:
+    """Bind domain method use to P04 claims without manufacturing evidence or status."""
+    from .claims import validate_claim_graph
+
+    validate_domain_read_trace(repository, plan, trace)
+    if not isinstance(claim_graph, Mapping) or claim_graph.get("schema_version") != 4:
+        raise DomainReadError("domain-linked claims require the public P04 v4 contract")
+    if not isinstance(links, (list, tuple)) or len(links) != len(trace["records"]):
+        raise DomainReadError("domain claim-link coverage differs from the actual read route")
+    known_claims = {claim.get("claim_id") for claim in claim_graph.get("claims", [])
+                    if isinstance(claim, Mapping)}
+    normalized_links = []
+    for link, record in zip(links, trace["records"], strict=True):
+        if not isinstance(link, Mapping) or set(link) != {"domain_id", "claim_ids", "use_kind", "rationale"}:
+            raise DomainReadError("domain claim-link fields are invalid")
+        if link["domain_id"] != record["domain_id"]:
+            raise DomainReadError("domain claim-link identity is not in the actual read route")
+        if link["use_kind"] not in {"method_reference", "boundary_reference", "native_exit"}:
+            raise DomainReadError("domain use cannot serve as empirical evidence or formal qualification")
+        if link["use_kind"] == "native_exit" and record["problem_relation"]["status"] != "native_exit":
+            raise DomainReadError("domain native exit differs from its read trace")
+        refs = link["claim_ids"]
+        if (not isinstance(refs, list) or not refs or any(not isinstance(v, str) for v in refs)
+                or len(set(refs)) != len(refs) or set(refs) - known_claims):
+            raise DomainReadError("domain claim references must resolve to distinct P04 claims")
+        _text(link["rationale"], "claim-link rationale")
+        normalized_links.append(deepcopy(dict(link)))
+    try:
+        checked = validate_claim_graph(claim_graph, evidence_mode=evidence_mode,
+                                       repository_root=Path(repository))
+    except ValueError as exc:
+        raise DomainReadError("public P04 validation rejected a domain-linked claim graph") from exc
+    value = {"schema_id": "xi-kari.v4.domain-claim-links", "schema_version": 1,
+        "plan_sha256": plan["plan_sha256"], "trace_sha256": trace["trace_sha256"],
+        "claim_graph_sha256": sha256_json(checked), "evidence_mode": evidence_mode,
+        "links": normalized_links}
+    value["binding_sha256"] = sha256_json(value)
+    return value
+
+
+def validate_domain_claim_links(repository: Path, plan: Mapping[str, Any],
+        trace: Mapping[str, Any], claim_graph: Mapping[str, Any], binding: Mapping[str, Any],
+        *, evidence_mode: str = "open-world") -> None:
+    if not isinstance(binding, Mapping):
+        raise DomainReadError("domain claim-link binding is invalid")
+    expected = build_domain_claim_links(repository, plan, trace, claim_graph,
+        binding.get("links"), evidence_mode=evidence_mode)
+    if expected != dict(binding):
+        raise DomainReadError("domain claim-link binding differs from the current claim graph")
+
+
+def validate_domain_claim_run(repository: Path, run_directory: Path, *,
+        problem_contract_sha256: str, run_id: str,
+        evidence_mode: str = "open-world", claim_graph_path: str = "claim-mechanism-graph.json") -> dict[str, Any]:
+    """Re-read the materialized P04 graph and links after domain/prose validation."""
+    result = validate_domain_run(repository, run_directory,
+        problem_contract_sha256=problem_contract_sha256, run_id=run_id)
+    run = repository_root(run_directory)
+    plan = _json(_bytes(run, "domain-read-plan.json"), "materialized plan")
+    trace = _json(_bytes(run, "domain-read-trace.json"), "materialized trace")
+    graph = _json(_bytes(run, claim_graph_path), "materialized P04 claim graph")
+    binding = _json(_bytes(run, "domain-claim-links.json"), "materialized P04 domain links")
+    validate_domain_claim_links(repository, plan, trace, graph, binding, evidence_mode=evidence_mode)
+    return {**result, "claim_graph_sha256": binding["claim_graph_sha256"],
+        "claim_links_sha256": binding["binding_sha256"]}
