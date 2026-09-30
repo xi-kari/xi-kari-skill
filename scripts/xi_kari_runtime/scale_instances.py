@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from collections.abc import Mapping
+from pathlib import Path
 from typing import Any
 
 from .world_volume import _canonical_sha256, _native_snapshot, _registered_time
@@ -107,6 +108,7 @@ def validate_scale_instance(
     verification_artifacts: Mapping[str, Mapping[str, Any]] | None = None,
     representation_registry: Mapping[str, Mapping[str, Any]] | None = None,
     task_check_results: Mapping[str, Mapping[str, Any]] | None = None,
+    repository_root: Path | None = None,
 ) -> dict[str, Any]:
     contract = _native_snapshot(record, label="scale instance", error_type=ScaleContractError)
     if not isinstance(contract, dict) or set(contract) != set(SECTION_FIELDS):
@@ -125,6 +127,14 @@ def validate_scale_instance(
     identity, scale, objects, transform = (contract[key] for key in ("identity", "scale", "objects", "transformation"))
     if not all(isinstance(identity[key], str) and identity[key] for key in ("contract_id", "concept_id", "version")) or not isinstance(identity["proposition_ids"], list) or not identity["proposition_ids"]:
         raise ScaleContractError("scale identity is incomplete")
+    from .v4_contracts import v4_authority
+
+    try:
+        source_concepts, _anchors, source_dependencies = v4_authority(repository_root)
+    except ValueError as error:
+        raise ScaleContractError(str(error)) from error
+    if identity["concept_id"] not in source_concepts:
+        raise ScaleContractError("formal scale concept identity does not resolve actual P03 authority")
     task = identity["purpose"]
     task_keys = {"target_task", "use_scope", "target_quantity", "horizon", "environment", "allowed_operations", "tolerance"}
     if not isinstance(task, dict) or not task_keys.issubset(task) or any(_missing(task[key]) for key in task_keys):
@@ -242,6 +252,8 @@ def validate_scale_instance(
     operators = transform["operator_ids"]
     if not isinstance(operators, list) or len(operators) != 1 or operators[0] not in {f"scale_operator:M{i:02d}" for i in range(1, 10)}:
         raise ScaleContractError("atomic scale record requires one qualified M01-M09 operator")
+    if operators[0] not in {concept["source_concept_id"] for concept in source_concepts.values()}:
+        raise ScaleContractError("qualified scale operator does not resolve actual P03 source identity")
     branches = SOURCE_BRANCHES.get(operators[0], (operator_branches or {}).get(operators[0], {}))
     mode, result = transform["claim_mode"], transform["result_state"]
     if branches.get(transform["selected_operator_branch"]) != mode or result not in RESULT_STATES:
@@ -379,7 +391,7 @@ def validate_scale_instance(
             if not isinstance(declared, dict) or declared.get("evaluation_id") != evaluation_id or not isinstance(evaluation, Mapping) or any(evaluation.get(key) != expected for key, expected in {"evaluation_id": evaluation_id, "contract_id": identity["contract_id"], "task_sha256": task_hash, "gate": gate, "result": "passed"}.items()):
                 raise ScaleContractError("null support gate is missing, failed or bound to another task")
             resolve_evidence(evaluation.get("evidence_refs"))
-    return {"contract_id": identity["contract_id"], "contract_sha256": _canonical_sha256(contract), "task_sha256": task_hash, "transformation_class": classification, "mapping_class": mapping_class, "result_state": result, "consumed_comparator_ids": consumed, "consumed_representation_ids": parents_consumed, "task_check_results": checks_consumed, "reconstruction_results": reconstruction_results}
+    return {"contract_id": identity["contract_id"], "contract_sha256": _canonical_sha256(contract), "task_sha256": task_hash, "transformation_class": classification, "mapping_class": mapping_class, "result_state": result, "consumed_comparator_ids": consumed, "consumed_representation_ids": parents_consumed, "task_check_results": checks_consumed, "reconstruction_results": reconstruction_results, "source_revision": source_dependencies["source_raw_sha256"]}
 
 
 def evaluate_task_partition(representation_by_source: Mapping[str, Any], answer_by_source: Mapping[str, Any]) -> dict[str, Any]:

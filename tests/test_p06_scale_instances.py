@@ -252,3 +252,10 @@ def test_parent_representation_content_return_locations_and_candidate_variables_
         if mutation == "candidate_location": bad["variables"]["effective_variable_candidates"][0]["source_location_refs"] = ["GHOST"]
         with pytest.raises(transformations.TransformationError):
             transformations.validate_scale_instance(bad, **registries)
+
+
+def test_formal_concept_identity_resolves_actual_P03_authority():
+    record, registries = scale_fixture()
+    record["identity"]["concept_id"] = "V90-CANON-GHOST-SCALE"
+    with pytest.raises(transformations.TransformationError, match="concept"):
+        transformations.validate_scale_instance(record, **registries)
