@@ -805,6 +805,68 @@ def _parse_base_output(
     return dict(packet), dict(trace), dict(ontology_trace)
 
 
+def parse_base_authoring_output(
+    raw: bytes,
+    *,
+    problem_contract: Mapping[str, Any],
+    mode: str,
+    ontology_read_plan: Mapping[str, Any],
+    repository_root: Path,
+    natural_request: Mapping[str, Any] | None = None,
+    source_lock: Mapping[str, Any] | None = None,
+    source_events: list[dict[str, Any]] | None = None,
+    contract_version: int = 3,
+) -> tuple[dict[str, Any], dict[str, Any], dict[str, Any]]:
+    """Parse an author envelope against its runtime-owned source and problem."""
+    if contract_version == 3:
+        return _parse_base_output(
+            raw, problem_contract=problem_contract, mode=mode,
+            ontology_read_plan=ontology_read_plan, repository_root=repository_root,
+            natural_request=natural_request,
+        )
+    if contract_version != 4:
+        raise ValueError('unsupported base authoring contract version')
+    from .claims import validate_claim_graph
+    from .semantic_read_trace import validate_semantic_read_trace_input
+    from .v4_contracts import validate_claim_responsibilities, validate_versioned_schema
+
+    if not isinstance(source_lock, Mapping) or source_lock.get('framework_version') != 'v9.0' or source_events is None:
+        raise ValueError('version-four authoring requires an actual v9.0 source lock and source events')
+    if ontology_read_plan.get('framework_version') != 'v9.0':
+        raise ValueError('version-four authoring requires a v9.0 ontology read plan')
+    try:
+        value = read_json_text(raw.decode('utf-8'))
+    except Exception as error:
+        raise ValueError('base authoring output is not strict UTF-8 JSON') from error
+    validate_versioned_schema('xk-v4-base-authoring-output.schema.json', value, repository_root=repository_root)
+    packet = value['semantic_packet']
+    pointer = _walk_for_forbidden_authority(packet)
+    if pointer is not None:
+        raise ValueError('base authoring output contains runtime-owned authority')
+    expected_problem = validate_problem_contract(problem_contract, mode=mode)
+    frozen = validate_problem_contract({field: packet['problem_contract'].get(field) for field in FROZEN_FIELDS}, mode=mode)
+    if frozen != expected_problem:
+        raise ValueError('base authoring packet differs from the frozen problem contract')
+    if natural_request is not None:
+        freeze_natural_problem_contract(frozen, request=natural_request, mode=mode)
+    if packet['applicability'] != packet['claim_mechanism_graph']['applicability']:
+        raise ValueError('packet and claim graph stage applicability differ')
+    validate_claim_graph(packet['claim_mechanism_graph'], evidence_mode=mode, repository_root=repository_root)
+    _validate_model_retrieval_ownership(packet['retrieval'], mode=mode, contract_version=4)
+    source_ids = {source['source_id'] for source in packet['retrieval']['sources']}
+    for claim in packet['evidence']['claims']:
+        validate_claim_responsibilities(claim, material_ids=source_ids, repository_root=repository_root)
+    validate_answer_basis_references(packet)
+    trace = value['semantic_read_trace']
+    validate_semantic_read_trace_input(trace, repository_root=repository_root, source_lock=source_lock, source_events=source_events)
+    ontology_trace = value['ontology_read_trace']
+    build_ontology_read_trace(
+        ontology_trace, plan=ontology_read_plan, run_id=str(ontology_read_plan['run_id']),
+        repository_root=repository_root, problem_contract_sha256=contract_hash(frozen),
+    )
+    return dict(packet), dict(trace), dict(ontology_trace)
+
+
 def _read_plan(lock: Mapping[str, Any], *, run_id: str) -> dict[str, Any]:
     return {
         "schema_id": "xi-kari.v3.read-plan",
@@ -981,7 +1043,7 @@ def _remap_source_ids(value: Any, mapping: Mapping[str, str]) -> Any:
 
 
 def _validate_model_retrieval_ownership(
-    retrieval: Mapping[str, Any], *, mode: str
+    retrieval: Mapping[str, Any], *, mode: str, contract_version: int = 3
 ) -> None:
     """Reject non-semantic and runtime-owned retrieval fields before projection."""
 
@@ -1018,6 +1080,11 @@ def _validate_model_retrieval_ownership(
                     f"{mode} model retrieval {kind} {index} is not an object"
                 )
             observed = set(value)
+            semantic_extensions = {
+                'source_revision', 'canonical_locator', 'lineage_refs', 'research_design',
+                'read_extent', 'provenance_refs', 'independence_key',
+                'availability_status', 'visibility', 'protected_review',
+            } if kind == 'source' and contract_version == 4 else set()
             runtime_owned = observed & RUNTIME_OWNED_MODEL_FIELDS[mode][kind]
             if runtime_owned:
                 raise ValueError(
@@ -1026,11 +1093,11 @@ def _validate_model_retrieval_ownership(
                 )
             if kind == "source" and mode == "closed-input":
                 required = {"source_id", "origin", "title", "content"}
-                if observed - allowed or not required.issubset(observed):
+                if observed - allowed - semantic_extensions or not required.issubset(observed):
                     raise ValueError(
                         f"{mode} model retrieval {kind} {index} fields are not exact"
                     )
-            elif observed != allowed:
+            elif observed - semantic_extensions != allowed:
                 raise ValueError(
                     f"{mode} model retrieval {kind} {index} fields are not exact"
                 )

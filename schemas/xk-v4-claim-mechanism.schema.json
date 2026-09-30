@@ -38,7 +38,10 @@
       "$ref": "#/$defs/sourceAnchors"
     },
     "world_volume_id": {
-      "$ref": "#/$defs/id"
+      "oneOf": [
+        {"$ref": "#/$defs/id"},
+        {"type": "null"}
+      ]
     },
     "central_claim_id": {
       "$ref": "#/$defs/id"

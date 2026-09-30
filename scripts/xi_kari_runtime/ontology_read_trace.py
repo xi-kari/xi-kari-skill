@@ -626,13 +626,13 @@ def _model_records(
         raise OntologyReadTraceError("ontology read trace witness protocol is invalid")
     rationale_owners: dict[str, str] = {}
     content_cache: dict[str, bytes] = {}
+    ontology_directory = Path(repository_root) / 'references/ontology'
+    if plan.get('framework_version', 'v8.3') == 'v9.0':
+        ontology_directory = ontology_directory / 'v9.0'
     candidate_cache = {
         f"candidate:{row.get('candidate_id')}": raw
         for row, raw in _candidate_rows(
-            Path(repository_root)
-            / "references"
-            / "ontology"
-            / "candidate-census.jsonl"
+            ontology_directory / 'candidate-census.jsonl'
         )
     }
     statuses: list[str] = []
@@ -810,6 +810,7 @@ def validate_ontology_read_trace(
             run_id=expected_run_id,
             problem_contract_sha256=expected_problem_contract_sha256,
             content_access_challenge=plan.get("content_access_challenge"),
+            source_version=plan.get('framework_version', 'v8.3'),
         )
         if dict(plan) != fresh_plan:
             raise OntologyReadTraceError(
