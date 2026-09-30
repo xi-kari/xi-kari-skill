@@ -478,6 +478,9 @@ def _walk_for_forbidden_authority(value: Any, *, pointer: str = "$") -> str | No
 
 
 def _base_prompt(request: Mapping[str, Any]) -> bytes:
+    if request.get('source_inputs', {}).get('source_version') == 'v9.0':
+        from .author_prompt_v4 import build_prompt
+        return build_prompt(request, byte_limit=MAX_BASE_INPUT_BYTES)
     closed_query_instruction = ""
     if request.get("mode") == "closed-input":
         materials = request.get("source_inputs", {}).get("closed_input_materials", [])
@@ -868,9 +871,10 @@ def parse_base_authoring_output(
 
 
 def _read_plan(lock: Mapping[str, Any], *, run_id: str) -> dict[str, Any]:
+    version = 4 if lock.get('framework_version') == 'v9.0' else 3
     return {
-        "schema_id": "xi-kari.v3.read-plan",
-        "schema_version": 3,
+        "schema_id": f"xi-kari.v{version}.read-plan",
+        "schema_version": version,
         "run_id": run_id,
         "framework_version": lock.get("framework_version"),
         "reader_sequence": lock.get("reader_sequence"),
@@ -899,17 +903,19 @@ def _base_request(
     natural_request: Mapping[str, Any] | None = None,
     contract_authoring_binding: Mapping[str, Any] | None = None,
 ) -> dict[str, Any]:
+    source_version = str(source_lock['framework_version'])
+    version = 4 if source_version == 'v9.0' else 3
     source_inputs: dict[str, Any] = {
-        "source_version": "v8.3",
+        "source_version": source_version,
         "repository_root": str(repository_root),
-        "reader_root": str(repository_root / "references/source/v8.3/reader"),
+        "reader_root": str(repository_root / f"references/source/{source_version}/reader"),
         "source_manifest_path": str(
-            repository_root / "references/source/v8.3/source-manifest.json"
+            repository_root / f"references/source/{source_version}/source-manifest.json"
         ),
         "source_lock": deepcopy(dict(source_lock)),
         "read_plan": deepcopy(dict(read_plan)),
         "concept_authority": deepcopy(dict(concept_authority)),
-        "ontology_root": str(repository_root / "references/ontology"),
+        "ontology_root": str(repository_root / "references/ontology" / 'v9.0') if version == 4 else str(repository_root / "references/ontology"),
         "ontology_read_plan": {
             key: deepcopy(ontology_read_plan[key])
             for key in (
@@ -949,9 +955,9 @@ def _base_request(
     if base_provider_binding is not None:
         source_inputs["base_provider_binding"] = deepcopy(dict(base_provider_binding))
     request = {
-        "schema_id": BASE_REQUEST_SCHEMA_ID,
+        "schema_id": 'xi-kari.v4.base-authoring-request' if version == 4 else BASE_REQUEST_SCHEMA_ID,
         "schema_version": 1,
-        "protocol": BASE_PROTOCOL,
+        "protocol": 'xi-kari.v4.base-authoring/v1' if version == 4 else BASE_PROTOCOL,
         "run_id": run_id,
         "mode": mode,
         "problem_contract": deepcopy(dict(problem_contract)),
@@ -963,6 +969,14 @@ def _base_request(
     if contract_authoring_binding is not None:
         request["contract_authoring_binding"] = deepcopy(dict(contract_authoring_binding))
     return request
+
+
+def build_base_authoring_request(**kwargs: Any) -> dict[str, Any]:
+    return _base_request(**kwargs)
+
+
+def build_base_authoring_prompt(request: Mapping[str, Any]) -> bytes:
+    return _base_prompt(request)
 
 
 def _receipt(
@@ -1621,6 +1635,9 @@ def execute_authored_run(
     timeout_seconds: int = DEFAULT_ADAPTER_TIMEOUT_SECONDS,
     privacy_purpose: str = "回答冻结问题并仅向请求用户交付",
     delivery_audience: str = "requesting-user",
+    contract_version: int = 3,
+    source_version: str | None = None,
+    selected_domain_ids: Sequence[str] = (),
     _continuation_kind: str = "original",
     _parent_run_id: str | None = None,
     _parent_chain_head_sha256: str | None = None,
@@ -1641,6 +1658,16 @@ def execute_authored_run(
 
     from .authority import repository_root as resolve_repository_root
     from .materialization import default_runs_root
+
+    selected_source = source_version or ('v9.0' if contract_version == 4 else 'v8.3')
+    if contract_version == 4 and selected_source != 'v9.0':
+        raise ValueError('version-four execution requires source v9.0')
+    if contract_version not in {3, 4} or (contract_version == 3 and selected_source != 'v8.3'):
+        raise ValueError('unsupported execution source and contract version')
+    if contract_version == 4:
+        from .authoring import CODEX_MODEL, CODEX_REASONING_EFFORT
+        if CODEX_MODEL != 'gpt-6.1-sol' or CODEX_REASONING_EFFORT != 'max':
+            raise ValueError('version-four execution requires the authorized gpt-6.1-sol/max provider configuration')
 
     if mode not in {"open-world", "closed-input"}:
         raise ValueError("unsupported execution mode")
@@ -1735,17 +1762,18 @@ def execute_authored_run(
             closed_input_materials=frozen_material_records,
             frozen_material_manifest=frozen_material_manifest,
         )
-    lock, source_events = build_full_source_lock(repo, run_id=selected_run_id)
+    lock, source_events = build_full_source_lock(repo, run_id=selected_run_id, source_version=selected_source)
     read_plan = _read_plan(lock, run_id=selected_run_id)
     problem_contract_sha256 = contract_hash(frozen)
     content_access_challenge = secrets.token_hex(32)
     ontology_read_plan = build_ontology_read_plan(
         repo,
+        source_version=selected_source,
         run_id=selected_run_id,
         problem_contract_sha256=problem_contract_sha256,
         content_access_challenge=content_access_challenge,
     )
-    _rows, concept_authority = load_concept_authority(repo)
+    _rows, concept_authority = load_concept_authority(repo, source_version=selected_source)
     request = _base_request(
         run_id=selected_run_id,
         mode=mode,
@@ -1766,8 +1794,8 @@ def execute_authored_run(
         ),
     )
     request_bytes = canonical_bytes(request) + b"\n"
-    prompt = _base_prompt(request)
-    schema_path = repo / BASE_OUTPUT_SCHEMA_RELATIVE
+    prompt = build_base_authoring_prompt(request)
+    schema_path = repo / ('schemas/xk-v4-base-authoring-output.schema.json' if contract_version == 4 else BASE_OUTPUT_SCHEMA_RELATIVE)
     if not schema_path.is_file():
         raise ValueError(f"base authoring output schema is missing: {schema_path}")
 
@@ -1811,10 +1839,11 @@ def execute_authored_run(
             thread_id, events = _strict_event_stream(raw_events)
             notice = read_bounded_regular_file(notice_path, limit=4096)
             output = read_semantic_output(workspace, notice=notice, limit=MAX_BASE_OUTPUT_BYTES)
-            packet, trace_value, ontology_trace_value = _parse_base_output(
+            packet, trace_value, ontology_trace_value = parse_base_authoring_output(
                 output, problem_contract=frozen, mode=mode,
                 ontology_read_plan=ontology_read_plan, repository_root=repo,
                 natural_request=natural_request,
+                source_lock=lock, source_events=source_events, contract_version=contract_version,
             )
             validate_semantic_read_trace_input(
                 trace_value, repository_root=repo, source_lock=lock,
