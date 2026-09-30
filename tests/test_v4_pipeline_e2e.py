@@ -44,6 +44,7 @@ def test_v4_pipeline_e2e_static_author_preflight_is_legal_without_recursion(mode
 
 def test_v4_pipeline_e2e_production_static_author_reaches_fresh_validation_and_full_body(tmp_path):
     _, problem, _, _, _ = static_author_output(mode="closed-input")
+    problem['evidence_cutoff'] = '2030-01-01T00:00:00Z'
     transport = tmp_path.parent / "prod"
     transport.mkdir()
     provider, observation = deterministic_provider(transport)
@@ -55,10 +56,15 @@ def test_v4_pipeline_e2e_production_static_author_reaches_fresh_validation_and_f
     observed = json.loads(observation.read_text("utf-8"))
     assert observed["pid"] != os.getpid()
     assert observed["source_version"] == "v9.0"
+    assert observed['contract_version'] == 4
+    assert observed['synthetic'] is True and observed['actual_model_runs'] == 0
     run_dir = Path(result["run_dir"])
+    contract = json.loads((run_dir / 'run-contract.json').read_text('utf-8'))
+    assert contract['schema_version'] == 4 and contract['source_version'] == 'v9.0'
     report = validation.run_fresh_validator(run_dir, repository_root=ROOT, preseal=False)
-    assert report["valid"] is True, report.get("errors")
+    assert report["valid"] is report['complete'] is True, report.get("errors")
     assert report["fresh_process"] is True
+    assert report['phase_count'] == 13
     reader = (run_dir / "delivery" / "xi-kari-answer.md").read_text("utf-8")
     assert all(paragraph in reader for paragraph in BODY)
     assert "实际执行情况仍未知" in reader
@@ -304,6 +310,7 @@ def test_v4_pipeline_e2e_production_schema_failure_cannot_disclose_protected_mat
     materials = deepcopy(CLOSED_MATERIALS)
     materials[0]["content"] += " " + secret
     _, problem, _, _, _ = static_author_output(mode="closed-input", materials=materials)
+    problem['evidence_cutoff'] = '2030-01-01T00:00:00Z'
     transport = tmp_path.parent / "private"
     transport.mkdir()
     provider, observation = deterministic_provider(transport, protected_content=secret)
@@ -319,6 +326,9 @@ def test_v4_pipeline_e2e_production_schema_failure_cannot_disclose_protected_mat
         rejected = True
         disclosed = secret in str(error)
     assert observation.is_file(), "The synthetic author did not reach its output boundary"
-    assert json.loads(observation.read_text("utf-8"))["pid"] != os.getpid()
+    observed = json.loads(observation.read_text('utf-8'))
+    assert observed['pid'] != os.getpid()
+    assert observed['source_version'] == 'v9.0' and observed['contract_version'] == 4
+    assert observed['synthetic'] is True and observed['actual_model_runs'] == 0
     assert rejected is True, "The intentionally invalid author schema was accepted"
     assert disclosed is False, "The production error disclosed protected synthetic material"

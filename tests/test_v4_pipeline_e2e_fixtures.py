@@ -113,6 +113,57 @@ def static_author_output(*, problem=None, run_id="synthetic-v4-e2e", challenge="
     return value, problem, plan, lock, events
 
 
+def synthetic_reader_finalization(packet, *, purpose):
+    view = deepcopy(packet)
+    declared = {row['canonical_path']: row for row in view.get('visibility_ledger', {}).get('entries', [])}
+    view['visibility_ledger'] = {'entries': [
+        {**deepcopy(declared[path]), 'purpose': purpose} if path in declared else
+        {'canonical_path': path, 'classification': 'public', 'disclosure': 'include',
+         'purpose': purpose, 'authority_refs': [], 'protection_reason': None}
+        for path in semantic_atom_paths(view)
+    ]}
+    section = {'section_id': 'synthetic-final-reader', 'heading': '合成条文与执行材料',
+        'local_judgment': '条文解释不产生现实执行资格。', 'paragraphs': list(BODY), 'source_bindings': []}
+    for atom in substantive_semantic_atoms(view):
+        excerpt = atom['public_text']
+        section['paragraphs'].append('本题合成记录明确写明：' + excerpt + '。这一范围只用于合成条文程序验证，不证明现实执行或正式实例成立。')
+        section['source_bindings'].append({'source_path': atom['canonical_path'], 'paragraph_index': len(section['paragraphs']), 'excerpt': excerpt})
+    return {'reader_sections': [section], 'visibility_ledger': view['visibility_ledger']}
+
+
+def synthetic_production_output(request, *, protected_content=None):
+    if 'kind' in request:
+        if request['kind'] != 'final_reader':
+            raise ValueError('the static synthetic provider only implements final reader execution')
+        response = synthetic_reader_finalization(request['task']['readonly_packet'], purpose=request['reader_requirements']['purpose'])
+        graph = request['material_context']['claim_mechanism_graph']
+        return {'semantic_response': response, 'source_bindings': [
+            {'claim_id': row['claim_id'], 'material_refs': row['claim_basis']['material_refs']} for row in graph['claims']]}
+    plan = request['source_inputs']['ontology_read_plan']
+    value, _, _, _, _ = static_author_output(problem=request['problem_contract'],
+        run_id=request['run_id'], challenge=plan['content_access_challenge'],
+        purpose=request['privacy_contract']['purpose'], mode=request['mode'],
+        materials=request['source_inputs'].get('closed_input_materials'))
+    packet = value['semantic_packet']
+    for assessment in packet['retrieval']['assessments']:
+        assessment.update(cannot_prove=['该合成条文只供程序验证，不能证明现实执行、经验效果或正式实例资格。'],
+            affected_positions=['补偿安排涉及者的具体身份没有在给定合成条文中说明。'],
+            low_power_positions=['给定合成条文未提供识别具体低权力位置所需的事实。'])
+    for claim in packet['evidence']['claims']:
+        for support in claim['support']:
+            if support.get('summary') == 'A source-scope fixture.':
+                support['summary'] = '该合成记录用于验证条文解释的材料范围。'
+    if protected_content:
+        for entry in packet['visibility_ledger']['entries']:
+            if entry['canonical_path'] == 'retrieval.sources[0].content':
+                entry.update(classification='sensitive', disclosure='withhold',
+                    authority_refs=['XK0-PRIVACY-CONTRACT-SYNTHETIC'],
+                    protection_reason='The material body is protected for this audience')
+        packet['evidence']['claims'][0]['support'][0]['support_checks']['source_exists']['status'] = 'invalid-schema-status'
+    packet.update(synthetic_reader_finalization(packet, purpose=request['privacy_contract']['purpose']))
+    return value
+
+
 def write_json(path, value):
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_bytes(canonical_bytes(value) + b"\n")
@@ -238,28 +289,24 @@ def deterministic_provider(directory, *, protected_content=None):
     observation = directory / "synthetic-author-observation.json"
     program = f"#!{Path(sys.executable).resolve()}\n" + f"ROOT = {str(ROOT)!r}\nOBSERVATION = {str(observation)!r}\nPROTECTED = {protected_content!r}\n" + '''import json, os, pathlib, sys
 sys.path.insert(0, ROOT)
-from tests.test_v4_pipeline_e2e_fixtures import static_author_output
-prompt = sys.stdin.read()
-request = json.loads(prompt.rsplit("运行时请求（只读绑定）：\\n", 1)[1])
-plan = request["source_inputs"]["ontology_read_plan"]
-value, _, _, _, _ = static_author_output(problem=request["problem_contract"],
-    run_id=request["run_id"], challenge=plan["content_access_challenge"],
-    purpose=request["privacy_contract"]["purpose"], mode=request["mode"],
-    materials=request["source_inputs"].get("closed_input_materials"))
-if PROTECTED:
-    for entry in value["semantic_packet"]["visibility_ledger"]["entries"]:
-        if entry["canonical_path"] == "retrieval.sources[0].content":
-            entry.update(classification="sensitive", disclosure="withhold",
-                authority_refs=["XK0-PRIVACY-CONTRACT-SYNTHETIC"],
-                protection_reason="The material body is protected for this audience")
-    value["semantic_packet"]["evidence"]["claims"][0]["support"][0]["support_checks"]["source_exists"]["status"] = "invalid-schema-status"
-pathlib.Path(OBSERVATION).write_text(json.dumps({"pid": os.getpid(),
-    "source_version": request["source_inputs"]["source_version"],
-    "synthetic": True, "actual_model_runs": 0}), encoding="utf-8")
+from tests.test_v4_pipeline_e2e_fixtures import synthetic_production_output
+prompt = sys.stdin.buffer.read().decode("utf-8")
+is_reader = "REQUEST_JSON\\n" in prompt
+if is_reader:
+    request = json.loads(prompt.split("REQUEST_JSON\\n", 1)[1])
+else:
+    marker = "运行时请求：\\n" if "运行时请求：\\n" in prompt else "运行时请求（只读绑定）：\\n"
+    request = json.loads(prompt.rsplit(marker, 1)[1])
+value = synthetic_production_output(request, protected_content=PROTECTED)
+if not is_reader:
+    pathlib.Path(OBSERVATION).write_text(json.dumps({"pid": os.getpid(),
+        "source_version": request["source_inputs"]["source_version"],
+        "contract_version": request.get("contract_version"),
+        "synthetic": True, "actual_model_runs": 0}), encoding="utf-8")
 pathlib.Path("semantic-output.json").write_text(json.dumps(value, ensure_ascii=False), encoding="utf-8")
 pathlib.Path(sys.argv[sys.argv.index("--output-last-message") + 1]).write_text("SEMANTIC_OUTPUT_READY", encoding="utf-8")
-for event in ({"type": "thread.started", "thread_id": "synthetic-v4-transport"},
-              {"type": "turn.started"}, {"type": "turn.completed"}):
+for event in ({"type": "thread.started", "thread_id": "synthetic-final-reader" if is_reader else "synthetic-v4-transport"},
+              {"type": "turn.started"}, {"type": "turn.completed", "usage": {"input_tokens": 11, "output_tokens": 17}}):
     print(json.dumps(event), flush=True)
 '''
     provider.write_text(program, encoding="utf-8", newline="\n")

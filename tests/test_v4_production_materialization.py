@@ -383,41 +383,6 @@ def test_explicit_v4_static_production_rebuilds_base_packet_and_seals_actual_dis
         from tests.test_temporal_outer_execution import observed_packet
         _, _, audit = observed_packet(transport)
     provider, observation = deterministic_provider(transport)
-    program = provider.read_text('utf-8').replace('prompt = sys.stdin.read()', "prompt = sys.stdin.buffer.read().decode('utf-8')")
-    program = program.replace('运行时请求（只读绑定）：\\n', '运行时请求：\\n')
-    program = program.replace('request = json.loads(', '''if 'REQUEST_JSON\\n' in prompt:
-    request = json.loads(prompt.split('REQUEST_JSON\\n', 1)[1])
-    from copy import deepcopy
-    from xi_kari_runtime.semantic_projection import semantic_atom_paths, substantive_semantic_atoms
-    view = deepcopy(request['task']['readonly_packet'])
-    view['visibility_ledger'] = {'entries': [
-        {'canonical_path': path, 'classification': 'public', 'disclosure': 'include', 'purpose': request['reader_requirements']['purpose'], 'authority_refs': [], 'protection_reason': None}
-        for path in semantic_atom_paths(view)
-    ]}
-    section = {'section_id': 'synthetic-final-reader', 'heading': '合成条文与执行材料', 'local_judgment': '条文解释不产生现实执行资格。', 'paragraphs': list(BODY), 'source_bindings': []}
-    for atom in substantive_semantic_atoms(view):
-        excerpt = atom['public_text']
-        section['paragraphs'].append('本题合成记录明确写明：' + excerpt + '。这一范围只用于合成条文程序验证，不证明现实执行或正式实例成立。')
-        section['source_bindings'].append({'source_path': atom['canonical_path'], 'paragraph_index': len(section['paragraphs']), 'excerpt': excerpt})
-    graph = request['material_context']['claim_mechanism_graph']
-    result = {'semantic_response': {'reader_sections': [section], 'visibility_ledger': view['visibility_ledger']}, 'source_bindings': [{'claim_id': row['claim_id'], 'material_refs': row['claim_basis']['material_refs']} for row in graph['claims']]}
-    pathlib.Path('semantic-output.json').write_text(json.dumps(result, ensure_ascii=False), encoding='utf-8')
-    pathlib.Path(sys.argv[sys.argv.index('--output-last-message') + 1]).write_text('SEMANTIC_OUTPUT_READY', encoding='utf-8')
-    for event in ({'type': 'thread.started', 'thread_id': 'synthetic-final-reader'}, {'type': 'turn.started'}, {'type': 'turn.completed', 'usage': {'input_tokens': 11, 'output_tokens': 17}}):
-        print(json.dumps(event), flush=True)
-    raise SystemExit(0)
-request = json.loads(''')
-    program = program.replace('from tests.test_v4_pipeline_e2e_fixtures import static_author_output', 'from tests.test_v4_pipeline_e2e_fixtures import BODY, static_author_output')
-    program = program.replace('if PROTECTED:', '''for index, assessment in enumerate(value["semantic_packet"]["retrieval"]["assessments"]):
-    for field, statement in {"cannot_prove": "该合成条文只供程序验证，不能证明现实执行、经验效果或正式实例资格。", "affected_positions": "补偿安排涉及者的具体身份没有在给定合成条文中说明。", "low_power_positions": "给定合成条文未提供识别具体低权力位置所需的事实。"}.items():
-        assessment[field] = [statement]
-        value["semantic_packet"]["visibility_ledger"]["entries"].append({"canonical_path": "retrieval.assessments[" + str(index) + "]." + field + "[0]", "classification": "public", "disclosure": "include", "purpose": request["privacy_contract"]["purpose"], "authority_refs": [], "protection_reason": None})
-for claim in value["semantic_packet"]["evidence"]["claims"]:
-    for support in claim["support"]:
-        if support.get("summary") == "A source-scope fixture.":
-            support["summary"] = "该合成记录用于验证条文解释的材料范围。"
-if PROTECTED:''')
-    provider.write_text(program, encoding='utf-8', newline='\n')
     result = execution.execute_authored_run(transport / 'runs', problem_contract=problem,
         run_id='synthetic-v4-production', repository_root=ROOT,
         codex_provider_executable=provider, timeout_seconds=60, mode='closed-input',
