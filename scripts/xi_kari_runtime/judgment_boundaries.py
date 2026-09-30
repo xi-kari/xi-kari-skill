@@ -42,7 +42,7 @@ def assess_hv_route(
         supported = all(claim_support(components.get(key, []), claim_constraints) == "supported" for key in required)
         ceiling = "candidate_cost_direction_risk" if route == "R0" else "voluntary_action_description" if route == "R1" else "specified_structural_effect"
         if route == "R2":
-            supported = supported and root("g2_instance_id", "G2")
+            supported = root("g2_instance_id", "G2")
     return {"concept_id": concept, "route": route, "result": "supported" if supported else "unsupported_or_undecided", "ceiling": ceiling, "causal_effect": "supported" if supported and ((concept == "HV09" and route in {"R1", "R2"}) or (concept == "HV11" and route == "R2")) else "unsupported_or_undecided", "permission_effect": "none", "personality_or_love_diagnosis": "prohibited", "ordinary_domain_value": "independently_assessed"}
 
 

@@ -98,3 +98,14 @@ def test_professional_reference_requires_an_explicit_original_purpose():
     permissions = {"permission": {"permission_id": "permission", "source_ref": "source", "purpose": None, "scope": "bounded-record", "basis_claim_ids": ["consent"]}}
     with pytest.raises(boundaries.BoundaryError):
         boundaries.validate_professional_reference(record, source_registry=sources, permission_registry=permissions, claim_constraints={ref: {"blocked": False} for ref in ("qualified-source", "consent")})
+
+
+def test_hv11_causal_route_does_not_import_voluntary_description_or_ethical_naming():
+    boundaries = import_module("xi_kari_runtime.judgment_boundaries")
+    record = {"concept_id": "HV11", "route": "R2", "g2_instance_id": "registered-action-effect"}
+    roots = {"registered-action-effect": {"instance_family": "G2", "qualification": "qualified", "formal_result": "supported"}}
+    result = boundaries.assess_hv_route(record, claim_constraints={}, formal_results=roots)
+    assert result["result"] == "supported"
+    assert result["ceiling"] == "specified_structural_effect"
+    assert result["personality_or_love_diagnosis"] == "prohibited"
+    assert result["permission_effect"] == "none"
