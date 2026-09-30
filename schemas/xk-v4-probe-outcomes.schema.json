@@ -1,0 +1,150 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://xi-kari.local/schemas/xi-kari.v4.probe-outcomes.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "red_team",
+    "stance",
+    "sensitivity",
+    "comparison"
+  ],
+  "properties": {
+    "red_team": {
+      "$ref": "https://xi-kari.local/schemas/xi-kari.v4.xk.semantic-execution-response.schema.json#/$defs/probe"
+    },
+    "stance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "support",
+        "oppose"
+      ],
+      "properties": {
+        "support": {
+          "$ref": "https://xi-kari.local/schemas/xi-kari.v4.xk.semantic-execution-response.schema.json#/$defs/probe"
+        },
+        "oppose": {
+          "$ref": "https://xi-kari.local/schemas/xi-kari.v4.xk.semantic-execution-response.schema.json#/$defs/probe"
+        }
+      }
+    },
+    "sensitivity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "baseline",
+        "changed",
+        "changes"
+      ],
+      "properties": {
+        "baseline": {
+          "$ref": "https://xi-kari.local/schemas/xi-kari.v4.xk.semantic-execution-response.schema.json#/$defs/sensitivity"
+        },
+        "changed": {
+          "$ref": "https://xi-kari.local/schemas/xi-kari.v4.xk.semantic-execution-response.schema.json#/$defs/sensitivity"
+        },
+        "changes": {
+          "type": "array",
+          "items": {
+            "$ref": "https://xi-kari.local/schemas/xi-kari.v4.xk.semantic-execution-response.schema.json#/$defs/change"
+          }
+        }
+      }
+    },
+    "comparison": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "red_team",
+        "stance_stability",
+        "sensitivity"
+      ],
+      "properties": {
+        "red_team": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "status",
+            "counterarguments"
+          ],
+          "properties": {
+            "status": {
+              "enum": [
+                "examined",
+                "failed"
+              ]
+            },
+            "counterarguments": {
+              "type": "array",
+              "items": {
+                "$ref": "https://xi-kari.local/schemas/xi-kari.v4.xk.semantic-execution-response.schema.json#/$defs/counterargument"
+              }
+            }
+          }
+        },
+        "stance_stability": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "status",
+            "equal_information",
+            "different_claim_ids"
+          ],
+          "properties": {
+            "status": {
+              "enum": [
+                "stable",
+                "changed",
+                "failed"
+              ]
+            },
+            "equal_information": {
+              "type": "boolean"
+            },
+            "different_claim_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "uniqueItems": true
+            }
+          }
+        },
+        "sensitivity": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "status",
+            "changed_claim_ids",
+            "changes"
+          ],
+          "properties": {
+            "status": {
+              "enum": [
+                "stable",
+                "changed",
+                "failed"
+              ]
+            },
+            "changed_claim_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "uniqueItems": true
+            },
+            "changes": {
+              "type": "array",
+              "items": {
+                "$ref": "https://xi-kari.local/schemas/xi-kari.v4.xk.semantic-execution-response.schema.json#/$defs/change"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

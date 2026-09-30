@@ -206,6 +206,7 @@ MODEL_AUTHORITY_KEYS = frozenset(
         "domain_usage",
         "stage_results",
         "stage_outcomes",
+        "probe_outcomes",
         "material_responsibility_binding",
     }
 )

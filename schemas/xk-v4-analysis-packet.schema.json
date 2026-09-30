@@ -636,6 +636,9 @@
           ]
         }
       }
+    },
+    "probe_outcomes": {
+      "$ref": "https://xi-kari.local/schemas/xi-kari.v4.probe-outcomes.schema.json"
     }
   },
   "allOf": [

@@ -10,7 +10,7 @@ from .domains import domain_reader_records
 
 def projection_roots(payload: Mapping[str, Any]) -> dict[str, Any]:
     roots: dict[str, Any] = {key: payload[key] for key in (
-        'empirical_instances', 'derived_instances', 'formal_results',
+        'empirical_instances', 'derived_instances', 'formal_results', 'probe_outcomes',
     ) if key in payload}
     outcomes = payload.get('stage_outcomes')
     if isinstance(outcomes, Mapping):

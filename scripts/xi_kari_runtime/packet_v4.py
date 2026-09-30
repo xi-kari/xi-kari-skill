@@ -74,8 +74,9 @@ def validate_world_stage(
 def build_analysis_packet_v4(
     semantic_packet: Mapping[str, Any], *, run_contract: Mapping[str, Any], repository_root: Path,
     domain_read_plan: Mapping[str, Any] | None = None, reader_finalization: Mapping[str, Any] | None = None,
+    probe_outcomes: Mapping[str, Any] | None = None,
 ) -> dict[str, Any]:
-    packet = prepare_analysis_packet_v4(semantic_packet, run_contract=run_contract, repository_root=repository_root, domain_read_plan=domain_read_plan)
+    packet = prepare_analysis_packet_v4(semantic_packet, run_contract=run_contract, repository_root=repository_root, domain_read_plan=domain_read_plan, probe_outcomes=probe_outcomes)
     if reader_finalization is not None:
         if not isinstance(reader_finalization, Mapping) or set(reader_finalization) != {'reader_sections', 'visibility_ledger'}:
             raise ValueError('reader finalization may only provide complete sections and disclosure decisions')
@@ -87,13 +88,14 @@ def build_analysis_packet_v4(
 def prepare_analysis_packet_v4(
     semantic_packet: Mapping[str, Any], *, run_contract: Mapping[str, Any], repository_root: Path,
     domain_read_plan: Mapping[str, Any] | None = None,
+    probe_outcomes: Mapping[str, Any] | None = None,
 ) -> dict[str, Any]:
     """Compute semantic outcomes for reader authoring; delivery still needs validation."""
     from .contracts import build_runtime_packet_binding
     if run_contract.get('contract_profile') != 'production-authoring-v4':
         raise ValueError('version-four packet requires its version-four run profile')
     packet = deepcopy(dict(semantic_packet))
-    if any(field in packet for field in ('runtime_binding', 'concept_disposition', 'formal_results', 'domain_binding', 'domain_read_trace', 'domain_usage', 'stage_outcomes')):
+    if any(field in packet for field in ('runtime_binding', 'concept_disposition', 'formal_results', 'domain_binding', 'domain_read_trace', 'domain_usage', 'stage_outcomes', 'probe_outcomes')):
         raise ValueError('semantic author cannot supply runtime-owned packet authority')
     if 'empirical_instances' in packet or 'derived_instances' in packet:
         from .formal_results import bind_formal_claim_results
@@ -120,6 +122,9 @@ def prepare_analysis_packet_v4(
     from .stage_consumers_v4 import validate_stage_chain_v4
     stages = validate_stage_chain_v4(packet, run_contract=run_contract, repository_root=repository_root)
     packet['stage_outcomes'] = {stage: deepcopy(row['result']) for stage, row in stages['stage_results'].items()}
+    if probe_outcomes is not None:
+        validate_versioned_schema('xk-v4-probe-outcomes.schema.json', probe_outcomes, repository_root=repository_root)
+        packet['probe_outcomes'] = deepcopy(dict(probe_outcomes))
     validate_versioned_schema('xk-v4-analysis-packet.schema.json', packet, repository_root=repository_root)
     _require_packet_semantics_v4(packet, mode=run_contract['mode'], run_contract=run_contract, repository_root=repository_root)
     return packet
@@ -140,6 +145,8 @@ def _require_packet_semantics_v4(
 ) -> None:
     from .v4_contracts import repository_path
     repository_root = repository_path(repository_root)
+    if 'probe_outcomes' in packet:
+        validate_versioned_schema('xk-v4-probe-outcomes.schema.json', packet['probe_outcomes'], repository_root=repository_root)
     from .contracts import build_runtime_packet_binding, validate_answer_basis_references, validate_visibility_ledger
     validate_versioned_schema('xk-v4-analysis-packet.schema.json', packet, repository_root=repository_root)
     if mode not in {'open-world', 'closed-input'} or packet['retrieval'].get('mode') != mode:
