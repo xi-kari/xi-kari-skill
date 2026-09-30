@@ -24,6 +24,8 @@ def host_retrieval_view(retrieval: Mapping[str, Any]) -> dict[str, Any]:
     originals = {row['source_id']: row['fields'] for row in binding['original_fields']}
     for field in binding.get('added_root_fields', []):
         value.pop(field, None)
+    for row in binding.get('original_assessment_verdicts', []):
+        value['assessments'][row['index']]['verdict'] = row['verdict']
     for source in value['sources']:
         for field in PROJECTED_FIELDS:
             source.pop(field, None)
@@ -45,11 +47,17 @@ def bind_material_responsibilities(
         raise ValueError('material responsibilities do not cover the actual host sources')
     originals = []
     verdicts = {}
-    for assessment in value.get('assessments', []):
+    original_assessments = []
+    for assessment_index, assessment in enumerate(value.get('assessments', [])):
         identifier = assessment.get('source_id')
         if identifier in verdicts:
             raise ValueError('actual host retrieval source assessment is duplicated')
-        verdicts[identifier] = assessment.get('verdict')
+        raw_verdict = assessment.get('verdict')
+        verdict = 'admitted' if raw_verdict == 'usable' else raw_verdict
+        if verdict != raw_verdict:
+            original_assessments.append({'index': assessment_index, 'verdict': raw_verdict})
+            assessment['verdict'] = verdict
+        verdicts[identifier] = verdict
     for host, author in zip(value['sources'], authors, strict=True):
         if not isinstance(author, Mapping) or set(MATERIAL_FIELDS) - set(author):
             raise ValueError('source material responsibilities are incomplete')
@@ -75,7 +83,8 @@ def bind_material_responsibilities(
         host['canonical_locator'] = locator
         if host['source_id'] in verdicts:
             verdict = verdicts[host['source_id']]
-            if 'assessment_verdict' in host and host['assessment_verdict'] != verdict:
+            prior = host.get('assessment_verdict')
+            if 'assessment_verdict' in host and ('admitted' if prior == 'usable' else prior) != verdict:
                 raise ValueError('material admission differs from its actual source assessment')
             host['assessment_verdict'] = verdict
     added = []
@@ -85,7 +94,7 @@ def bind_material_responsibilities(
         if 'run_id' not in value:
             added.append('run_id')
         value['run_id'] = run_id
-    value[BINDING_FIELD] = {'host_index_sha256': sha256_json(retrieval), 'original_fields': originals, 'added_root_fields': added}
+    value[BINDING_FIELD] = {'host_index_sha256': sha256_json(retrieval), 'original_fields': originals, 'added_root_fields': added, 'original_assessment_verdicts': original_assessments}
     return value
 
 
