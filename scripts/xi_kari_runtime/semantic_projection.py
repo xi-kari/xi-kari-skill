@@ -9,6 +9,8 @@ import re
 import unicodedata
 from typing import Any
 
+from .v4_projection import projection_roots
+
 
 _SKIP_KEYS = {
     "$schema",
@@ -248,6 +250,7 @@ _ENUM_LABELS.update({
     'not_applicable': '不适用', 'inferential_requires': '结论所需的推理前提',
     'protocol_requires': '相应用途的方法门', 'specializes': '对象或领域特化',
     'applies_to': '规范或程序适用范围',
+    'native_exit': '本题由领域方法独立完成',
 })
 _REGISTRY_FIELDS = {"recursive_states"}
 _DELIVERY_VISIBILITY_ROOTS = (
@@ -691,6 +694,9 @@ def typed_semantic_atoms(payload: Mapping[str, Any]) -> list[dict[str, Any]]:
                 visibility=visibility,
             )
         )
+    for root, value in projection_roots(payload).items():
+        atoms.extend(_walk_atoms(value, base_path=root, key=root,
+                                 aliases=aliases, visibility=visibility))
     return list(
         {
             atom["canonical_path"]: atom
@@ -818,6 +824,35 @@ def _validate_protection_reason_value_isolation(
             raise ValueError("protection_reason contains a withheld atom: " + path)
 
 
+def _validate_protected_semantic_value_isolation(
+    payload: Mapping[str, Any], entries: Sequence[Mapping[str, Any]]
+) -> None:
+    public_values: dict[str, str] = {}
+    protected_values: dict[str, str] = {}
+    for entry in entries:
+        path = str(entry['canonical_path'])
+        resolved = _resolve_path_parent(payload, path)
+        if resolved is None:
+            continue
+        parent, leaf = resolved
+        value = parent[leaf]
+        if not isinstance(value, str) or not value:
+            continue
+        if entry.get('disclosure') == 'withhold':
+            protected_values[path] = value
+        else:
+            public_values[path] = value
+    for protected_path, protected_value in protected_values.items():
+        for entry in entries:
+            reason = entry.get('protection_reason')
+            if isinstance(reason, str) and protected_value in reason:
+                raise ValueError('protection_reason contains a withheld semantic value')
+        for public_path, public_value in public_values.items():
+            if protected_value in public_value:
+                raise ValueError('protected semantic value appears in public semantic atom: '
+                                 + protected_path + ' -> ' + public_path)
+
+
 def validate_visibility_ledger(
     payload: Mapping[str, Any], *, expected_purpose: str | None = None
 ) -> None:
@@ -882,13 +917,14 @@ def validate_visibility_ledger(
     dangling = sorted(observed_paths - expected_paths)
     if dangling:
         raise ValueError(
-            "visibility ledger contains dangling semantic atom: " + dangling[0]
+            "visibility ledger contains dangling semantic atom"
         )
     missing = sorted(expected_paths - observed_paths)
     if missing:
         raise ValueError("visibility ledger is missing semantic atom: " + missing[0])
     _validate_protection_reason_value_isolation(payload, entries)
     _validate_protected_retrieval_value_isolation(payload, entries)
+    _validate_protected_semantic_value_isolation(payload, entries)
 
 
 _PATH_TOKEN = re.compile(r"([A-Za-z_][A-Za-z0-9_-]*)|\[([0-9]+)\]")
@@ -1969,7 +2005,7 @@ def validate_reader_sections(payload: Mapping[str, Any]) -> list[str]:
             excerpt = binding.get("excerpt")
             atom = all_atoms.get(path) if isinstance(path, str) else None
             if atom is None:
-                errors.append(f"{base}: unknown source path {path}")
+                errors.append(f"{base}: unknown source path in source binding")
                 continue
             if atom["projection_status"] == "withheld_for_protection":
                 errors.append(f"{base}: protected value may not bind public prose: {path}")

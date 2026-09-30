@@ -515,7 +515,9 @@ def reader_contract_gaps(payload: dict[str, Any], text: str) -> list[str]:
     section_errors = validate_reader_sections(payload)
     payload = _public_payload(payload)
     applicability = payload.get("dynamic_applicability")
-    if applicability not in {"applicable", "not_applicable"}:
+    if (applicability not in {"applicable", "not_applicable"}
+            and payload.get("schema_version") != 4
+            and not isinstance(payload.get("applicability"), dict)):
         return []
     gaps: list[str] = list(section_errors)
     for unit in authored_reader_units(payload):
