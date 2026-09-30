@@ -133,3 +133,13 @@ def test_pure_prior_remains_explicit_and_missing_world_mapping_is_rejected():
     record["probability_scope"] = "world_probability"
     with pytest.raises(forecast.ForecastError):
         forecast.validate_probability_expression(record, claim_constraints=support)
+
+
+def test_zero_empirical_observations_must_be_declared_as_no_data():
+    forecast = import_module("xi_kari_runtime.forecasting")
+    record = conditional_model()
+    record["value"] = 0.5
+    record["data"].update(sample_size=0, positive_outcomes=0)
+    support = {ref: {"blocked": False} for ref in ("prior-basis", "data-basis", "model-basis", "calculation-basis")}
+    with pytest.raises(forecast.ForecastError, match="no-data"):
+        forecast.validate_probability_expression(record, claim_constraints=support)

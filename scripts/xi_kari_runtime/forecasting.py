@@ -162,6 +162,8 @@ def validate_probability_expression(
             n, s = (0, 0) if data["status"] == "none" else (data.get("sample_size"), data.get("positive_outcomes"))
             if any(isinstance(item, bool) or not isinstance(item, int) for item in (n, s)) or not 0 <= s <= n:
                 raise ForecastError("beta-binomial observations require integer counts")
+            if data["status"] == "observed" and n == 0:
+                raise ForecastError("zero observations require an explicit no-data prior expression")
             if abs(value - (alpha + s) / (alpha + beta + n)) > 1e-12:
                 raise ForecastError("conditional posterior differs from the registered model calculation")
         if record["probability_scope"] == "world_probability":
@@ -349,10 +351,10 @@ def evaluate_information_value(record: Mapping[str, Any], *, claim_constraints: 
         return {"formal_evsi": None, "net_value": None, "formal_state": "not_applicable", "real_costs": deepcopy(record.get("real_costs", []))}
     probabilities, signals, utilities = record["state_probabilities"], record["signal_likelihoods"], record["utilities"]
     states = set(probabilities)
-    if any(abs(sum(_number(values[state], probability=True) for values in signals.values()) - 1) > 1e-12 for state in states) or abs(sum(_number(value, probability=True) for value in probabilities.values()) - 1) > 1e-12:
-        raise ForecastError("information model probabilities do not normalize")
     if any(set(values) != states for values in list(signals.values()) + list(utilities.values())):
         raise ForecastError("information model state domains differ")
+    if any(abs(sum(_number(values[state], probability=True) for values in signals.values()) - 1) > 1e-12 for state in states) or abs(sum(_number(value, probability=True) for value in probabilities.values()) - 1) > 1e-12:
+        raise ForecastError("information model probabilities do not normalize")
     for values in utilities.values():
         for value in values.values():
             _number(value)
