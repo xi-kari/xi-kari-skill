@@ -118,14 +118,16 @@
           "required": [
             "status",
             "changed_claim_ids",
-            "changes"
+            "changes",
+            "change_assessments"
           ],
           "properties": {
             "status": {
               "enum": [
                 "stable",
                 "changed",
-                "failed"
+                "failed",
+                "undetermined"
               ]
             },
             "changed_claim_ids": {
@@ -140,6 +142,13 @@
               "type": "array",
               "items": {
                 "$ref": "https://xi-kari.local/schemas/xi-kari.v4.xk.semantic-execution-response.schema.json#/$defs/change"
+              }
+            },
+            "change_assessments": {
+              "type": "array",
+              "minItems": 0,
+              "items": {
+                "$ref": "https://xi-kari.local/schemas/xi-kari.v4.xk.semantic-execution-response.schema.json#/$defs/changeAssessment"
               }
             }
           }

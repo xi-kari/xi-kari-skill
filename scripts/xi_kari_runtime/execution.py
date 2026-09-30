@@ -1454,9 +1454,15 @@ def _bind_v4_projected_materials(
     from .v4_retrieval import bind_material_responsibilities, bind_graph_materials
     from .stage_consumers_v4 import stage_input_target_hashes_v4
     value = deepcopy(dict(packet))
+    author_claims = deepcopy(value['evidence']['claims'])
     value['retrieval'] = bind_material_responsibilities(projected, semantic_retrieval, run_id=run_id)
     value['evidence'] = build_evidence_ledger(run_id=run_id, claims=value['evidence']['claims'], retrieval_index=value['retrieval'], contract_version=4, world_target_hashes=stage_input_target_hashes_v4(value))
     value['claim_mechanism_graph'] = bind_graph_materials(value['claim_mechanism_graph'], value['evidence'])
+    from .visibility_rebinding_v4 import rebase_evidence_visibility_v4
+    purposes = {row['purpose'] for row in value['visibility_ledger']['entries']}
+    if len(purposes) != 1:
+        raise ValueError('author evidence visibility requires one frozen privacy purpose')
+    rebase_evidence_visibility_v4(value, author_claims=author_claims, purpose=purposes.pop())
     return value
 
 
@@ -1966,9 +1972,8 @@ def execute_authored_run(
             if contract_version == 3:
                 packet["schema_id"] = "xi-kari.v3.analysis-packet"
                 packet["schema_version"] = 3
-            _rebind_visibility_ledger(
-                packet, privacy_purpose=str(frozen_privacy["purpose"])
-            )
+            if contract_version == 3:
+                _rebind_visibility_ledger(packet, privacy_purpose=str(frozen_privacy['purpose']))
             execute_owned_binding = build_execute_owned_binding(receipt, host_receipt)
 
             # Build the run only after both the semantic envelope and retrieval boundary

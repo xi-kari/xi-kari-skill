@@ -22,12 +22,12 @@ def outcomes():
             'costs': ['Read and compare the adjacent passage.']}],
         'source_undefined_refs': [],
     }
-    sensitive = {**deepcopy(probe), 'changes_considered': []}
+    sensitive = {**deepcopy(probe), 'changes_considered': [], 'change_assessments': []}
     return {'red_team': probe, 'stance': {'support': deepcopy(probe), 'oppose': deepcopy(probe)},
         'sensitivity': {'baseline': sensitive, 'changed': deepcopy(sensitive), 'changes': []},
         'comparison': {'red_team': {'status': 'examined', 'counterarguments': deepcopy(probe['counterarguments'])},
             'stance_stability': {'status': 'stable', 'equal_information': True, 'different_claim_ids': []},
-            'sensitivity': {'status': 'stable', 'changed_claim_ids': [], 'changes': []}}}
+            'sensitivity': {'status': 'stable', 'changed_claim_ids': [], 'changes': [], 'change_assessments': []}}}
 
 
 def test_actual_probe_semantics_have_typed_counterargument_cost_and_scope_paths():
