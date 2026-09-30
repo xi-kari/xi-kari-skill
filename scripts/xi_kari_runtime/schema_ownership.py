@@ -22,11 +22,54 @@ V4_SCHEMA_IDENTITIES = {
     "xk-v4-base-authoring-output.schema.json": (
         "xi-kari.v4.base-authoring-output", frozenset(),
     ),
+    "xk-v4-base-authoring-request.schema.json": (
+        "xi-kari.v4.base-authoring-request",
+        frozenset({"xi-kari.v4.base-authoring-request"}),
+    ),
     "xk-v4-claim-mechanism.schema.json": (
         "xi-kari.v4.xk.claim-mechanism-graph",
         frozenset({"xi-kari.v4.xk.claim-mechanism-graph"}),
     ),
     "xk-v4-common.schema.json": ("xi-kari.v4.xk.common", frozenset()),
+    "xk-v4-formal-input.schema.json": ("xi-kari.v4.formal-input", frozenset()),
+    "xk-v4-production-capability.schema.json": (
+        "xi-kari.v4.capability-snapshot", frozenset({"xi-kari.v4.capability-snapshot"}),
+    ),
+    "xk-v4-production-completion.schema.json": (
+        "xi-kari.v4.completion", frozenset({"xi-kari.v4.completion"}),
+    ),
+    "xk-v4-production-manifest.schema.json": (
+        "xi-kari.v4.artifact-manifest", frozenset({"xi-kari.v4.artifact-manifest"}),
+    ),
+    "xk-v4-production-output.schema.json": (
+        "xi-kari.v4.final-chat", frozenset({"xi-kari.v4.final-chat"}),
+    ),
+    "xk-v4-production-phase.schema.json": (
+        "xi-kari.v4.production-phase-artifact", frozenset({"xi-kari.v4.production-phase-artifact"}),
+    ),
+    "xk-v4-production-read-plan.schema.json": (
+        "xi-kari.v4.read-plan", frozenset({"xi-kari.v4.read-plan"}),
+    ),
+    "xk-v4-production-run.schema.json": (
+        "xi-kari.v4.run-contract", frozenset({"xi-kari.v4.run-contract"}),
+    ),
+    "xk-v4-production-status.schema.json": (
+        "xi-kari.v4.run-status", frozenset({"xi-kari.v4.run-status"}),
+    ),
+    "xk-v4-production-validation-execution.schema.json": (
+        "xi-kari.v4.validation-execution", frozenset({"xi-kari.v4.validation-execution"}),
+    ),
+    "xk-v4-production-validator.schema.json": (
+        "xi-kari.v4.validator-report", frozenset({"xi-kari.v4.validator-report"}),
+    ),
+    "xk-v4-semantic-read-trace.schema.json": (
+        "xi-kari.v4.semantic-read-trace", frozenset({"xi-kari.v4.semantic-read-trace"}),
+    ),
+    "xk-v4-source.schema.json": (
+        "xi-kari.v4.source-artifact",
+        frozenset({"xi-kari.v4.source-lock", "xi-kari.v4.source-read-event"}),
+    ),
+    "xk-v4-stage-inputs.schema.json": ("xi-kari.v4.xk.stage-inputs", frozenset()),
 }
 
 
