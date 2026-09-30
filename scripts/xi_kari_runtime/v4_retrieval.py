@@ -21,6 +21,8 @@ def host_retrieval_view(retrieval: Mapping[str, Any]) -> dict[str, Any]:
     if not isinstance(binding, Mapping):
         raise ValueError('retrieval has no actual host material responsibility binding')
     originals = {row['source_id']: row['fields'] for row in binding['original_fields']}
+    for field in binding.get('added_root_fields', []):
+        value.pop(field, None)
     for source in value['sources']:
         for field in MATERIAL_FIELDS:
             source.pop(field, None)
@@ -32,6 +34,7 @@ def host_retrieval_view(retrieval: Mapping[str, Any]) -> dict[str, Any]:
 
 def bind_material_responsibilities(
     retrieval: Mapping[str, Any], authored_retrieval: Mapping[str, Any],
+    *, run_id: str | None = None,
 ) -> dict[str, Any]:
     if BINDING_FIELD in retrieval:
         raise ValueError('host retrieval cannot supply a precomputed material responsibility binding')
@@ -63,7 +66,14 @@ def bind_material_responsibilities(
         for field in MATERIAL_FIELDS:
             host[field] = deepcopy(author[field])
         host['canonical_locator'] = locator
-    value[BINDING_FIELD] = {'host_index_sha256': sha256_json(retrieval), 'original_fields': originals}
+    added = []
+    if run_id is not None:
+        if 'run_id' in value and value['run_id'] != run_id:
+            raise ValueError('material projection differs from the actual runtime run identity')
+        if 'run_id' not in value:
+            added.append('run_id')
+        value['run_id'] = run_id
+    value[BINDING_FIELD] = {'host_index_sha256': sha256_json(retrieval), 'original_fields': originals, 'added_root_fields': added}
     return value
 
 

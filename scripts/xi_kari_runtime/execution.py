@@ -1389,7 +1389,7 @@ def _project_retrieval(
             }
         )
         if contract_version == 4:
-            packet = _bind_v4_projected_materials(packet, projected, semantic_retrieval=authored_retrieval)
+            packet = _bind_v4_projected_materials(packet, projected, semantic_retrieval=authored_retrieval, run_id=run_id)
         return packet, closed_receipt, semantic
     semantic = _semantic_retrieval_input(packet["retrieval"])
     if host_captures is not None and not isinstance(host_captures, Mapping):
@@ -1442,19 +1442,19 @@ def _project_retrieval(
     packet = _remap_source_ids(packet, aliases)
     packet["retrieval"] = projected
     if contract_version == 4:
-        packet = _bind_v4_projected_materials(packet, projected, semantic_retrieval=authored_retrieval)
+        packet = _bind_v4_projected_materials(packet, projected, semantic_retrieval=authored_retrieval, run_id=run_id)
     return packet, host_receipt, semantic
 
 
 def _bind_v4_projected_materials(
-    packet: Mapping[str, Any], projected: Mapping[str, Any], *, semantic_retrieval: Mapping[str, Any],
+    packet: Mapping[str, Any], projected: Mapping[str, Any], *, semantic_retrieval: Mapping[str, Any], run_id: str,
 ) -> dict[str, Any]:
     from .evidence import build_evidence_ledger
     from .v4_retrieval import bind_material_responsibilities, bind_graph_materials
     from .stage_consumers_v4 import stage_input_target_hashes_v4
     value = deepcopy(dict(packet))
-    value['retrieval'] = bind_material_responsibilities(projected, semantic_retrieval)
-    value['evidence'] = build_evidence_ledger(run_id=projected['run_id'], claims=value['evidence']['claims'], retrieval_index=value['retrieval'], contract_version=4, world_target_hashes=stage_input_target_hashes_v4(value))
+    value['retrieval'] = bind_material_responsibilities(projected, semantic_retrieval, run_id=run_id)
+    value['evidence'] = build_evidence_ledger(run_id=run_id, claims=value['evidence']['claims'], retrieval_index=value['retrieval'], contract_version=4, world_target_hashes=stage_input_target_hashes_v4(value))
     value['claim_mechanism_graph'] = bind_graph_materials(value['claim_mechanism_graph'], value['evidence'])
     return value
 

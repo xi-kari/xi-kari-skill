@@ -64,3 +64,12 @@ def test_projection_requires_actual_responsibility_metadata_for_each_source():
     del author['sources'][0]['research_design']
     with pytest.raises(ValueError, match='responsibilities'):
         bind_material_responsibilities(host, author)
+
+
+def test_runtime_run_identity_can_be_added_without_changing_the_original_transport():
+    from xi_kari_runtime.v4_retrieval import bind_material_responsibilities, host_retrieval_view
+    host, author = inputs()
+    del host['run_id']
+    checked = bind_material_responsibilities(host, author, run_id='runtime-owned')
+    assert checked['run_id'] == 'runtime-owned'
+    assert host_retrieval_view(checked) == host
