@@ -28,7 +28,7 @@ def test_legacy_identity_is_rejected_without_rewriting() -> None:
 
 def test_current_identity_does_not_accept_legacy_anchors() -> None:
     binding = profile()
-    with pytest.raises(ValueError, match="V83"):
+    with pytest.raises(ValueError, match="Mixed source identity: expected V90"):
         binding.require_current_source(
             {"source_version": "v9.0", "source_anchors": ["V83-P2487"]}
         )
