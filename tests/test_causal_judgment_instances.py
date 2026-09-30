@@ -74,3 +74,49 @@ def test_empirical_gate_rejects_posthoc_or_ineligible_instance(change):
         checked = instances.evaluate_empirical_instance(instances.freeze_empirical_instance(contract), root_result(), claim_constraints={ref: {"blocked": False} for ref in ("experiment", "analysis", "null-analysis")})
         assert checked["qualification"] == "unqualified"
         assert checked["result"]["result_state"] == "unsupported_or_undecided"
+
+
+@pytest.mark.parametrize("family,subtype,criterion,candidate,checks", [
+    ("G1", "G1a", "out_of_sample_predictive_gain", {"grouping": "synthetic-preselected-group"}, ["complexity_matched_zero", "group_leakage_control", "out_of_sample", "boundary_perturbation", "independent_time_or_location"]),
+    ("G4", "G4a", "conditional_information_gain", {"mapping_id": "synthetic-map", "source_scale": "fine", "target_scale": "coarse", "retained_variables": ["retained"]}, ["D3_E5_mapping", "comparison_model", "retained_variable_conditioning"]),
+    ("H1", "H1-coordination-outcome", "meaning_arrangement_coordination_outcome_effect", {"meaning_arrangement": "synthetic-public-anchor"}, ["selected_meaning_arrangement", "identification", "measurement_protocol"]),
+    ("H4", "H4-expression-safety", "position_or_mediation_expression_safety_effect", {"position": "synthetic-low-power-position"}, ["selected_position_or_mediation", "identification", "measurement_protocol"]),
+    ("H5", "habit_or_practice", "repeat_detection_across_preregistered_windows", {"carrier": "synthetic-practice"}, ["selected_carrier", "registered_observation_windows", "measurement_protocol"]),
+])
+def test_each_empirical_family_uses_only_its_preselected_criterion_and_checks(family, subtype, criterion, candidate, checks):
+    instances = import_module("xi_kari_runtime.empirical_instances")
+    contract, evaluation = root_contract(), root_result()
+    if family.startswith("H"):
+        contract.pop("root_id")
+        contract["claim_id"] = family
+    else: contract["root_id"] = family
+    contract.update(selected_subtype=subtype, selected_success_criterion=criterion, evaluation_metric=criterion, candidate_specification=candidate)
+    if family == "H5": contract.update(selected_carrier_family_id=subtype, selected_carrier="synthetic-practice")
+    evaluation["metrics"][criterion] = 0.2
+    evaluation["prerequisite_claim_ids"] = {key: ["experiment"] for key in checks}
+    checked = instances.evaluate_empirical_instance(instances.freeze_empirical_instance(contract), evaluation, claim_constraints={ref: {"blocked": False} for ref in ("experiment", "analysis", "null-analysis")})
+    assert checked["result"]["result_state"] == "supported"
+    assert checked["preregistration"]["selected_success_criterion"] == criterion
+    for check in checks:
+        missing = deepcopy(evaluation)
+        missing["prerequisite_claim_ids"].pop(check)
+        assert instances.evaluate_empirical_instance(instances.freeze_empirical_instance(contract), missing, claim_constraints={ref: {"blocked": False} for ref in ("experiment", "analysis", "null-analysis")})["qualification"] == "unqualified"
+    if family == "H5":
+        contract["selected_carrier"] = ["one", "another"]
+        from xi_kari_runtime.causality import CausalError
+        with pytest.raises(CausalError, match="atomic"):
+            instances.freeze_empirical_instance(contract)
+
+
+def test_g3b_null_requires_both_history_increment_and_the_preselected_intervention_to_be_null():
+    instances = import_module("xi_kari_runtime.empirical_instances")
+    contract, result = root_contract(), root_result()
+    contract.update(root_id="G3", selected_subtype="G3b", selected_success_criterion="history_erasure_effect", evaluation_metric="history_erasure_effect", candidate_specification={"current_state": {"skill": "registered"}, "known_current_state_fields": ["skill"], "environment": "fixed", "measurement_protocol": "score-v1", "history_variable": "training", "split_id": "held-out", "conditional_gain_threshold": 0.1, "conditional_gain_null_threshold": 0.01})
+    result["metrics"].update(history_erasure_effect=0.001, **{"equivalence-upper": 0.002})
+    result["historical_conditional_predictive_gain"] = 0.2
+    result["prerequisite_claim_ids"] = {key: ["experiment"] for key in ("current_state_conditioning", "environment_conditioning", "measurement_protocol", "out_of_sample")}
+    support = {ref: {"blocked": False} for ref in ("experiment", "analysis", "null-analysis")}
+    frozen = instances.freeze_empirical_instance(contract)
+    assert instances.evaluate_empirical_instance(frozen, result, claim_constraints=support)["result"]["result_state"] == "unsupported_or_undecided"
+    result["historical_conditional_predictive_gain"] = 0.001
+    assert instances.evaluate_empirical_instance(frozen, result, claim_constraints=support)["result"]["result_state"] == "null_supported"

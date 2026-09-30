@@ -22,6 +22,13 @@ def effect_graph():
     return graph, record
 
 
+def empirical_graph():
+    graph, _ = effect_graph()
+    graph["claims"][0]["statement"] = "Synthetic controlled handoff delay experiment in its registered team and January window."
+    graph["claims"][0]["claim_basis"]["scope"] = {"object": "synthetic-object", "population": "registered-team", "window": "January", "target": "task-delay"}
+    return graph
+
+
 def test_real_v4_graph_preserves_total_effect_after_local_mechanism_failure():
     graph, record = effect_graph()
     next(evidence for evidence in graph["evidence"] if evidence["evidence_id"] == "E-MECHANISM")["support_status"] = "invalidated"
@@ -66,7 +73,7 @@ def test_fresh_process_recomputes_causal_support_from_disk(tmp_path):
 def test_actual_empirical_instance_uses_v4_material_identity_and_checks():
     from tests.test_causal_judgment_instances import root_contract, root_result
     from xi_kari_runtime.empirical_instances import freeze_empirical_instance
-    graph, record = effect_graph()
+    graph = empirical_graph()
     evaluation = root_result()
     evaluation["evidence_claim_ids"] = ["CLAIM-FACTUAL"]
     evaluation["analysis_artifact_claim_ids"] = ["CLAIM-FACTUAL"]
@@ -85,9 +92,52 @@ def test_actual_empirical_instance_uses_v4_material_identity_and_checks():
 def test_nested_identification_check_cannot_use_a_normative_argument_as_empirical_evidence():
     from tests.test_causal_judgment_instances import root_contract, root_result
     from xi_kari_runtime.empirical_instances import freeze_empirical_instance
-    graph, _ = effect_graph()
+    graph = empirical_graph()
     evaluation = root_result()
     evaluation.update(evidence_claim_ids=["CLAIM-FACTUAL"], analysis_artifact_claim_ids=["CLAIM-FACTUAL"], prerequisite_claim_ids={key: ["CLAIM-FACTUAL"] for key in evaluation["prerequisite_claim_ids"]}, dimension_claim_ids={"delay": ["CLAIM-FACTUAL"]}, null_gate_claim_ids={key: ["CLAIM-FACTUAL"] for key in evaluation["null_gate_claim_ids"]})
     evaluation["prerequisite_claim_ids"]["common_inputs"] = ["CLAIM-VALUE"]
     with pytest.raises(claims.ClaimMechanismError, match="empirical"):
+        claims.validate_empirical_instances([{"frozen": freeze_empirical_instance(root_contract()), "evaluation": evaluation}], claim_mechanism_graph=graph)
+
+
+def test_passed_instance_target_marker_cannot_manufacture_a_hard_root_premise():
+    graph, _ = effect_graph()
+    graph["dependency_edges"].append({"edge_id": "EDGE-FORMAL-ROOT", "from_id": "CLAIM-STRUCTURAL", "to_ref": {"kind": "instance", "id": "INSTANCE-NOT-ACTUALLY-EVALUATED"}, "role": "inferential_requires", "source_refs": ["V90-P00158"], "condition": "Selected formal root route", "scope": "formal effect only"})
+    graph["dependency_targets"] = [{"kind": "instance", "id": "INSTANCE-NOT-ACTUALLY-EVALUATED", "status": "passed", "reason": "A self-declared marker"}]
+    checked = claims.validate_claim_graph(graph)
+    result = claims.claim_constraints(checked)
+    assert result["CLAIM-STRUCTURAL"]["blocked"] is True
+    assert result["CLAIM-FACTUAL"]["blocked"] is False
+
+
+def test_plain_cached_result_dictionary_is_not_an_evaluated_instance_registry():
+    graph, _ = effect_graph()
+    forged = {"FAKE": {"instance_id": "FAKE", "qualification": "qualified", "formal_result": "supported"}}
+    with pytest.raises(claims.ClaimMechanismError, match="evaluated"):
+        claims.claim_constraints(claims.validate_claim_graph(graph), verified_instance_results=forged)
+
+
+def test_recomputed_registry_can_supply_a_real_root_premise_and_detects_graph_change():
+    from tests.test_causal_judgment_instances import root_contract, root_result
+    from xi_kari_runtime.empirical_instances import EvaluatedInstanceRegistry, freeze_empirical_instance
+    graph = empirical_graph()
+    instance_id = root_contract()["instance_id"]
+    graph["dependency_edges"].append({"edge_id": "EDGE-ACTUAL-ROOT", "from_id": "CLAIM-STRUCTURAL", "to_ref": {"kind": "instance", "id": instance_id}, "role": "inferential_requires", "source_refs": ["V90-P00158"], "condition": "Selected registered G2", "scope": "Formal effect only"})
+    graph["dependency_targets"] = [{"kind": "instance", "id": instance_id, "status": "not_run", "reason": "Code must evaluate the real root"}]
+    evaluation = root_result()
+    evaluation.update(evidence_claim_ids=["CLAIM-FACTUAL"], analysis_artifact_claim_ids=["CLAIM-FACTUAL"], prerequisite_claim_ids={key: ["CLAIM-FACTUAL"] for key in evaluation["prerequisite_claim_ids"]}, dimension_claim_ids={"delay": ["CLAIM-FACTUAL"]}, null_gate_claim_ids={key: ["CLAIM-FACTUAL"] for key in evaluation["null_gate_claim_ids"]})
+    registry = EvaluatedInstanceRegistry([{"frozen": freeze_empirical_instance(root_contract()), "evaluation": evaluation}], graph=graph)
+    assert claims.claim_constraints(graph, verified_instance_results=registry)["CLAIM-STRUCTURAL"]["blocked"] is False
+    graph["evidence"][0]["support_checks"]["world_fact_supported"]["status"] = "failed"
+    with pytest.raises(claims.ClaimMechanismError, match="same graph"):
+        claims.claim_constraints(graph, verified_instance_results=registry)
+
+
+def test_instance_scope_mismatch_cannot_be_cured_by_passed_world_checks():
+    from tests.test_causal_judgment_instances import root_contract, root_result
+    from xi_kari_runtime.empirical_instances import freeze_empirical_instance
+    graph, _ = effect_graph()
+    evaluation = root_result()
+    evaluation.update(evidence_claim_ids=["CLAIM-FACTUAL"], analysis_artifact_claim_ids=["CLAIM-FACTUAL"], prerequisite_claim_ids={key: ["CLAIM-FACTUAL"] for key in evaluation["prerequisite_claim_ids"]}, dimension_claim_ids={"delay": ["CLAIM-FACTUAL"]}, null_gate_claim_ids={key: ["CLAIM-FACTUAL"] for key in evaluation["null_gate_claim_ids"]})
+    with pytest.raises(claims.ClaimMechanismError, match="scope"):
         claims.validate_empirical_instances([{"frozen": freeze_empirical_instance(root_contract()), "evaluation": evaluation}], claim_mechanism_graph=graph)

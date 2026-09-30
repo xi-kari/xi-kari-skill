@@ -444,7 +444,8 @@ def _validate_v4_rivals(
 
 
 def claim_constraints(
-    graph: Mapping[str, Any], *, undecidable_claim_ids: set[str] | None = None
+    graph: Mapping[str, Any], *, undecidable_claim_ids: set[str] | None = None,
+    verified_instance_results: Mapping[str, Mapping[str, Any]] | None = None,
 ) -> dict[str, dict[str, Any]]:
     """Derive local constraints from frozen evidence identities and the dependency DAG.
 
@@ -452,6 +453,12 @@ def claim_constraints(
     Source invalidation also applies to aliases bound to that source. Ordinary
     missing facts remain local; a shared premise propagates only to descendants.
     """
+
+    if verified_instance_results is not None:
+        from .canonical_json import sha256_json
+        from .empirical_instances import EvaluatedInstanceRegistry
+        if not isinstance(verified_instance_results, EvaluatedInstanceRegistry) or verified_instance_results.graph_sha256 != sha256_json(graph):
+            raise ClaimMechanismError("formal premise support requires an actual evaluated registry for the same graph")
 
     claims = {row["claim_id"]: row for row in graph["claims"]}
     evidence = {row["evidence_id"]: row for row in graph["evidence"]}
@@ -532,6 +539,14 @@ def claim_constraints(
                 target = edge['to_ref']
                 if target['kind'] in {'protocol', 'instance'}:
                     state = targets.get((target['kind'], target['id']), {}).get('status')
+                    if target['kind'] == 'instance':
+                        instance = (verified_instance_results or {}).get(target['id'], {})
+                        instance_id = instance.get('preregistration', {}).get('instance_id', instance.get('instance_id'))
+                        result_state = instance.get('result', {}).get('result_state', instance.get('formal_result'))
+                        if instance_id != target['id'] or instance.get('qualification') != 'qualified' or result_state != 'supported':
+                            state = 'not_run'
+                        else:
+                            state = 'passed'
                     if state != 'passed':
                         blocked_use_refs.add(edge.get('edge_id', target['id']))
                         if edge['role'] == 'inferential_requires':
@@ -679,6 +694,15 @@ def validate_empirical_instances(
             claim = claims.get(ref)
             if claim is None or claim["claim_basis"]["kind"] != "domain_empirical" or not claim["evidence_refs"] or any(evidence[ref]["identity"] in {"model-candidate", "simulated-result", "user-claim", "unknown"} for ref in claim["evidence_refs"]):
                 raise ClaimMechanismError("empirical instance requires external empirical support")
+        prereg = frozen.get("preregistration", {})
+        targets = set(prereg.get("target_variables", []))
+        aggregate = prereg.get("decision_rule", {}).get("primary_target_or_aggregation")
+        if isinstance(aggregate, str):
+            targets.add(aggregate)
+        for ref in evaluation.get("evidence_claim_ids", []):
+            scope = claims[ref]["claim_basis"]["scope"]
+            if scope["object"] != prereg.get("candidate_object_id") or scope["window"] != prereg.get("time_window") or scope["target"] not in targets:
+                raise ClaimMechanismError("empirical result material scope differs from the frozen object, window or target")
         try:
             checked.append(evaluate_empirical_instance(frozen, evaluation, claim_constraints=constraints))
         except (ValueError, KeyError, TypeError) as error:

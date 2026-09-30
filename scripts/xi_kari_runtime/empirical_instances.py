@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from collections.abc import Mapping
 from copy import deepcopy
+import json
 from typing import Any
 
 from .canonical_json import sha256_json
@@ -62,6 +63,9 @@ def freeze_empirical_instance(record: Mapping[str, Any]) -> dict[str, Any]:
     fields = {"G2": {"channel", "transition", "quantity_type", "unit", "measured_dimensions"}, "G3": {"current_state", "known_current_state_fields", "environment", "measurement_protocol", "history_variable", "split_id"}, "G4": {"mapping_id", "source_scale", "target_scale", "retained_variables"}}.get(family, set())
     if any(not candidate.get(field) for field in fields):
         raise CausalError("empirical candidate lacks a family-specific preregistration condition")
+    if family == "G3":
+        _number(candidate.get("conditional_gain_threshold"))
+        _number(candidate.get("conditional_gain_null_threshold"))
     if record["evaluation_metric"] != criterion:
         raise CausalError("empirical evaluation metric differs from the selected success criterion")
     parse_instant(record["preregistration_timestamp"], field="empirical registration")
@@ -128,7 +132,10 @@ def evaluate_empirical_instance(
         supported = claim_support(evaluation.get("null_gate_claim_ids", {}).get(name, []), claim_constraints) == "supported"
         passed = eligible and supported and measurement is not None and (measurement <= gate["threshold"] if gate["relation"] == "at_most" else measurement >= gate["threshold"])
         null_results[name] = {"value": measurement, "threshold": gate["threshold"], "passed": passed}
-    result_state = "supported" if positive else "null_supported" if eligible and all(row["passed"] for row in null_results.values()) else "unsupported_or_undecided"
+    null_passed = eligible and all(row["passed"] for row in null_results.values())
+    if family == "G3":
+        null_passed = null_passed and _number(gain) <= candidate["conditional_gain_null_threshold"]
+    result_state = "supported" if positive else "null_supported" if null_passed else "unsupported_or_undecided"
     snapshot["qualification"] = "qualified" if eligible else "unqualified"
     snapshot["result"] = {"result_timestamp": evaluation["result_timestamp"], "observed_primary_result": value, "decision_rule_outcome": {"value": value, "threshold": threshold, "passed": positive}, "null_decision_rule_outcome": null_results, "result_state": result_state, "evidence_refs": list(evaluation.get("evidence_claim_ids", [])), "analysis_artifact_refs": list(evaluation.get("analysis_artifact_claim_ids", [])), "deviation_record": deepcopy(evaluation.get("deviation_record", []))}
     snapshot["evaluation_sha256"] = sha256_json(evaluation)
@@ -137,4 +144,35 @@ def evaluate_empirical_instance(
     return snapshot
 
 
-__all__ = ("freeze_empirical_instance", "evaluate_empirical_instance")
+class EvaluatedInstanceRegistry(Mapping[str, Mapping[str, Any]]):
+    """A per-input registry rebuilt by actual validation, never from result labels."""
+    def __init__(self, inputs: list[Mapping[str, Any]], *, graph: Mapping[str, Any], derived_instances: list[Mapping[str, Any]] | None = None):
+        from .claims import claim_constraints, validate_empirical_instances
+        from .causality import assess_derived_causal_instance
+        checked = validate_empirical_instances(inputs, claim_mechanism_graph=graph)
+        results = {}
+        for instance in checked["instances"]:
+            prereg = instance["preregistration"]
+            identifier = prereg["instance_id"]
+            results[identifier] = {**instance, "instance_id": identifier, "instance_family": prereg.get("root_id", prereg.get("claim_id")), "formal_result": instance["result"]["result_state"]}
+        constraints = claim_constraints(graph)
+        for record in derived_instances or []:
+            result = assess_derived_causal_instance(record, formal_results=results, claim_constraints=constraints)
+            if result["instance_id"] in results:
+                raise CausalError("evaluated instance identity is duplicated")
+            results[result["instance_id"]] = result
+        self._results_json = json.dumps(results, ensure_ascii=False, sort_keys=True)
+        self.graph_sha256 = checked["claim_graph_sha256"]
+        self.inputs_sha256 = sha256_json({"empirical": inputs, "derived": derived_instances or []})
+
+    def __getitem__(self, identifier: str) -> Mapping[str, Any]:
+        return json.loads(self._results_json)[identifier]
+
+    def __iter__(self):
+        return iter(json.loads(self._results_json))
+
+    def __len__(self):
+        return len(json.loads(self._results_json))
+
+
+__all__ = ("freeze_empirical_instance", "evaluate_empirical_instance", "EvaluatedInstanceRegistry")
