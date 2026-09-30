@@ -26,7 +26,7 @@ def _inputs(value: Sequence[Mapping[str, Any]], label: str) -> list[dict[str, An
 def recompute_causal_results_v4(assessments: Sequence[Mapping[str, Any]], *,
         graph: Mapping[str, Any], empirical_instances: Sequence[Mapping[str, Any]] = (),
         derived_instances: Sequence[Mapping[str, Any]] = (), mode: str,
-        repository_root: Path) -> dict[str, Any]:
+        repository_root: Path, temporal_audit: object = None) -> dict[str, Any]:
     """Return public causal results; cached qualification/result maps are not inputs."""
     if mode not in {"open-world", "closed-input"}:
         raise ValueError("causal evidence mode must be explicit")
@@ -44,12 +44,12 @@ def recompute_causal_results_v4(assessments: Sequence[Mapping[str, Any]], *,
     if any(set(row) & forbidden for row in derived):
         raise ValueError("derived causal inputs contain cached result fields")
     registry = rebuild_instance_registry(empirical, graph=graph, derived_instances=derived,
-        evidence_mode=mode, repository_root=root)
+        evidence_mode=mode, repository_root=root, temporal_audit=temporal_audit)
     frozen_inputs = [{"frozen": freeze_empirical_instance(row["preregistration"]),
         "evaluation": deepcopy(row["evaluation"])} for row in empirical]
     return validate_causal_assessments(semantic, claim_mechanism_graph=graph,
         empirical_instances=frozen_inputs, derived_instances=derived, evidence_mode=mode,
-        repository_root=root, verified_instance_results=registry)
+        repository_root=root, verified_instance_results=registry, temporal_audit=temporal_audit)
 
 
 __all__ = ("recompute_causal_results_v4",)

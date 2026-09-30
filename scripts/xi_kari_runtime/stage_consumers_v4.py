@@ -143,7 +143,8 @@ def _predicate(obj: Mapping[str, Any], criterion: Mapping[str, Any]) -> bool:
 
 
 def _scale_inputs(envelope: Mapping[str, Any], *, packet: Mapping[str, Any], graph: Mapping[str, Any],
-                  world: Mapping[str, Any], constraints: Mapping[str, Any], repository_root: Path | None) -> dict[str, Any]:
+                  world: Mapping[str, Any], constraints: Mapping[str, Any], repository_root: Path | None,
+                  temporal_audit: object = None) -> dict[str, Any]:
     from .empirical_instances import freeze_empirical_instance
     from .transformations import bind_scale_root_instances, classify_scale_relations, evaluate_task_partition, validate_scale_chain
     contracts = deepcopy(envelope['contracts'])
@@ -299,7 +300,7 @@ def _scale_inputs(envelope: Mapping[str, Any], *, packet: Mapping[str, Any], gra
         transform=record['transformation']
         roots={}
         if transform['claim_mode']!='descriptive_mapping':
-            bundle=bind_scale_root_instances(record,instance_inputs=instance_inputs,claim_mechanism_graph=claim_graph_input(graph),object_contracts=object_contracts)
+            bundle=bind_scale_root_instances(record,instance_inputs=instance_inputs,claim_mechanism_graph=claim_graph_input(graph),object_contracts=object_contracts,temporal_audit=temporal_audit)
             roots=bundle['root_instances']
             root_bundles.append(bundle)
             verification.update(bundle['verification_artifacts'])
@@ -456,7 +457,7 @@ def _action_inputs(envelope: Mapping[str, Any], *, forecast: Mapping[str, Any], 
     return {'comparison':checked,'governance':governance,'boundaries':boundaries,'external_selection_status':'not_evaluated','external_action_executed':False,'permission_effect':'none','capability_gap':'No independently verified atomic permission registry or physical executor is attached to this stage replay'}
 
 
-def validate_stage_chain_v4(packet: Mapping[str, Any], *, run_contract: Mapping[str, Any], repository_root: Path | None = None) -> dict[str, Any]:
+def validate_stage_chain_v4(packet: Mapping[str, Any], *, run_contract: Mapping[str, Any], repository_root: Path | None = None, temporal_audit: object = None) -> dict[str, Any]:
     """Recompute stage results without consuming authored authority or cached results."""
     snapshot=_native(packet,'v4 stage packet')
     if not isinstance(snapshot,dict) or run_contract.get('contract_profile')!='production-authoring-v4':
@@ -466,7 +467,7 @@ def validate_stage_chain_v4(packet: Mapping[str, Any], *, run_contract: Mapping[
         raise ValueError('stage inputs differ from the frozen run identity')
     _normalize_inputs(snapshot,run_contract)
     semantic_graph=claim_graph_input(snapshot['claim_mechanism_graph'])
-    registry=rebuild_instance_registry(snapshot.get('empirical_instances',[]),graph=semantic_graph,derived_instances=snapshot.get('derived_instances',[]),evidence_mode=mode,repository_root=repository_root)
+    registry=rebuild_instance_registry(snapshot.get('empirical_instances',[]),graph=semantic_graph,derived_instances=snapshot.get('derived_instances',[]),evidence_mode=mode,repository_root=repository_root,temporal_audit=temporal_audit)
     concepts,anchors,dependencies=v4_authority(repository_root)
     resolved_graph=deepcopy(semantic_graph)
     for claim in resolved_graph['claims']:
@@ -514,7 +515,7 @@ def validate_stage_chain_v4(packet: Mapping[str, Any], *, run_contract: Mapping[
         if world is None:
             raise ValueError('scale transformations require actual P07 frozen identities')
         envelope=snapshot['transformation_ledger']
-        result('transformation',_scale_inputs(envelope,packet=snapshot,graph=graph,world=world,constraints=constraints,repository_root=repository_root),envelope)
+        result('transformation',_scale_inputs(envelope,packet=snapshot,graph=graph,world=world,constraints=constraints,repository_root=repository_root,temporal_audit=temporal_audit),envelope)
     contexts={}
     if applicability['recursion']['status']=='applicable':
         if world is None:
@@ -532,7 +533,9 @@ def validate_stage_chain_v4(packet: Mapping[str, Any], *, run_contract: Mapping[
             raise ValueError('action comparison requires an actual recursive forecast')
         envelope=snapshot['action_ranking']
         result('action_choice',_action_inputs(envelope,forecast=forecast,forecast_context=forecast_context,graph=graph,constraints=constraints,registry=registry),envelope)
-    return {'source_version':'v9.0','source_revision':dependencies['source_raw_sha256'],'run_id':run_contract['run_id'],'input_sha256':sha256_json({'inputs':inputs,'graph':semantic_graph,'evidence':snapshot['evidence'],'retrieval':snapshot['retrieval'],'empirical_instances':snapshot.get('empirical_instances',[]),'derived_instances':snapshot.get('derived_instances',[])}),'stage_results':results,'permission_effect':'none','external_action_executed':False,'probe_boundary':{'status':'not_evaluated','required_for_runtime_seal':['red_team','stance_stability','sensitivity'],'reason':'Stage replay does not execute fresh semantic probe authors or establish physical action capability'}}
+    from .temporal_audit import TemporalAudit
+    temporal_binding = {'status':'supplied','audit_sha256':temporal_audit.expected_audit_sha256,'evidence_scope':'isolated_runtime_reads'} if type(temporal_audit) is TemporalAudit else {'status':'unavailable','audit_sha256':None,'evidence_scope':'isolated_runtime_reads'}
+    return {'source_version':'v9.0','source_revision':dependencies['source_raw_sha256'],'run_id':run_contract['run_id'],'input_sha256':sha256_json({'inputs':inputs,'graph':semantic_graph,'evidence':snapshot['evidence'],'retrieval':snapshot['retrieval'],'empirical_instances':snapshot.get('empirical_instances',[]),'derived_instances':snapshot.get('derived_instances',[]),'temporal_audit_binding':temporal_binding}),'temporal_audit_binding':temporal_binding,'stage_results':results,'permission_effect':'none','external_action_executed':False,'probe_boundary':{'status':'not_evaluated','required_for_runtime_seal':['red_team','stance_stability','sensitivity'],'reason':'Stage replay does not execute fresh semantic probe authors or establish physical action capability'}}
 
 
 __all__ = ('validate_stage_chain_v4','stage_input_target_hashes_v4')

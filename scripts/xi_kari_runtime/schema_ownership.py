@@ -11,6 +11,9 @@ from referencing import Registry, Resource
 
 
 V4_SCHEMA_IDENTITIES = {
+    "xk-temporal-audit.schema.json": (
+        "xi-kari.runtime.temporal-audit", frozenset({"xi-kari.runtime.temporal-audit"}),
+    ),
     "xk-semantic-read-trace-input-v4.schema.json": (
         "xi-kari.v4.semantic-read-trace-input",
         frozenset({"xi-kari.v4.semantic-read-trace-input"}),

@@ -18,15 +18,28 @@ _REGISTRY_CREATION_KEY = object()
 
 
 class EvaluatedScaleRootRegistry(Mapping[str, Mapping[str, Any]]):
-    def __init__(self, results: Mapping[str, Any], *, graph_sha256: str, inputs_sha256: str, _creation_key: object):
+    def __init__(self, results: Mapping[str, Any], *, graph_sha256: str, inputs_sha256: str, _creation_key: object, instance_inputs: Sequence[Mapping[str, Any]] = (), temporal_audit: object = None):
         if _creation_key is not _REGISTRY_CREATION_KEY:
             raise ScaleRootBindingError("evaluated root registry requires actual runtime recomputation")
         self._results_json = json.dumps(results, ensure_ascii=False, sort_keys=True, allow_nan=False)
         self.graph_sha256 = graph_sha256
         self.inputs_sha256 = inputs_sha256
+        self._temporal_inputs_json = json.dumps({item["frozen"]["preregistration"]["instance_id"]: item for item in instance_inputs}, ensure_ascii=False, sort_keys=True, allow_nan=False)
+        self._temporal_audit = temporal_audit
 
     def __getitem__(self, identifier: str) -> Mapping[str, Any]:
-        return json.loads(self._results_json)[identifier]
+        from .temporal_audit import verify_temporal_binding
+        result = json.loads(self._results_json)[identifier]
+        item = json.loads(self._temporal_inputs_json).get(identifier)
+        if result["eligibility_status"] == "eligible" and item is not None:
+            temporal = verify_temporal_binding(self._temporal_audit, kind="empirical", contract=item["frozen"]["preregistration"], evaluation=item["evaluation"])
+            if temporal["status"] != "verified":
+                result.update(eligibility_status="ineligible", result_state="unsupported_or_undecided")
+                result["decision_rule_outcome"]["passed"] = False
+                for outcome in result["null_decision_rule_outcome"].values():
+                    outcome["passed"] = False
+                result["artifact_sha256"] = _canonical_sha256({key: value for key, value in result.items() if key != "artifact_sha256"})
+        return result
 
     def __iter__(self) -> Iterator[str]:
         return iter(json.loads(self._results_json))
@@ -38,12 +51,13 @@ class EvaluatedScaleRootRegistry(Mapping[str, Mapping[str, Any]]):
 def bind_scale_root_instances(
     record: Mapping[str, Any], *, instance_inputs: Sequence[Mapping[str, Any]],
     claim_mechanism_graph: Mapping[str, Any], object_contracts: Mapping[str, Mapping[str, Any]],
+    temporal_audit: object = None,
 ) -> dict[str, Any]:
     from .claims import ClaimMechanismError, validate_empirical_instances
     from .v4_contracts import v4_authority
 
     try:
-        evaluated = validate_empirical_instances(list(instance_inputs), claim_mechanism_graph=claim_mechanism_graph)
+        evaluated = validate_empirical_instances(list(instance_inputs), claim_mechanism_graph=claim_mechanism_graph, temporal_audit=temporal_audit)
         _concepts, _anchors, dependencies = v4_authority()
     except ClaimMechanismError as error:
         raise ScaleRootBindingError(str(error)) from error
@@ -118,4 +132,4 @@ def bind_scale_root_instances(
             "decision_rule_outcome": result["decision_rule_outcome"], "null_decision_rule_outcome": result["null_decision_rule_outcome"],
         }
         roots[identifier] = {**root, "artifact_sha256": _canonical_sha256(root)}
-    return {"root_instances": EvaluatedScaleRootRegistry(roots, graph_sha256=evaluated["claim_graph_sha256"], inputs_sha256=evaluated["instance_inputs_sha256"], _creation_key=_REGISTRY_CREATION_KEY), "verification_artifacts": verification, "evidence_registry": root_evidence}
+    return {"root_instances": EvaluatedScaleRootRegistry(roots, graph_sha256=evaluated["claim_graph_sha256"], inputs_sha256=evaluated["instance_inputs_sha256"], _creation_key=_REGISTRY_CREATION_KEY, instance_inputs=instance_inputs, temporal_audit=temporal_audit), "verification_artifacts": verification, "evidence_registry": root_evidence}

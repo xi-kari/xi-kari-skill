@@ -612,6 +612,7 @@ def validate_causal_assessments(
     empirical_instances: list[Mapping[str, Any]] | None = None,
     derived_instances: list[Mapping[str, Any]] | None = None,
     verified_instance_results: Mapping[str, Any] | None = None,
+    temporal_audit: object = None,
 ) -> dict[str, Any]:
     """Bind causal responsibility records to a validated version-four graph."""
     from .canonical_json import sha256_json
@@ -625,7 +626,7 @@ def validate_causal_assessments(
     claim_records = {row["claim_id"]: row for row in graph["claims"]}
     evidence_records = {row["evidence_id"]: row for row in graph["evidence"]}
     roots = validate_empirical_instances(empirical_instances or [], claim_mechanism_graph=claim_graph_input(graph),
-        evidence_mode=evidence_mode, repository_root=repository_root)
+        evidence_mode=evidence_mode, repository_root=repository_root, temporal_audit=temporal_audit)
     formal_results = {
         item["preregistration"]["instance_id"]: {"instance_family": item["preregistration"].get("root_id", item["preregistration"].get("claim_id")), "qualification": item["qualification"], "formal_result": item["result"]["result_state"], "preregistration_sha256": item["preregistration_sha256"], "evaluation_sha256": item["evaluation_sha256"]}
         for item in roots["instances"]
@@ -660,7 +661,7 @@ def validate_causal_assessments(
                     raise ClaimMechanismError("model or simulation evidence cannot certify an empirical total effect")
         try:
             if kind == "history":
-                result = assess_history(record["frozen_contract"], record.get("evaluation"), claim_constraints=constraints, ordinary_history_claim_ids=record.get("ordinary_history_claim_ids", []))
+                result = assess_history(record["frozen_contract"], record.get("evaluation"), claim_constraints=constraints, ordinary_history_claim_ids=record.get("ordinary_history_claim_ids", []), temporal_audit=temporal_audit)
             elif kind in {"feedback", "propagation"}:
                 result = handlers[kind](record, claim_constraints=constraints, formal_results=formal_results)
             else:
@@ -674,6 +675,7 @@ def validate_causal_assessments(
 def validate_empirical_instances(
     instances: list[Mapping[str, Any]], *, claim_mechanism_graph: Mapping[str, Any],
     evidence_mode: str = "open-world", repository_root: Path | None = None,
+    temporal_audit: object = None,
 ) -> dict[str, Any]:
     """Recompute instance outcomes using the graph's actual material bindings."""
     from .canonical_json import sha256_json
@@ -713,7 +715,7 @@ def validate_empirical_instances(
             if scope["object"] != prereg.get("candidate_object_id") or scope["window"] != prereg.get("time_window") or scope["target"] not in targets:
                 raise ClaimMechanismError("empirical result material scope differs from the frozen object, window or target")
         try:
-            checked.append(evaluate_empirical_instance(frozen, evaluation, claim_constraints=constraints))
+            checked.append(evaluate_empirical_instance(frozen, evaluation, claim_constraints=constraints, temporal_audit=temporal_audit))
         except (ValueError, KeyError, TypeError) as error:
             raise ClaimMechanismError("empirical instance failed its frozen responsibility contract") from error
     return {"claim_graph_sha256": sha256_json(graph), "instance_inputs_sha256": sha256_json(instances), "instances": checked}

@@ -1,0 +1,235 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://xi-kari.local/schemas/xi-kari.runtime.temporal-audit.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "schema_version",
+    "audit_id",
+    "run_path_sha256",
+    "evidence_scope",
+    "sealed",
+    "events"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "xi-kari.runtime.temporal-audit"
+    },
+    "schema_version": {
+      "const": 1
+    },
+    "audit_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "run_path_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "evidence_scope": {
+      "const": "isolated_runtime_reads"
+    },
+    "sealed": {
+      "type": "boolean"
+    },
+    "events": {
+      "type": "array",
+      "items": {
+        "oneOf": [
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "event_id",
+              "kind",
+              "at",
+              "monotonic_ns",
+              "material",
+              "instance_id",
+              "contract_kind",
+              "snapshot",
+              "contract_sha256"
+            ],
+            "properties": {
+              "event_id": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "kind": {
+                "const": "preregistration"
+              },
+              "at": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "monotonic_ns": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "material": {
+                "$ref": "#/$defs/material"
+              },
+              "instance_id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "contract_kind": {
+                "enum": [
+                  "empirical",
+                  "history"
+                ]
+              },
+              "snapshot": {
+                "type": "string",
+                "pattern": "^temporal-audit/contracts/[1-9][0-9]*\\.json$"
+              },
+              "contract_sha256": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
+              }
+            }
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "event_id",
+              "kind",
+              "at",
+              "monotonic_ns",
+              "material",
+              "claim_ids",
+              "role"
+            ],
+            "properties": {
+              "event_id": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "kind": {
+                "const": "material_read"
+              },
+              "at": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "monotonic_ns": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "material": {
+                "$ref": "#/$defs/material"
+              },
+              "claim_ids": {
+                "type": "array",
+                "minItems": 1,
+                "uniqueItems": true,
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "role": {
+                "enum": [
+                  "evidence",
+                  "analysis"
+                ]
+              }
+            }
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "event_id",
+              "kind",
+              "at",
+              "monotonic_ns",
+              "material",
+              "instance_id",
+              "contract_kind",
+              "registration_event_id",
+              "contract_sha256",
+              "snapshot",
+              "evaluation_sha256"
+            ],
+            "properties": {
+              "event_id": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "kind": {
+                "const": "evaluation_completed"
+              },
+              "at": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "monotonic_ns": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "material": {
+                "$ref": "#/$defs/material"
+              },
+              "instance_id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "contract_kind": {
+                "enum": [
+                  "empirical",
+                  "history"
+                ]
+              },
+              "registration_event_id": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "contract_sha256": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
+              },
+              "snapshot": {
+                "type": "string",
+                "pattern": "^temporal-audit/evaluations/[1-9][0-9]*\\.json$"
+              },
+              "evaluation_sha256": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  "$defs": {
+    "material": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "sha256",
+        "bytes"
+      ],
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^(?!/)(?![A-Za-z]:)(?!.*(?:^|/)\\.\\.(?:/|$))[^\\\\]+$"
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "bytes": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 67108864
+        }
+      }
+    }
+  }
+}

@@ -235,10 +235,11 @@ def test_full_chat_accepts_the_same_safe_withholding_text_as_the_full_file(domai
     assert prose.render_chat_projection(payload) == full
 
 
-def checked_empirical_projection_input():
+def checked_empirical_projection_input(tmp_path):
     from tests.test_causal_judgment_v4_graph import empirical_graph
     from tests.test_causal_judgment_instances import root_contract, root_result
     from xi_kari_runtime.empirical_instances import EvaluatedInstanceRegistry, freeze_empirical_instance
+    from tests.temporal_materials import record_temporal_inputs
 
     graph = empirical_graph()
     preregistration, evaluation = root_contract(), root_result()
@@ -246,13 +247,15 @@ def checked_empirical_projection_input():
         prerequisite_claim_ids={key: ['CLAIM-FACTUAL'] for key in evaluation['prerequisite_claim_ids']},
         null_gate_claim_ids={key: ['CLAIM-FACTUAL'] for key in evaluation['null_gate_claim_ids']},
         dimension_claim_ids={'delay': ['CLAIM-FACTUAL']})
+    preregistration, evaluation, audit = record_temporal_inputs(tmp_path, preregistration, evaluation)
     registry = EvaluatedInstanceRegistry(
-        [{'frozen': freeze_empirical_instance(preregistration), 'evaluation': evaluation}], graph=graph)
+        [{'frozen': freeze_empirical_instance(preregistration), 'evaluation': evaluation}], graph=graph,
+        temporal_audit=audit)
     return preregistration, evaluation, registry
 
 
-def test_code_rebuilt_empirical_inputs_and_results_require_visibility_and_body_bindings():
-    preregistration, evaluation, registry = checked_empirical_projection_input()
+def test_code_rebuilt_empirical_inputs_and_results_require_visibility_and_body_bindings(tmp_path):
+    preregistration, evaluation, registry = checked_empirical_projection_input(tmp_path)
     payload = {'schema_version': 4,
         'empirical_instances': [{'preregistration': preregistration, 'evaluation': evaluation}],
         'formal_results': {'source_version': 'v9.0', 'source_revision': 'a' * 64,
@@ -337,8 +340,8 @@ def test_safe_wording_cannot_hide_a_copied_private_value_in_authored_units(domai
     assert private not in str(caught.value)
 
 
-def test_a_negated_qualification_does_not_preserve_the_code_rebuilt_positive_status():
-    preregistration, _, registry = checked_empirical_projection_input()
+def test_a_negated_qualification_does_not_preserve_the_code_rebuilt_positive_status(tmp_path):
+    preregistration, _, registry = checked_empirical_projection_input(tmp_path)
     identifier = preregistration['instance_id']
     qualification = registry[identifier]['qualification']
     assert qualification == 'qualified'

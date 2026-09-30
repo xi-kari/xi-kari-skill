@@ -16,6 +16,7 @@ def rebuild_instance_registry(
     empirical_instances: Sequence[Mapping[str, Any]], *, graph: Mapping[str, Any],
     derived_instances: Sequence[Mapping[str, Any]] = (), evidence_mode: str = 'open-world',
     repository_root: Path | None = None,
+    temporal_audit: object = None,
 ) -> EvaluatedInstanceRegistry:
     inputs = []
     for item in empirical_instances:
@@ -23,15 +24,16 @@ def rebuild_instance_registry(
             raise ValueError('semantic instance input requires only preregistration and evaluation')
         inputs.append({'frozen': freeze_empirical_instance(item['preregistration']), 'evaluation': deepcopy(dict(item['evaluation']))})
     validate_versioned_schema('xk-v4-claim-mechanism.schema.json', graph, repository_root=repository_root)
-    return EvaluatedInstanceRegistry(inputs, graph=graph, derived_instances=list(derived_instances), evidence_mode=evidence_mode, repository_root=repository_root)
+    return EvaluatedInstanceRegistry(inputs, graph=graph, derived_instances=list(derived_instances), evidence_mode=evidence_mode, repository_root=repository_root, temporal_audit=temporal_audit)
 
 
 def bind_formal_claim_results(
     graph: Mapping[str, Any], *, empirical_instances: Sequence[Mapping[str, Any]],
     derived_instances: Sequence[Mapping[str, Any]] = (), evidence_mode: str = 'open-world',
     repository_root: Path | None = None,
+    temporal_audit: object = None,
 ) -> dict[str, Any]:
-    registry = rebuild_instance_registry(empirical_instances, graph=graph, derived_instances=derived_instances, evidence_mode=evidence_mode, repository_root=repository_root)
+    registry = rebuild_instance_registry(empirical_instances, graph=graph, derived_instances=derived_instances, evidence_mode=evidence_mode, repository_root=repository_root, temporal_audit=temporal_audit)
     resolved = claim_graph_input(graph)
     concepts, _, dependencies = v4_authority(repository_root)
     for claim in resolved['claims']:
