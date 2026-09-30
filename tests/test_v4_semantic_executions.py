@@ -188,17 +188,23 @@ def test_missing_process_is_not_run_and_bad_declared_pid_is_failed(dynamic,tmp_p
 
 def test_probe_actual_registry_preserves_qualified_G_root_and_hard_premise(tmp_path):
     from tests.test_v4_stage_chain_integration import empirical_scale_inputs
+    from tests.temporal_materials import record_temporal_inputs
+    from xi_kari_runtime.formal_results import bind_formal_claim_results
     packet,contract=empirical_scale_inputs()
+    original=packet['empirical_instances'][0]
+    preregistration,evaluation,audit=record_temporal_inputs(tmp_path,original['preregistration'],original['evaluation'])
+    packet['empirical_instances']=[{'preregistration':preregistration,'evaluation':evaluation}]
     claim=next(row for row in packet['claim_mechanism_graph']['claims'] if row['claim_id']=='CLAIM-OBJECT')
     prereg=packet['empirical_instances'][0]['preregistration']
     claim['claim_basis']['scope']['population']=prereg['generalization_unit']
     claim['formal_qualification'].update(requested=True,family='G',concept_ref='V90-CANON-G4',instance_refs=['ROOT-CHAIN'],status='not_evaluated',result_status='not_evaluated')
     packet['claim_mechanism_graph']['dependency_edges'].append({'edge_id':'EDGE-ACTUAL-PROBE-ROOT','from_id':'CLAIM-VALUE','to_ref':{'kind':'instance','id':'ROOT-CHAIN'},'role':'inferential_requires','source_refs':['V90-P00158'],'condition':'Actual G4 comparison required','scope':'Conditional ordinary recommendation'})
     packet['claim_mechanism_graph']['dependency_targets']=[{'kind':'instance','id':'ROOT-CHAIN','status':'not_run','reason':'Only code registry can establish support'}]
-    controls=validate_stage_chain_v4(packet,run_contract=contract,repository_root=ROOT)
-    request=build_semantic_execution_request_v4(packet,controls,run_contract=contract,kind='red_team',repository_root=ROOT)
+    packet['claim_mechanism_graph']=bind_formal_claim_results(packet['claim_mechanism_graph'],empirical_instances=packet['empirical_instances'],repository_root=ROOT,temporal_audit=audit)['claim_mechanism_graph']
+    controls=validate_stage_chain_v4(packet,run_contract=contract,repository_root=ROOT,temporal_audit=audit)
+    request=build_semantic_execution_request_v4(packet,controls,run_contract=contract,kind='red_team',repository_root=ROOT,temporal_audit=audit)
     assert next(row for row in request['material_context']['claim_mechanism_graph']['claims'] if row['claim_id']=='CLAIM-OBJECT')['formal_qualification']['status']=='qualified'
-    result=execute_semantic_request_v4(request,binding=fixture_binding(tmp_path,behavior='affirm'),run_directory=tmp_path/'run',repository_root=ROOT)
+    result=execute_semantic_request_v4(request,binding=fixture_binding(tmp_path,behavior='affirm'),run_directory=tmp_path/'run',repository_root=ROOT,temporal_audit=audit)
     assert result['status']=='executed'
     assert result['qualification_effect']=='none'
     assert result['actual_model_execution'] is False
