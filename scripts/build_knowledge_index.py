@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+from dataclasses import dataclass
 from hashlib import sha256
 import json
 from pathlib import Path
@@ -46,6 +47,47 @@ STRUCTURAL_SECTION_STYLES = {
     "CardLabel": 4,
 }
 NAVIGATION_TABLES = {"V83-T001", "V83-T120"}
+DEFAULT_KNOWLEDGE_SOURCE_VERSION = "v8.3"
+
+
+@dataclass(frozen=True)
+class KnowledgeProfile:
+    source_version: str
+    source_root: str
+    ontology_root: str
+    learning_pack_root: str
+    domain_index: str
+
+
+_KNOWLEDGE_PROFILES = {
+    "v8.3": KnowledgeProfile(
+        source_version="v8.3",
+        source_root="references/source/v8.3",
+        ontology_root="references/ontology",
+        learning_pack_root="references/learning-packs",
+        domain_index="",
+    ),
+    "v9.0": KnowledgeProfile(
+        source_version="v9.0",
+        source_root="references/source/v9.0",
+        ontology_root="references/ontology/v9.0",
+        learning_pack_root="references/learning-packs/v9.0",
+        domain_index="references/domains/index.json",
+    ),
+}
+
+
+def get_knowledge_profile(
+    source_version: str = DEFAULT_KNOWLEDGE_SOURCE_VERSION,
+) -> KnowledgeProfile:
+    """Return an allow-listed knowledge build profile without activating runtime."""
+    try:
+        return _KNOWLEDGE_PROFILES[source_version]
+    except KeyError as exc:
+        supported = ", ".join(sorted(_KNOWLEDGE_PROFILES))
+        raise ValueError(
+            f"Unsupported knowledge build profile {source_version!r}; expected one of {supported}"
+        ) from exc
 
 
 def _json(value: object) -> bytes:
@@ -1572,7 +1614,7 @@ def _render_files(root: Path, records: list[dict[str, object]], errors: list[str
     }
 
 
-def run(root: Path, *, check: bool) -> list[str]:
+def _run_v83(root: Path, *, check: bool) -> list[str]:
     inventory, errors = _read_inventory(root)
     records = _merge_records(root, inventory, errors)
     generated = _render_files(root, records, errors)
@@ -1589,14 +1631,38 @@ def run(root: Path, *, check: bool) -> list[str]:
     return sorted(set(errors))
 
 
+def run(
+    root: Path,
+    *,
+    check: bool,
+    source_version: str = DEFAULT_KNOWLEDGE_SOURCE_VERSION,
+) -> list[str]:
+    if source_version == "v8.3":
+        return _run_v83(root, check=check)
+    if source_version == "v9.0":
+        from knowledge_index_v90 import run as run_v90
+
+        return run_v90(root, check=check, profile=get_knowledge_profile(source_version))
+    try:
+        get_knowledge_profile(source_version)
+    except ValueError as exc:
+        return [str(exc)]
+    raise AssertionError("unreachable")
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--root", type=Path, default=Path.cwd())
     parser.add_argument("--check", action="store_true")
     parser.add_argument("--all", action="store_true")
     parser.add_argument("--write", action="store_true")
+    parser.add_argument("--source-version", default=DEFAULT_KNOWLEDGE_SOURCE_VERSION)
     args = parser.parse_args()
-    errors = run(args.root.resolve(), check=args.check or args.all or not args.write)
+    errors = run(
+        args.root.resolve(),
+        check=args.check or args.all or not args.write,
+        source_version=args.source_version,
+    )
     if errors:
         for error in errors:
             print(f"ERROR: {error}", file=sys.stderr)

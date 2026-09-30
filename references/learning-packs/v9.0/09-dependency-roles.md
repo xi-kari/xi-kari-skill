@@ -1,0 +1,1368 @@
+# 依赖角色总览
+
+本学习包从 v9.0 身份卡与类型化依赖图生成；它组织阅读，不替代原文或候选处置。
+
+## 必读身份
+
+- `D0` → `V90-CANON-D0`；卡片：`references/ontology/v9.0/cards/d0.md`
+- `D1` → `V90-CANON-D1`；卡片：`references/ontology/v9.0/cards/d1.md`
+- `D2` → `V90-CANON-D2`；卡片：`references/ontology/v9.0/cards/d2.md`
+- `D3` → `V90-CANON-D3`；卡片：`references/ontology/v9.0/cards/d3.md`
+- `U01` → `V90-CANON-U01`；卡片：`references/ontology/v9.0/cards/u01.md`
+- `U02` → `V90-CANON-U02`；卡片：`references/ontology/v9.0/cards/u02.md`
+- `U03` → `V90-CANON-U03`；卡片：`references/ontology/v9.0/cards/u03.md`
+- `U04` → `V90-CANON-U04`；卡片：`references/ontology/v9.0/cards/u04.md`
+- `U05` → `V90-CANON-U05`；卡片：`references/ontology/v9.0/cards/u05.md`
+- `U06` → `V90-CANON-U06`；卡片：`references/ontology/v9.0/cards/u06.md`
+- `U07` → `V90-CANON-U07`；卡片：`references/ontology/v9.0/cards/u07.md`
+- `U08` → `V90-CANON-U08`；卡片：`references/ontology/v9.0/cards/u08.md`
+- `U09` → `V90-CANON-U09`；卡片：`references/ontology/v9.0/cards/u09.md`
+- `U10` → `V90-CANON-U10`；卡片：`references/ontology/v9.0/cards/u10.md`
+- `U11` → `V90-CANON-U11`；卡片：`references/ontology/v9.0/cards/u11.md`
+- `G1` → `V90-CANON-G1`；卡片：`references/ontology/v9.0/cards/g1.md`
+- `G2` → `V90-CANON-G2`；卡片：`references/ontology/v9.0/cards/g2.md`
+- `G3` → `V90-CANON-G3`；卡片：`references/ontology/v9.0/cards/g3.md`
+- `G4` → `V90-CANON-G4`；卡片：`references/ontology/v9.0/cards/g4.md`
+- `E1` → `V90-CANON-E1`；卡片：`references/ontology/v9.0/cards/e1.md`
+- `E2` → `V90-CANON-E2`；卡片：`references/ontology/v9.0/cards/e2.md`
+- `E4` → `V90-CANON-E4`；卡片：`references/ontology/v9.0/cards/e4.md`
+- `E3` → `V90-CANON-E3`；卡片：`references/ontology/v9.0/cards/e3.md`
+- `E5` → `V90-CANON-E5`；卡片：`references/ontology/v9.0/cards/e5.md`
+- `C1` → `V90-CANON-C1`；卡片：`references/ontology/v9.0/cards/c1.md`
+- `C2` → `V90-CANON-C2`；卡片：`references/ontology/v9.0/cards/c2.md`
+- `C3` → `V90-CANON-C3`；卡片：`references/ontology/v9.0/cards/c3.md`
+- `C4` → `V90-CANON-C4`；卡片：`references/ontology/v9.0/cards/c4.md`
+- `C5` → `V90-CANON-C5`；卡片：`references/ontology/v9.0/cards/c5.md`
+- `C6` → `V90-CANON-C6`；卡片：`references/ontology/v9.0/cards/c6.md`
+- `C7` → `V90-CANON-C7`；卡片：`references/ontology/v9.0/cards/c7.md`
+- `C8` → `V90-CANON-C8`；卡片：`references/ontology/v9.0/cards/c8.md`
+- `C9` → `V90-CANON-C9`；卡片：`references/ontology/v9.0/cards/c9.md`
+- `C10` → `V90-CANON-C10`；卡片：`references/ontology/v9.0/cards/c10.md`
+- `C11` → `V90-CANON-C11`；卡片：`references/ontology/v9.0/cards/c11.md`
+- `C12` → `V90-CANON-C12`；卡片：`references/ontology/v9.0/cards/c12.md`
+- `CM-FEEDBACK` → `V90-CANON-CM-FEEDBACK`；卡片：`references/ontology/v9.0/cards/cm-feedback.md`
+- `CM-LEARNING` → `V90-CANON-CM-LEARNING`；卡片：`references/ontology/v9.0/cards/cm-learning.md`
+- `CM-MAINTENANCE` → `V90-CANON-CM-MAINTENANCE`；卡片：`references/ontology/v9.0/cards/cm-maintenance.md`
+- `CM-LOAD` → `V90-CANON-CM-LOAD`；卡片：`references/ontology/v9.0/cards/cm-load.md`
+- `CM-PHASE` → `V90-CANON-CM-PHASE`；卡片：`references/ontology/v9.0/cards/cm-phase.md`
+- `CM-SELECTION` → `V90-CANON-CM-SELECTION`；卡片：`references/ontology/v9.0/cards/cm-selection.md`
+- `scale_axis:A` → `V90-CANON-SCALE-AXIS-A`；卡片：`references/ontology/v9.0/cards/scale-axis-a.md`
+- `scale_axis:X` → `V90-CANON-SCALE-AXIS-X`；卡片：`references/ontology/v9.0/cards/scale-axis-x.md`
+- `scale_axis:T` → `V90-CANON-SCALE-AXIS-T`；卡片：`references/ontology/v9.0/cards/scale-axis-t.md`
+- `scale_axis:O` → `V90-CANON-SCALE-AXIS-O`；卡片：`references/ontology/v9.0/cards/scale-axis-o.md`
+- `scale_axis:C` → `V90-CANON-SCALE-AXIS-C`；卡片：`references/ontology/v9.0/cards/scale-axis-c.md`
+- `scale_axis:R` → `V90-CANON-SCALE-AXIS-R`；卡片：`references/ontology/v9.0/cards/scale-axis-r.md`
+- `scale_axis:I` → `V90-CANON-SCALE-AXIS-I`；卡片：`references/ontology/v9.0/cards/scale-axis-i.md`
+- `scale_axis:N` → `V90-CANON-SCALE-AXIS-N`；卡片：`references/ontology/v9.0/cards/scale-axis-n.md`
+- `scale_axis:J` → `V90-CANON-SCALE-AXIS-J`；卡片：`references/ontology/v9.0/cards/scale-axis-j.md`
+- `scale_operator:M01` → `V90-CANON-SCALE-OPERATOR-M01`；卡片：`references/ontology/v9.0/cards/scale-operator-m01.md`
+- `scale_operator:M02` → `V90-CANON-SCALE-OPERATOR-M02`；卡片：`references/ontology/v9.0/cards/scale-operator-m02.md`
+- `scale_operator:M03` → `V90-CANON-SCALE-OPERATOR-M03`；卡片：`references/ontology/v9.0/cards/scale-operator-m03.md`
+- `scale_operator:M04` → `V90-CANON-SCALE-OPERATOR-M04`；卡片：`references/ontology/v9.0/cards/scale-operator-m04.md`
+- `scale_operator:M05` → `V90-CANON-SCALE-OPERATOR-M05`；卡片：`references/ontology/v9.0/cards/scale-operator-m05.md`
+- `scale_operator:M06` → `V90-CANON-SCALE-OPERATOR-M06`；卡片：`references/ontology/v9.0/cards/scale-operator-m06.md`
+- `scale_operator:M07` → `V90-CANON-SCALE-OPERATOR-M07`；卡片：`references/ontology/v9.0/cards/scale-operator-m07.md`
+- `scale_operator:M08` → `V90-CANON-SCALE-OPERATOR-M08`；卡片：`references/ontology/v9.0/cards/scale-operator-m08.md`
+- `scale_operator:M09` → `V90-CANON-SCALE-OPERATOR-M09`；卡片：`references/ontology/v9.0/cards/scale-operator-m09.md`
+- `H1` → `V90-CANON-H1`；卡片：`references/ontology/v9.0/cards/h1.md`
+- `H2` → `V90-CANON-H2`；卡片：`references/ontology/v9.0/cards/h2.md`
+- `H3` → `V90-CANON-H3`；卡片：`references/ontology/v9.0/cards/h3.md`
+- `H4` → `V90-CANON-H4`；卡片：`references/ontology/v9.0/cards/h4.md`
+- `H5` → `V90-CANON-H5`；卡片：`references/ontology/v9.0/cards/h5.md`
+- `H6` → `V90-CANON-H6`；卡片：`references/ontology/v9.0/cards/h6.md`
+- `human_strong_type:GC` → `V90-CANON-HUMAN-STRONG-TYPE-GC`；卡片：`references/ontology/v9.0/cards/human-strong-type-gc.md`
+- `human_strong_type:GS` → `V90-CANON-HUMAN-STRONG-TYPE-GS`；卡片：`references/ontology/v9.0/cards/human-strong-type-gs.md`
+- `human_strong_type:GE` → `V90-CANON-HUMAN-STRONG-TYPE-GE`；卡片：`references/ontology/v9.0/cards/human-strong-type-ge.md`
+- `human_strong_type:CV` → `V90-CANON-HUMAN-STRONG-TYPE-CV`；卡片：`references/ontology/v9.0/cards/human-strong-type-cv.md`
+- `human_strong_type:RS` → `V90-CANON-HUMAN-STRONG-TYPE-RS`；卡片：`references/ontology/v9.0/cards/human-strong-type-rs.md`
+- `human_strong_type:IS` → `V90-CANON-HUMAN-STRONG-TYPE-IS`；卡片：`references/ontology/v9.0/cards/human-strong-type-is.md`
+- `human_strong_type:IM` → `V90-CANON-HUMAN-STRONG-TYPE-IM`；卡片：`references/ontology/v9.0/cards/human-strong-type-im.md`
+- `human_strong_type:IB` → `V90-CANON-HUMAN-STRONG-TYPE-IB`；卡片：`references/ontology/v9.0/cards/human-strong-type-ib.md`
+- `human_variable:HV01` → `V90-CANON-HUMAN-VARIABLE-HV01`；卡片：`references/ontology/v9.0/cards/human-variable-hv01.md`
+- `human_variable:HV02` → `V90-CANON-HUMAN-VARIABLE-HV02`；卡片：`references/ontology/v9.0/cards/human-variable-hv02.md`
+- `human_variable:HV03` → `V90-CANON-HUMAN-VARIABLE-HV03`；卡片：`references/ontology/v9.0/cards/human-variable-hv03.md`
+- `human_variable:HV04` → `V90-CANON-HUMAN-VARIABLE-HV04`；卡片：`references/ontology/v9.0/cards/human-variable-hv04.md`
+- `human_variable:HV05` → `V90-CANON-HUMAN-VARIABLE-HV05`；卡片：`references/ontology/v9.0/cards/human-variable-hv05.md`
+- `human_variable:HV06` → `V90-CANON-HUMAN-VARIABLE-HV06`；卡片：`references/ontology/v9.0/cards/human-variable-hv06.md`
+- `human_variable:HV07` → `V90-CANON-HUMAN-VARIABLE-HV07`；卡片：`references/ontology/v9.0/cards/human-variable-hv07.md`
+- `human_variable:HV08` → `V90-CANON-HUMAN-VARIABLE-HV08`；卡片：`references/ontology/v9.0/cards/human-variable-hv08.md`
+- `human_variable:HV09` → `V90-CANON-HUMAN-VARIABLE-HV09`；卡片：`references/ontology/v9.0/cards/human-variable-hv09.md`
+- `human_variable:HV10` → `V90-CANON-HUMAN-VARIABLE-HV10`；卡片：`references/ontology/v9.0/cards/human-variable-hv10.md`
+- `human_variable:HV11` → `V90-CANON-HUMAN-VARIABLE-HV11`；卡片：`references/ontology/v9.0/cards/human-variable-hv11.md`
+- `S0` → `V90-CANON-S0`；卡片：`references/ontology/v9.0/cards/s0.md`
+- `S1` → `V90-CANON-S1`；卡片：`references/ontology/v9.0/cards/s1.md`
+- `S2` → `V90-CANON-S2`；卡片：`references/ontology/v9.0/cards/s2.md`
+- `S3` → `V90-CANON-S3`；卡片：`references/ontology/v9.0/cards/s3.md`
+- `S4` → `V90-CANON-S4`；卡片：`references/ontology/v9.0/cards/s4.md`
+- `S5` → `V90-CANON-S5`；卡片：`references/ontology/v9.0/cards/s5.md`
+- `S6` → `V90-CANON-S6`；卡片：`references/ontology/v9.0/cards/s6.md`
+- `X0` → `V90-CANON-X0`；卡片：`references/ontology/v9.0/cards/x0.md`
+- `AI使用边界@V90-B01158` → `V90-CANON-AI-V90-B01158-BB09C395CA`；卡片：`references/ontology/v9.0/cards/ai-v90-b01158-bb09c395ca.md`
+- `AI材料核对与工具行动链@V90-B01174` → `V90-CANON-AI-V90-B01174-AA532AB527`；卡片：`references/ontology/v9.0/cards/ai-v90-b01174-aa532ab527.md`
+- `APP-EMG` → `V90-CANON-APP-EMG`；卡片：`references/ontology/v9.0/cards/app-emg.md`
+- `APP-FAM` → `V90-CANON-APP-FAM`；卡片：`references/ontology/v9.0/cards/app-fam.md`
+- `APP-INS` → `V90-CANON-APP-INS`；卡片：`references/ontology/v9.0/cards/app-ins.md`
+- `APP-OPI` → `V90-CANON-APP-OPI`；卡片：`references/ontology/v9.0/cards/app-opi.md`
+- `APP-ORG` → `V90-CANON-APP-ORG`；卡片：`references/ontology/v9.0/cards/app-org.md`
+- `APP-PLT` → `V90-CANON-APP-PLT`；卡片：`references/ontology/v9.0/cards/app-plt.md`
+- `APP-REL` → `V90-CANON-APP-REL`；卡片：`references/ontology/v9.0/cards/app-rel.md`
+- `APP-SPC` → `V90-CANON-APP-SPC`；卡片：`references/ontology/v9.0/cards/app-spc.md`
+- `APP-ULS` → `V90-CANON-APP-ULS`；卡片：`references/ontology/v9.0/cards/app-uls.md`
+- `诊断@B100` → `V90-CANON-B100-4FF2A3DB6F`；卡片：`references/ontology/v9.0/cards/b100-4ff2a3db6f.md`
+- `规范选择@B102` → `V90-CANON-B102-13A3D6D342`；卡片：`references/ontology/v9.0/cards/b102-13a3d6d342.md`
+- `干涉@B104` → `V90-CANON-B104-83610A9934`；卡片：`references/ontology/v9.0/cards/b104-83610a9934.md`
+- `原文规则@B111:审查强度随结论的用途和实际风险增加，不要求每次理解、阅读或日常交流都运行全部合同` → `V90-CANON-B111-EF2EB82487`；卡片：`references/ontology/v9.0/cards/b111-ef2eb82487.md`
+- `原文规则@B115:保护底板为任何解释和行动设置最低约束：保留人的主体地位、异议通道、退出可能、最小伤害、可追踪责任与真实回滚` → `V90-CANON-B115-9F81F084C5`；卡片：`references/ontology/v9.0/cards/b115-9f81f084c5.md`
+- `原文规则@B117:面对一个具体事件，先把“发生了什么”与“我们听说了什么”分开，冻结资料截止和争议；再识别事件中的行动者、主圈层和相邻圈层` → `V90-CANON-B117-EB2B4C48A8`；卡片：`references/ontology/v9.0/cards/b117-eb2b4c48a8.md`
+- `原文规则@B118:随后声明不同变量的时钟` → `V90-CANON-B118-CFEDDCAA98`；卡片：`references/ontology/v9.0/cards/b118-cfeddcaa98.md`
+- `原文规则@B119:第十一部分从冻结快照注入事件，沿有证据的通道记录直接效应、返回反馈和跨圈层级联` → `V90-CANON-B119-D07B1AFB6D`；卡片：`references/ontology/v9.0/cards/b119-d07b1afb6d.md`
+- `原文规则@B12:人格只作为非临床慢变量假设；模型提出的变量候选不能冒充现实事实` → `V90-CANON-B12-91909DCD76`；卡片：`references/ontology/v9.0/cards/b12-91909dcd76.md`
+- `原文规则@B120:若任务只要求理解，到这里可以停止` → `V90-CANON-B120-2068ABC37B`；卡片：`references/ontology/v9.0/cards/b120-2068abc37b.md`
+- `问题与输出接续表@B121` → `V90-CANON-B121-B6261C8AE7`；卡片：`references/ontology/v9.0/cards/b121-b6261c8ae7.md`
+- `原文规则@B124:本框架试图让对象、条件、事件、尺度、行动者和后果在同一语言中互相连接，并允许后续结果修正已有判断` → `V90-CANON-B124-CB830D24BC`；卡片：`references/ontology/v9.0/cards/b124-cb830d24bc.md`
+- `原文规则@B125:本框架的目标不是“预测一切”，而是尽早识别关键交互，清楚区分事实、假设与路径，持续登记失败和更新，并严格保留人的决定权` → `V90-CANON-B125-DAE5DE6248`；卡片：`references/ontology/v9.0/cards/b125-dae5de6248.md`
+- `原文规则@B127:使用框架可以从一个具体困惑开始：为什么同一条规则对不同人产生不同结果，为什么一次真实改进没有改变长期处境，为什么一种生活经验没有进入现有指标` → `V90-CANON-B127-96358C4ACB`；卡片：`references/ontology/v9.0/cards/b127-96358c4acb.md`
+- `原文规则@B128:共同实践、承担者处境和跨期关系可以彼此补充` → `V90-CANON-B128-7C96A5369C`；卡片：`references/ontology/v9.0/cards/b128-7c96a5369c.md`
+- `原文规则@B129:知识与意义不只在改变集体状态时才成立` → `V90-CANON-B129-5D455D0F9A`；卡片：`references/ontology/v9.0/cards/b129-5d455d0f9a.md`
+- `原文规则@B13:任何强判断都必须给出对象、圈层、尺度、证据、基线、反例、暂停、申诉与回滚` → `V90-CANON-B13-7B2643243A`；卡片：`references/ontology/v9.0/cards/b13-7b2643243a.md`
+- `原文规则@B130:完整分析应让读者看见问题、证据、主要解释、最强反方、判断及其限制，并知道什么新材料会使判断改变` → `V90-CANON-B130-B2E5158FAE`；卡片：`references/ontology/v9.0/cards/b130-b2e5158fae.md`
+- `原文规则@B132:本框架的最终对象域是广义经验结构世界：凡是能够留下可比较材料，并允许研究者声明候选对象、状态、关系或转移、接口、时间窗、尺度剖面和同一性判据的自然过程、技术系统、生态过程、人类行动、组织与制度，都可以进入结构解释` → `V90-CANON-B132-C11780A653`；卡片：`references/ontology/v9.0/cards/b132-c11780a653.md`
+- `原文规则@B133:每次使用仍须另行声明当前适用范围：对象、SP/T/K、地域或环境、资料窗口、外推单元和排除项` → `V90-CANON-B133-SP-T-K-69169DBFA3`；卡片：`references/ontology/v9.0/cards/b133-sp-t-k-69169dbfa3.md`
+- `原文规则@B134:这一范围选择同时规定了框架的克制` → `V90-CANON-B134-C58D6C5C6B`；卡片：`references/ontology/v9.0/cards/b134-c58d6c5c6b.md`
+- `原文规则@B136:结构建模从候选对象开始，而不是从已经证明有效的对象开始` → `V90-CANON-B136-D90993E3F1`；卡片：`references/ontology/v9.0/cards/b136-d90993e3f1.md`
+- `原文规则@B137:第一阶段是候选对象声明` → `V90-CANON-B137-921B213A55`；卡片：`references/ontology/v9.0/cards/b137-921b213a55.md`
+- `原文规则@B138:第二阶段是根实例检验` → `V90-CANON-B138-EEDFC479BF`；卡片：`references/ontology/v9.0/cards/b138-eedfc479bf.md`
+- `原文规则@B139:支持资格要求把探索与确认、正向结果与零结论、冻结完成与事后偏离分开` → `V90-CANON-B139-393F23186A`；卡片：`references/ontology/v9.0/cards/b139-393f23186a.md`
+- `原文规则@B140:这一两阶段结构防止两种相反错误：一是把分析者的命名、聚类或边界选择当作对象已经客观成立；二是在对象尚未声明时，就用零散材料事后拼出一个不可证伪的“系统”` → `V90-CANON-B140-B44D3EA98D`；卡片：`references/ontology/v9.0/cards/b140-b44d3ea98d.md`
+- `原文规则@B142:已有研究、档案、口述、考古材料和可定位原文，可以依其实际研究设计支持相应的描述、解释或有限因果结论` → `V90-CANON-B142-FBD1B24B0A`；卡片：`references/ontology/v9.0/cards/b142-fbd1b24b0a.md`
+- `原文规则@B143:若要把既有发现用于新的正式根实例，可先把它作为问题和模型的来源，随后在独立材料、后续窗口或合适的复制设计中检验` → `V90-CANON-B143-25F88F43D8`；卡片：`references/ontology/v9.0/cards/b143-25f88f43d8.md`
+- `原文规则@B144:形式证明按其公理、语义和推导规则成立，文本解释按版本、语境和论证材料接受批评，规范主张公开价值前提与理由` → `V90-CANON-B144-0066E536F2`；卡片：`references/ontology/v9.0/cards/b144-0066e536f2.md`
+- `原文规则@B146:正式判断按 D、G、E、H、N、O 六类登记` → `V90-CANON-B146-D-G-E-H-N-O-327A30961B`；卡片：`references/ontology/v9.0/cards/b146-d-g-e-h-n-o-327a30961b.md`
+- `原文规则@B15:尺度变换、圈层关系变换和表示或表述转义分别判断` → `V90-CANON-B15-DED4B7EEC1`；卡片：`references/ontology/v9.0/cards/b15-ded4b7eec1.md`
+- `原文规则@B153:描述性结论不能自行生成规范结论，解释或诊断也不能自行生成处置权` → `V90-CANON-B153-A0F85C13F8`；卡片：`references/ontology/v9.0/cards/b153-a0f85c13f8.md`
+- `原文规则@B154:描述或解释结论 + 明示规范前提 + 当前证据 + 合法授权 + 行动上限 + 停止或撤回条件` → `V90-CANON-B154-F840751352`；卡片：`references/ontology/v9.0/cards/b154-f840751352.md`
+- `原文规则@B155:现实行动桥接的任一项缺失，现实处置应停止，相关行动要求停留在描述、候选解释、补证、不行动或可逆试探，而不是以理论语言越过授权` → `V90-CANON-B155-AB8BAC119C`；卡片：`references/ontology/v9.0/cards/b155-ab8bac119c.md`
+- `原文规则@B157:命题间关系采用四种不同合同` → `V90-CANON-B157-7D7552F1C1`；卡片：`references/ontology/v9.0/cards/b157-7d7552f1c1.md`
+- `四类依赖@B158` → `V90-CANON-B158-CFD4A377E5`；卡片：`references/ontology/v9.0/cards/b158-cfd4a377e5.md`
+- `原文规则@B16:递归未来推演只在模拟平面展开` → `V90-CANON-B16-A392A8436B`；卡片：`references/ontology/v9.0/cards/b16-a392a8436b.md`
+- `原文规则@B160:方法门会决定一次判断能否发布，却不因此成为额外经验原因；领域特化会缩小适用范围，却不把分类规则变成事实证据；规范适用会约束行动，却不反向证明描述为真` → `V90-CANON-B160-E77193CE21`；卡片：`references/ontology/v9.0/cards/b160-e77193ce21.md`
+- `原文规则@B162:本框架与《世界模型》可以共享一套方法内核，但两份文本仍是相互独立的谱系，彼此不充当权威来源或双重经验证据` → `V90-CANON-B162-6F1DD4765E`；卡片：`references/ontology/v9.0/cards/b162-6f1dd4765e.md`
+- `共同内核五层责任@B163` → `V90-CANON-B163-949FDEEBF3`；卡片：`references/ontology/v9.0/cards/b163-949fdeebf3.md`
+- `原文规则@B165:D、G、C等编号用于稳定引用` → `V90-CANON-B165-D-G-C-EE4B843C27`；卡片：`references/ontology/v9.0/cards/b165-d-g-c-ee4b843c27.md`
+- `原文规则@B167:因果主张先登记处理或原因的具体版本、结果、对象与人群、时间窗、尺度和所问的效应，再说明比较为什么能够识别这一效应` → `V90-CANON-B167-8AC279D742`；卡片：`references/ontology/v9.0/cards/b167-8ac279d742.md`
+- `原文规则@B168:时序、相关性和连贯故事不能单独识别因果` → `V90-CANON-B168-444F76E047`；卡片：`references/ontology/v9.0/cards/b168-444f76e047.md`
+- `原文规则@B170:给某人一个机会、某人实际接受干预、整个制度扩张，是不同的处理` → `V90-CANON-B170-A27BFDAE26`；卡片：`references/ontology/v9.0/cards/b170-a27bfdae26.md`
+- `原文规则@B171:观察性控制不是变量越多越可靠` → `V90-CANON-B171-BAEAB6F0F3`；卡片：`references/ontology/v9.0/cards/b171-baeab6f0f3.md`
+- `原文规则@B172:“提供机会”与“实际接受、留任或退出”是不同处理；协议文本、核验、执行和日常使用也不是同一结果；公告、公众理解、到场、口岸处置和全面放行必须按事件链分别取证` → `V90-CANON-B172-8FD9B39AB8`；卡片：`references/ontology/v9.0/cards/b172-8fd9b39ab8.md`
+- `原文规则@B174:证据链区分来源、材料、观察记录、证据、反例、判断和行动授权，每一层都需要自己的转换理由` → `V90-CANON-B174-4560193521`；卡片：`references/ontology/v9.0/cards/b174-4560193521.md`
+- `原文规则@B175:缺席与沉默不默认构成否定证据；无法观察也不等于不存在` → `V90-CANON-B175-BCAE8337E7`；卡片：`references/ontology/v9.0/cards/b175-bcae8337e7.md`
+- `原文规则@B177:直接记录量、定义性合成指标、潜在属性的测量、形成性条件和预测代理有不同的解释责任` → `V90-CANON-B177-2CB1971FE0`；卡片：`references/ontology/v9.0/cards/b177-2cb1971fe0.md`
+- `原文规则@B178:跨群体或跨时期比较需要与任务相称的可比性` → `V90-CANON-B178-29881E49DE`；卡片：`references/ontology/v9.0/cards/b178-29881e49de.md`
+- `原文规则@B179:指标改变可来自真实改善、对狭窄目标的真实适应、进入或报告样本改变、以及记录被伪造` → `V90-CANON-B179-688F1A2B45`；卡片：`references/ontology/v9.0/cards/b179-688f1a2b45.md`
+- `原文规则@B181:类比只是一种问题生成工具` → `V90-CANON-B181-AA0B3C3DEB`；卡片：`references/ontology/v9.0/cards/b181-aa0b3c3deb.md`
+- `原文规则@B182:类比可以帮助提出“还应检查哪条通道、哪个边界、哪种竞争解释”，不能替代 G-instance，不能把源域的因果关系、规范评价或行动方案直接搬到目标域` → `V90-CANON-B182-G-INSTANCE-2189AE0737`；卡片：`references/ontology/v9.0/cards/b182-g-instance-2189ae0737.md`
+- `原文规则@B184:启发性类比、满足明确数学前提的形式实例、经过独立材料检验的目标域关系，是三种不同状态` → `V90-CANON-B184-642D631087`；卡片：`references/ontology/v9.0/cards/b184-642d631087.md`
+- `原文规则@B185:历史与考古比较还须区分痕迹的物理形成、活动功能和社会关系` → `V90-CANON-B185-38B40A521F`；卡片：`references/ontology/v9.0/cards/b185-38b40a521f.md`
+- `原文规则@B187:来源记录必须逐项标明来源领域、案例类型、时间与地区、支持范围、外推边界，并完成反例登记` → `V90-CANON-B187-ED7A07932A`；卡片：`references/ontology/v9.0/cards/b187-ed7a07932a.md`
+- `原文规则@B188:概念定义、字段映射和方法说明只规定要检验什么、怎样记录以及推论在哪里停止，不能进入 empirical_evidence_records 充当对象事实或机制支持` → `V90-CANON-B188-EMPIRICAL-EVIDENCE-RECORDS-745EACB578`；卡片：`references/ontology/v9.0/cards/b188-empirical-evidence-records-745eacb578.md`
+- `原文规则@B189:经验支持必须来自独立登记的实例资料，并包含对象与尺度、时间窗、研究设计、N0、结果、不确定性、复核或复现及证据等级` → `V90-CANON-B189-N0-52FA46BF0C`；卡片：`references/ontology/v9.0/cards/b189-n0-52fa46bf0c.md`
+- `原文规则@B19:文中“研究XX.XX”指同号研究报告、交接摘要及覆盖回执；它是可回溯的材料定位，不表示本书重新独立复核了报告引用的全部外部原作` → `V90-CANON-B19-XX-XX-E8F2CD3DED`；卡片：`references/ontology/v9.0/cards/b19-xx-xx-e8f2cd3ded.md`
+- `原文规则@B191:读到目录、摘要、相关章节或全文，应分别记录；找到链接、完成下载和理解论证也不是同一动作` → `V90-CANON-B191-C234F0E518`；卡片：`references/ontology/v9.0/cards/b191-c234f0e518.md`
+- `原文规则@B192:理论的历史采用、仅被提及、明确限制或拒绝、与当前文本相容，以及分析者现在提出的新连接，分别成立` → `V90-CANON-B192-BC52E90FED`；卡片：`references/ontology/v9.0/cards/b192-bc52e90fed.md`
+- `原文规则@B193:档案的生成、保存、销毁、开放、检索和叙事选择可以分别造成缺席` → `V90-CANON-B193-32FA511442`；卡片：`references/ontology/v9.0/cards/b193-32fa511442.md`
+- `原文规则@B195:下列词语一旦进入判断，就必须满足其专门合同；不能以日常语言的宽泛含义替代` → `V90-CANON-B195-9965591C7A`；卡片：`references/ontology/v9.0/cards/b195-9965591c7a.md`
+- `成本@B196` → `V90-CANON-B196-C3C72176BC`；卡片：`references/ontology/v9.0/cards/b196-c3c72176bc.md`
+- `外部性@B197` → `V90-CANON-B197-11F5C6DBF4`；卡片：`references/ontology/v9.0/cards/b197-11f5c6dbf4.md`
+- `原文规则@B198:这里的排除规则可以来自明确的经济模型或真实制度与会计安排；它不是先行裁定法律责任的要求` → `V90-CANON-B198-FFAB5D3E4D`；卡片：`references/ontology/v9.0/cards/b198-ffab5d3e4d.md`
+- `修复@B199` → `V90-CANON-B199-CF1E8AA5E3`；卡片：`references/ontology/v9.0/cards/b199-cf1e8aa5e3.md`
+- `选择@B200` → `V90-CANON-B200-8FDE7B7B9D`；卡片：`references/ontology/v9.0/cards/b200-8fde7b7b9d.md`
+- `责任与授权@B201` → `V90-CANON-B201-670C2F61C3`；卡片：`references/ontology/v9.0/cards/b201-670c2f61c3.md`
+- `原文规则@B202:承担义务需要另行说明承诺、角色、因果贡献、受益、能力与适用规范之间的关系；这些理由可能共同作用，不能由其中一项自动包办` → `V90-CANON-B202-3EE9074AB3`；卡片：`references/ontology/v9.0/cards/b202-3ee9074ab3.md`
+- `原文规则@B204:每个合同字段都必须落入一种明示状态，而不是用模糊措辞填空` → `V90-CANON-B204-585B2D05A9`；卡片：`references/ontology/v9.0/cards/b204-585b2d05a9.md`
+- `字段缺失:不适用@B206` → `V90-CANON-B206-73A93ADD92`；卡片：`references/ontology/v9.0/cards/b206-73a93add92.md`
+- `字段缺失:不可观察@B207` → `V90-CANON-B207-A96D90FFD3`；卡片：`references/ontology/v9.0/cards/b207-a96d90ffd3.md`
+- `字段缺失:为保护而不公开@B208` → `V90-CANON-B208-DA89456CCC`；卡片：`references/ontology/v9.0/cards/b208-da89456ccc.md`
+- `原文规则@B209:关键变量未知、对象不适用条件未处理、核心通道不可观察或保护性不公开无法被可信复核时，结论依次降为候选假设、问题清单或仅作描述` → `V90-CANON-B209-1F18E28A29`；卡片：`references/ontology/v9.0/cards/b209-1f18e28a29.md`
+- `原文规则@B211:圈层首先是候选分组，不是天然实体` → `V90-CANON-B211-CA1A36D5E4`；卡片：`references/ontology/v9.0/cards/b211-ca1a36d5e4.md`
+- `原文规则@B212:多圈层分析不得把所有背景都实体化` → `V90-CANON-B212-49CE40E4C8`；卡片：`references/ontology/v9.0/cards/b212-49ce40e4c8.md`
+- `原文规则@B214:人格只作为有证据等级的慢变量假设进入，不作为人的本体定义` → `V90-CANON-B214-BC4B342E53`；卡片：`references/ontology/v9.0/cards/b214-bc4b342e53.md`
+- `原文规则@B215:行动者变量分为慢、中、快三个时间带，每项绑定观察窗、来源、反证、圈层条件、隐私和允许用途` → `V90-CANON-B215-A1785773D8`；卡片：`references/ontology/v9.0/cards/b215-a1785773d8.md`
+- `原文规则@B217:路径推演可以使用观察、报告、计划、假设和模拟事件，但必须保留事件类型` → `V90-CANON-B217-1EE8890F78`；卡片：`references/ontology/v9.0/cards/b217-1ee8890f78.md`
+- `原文规则@B218:条件前瞻必须在结果前登记目标、期限、对象与圈层范围、输入截止、简单基线、路径、表达方式、校准指标、早期信号、反向信号、暂停、退役和结果回写` → `V90-CANON-B218-D54F965805`；卡片：`references/ontology/v9.0/cards/b218-d54f965805.md`
+- `原文规则@B22:附录D不是新的经验公理集` → `V90-CANON-B22-D-2325144E7B`；卡片：`references/ontology/v9.0/cards/b22-d-2325144e7b.md`
+- `原文规则@B220:“自主完善变量”只允许三种动作：从残差提出多个竞争候选；说明候选可能通过何种通道产生哪些可观察含义；设计风险可接受的最小检验` → `V90-CANON-B220-E26C9756E0`；卡片：`references/ontology/v9.0/cards/b220-e26c9756e0.md`
+- `原文规则@B223:本部分给出广义经验结构世界的最小描述语言` → `V90-CANON-B223-E1AE6CEAED`；卡片：`references/ontology/v9.0/cards/b223-e1ae6ceaed.md`
+- `表示转义/表述转义@B254` → `V90-CANON-B254-FF51F2AB6A`；卡片：`references/ontology/v9.0/cards/b254-ff51f2ab6a.md`
+- `原文规则@B282:U01—U03 回答“当前把什么当作候选对象、怎样看见它”；U04—U06 回答“结构由什么实现、变化经何处传导”；U07—U10 回答“返回怎样更新状态、条件怎样作用、负荷怎样分布、历史怎样留下效应”；U11 回答“何时仍是同一运转区间，何时转移、转换或解体”` → `V90-CANON-B282-U01-U03-U04-U06-U07-U10-U11-E51F08F33E`；卡片：`references/ontology/v9.0/cards/b282-u01-u03-u04-u06-u07-u10-u11-e51f08f33e.md`
+- `原文规则@B283:这些原语互为接口，而不是互相证明` → `V90-CANON-B283-EBC0898EFE`；卡片：`references/ontology/v9.0/cards/b283-ebc0898efe.md`
+- `原文规则@B285:根假设是通用经验问题的预注册模板，不是关于一切对象的无条件定律` → `V90-CANON-B285-04E2F1C7CA`；卡片：`references/ontology/v9.0/cards/b285-04e2f1c7ca.md`
+- `根实例合同@B287` → `V90-CANON-B287-A241FB8F8E`；卡片：`references/ontology/v9.0/cards/b287-a241fb8f8e.md`
+- `人类经验实例合同@B296` → `V90-CANON-B296-08EB157029`；卡片：`references/ontology/v9.0/cards/b296-08eb157029.md`
+- `原文规则@B344:推论是从已经通过的根实例、定义与明确附加条件得到的受限输出` → `V90-CANON-B344-04FDD257CB`；卡片：`references/ontology/v9.0/cards/b344-04fdd257cb.md`
+- `原文规则@B449:G1-instance + 对象/变量桥 + G2-instance  └─ 指定组织依赖的通道候选      ├─ + 返回通道与阻断反事实      │    └─ 有效反馈      │         └─ + G3-instance + 可保留更新 + 重复轮次      │              └─ 反馈介导学习候选      └─ + G4a/G4b + D3/E5 映射           └─ 闭合失败或对象/干预转换候选G2-instance + 同型需求/容量映射  └─ 瞬时过载候选       └─ + G3-instance + 历史载体            └─ 累积损伤或迟恢复候选D1 + V + D + R + 下一轮 + 重复轮次 + 漂变竞争  └─ 变异—差异保留—再生产模式       ├─ + G2-instance → 指定保留/再生产机制       └─ + G3-instance → 跨轮历史路径候选` → `V90-CANON-B449-G1-INSTANCE-G2-INSTANCE-G3-INSTANCE-G4A-G4B-6870022262`；卡片：`references/ontology/v9.0/cards/b449-g1-instance-g2-instance-g3-instance-g4a-g4b-6870022262.md`
+- `原文规则@B450:任何根组合都不构成充分条件；附加条件、方法门、桥接证据或适用边界缺失时，只生成检查问题` → `V90-CANON-B450-5B8DC87566`；卡片：`references/ontology/v9.0/cards/b450-5b8dc87566.md`
+- `原文规则@B452:根层的最高输出是受对象、尺度、时间窗、证据和外推单元约束的描述或候选机制` → `V90-CANON-B452-D52962B720`；卡片：`references/ontology/v9.0/cards/b452-d52962b720.md`
+- `原文规则@B454:方法约束规定模型构造、证据使用和结果发布必须守住的区别，不是关于世界必然怎样运行的经验定律` → `V90-CANON-B454-C387FFF2D7`；卡片：`references/ontology/v9.0/cards/b454-c387fff2d7.md`
+- `法一：分层表示的任务相对性@B456` → `V90-CANON-B456-A26924AC3C`；卡片：`references/ontology/v9.0/cards/b456-a26924ac3c.md`
+- `法二：信息身份不得静默升级@B457` → `V90-CANON-B457-7388D801D4`；卡片：`references/ontology/v9.0/cards/b457-7388d801d4.md`
+- `法三：非平凡转义不预设无损@B458` → `V90-CANON-B458-A74515AE02`；卡片：`references/ontology/v9.0/cards/b458-a74515ae02.md`
+- `法四：目标表示不预设闭合，路径不预设等价@B459` → `V90-CANON-B459-A33F9CEB80`；卡片：`references/ontology/v9.0/cards/b459-a33f9ceb80.md`
+- `法五：模拟再入不得提升认识地位@B460` → `V90-CANON-B460-217861B3B5`；卡片：`references/ontology/v9.0/cards/b460-217861b3b5.md`
+- `法六：事实、前瞻和能力不生成价值、责任与授权@B461` → `V90-CANON-B461-52193A6E78`；卡片：`references/ontology/v9.0/cards/b461-52193a6e78.md`
+- `原文规则@B463:G1 至 G4 继续作为四类可检验根假设的权威合同，分别对应候选分组的条件增益、指定通道效应、历史项条件增量、尺度闭合及对象或干预转换` → `V90-CANON-B463-G1-G4-A9DF2DA21B`；卡片：`references/ontology/v9.0/cards/b463-g1-g4-a9df2da21b.md`
+- `原文规则@B464:C1 至 C12 仍是条件推论，不因进入共同内核而变成普遍事实` → `V90-CANON-B464-C1-C12-30A5F202B6`；卡片：`references/ontology/v9.0/cards/b464-c1-c12-30a5f202b6.md`
+- `原文规则@B466:由六条方法公理可以推出：目标尺度上有用的有效变量仍只是绑定任务和适用窗的候选；转义损失不等于现实对象中的物理损失；条件分支变窄不等于证据增加；递归更深不等于前瞻更准；新外部材料到达后必须建立新运行，不能倒灌修补原预测` → `V90-CANON-B466-6089F791B4`；卡片：`references/ontology/v9.0/cards/b466-6089f791b4.md`
+- `原文规则@B467:“每次尺度迁移必然丢失信息”“信息丢失等于熵增”“残差必然来自被压缩变量”“第三阶天然优于第一阶”均不属于本框架结论` → `V90-CANON-B467-AB0CA70D7A`；卡片：`references/ontology/v9.0/cards/b467-ab0ca70d7a.md`
+- `原文规则@B469:本部分回答：对象、观察或行动从 SP0 变到 SP1 时，哪些内容得到扩展，哪些内容发生收缩，哪些位置不可比较，凭什么建立转换桥，以及什么信息会在转换中丢失` → `V90-CANON-B469-SP0-SP1-09A4777D5D`；卡片：`references/ontology/v9.0/cards/b469-sp0-sp1-09a4777d5d.md`
+- `原文规则@B471:九个尺度轴是 D 类定义，角色为 scale_axis_definition；九个转换算子是 O 类程序，角色为 scale_transformation_operator；U01—U11 是 D 类通用原语定义，角色为 universal_primitive_definition` → `V90-CANON-B471-D-SCALE-AXIS-DEFINITION-O-SCALE-TRANSFORMAT-4D026C7309`；卡片：`references/ontology/v9.0/cards/b471-d-scale-axis-definition-o-scale-transformat-4d026c7309.md`
+- `原文规则@B472:尺度实体一律使用限定 ID：scale_axis:A 至 scale_axis:J、scale_operator:M01 至 scale_operator:M09、universal_primitive:U01 至 universal_primitive:U11` → `V90-CANON-B472-ID-SCALE-AXIS-A-SCALE-AXIS-J-SCALE-OPERATOR-BB35825F3B`；卡片：`references/ontology/v9.0/cards/b472-id-scale-axis-a-scale-axis-j-scale-operator-bb35825f3b.md`
+- `原文规则@B475:SP=<A,X,T,O,C,R,I,N,J>` → `V90-CANON-B475-SP-A-X-T-O-C-R-I-N-J-1D24358794`；卡片：`references/ontology/v9.0/cards/b475-sp-a-x-t-o-c-r-i-n-j-1d24358794.md`
+- `九轴状态比较合同@B476` → `V90-CANON-B476-4D23C63A2D`；卡片：`references/ontology/v9.0/cards/b476-4d23c63a2d.md`
+- `原文规则@B478:每轴关系只有五种：equal、expands、contracts、incomparable、unknown` → `V90-CANON-B478-EQUAL-EXPANDS-CONTRACTS-INCOMPARABLE-UNKNOW-E7E090F5DA`；卡片：`references/ontology/v9.0/cards/b478-equal-expands-contracts-incomparable-unknow-e7e090f5da.md`
+- `原文规则@B479:“九轴都要登记”不等于“九轴对一切对象都适用”` → `V90-CANON-B479-C17750C00E`；卡片：`references/ontology/v9.0/cards/b479-c17750c00e.md`
+- `原文规则@B480:每个轴状态都须满足反身性、反对称性和传递性` → `V90-CANON-B480-91C1219167`；卡片：`references/ontology/v9.0/cards/b480-91c1219167.md`
+- `原文规则@B481:每轴的主比较量成立还不够` → `V90-CANON-B481-D3D818AE84`；卡片：`references/ontology/v9.0/cards/b481-d3d818ae84.md`
+- `原文规则@B483:SP0≼SP1 当且仅当九轴全部为 equal 或 expands；严格关系 SP0≺SP1 还要求至少一轴 expands` → `V90-CANON-B483-SP0-SP1-EQUAL-EXPANDS-SP0-SP1-EXPANDS-D950E038A9`；卡片：`references/ontology/v9.0/cards/b483-sp0-sp1-equal-expands-sp0-sp1-expands-d950e038a9.md`
+- `原文规则@B490:因此，宏观聚合同时压缩观察分辨率时通常是 mixed，不应笼统叫升格；领域类比常是 horizontal_or_incomparable；材料不足时是 unresolved` → `V90-CANON-B490-MIXED-HORIZONTAL-OR-INCOMPARABLE-UNRESOLVED-7BC1148FC1`；卡片：`references/ontology/v9.0/cards/b490-mixed-horizontal-or-incomparable-unresolved-7bc1148fc1.md`
+- `原文规则@B491:J 状态不是“一个来源 + 一组主体 + 一组对象 + 一组动作”的独立字段拼盘，因为那会凭空生成未被授权的对象—动作组合` → `V90-CANON-B491-J-F9D65A9F5B`；卡片：`references/ontology/v9.0/cards/b491-j-f9d65a9f5b.md`
+- `原文规则@B493:每条原子记录的 operator_ids 必须且只能包含一个算子，selected_operator_branch 再从该算子的分支注册表中唯一选择内部支路，最后用 claim_mode 声明本次评价的模式：descriptive_mapping（描述映射）、root_hypothesis（根假设实例）、causal（因果桥）、object_conversion（对象转换）或 intervention_conversion（干预转换）` → `V90-CANON-B493-OPERATOR-IDS-SELECTED-OPERATOR-BRANCH-CLAIM-E248C6B5E6`；卡片：`references/ontology/v9.0/cards/b493-operator-ids-selected-operator-branch-claim-e248c6b5e6.md`
+- `原文规则@B499:“未显著”“切断后看似不变”“效应消失”“简单模型表现相当”或“目标证据不足”都不能自动写成 null_supported` → `V90-CANON-B499-NULL-SUPPORTED-B6D7ABA879`；卡片：`references/ontology/v9.0/cards/b499-null-supported-b6d7aba879.md`
+- `原文规则@B501:每个算子都有独有 semantic_signature，不能复制 M01 的聚合语句冒充其他算子` → `V90-CANON-B501-SEMANTIC-SIGNATURE-M01-9E585EFC59`；卡片：`references/ontology/v9.0/cards/b501-semantic-signature-m01-9e585efc59.md`
+- `统一尺度变换十四节合同@B538` → `V90-CANON-B538-72D86E44EC`；卡片：`references/ontology/v9.0/cards/b538-72d86e44ec.md`
+- `原文规则@B551:四种缺失状态构成封闭词表：unknown 表示当前未知，not_applicable 表示按合同确实不适用，not_observable 表示当前通道和窗口不可观察，withheld_for_protection 表示为保护而不公开` → `V90-CANON-B551-UNKNOWN-NOT-APPLICABLE-NOT-OBSERVABLE-WITHH-A20CFB2A86`；卡片：`references/ontology/v9.0/cards/b551-unknown-not-applicable-not-observable-withh-a20cfb2a86.md`
+- `原文规则@B554:M01—M09 的名称、编号、语义签名和分类结果只规定变换应怎样描述与检验，不构成变换已经发生、映射有效或目标性质成立的经验支持` → `V90-CANON-B554-M01-M09-55E74B3850`；卡片：`references/ontology/v9.0/cards/b554-m01-m09-55e74b3850.md`
+- `原文规则@B555:每个实际变换必须分别在源对象和目标对象上取得可解析的独立材料，明确映射、保持项、改变项、丢失项、误差与竞争解释，并接受同一结果状态、正向门和零结论门` → `V90-CANON-B555-74FB4945A3`；卡片：`references/ontology/v9.0/cards/b555-74fb4945a3.md`
+- `圈层关系变换@B557` → `V90-CANON-B557-8972F2D47A`；卡片：`references/ontology/v9.0/cards/b557-8972f2d47a.md`
+- `圈层变换问题路由表@B559` → `V90-CANON-B559-30EBBA0387`；卡片：`references/ontology/v9.0/cards/b559-30ebba0387.md`
+- `原文规则@B564:尺度变换回答同一问题在两个尺度剖面之间哪些变量保持、改变或丢失；圈层关系变换回答候选圈层之间的并列、包含、重叠、桥接、竞争或临时关系如何更新；表示或表述转义回答一个有来源的载荷怎样进入目标任务的词汇、变量或表达` → `V90-CANON-B564-76C7F63173`；卡片：`references/ontology/v9.0/cards/b564-76c7f63173.md`
+- `转义损失审计@B568` → `V90-CANON-B568-A996E7E161`；卡片：`references/ontology/v9.0/cards/b568-a996e7e161.md`
+- `有效变量@B572` → `V90-CANON-B572-442BE143A3`；卡片：`references/ontology/v9.0/cards/b572-442be143a3.md`
+- `原文规则@B576:现实结构不是单棵层级树` → `V90-CANON-B576-066B403352`；卡片：`references/ontology/v9.0/cards/b576-066b403352.md`
+- `原文规则@B577:当多个圈层共享环境却没有直接通道时，模型保留共同条件节点，不虚构圈层间直接边；当通道只在事件窗口内开放时，边具有起止时间；当不同关系方向相反时，分别建边` → `V90-CANON-B577-D3AE9EF02A`；卡片：`references/ontology/v9.0/cards/b577-d3ae9ef02a.md`
+- `原文规则@B579:本部分把对象合同展开为过程解释` → `V90-CANON-B579-88142A1BF2`；卡片：`references/ontology/v9.0/cards/b579-88142a1bf2.md`
+- `原文规则@B581:一次运转至少登记输入、指定载体或通道、状态转移、输出、环境条件、时间窗和可能留痕` → `V90-CANON-B581-4D10819C25`；卡片：`references/ontology/v9.0/cards/b581-4d10819c25.md`
+- `原文规则@B600:因此，反馈不等于学习，写回也不等于学习` → `V90-CANON-B600-41036A1F37`；卡片：`references/ontology/v9.0/cards/b600-41036a1f37.md`
+- `共演化@B632` → `V90-CANON-B632-D01FD42F98`；卡片：`references/ontology/v9.0/cards/b632-d01fd42f98.md`
+- `原文规则@B638:六个条件机制都必须依次完成对象与尺度声明、推理依赖、使能条件、机制链、最低证据、竞争解释、反例和失效边界` → `V90-CANON-B638-4FF94CF640`；卡片：`references/ontology/v9.0/cards/b638-4ff94cf640.md`
+- `原文规则@B640:多圈层联合状态至少包含即时、互动、组织、制度和长期时钟` → `V90-CANON-B640-D9208A3E86`；卡片：`references/ontology/v9.0/cards/b640-d9208a3e86.md`
+- `原文规则@B641:快变量的变化不自动代表长期制度或生活结果` → `V90-CANON-B641-9AF473E749`；卡片：`references/ontology/v9.0/cards/b641-9af473e749.md`
+- `原文规则@B642:每个机制应声明自己的更新时钟和跨时钟桥` → `V90-CANON-B642-6626CEB62B`；卡片：`references/ontology/v9.0/cards/b642-6626ceb62b.md`
+- `异步时钟接续桥@B643` → `V90-CANON-B643-636ABA4481`；卡片：`references/ontology/v9.0/cards/b643-636aba4481.md`
+- `原文规则@B647:级联发生在一个圈层的局部变化经成员重叠、桥接接口、共享资源、网络传播或制度下行触发其他圈层变化` → `V90-CANON-B647-85A1D7E624`；卡片：`references/ontology/v9.0/cards/b647-85a1d7e624.md`
+- `原文规则@B648:跨圈层传播必须先识别传播的是什么，以及目标发生改变需要什么条件` → `V90-CANON-B648-0E2DA5D048`；卡片：`references/ontology/v9.0/cards/b648-0e2da5d048.md`
+- `原文规则@B649:还须区分一处故障触发下一处故障、多个故障共同阻碍恢复，以及共同外因同时损坏多处` → `V90-CANON-B649-433A2C6127`；卡片：`references/ontology/v9.0/cards/b649-433a2c6127.md`
+- `原文术语@B682:十一个变量统一接口` → `V90-CANON-B682-3C5B4AF629`；卡片：`references/ontology/v9.0/cards/b682-3c5b4af629.md`
+- `原文规则@B714:共同申诉回滚` → `V90-CANON-B714-6FF6B4B393`；卡片：`references/ontology/v9.0/cards/b714-6ff6b4b393.md`
+- `原文接口@B717:行动者圈层互构` → `V90-CANON-B717-34D9667CF1`；卡片：`references/ontology/v9.0/cards/b717-34d9667cf1.md`
+- `原文规则@B722:实践再生产变迁` → `V90-CANON-B722-618C858377`；卡片：`references/ontology/v9.0/cards/b722-618c858377.md`
+- `原文合同@B731:状态判断最小合同` → `V90-CANON-B731-10AFEE9787`；卡片：`references/ontology/v9.0/cards/b731-10afee9787.md`
+- `原文合同@B736:运行时分类记录` → `V90-CANON-B736-BC14DA981A`；卡片：`references/ontology/v9.0/cards/b736-bc14da981a.md`
+- `原文表@B778:非线性路径库` → `V90-CANON-B778-29B84E453F`；卡片：`references/ontology/v9.0/cards/b778-29b84e453f.md`
+- `原文规则@B812:三个时间带` → `V90-CANON-B812-9C67D03059`；卡片：`references/ontology/v9.0/cards/b812-9c67d03059.md`
+- `原文规则@B82:本框架把分析对象表示为行动者与多个平行、嵌套、重叠、桥接、竞争或临时圈层组成的联合状态，并将结构解释、事件驱动的动态推演、条件前瞻和有限选择连接起来` → `V90-CANON-B82-191063788A`；卡片：`references/ontology/v9.0/cards/b82-191063788a.md`
+- `原文记录@B835:角色激活` → `V90-CANON-B835-53CC0007E1`；卡片：`references/ontology/v9.0/cards/b835-53cc0007e1.md`
+- `原文规则@B838:双向影响链` → `V90-CANON-B838-63CFF0D097`；卡片：`references/ontology/v9.0/cards/b838-63cff0d097.md`
+- `解释/推演/条件前瞻/有限选择@B84` → `V90-CANON-B84-D7F67089FD`；卡片：`references/ontology/v9.0/cards/b84-d7f67089fd.md`
+- `原文规则@B844:状态升级` → `V90-CANON-B844-EFCE0C82B3`；卡片：`references/ontology/v9.0/cards/b844-efce0c82b3.md`
+- `四类输出任务表@B85` → `V90-CANON-B85-E60026BC55`；卡片：`references/ontology/v9.0/cards/b85-e60026bc55.md`
+- `原文边界@B853:隐私用途` → `V90-CANON-B853-C05E1D5EF3`；卡片：`references/ontology/v9.0/cards/b853-c05e1d5ef3.md`
+- `八层责任@B87` → `V90-CANON-B87-CE5AFF0178`；卡片：`references/ontology/v9.0/cards/b87-ce5aff0178.md`
+- `原文规则@B90:读者分析一个具体事件时，可以采用最短入口：先冻结事件与证据截止；识别行动者和候选圈层；分别登记物质条件与体验—意义条件；声明即时、互动、组织、制度和长期时钟；沿有证据的通道展开路径；为每条路径登记早期与反向信号；只有需要发布前瞻时才冻结目标、期限和简单基线；只有需要现实动作时才进入规范、保护与授权` → `V90-CANON-B90-43B5D35FD7`；卡片：`references/ontology/v9.0/cards/b90-43b5d35fd7.md`
+- `原文记录@B903:多重成员关系` → `V90-CANON-B903-7E20835F12`；卡片：`references/ontology/v9.0/cards/b903-7e20835f12.md`
+- `原文规则@B914:资源转化` → `V90-CANON-B914-3517958CFC`；卡片：`references/ontology/v9.0/cards/b914-3517958cfc.md`
+- `原文规则@B918:资产负债合同` → `V90-CANON-B918-EFA24B07E5`；卡片：`references/ontology/v9.0/cards/b918-efa24b07e5.md`
+- `原文规则@B92:本框架是一套描述结构、检验机制并约束行动推断的工作语言；它不替代学科证据、法律程序、专业评估或当事人的决定权` → `V90-CANON-B92-BAC5F04D79`；卡片：`references/ontology/v9.0/cards/b92-bac5f04d79.md`
+- `原文规则@B922:五类时钟` → `V90-CANON-B922-3EAED4C20B`；卡片：`references/ontology/v9.0/cards/b922-3eaed4c20b.md`
+- `原文合同@B928:联合状态快照` → `V90-CANON-B928-BAA7A69148`；卡片：`references/ontology/v9.0/cards/b928-baa7a69148.md`
+- `原文规则@B93:共同语法的作用是让不同解释在同一问题中互相校正` → `V90-CANON-B93-84C969CC86`；卡片：`references/ontology/v9.0/cards/b93-84c969cc86.md`
+- `原文规则@B931:边界扰动` → `V90-CANON-B931-01EE06C432`；卡片：`references/ontology/v9.0/cards/b931-01ee06c432.md`
+- `原文门@B934:联合复杂度` → `V90-CANON-B934-294C29C125`；卡片：`references/ontology/v9.0/cards/b934-294c29c125.md`
+- `原文合同@B948:推演最小输入输出` → `V90-CANON-B948-2E113A0241`；卡片：`references/ontology/v9.0/cards/b948-2e113a0241.md`
+- `原文规则@B95:四类工作必须分别陈述目的、依据与结论边界` → `V90-CANON-B95-5751160E16`；卡片：`references/ontology/v9.0/cards/b95-5751160e16.md`
+- `结构解释@B97` → `V90-CANON-B97-A63BB1D387`；卡片：`references/ontology/v9.0/cards/b97-a63bb1d387.md`
+- `原文规则@B98:跨领域比较时，路径机制不能替代结果分项` → `V90-CANON-B98-35B8EA9AB6`；卡片：`references/ontology/v9.0/cards/b98-35b8ea9ab6.md`
+- `C1—C3证据反例边界表@B368` → `V90-CANON-C1-C3-B368-EDA36D3E77`；卡片：`references/ontology/v9.0/cards/c1-c3-b368-eda36d3e77.md`
+- `C12证据反例边界表@B445` → `V90-CANON-C12-B445-29F517C825`；卡片：`references/ontology/v9.0/cards/c12-b445-29f517c825.md`
+- `C4—C7证据反例边界表@B400` → `V90-CANON-C4-C7-B400-20EB0C8C00`；卡片：`references/ontology/v9.0/cards/c4-c7-b400-20eb0c8c00.md`
+- `C8—C11证据反例边界表@B435` → `V90-CANON-C8-C11-B435-AF9206093F`；卡片：`references/ontology/v9.0/cards/c8-c11-b435-af9206093f.md`
+- `CLAIM-REGISTRY` → `V90-CANON-CLAIM-REGISTRY`；卡片：`references/ontology/v9.0/cards/claim-registry.md`
+- `coercion_and_choice@V90-B01210` → `V90-CANON-COERCION-AND-CHOICE-V90-B01210-9264251BCF`；卡片：`references/ontology/v9.0/cards/coercion-and-choice-v90-b01210-9264251bcf.md`
+- `COUNTEREXAMPLE-REGISTRY` → `V90-CANON-COUNTEREXAMPLE-REGISTRY`；卡片：`references/ontology/v9.0/cards/counterexample-registry.md`
+- `D命题责任@B147` → `V90-CANON-D-B147-D1F7EF67C0`；卡片：`references/ontology/v9.0/cards/d-b147-d1f7ef67c0.md`
+- `E命题责任@B149` → `V90-CANON-E-B149-DBB8E79EAE`；卡片：`references/ontology/v9.0/cards/e-b149-dbb8e79eae.md`
+- `execution_state_log@V90-B01264` → `V90-CANON-EXECUTION-STATE-LOG-V90-B01264-FBAB571E1C`；卡片：`references/ontology/v9.0/cards/execution-state-log-v90-b01264-fbab571e1c.md`
+- `flow_execution_record@V90-B01161` → `V90-CANON-FLOW-EXECUTION-RECORD-V90-B01161-1DF320BE64`；卡片：`references/ontology/v9.0/cards/flow-execution-record-v90-b01161-1df320be64.md`
+- `FORECAST-REGISTRY` → `V90-CANON-FORECAST-REGISTRY`；卡片：`references/ontology/v9.0/cards/forecast-registry.md`
+- `G命题责任@B148` → `V90-CANON-G-B148-8B90E500A7`；卡片：`references/ontology/v9.0/cards/g-b148-8b90e500a7.md`
+- `GOV-01` → `V90-CANON-GOV-01`；卡片：`references/ontology/v9.0/cards/gov-01.md`
+- `GOV-02` → `V90-CANON-GOV-02`；卡片：`references/ontology/v9.0/cards/gov-02.md`
+- `GOV-03` → `V90-CANON-GOV-03`；卡片：`references/ontology/v9.0/cards/gov-03.md`
+- `GOV-04` → `V90-CANON-GOV-04`；卡片：`references/ontology/v9.0/cards/gov-04.md`
+- `GOV-05` → `V90-CANON-GOV-05`；卡片：`references/ontology/v9.0/cards/gov-05.md`
+- `GOV-06` → `V90-CANON-GOV-06`；卡片：`references/ontology/v9.0/cards/gov-06.md`
+- `GOV-07` → `V90-CANON-GOV-07`；卡片：`references/ontology/v9.0/cards/gov-07.md`
+- `GOV-08` → `V90-CANON-GOV-08`；卡片：`references/ontology/v9.0/cards/gov-08.md`
+- `GOV-09` → `V90-CANON-GOV-09`；卡片：`references/ontology/v9.0/cards/gov-09.md`
+- `GOV-10` → `V90-CANON-GOV-10`；卡片：`references/ontology/v9.0/cards/gov-10.md`
+- `GOV-11` → `V90-CANON-GOV-11`；卡片：`references/ontology/v9.0/cards/gov-11.md`
+- `GOV-12` → `V90-CANON-GOV-12`；卡片：`references/ontology/v9.0/cards/gov-12.md`
+- `GOV-13` → `V90-CANON-GOV-13`；卡片：`references/ontology/v9.0/cards/gov-13.md`
+- `GOV-14` → `V90-CANON-GOV-14`；卡片：`references/ontology/v9.0/cards/gov-14.md`
+- `GOV-15` → `V90-CANON-GOV-15`；卡片：`references/ontology/v9.0/cards/gov-15.md`
+- `GOV-16` → `V90-CANON-GOV-16`；卡片：`references/ontology/v9.0/cards/gov-16.md`
+- `GOV-17` → `V90-CANON-GOV-17`；卡片：`references/ontology/v9.0/cards/gov-17.md`
+- `GOV-18` → `V90-CANON-GOV-18`；卡片：`references/ontology/v9.0/cards/gov-18.md`
+- `GOV-19` → `V90-CANON-GOV-19`；卡片：`references/ontology/v9.0/cards/gov-19.md`
+- `GOV-20` → `V90-CANON-GOV-20`；卡片：`references/ontology/v9.0/cards/gov-20.md`
+- `GOV-21` → `V90-CANON-GOV-21`；卡片：`references/ontology/v9.0/cards/gov-21.md`
+- `GOV-22` → `V90-CANON-GOV-22`；卡片：`references/ontology/v9.0/cards/gov-22.md`
+- `GOV-23` → `V90-CANON-GOV-23`；卡片：`references/ontology/v9.0/cards/gov-23.md`
+- `GOV-24` → `V90-CANON-GOV-24`；卡片：`references/ontology/v9.0/cards/gov-24.md`
+- `governance_procedure@V90-B01212` → `V90-CANON-GOVERNANCE-PROCEDURE-V90-B01212-3D9F6E5D7B`；卡片：`references/ontology/v9.0/cards/governance-procedure-v90-b01212-3d9f6e5d7b.md`
+- `H命题责任@B150` → `V90-CANON-H-B150-08402DED44`；卡片：`references/ontology/v9.0/cards/h-b150-08402ded44.md`
+- `H-World 人类适配器@V90-P00955` → `V90-CANON-H-WORLD-V90-P00955-E405782740`；卡片：`references/ontology/v9.0/cards/h-world-v90-p00955-e405782740.md`
+- `K映射分类@B541` → `V90-CANON-K-B541-AA69CFC05A`；卡片：`references/ontology/v9.0/cards/k-b541-aa69cfc05a.md`
+- `N命题责任@B151` → `V90-CANON-N-B151-D87051C39A`；卡片：`references/ontology/v9.0/cards/n-b151-d87051c39a.md`
+- `N1` → `V90-CANON-N1`；卡片：`references/ontology/v9.0/cards/n1.md`
+- `N1—N5@V90-B01192` → `V90-CANON-N1-N5-V90-B01192-382332A2A8`；卡片：`references/ontology/v9.0/cards/n1-n5-v90-b01192-382332a2a8.md`
+- `N2` → `V90-CANON-N2`；卡片：`references/ontology/v9.0/cards/n2.md`
+- `N3` → `V90-CANON-N3`；卡片：`references/ontology/v9.0/cards/n3.md`
+- `N4` → `V90-CANON-N4`；卡片：`references/ontology/v9.0/cards/n4.md`
+- `N5` → `V90-CANON-N5`；卡片：`references/ontology/v9.0/cards/n5.md`
+- `no_action@V90-B01203` → `V90-CANON-NO-ACTION-V90-B01203-D85C589636`；卡片：`references/ontology/v9.0/cards/no-action-v90-b01203-d85c589636.md`
+- `算子结果:not_evaluated@B498` → `V90-CANON-NOT-EVALUATED-B498-39E02C02B3`；卡片：`references/ontology/v9.0/cards/not-evaluated-b498-39e02c02b3.md`
+- `NSP-LEAST-HARM` → `V90-CANON-NSP-LEAST-HARM`；卡片：`references/ontology/v9.0/cards/nsp-least-harm.md`
+- `NSP-PROPORTIONALITY` → `V90-CANON-NSP-PROPORTIONALITY`；卡片：`references/ontology/v9.0/cards/nsp-proportionality.md`
+- `算子结果:null_supported@B497` → `V90-CANON-NULL-SUPPORTED-B497-188104EA81`；卡片：`references/ontology/v9.0/cards/null-supported-b497-188104ea81.md`
+- `O命题责任@B152` → `V90-CANON-O-B152-E612C9CB38`；卡片：`references/ontology/v9.0/cards/o-b152-e612c9cb38.md`
+- `O1` → `V90-CANON-O1`；卡片：`references/ontology/v9.0/cards/o1.md`
+- `O1—O4@V90-B01182` → `V90-CANON-O1-O4-V90-B01182-1EE3EF8666`；卡片：`references/ontology/v9.0/cards/o1-o4-v90-b01182-1ee3ef8666.md`
+- `O2` → `V90-CANON-O2`；卡片：`references/ontology/v9.0/cards/o2.md`
+- `O3` → `V90-CANON-O3`；卡片：`references/ontology/v9.0/cards/o3.md`
+- `O4` → `V90-CANON-O4`；卡片：`references/ontology/v9.0/cards/o4.md`
+- `PF-1` → `V90-CANON-PF-1`；卡片：`references/ontology/v9.0/cards/pf-1.md`
+- `PF-1—PF-10@V90-B01228` → `V90-CANON-PF-1-PF-10-V90-B01228-7F41199188`；卡片：`references/ontology/v9.0/cards/pf-1-pf-10-v90-b01228-7f41199188.md`
+- `PF-10` → `V90-CANON-PF-10`；卡片：`references/ontology/v9.0/cards/pf-10.md`
+- `PF-2` → `V90-CANON-PF-2`；卡片：`references/ontology/v9.0/cards/pf-2.md`
+- `PF-3` → `V90-CANON-PF-3`；卡片：`references/ontology/v9.0/cards/pf-3.md`
+- `PF-4` → `V90-CANON-PF-4`；卡片：`references/ontology/v9.0/cards/pf-4.md`
+- `PF-5` → `V90-CANON-PF-5`；卡片：`references/ontology/v9.0/cards/pf-5.md`
+- `PF-6` → `V90-CANON-PF-6`；卡片：`references/ontology/v9.0/cards/pf-6.md`
+- `PF-7` → `V90-CANON-PF-7`；卡片：`references/ontology/v9.0/cards/pf-7.md`
+- `PF-8` → `V90-CANON-PF-8`；卡片：`references/ontology/v9.0/cards/pf-8.md`
+- `PF-9` → `V90-CANON-PF-9`；卡片：`references/ontology/v9.0/cards/pf-9.md`
+- `scale_profile 不是“微观—宏观”的单轴标签，而是 SP=<A,X,T,O,C,R,I,N,J> 的完整九轴记录：A 是聚合层次，必须声明单元、总体、分布和聚合规则；X 是物理空间与数字边界；T 是窗口、时滞和周期；O 是角色、团队、组织、制度与治理生态的组织层级；C 是事件、互动机制、中观结构、制度和系统条件的因果层次；R 是原始事件、序列、个案、分布、指标与摘要的观察分辨率，并记录压缩损失；I 是直接、间接、二阶、跨域与代际的受影响范围；N 是网络拓扑范围；J 是管辖与授权范围@V90-P03901` → `V90-CANON-SCALE-PROFILE-SP-A-X-T-O-C-R-I-N-J-A-X-T-O-C-R-I-30E1998313`；卡片：`references/ontology/v9.0/cards/scale-profile-sp-a-x-t-o-c-r-i-n-j-a-x-t-o-c-r-i-30e1998313.md`
+- `SEL-AGT` → `V90-CANON-SEL-AGT`；卡片：`references/ontology/v9.0/cards/sel-agt.md`
+- `SEL-GOV` → `V90-CANON-SEL-GOV`；卡片：`references/ontology/v9.0/cards/sel-gov.md`
+- `SEL-SYS` → `V90-CANON-SEL-SYS`；卡片：`references/ontology/v9.0/cards/sel-sys.md`
+- `selected_action@V90-B01204` → `V90-CANON-SELECTED-ACTION-V90-B01204-E9E02DC68B`；卡片：`references/ontology/v9.0/cards/selected-action-v90-b01204-e9e02dc68b.md`
+- `算子结果:supported@B495` → `V90-CANON-SUPPORTED-B495-8DD523337F`；卡片：`references/ontology/v9.0/cards/supported-b495-8dd523337f.md`
+- `T0` → `V90-CANON-T0`；卡片：`references/ontology/v9.0/cards/t0.md`
+- `T0—T4@V90-B01262` → `V90-CANON-T0-T4-V90-B01262-FD11C9C523`；卡片：`references/ontology/v9.0/cards/t0-t4-v90-b01262-fd11c9c523.md`
+- `T1` → `V90-CANON-T1`；卡片：`references/ontology/v9.0/cards/t1.md`
+- `T2` → `V90-CANON-T2`；卡片：`references/ontology/v9.0/cards/t2.md`
+- `T3` → `V90-CANON-T3`；卡片：`references/ontology/v9.0/cards/t3.md`
+- `T4` → `V90-CANON-T4`；卡片：`references/ontology/v9.0/cards/t4.md`
+- `TOOL-AI-BOUNDARY@V90-B01153` → `V90-CANON-TOOL-AI-BOUNDARY-V90-B01153-4790749079`；卡片：`references/ontology/v9.0/cards/tool-ai-boundary-v90-b01153-4790749079.md`
+- `TOOL-CLAIM-VALIDATION@V90-B01153` → `V90-CANON-TOOL-CLAIM-VALIDATION-V90-B01153-6A3F7F0390`；卡片：`references/ontology/v9.0/cards/tool-claim-validation-v90-b01153-6a3f7f0390.md`
+- `TOOL-EVIDENCE-LEDGER@V90-B01153` → `V90-CANON-TOOL-EVIDENCE-LEDGER-V90-B01153-528DB61FC2`；卡片：`references/ontology/v9.0/cards/tool-evidence-ledger-v90-b01153-528db61fc2.md`
+- `TOOL-FORECAST-REGISTRY@V90-B01153` → `V90-CANON-TOOL-FORECAST-REGISTRY-V90-B01153-CEDCE84801`；卡片：`references/ontology/v9.0/cards/tool-forecast-registry-v90-b01153-cedce84801.md`
+- `TOOL-OPEN-ASSERTION@V90-B01153` → `V90-CANON-TOOL-OPEN-ASSERTION-V90-B01153-F77321C755`；卡片：`references/ontology/v9.0/cards/tool-open-assertion-v90-b01153-f77321c755.md`
+- `TOOL-STRESS-TEST@V90-B01153` → `V90-CANON-TOOL-STRESS-TEST-V90-B01153-37E16B6C00`；卡片：`references/ontology/v9.0/cards/tool-stress-test-v90-b01153-37e16b6c00.md`
+- `TRAUMA-NO-HEALTHY-BASELINE` → `V90-CANON-TRAUMA-NO-HEALTHY-BASELINE`；卡片：`references/ontology/v9.0/cards/trauma-no-healthy-baseline.md`
+- `事件合同@V90-B00952` → `V90-CANON-V90-B00952-BD3FB507FD`；卡片：`references/ontology/v9.0/cards/v90-b00952-bd3fb507fd.md`
+- `联合状态更新@V90-B00958` → `V90-CANON-V90-B00958-BF1550D98A`；卡片：`references/ontology/v9.0/cards/v90-b00958-bf1550d98a.md`
+- `九步推演闭环@V90-B00966` → `V90-CANON-V90-B00966-346EC237AF`；卡片：`references/ontology/v9.0/cards/v90-b00966-346ec237af.md`
+- `传播、时延与阈值@V90-B00984` → `V90-CANON-V90-B00984-E9334189CF`；卡片：`references/ontology/v9.0/cards/v90-b00984-e9334189cf.md`
+- `反馈与跨圈层级联@V90-B00989` → `V90-CANON-V90-B00989-07CCD1C73E`；卡片：`references/ontology/v9.0/cards/v90-b00989-07ccd1c73e.md`
+- `分叉路径图@V90-B00994` → `V90-CANON-V90-B00994-21E2E4BB63`；卡片：`references/ontology/v9.0/cards/v90-b00994-21e2e4bb63.md`
+- `变量候选账本@V90-B00999` → `V90-CANON-V90-B00999-11A859D2F1`；卡片：`references/ontology/v9.0/cards/v90-b00999-11a859d2f1.md`
+- `情景、反事实与模拟@V90-B01005` → `V90-CANON-V90-B01005-DCC323087C`；卡片：`references/ontology/v9.0/cards/v90-b01005-dcc323087c.md`
+- `多阶递归未来推演@V90-B01009` → `V90-CANON-V90-B01009-9555AC7BF1`；卡片：`references/ontology/v9.0/cards/v90-b01009-9555ac7bf1.md`
+- `行动选择与条件更新@V90-B01032` → `V90-CANON-V90-B01032-B60142495D`；卡片：`references/ontology/v9.0/cards/v90-b01032-b60142495d.md`
+- `四类输出的隔离@V90-B01036` → `V90-CANON-V90-B01036-5261614445`；卡片：`references/ontology/v9.0/cards/v90-b01036-5261614445.md`
+- `条件前瞻登记@V90-B01043` → `V90-CANON-V90-B01043-3B5B5C486B`；卡片：`references/ontology/v9.0/cards/v90-b01043-3b5b5c486b.md`
+- `局部可预测性边界@V90-B01048` → `V90-CANON-V90-B01048-EF756A2D88`；卡片：`references/ontology/v9.0/cards/v90-b01048-ef756a2d88.md`
+- `递归前瞻的按阶评价@V90-B01051` → `V90-CANON-V90-B01051-B5C1E13D41`；卡片：`references/ontology/v9.0/cards/v90-b01051-b5c1e13d41.md`
+- `简单基线与增量能力@V90-B01054` → `V90-CANON-V90-B01054-2DFF35E52C`；卡片：`references/ontology/v9.0/cards/v90-b01054-2dff35e52c.md`
+- `概率、等级与时间窗@V90-B01058` → `V90-CANON-V90-B01058-AFC7BCEC96`；卡片：`references/ontology/v9.0/cards/v90-b01058-afc7bcec96.md`
+- `校准与评价@V90-B01066` → `V90-CANON-V90-B01066-F6827B4286`；卡片：`references/ontology/v9.0/cards/v90-b01066-f6827b4286.md`
+- `早期信号、反向信号与触发点@V90-B01071` → `V90-CANON-V90-B01071-3815F13359`；卡片：`references/ontology/v9.0/cards/v90-b01071-3815f13359.md`
+- `前瞻的失败语义@V90-B01075` → `V90-CANON-V90-B01075-74F1F97487`；卡片：`references/ontology/v9.0/cards/v90-b01075-74f1f97487.md`
+- `从前瞻到有限选择的桥@V90-B01078` → `V90-CANON-V90-B01078-6AE7760B77`；卡片：`references/ontology/v9.0/cards/v90-b01078-6ae7760b77.md`
+- `方案集必须包含行动与不行动@V90-B01081` → `V90-CANON-V90-B01081-E23D039462`；卡片：`references/ontology/v9.0/cards/v90-b01081-e23d039462.md`
+- `统一方案比较卡@V90-B01086` → `V90-CANON-V90-B01086-B57A933AC1`；卡片：`references/ontology/v9.0/cards/v90-b01086-b57a933ac1.md`
+- `信息价值@V90-B01090` → `V90-CANON-V90-B01090-978FFA1B45`；卡片：`references/ontology/v9.0/cards/v90-b01090-978ffa1b45.md`
+- `行动上限与信息性试验@V90-B01092` → `V90-CANON-V90-B01092-1D1B7BD0DE`；卡片：`references/ontology/v9.0/cards/v90-b01092-1d1b7bd0de.md`
+- `结果回写与模型学习@V90-B01097` → `V90-CANON-V90-B01097-803B6C8BE9`；卡片：`references/ontology/v9.0/cards/v90-b01097-803b6c8be9.md`
+- `面向读者的发布格式@V90-B01110` → `V90-CANON-V90-B01110-82E42C585E`；卡片：`references/ontology/v9.0/cards/v90-b01110-82e42c585e.md`
+- `工具层不产生授权@V90-B01116` → `V90-CANON-V90-B01116-48ED8FDEC7`；卡片：`references/ontology/v9.0/cards/v90-b01116-48ed8fdec7.md`
+- `四次转换@V90-B01121` → `V90-CANON-V90-B01121-9EB9DBDD62`；卡片：`references/ontology/v9.0/cards/v90-b01121-9eb9dbdd62.md`
+- `通用原语与人类变量接口非等价锁@V90-B01127` → `V90-CANON-V90-B01127-FDAF8C63A7`；卡片：`references/ontology/v9.0/cards/v90-b01127-fdaf8c63a7.md`
+- `七闸@V90-B01130` → `V90-CANON-V90-B01130-8BE8CBFF1B`；卡片：`references/ontology/v9.0/cards/v90-b01130-8be8cbff1b.md`
+- `五闸十三步@V90-B01136` → `V90-CANON-V90-B01136-D6973197D8`；卡片：`references/ontology/v9.0/cards/v90-b01136-d6973197d8.md`
+- `强判断八件套@V90-B01144` → `V90-CANON-V90-B01144-943C60DEF1`；卡片：`references/ontology/v9.0/cards/v90-b01144-943c60def1.md`
+- `诊断档位@V90-B01149` → `V90-CANON-V90-B01149-1DD4F7BBC2`；卡片：`references/ontology/v9.0/cards/v90-b01149-1dd4f7bbc2.md`
+- `六项正式工具@V90-B01153` → `V90-CANON-V90-B01153-EA8EEF60BC`；卡片：`references/ontology/v9.0/cards/v90-b01153-ea8eef60bc.md`
+- `多圈层推演九闸@V90-B01167` → `V90-CANON-V90-B01167-D441EC497F`；卡片：`references/ontology/v9.0/cards/v90-b01167-d441ec497f.md`
+- `规范选择@V90-B01179` → `V90-CANON-V90-B01179-68AF20E841`；卡片：`references/ontology/v9.0/cards/v90-b01179-68af20e841.md`
+- `三类选择@V90-B01187` → `V90-CANON-V90-B01187-9BEA31A0E8`；卡片：`references/ontology/v9.0/cards/v90-b01187-9bea31a0e8.md`
+- `方案生成、跨尺度后果与分配@V90-B01202` → `V90-CANON-V90-B01202-3C82225234`；卡片：`references/ontology/v9.0/cards/v90-b01202-3c82225234.md`
+- `选择记录状态与纠错@V90-B01221` → `V90-CANON-V90-B01221-F82B23B8DB`；卡片：`references/ontology/v9.0/cards/v90-b01221-f82b23b8db.md`
+- `跨圈层分配与不行动责任@V90-B01244` → `V90-CANON-V90-B01244-9B598D5B27`；卡片：`references/ontology/v9.0/cards/v90-b01244-9b598d5b27.md`
+- `资源、地位、代表与非支配@V90-B01248` → `V90-CANON-V90-B01248-864EA2404A`；卡片：`references/ontology/v9.0/cards/v90-b01248-864ea2404a.md`
+- `解释—诊断—规范选择—干涉@V90-B01255` → `V90-CANON-V90-B01255-8087E2072C`；卡片：`references/ontology/v9.0/cards/v90-b01255-8087e2072c.md`
+- `应用模块共同门@V90-B01295` → `V90-CANON-V90-B01295-8C21EA43FD`；卡片：`references/ontology/v9.0/cards/v90-b01295-8c21ea43fd.md`
+- `应用记录的最小输出@V90-B01360` → `V90-CANON-V90-B01360-BF27444D5D`；卡片：`references/ontology/v9.0/cards/v90-b01360-bf27444d5d.md`
+- `应用模块的动态入口@V90-B01364` → `V90-CANON-V90-B01364-C8121F41E6`；卡片：`references/ontology/v9.0/cards/v90-b01364-c8121f41e6.md`
+- `治理共同边界@V90-B01368` → `V90-CANON-V90-B01368-393923B6F5`；卡片：`references/ontology/v9.0/cards/v90-b01368-393923b6f5.md`
+- `场景化参数与缺失处理@V90-B01505` → `V90-CANON-V90-B01505-5E3A18ACCA`；卡片：`references/ontology/v9.0/cards/v90-b01505-5e3a18acca.md`
+- `人类强类型分流@V90-P00992` → `V90-CANON-V90-P00992-BC9B94349D`；卡片：`references/ontology/v9.0/cards/v90-p00992-bc9b94349d.md`
+- `行动者候选快照@V90-P01370` → `V90-CANON-V90-P01370-4D2D8D9D05`；卡片：`references/ontology/v9.0/cards/v90-p01370-4d2d8d9d05.md`
+- `有条件的人格慢变量假设@V90-P01436` → `V90-CANON-V90-P01436-01D9041DE7`；卡片：`references/ontology/v9.0/cards/v90-p01436-01d9041de7.md`
+- `物质与体验—意义双通道@V90-P01523` → `V90-CANON-V90-P01523-2275BEFBD8`；卡片：`references/ontology/v9.0/cards/v90-p01523-2275befbd8.md`
+- `圈层候选对象@V90-P01568` → `V90-CANON-V90-P01568-69EEC78466`；卡片：`references/ontology/v9.0/cards/v90-p01568-69eec78466.md`
+- `多圈层联合对象@V90-P01591` → `V90-CANON-V90-P01591-198B283015`；卡片：`references/ontology/v9.0/cards/v90-p01591-198b283015.md`
+- `六类圈层关系@V90-P01622` → `V90-CANON-V90-P01622-16D307DA5D`；卡片：`references/ontology/v9.0/cards/v90-p01622-16d307da5d.md`
+- `原文规则@V90-P01828` → `V90-CANON-V90-P01828-562A512AFB`；卡片：`references/ontology/v9.0/cards/v90-p01828-562a512afb.md`
+- `原文规则@V90-P01842` → `V90-CANON-V90-P01842-0259E6053A`；卡片：`references/ontology/v9.0/cards/v90-p01842-0259e6053a.md`
+- `原文规则@V90-P01959` → `V90-CANON-V90-P01959-218E636397`；卡片：`references/ontology/v9.0/cards/v90-p01959-218e636397.md`
+- `原文规则@V90-P01969` → `V90-CANON-V90-P01969-CD5B0277D4`；卡片：`references/ontology/v9.0/cards/v90-p01969-cd5b0277d4.md`
+- `原文规则@V90-P02039` → `V90-CANON-V90-P02039-D4850FA775`；卡片：`references/ontology/v9.0/cards/v90-p02039-d4850fa775.md`
+- `原文规则@V90-P02042` → `V90-CANON-V90-P02042-A1D1865FED`；卡片：`references/ontology/v9.0/cards/v90-p02042-a1d1865fed.md`
+- `原文规则@V90-P02066` → `V90-CANON-V90-P02066-23F1DC2EDB`；卡片：`references/ontology/v9.0/cards/v90-p02066-23f1dc2edb.md`
+- `原文规则@V90-P02097` → `V90-CANON-V90-P02097-F5232B2304`；卡片：`references/ontology/v9.0/cards/v90-p02097-f5232b2304.md`
+- `原文规则@V90-P02429` → `V90-CANON-V90-P02429-C8AC1AE9F5`；卡片：`references/ontology/v9.0/cards/v90-p02429-c8ac1ae9f5.md`
+- `原文规则@V90-P02528` → `V90-CANON-V90-P02528-FC37549FA0`；卡片：`references/ontology/v9.0/cards/v90-p02528-fc37549fa0.md`
+- `原文规则@V90-P02551` → `V90-CANON-V90-P02551-FD873296E8`；卡片：`references/ontology/v9.0/cards/v90-p02551-fd873296e8.md`
+- `原文规则@V90-P02555` → `V90-CANON-V90-P02555-C93EDA52B7`；卡片：`references/ontology/v9.0/cards/v90-p02555-c93eda52b7.md`
+- `原文规则@V90-P02667` → `V90-CANON-V90-P02667-6817118489`；卡片：`references/ontology/v9.0/cards/v90-p02667-6817118489.md`
+- `原文规则@V90-P02672` → `V90-CANON-V90-P02672-1E14351DAF`；卡片：`references/ontology/v9.0/cards/v90-p02672-1e14351daf.md`
+- `原文规则@V90-P02768` → `V90-CANON-V90-P02768-CCB3ED85E3`；卡片：`references/ontology/v9.0/cards/v90-p02768-ccb3ed85e3.md`
+- `原文规则@V90-P02796` → `V90-CANON-V90-P02796-1D6B3B658B`；卡片：`references/ontology/v9.0/cards/v90-p02796-1d6b3b658b.md`
+- `人类变量接口卡五区合同@V90-P02810` → `V90-CANON-V90-P02810-FBBA4710C2`；卡片：`references/ontology/v9.0/cards/v90-p02810-fbba4710c2.md`
+- `十一项变量共享同一行动边界@V90-P03903` → `V90-CANON-V90-P03903-174D91677D`；卡片：`references/ontology/v9.0/cards/v90-p03903-174d91677d.md`
+- `编号体系导航边界@V90-P03931` → `V90-CANON-V90-P03931-62CD76DD45`；卡片：`references/ontology/v9.0/cards/v90-p03931-62cd76dd45.md`
+- `贯穿全书的记号@V90-P04025` → `V90-CANON-V90-P04025-174ED10AED`；卡片：`references/ontology/v9.0/cards/v90-p04025-174ed10aed.md`
+- `本附录列出跨文本互操作时可以共享的方法责任@V90-P04027` → `V90-CANON-V90-P04027-F347F777F7`；卡片：`references/ontology/v9.0/cards/v90-p04027-f347f777f7.md`
+- `领域解释与应用图谱@V90-P04074` → `V90-CANON-V90-P04074-01069FFDCA`；卡片：`references/ontology/v9.0/cards/v90-p04074-01069ffdca.md`
+- `VERSION-LOG` → `V90-CANON-VERSION-LOG`；卡片：`references/ontology/v9.0/cards/version-log.md`
+
+## 边界
+
+- `D0`：由候选对象字段完整直接推得G1、价值或授权；给D0强加N0。
+- `D1`：D0无N0；定义无经验真值。
+- `D2`：回执、接收、存档直接称有效反馈或学习。
+- `D3`：D0无N0；定义无经验真值。
+- `U01`：完整U01不支持G1、不生成N/J/O资格
+- `U02`：邻近不证明共同边界，接口不证明控制权
+- `U03`：未观测不等不存在，可观察量不穷尽状态
+- `U04`：载体不生成意图、责任或继续承载义务
+- `U05`：相关/邻近/同时出现不生成因果或正当性
+- `U06`：未测维度保持未知；描述位置不证明通道存在
+- `U07`：无返回单向过程不适用；反馈不自动学习或修复
+- `U08`：环境不成为拟人化总原因；封闭无外通道可不适用
+- `U09`：瞬时缺口不自动累积损伤；无持续维护要求可不适用
+- `U10`：存档不支持G3；静态分类不适用
+- `U11`：基础相位不需G3；K先失效则对象转换或解体，不强派成熟阶段
+- `G1`：无第五根；正式实例门不扩为全知识真值门。
+- `G2`：把总效应当指定通道支持，或无G2便删除总效应。
+- `G3`：遗漏已知S制造G3增益；以一般学习改写G3b；无G3便否认技能习得。
+- `G4`：预测充分自动推出干预充分；不显著自动推出闭合；用同尺度遗漏冒充G4。
+- `E1`：一字段缺失删除所有来源事实。
+- `E2`：每题机械增加视角；一种记录当全部状态。
+- `E4`：凑数虚构竞争解释，或用整体感填证据空白。
+- `E3`：E5硬前提D3；G4受E5方法门。
+- `E5`：添加E5→G4硬依赖构成循环，或把方法门当经验原因。
+- `C1`：C12是规范桥接不是经验根；根并列不充分。
+- `C2`：C12是规范桥接不是经验根；根并列不充分。
+- `C3`：C12是规范桥接不是经验根；根并列不充分。
+- `C4`：C12是规范桥接不是经验根；根并列不充分。
+- `C5`：C12是规范桥接不是经验根；根并列不充分。
+- `C6`：C12是规范桥接不是经验根；根并列不充分。
+- `C7`：无G4否定所有外部性，或损害事实直接生成归责。
+- `C8`：C12是规范桥接不是经验根；根并列不充分。
+- `C9`：C12是规范桥接不是经验根；根并列不充分。
+- `C10`：C12是规范桥接不是经验根；根并列不充分。
+- `C11`：C12是规范桥接不是经验根；根并列不充分。
+- `C12`：从效率、事实、状态原型或只有N1生成正向授权方案。
+- `CM-FEEDBACK`：普通学习不是CM-LEARNING别名；瞬时/基础模式不硬加G3。
+- `CM-LEARNING`：一次更新或普通学习直接通过；更换目标抹去旧失败。
+- `CM-MAINTENANCE`：普通学习不是CM-LEARNING别名；瞬时/基础模式不硬加G3。
+- `CM-LOAD`：普通学习不是CM-LEARNING别名；瞬时/基础模式不硬加G3。
+- `CM-PHASE`：普通学习不是CM-LEARNING别名；瞬时/基础模式不硬加G3。
+- `CM-SELECTION`：普通学习不是CM-LEARNING别名；瞬时/基础模式不硬加G3。
+- `scale_axis:A`：J不能由其他轴扩展；O/N必须限定命名空间。
+- `scale_axis:X`：J不能由其他轴扩展；O/N必须限定命名空间。
+- `scale_axis:T`：J不能由其他轴扩展；O/N必须限定命名空间。
+- `scale_axis:O`：J不能由其他轴扩展；O/N必须限定命名空间。
+- `scale_axis:C`：J不能由其他轴扩展；O/N必须限定命名空间。
+- `scale_axis:R`：J不能由其他轴扩展；O/N必须限定命名空间。
+- `scale_axis:I`：J不能由其他轴扩展；O/N必须限定命名空间。
+- `scale_axis:N`：J不能由其他轴扩展；O/N必须限定命名空间。
+- `scale_axis:J`：其他轴扩大、实际控制或对象集动作集笛卡尔积生成授权。
+- `scale_operator:M01`：转义不是M10，算子结果四态不合并。
+- `scale_operator:M02`：概括性两支路删四值；以描述模式证据救援对象转换。
+- `scale_operator:M03`：转义不是M10，算子结果四态不合并。
+- `scale_operator:M04`：转义不是M10，算子结果四态不合并。
+- `scale_operator:M05`：转义不是M10，算子结果四态不合并。
+- `scale_operator:M06`：转义不是M10，算子结果四态不合并。
+- `scale_operator:M07`：转义不是M10，算子结果四态不合并。
+- `scale_operator:M08`：转义不是M10，算子结果四态不合并。
+- `scale_operator:M09`：转义不是M10，算子结果四态不合并。
+- `H1`：H2/H3/H6不能当经验机制支持。
+- `H2`：分类成功或承接能力产生经验机制、责任或义务。
+- `H3`：一次写回自动升学习、长期修复或授权修改规则。
+- `H4`：H2/H3/H6不能当经验机制支持。
+- `H5`：H2/H3/H6不能当经验机制支持。
+- `H6`：牺牲证明爱，或规范描述授权征用承担。
+- `human_strong_type:GC`：CV不等于RS；条件不是主体，人不是机制。
+- `human_strong_type:GS`：CV不等于RS；条件不是主体，人不是机制。
+- `human_strong_type:GE`：CV不等于RS；条件不是主体，人不是机制。
+- `human_strong_type:CV`：CV不等于RS；条件不是主体，人不是机制。
+- `human_strong_type:RS`：CV不等于RS；条件不是主体，人不是机制。
+- `human_strong_type:IS`：CV不等于RS；条件不是主体，人不是机制。
+- `human_strong_type:IM`：CV不等于RS；条件不是主体，人不是机制。
+- `human_strong_type:IB`：CV不等于RS；条件不是主体，人不是机制。
+- `human_variable:HV01`：R0不被高档前提封死；input_dependencies非推理图。
+- `human_variable:HV02`：R0不被高档前提封死；input_dependencies非推理图。
+- `human_variable:HV03`：R0不被高档前提封死；input_dependencies非推理图。
+- `human_variable:HV04`：R0不被高档前提封死；input_dependencies非推理图。
+- `human_variable:HV05`：R0不被高档前提封死；input_dependencies非推理图。
+- `human_variable:HV06`：R0不被高档前提封死；input_dependencies非推理图。
+- `human_variable:HV07`：R0不被高档前提封死；input_dependencies非推理图。
+- `human_variable:HV08`：R0不被高档前提封死；input_dependencies非推理图。
+- `human_variable:HV09`：将G2提升为R0必经门；不同型量直接相减。
+- `human_variable:HV10`：R0不被高档前提封死；input_dependencies非推理图。
+- `human_variable:HV11`：R1后果等于因果，R2等于爱；低成本等于无价值。
+- `S0`：成员不稳定即K未冻结；S0作为低级人格等级。
+- `S1`：改K后沿用原路径或同名即同一对象。
+- `S2`：不用于个人、物理系统或道德等级；非必经穷尽序列。
+- `S3`：不用于个人、物理系统或道德等级；非必经穷尽序列。
+- `S4`：不用于个人、物理系统或道德等级；非必经穷尽序列。
+- `S5`：不用于个人、物理系统或道德等级；非必经穷尽序列。
+- `S6`：不用于个人、物理系统或道德等级；非必经穷尽序列。
+- `X0`：X0登记成S7；仅S5/S6可进入；未知遗留义务判完成。
+- `AI使用边界@V90-B01158`：允许有据判断推荐完整文本，禁止自产事实/同意/人格/授权；保护性扣留不等无证据
+- `AI材料核对与工具行动链@V90-B01174`：四层出处支持核验与五环行动证据分离，实际保护权限须到系统
+- `APP-EMG`：分阶段功能恢复与外部应急职责，各权力时钟独立，框架不延误救命或自产命令
+- `APP-FAM`：家庭多成员边界与弱位置保护，临床监护等仍专业程序
+- `APP-INS`：制度管辖窗规则执行资源资格责任，法效正当效果采用分别核
+- `APP-OPI`：公共解释对象，热度曝光意见正当分母不同，不授控评披露
+- `APP-ORG`：组织目标资源执行反馈责任链，风险批评不授人事处分
+- `APP-PLT`：平台版本文本参数接口实际链；有限整包效应与内部机制缺口分开
+- `APP-REL`：关系对象非人格，暴力强制停止共同诊断；规则部分覆盖不授专业干预
+- `APP-SPC`：空间通道真实可达，原居民队列与现住片区分离，不授迁移工程
+- `APP-ULS`：嵌套总体的逐层映射与执行容量，不从中心意图直接判末端或跨域授权
+- `诊断@B100`：结构性约束和承载缺口的证据限定风险定位，非临床诊断。
+- `规范选择@B102`：公开价值前提权利底线方案后果，不由描述推出命令。
+- `干涉@B104`：行动层级授权停止回滚及条件性试探；小步非天然安全。
+- `原文规则@B111:审查强度随结论的用途和实际风险增加，不要求每次理解、阅读或日常交流都运行全部合同`：审查与用途风险相称，程序成本及独立局部结论保留。
+- `原文规则@B115:保护底板为任何解释和行动设置最低约束：保留人的主体地位、异议通道、退出可能、最小伤害、可追踪责任与真实回滚`：保护底板保留主体、异议、退出、最小伤害及真实回滚，不由解释自动生成行动。
+- `原文规则@B117:面对一个具体事件，先把“发生了什么”与“我们听说了什么”分开，冻结资料截止和争议；再识别事件中的行动者、主圈层和相邻圈层`：观察与听说分离，冻结截止；物质/意义不可互相还原。
+- `原文规则@B118:随后声明不同变量的时钟`：时钟差异为更新责任；无通道约束机制传播，不排除963/976有据直接观察差分。
+- `原文规则@B119:第十一部分从冻结快照注入事件，沿有证据的通道记录直接效应、返回反馈和跨圈层级联`：路径分叉、信号、停止与残差候选有别，模型候选不成为事实。
+- `原文规则@B12:人格只作为非临床慢变量假设；模型提出的变量候选不能冒充现实事实`：人格限定为非临床慢变量假设，候选变量不得写作现实值。
+- `原文规则@B120:若任务只要求理解，到这里可以停止`：理解可终止；前瞻和现实动作分别追加冻结、规范和授权责任。
+- `问题与输出接续表@B121`：按问题逐行决定可交付输出和继续阶段；条件式接续不是所有任务必走全链。
+- `原文规则@B124:本框架试图让对象、条件、事件、尺度、行动者和后果在同一语言中互相连接，并允许后续结果修正已有判断`：文字合同非完整现实复制，未观测/未研究/选择与事件保留开放性。
+- `原文规则@B125:本框架的目标不是“预测一切”，而是尽早识别关键交互，清楚区分事实、假设与路径，持续登记失败和更新，并严格保留人的决定权`：残差、简单基线、不行动及受影响位置不可省；能力须长期比较而非术语数量。
+- `原文规则@B127:使用框架可以从一个具体困惑开始：为什么同一条规则对不同人产生不同结果，为什么一次真实改进没有改变长期处境，为什么一种生活经验没有进入现有指标`：从需解释差异选择方法，不给某一解释类别永久优先权。
+- `原文规则@B128:共同实践、承担者处境和跨期关系可以彼此补充`：实践/承担/跨期为互补位置而非成熟阶梯，局部照护可独立有意义。
+- `原文规则@B129:知识与意义不只在改变集体状态时才成立`：普通学习意义爱与CM/HV专名窄合同双轨，不得静默偷换。
+- `原文规则@B13:任何强判断都必须给出对象、圈层、尺度、证据、基线、反例、暂停、申诉与回滚`：强判断须承担对象到申诉回滚的责任；结合111按用途风险适用，不推广为每次阅读全部必填。
+- `原文规则@B130:完整分析应让读者看见问题、证据、主要解释、最强反方、判断及其限制，并知道什么新材料会使判断改变`：完整答案包含理由反方边界和改判条件；独立可答部分不等待全局未知解决。
+- `原文规则@B132:本框架的最终对象域是广义经验结构世界：凡是能够留下可比较材料，并允许研究者声明候选对象、状态、关系或转移、接口、时间窗、尺度剖面和同一性判据的自然过程、技术系统、生态过程、人类行动、组织与制度，都可以进入结构解释`：广义经验对象域与人类特化区分；可讨论形而上不授经验等级。
+- `原文规则@B133:每次使用仍须另行声明当前适用范围：对象、SP/T/K、地域或环境、资料窗口、外推单元和排除项`：领域准入只准建合同，每次仍限SP/T/K和外推单位。
+- `原文规则@B134:这一范围选择同时规定了框架的克制`：框架不设世界统一目的、不把人意图投非人、不由实然推应然。
+- `原文规则@B136:结构建模从候选对象开始，而不是从已经证明有效的对象开始`：候选声明后实例支持的双阶段只约束G及相关C/CM，非所有知识的真值门。
+- `原文规则@B137:第一阶段是候选对象声明`：D0七元候选声明非经验有效，字段不全不能申强对象支持。
+- `原文规则@B138:第二阶段是根实例检验`：G正式资格归具体结果前冻结实例，含唯一子型/成功判据与多目标模型规则。
+- `原文规则@B139:支持资格要求把探索与确认、正向结果与零结论、冻结完成与事后偏离分开`：探索确认、正向零结论、冻结偏离分开；未过正向不等零支持。
+- `原文规则@B140:这一两阶段结构防止两种相反错误：一是把分析者的命名、聚类或边界选择当作对象已经客观成立；二是在对象尚未声明时，就用零散材料事后拼出一个不可证伪的“系统”`：两阶段同时阻止命名客观化与事后零散拼对象。
+- `原文规则@B142:已有研究、档案、口述、考古材料和可定位原文，可以依其实际研究设计支持相应的描述、解释或有限因果结论`：已有研究可按本身设计支持有限结论，不补预注册也不因无G删除事实。
+- `原文规则@B143:若要把既有发现用于新的正式根实例，可先把它作为问题和模型的来源，随后在独立材料、后续窗口或合适的复制设计中检验`：旧发现进入新正式实例须独立材料/后续复制；不可把探索数据重新包装确认。
+- `原文规则@B144:形式证明按其公理、语义和推导规则成立，文本解释按版本、语境和论证材料接受批评，规范主张公开价值前提与理由`：证明、文本解释、规范各有责任，不冒充经验机制或权限。
+- `原文规则@B146:正式判断按 D、G、E、H、N、O 六类登记`：混合D/G/E/H/N/O承诺须拆成主张分别审查。
+- `原文规则@B15:尺度变换、圈层关系变换和表示或表述转义分别判断`：三类变换分开，非平凡转义逐项记保持/改变/折叠/遗漏/未知/回返；损失是任务可辨别性，不是物理熵。
+- `原文规则@B153:描述性结论不能自行生成规范结论，解释或诊断也不能自行生成处置权`：描述和诊断不自产规范或权限，行动桥另需明确理由。
+- `原文规则@B154:描述或解释结论 + 明示规范前提 + 当前证据 + 合法授权 + 行动上限 + 停止或撤回条件`：现实动作桥六分量须同时成立，不可只保留经验结论。
+- `原文规则@B155:现实行动桥接的任一项缺失，现实处置应停止，相关行动要求停留在描述、候选解释、补证、不行动或可逆试探，而不是以理论语言越过授权`：行动桥缺项停止处置；可逆试探仍受适用权限，不是缺授权豁免。
+- `原文规则@B157:命题间关系采用四种不同合同`：四类关系采用不同合同，不压成无类型依赖。
+- `四类依赖@B158`：四种关系的效力与DAG资格逐行明确，只有inferential_requires进入硬DAG。
+- `原文规则@B16:递归未来推演只在模拟平面展开`：无新外部材料时多阶推演仍模拟，递归深度不增加证据。
+- `原文规则@B160:方法门会决定一次判断能否发布，却不因此成为额外经验原因；领域特化会缩小适用范围，却不把分类规则变成事实证据；规范适用会约束行动，却不反向证明描述为真`：方法门影响发布不成因果，特化不成证据，适用不反证真；仅硬前提进DAG。
+- `原文规则@B162:本框架与《世界模型》可以共享一套方法内核，但两份文本仍是相互独立的谱系，彼此不充当权威来源或双重经验证据`：双文本谱系独立，五层共享方法不构成双重经验证据或价值阶梯。
+- `共同内核五层责任@B163`：共同内核逐层给问题和效力边界；两文本对齐不成为双重证据。
+- `原文规则@B165:D、G、C等编号用于稳定引用`：编号便引用不替完整合同，同名不能双计支持。
+- `原文规则@B167:因果主张先登记处理或原因的具体版本、结果、对象与人群、时间窗、尺度和所问的效应，再说明比较为什么能够识别这一效应`：因果契约先冻处理/估计对象，指定通道再加机制时序、反事实和跨尺度桥。
+- `原文规则@B168:时序、相关性和连贯故事不能单独识别因果`：总效应可机制未知，局部环节不保证整链；零净效应不否定相抵机制。
+- `原文规则@B170:给某人一个机会、某人实际接受干预、整个制度扩张，是不同的处理`：机会/实际干预/制度扩张以及平均/局部/个体效应不互换，识别失败局部传播。
+- `原文规则@B171:观察性控制不是变量越多越可靠`：控制多不等可靠，点识别失败可保留有据界限/方向集合但不猜。
+- `原文规则@B172:“提供机会”与“实际接受、留任或退出”是不同处理；协议文本、核验、执行和日常使用也不是同一结果；公告、公众理解、到场、口岸处置和全面放行必须按事件链分别取证`：协议/核验/执行/使用逐环节取证，总效应不填中介分配缺口。
+- `原文规则@B174:证据链区分来源、材料、观察记录、证据、反例、判断和行动授权，每一层都需要自己的转换理由`：来源到材料/记录/证据/判断/权限逐层要理由，出处不等当前支持。
+- `原文规则@B175:缺席与沉默不默认构成否定证据；无法观察也不等于不存在`：沉默/不可观测不等不存在，保护不公开需范围期限可信复核；失败不能事后改阈值。
+- `原文规则@B177:直接记录量、定义性合成指标、潜在属性的测量、形成性条件和预测代理有不同的解释责任`：直接量/合成指标/潜在测量/形成条件/预测代理分别解释，题域表现不等长期能力。
+- `原文规则@B178:跨群体或跨时期比较需要与任务相称的可比性`：可比性随任务；均值量尺和个人阈值误差不同，共锚漂移不能靠大样本修复。
+- `原文规则@B179:指标改变可来自真实改善、对狭窄目标的真实适应、进入或报告样本改变、以及记录被伪造`：指标变化可多机制并存，异方向合法指标不自动为操纵。
+- `原文规则@B181:类比只是一种问题生成工具`：类比须源目标差异禁止迁移和检验，只是启发不凭同词同形。
+- `原文规则@B182:类比可以帮助提出“还应检查哪条通道、哪个边界、哪种竞争解释”，不能替代 G-instance，不能把源域的因果关系、规范评价或行动方案直接搬到目标域`：源域因果/规范/行动不直移；反向条件缺失保留启发候选。
+- `原文规则@B184:启发性类比、满足明确数学前提的形式实例、经过独立材料检验的目标域关系，是三种不同状态`：启发/形式实例/独立经验比较三种状态分开，受检材料才提供支持。
+- `原文规则@B185:历史与考古比较还须区分痕迹的物理形成、活动功能和社会关系`：历史痕迹形成/功能/关系分别取证，亲缘不等统治，尊重不等材料全问题等权。
+- `原文规则@B187:来源记录必须逐项标明来源领域、案例类型、时间与地区、支持范围、外推边界，并完成反例登记`：来源域案例时间地域及支持外推边界须标，原始/二手/框架推断分栏且双向定位。
+- `原文规则@B188:概念定义、字段映射和方法说明只规定要检验什么、怎样记录以及推论在哪里停止，不能进入 empirical_evidence_records 充当对象事实或机制支持`：方法定义和内部例示禁止进入经验记录充当对象事实。
+- `原文规则@B189:经验支持必须来自独立登记的实例资料，并包含对象与尺度、时间窗、研究设计、N0、结果、不确定性、复核或复现及证据等级`：无外部实例G待检、C为规则、CM为条件机制，不能框架自证。
+- `原文规则@B19:文中“研究XX.XX”指同号研究报告、交接摘要及覆盖回执；它是可回溯的材料定位，不表示本书重新独立复核了报告引用的全部外部原作`：研究题号是来源定位，未解决的外部识别与历史问题保持未决；不产生独立复核资格。
+- `原文规则@B191:读到目录、摘要、相关章节或全文，应分别记录；找到链接、完成下载和理解论证也不是同一动作`：目录下载全文理解不同，原报告与转述保留同源关系，复现不按引用量计。
+- `原文规则@B192:理论的历史采用、仅被提及、明确限制或拒绝、与当前文本相容，以及分析者现在提出的新连接，分别成立`：采用/提及/限制/相容/新连接有别，未取得不推出项目从未有。
+- `原文规则@B193:档案的生成、保存、销毁、开放、检索和叙事选择可以分别造成缺席`：档案缺席需应留痕且可发现条件，日期错误与经验叙述价值分开。
+- `原文规则@B195:下列词语一旦进入判断，就必须满足其专门合同；不能以日常语言的宽泛含义替代`：词语用于判断须专门合同，不以日常宽义替代。
+- `成本@B196`：成本须同型或明确类型转换、单位窗口边界和位置，不是跨域守恒。
+- `外部性@B197`：跨界因果与排除核算规则共同成立，不自动法律归责。
+- `原文规则@B198:这里的排除规则可以来自明确的经济模型或真实制度与会计安排；它不是先行裁定法律责任的要求`：外部性排除规则非先行法律归责；C7只是一条限定跨尺度路径。
+- `修复@B199`：结果前K*/F*目标，非复原历史或自动价值改善。
+- `选择@B200`：系统筛选/主体选择/治理选择三接口，系统不拟人。
+- `责任与授权@B201`：载体成本承担受益停止权责任分栏，事实能力不单独授责任或权限。
+- `原文规则@B202:承担义务需要另行说明承诺、角色、因果贡献、受益、能力与适用规范之间的关系；这些理由可能共同作用，不能由其中一项自动包办`：责任需独立承诺角色因果受益能力规范关系，不把人变无限不可退出载体。
+- `原文规则@B204:每个合同字段都必须落入一种明示状态，而不是用模糊措辞填空`：字段有明示缺失状态，不用模糊措辞或删字段代替。
+- `字段缺失:不适用@B206`：当前合同无合法对应须理由，不是证据缺失逃门。
+- `字段缺失:不可观察@B207`：通道窗口测量限制，不推出不存在。
+- `字段缺失:为保护而不公开@B208`：材料存在，保护范围期限可信复核明确；不等未知或无证据。
+- `原文规则@B209:关键变量未知、对象不适用条件未处理、核心通道不可观察或保护性不公开无法被可信复核时，结论依次降为候选假设、问题清单或仅作描述`：降档沿真实依赖局部传播，共同源/前提/K失效只阻断全部相关项；权限不明停处置。
+- `原文规则@B211:圈层首先是候选分组，不是天然实体`：候选圈层有限对象支持须相对基线；平行/嵌套/重叠/桥接/竞争/临时关系各有判据。
+- `原文规则@B212:多圈层分析不得把所有背景都实体化`：新增圈层需残差通道删减损失及隐私成本，无增益退单圈层或候选环境。
+- `原文规则@B214:人格只作为有证据等级的慢变量假设进入，不作为人的本体定义`：人格为慢变量假设，单次行为/自述/分数不证稳定人格，须竞争解释。
+- `原文规则@B215:行动者变量分为慢、中、快三个时间带，每项绑定观察窗、来源、反证、圈层条件、隐私和允许用途`：快中慢变量绑定窗来源反证用途隐私，非临床且拒披露非病理。
+- `原文规则@B217:路径推演可以使用观察、报告、计划、假设和模拟事件，但必须保留事件类型`：事件五类身份保持，截止后信息新版本；计划模拟不回写现实。
+- `原文规则@B218:条件前瞻必须在结果前登记目标、期限、对象与圈层范围、输入截止、简单基线、路径、表达方式、校准指标、早期信号、反向信号、暂停、退役和结果回写`：前瞻结果前登记，改目标期限人群路径新记录，不事后追认命中。
+- `原文规则@B22:附录D不是新的经验公理集`：附录D是领域接口而非新公理；教学假设不能作个案实验或许可。
+- `原文规则@B220:“自主完善变量”只允许三种动作：从残差提出多个竞争候选；说明候选可能通过何种通道产生哪些可观察含义；设计风险可接受的最小检验`：变量完善仅竞争候选、可观察含义、最小检验，候选生命周期不直接升事实。
+- `原文规则@B223:本部分给出广义经验结构世界的最小描述语言`：D定义/U接口不主张万物同构，不因合同写入便成经验事实。
+- `表示转义/表述转义@B254`：有来源载荷经具名规则重写目标表示，语言文本载荷为表述转义；保留父谱系。
+- `原文规则@B282:U01—U03 回答“当前把什么当作候选对象、怎样看见它”；U04—U06 回答“结构由什么实现、变化经何处传导”；U07—U10 回答“返回怎样更新状态、条件怎样作用、负荷怎样分布、历史怎样留下效应”；U11 回答“何时仍是同一运转区间，何时转移、转换或解体”`：U01—11功能组接口问法不同，不产生互相证明关系。
+- `原文规则@B283:这些原语互为接口，而不是互相证明`：原语缺失四态须说明上限，不凭熟悉感填字段或升阶段价值责任。
+- `原文规则@B285:根假设是通用经验问题的预注册模板，不是关于一切对象的无条件定律`：抽象G模板无自立经验真值，具体实例在SP/T/K内有限支持。
+- `根实例合同@B287`：不可混写预注册/执行结果段，未运行保持真实not_evaluated而不造结果。
+- `人类经验实例合同@B296`：只H1/H4/H5使用claim_id实例，冻结及结果纪律与根同构；非通用根。；原文定义/规则与现实实例取值分开；产品canonical ID由Sol集成人一一映射。
+- `原文规则@B344:推论是从已经通过的根实例、定义与明确附加条件得到的受限输出`：C依赖/方法/特化/适用不同，推论仅合格根和明确附加条件的有限输出。
+- `原文规则@B449:G1-instance + 对象/变量桥 + G2-instance  └─ 指定组织依赖的通道候选      ├─ + 返回通道与阻断反事实      │    └─ 有效反馈      │         └─ + G3-instance + 可保留更新 + 重复轮次      │              └─ 反馈介导学习候选      └─ + G4a/G4b + D3/E5 映射           └─ 闭合失败或对象/干预转换候选G2-instance + 同型需求/容量映射  └─ 瞬时过载候选       └─ + G3-instance + 历史载体            └─ 累积损伤或迟恢复候选D1 + V + D + R + 下一轮 + 重复轮次 + 漂变竞争  └─ 变异—差异保留—再生产模式       ├─ + G2-instance → 指定保留/再生产机制       └─ + G3-instance → 跨轮历史路径候选`：组合树仅示分支顺序与附加条件，根并列非充分；反馈/学习、瞬时/累积、筛选模式/机制分开。
+- `原文规则@B450:任何根组合都不构成充分条件；附加条件、方法门、桥接证据或适用边界缺失时，只生成检查问题`：即使全部G通过仍须附加条件方法桥且不推S阶段价值责任权限。
+- `原文规则@B452:根层的最高输出是受对象、尺度、时间窗、证据和外推单元约束的描述或候选机制`：根层最高是限SP/T/K的描述候选机制，触及价值责任处置转人类/规范/O，不自证。
+- `原文规则@B454:方法约束规定模型构造、证据使用和结果发布必须守住的区别，不是关于世界必然怎样运行的经验定律`：方法约束防模型身份偷换，可随反例修订，非世界必然经验定律。
+- `法一：分层表示的任务相对性@B456`：对象任务观察窗用途绑定，不是世界固定层级本体。
+- `法二：信息身份不得静默升级@B457`：报告观测现实信念模拟证据授权不自动升级。
+- `法三：非平凡转义不预设无损@B458`：须损失审计，也不反过来断言每次任务相关必损。
+- `法四：目标表示不预设闭合，路径不预设等价@B459`：条件增量与转换非交换分别检验。
+- `法五：模拟再入不得提升认识地位@B460`：无新外部材料多阶模拟不增事实/支持/能力等级。
+- `法六：事实、前瞻和能力不生成价值、责任与授权@B461`：现实选择须规范权利责任程序授权，不由预测推出。
+- `原文规则@B463:G1 至 G4 继续作为四类可检验根假设的权威合同，分别对应候选分组的条件增益、指定通道效应、历史项条件增量、尺度闭合及对象或干预转换`：明确只有G1—4，转义由已有合同联合审查；未来讨论新根条件不等已定义第五根。
+- `原文规则@B464:C1 至 C12 仍是条件推论，不因进入共同内核而变成普遍事实`：C1—12条件推论非普遍事实，双文本运行不互证经验能力。
+- `原文规则@B466:由六条方法公理可以推出：目标尺度上有用的有效变量仍只是绑定任务和适用窗的候选；转义损失不等于现实对象中的物理损失；条件分支变窄不等于证据增加；递归更深不等于前瞻更准；新外部材料到达后必须建立新运行，不能倒灌修补原预测`：有效变量仍候选、转义损失非物理损失、路径变窄非证据、深递归非更准；新外材新运行。
+- `原文规则@B467:“每次尺度迁移必然丢失信息”“信息丢失等于熵增”“残差必然来自被压缩变量”“第三阶天然优于第一阶”均不属于本框架结论`：四个常见必然断言均非源结论，提出需独立域前提误差反例。
+- `原文规则@B469:本部分回答：对象、观察或行动从 SP0 变到 SP1 时，哪些内容得到扩展，哪些内容发生收缩，哪些位置不可比较，凭什么建立转换桥，以及什么信息会在转换中丢失`：尺度变换包含扩收不可比，只有九轴积偏序严格成立称升格。
+- `原文规则@B471:九个尺度轴是 D 类定义，角色为 scale_axis_definition；九个转换算子是 O 类程序，角色为 scale_transformation_operator；U01—U11 是 D 类通用原语定义，角色为 universal_primitive_definition`：九轴D定义、算子O程序、U原语定义三角色不可当经验真值，因果转换零结论另实例。
+- `原文规则@B472:尺度实体一律使用限定 ID：scale_axis:A 至 scale_axis:J、scale_operator:M01 至 scale_operator:M09、universal_primitive:U01 至 universal_primitive:U11`：限定命名空间消除O轴/O命题及N轴/N规范混淆，协议CAUSAL等ID非裸轴。
+- `原文规则@B475:SP=<A,X,T,O,C,R,I,N,J>`：SP九元符号式，次序AXTOCRINJ与476轴定义对应，不创第十轴。
+- `九轴状态比较合同@B476`：九轴各有独立状态字段、扩展见证和不可替代边界；非大小单指标。
+- `原文规则@B478:每轴关系只有五种：equal、expands、contracts、incomparable、unknown`：逐轴五关系与独立结构见证，深相等可内建，其余外部注册复核；无见证unknown，同状态不可报扩收。
+- `原文规则@B479:“九轴都要登记”不等于“九轴对一切对象都适用”`：九轴全登记不等全适用；两端同理由不适用可equal，一端不同incomparable，缺证unknown。
+- `原文规则@B480:每个轴状态都须满足反身性、反对称性和传递性`：偏序在规范化等价类上，任意点距容差不能定义等价；中间版本映射断则unknown。
+- `原文规则@B481:每轴的主比较量成立还不够`：主范围扩展还须辅助语义映射，时滞接口保护等冲突不能只比主量宣扩展。
+- `原文规则@B483:SP0≼SP1 当且仅当九轴全部为 equal 或 expands；严格关系 SP0≺SP1 还要求至少一轴 expands`：积偏序要求九轴equal/expands，严格须至少一扩展；非一轴扩大即升格。
+- `原文规则@B490:因此，宏观聚合同时压缩观察分辨率时通常是 mixed，不应笼统叫升格；领域类比常是 horizontal_or_incomparable；材料不足时是 unresolved`：混合/不可比/未知各保留，只有elevation叫升格；其他八轴不能扩J。
+- `原文规则@B491:J 状态不是“一个来源 + 一组主体 + 一组对象 + 一组动作”的独立字段拼盘，因为那会凭空生成未被授权的对象—动作组合`：原子J元组一源主体对象动作地域期限撤回证据复核，不可集合笛卡尔积；新增独立有效元组才能扩J。
+- `原文规则@B493:每条原子记录的 operator_ids 必须且只能包含一个算子，selected_operator_branch 再从该算子的分支注册表中唯一选择内部支路，最后用 claim_mode 声明本次评价的模式：descriptive_mapping（描述映射）、root_hypothesis（根假设实例）、causal（因果桥）、object_conversion（对象转换）或 intervention_conversion（干预转换）`：每原子记录唯一算子分支模式且结果前冻结；多算子拆链逐步结案，不事后退描述救援。
+- `原文规则@B499:“未显著”“切断后看似不变”“效应消失”“简单模型表现相当”或“目标证据不足”都不能自动写成 null_supported`：未显著/看似不变/等同/缺证都非自动零支持，门适用全部M01—09。
+- `原文规则@B501:每个算子都有独有 semantic_signature，不能复制 M01 的聚合语句冒充其他算子`：每算子独有语义签名，不能复制聚合句充其他程序。
+- `统一尺度变换十四节合同@B538`：正式记录十四节稳定接口与全部字段，任务扩展进原节不增第十五节。
+- `原文规则@B551:四种缺失状态构成封闭词表：unknown 表示当前未知，not_applicable 表示按合同确实不适用，not_observable 表示当前通道和窗口不可观察，withheld_for_protection 表示为保护而不公开`：尺度四缺失词表非不存在，不能删字段或压零；与原型五态及结果四态区分。
+- `原文规则@B554:M01—M09 的名称、编号、语义签名和分类结果只规定变换应怎样描述与检验，不构成变换已经发生、映射有效或目标性质成立的经验支持`：M名称签名分类/完整度非变换或目标真实性，不作source/target_evidence。
+- `原文规则@B555:每个实际变换必须分别在源对象和目标对象上取得可解析的独立材料，明确映射、保持项、改变项、丢失项、误差与竞争解释，并接受同一结果状态、正向门和零结论门`：源目标独立可解析材料及映射误差竞争；源域只能目标候选，无目标支持待检。
+- `圈层关系变换@B557`：关系并列包含重叠桥接竞争临时与尺度转换分开，可伴随不互代。
+- `圈层变换问题路由表@B559`：具体问题绑定所需变换合同和禁止跳跃，不把成员/共同上级/接触偷换支持。
+- `原文规则@B564:尺度变换回答同一问题在两个尺度剖面之间哪些变量保持、改变或丢失；圈层关系变换回答候选圈层之间的并列、包含、重叠、桥接、竞争或临时关系如何更新；表示或表述转义回答一个有来源的载荷怎样进入目标任务的词汇、变量或表达`：尺度/圈层关系/表示转义三类独立可同时发生但有序拆记。
+- `转义损失审计@B568`：保持改变折叠遗漏新增回返六项各有责任和禁跳，不以标题保全代语义。
+- `有效变量@B572`：目标尺度/任务的候选压缩变量，绑定测量基线误差退出，不是真实体根因普遍量或许可。
+- `原文规则@B576:现实结构不是单棵层级树`：现实可多关系有向图，节点/边各合同；上层仅具体关系非更真更有权。
+- `原文规则@B577:当多个圈层共享环境却没有直接通道时，模型保留共同条件节点，不虚构圈层间直接边；当通道只在事件窗口内开放时，边具有起止时间；当不同关系方向相反时，分别建边`：共同环境无直接通道保共同条件不造边，事件窗边有起止，反向关系分边。
+- `原文规则@B579:本部分把对象合同展开为过程解释`：各CM为不同前提条件反事实机制，名称非充分；依赖条件证据竞争同时成立限SP/T/K。
+- `原文规则@B581:一次运转至少登记输入、指定载体或通道、状态转移、输出、环境条件、时间窗和可能留痕`：运转输入通道转移输出环境窗留痕，返回/历史/跨尺度分别加责任，非强线性链。
+- `原文规则@B600:因此，反馈不等于学习，写回也不等于学习`：教学例的共同边界：反馈/写回/学习责任递增，入口或公开回应不一次跨越。
+- `共演化@B632`：双对象独立K/SP/T、双向G2及第三方环境竞争，历史锁定另分别G3；只候选。
+- `原文规则@B638:六个条件机制都必须依次完成对象与尺度声明、推理依赖、使能条件、机制链、最低证据、竞争解释、反例和失效边界`：六CM对象尺度依赖条件链证据竞争反例失效齐，缺只候选，名称教学不证经验。
+- `原文规则@B640:多圈层联合状态至少包含即时、互动、组织、制度和长期时钟`：即时互动组织制度长期五钟，快到慢接续不压同时，时延非无效波动非演化。
+- `原文规则@B641:快变量的变化不自动代表长期制度或生活结果`：快变量产出协议止暴完工合作不直接长期生活结果，资料不足留局部止外推。
+- `原文规则@B642:每个机制应声明自己的更新时钟和跨时钟桥`：跨钟桥须载体执行确认失效，信号到达/决定/制度文字非各位置写回。
+- `异步时钟接续桥@B643`：即时→互动→组织→制度→长期实际接续桥，法权正当单列不当发生门。
+- `原文规则@B647:级联发生在一个圈层的局部变化经成员重叠、桥接接口、共享资源、网络传播或制度下行触发其他圈层变化`：级联逐跳对象通道尺度证据重核，可被容量过滤延迟抵消排除截断，不自动全链。
+- `原文规则@B648:跨圈层传播必须先识别传播的是什么，以及目标发生改变需要什么条件`：消息到达/独立确认/实际协作不同，同源转述非多证；图阈值最短路非可行证。
+- `原文规则@B649:还须区分一处故障触发下一处故障、多个故障共同阻碍恢复，以及共同外因同时损坏多处`：逐跳触发/多个故障恢复依赖/共同外因三分，人的采纳和设施供给不互换变量阈值。
+- `原文术语@B682:十一个变量统一接口`：原文定义/规则与现实实例取值分开；产品canonical ID由Sol集成人一一映射。
+- `原文规则@B714:共同申诉回滚`：原文定义/规则与现实实例取值分开；产品canonical ID由Sol集成人一一映射。
+- `原文接口@B717:行动者圈层互构`：原文定义/规则与现实实例取值分开；产品canonical ID由Sol集成人一一映射。
+- `原文规则@B722:实践再生产变迁`：原文定义/规则与现实实例取值分开；产品canonical ID由Sol集成人一一映射。
+- `原文合同@B731:状态判断最小合同`：原文定义/规则与现实实例取值分开；产品canonical ID由Sol集成人一一映射。
+- `原文合同@B736:运行时分类记录`：原文定义/规则与现实实例取值分开；产品canonical ID由Sol集成人一一映射。
+- `原文表@B778:非线性路径库`：原文定义/规则与现实实例取值分开；产品canonical ID由Sol集成人一一映射。
+- `原文规则@B812:三个时间带`：原文定义/规则与现实实例取值分开；产品canonical ID由Sol集成人一一映射。
+- `原文规则@B82:本框架把分析对象表示为行动者与多个平行、嵌套、重叠、桥接、竞争或临时圈层组成的联合状态，并将结构解释、事件驱动的动态推演、条件前瞻和有限选择连接起来`：联合多圈层表示受相对简单基线增益约束，不是模型越复杂越好。
+- `原文记录@B835:角色激活`：原文定义/规则与现实实例取值分开；产品canonical ID由Sol集成人一一映射。
+- `原文规则@B838:双向影响链`：原文定义/规则与现实实例取值分开；产品canonical ID由Sol集成人一一映射。
+- `解释/推演/条件前瞻/有限选择@B84`：四种输出按对象时态、冻结比较和行动约束定义，不能混同四类工作或八层责任。
+- `原文规则@B844:状态升级`：原文定义/规则与现实实例取值分开；产品canonical ID由Sol集成人一一映射。
+- `四类输出任务表@B85`：表将四种输出逐行绑定问法、阅读入口与停止上限；停点为使用责任不是经验支持。
+- `原文边界@B853:隐私用途`：原文定义/规则与现实实例取值分开；产品canonical ID由Sol集成人一一映射。
+- `八层责任@B87`：U/S/H/A/MC/P/I/N为责任层位而非发展阶梯；不与U01或H1编号混淆。
+- `原文规则@B90:读者分析一个具体事件时，可以采用最短入口：先冻结事件与证据截止；识别行动者和候选圈层；分别登记物质条件与体验—意义条件；声明即时、互动、组织、制度和长期时钟；沿有证据的通道展开路径；为每条路径登记早期与反向信号；只有需要发布前瞻时才冻结目标、期限和简单基线；只有需要现实动作时才进入规范、保护与授权`：最短事件流程以用途决定是否继续前瞻/行动，物质意义和五时钟分别记录。
+- `原文记录@B903:多重成员关系`：原文定义/规则与现实实例取值分开；产品canonical ID由Sol集成人一一映射。
+- `原文规则@B914:资源转化`：原文定义/规则与现实实例取值分开；产品canonical ID由Sol集成人一一映射。
+- `原文规则@B918:资产负债合同`：原文定义/规则与现实实例取值分开；产品canonical ID由Sol集成人一一映射。
+- `原文规则@B92:本框架是一套描述结构、检验机制并约束行动推断的工作语言；它不替代学科证据、法律程序、专业评估或当事人的决定权`：框架为描述检验工作语言，不代替领域和当事人决定权。
+- `原文规则@B922:五类时钟`：原文定义/规则与现实实例取值分开；产品canonical ID由Sol集成人一一映射。
+- `原文合同@B928:联合状态快照`：原文定义/规则与现实实例取值分开；产品canonical ID由Sol集成人一一映射。
+- `原文规则@B93:共同语法的作用是让不同解释在同一问题中互相校正`：技术/制度/经验各自有限支持，跨域保留变量单位和识别条件。
+- `原文规则@B931:边界扰动`：原文定义/规则与现实实例取值分开；产品canonical ID由Sol集成人一一映射。
+- `原文门@B934:联合复杂度`：原文定义/规则与现实实例取值分开；产品canonical ID由Sol集成人一一映射。
+- `原文合同@B948:推演最小输入输出`：原文定义/规则与现实实例取值分开；产品canonical ID由Sol集成人一一映射。
+- `原文规则@B95:四类工作必须分别陈述目的、依据与结论边界`：事实到建议须规范前提，供审议文本不授处置权；按实际高影响用途触发审查。
+- `结构解释@B97`：解释方式之一，普通历史文本证明规范不必先转结构变量。
+- `原文规则@B98:跨领域比较时，路径机制不能替代结果分项`：跨域结果可不同步，机制链不能替各结果/承受位置作证。
+- `C1—C3证据反例边界表@B368`：前三推论按行绑定最低证据、反例及失效上限，不把反例当新的独立根。
+- `C12证据反例边界表@B445`：程序规范门证据/反例/停止条件，非因果机制支持；仅N1为否定性越权门。
+- `C4—C7证据反例边界表@B400`：历史负荷尺度溢出逐行证据及降档，不将一个C失败传播给无关普通结论。
+- `C8—C11证据反例边界表@B435`：逐行区分基础模式与机制/持久/历史等追加资格；不强加所有追加门给基础。
+- `CLAIM-REGISTRY`：正式框架判断的断言记录与发布资格，非所有领域知识存在条件
+- `coercion_and_choice@V90-B01210`：强制默认信息能力安全拒绝真实退出逐项有据，unknown非通过
+- `COUNTEREXAMPLE-REGISTRY`：反例对象窗口事实非噪声理由替代处置信号记录
+- `D命题责任@B147`：定义只规定术语，不提供关于世界的经验支持。
+- `E命题责任@B149`：认识论约束观察测量推理迁移范围。
+- `execution_state_log@V90-B01264`：非draft执行日志追加hash外部anchor与终态不可复活，不造全局控制面
+- `flow_execution_record@V90-B01161`：字段闭合运行记录与缺失/结果词表；authorization_effect恒none，外部核验不能自发状态
+- `FORECAST-REGISTRY`：预测窗正反信号竞争到期结果，保全部失败态而非命运
+- `G命题责任@B148`：经验根为待检模板，具体正式实例资格非无条件世界定律。
+- `GOV-01`：自诊文本/概念/实践/社群各对象，有限记录与反例后果
+- `GOV-02`：安全异议真实改变的共识程序，applied强门非社会普遍一致同意
+- `GOV-03`：根/断言/框架三生命周期词表分开，终态无在役出边且反例局部对应
+- `GOV-04`：五权威记录与七治理registry分工，正式发布资格不否认普通知识
+- `GOV-05`：白话前概念门先于映射，五强度非自动授权
+- `GOV-06`：缺席信号与保护/功能/压制不透明分型，期限是复核不是必公开
+- `GOV-07`：仅人类意图集体已确认S6，观测递归有停止规则，非广义世界阶段
+- `GOV-08`：恶意合规十信号与3/5程序触发，非概率或故意欺骗定罪
+- `GOV-09`：AI有据完整分析但过程不证现实，各缺失按主张用途局部限制
+- `GOV-10`：WEAK-SIGNAL-PROTECTION六项实际保护，单信号不定论也不消失
+- `GOV-11`：NO-INFRASTRUCTURE-PATH不伪制度，不无资料删事实，只保护性开放断言
+- `GOV-12`：INABILITY-TO-EXIT-PROTECTION六保护，不退出非同意，不迫继续暴露
+- `GOV-13`：四种形成背景与无健康基准的安全问题，候选历史不是临床诊断
+- `GOV-14`：开放承担双线和保护条件为有限伦理命名，类比隐喻不得漂移成已验证规则
+- `GOV-15`：具体思想来源版本保留改造放弃与界限，跨理论互操作不吞并
+- `GOV-16`：六门槛债与可及性包括劳动，不完整阅读字段换理解公平，非术语准入
+- `GOV-17`：工具商业武器化不免保护证据纠错；分支明确来源边界风险
+- `GOV-18`：开放断言被标签化高影响使用须退场纠正与责任补救
+- `GOV-19`：版本日志实际文本流程行动上限写回，applied须不同前后hash和同日志链
+- `GOV-20`：外部评审与发布九门可核身份利益批准，publishable不授权
+- `GOV-21`：良性消亡与替代不由维护者单方否决，移交界限伤害责任
+- `GOV-22`：对象变量复杂度校准权力五债与有限前瞻资格自动降级
+- `GOV-23`：人格隐私与自动化升级阻断，监督实际及时生效而非点击甩责
+- `GOV-24`：模型退役替代保来源责任伤害，停止新决定使用并区分可迁移结论
+- `governance_procedure@V90-B01212`：SEL-GOV程序记录含真实异议；框架强状态不外推社会无限否决
+- `H命题责任@B150`：H1/4/5经验，H2操作，H3分类，H6规范；不是同质人性公理。
+- `H-World 人类适配器@V90-P00955`：原文定义/规则与现实实例取值分开；产品canonical ID由Sol集成人一一映射。
+- `K映射分类@B541`：四类身份映射条件与结果上限逐行，未知不是已知不可比。
+- `N命题责任@B151`：规范承诺公开保护选择，不是假经验事实。
+- `N1`：解释不授权处置；单独仅否决、补证、审议，不生正向方案
+- `N1—N5@V90-B01192`：本次实际前提及目标/约束/否决角色显式登记，不自动背景常识
+- `N2`：保护不降级，基础不具备缩动作不缩保护
+- `N3`：高影响可纠错须申诉复核停止撤回回滚补救真实可达
+- `N4`：禁单方无限不可退出牺牲，不免独立有限义务且不逼受害者再暴露
+- `N5`：存续筛选效率仅后果证据，不证明正当
+- `no_action@V90-B01203`：不实施本次候选新增动作的唯一基线，既有义务另记不免除，非external selected_action
+- `算子结果:not_evaluated@B498`：所选算子分支未运行，描述不需G不等未评估。
+- `NSP-LEAST-HARM`：显式最小伤害原则实例，在全部可行方案和no_action中论证最窄
+- `NSP-PROPORTIONALITY`：显式比例性实例核适合必要收益权利代价强度范围期限
+- `算子结果:null_supported@B497`：预冻零规则等价充分、功效灵敏度、容差全部过。
+- `O命题责任@B152`：操作程序覆盖冻结审计选择执行停止撤回补救。
+- `O1`：冻结待用事实证据尺度未知，不能看到选项后改事实
+- `O1—O4@V90-B01182`：四项现实行动程序，和IT四次记录转换不同
+- `O2`：明示运行时N、价值冲突、受益与承担者
+- `O3`：方案与no_action比较，分别核J权限法律正当性利益冲突
+- `O4`：已获准方案转有限可逆监测停止申诉回滚到期执行
+- `PF-1`：全部受影响与低权力位置登记
+- `PF-1—PF-10@V90-B01228`：完整十底板及适用性/用途门；非人例外不能偷渡人的影响
+- `PF-10`：行动上限禁止停止责任复审，非人现实行动仍有效
+- `PF-2`：安全低暴露提交含匿名代理
+- `PF-3`：真实有效拒绝停止，既往同意不永久
+- `PF-4`：有时限能改结果的申诉
+- `PF-5`：证据异议拒绝停止申诉退出反报复
+- `PF-6`：补证争议源记录纠正与下游同步
+- `PF-7`：高影响冲突内纠错失效时外部独立复核
+- `PF-8`：撤回回滚修复权威写回的实际能力
+- `PF-9`：真实退出转移，不能退出者代理承接
+- `scale_profile 不是“微观—宏观”的单轴标签，而是 SP=<A,X,T,O,C,R,I,N,J> 的完整九轴记录：A 是聚合层次，必须声明单元、总体、分布和聚合规则；X 是物理空间与数字边界；T 是窗口、时滞和周期；O 是角色、团队、组织、制度与治理生态的组织层级；C 是事件、互动机制、中观结构、制度和系统条件的因果层次；R 是原始事件、序列、个案、分布、指标与摘要的观察分辨率，并记录压缩损失；I 是直接、间接、二阶、跨域与代际的受影响范围；N 是网络拓扑范围；J 是管辖与授权范围@V90-P03901`：九轴字段明确但实际比较需相应见证；扩大其他轴不扩J。
+- `SEL-AGT`：可识别主体在真实选项与自身权限内决定，形式选择非自动同意
+- `SEL-GOV`：经程序的有限治理，代表参与少数问责须真实，不放大个人选择
+- `SEL-SYS`：无统一主体筛选，仅描述，不authorized不external_action
+- `selected_action@V90-B01204`：唯一已选外部行动与同方案主体对象动作地域期限及J逐项绑定
+- `算子结果:supported@B495`：选定分支桥决策正阈值预注册且过，描述可不适用G。
+- `T0`：安全证据拒绝求助入口，不强制治疗对话和解，现实保护仍独立授权
+- `T0—T4@V90-B01262`：干涉任务类型不是阶段成熟度，跳级路由不跳授权链
+- `T1`：可逆最小秩序只止损保关键支撑，不无限续期成永久处分
+- `T2`：证据定位承接回流断点修复，替代实际运行先于拆旧
+- `T3`：深时间维护须基础持续证据，不高级身份，不挤占T0—2
+- `T4`：退出转移保记忆须真实承接保护义务，不浪漫化或带旧授权进新对象
+- `TOOL-AI-BOUNDARY@V90-B01153`：表61第7行：来源缺失责任不确定用途复核撤回明示
+- `TOOL-CLAIM-VALIDATION@V90-B01153`：表61第4行：命题证据反证影响上限逐项验证记录
+- `TOOL-EVIDENCE-LEDGER@V90-B01153`：表61第2行：来源证据台账分离证据层次，不证明命题
+- `TOOL-FORECAST-REGISTRY@V90-B01153`：表61第5行：冻结预测窗信号与修改目标，不授命中
+- `TOOL-OPEN-ASSERTION@V90-B01153`：表61第3行：可反驳临时判断靶点，不用高责任处置
+- `TOOL-STRESS-TEST@V90-B01153`：表61第6行：边界和对抗测试用于发现失败，非外部实证
+- `TRAUMA-NO-HEALTHY-BASELINE`：仅无健康锚点初建/创伤建材场景，不发明健康过去或临床分型
+- `事件合同@V90-B00952`：原文定义/规则与现实实例取值分开；产品canonical ID由Sol集成人一一映射。；事件事实类型和记录责任，不由报告或模拟生成现实事实
+- `联合状态更新@V90-B00958`：Ω与F是记录责任，F和θ不默认已被现实识别
+- `九步推演闭环@V90-B00966`：九项运行责任，不是现实因果已成立的证明
+- `传播、时延与阈值@V90-B00984`：信号到达、信念变化与相应结构变化分别登记
+- `反馈与跨圈层级联@V90-B00989`：反馈需返回通道，级联需跨圈层真实通道，不据规模判重要
+- `分叉路径图@V90-B00994`：时间展开DAG和四类不确定，不将分叉合成同一种概率
+- `变量候选账本@V90-B00999`：残差触发可检验候选，不自行授予现实变量或回救旧预测
+- `情景、反事实与模拟@V90-B01005`：条件路径与事实描述分开，反事实连同下游重估
+- `多阶递归未来推演@V90-B01009`：三个正交维度、至多三阶、真实继承，深度不增加证据
+- `行动选择与条件更新@V90-B01032`：行动集合经有据机制和typed状态差进入下一轮，反馈仅记录不算学会
+- `四类输出的隔离@V90-B01036`：解释/推演/条件前瞻/有限选择分别责任，候选跨层不自动获得资格
+- `条件前瞻登记@V90-B01043`：结果前冻结可判目标、期限、对象、基线和回写
+- `局部可预测性边界@V90-B01048`：任务范围内有限可预测性，不回答世界整体或自造参数
+- `递归前瞻的按阶评价@V90-B01051`：逐阶冻结评价与浅阶/直接远期基线，不倒灌真实中间结果
+- `简单基线与增量能力@V90-B01054`：公平信息与评价、相称预算，不把解释增益冒预测能力
+- `概率、等级与时间窗@V90-B01058`：依据分型，小样本非自动否决；方向无据也未知，数值含义不混
+- `校准与评价@V90-B01066`：按用途预登记并真实计算评价，指标不证明机制与正当性
+- `早期信号、反向信号与触发点@V90-B01071`：信号触发复核而非授权；预警直至实际保护，各分母独立
+- `前瞻的失败语义@V90-B01075`：到期五结果态不混，事后修改保留旧预测失败
+- `从前瞻到有限选择的桥@V90-B01078`：分析推荐与现实采用分离，预测不生成规范或权限
+- `方案集必须包含行动与不行动@V90-B01081`：六类适用处置不强造，恰一本次不新增行动基线且不免既有义务
+- `统一方案比较卡@V90-B01086`：同基线多维比较，不可通约不强求和，保留规范分歧
+- `信息价值@V90-B01090`：EVSI有限形式条件与真实净调查成本分开，不吞理解价值
+- `行动上限与信息性试验@V90-B01092`：证据可逆权限保护共同限制，不免除试验责任
+- `结果回写与模型学习@V90-B01097`：结果只追加，副作用/执行偏离/新反馈不能回救旧模型
+- `面向读者的发布格式@V90-B01110`：完整实质论证默认，不用摘要标记代正文；保护与授权仍分别约束
+- `工具层不产生授权@V90-B01116`：工具记录门不产生事实或权限，低影响任务可相称记录，实质高影响不得改名免责
+- `四次转换@V90-B01121`：IT1—IT4逐次记录责任与失败链，不形成现实授权
+- `通用原语与人类变量接口非等价锁@V90-B01127`：U与HV数量编号相同不等价；H/G实例而非卡片授经验资格
+- `七闸@V90-B01130`：唯一主流程按命题依赖运行；IG6适用性独立，全过不自证
+- `五闸十三步@V90-B01136`：复杂诊断展开层不生成第二主流程状态或现实权限
+- `强判断八件套@V90-B01144`：用途与可预见影响触发，八件套齐全不授行动权；普通结论不自动全升L3
+- `诊断档位@V90-B01149`：L1—L3为用途记录责任，不是真理或成熟度等级
+- `六项正式工具@V90-B01153`：工具可互引不得循环自证，机械校验不能替现实材料与价值判断
+- `多圈层推演九闸@V90-B01167`：动态用途在七闸基础展开DF1—9，不绕原门或覆盖run
+- `规范选择@V90-B01179`：事实、价值与权限独立；规范分析可推荐，现实采用另有强门
+- `三类选择@V90-B01187`：系统筛选、受限主体选择、程序治理三种不能互换
+- `方案生成、跨尺度后果与分配@V90-B01202`：方案身份冻结、唯一no_action、逐九轴逐位置分配，不以平均抹局部
+- `选择记录状态与纠错@V90-B01221`：七态追加、最窄上限、独立职责、实际停止补救和四纠错终点，不自建新状态
+- `跨圈层分配与不行动责任@V90-B01244`：跨域时窗负担、不行动持续责任与前瞻规范权限分工
+- `资源、地位、代表与非支配@V90-B01248`：三种规范结果不互代，非支配须显式采用，受影响不自动生投票管辖权
+- `解释—诊断—规范选择—干涉@V90-B01255`：四种任务转换链，干涉只消费已有有效选择与权限，不从解释跳执行
+- `应用模块共同门@V90-B01295`：九应用模块不是32领域入口，领域名称非对象；逐命题缺失局部降级
+- `应用记录的最小输出@V90-B01360`：逐命题证据缺口及适用动作的运行引用闭合，缺件只阅读提示非处置
+- `应用模块的动态入口@V90-B01364`：仅需要动态才展开；保持事件类型、保护和用途资格，不强制前瞻
+- `治理共同边界@V90-B01368`：自诊四对象与不自证、外批、终态、用途限域；不替所有外部法律程序
+- `场景化参数与缺失处理@V90-B01505`：§16.25没有显式GOV-25源ID，不发明；参数外部场景给定，缺失局部限用途
+- `人类强类型分流@V90-P00992`：原文定义/规则与现实实例取值分开；产品canonical ID由Sol集成人一一映射。
+- `行动者候选快照@V90-P01370`：原文定义/规则与现实实例取值分开；产品canonical ID由Sol集成人一一映射。
+- `有条件的人格慢变量假设@V90-P01436`：原文定义/规则与现实实例取值分开；产品canonical ID由Sol集成人一一映射。
+- `物质与体验—意义双通道@V90-P01523`：原文定义/规则与现实实例取值分开；产品canonical ID由Sol集成人一一映射。
+- `圈层候选对象@V90-P01568`：原文定义/规则与现实实例取值分开；产品canonical ID由Sol集成人一一映射。
+- `多圈层联合对象@V90-P01591`：原文定义/规则与现实实例取值分开；产品canonical ID由Sol集成人一一映射。
+- `六类圈层关系@V90-P01622`：原文定义/规则与现实实例取值分开；产品canonical ID由Sol集成人一一映射。
+- `原文规则@V90-P01828`：跨事件与行动两接口独立设事实/许可非等价锁，不能只视为一种事件枚举值。 外部handle只指该原句，不新增理论根、经验支持或产品ID。
+- `原文规则@V90-P01842`：直接观察、已识别总效应与具体传播机制的三种证据资格独立分流，约束观察入口和因果推断两个消费者。 外部handle只指该原句，不新增理论根、经验支持或产品ID。
+- `原文规则@V90-P01959`：生成/状态/证据/行动四层相互不可升级的独立上限规则，不是某一递归字段的取值。 外部handle只指该原句，不新增理论根、经验支持或产品ID。
+- `原文规则@V90-P01969`：局部失败沿依赖传播与共同前提全停的独立失效规则，覆盖对象、事件、通道、映射、用途多个接口。 外部handle只指该原句，不新增理论根、经验支持或产品ID。
+- `原文规则@V90-P02039`：量化与数学物理借用的生成/映射/有效域责任超出单一可预测性字段，是独立准入规则。 外部handle只指该原句，不新增理论根、经验支持或产品ID。
+- `原文规则@V90-P02042`：同源后处理不自造证据、真实中间结果必须新冻结运行的独立来源与时间规则。 外部handle只指该原句，不新增理论根、经验支持或产品ID。
+- `原文规则@V90-P02066`：现实概率、信念、权重、路径排序和计算分配五种量的非等价锁，跨前瞻和决策消费者。 外部handle只指该原句，不新增理论根、经验支持或产品ID。
+- `原文规则@V90-P02097`：预警直到实际保护的时钟与误报分母规范，独立于信号字段定义，连接检测、响应和结果评价。 外部handle只指该原句，不新增理论根、经验支持或产品ID。
+- `原文规则@V90-P02429`：机械校验与材料鉴别/因果/价值判断的职责边界，是跨工具独立规则，不是某一种工具的字段。 外部handle只指该原句，不新增理论根、经验支持或产品ID。
+- `原文规则@V90-P02528`：安全听取、理解证据、实际改判与权利资源到达四种纠错结果不能互代，独立于七态选择迁移。 外部handle只指该原句，不新增理论根、经验支持或产品ID。
+- `原文规则@V90-P02551`：非支配评价的采用条件与无干涉不等无支配明确成独立规范规则，不把它视为资源或代表取值。 外部handle只指该原句，不新增理论根、经验支持或产品ID。
+- `原文规则@V90-P02555`：产品结构化合同须按实际版本核ID字段语义，文件/格式不自证实现一致，是独立实现责任。 外部handle只指该原句，不新增理论根、经验支持或产品ID。
+- `原文规则@V90-P02667`：紧急不免事件身份、建议不免保护、模拟不升观察的跨模块独立禁越界规则。 外部handle只指该原句，不新增理论根、经验支持或产品ID。
+- `原文规则@V90-P02672`：所有内部过程产物不证明现实安全/同意/修复/授权，是治理自限独立规则，非某一治理对象字段。 外部handle只指该原句，不新增理论根、经验支持或产品ID。
+- `原文规则@V90-P02768`：隐喻、类比、机制候选、旁证、形式模型与已验规则的跨域身份锁，范围超出开放承担定义。 外部handle只指该原句，不新增理论根、经验支持或产品ID。
+- `原文规则@V90-P02796`：该段明确自称治理总原则，作用于全部解释、发布与自动化，不能仅归GOV-21退出条件。 外部handle只指该原句，不新增理论根、经验支持或产品ID。
+- `人类变量接口卡五区合同@V90-P02810`：共同卡片格式与路由纪律不产生第十二人类变量。
+- `十一项变量共享同一行动边界@V90-P03903`：只是共同描述/需求上限，不自动许可任何调整。
+- `编号体系导航边界@V90-P03931`：原文明确导航索引的用途上限；不把导航计数当完整本体，不替代正文定义合同。
+- `贯穿全书的记号@V90-P04025`：当前原文的复合术语回指；不是把S*、N0、K*/F*、G/H-instance合为一个新理论概念或互作别名。
+- `本附录列出跨文本互操作时可以共享的方法责任@V90-P04027`：共同责任不合并理论权威或运行形态；法和守是方法规则非经验公理。
+- `领域解释与应用图谱@V90-P04074`：32入口各保留原生方法与共源关系，不互相提供独立实证。
+- `VERSION-LOG`：反例治理的结构化权威写回，具体版本状态hash真实改变
+
+## 依赖
+
+- `specializes`：`V90-CANON-APP-EMG` → `V90-CANON-V90-B01295-8C21EA43FD`；源第15.3共同门后的明确具名应用对象，保留该模块自己的限制而非32领域替代
+- `specializes`：`V90-CANON-APP-FAM` → `V90-CANON-V90-B01295-8C21EA43FD`；源第15.3共同门后的明确具名应用对象，保留该模块自己的限制而非32领域替代
+- `specializes`：`V90-CANON-APP-INS` → `V90-CANON-V90-B01295-8C21EA43FD`；源第15.3共同门后的明确具名应用对象，保留该模块自己的限制而非32领域替代
+- `specializes`：`V90-CANON-APP-OPI` → `V90-CANON-V90-B01295-8C21EA43FD`；源第15.3共同门后的明确具名应用对象，保留该模块自己的限制而非32领域替代
+- `specializes`：`V90-CANON-APP-ORG` → `V90-CANON-V90-B01295-8C21EA43FD`；源第15.3共同门后的明确具名应用对象，保留该模块自己的限制而非32领域替代
+- `specializes`：`V90-CANON-APP-PLT` → `V90-CANON-V90-B01295-8C21EA43FD`；源第15.3共同门后的明确具名应用对象，保留该模块自己的限制而非32领域替代
+- `specializes`：`V90-CANON-APP-REL` → `V90-CANON-V90-B01295-8C21EA43FD`；源第15.3共同门后的明确具名应用对象，保留该模块自己的限制而非32领域替代
+- `specializes`：`V90-CANON-APP-SPC` → `V90-CANON-V90-B01295-8C21EA43FD`；源第15.3共同门后的明确具名应用对象，保留该模块自己的限制而非32领域替代
+- `specializes`：`V90-CANON-APP-ULS` → `V90-CANON-V90-B01295-8C21EA43FD`；源第15.3共同门后的明确具名应用对象，保留该模块自己的限制而非32领域替代
+- `inferential_requires`：`V90-CANON-C1` → `V90-CANON-D0`；base
+- `inferential_requires`：`V90-CANON-C1` → `V90-CANON-G1`；base
+- `protocol_requires`：`V90-CANON-C1` → `V90-CANON-E1`；formal_qualification
+- `protocol_requires`：`V90-CANON-C1` → `V90-CANON-E4`；formal_qualification
+- `protocol_requires`：`V90-CANON-C1` → `V90-EXTERNAL-GATE-EVIDENCE`；formal_qualification
+- `protocol_requires`：`V90-CANON-C1` → `V90-EXTERNAL-GATE-EVIDENCE-C0F115F0`；formal_qualification
+- `inferential_requires`：`V90-CANON-C10` → `V90-CANON-G2`；base
+- `inferential_requires`：`V90-CANON-C10` → `V90-CANON-G3`；intertemporal
+- `protocol_requires`：`V90-CANON-C10` → `V90-CANON-E4`；formal_qualification
+- `protocol_requires`：`V90-CANON-C10` → `V90-CANON-H2`；human_bearer_typing
+- `protocol_requires`：`V90-CANON-C10` → `V90-EXTERNAL-GATE-CAUSAL`；formal_qualification
+- `protocol_requires`：`V90-CANON-C10` → `V90-EXTERNAL-GATE-CAUSAL-DE06B986`；formal_qualification
+- `protocol_requires`：`V90-CANON-C10` → `V90-EXTERNAL-GATE-EVIDENCE`；formal_qualification
+- `protocol_requires`：`V90-CANON-C10` → `V90-EXTERNAL-GATE-EVIDENCE-C0F115F0`；formal_qualification
+- `specializes`：`V90-CANON-C10` → `V90-CANON-H5`；historical_carrier_attribution_requires_qualified_H5_instance
+- `inferential_requires`：`V90-CANON-C11` → `V90-CANON-D2`；base
+- `inferential_requires`：`V90-CANON-C11` → `V90-CANON-G2`；base
+- `protocol_requires`：`V90-CANON-C11` → `V90-CANON-E4`；formal_qualification
+- `protocol_requires`：`V90-CANON-C11` → `V90-CANON-H3`；institutional_writeback
+- `protocol_requires`：`V90-CANON-C11` → `V90-EXTERNAL-GATE-CAUSAL`；formal_qualification
+- `protocol_requires`：`V90-CANON-C11` → `V90-EXTERNAL-GATE-CAUSAL-DE06B986`；formal_qualification
+- `protocol_requires`：`V90-CANON-C11` → `V90-EXTERNAL-GATE-EVIDENCE`；formal_qualification
+- `protocol_requires`：`V90-CANON-C11` → `V90-EXTERNAL-GATE-EVIDENCE-C0F115F0`；formal_qualification
+- `inferential_requires`：`V90-CANON-C12` → `V90-CANON-N1`；base
+- `inferential_requires`：`V90-CANON-C12` → `V90-CANON-O1`；base
+- `inferential_requires`：`V90-CANON-C12` → `V90-CANON-O2`；base
+- `inferential_requires`：`V90-CANON-C12` → `V90-CANON-O3`；base
+- `inferential_requires`：`V90-CANON-C12` → `V90-CANON-O4`；base
+- `protocol_requires`：`V90-CANON-C12` → `V90-CANON-PF-1`；formal_qualification
+- `protocol_requires`：`V90-CANON-C12` → `V90-CANON-PF-10`；formal_qualification
+- `protocol_requires`：`V90-CANON-C12` → `V90-CANON-PF-2`；formal_qualification
+- `protocol_requires`：`V90-CANON-C12` → `V90-CANON-PF-3`；formal_qualification
+- `protocol_requires`：`V90-CANON-C12` → `V90-CANON-PF-4`；formal_qualification
+- `protocol_requires`：`V90-CANON-C12` → `V90-CANON-PF-5`；formal_qualification
+- `protocol_requires`：`V90-CANON-C12` → `V90-CANON-PF-6`；formal_qualification
+- `protocol_requires`：`V90-CANON-C12` → `V90-CANON-PF-7`；formal_qualification
+- `protocol_requires`：`V90-CANON-C12` → `V90-CANON-PF-8`；formal_qualification
+- `protocol_requires`：`V90-CANON-C12` → `V90-CANON-PF-9`；formal_qualification
+- `protocol_requires`：`V90-CANON-C12` → `V90-EXTERNAL-GATE-EVIDENCE`；formal_qualification
+- `protocol_requires`：`V90-CANON-C12` → `V90-EXTERNAL-GATE-EVIDENCE-C0F115F0`；formal_qualification
+- `inferential_requires`：`V90-CANON-C2` → `V90-CANON-D0`；base
+- `inferential_requires`：`V90-CANON-C2` → `V90-CANON-G2`；base
+- `protocol_requires`：`V90-CANON-C2` → `V90-CANON-E1`；formal_qualification
+- `protocol_requires`：`V90-CANON-C2` → `V90-CANON-E4`；formal_qualification
+- `protocol_requires`：`V90-CANON-C2` → `V90-EXTERNAL-GATE-CAUSAL`；formal_qualification
+- `protocol_requires`：`V90-CANON-C2` → `V90-EXTERNAL-GATE-CAUSAL-DE06B986`；formal_qualification
+- `protocol_requires`：`V90-CANON-C2` → `V90-EXTERNAL-GATE-EVIDENCE`；formal_qualification
+- `protocol_requires`：`V90-CANON-C2` → `V90-EXTERNAL-GATE-EVIDENCE-C0F115F0`；formal_qualification
+- `inferential_requires`：`V90-CANON-C3` → `V90-CANON-D2`；base
+- `inferential_requires`：`V90-CANON-C3` → `V90-CANON-G2`；base
+- `inferential_requires`：`V90-CANON-C3` → `V90-CANON-G3`；learning
+- `protocol_requires`：`V90-CANON-C3` → `V90-CANON-E4`；formal_qualification
+- `protocol_requires`：`V90-CANON-C3` → `V90-EXTERNAL-GATE-CAUSAL`；formal_qualification
+- `protocol_requires`：`V90-CANON-C3` → `V90-EXTERNAL-GATE-CAUSAL-DE06B986`；formal_qualification
+- `protocol_requires`：`V90-CANON-C3` → `V90-EXTERNAL-GATE-EVIDENCE`；formal_qualification
+- `protocol_requires`：`V90-CANON-C3` → `V90-EXTERNAL-GATE-EVIDENCE-C0F115F0`；formal_qualification
+- `inferential_requires`：`V90-CANON-C4` → `V90-CANON-D1`；base
+- `inferential_requires`：`V90-CANON-C4` → `V90-CANON-G3`；base
+- `protocol_requires`：`V90-CANON-C4` → `V90-CANON-E1`；formal_qualification
+- `protocol_requires`：`V90-CANON-C4` → `V90-CANON-E4`；formal_qualification
+- `protocol_requires`：`V90-CANON-C4` → `V90-EXTERNAL-GATE-CAUSAL`；formal_qualification
+- `protocol_requires`：`V90-CANON-C4` → `V90-EXTERNAL-GATE-CAUSAL-DE06B986`；formal_qualification
+- `protocol_requires`：`V90-CANON-C4` → `V90-EXTERNAL-GATE-EVIDENCE`；formal_qualification
+- `protocol_requires`：`V90-CANON-C4` → `V90-EXTERNAL-GATE-EVIDENCE-C0F115F0`；formal_qualification
+- `inferential_requires`：`V90-CANON-C5` → `V90-CANON-D0`；base
+- `inferential_requires`：`V90-CANON-C5` → `V90-CANON-G2`；base
+- `inferential_requires`：`V90-CANON-C5` → `V90-CANON-G3`；cumulative
+- `protocol_requires`：`V90-CANON-C5` → `V90-CANON-E1`；formal_qualification
+- `protocol_requires`：`V90-CANON-C5` → `V90-CANON-E4`；formal_qualification
+- `protocol_requires`：`V90-CANON-C5` → `V90-EXTERNAL-GATE-CAUSAL`；formal_qualification
+- `protocol_requires`：`V90-CANON-C5` → `V90-EXTERNAL-GATE-CAUSAL-DE06B986`；formal_qualification
+- `protocol_requires`：`V90-CANON-C5` → `V90-EXTERNAL-GATE-EVIDENCE`；formal_qualification
+- `protocol_requires`：`V90-CANON-C5` → `V90-EXTERNAL-GATE-EVIDENCE-C0F115F0`；formal_qualification
+- `inferential_requires`：`V90-CANON-C6` → `V90-CANON-D3`；base
+- `inferential_requires`：`V90-CANON-C6` → `V90-CANON-G4`；base
+- `protocol_requires`：`V90-CANON-C6` → `V90-CANON-E4`；formal_qualification
+- `protocol_requires`：`V90-CANON-C6` → `V90-CANON-E5`；formal_qualification
+- `protocol_requires`：`V90-CANON-C6` → `V90-EXTERNAL-GATE-EVIDENCE`；formal_qualification
+- `protocol_requires`：`V90-CANON-C6` → `V90-EXTERNAL-GATE-EVIDENCE-C0F115F0`；formal_qualification
+- `inferential_requires`：`V90-CANON-C7` → `V90-CANON-G2`；base
+- `inferential_requires`：`V90-CANON-C7` → `V90-CANON-G4`；base
+- `protocol_requires`：`V90-CANON-C7` → `V90-CANON-E4`；formal_qualification
+- `protocol_requires`：`V90-CANON-C7` → `V90-CANON-E5`；formal_qualification
+- `protocol_requires`：`V90-CANON-C7` → `V90-EXTERNAL-GATE-CAUSAL`；formal_qualification
+- `protocol_requires`：`V90-CANON-C7` → `V90-EXTERNAL-GATE-CAUSAL-DE06B986`；formal_qualification
+- `protocol_requires`：`V90-CANON-C7` → `V90-EXTERNAL-GATE-EVIDENCE`；formal_qualification
+- `protocol_requires`：`V90-CANON-C7` → `V90-EXTERNAL-GATE-EVIDENCE-C0F115F0`；formal_qualification
+- `inferential_requires`：`V90-CANON-C8` → `V90-CANON-D1`；base
+- `inferential_requires`：`V90-CANON-C8` → `V90-CANON-G2`；carrier
+- `inferential_requires`：`V90-CANON-C8` → `V90-CANON-G3`；history
+- `protocol_requires`：`V90-CANON-C8` → `V90-CANON-E4`；formal_qualification
+- `protocol_requires`：`V90-CANON-C8` → `V90-EXTERNAL-GATE-CAUSAL`；formal_qualification
+- `protocol_requires`：`V90-CANON-C8` → `V90-EXTERNAL-GATE-CAUSAL-DE06B986`；formal_qualification
+- `protocol_requires`：`V90-CANON-C8` → `V90-EXTERNAL-GATE-EVIDENCE`；formal_qualification
+- `protocol_requires`：`V90-CANON-C8` → `V90-EXTERNAL-GATE-EVIDENCE-C0F115F0`；formal_qualification
+- `inferential_requires`：`V90-CANON-C9` → `V90-CANON-G2`；base
+- `inferential_requires`：`V90-CANON-C9` → `V90-CANON-G3`；persistent
+- `protocol_requires`：`V90-CANON-C9` → `V90-CANON-E2`；formal_qualification
+- `protocol_requires`：`V90-CANON-C9` → `V90-CANON-E3`；formal_qualification
+- `protocol_requires`：`V90-CANON-C9` → `V90-CANON-E4`；formal_qualification
+- `protocol_requires`：`V90-CANON-C9` → `V90-EXTERNAL-GATE-CAUSAL`；formal_qualification
+- `protocol_requires`：`V90-CANON-C9` → `V90-EXTERNAL-GATE-CAUSAL-DE06B986`；formal_qualification
+- `protocol_requires`：`V90-CANON-C9` → `V90-EXTERNAL-GATE-EVIDENCE`；formal_qualification
+- `protocol_requires`：`V90-CANON-C9` → `V90-EXTERNAL-GATE-EVIDENCE-C0F115F0`；formal_qualification
+- `inferential_requires`：`V90-CANON-CM-FEEDBACK` → `V90-CANON-D2`；base
+- `inferential_requires`：`V90-CANON-CM-FEEDBACK` → `V90-CANON-G2`；base
+- `protocol_requires`：`V90-CANON-CM-FEEDBACK` → `V90-CANON-E4`；base
+- `protocol_requires`：`V90-CANON-CM-FEEDBACK` → `V90-EXTERNAL-GATE-CAUSAL`；base
+- `protocol_requires`：`V90-CANON-CM-FEEDBACK` → `V90-EXTERNAL-GATE-CAUSAL-DE06B986`；base
+- `protocol_requires`：`V90-CANON-CM-FEEDBACK` → `V90-EXTERNAL-GATE-EVIDENCE`；base
+- `protocol_requires`：`V90-CANON-CM-FEEDBACK` → `V90-EXTERNAL-GATE-EVIDENCE-C0F115F0`；base
+- `inferential_requires`：`V90-CANON-CM-LEARNING` → `V90-CANON-CM-FEEDBACK`；base
+- `inferential_requires`：`V90-CANON-CM-LEARNING` → `V90-CANON-G3`；base
+- `protocol_requires`：`V90-CANON-CM-LEARNING` → `V90-CANON-E4`；base
+- `protocol_requires`：`V90-CANON-CM-LEARNING` → `V90-EXTERNAL-GATE-CAUSAL`；base
+- `protocol_requires`：`V90-CANON-CM-LEARNING` → `V90-EXTERNAL-GATE-CAUSAL-DE06B986`；base
+- `protocol_requires`：`V90-CANON-CM-LEARNING` → `V90-EXTERNAL-GATE-EVIDENCE`；base
+- `protocol_requires`：`V90-CANON-CM-LEARNING` → `V90-EXTERNAL-GATE-EVIDENCE-C0F115F0`；base
+- `inferential_requires`：`V90-CANON-CM-LOAD` → `V90-CANON-D0`；base
+- `inferential_requires`：`V90-CANON-CM-LOAD` → `V90-CANON-G2`；base
+- `inferential_requires`：`V90-CANON-CM-LOAD` → `V90-CANON-G3`；cumulative
+- `protocol_requires`：`V90-CANON-CM-LOAD` → `V90-CANON-E4`；base
+- `protocol_requires`：`V90-CANON-CM-LOAD` → `V90-EXTERNAL-GATE-CAUSAL`；base
+- `protocol_requires`：`V90-CANON-CM-LOAD` → `V90-EXTERNAL-GATE-CAUSAL-DE06B986`；base
+- `protocol_requires`：`V90-CANON-CM-LOAD` → `V90-EXTERNAL-GATE-EVIDENCE`；base
+- `protocol_requires`：`V90-CANON-CM-LOAD` → `V90-EXTERNAL-GATE-EVIDENCE-C0F115F0`；base
+- `inferential_requires`：`V90-CANON-CM-MAINTENANCE` → `V90-CANON-D0`；base
+- `inferential_requires`：`V90-CANON-CM-MAINTENANCE` → `V90-CANON-G2`；base
+- `inferential_requires`：`V90-CANON-CM-MAINTENANCE` → `V90-CANON-G3`；cumulative
+- `protocol_requires`：`V90-CANON-CM-MAINTENANCE` → `V90-CANON-E4`；base
+- `protocol_requires`：`V90-CANON-CM-MAINTENANCE` → `V90-EXTERNAL-GATE-CAUSAL`；base
+- `protocol_requires`：`V90-CANON-CM-MAINTENANCE` → `V90-EXTERNAL-GATE-CAUSAL-DE06B986`；base
+- `protocol_requires`：`V90-CANON-CM-MAINTENANCE` → `V90-EXTERNAL-GATE-EVIDENCE`；base
+- `protocol_requires`：`V90-CANON-CM-MAINTENANCE` → `V90-EXTERNAL-GATE-EVIDENCE-C0F115F0`；base
+- `specializes`：`V90-CANON-CM-MAINTENANCE` → `V90-CANON-D1`；state_vocabulary
+- `inferential_requires`：`V90-CANON-CM-PHASE` → `V90-CANON-D0`；base
+- `inferential_requires`：`V90-CANON-CM-PHASE` → `V90-CANON-D1`；base
+- `inferential_requires`：`V90-CANON-CM-PHASE` → `V90-CANON-G2`；causal-trigger
+- `inferential_requires`：`V90-CANON-CM-PHASE` → `V90-CANON-G3`；hysteretic
+- `protocol_requires`：`V90-CANON-CM-PHASE` → `V90-CANON-E4`；base
+- `protocol_requires`：`V90-CANON-CM-PHASE` → `V90-EXTERNAL-GATE-CAUSAL`；causal-trigger_or_hysteretic_only
+- `protocol_requires`：`V90-CANON-CM-PHASE` → `V90-EXTERNAL-GATE-CAUSAL-DE06B986`；causal-trigger_or_hysteretic_only
+- `protocol_requires`：`V90-CANON-CM-PHASE` → `V90-EXTERNAL-GATE-EVIDENCE`；base
+- `protocol_requires`：`V90-CANON-CM-PHASE` → `V90-EXTERNAL-GATE-EVIDENCE-C0F115F0`；base
+- `inferential_requires`：`V90-CANON-CM-SELECTION` → `V90-CANON-D1`；base
+- `inferential_requires`：`V90-CANON-CM-SELECTION` → `V90-CANON-G2`；carrier
+- `inferential_requires`：`V90-CANON-CM-SELECTION` → `V90-CANON-G3`；history
+- `protocol_requires`：`V90-CANON-CM-SELECTION` → `V90-CANON-E4`；base
+- `protocol_requires`：`V90-CANON-CM-SELECTION` → `V90-EXTERNAL-GATE-CAUSAL`；base
+- `protocol_requires`：`V90-CANON-CM-SELECTION` → `V90-EXTERNAL-GATE-CAUSAL-DE06B986`；base
+- `protocol_requires`：`V90-CANON-CM-SELECTION` → `V90-EXTERNAL-GATE-EVIDENCE`；base
+- `protocol_requires`：`V90-CANON-CM-SELECTION` → `V90-EXTERNAL-GATE-EVIDENCE-C0F115F0`；base
+- `applies_to`：`V90-CANON-COERCION-AND-CHOICE-V90-B01210-9264251BCF` → `V90-CANON-SEL-AGT`；真实拒绝退出信息能力的逐项记录
+- `applies_to`：`V90-CANON-COERCION-AND-CHOICE-V90-B01210-9264251BCF` → `V90-CANON-SEL-GOV`；真实拒绝退出信息能力的逐项记录
+- `inferential_requires`：`V90-CANON-E5` → `V90-CANON-D3`；base
+- `protocol_requires`：`V90-CANON-E5` → `V90-CANON-E1`；cross_scale_transfer
+- `protocol_requires`：`V90-CANON-E5` → `V90-CANON-E4`；cross_scale_transfer
+- `protocol_requires`：`V90-CANON-E5` → `V90-EXTERNAL-GATE-ANALOGY`；cross_scale_transfer
+- `protocol_requires`：`V90-CANON-E5` → `V90-EXTERNAL-GATE-ANALOGY-D39ADDF3`；cross_scale_transfer
+- `protocol_requires`：`V90-CANON-E5` → `V90-EXTERNAL-GATE-EVIDENCE`；cross_scale_transfer
+- `protocol_requires`：`V90-CANON-E5` → `V90-EXTERNAL-GATE-EVIDENCE-C0F115F0`；cross_scale_transfer
+- `protocol_requires`：`V90-CANON-FLOW-EXECUTION-RECORD-V90-B01161-1DF320BE64` → `V90-CANON-C12`；只核外部normative_handoff引用或记录缺失，不在记录内自铸状态
+- `protocol_requires`：`V90-CANON-G4` → `V90-CANON-E5`；formal_instance
+- `applies_to`：`V90-CANON-GOV-01` → `V90-EXTERNAL-GATE-SOURCE-IDENTITY-22145EAD`；四个自诊对象分开，不用一项健康替其余
+- `applies_to`：`V90-CANON-GOV-01` → `V90-EXTERNAL-GATE-SOURCE-IDENTITY-372A2CAF`；四个自诊对象分开，不用一项健康替其余
+- `applies_to`：`V90-CANON-GOV-01` → `V90-EXTERNAL-GATE-SOURCE-IDENTITY-6C14ED25`；四个自诊对象分开，不用一项健康替其余
+- `applies_to`：`V90-CANON-GOV-01` → `V90-EXTERNAL-GATE-SOURCE-IDENTITY-8BCA3940`；四个自诊对象分开，不用一项健康替其余
+- `protocol_requires`：`V90-CANON-GOV-02` → `V90-CANON-GOV-20`；applied须实际异议效果与真实变更且外部批准，采纳一项也非单独充分
+- `protocol_requires`：`V90-CANON-GOV-02` → `V90-CANON-VERSION-LOG`；applied须实际异议效果与真实变更且外部批准，采纳一项也非单独充分
+- `protocol_requires`：`V90-CANON-GOV-04` → `V90-CANON-CLAIM-REGISTRY`；五类记录关联但不互代，正式框架发布资格非普通知识存在门
+- `protocol_requires`：`V90-CANON-GOV-04` → `V90-CANON-COUNTEREXAMPLE-REGISTRY`；五类记录关联但不互代，正式框架发布资格非普通知识存在门
+- `protocol_requires`：`V90-CANON-GOV-04` → `V90-CANON-FORECAST-REGISTRY`；五类记录关联但不互代，正式框架发布资格非普通知识存在门
+- `protocol_requires`：`V90-CANON-GOV-04` → `V90-CANON-VERSION-LOG`；五类记录关联但不互代，正式框架发布资格非普通知识存在门
+- `protocol_requires`：`V90-CANON-GOV-04` → `V90-EXTERNAL-GATE-CASE-REGISTRY-7AA5992D`；五类记录关联但不互代，正式框架发布资格非普通知识存在门
+- `applies_to`：`V90-CANON-GOV-07` → `V90-CANON-S6`；同对象状态已包含S6；不把广义世界套阶段
+- `applies_to`：`V90-CANON-GOV-07` → `V90-EXTERNAL-GATE-HSP-DOMAIN-HUMAN-INTENTIONAL-COLLECTIVE-B4DF8773`；独立运行记录已确认为人类有意图集体，非个体/非人
+- `protocol_requires`：`V90-CANON-GOV-14` → `V90-CANON-V90-B01179-68AF20E841`；开放承担伦理命名的价值前提明示转第14部分，HV11 R2不替代
+- `protocol_requires`：`V90-CANON-GOV-20` → `V90-CANON-GOV-04`；对外强判断九项发布门所需实例记录，不是所有普通文本都自动强判断
+- `protocol_requires`：`V90-CANON-GOV-20` → `V90-CANON-V90-B01144-943C60DEF1`；对外强判断九项发布门所需实例记录，不是所有普通文本都自动强判断
+- `protocol_requires`：`V90-CANON-GOV-22` → `V90-CANON-FORECAST-REGISTRY`；前瞻能力声明须完整结果与外部可复核，不选择性公开
+- `protocol_requires`：`V90-CANON-GOV-23` → `V90-CANON-AI-V90-B01174-AA532AB527`；实际自动化监督拒绝修改暂停信号及时到执行器
+- `applies_to`：`V90-CANON-GOVERNANCE-PROCEDURE-V90-B01212-3D9F6E5D7B` → `V90-CANON-SEL-GOV`；集体治理程序额外必需，不把SYS人格化
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV01` → `V90-CANON-D0`；base
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV01` → `V90-CANON-D0`；base
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV01` → `V90-CANON-G1`；HV01-R1-effective-domain
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV01` → `V90-EXTERNAL-GATE-G1-INSTANCE`；HV01-R1-effective-domain
+- `input_dependencies`：`V90-CANON-HUMAN-VARIABLE-HV01` → `V90-EXTERNAL-GATE-INPUT-HUMAN-VARIABLE-HV01`；base
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV01` → `V90-CANON-E1`；base
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV01` → `V90-CANON-E1`；base
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV01` → `V90-CANON-E4`；HV01-R1-effective-domain
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV01` → `V90-CANON-E4`；HV01-R1-effective-domain
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV01` → `V90-EXTERNAL-GATE-EVIDENCE`；base
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV01` → `V90-EXTERNAL-GATE-EVIDENCE-C0F115F0`；base
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV01` → `V90-EXTERNAL-GATE-SOURCE`；base
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV01` → `V90-EXTERNAL-GATE-SOURCE-56CCD012`；base
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV02` → `V90-CANON-G2`；HV02-R1-selective-effect
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV02` → `V90-CANON-HUMAN-VARIABLE-HV01`；base
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV02` → `V90-CANON-HUMAN-VARIABLE-HV01`；base
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV02` → `V90-EXTERNAL-GATE-G2-INSTANCE`；HV02-R1-selective-effect
+- `input_dependencies`：`V90-CANON-HUMAN-VARIABLE-HV02` → `V90-EXTERNAL-GATE-INPUT-HUMAN-VARIABLE-HV02`；base
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV02` → `V90-CANON-E1`；base
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV02` → `V90-CANON-E1`；base
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV02` → `V90-CANON-E4`；HV02-R1-selective-effect
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV02` → `V90-CANON-E4`；HV02-R1-selective-effect
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV02` → `V90-EXTERNAL-GATE-CAUSAL`；HV02-R1-selective-effect
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV02` → `V90-EXTERNAL-GATE-CAUSAL-DE06B986`；HV02-R1-selective-effect
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV02` → `V90-EXTERNAL-GATE-EVIDENCE`；base
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV02` → `V90-EXTERNAL-GATE-EVIDENCE-C0F115F0`；base
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV02` → `V90-EXTERNAL-GATE-SOURCE`；base
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV02` → `V90-EXTERNAL-GATE-SOURCE-56CCD012`；base
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV03` → `V90-CANON-H1`；HV03-R1-effective-anchor
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV03` → `V90-CANON-HUMAN-VARIABLE-HV01`；base
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV03` → `V90-CANON-HUMAN-VARIABLE-HV01`；base
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV03` → `V90-EXTERNAL-GATE-H1-INSTANCE`；HV03-R1-effective-anchor
+- `input_dependencies`：`V90-CANON-HUMAN-VARIABLE-HV03` → `V90-EXTERNAL-GATE-INPUT-HUMAN-VARIABLE-HV03`；base
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV03` → `V90-CANON-E2`；base
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV03` → `V90-CANON-E2`；base
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV03` → `V90-CANON-E4`；HV03-R1-effective-anchor
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV03` → `V90-CANON-E4`；HV03-R1-effective-anchor
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV03` → `V90-EXTERNAL-GATE-CAUSAL`；HV03-R1-effective-anchor
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV03` → `V90-EXTERNAL-GATE-CAUSAL-DE06B986`；HV03-R1-effective-anchor
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV03` → `V90-EXTERNAL-GATE-EVIDENCE`；base
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV03` → `V90-EXTERNAL-GATE-EVIDENCE-C0F115F0`；base
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV03` → `V90-EXTERNAL-GATE-SOURCE`；base
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV03` → `V90-EXTERNAL-GATE-SOURCE-56CCD012`；base
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV04` → `V90-CANON-G2`；HV04-R1-generation-mechanism
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV04` → `V90-EXTERNAL-GATE-G2-INSTANCE`；HV04-R1-generation-mechanism
+- `input_dependencies`：`V90-CANON-HUMAN-VARIABLE-HV04` → `V90-EXTERNAL-GATE-INPUT-HUMAN-VARIABLE-HV04`；base
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV04` → `V90-CANON-E4`；HV04-R1-generation-mechanism
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV04` → `V90-CANON-E4`；HV04-R1-generation-mechanism
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV04` → `V90-EXTERNAL-GATE-CAUSAL`；HV04-R1-generation-mechanism
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV04` → `V90-EXTERNAL-GATE-CAUSAL-DE06B986`；HV04-R1-generation-mechanism
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV04` → `V90-EXTERNAL-GATE-EVIDENCE`；base
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV04` → `V90-EXTERNAL-GATE-EVIDENCE-C0F115F0`；base
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV04` → `V90-EXTERNAL-GATE-SOURCE`；base
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV04` → `V90-EXTERNAL-GATE-SOURCE-56CCD012`；base
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV05` → `V90-CANON-G2`；HV05-R1-functional-carrier-effect
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV05` → `V90-CANON-G2`；HV05-R2-intertemporal-reproduction
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV05` → `V90-CANON-G3`；HV05-R2-intertemporal-reproduction
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV05` → `V90-CANON-H5`；HV05-R3-historical-carrier-trace
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV05` → `V90-EXTERNAL-GATE-G2-INSTANCE`；HV05-R1-functional-carrier-effect
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV05` → `V90-EXTERNAL-GATE-G2-INSTANCE`；HV05-R2-intertemporal-reproduction
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV05` → `V90-EXTERNAL-GATE-G3-INSTANCE`；HV05-R2-intertemporal-reproduction
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV05` → `V90-EXTERNAL-GATE-H5-INSTANCE`；HV05-R3-historical-carrier-trace
+- `input_dependencies`：`V90-CANON-HUMAN-VARIABLE-HV05` → `V90-EXTERNAL-GATE-INPUT-HUMAN-VARIABLE-HV05`；base
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV05` → `V90-CANON-E4`；HV05-R1-functional-carrier-effect
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV05` → `V90-CANON-E4`；HV05-R1-functional-carrier-effect
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV05` → `V90-CANON-E4`；HV05-R2-intertemporal-reproduction
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV05` → `V90-CANON-E4`；HV05-R2-intertemporal-reproduction
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV05` → `V90-CANON-E4`；HV05-R3-historical-carrier-trace
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV05` → `V90-CANON-E4`；HV05-R3-historical-carrier-trace
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV05` → `V90-EXTERNAL-GATE-CAUSAL`；HV05-R1-functional-carrier-effect
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV05` → `V90-EXTERNAL-GATE-CAUSAL`；HV05-R2-intertemporal-reproduction
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV05` → `V90-EXTERNAL-GATE-CAUSAL-DE06B986`；HV05-R1-functional-carrier-effect
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV05` → `V90-EXTERNAL-GATE-CAUSAL-DE06B986`；HV05-R2-intertemporal-reproduction
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV05` → `V90-EXTERNAL-GATE-EVIDENCE`；base
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV05` → `V90-EXTERNAL-GATE-EVIDENCE-C0F115F0`；base
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV05` → `V90-EXTERNAL-GATE-SOURCE`；base
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV05` → `V90-EXTERNAL-GATE-SOURCE-56CCD012`；base
+- `specializes`：`V90-CANON-HUMAN-VARIABLE-HV05` → `V90-CANON-H2`；base
+- `specializes`：`V90-CANON-HUMAN-VARIABLE-HV05` → `V90-CANON-H2`；base
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV06` → `V90-CANON-G2`；HV06-R2-effective-channel
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV06` → `V90-CANON-HUMAN-VARIABLE-HV03`；HV06-R1-complete-chain-composition
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV06` → `V90-CANON-HUMAN-VARIABLE-HV03`；HV06-R1-complete-chain-composition
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV06` → `V90-CANON-HUMAN-VARIABLE-HV03`；HV06-R2-effective-channel
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV06` → `V90-CANON-HUMAN-VARIABLE-HV03`；HV06-R2-effective-channel
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV06` → `V90-CANON-HUMAN-VARIABLE-HV04`；HV06-R1-complete-chain-composition
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV06` → `V90-CANON-HUMAN-VARIABLE-HV04`；HV06-R1-complete-chain-composition
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV06` → `V90-CANON-HUMAN-VARIABLE-HV04`；HV06-R2-effective-channel
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV06` → `V90-CANON-HUMAN-VARIABLE-HV04`；HV06-R2-effective-channel
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV06` → `V90-CANON-HUMAN-VARIABLE-HV05`；HV06-R1-complete-chain-composition
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV06` → `V90-CANON-HUMAN-VARIABLE-HV05`；HV06-R1-complete-chain-composition
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV06` → `V90-CANON-HUMAN-VARIABLE-HV05`；HV06-R2-effective-channel
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV06` → `V90-CANON-HUMAN-VARIABLE-HV05`；HV06-R2-effective-channel
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV06` → `V90-EXTERNAL-GATE-G2-INSTANCE`；HV06-R2-effective-channel
+- `input_dependencies`：`V90-CANON-HUMAN-VARIABLE-HV06` → `V90-EXTERNAL-GATE-INPUT-HUMAN-VARIABLE-HV06`；base
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV06` → `V90-CANON-E4`；HV06-R2-effective-channel
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV06` → `V90-CANON-E4`；HV06-R2-effective-channel
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV06` → `V90-EXTERNAL-GATE-CAUSAL`；HV06-R2-effective-channel
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV06` → `V90-EXTERNAL-GATE-CAUSAL-DE06B986`；HV06-R2-effective-channel
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV06` → `V90-EXTERNAL-GATE-EVIDENCE`；base
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV06` → `V90-EXTERNAL-GATE-EVIDENCE-C0F115F0`；base
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV06` → `V90-EXTERNAL-GATE-SOURCE`；base
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV06` → `V90-EXTERNAL-GATE-SOURCE-56CCD012`；base
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV07` → `V90-CANON-D2`；base
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV07` → `V90-CANON-D2`；base
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV07` → `V90-CANON-G2`；HV07-R1-causal-feedback
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV07` → `V90-CANON-G2`；HV07-R2-feedback-mediated-learning
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV07` → `V90-CANON-G3`；HV07-R2-feedback-mediated-learning
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV07` → `V90-EXTERNAL-GATE-G2-INSTANCE`；HV07-R1-causal-feedback
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV07` → `V90-EXTERNAL-GATE-G2-INSTANCE`；HV07-R2-feedback-mediated-learning
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV07` → `V90-EXTERNAL-GATE-G3-INSTANCE`；HV07-R2-feedback-mediated-learning
+- `input_dependencies`：`V90-CANON-HUMAN-VARIABLE-HV07` → `V90-EXTERNAL-GATE-INPUT-HUMAN-VARIABLE-HV07`；base
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV07` → `V90-CANON-E4`；HV07-R1-causal-feedback
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV07` → `V90-CANON-E4`；HV07-R1-causal-feedback
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV07` → `V90-CANON-E4`；HV07-R2-feedback-mediated-learning
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV07` → `V90-CANON-E4`；HV07-R2-feedback-mediated-learning
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV07` → `V90-EXTERNAL-GATE-CAUSAL`；HV07-R1-causal-feedback
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV07` → `V90-EXTERNAL-GATE-CAUSAL`；HV07-R2-feedback-mediated-learning
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV07` → `V90-EXTERNAL-GATE-CAUSAL-DE06B986`；HV07-R1-causal-feedback
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV07` → `V90-EXTERNAL-GATE-CAUSAL-DE06B986`；HV07-R2-feedback-mediated-learning
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV07` → `V90-EXTERNAL-GATE-EVIDENCE`；base
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV07` → `V90-EXTERNAL-GATE-EVIDENCE-C0F115F0`；base
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV07` → `V90-EXTERNAL-GATE-SOURCE`；base
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV07` → `V90-EXTERNAL-GATE-SOURCE-56CCD012`；base
+- `specializes`：`V90-CANON-HUMAN-VARIABLE-HV07` → `V90-CANON-H3`；base
+- `specializes`：`V90-CANON-HUMAN-VARIABLE-HV07` → `V90-CANON-H3`；base
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV08` → `V90-CANON-H4`；HV08-R1-position-or-mediation-effect
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV08` → `V90-CANON-H4`；HV08-R2-reflexive-response
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV08` → `V90-EXTERNAL-GATE-H4-INSTANCE`；HV08-R1-position-or-mediation-effect
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV08` → `V90-EXTERNAL-GATE-H4-INSTANCE`；HV08-R2-reflexive-response
+- `input_dependencies`：`V90-CANON-HUMAN-VARIABLE-HV08` → `V90-EXTERNAL-GATE-INPUT-HUMAN-VARIABLE-HV08`；base
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV08` → `V90-CANON-E2`；base
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV08` → `V90-CANON-E2`；base
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV08` → `V90-CANON-E3`；HV08-R2-reflexive-response
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV08` → `V90-CANON-E3`；HV08-R2-reflexive-response
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV08` → `V90-CANON-E4`；HV08-R1-position-or-mediation-effect
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV08` → `V90-CANON-E4`；HV08-R1-position-or-mediation-effect
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV08` → `V90-CANON-E4`；HV08-R2-reflexive-response
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV08` → `V90-CANON-E4`；HV08-R2-reflexive-response
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV08` → `V90-EXTERNAL-GATE-CAUSAL`；HV08-R1-position-or-mediation-effect
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV08` → `V90-EXTERNAL-GATE-CAUSAL`；HV08-R2-reflexive-response
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV08` → `V90-EXTERNAL-GATE-CAUSAL-DE06B986`；HV08-R1-position-or-mediation-effect
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV08` → `V90-EXTERNAL-GATE-CAUSAL-DE06B986`；HV08-R2-reflexive-response
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV08` → `V90-EXTERNAL-GATE-EVIDENCE`；base
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV08` → `V90-EXTERNAL-GATE-EVIDENCE-C0F115F0`；base
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV08` → `V90-EXTERNAL-GATE-SOURCE`；base
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV08` → `V90-EXTERNAL-GATE-SOURCE-56CCD012`；base
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV09` → `V90-CANON-CM-LOAD`；HV09-R1-overload-mechanism
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV09` → `V90-CANON-CM-LOAD`；HV09-R1-overload-mechanism
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV09` → `V90-CANON-CM-LOAD`；HV09-R2-cumulative-overload
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV09` → `V90-CANON-CM-LOAD`；HV09-R2-cumulative-overload
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV09` → `V90-CANON-G2`；HV09-R1-overload-mechanism
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV09` → `V90-CANON-G2`；HV09-R2-cumulative-overload
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV09` → `V90-CANON-G3`；HV09-R2-cumulative-overload
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV09` → `V90-EXTERNAL-GATE-G2-INSTANCE`；HV09-R1-overload-mechanism
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV09` → `V90-EXTERNAL-GATE-G2-INSTANCE`；HV09-R2-cumulative-overload
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV09` → `V90-EXTERNAL-GATE-G3-INSTANCE`；HV09-R2-cumulative-overload
+- `input_dependencies`：`V90-CANON-HUMAN-VARIABLE-HV09` → `V90-EXTERNAL-GATE-INPUT-HUMAN-VARIABLE-HV09`；base
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV09` → `V90-CANON-E4`；HV09-R1-overload-mechanism
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV09` → `V90-CANON-E4`；HV09-R1-overload-mechanism
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV09` → `V90-CANON-E4`；HV09-R2-cumulative-overload
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV09` → `V90-CANON-E4`；HV09-R2-cumulative-overload
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV09` → `V90-EXTERNAL-GATE-CAUSAL`；HV09-R1-overload-mechanism
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV09` → `V90-EXTERNAL-GATE-CAUSAL`；HV09-R2-cumulative-overload
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV09` → `V90-EXTERNAL-GATE-CAUSAL-DE06B986`；HV09-R1-overload-mechanism
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV09` → `V90-EXTERNAL-GATE-CAUSAL-DE06B986`；HV09-R2-cumulative-overload
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV09` → `V90-EXTERNAL-GATE-EVIDENCE`；base
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV09` → `V90-EXTERNAL-GATE-EVIDENCE-C0F115F0`；base
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV09` → `V90-EXTERNAL-GATE-SOURCE`；base
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV09` → `V90-EXTERNAL-GATE-SOURCE-56CCD012`；base
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV10` → `V90-CANON-CM-PHASE`；HV10-R1-pattern-phase-match
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV10` → `V90-CANON-CM-PHASE`；HV10-R1-pattern-phase-match
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV10` → `V90-CANON-CM-PHASE`；HV10-R2-causal-transition
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV10` → `V90-CANON-CM-PHASE`；HV10-R2-causal-transition
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV10` → `V90-CANON-CM-PHASE`；HV10-R3-path-dependent-phase
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV10` → `V90-CANON-CM-PHASE`；HV10-R3-path-dependent-phase
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV10` → `V90-CANON-G2`；HV10-R2-causal-transition
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV10` → `V90-CANON-G3`；HV10-R3-path-dependent-phase
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV10` → `V90-CANON-HUMAN-VARIABLE-HV03`；base
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV10` → `V90-CANON-HUMAN-VARIABLE-HV03`；base
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV10` → `V90-CANON-HUMAN-VARIABLE-HV04`；base
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV10` → `V90-CANON-HUMAN-VARIABLE-HV04`；base
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV10` → `V90-CANON-HUMAN-VARIABLE-HV05`；base
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV10` → `V90-CANON-HUMAN-VARIABLE-HV05`；base
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV10` → `V90-CANON-HUMAN-VARIABLE-HV07`；base
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV10` → `V90-CANON-HUMAN-VARIABLE-HV07`；base
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV10` → `V90-EXTERNAL-GATE-G2-INSTANCE`；HV10-R2-causal-transition
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV10` → `V90-EXTERNAL-GATE-G3-INSTANCE`；HV10-R3-path-dependent-phase
+- `input_dependencies`：`V90-CANON-HUMAN-VARIABLE-HV10` → `V90-EXTERNAL-GATE-INPUT-HUMAN-VARIABLE-HV10`；base
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV10` → `V90-CANON-E4`；HV10-R1-pattern-phase-match
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV10` → `V90-CANON-E4`；HV10-R1-pattern-phase-match
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV10` → `V90-CANON-E4`；HV10-R2-causal-transition
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV10` → `V90-CANON-E4`；HV10-R2-causal-transition
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV10` → `V90-CANON-E4`；HV10-R3-path-dependent-phase
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV10` → `V90-CANON-E4`；HV10-R3-path-dependent-phase
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV10` → `V90-EXTERNAL-GATE-CAUSAL`；HV10-R2-causal-transition
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV10` → `V90-EXTERNAL-GATE-CAUSAL`；HV10-R3-path-dependent-phase
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV10` → `V90-EXTERNAL-GATE-CAUSAL-DE06B986`；HV10-R2-causal-transition
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV10` → `V90-EXTERNAL-GATE-CAUSAL-DE06B986`；HV10-R3-path-dependent-phase
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV10` → `V90-EXTERNAL-GATE-EVIDENCE`；base
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV10` → `V90-EXTERNAL-GATE-EVIDENCE-C0F115F0`；base
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV10` → `V90-EXTERNAL-GATE-SOURCE`；base
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV10` → `V90-EXTERNAL-GATE-SOURCE-56CCD012`；base
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV11` → `V90-CANON-G2`；HV11-R2-structural-consequence
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV11` → `V90-EXTERNAL-GATE-G2-INSTANCE`；HV11-R2-structural-consequence
+- `input_dependencies`：`V90-CANON-HUMAN-VARIABLE-HV11` → `V90-EXTERNAL-GATE-INPUT-HUMAN-VARIABLE-HV11`；base
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV11` → `V90-CANON-E4`；HV11-R2-structural-consequence
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV11` → `V90-CANON-E4`；HV11-R2-structural-consequence
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV11` → `V90-CANON-N4`；base
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV11` → `V90-CANON-N4`；base
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV11` → `V90-EXTERNAL-GATE-CAUSAL`；HV11-R2-structural-consequence
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV11` → `V90-EXTERNAL-GATE-CAUSAL-DE06B986`；HV11-R2-structural-consequence
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV11` → `V90-EXTERNAL-GATE-EVIDENCE`；base
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV11` → `V90-EXTERNAL-GATE-EVIDENCE-C0F115F0`；base
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV11` → `V90-EXTERNAL-GATE-SOURCE`；base
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV11` → `V90-EXTERNAL-GATE-SOURCE-56CCD012`；base
+- `specializes`：`V90-CANON-HUMAN-VARIABLE-HV11` → `V90-CANON-H2`；base
+- `specializes`：`V90-CANON-HUMAN-VARIABLE-HV11` → `V90-CANON-H2`；base
+- `specializes`：`V90-CANON-HUMAN-VARIABLE-HV11` → `V90-CANON-H6`；base
+- `specializes`：`V90-CANON-HUMAN-VARIABLE-HV11` → `V90-CANON-H6`；base
+- `protocol_requires`：`V90-CANON-PF-1-PF-10-V90-B01228-7F41199188` → `V90-CANON-PF-10`；纯非人例外也保现实动作上限停止责任复核
+- `specializes`：`V90-CANON-SEL-AGT` → `V90-CANON-V90-B01187-9BEA31A0E8`；主体自身范围内真实有限选择
+- `specializes`：`V90-CANON-SEL-GOV` → `V90-CANON-V90-B01187-9BEA31A0E8`；程序授权共同事务而非放大个人选择
+- `specializes`：`V90-CANON-SEL-SYS` → `V90-CANON-V90-B01187-9BEA31A0E8`；无统一决策主体的筛选分支，不转authorized
+- `protocol_requires`：`V90-CANON-SELECTED-ACTION-V90-B01204-E9E02DC68B` → `V90-CANON-SCALE-AXIS-J`；与已选external_action逐项同一原子J，不选no_action
+- `specializes`：`V90-CANON-T0` → `V90-CANON-T0-T4-V90-B01262-FD11C9C523`；安全与信任载体任务，不强制继续对话
+- `protocol_requires`：`V90-CANON-T0-T4-V90-B01262-FD11C9C523` → `V90-CANON-C12`；实际干涉任务的授权保护门；跳T不跳四任务与授权
+- `protocol_requires`：`V90-CANON-T0-T4-V90-B01262-FD11C9C523` → `V90-CANON-N1-N5-V90-B01192-382332A2A8`；实际干涉任务的授权保护门；跳T不跳四任务与授权
+- `protocol_requires`：`V90-CANON-T0-T4-V90-B01262-FD11C9C523` → `V90-CANON-O1`；实际干涉任务的授权保护门；跳T不跳四任务与授权
+- `protocol_requires`：`V90-CANON-T0-T4-V90-B01262-FD11C9C523` → `V90-CANON-O2`；实际干涉任务的授权保护门；跳T不跳四任务与授权
+- `protocol_requires`：`V90-CANON-T0-T4-V90-B01262-FD11C9C523` → `V90-CANON-O3`；实际干涉任务的授权保护门；跳T不跳四任务与授权
+- `protocol_requires`：`V90-CANON-T0-T4-V90-B01262-FD11C9C523` → `V90-CANON-O4`；实际干涉任务的授权保护门；跳T不跳四任务与授权
+- `protocol_requires`：`V90-CANON-T0-T4-V90-B01262-FD11C9C523` → `V90-CANON-PF-1-PF-10-V90-B01228-7F41199188`；实际干涉任务的授权保护门；跳T不跳四任务与授权
+- `protocol_requires`：`V90-CANON-T0-T4-V90-B01262-FD11C9C523` → `V90-CANON-SCALE-AXIS-J`；实际干涉任务的授权保护门；跳T不跳四任务与授权
+- `specializes`：`V90-CANON-T1` → `V90-CANON-T0-T4-V90-B01262-FD11C9C523`；可逆最小秩序任务，非必先T0成熟度
+- `specializes`：`V90-CANON-T2` → `V90-CANON-T0-T4-V90-B01262-FD11C9C523`；证据定位的承接回流修复任务
+- `specializes`：`V90-CANON-T3` → `V90-CANON-T0-T4-V90-B01262-FD11C9C523`；基础持续证据下深时间维护
+- `specializes`：`V90-CANON-T4` → `V90-CANON-T0-T4-V90-B01262-FD11C9C523`；不安全不可行不正当时退出候选，非强制逐T前置
+- `specializes`：`V90-CANON-TRAUMA-NO-HEALTHY-BASELINE` → `V90-CANON-GOV-13`；四背景中初建型/创伤建材型，不是全部历史背景
+- `protocol_requires`：`V90-CANON-V90-B00958-BF1550D98A` → `V90-CANON-V90-B00952-BD3FB507FD`；事件作为更新输入时保持五类事实身份
+- `protocol_requires`：`V90-CANON-V90-B00966-346EC237AF` → `V90-CANON-V90-B00952-BD3FB507FD`；第五步注入须核发生、来源及类型
+- `protocol_requires`：`V90-CANON-V90-B01009-9555AC7BF1` → `V90-CANON-V90-B00994-21E2E4BB63`；再入须可解析父节点与路径及状态差
+- `applies_to`：`V90-CANON-V90-B01051-B5C1E13D41` → `V90-CANON-V90-B01009-9555AC7BF1`；实际请求前瞻资格的阶次，探索故事不强加已校准
+- `protocol_requires`：`V90-CANON-V90-B01051-B5C1E13D41` → `V90-CANON-V90-B01043-3B5B5C486B`；每阶结果前单独冻结与评价
+- `protocol_requires`：`V90-CANON-V90-B01078-6AE7760B77` → `V90-CANON-C12`；仅现实采用资格需要，不将无权分析推荐一律否定
+- `protocol_requires`：`V90-CANON-V90-B01078-6AE7760B77` → `V90-CANON-N1-N5-V90-B01192-382332A2A8`；分析推荐明示实际规范前提，现实采用继续强门
+- `protocol_requires`：`V90-CANON-V90-B01078-6AE7760B77` → `V90-CANON-O1-O4-V90-B01182-1EE3EF8666`；现实采用与有限执行程序
+- `protocol_requires`：`V90-CANON-V90-B01078-6AE7760B77` → `V90-CANON-PF-1-PF-10-V90-B01228-7F41199188`；现实采用的权利底线不由平均收益抵销
+- `protocol_requires`：`V90-CANON-V90-B01078-6AE7760B77` → `V90-CANON-SCALE-AXIS-J`；现实行动的管辖与授权独立有效
+- `applies_to`：`V90-CANON-V90-B01090-978FFA1B45` → `V90-CANON-V90-B01086-B57A933AC1`；存在预先认可效用与行动集合的受限比较，不替一般理解价值
+- `protocol_requires`：`V90-CANON-V90-B01116-48ED8FDEC7` → `V90-CANON-D0`；进入正式工具流前有候选对象记录
+- `protocol_requires`：`V90-CANON-V90-B01116-48ED8FDEC7` → `V90-EXTERNAL-GATE-SP-A-X-T-O-C-R-I-N-J-D2A4A4FE`；正式工具流前的九轴尺度记录，变用途重核
+- `protocol_requires`：`V90-CANON-V90-B01127-FDAF8C63A7` → `V90-EXTERNAL-GATE-G1-G4-INSTANCE-35D06BBC`；经验主张须结果前冻结实例，不把方法门当因果
+- `protocol_requires`：`V90-CANON-V90-B01127-FDAF8C63A7` → `V90-EXTERNAL-GATE-H1-H4-H5-INSTANCE-6DE56E4E`；调用其经验支持路由，不以抽象卡片取代
+- `specializes`：`V90-CANON-V90-B01136-D6973197D8` → `V90-CANON-V90-B01130-8BE8CBFF1B`；复杂高责任高反身性的展开层，不产生第二状态
+- `applies_to`：`V90-CANON-V90-B01144-943C60DEF1` → `V90-CANON-V90-B01149-1DD4F7BBC2`；L3及实质用途影响触发，普通L1/L2可有据不适用
+- `protocol_requires`：`V90-CANON-V90-B01144-943C60DEF1` → `V90-CANON-V90-B01130-8BE8CBFF1B`；强判断候选须七闸与SJ八项逐一通过，非行动授权
+- `specializes`：`V90-CANON-V90-B01167-D441EC497F` → `V90-CANON-V90-B01130-8BE8CBFF1B`；动态推演/前瞻/有限选择明确需要时扩展，不能绕门
+- `protocol_requires`：`V90-CANON-V90-B01221-F82B23B8DB` → `V90-CANON-C12`；仅authorized/现实采用的合取门；不对普通分析推荐无差别强套
+- `protocol_requires`：`V90-CANON-V90-B01221-F82B23B8DB` → `V90-CANON-N1-N5-V90-B01192-382332A2A8`；仅authorized/现实采用的合取门；不对普通分析推荐无差别强套
+- `protocol_requires`：`V90-CANON-V90-B01221-F82B23B8DB` → `V90-CANON-NSP-LEAST-HARM`；仅authorized/现实采用的合取门；不对普通分析推荐无差别强套
+- `protocol_requires`：`V90-CANON-V90-B01221-F82B23B8DB` → `V90-CANON-NSP-PROPORTIONALITY`；仅authorized/现实采用的合取门；不对普通分析推荐无差别强套
+- `protocol_requires`：`V90-CANON-V90-B01221-F82B23B8DB` → `V90-CANON-O1`；仅authorized/现实采用的合取门；不对普通分析推荐无差别强套
+- `protocol_requires`：`V90-CANON-V90-B01221-F82B23B8DB` → `V90-CANON-O2`；仅authorized/现实采用的合取门；不对普通分析推荐无差别强套
+- `protocol_requires`：`V90-CANON-V90-B01221-F82B23B8DB` → `V90-CANON-O3`；仅authorized/现实采用的合取门；不对普通分析推荐无差别强套
+- `protocol_requires`：`V90-CANON-V90-B01221-F82B23B8DB` → `V90-CANON-O4`；仅authorized/现实采用的合取门；不对普通分析推荐无差别强套
+- `protocol_requires`：`V90-CANON-V90-B01221-F82B23B8DB` → `V90-CANON-PF-1-PF-10-V90-B01228-7F41199188`；仅authorized/现实采用的合取门；不对普通分析推荐无差别强套
+- `protocol_requires`：`V90-CANON-V90-B01221-F82B23B8DB` → `V90-CANON-SCALE-AXIS-J`；仅authorized/现实采用的合取门；不对普通分析推荐无差别强套
+- `protocol_requires`：`V90-CANON-V90-B01295-8C21EA43FD` → `V90-CANON-D0`；九模块的对象工具与保护共同门，领域事实仍独立调查
+- `protocol_requires`：`V90-CANON-V90-B01295-8C21EA43FD` → `V90-CANON-PF-1-PF-10-V90-B01228-7F41199188`；九模块的对象工具与保护共同门，领域事实仍独立调查
+- `protocol_requires`：`V90-CANON-V90-B01295-8C21EA43FD` → `V90-CANON-V90-B01130-8BE8CBFF1B`；九模块的对象工具与保护共同门，领域事实仍独立调查
+- `applies_to`：`V90-CANON-V90-B01364-C8121F41E6` → `V90-CANON-APP-EMG`；仅任务实际需要动态分析，不强制解释任务走前瞻
+- `applies_to`：`V90-CANON-V90-B01364-C8121F41E6` → `V90-CANON-APP-FAM`；仅任务实际需要动态分析，不强制解释任务走前瞻
+- `applies_to`：`V90-CANON-V90-B01364-C8121F41E6` → `V90-CANON-APP-INS`；仅任务实际需要动态分析，不强制解释任务走前瞻
+- `applies_to`：`V90-CANON-V90-B01364-C8121F41E6` → `V90-CANON-APP-OPI`；仅任务实际需要动态分析，不强制解释任务走前瞻
+- `applies_to`：`V90-CANON-V90-B01364-C8121F41E6` → `V90-CANON-APP-ORG`；仅任务实际需要动态分析，不强制解释任务走前瞻
+- `applies_to`：`V90-CANON-V90-B01364-C8121F41E6` → `V90-CANON-APP-PLT`；仅任务实际需要动态分析，不强制解释任务走前瞻
+- `applies_to`：`V90-CANON-V90-B01364-C8121F41E6` → `V90-CANON-APP-REL`；仅任务实际需要动态分析，不强制解释任务走前瞻
+- `applies_to`：`V90-CANON-V90-B01364-C8121F41E6` → `V90-CANON-APP-SPC`；仅任务实际需要动态分析，不强制解释任务走前瞻
+- `applies_to`：`V90-CANON-V90-B01364-C8121F41E6` → `V90-CANON-APP-ULS`；仅任务实际需要动态分析，不强制解释任务走前瞻

@@ -1,0 +1,491 @@
+{
+  "declared_source_undefined": [
+    "new machine key spellings for section5.10.3 implementation",
+    "software version number",
+    "reader volume count",
+    "universal complete concept census"
+  ],
+  "forbidden_inference_correction": {
+    "basis": "DEC-07 and body 315,593",
+    "disposition": "forbidden_inference_not_open_parameter",
+    "entry": "ordinary learning automatic G status"
+  },
+  "framework_version": "v9.0",
+  "identity_source_undefined": {
+    "V90-CANON-AI-V90-B01158-BB09C395CA": [
+      "具体材料缺口",
+      "本次最终判断责任人",
+      "任务允许用途与复核时点"
+    ],
+    "V90-CANON-AI-V90-B01174-AA532AB527": [
+      "真实工具执行回执",
+      "外部状态与后果证据",
+      "停止修改到执行器的实际时序"
+    ],
+    "V90-CANON-APP-EMG": [
+      "具体灾种",
+      "危险阈值",
+      "法定指挥",
+      "专业操作卡"
+    ],
+    "V90-CANON-APP-FAM": [
+      "儿童老人残障依赖子域专业协议与证据"
+    ],
+    "V90-CANON-APP-INS": [
+      "适用法律",
+      "实际执行预算和受影响人群证据"
+    ],
+    "V90-CANON-APP-ORG": [
+      "实际行业岗位劳动关系项目周期证据"
+    ],
+    "V90-CANON-APP-PLT": [
+      "平台具体版本参数与实施资料",
+      "独立因果比较和分组影响复核"
+    ],
+    "V90-CANON-APP-REL": [
+      "独立关系因果合同",
+      "关系干涉效果与系统案例"
+    ],
+    "V90-CANON-APP-SPC": [
+      "工程安全容量阈值和现场可用性"
+    ],
+    "V90-CANON-APP-ULS": [
+      "对象特定统一数据与案例",
+      "分层代表性因果识别",
+      "实际执行容量和回滚证据"
+    ],
+    "V90-CANON-B731-10AFEE9787": [
+      "此条规定的现实对象取值、证据、权限、时窗或参数须按任务取得；源合同不能替模型补值。"
+    ],
+    "V90-CANON-B812-9C67D03059": [
+      "此条规定的现实对象取值、证据、权限、时窗或参数须按任务取得；源合同不能替模型补值。"
+    ],
+    "V90-CANON-B844-EFCE0C82B3": [
+      "此条规定的现实对象取值、证据、权限、时窗或参数须按任务取得；源合同不能替模型补值。"
+    ],
+    "V90-CANON-B853-C05E1D5EF3": [
+      "此条规定的现实对象取值、证据、权限、时窗或参数须按任务取得；源合同不能替模型补值。"
+    ],
+    "V90-CANON-B918-EFA24B07E5": [
+      "此条规定的现实对象取值、证据、权限、时窗或参数须按任务取得；源合同不能替模型补值。"
+    ],
+    "V90-CANON-B922-3EAED4C20B": [
+      "此条规定的现实对象取值、证据、权限、时窗或参数须按任务取得；源合同不能替模型补值。"
+    ],
+    "V90-CANON-B928-BAA7A69148": [
+      "此条规定的现实对象取值、证据、权限、时窗或参数须按任务取得；源合同不能替模型补值。"
+    ],
+    "V90-CANON-B948-2E113A0241": [
+      "此条规定的现实对象取值、证据、权限、时窗或参数须按任务取得；源合同不能替模型补值。"
+    ],
+    "V90-CANON-C1": [
+      "Task-specific empirical parameters and evidence cannot be supplied by the concept definition."
+    ],
+    "V90-CANON-C10": [
+      "Task-specific empirical parameters and evidence cannot be supplied by the concept definition."
+    ],
+    "V90-CANON-C11": [
+      "Task-specific empirical parameters and evidence cannot be supplied by the concept definition."
+    ],
+    "V90-CANON-C12": [
+      "Task-specific empirical parameters and evidence cannot be supplied by the concept definition."
+    ],
+    "V90-CANON-C2": [
+      "Task-specific empirical parameters and evidence cannot be supplied by the concept definition."
+    ],
+    "V90-CANON-C3": [
+      "Task-specific empirical parameters and evidence cannot be supplied by the concept definition."
+    ],
+    "V90-CANON-C4": [
+      "Task-specific empirical parameters and evidence cannot be supplied by the concept definition."
+    ],
+    "V90-CANON-C5": [
+      "Task-specific empirical parameters and evidence cannot be supplied by the concept definition."
+    ],
+    "V90-CANON-C6": [
+      "Task-specific empirical parameters and evidence cannot be supplied by the concept definition."
+    ],
+    "V90-CANON-C7": [
+      "Task-specific empirical parameters and evidence cannot be supplied by the concept definition."
+    ],
+    "V90-CANON-C8": [
+      "Task-specific empirical parameters and evidence cannot be supplied by the concept definition."
+    ],
+    "V90-CANON-C9": [
+      "Task-specific empirical parameters and evidence cannot be supplied by the concept definition."
+    ],
+    "V90-CANON-CM-FEEDBACK": [
+      "Task-specific empirical parameters and evidence cannot be supplied by the concept definition."
+    ],
+    "V90-CANON-CM-LEARNING": [
+      "Task-specific empirical parameters and evidence cannot be supplied by the concept definition."
+    ],
+    "V90-CANON-CM-LOAD": [
+      "Task-specific empirical parameters and evidence cannot be supplied by the concept definition."
+    ],
+    "V90-CANON-CM-MAINTENANCE": [
+      "Task-specific empirical parameters and evidence cannot be supplied by the concept definition."
+    ],
+    "V90-CANON-CM-PHASE": [
+      "Task-specific empirical parameters and evidence cannot be supplied by the concept definition."
+    ],
+    "V90-CANON-CM-SELECTION": [
+      "Task-specific empirical parameters and evidence cannot be supplied by the concept definition."
+    ],
+    "V90-CANON-COERCION-AND-CHOICE-V90-B01210-9264251BCF": [
+      "真实拒绝退出条件",
+      "主体具体决定能力",
+      "强制与默认锁定的实际证据"
+    ],
+    "V90-CANON-D0": [
+      "Task-specific empirical parameters and evidence cannot be supplied by the concept definition."
+    ],
+    "V90-CANON-D1": [
+      "Task-specific empirical parameters and evidence cannot be supplied by the concept definition."
+    ],
+    "V90-CANON-D2": [
+      "Task-specific empirical parameters and evidence cannot be supplied by the concept definition."
+    ],
+    "V90-CANON-D3": [
+      "Task-specific empirical parameters and evidence cannot be supplied by the concept definition."
+    ],
+    "V90-CANON-E1": [
+      "Task-specific empirical parameters and evidence cannot be supplied by the concept definition."
+    ],
+    "V90-CANON-E2": [
+      "Task-specific empirical parameters and evidence cannot be supplied by the concept definition."
+    ],
+    "V90-CANON-E3": [
+      "Task-specific empirical parameters and evidence cannot be supplied by the concept definition."
+    ],
+    "V90-CANON-E4": [
+      "Task-specific empirical parameters and evidence cannot be supplied by the concept definition."
+    ],
+    "V90-CANON-E5": [
+      "Task-specific empirical parameters and evidence cannot be supplied by the concept definition."
+    ],
+    "V90-CANON-EXECUTION-STATE-LOG-V90-B01264-FBAB571E1C": [
+      "实际外部anchor和执行状态记录"
+    ],
+    "V90-CANON-FLOW-EXECUTION-RECORD-V90-B01161-1DF320BE64": [
+      "实际外部record_id",
+      "独立verification_ref",
+      "程序ID"
+    ],
+    "V90-CANON-G1": [
+      "Task-specific empirical parameters and evidence cannot be supplied by the concept definition."
+    ],
+    "V90-CANON-G2": [
+      "Task-specific empirical parameters and evidence cannot be supplied by the concept definition."
+    ],
+    "V90-CANON-G3": [
+      "Task-specific empirical parameters and evidence cannot be supplied by the concept definition."
+    ],
+    "V90-CANON-G4": [
+      "Task-specific empirical parameters and evidence cannot be supplied by the concept definition."
+    ],
+    "V90-CANON-GOV-02": [
+      "具体组织法域参与者抽选",
+      "任期",
+      "时限",
+      "法定权限"
+    ],
+    "V90-CANON-GOV-06": [
+      "不透明四问的实际主体",
+      "独立复核与解除条件"
+    ],
+    "V90-CANON-GOV-08": [
+      "个案信号依赖",
+      "误报漏报代价",
+      "具体情境证据"
+    ],
+    "V90-CANON-GOV-11": [
+      "现实可用的独立复核与安全支撑"
+    ],
+    "V90-CANON-GOV-22": [
+      "五类治理债的预先场景门槛"
+    ],
+    "V90-CANON-GOV-23": [
+      "复核者能力与事前可用时间",
+      "可承受工作负荷",
+      "真实拒改暂停到执行器时序"
+    ],
+    "V90-CANON-H1": [
+      "Task-specific empirical parameters and evidence cannot be supplied by the concept definition."
+    ],
+    "V90-CANON-H2": [
+      "Task-specific empirical parameters and evidence cannot be supplied by the concept definition."
+    ],
+    "V90-CANON-H3": [
+      "Task-specific empirical parameters and evidence cannot be supplied by the concept definition."
+    ],
+    "V90-CANON-H4": [
+      "Task-specific empirical parameters and evidence cannot be supplied by the concept definition."
+    ],
+    "V90-CANON-H5": [
+      "Task-specific empirical parameters and evidence cannot be supplied by the concept definition."
+    ],
+    "V90-CANON-H6": [
+      "Task-specific empirical parameters and evidence cannot be supplied by the concept definition."
+    ],
+    "V90-CANON-HUMAN-STRONG-TYPE-CV": [
+      "Task-specific empirical parameters and evidence cannot be supplied by the concept definition."
+    ],
+    "V90-CANON-HUMAN-STRONG-TYPE-GC": [
+      "Task-specific empirical parameters and evidence cannot be supplied by the concept definition."
+    ],
+    "V90-CANON-HUMAN-STRONG-TYPE-GE": [
+      "Task-specific empirical parameters and evidence cannot be supplied by the concept definition."
+    ],
+    "V90-CANON-HUMAN-STRONG-TYPE-GS": [
+      "Task-specific empirical parameters and evidence cannot be supplied by the concept definition."
+    ],
+    "V90-CANON-HUMAN-STRONG-TYPE-IB": [
+      "Task-specific empirical parameters and evidence cannot be supplied by the concept definition."
+    ],
+    "V90-CANON-HUMAN-STRONG-TYPE-IM": [
+      "Task-specific empirical parameters and evidence cannot be supplied by the concept definition."
+    ],
+    "V90-CANON-HUMAN-STRONG-TYPE-IS": [
+      "Task-specific empirical parameters and evidence cannot be supplied by the concept definition."
+    ],
+    "V90-CANON-HUMAN-STRONG-TYPE-RS": [
+      "Task-specific empirical parameters and evidence cannot be supplied by the concept definition."
+    ],
+    "V90-CANON-HUMAN-VARIABLE-HV01": [
+      "Task-specific empirical parameters and evidence cannot be supplied by the concept definition."
+    ],
+    "V90-CANON-HUMAN-VARIABLE-HV02": [
+      "Task-specific empirical parameters and evidence cannot be supplied by the concept definition."
+    ],
+    "V90-CANON-HUMAN-VARIABLE-HV03": [
+      "Task-specific empirical parameters and evidence cannot be supplied by the concept definition."
+    ],
+    "V90-CANON-HUMAN-VARIABLE-HV04": [
+      "Task-specific empirical parameters and evidence cannot be supplied by the concept definition."
+    ],
+    "V90-CANON-HUMAN-VARIABLE-HV05": [
+      "Task-specific empirical parameters and evidence cannot be supplied by the concept definition."
+    ],
+    "V90-CANON-HUMAN-VARIABLE-HV06": [
+      "Task-specific empirical parameters and evidence cannot be supplied by the concept definition."
+    ],
+    "V90-CANON-HUMAN-VARIABLE-HV07": [
+      "Task-specific empirical parameters and evidence cannot be supplied by the concept definition."
+    ],
+    "V90-CANON-HUMAN-VARIABLE-HV08": [
+      "Task-specific empirical parameters and evidence cannot be supplied by the concept definition."
+    ],
+    "V90-CANON-HUMAN-VARIABLE-HV09": [
+      "Task-specific empirical parameters and evidence cannot be supplied by the concept definition."
+    ],
+    "V90-CANON-HUMAN-VARIABLE-HV10": [
+      "Task-specific empirical parameters and evidence cannot be supplied by the concept definition."
+    ],
+    "V90-CANON-HUMAN-VARIABLE-HV11": [
+      "Task-specific empirical parameters and evidence cannot be supplied by the concept definition."
+    ],
+    "V90-CANON-NSP-LEAST-HARM": [
+      "本次各方案损害与比例性实证评价",
+      "独立复核人和时间"
+    ],
+    "V90-CANON-NSP-PROPORTIONALITY": [
+      "本次各方案损害与比例性实证评价",
+      "独立复核人和时间"
+    ],
+    "V90-CANON-S0": [
+      "Task-specific empirical parameters and evidence cannot be supplied by the concept definition."
+    ],
+    "V90-CANON-S1": [
+      "Task-specific empirical parameters and evidence cannot be supplied by the concept definition."
+    ],
+    "V90-CANON-S2": [
+      "Task-specific empirical parameters and evidence cannot be supplied by the concept definition."
+    ],
+    "V90-CANON-S3": [
+      "Task-specific empirical parameters and evidence cannot be supplied by the concept definition."
+    ],
+    "V90-CANON-S4": [
+      "Task-specific empirical parameters and evidence cannot be supplied by the concept definition."
+    ],
+    "V90-CANON-S5": [
+      "Task-specific empirical parameters and evidence cannot be supplied by the concept definition."
+    ],
+    "V90-CANON-S6": [
+      "Task-specific empirical parameters and evidence cannot be supplied by the concept definition."
+    ],
+    "V90-CANON-SCALE-AXIS-A": [
+      "Task-specific empirical parameters and evidence cannot be supplied by the concept definition."
+    ],
+    "V90-CANON-SCALE-AXIS-C": [
+      "Task-specific empirical parameters and evidence cannot be supplied by the concept definition."
+    ],
+    "V90-CANON-SCALE-AXIS-I": [
+      "Task-specific empirical parameters and evidence cannot be supplied by the concept definition."
+    ],
+    "V90-CANON-SCALE-AXIS-J": [
+      "Task-specific empirical parameters and evidence cannot be supplied by the concept definition."
+    ],
+    "V90-CANON-SCALE-AXIS-N": [
+      "Task-specific empirical parameters and evidence cannot be supplied by the concept definition."
+    ],
+    "V90-CANON-SCALE-AXIS-O": [
+      "Task-specific empirical parameters and evidence cannot be supplied by the concept definition."
+    ],
+    "V90-CANON-SCALE-AXIS-R": [
+      "Task-specific empirical parameters and evidence cannot be supplied by the concept definition."
+    ],
+    "V90-CANON-SCALE-AXIS-T": [
+      "Task-specific empirical parameters and evidence cannot be supplied by the concept definition."
+    ],
+    "V90-CANON-SCALE-AXIS-X": [
+      "Task-specific empirical parameters and evidence cannot be supplied by the concept definition."
+    ],
+    "V90-CANON-SCALE-OPERATOR-M01": [
+      "Task-specific empirical parameters and evidence cannot be supplied by the concept definition."
+    ],
+    "V90-CANON-SCALE-OPERATOR-M02": [
+      "Task-specific empirical parameters and evidence cannot be supplied by the concept definition."
+    ],
+    "V90-CANON-SCALE-OPERATOR-M03": [
+      "Task-specific empirical parameters and evidence cannot be supplied by the concept definition."
+    ],
+    "V90-CANON-SCALE-OPERATOR-M04": [
+      "Task-specific empirical parameters and evidence cannot be supplied by the concept definition."
+    ],
+    "V90-CANON-SCALE-OPERATOR-M05": [
+      "Task-specific empirical parameters and evidence cannot be supplied by the concept definition."
+    ],
+    "V90-CANON-SCALE-OPERATOR-M06": [
+      "Task-specific empirical parameters and evidence cannot be supplied by the concept definition."
+    ],
+    "V90-CANON-SCALE-OPERATOR-M07": [
+      "Task-specific empirical parameters and evidence cannot be supplied by the concept definition."
+    ],
+    "V90-CANON-SCALE-OPERATOR-M08": [
+      "Task-specific empirical parameters and evidence cannot be supplied by the concept definition."
+    ],
+    "V90-CANON-SCALE-OPERATOR-M09": [
+      "Task-specific empirical parameters and evidence cannot be supplied by the concept definition."
+    ],
+    "V90-CANON-T2": [
+      "分组损害阈值与本次成败标准",
+      "实际末端资源和中层容量"
+    ],
+    "V90-CANON-T3": [
+      "跨周期现实维护/继任/恢复/审计证据"
+    ],
+    "V90-CANON-U01": [
+      "Task-specific empirical parameters and evidence cannot be supplied by the concept definition."
+    ],
+    "V90-CANON-U02": [
+      "Task-specific empirical parameters and evidence cannot be supplied by the concept definition."
+    ],
+    "V90-CANON-U03": [
+      "Task-specific empirical parameters and evidence cannot be supplied by the concept definition."
+    ],
+    "V90-CANON-U04": [
+      "Task-specific empirical parameters and evidence cannot be supplied by the concept definition."
+    ],
+    "V90-CANON-U05": [
+      "Task-specific empirical parameters and evidence cannot be supplied by the concept definition."
+    ],
+    "V90-CANON-U06": [
+      "Task-specific empirical parameters and evidence cannot be supplied by the concept definition."
+    ],
+    "V90-CANON-U07": [
+      "Task-specific empirical parameters and evidence cannot be supplied by the concept definition."
+    ],
+    "V90-CANON-U08": [
+      "Task-specific empirical parameters and evidence cannot be supplied by the concept definition."
+    ],
+    "V90-CANON-U09": [
+      "Task-specific empirical parameters and evidence cannot be supplied by the concept definition."
+    ],
+    "V90-CANON-U10": [
+      "Task-specific empirical parameters and evidence cannot be supplied by the concept definition."
+    ],
+    "V90-CANON-U11": [
+      "Task-specific empirical parameters and evidence cannot be supplied by the concept definition."
+    ],
+    "V90-CANON-V90-B00958-BF1550D98A": [
+      "实际更新函数F",
+      "具体机制与参数θ",
+      "未建模残差ξ的现实内容"
+    ],
+    "V90-CANON-V90-B00966-346EC237AF": [
+      "通道容量数值",
+      "具体时延与损耗",
+      "饱和反转或恢复阈值"
+    ],
+    "V90-CANON-V90-B01009-9555AC7BF1": [
+      "任务适用的状态等价容差",
+      "被剪分支现实概率质量",
+      "残差用途门槛",
+      "适用校准时间窗"
+    ],
+    "V90-CANON-V90-B01043-3B5B5C486B": [
+      "具体前瞻目标期限",
+      "任务决策阈值",
+      "实际校准成绩"
+    ],
+    "V90-CANON-V90-B01048-EF756A2D88": [
+      "局部允许误差",
+      "计算和观测资源预算"
+    ],
+    "V90-CANON-V90-B01058-AFC7BCEC96": [
+      "具体概率模型",
+      "先验如适用",
+      "数据和经验校准依据",
+      "实际计算预算",
+      "风险路径现实概率"
+    ],
+    "V90-CANON-V90-B01090-978FFA1B45": [
+      "具体效用U",
+      "信息Z的分布",
+      "实际调查时间隐私资源成本"
+    ],
+    "V90-CANON-V90-B01144-943C60DEF1": [
+      "实际修复窗口",
+      "申诉时限",
+      "真实外部复核人及独立性证据"
+    ],
+    "V90-CANON-V90-B01202-3C82225234": [
+      "实际位置的收益成本风险分布",
+      "未知power_position的现实值"
+    ],
+    "V90-CANON-V90-B01221-F82B23B8DB": [
+      "个案可接受恢复状态",
+      "现实补救到达与残余伤害"
+    ],
+    "V90-CANON-V90-B01248-864EA2404A": [
+      "本次是否采用非支配原则",
+      "具体制约与问责制度"
+    ],
+    "V90-CANON-V90-B01505-5E3A18ACCA": [
+      "共识参与者与时限",
+      "根假设恢复所需观察窗样本与决策者",
+      "弱信号安全渠道托管者补救机构",
+      "AI缺失项之间的风险权重",
+      "跨学科跨文化跨法域替代比较标准"
+    ],
+    "V90-CANON-V90-P01370-4D2D8D9D05": [
+      "此条规定的现实对象取值、证据、权限、时窗或参数须按任务取得；源合同不能替模型补值。"
+    ],
+    "V90-CANON-V90-P01436-01D9041DE7": [
+      "此条规定的现实对象取值、证据、权限、时窗或参数须按任务取得；源合同不能替模型补值。"
+    ],
+    "V90-CANON-V90-P02551-FD873296E8": [
+      "本次是否采用非支配原则",
+      "具体制约与问责制度"
+    ],
+    "V90-CANON-X0": [
+      "Task-specific empirical parameters and evidence cannot be supplied by the concept definition."
+    ]
+  },
+  "schema_id": "xi-kari.v9.0.source-undefined-and-conflicts",
+  "schema_version": 1,
+  "source_raw_sha256": "ffc45afdc288ecd268fd02e46d47318b7ddf17bf7b47605aa6c413c95398544b",
+  "unresolved_candidate_count": 0,
+  "unresolved_semantic_conflicts": []
+}

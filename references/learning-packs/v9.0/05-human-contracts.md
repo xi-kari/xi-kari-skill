@@ -1,0 +1,281 @@
+# 人类强类型、假设与变量接口
+
+本学习包从 v9.0 身份卡与类型化依赖图生成；它组织阅读，不替代原文或候选处置。
+
+## 必读身份
+
+- `H1` → `V90-CANON-H1`；卡片：`references/ontology/v9.0/cards/h1.md`
+- `H2` → `V90-CANON-H2`；卡片：`references/ontology/v9.0/cards/h2.md`
+- `H3` → `V90-CANON-H3`；卡片：`references/ontology/v9.0/cards/h3.md`
+- `H4` → `V90-CANON-H4`；卡片：`references/ontology/v9.0/cards/h4.md`
+- `H5` → `V90-CANON-H5`；卡片：`references/ontology/v9.0/cards/h5.md`
+- `H6` → `V90-CANON-H6`；卡片：`references/ontology/v9.0/cards/h6.md`
+- `human_strong_type:GC` → `V90-CANON-HUMAN-STRONG-TYPE-GC`；卡片：`references/ontology/v9.0/cards/human-strong-type-gc.md`
+- `human_strong_type:GS` → `V90-CANON-HUMAN-STRONG-TYPE-GS`；卡片：`references/ontology/v9.0/cards/human-strong-type-gs.md`
+- `human_strong_type:GE` → `V90-CANON-HUMAN-STRONG-TYPE-GE`；卡片：`references/ontology/v9.0/cards/human-strong-type-ge.md`
+- `human_strong_type:CV` → `V90-CANON-HUMAN-STRONG-TYPE-CV`；卡片：`references/ontology/v9.0/cards/human-strong-type-cv.md`
+- `human_strong_type:RS` → `V90-CANON-HUMAN-STRONG-TYPE-RS`；卡片：`references/ontology/v9.0/cards/human-strong-type-rs.md`
+- `human_strong_type:IS` → `V90-CANON-HUMAN-STRONG-TYPE-IS`；卡片：`references/ontology/v9.0/cards/human-strong-type-is.md`
+- `human_strong_type:IM` → `V90-CANON-HUMAN-STRONG-TYPE-IM`；卡片：`references/ontology/v9.0/cards/human-strong-type-im.md`
+- `human_strong_type:IB` → `V90-CANON-HUMAN-STRONG-TYPE-IB`；卡片：`references/ontology/v9.0/cards/human-strong-type-ib.md`
+- `human_variable:HV01` → `V90-CANON-HUMAN-VARIABLE-HV01`；卡片：`references/ontology/v9.0/cards/human-variable-hv01.md`
+- `human_variable:HV02` → `V90-CANON-HUMAN-VARIABLE-HV02`；卡片：`references/ontology/v9.0/cards/human-variable-hv02.md`
+- `human_variable:HV03` → `V90-CANON-HUMAN-VARIABLE-HV03`；卡片：`references/ontology/v9.0/cards/human-variable-hv03.md`
+- `human_variable:HV04` → `V90-CANON-HUMAN-VARIABLE-HV04`；卡片：`references/ontology/v9.0/cards/human-variable-hv04.md`
+- `human_variable:HV05` → `V90-CANON-HUMAN-VARIABLE-HV05`；卡片：`references/ontology/v9.0/cards/human-variable-hv05.md`
+- `human_variable:HV06` → `V90-CANON-HUMAN-VARIABLE-HV06`；卡片：`references/ontology/v9.0/cards/human-variable-hv06.md`
+- `human_variable:HV07` → `V90-CANON-HUMAN-VARIABLE-HV07`；卡片：`references/ontology/v9.0/cards/human-variable-hv07.md`
+- `human_variable:HV08` → `V90-CANON-HUMAN-VARIABLE-HV08`；卡片：`references/ontology/v9.0/cards/human-variable-hv08.md`
+- `human_variable:HV09` → `V90-CANON-HUMAN-VARIABLE-HV09`；卡片：`references/ontology/v9.0/cards/human-variable-hv09.md`
+- `human_variable:HV10` → `V90-CANON-HUMAN-VARIABLE-HV10`；卡片：`references/ontology/v9.0/cards/human-variable-hv10.md`
+- `human_variable:HV11` → `V90-CANON-HUMAN-VARIABLE-HV11`；卡片：`references/ontology/v9.0/cards/human-variable-hv11.md`
+
+## 边界
+
+- `H1`：H2/H3/H6不能当经验机制支持。
+- `H2`：分类成功或承接能力产生经验机制、责任或义务。
+- `H3`：一次写回自动升学习、长期修复或授权修改规则。
+- `H4`：H2/H3/H6不能当经验机制支持。
+- `H5`：H2/H3/H6不能当经验机制支持。
+- `H6`：牺牲证明爱，或规范描述授权征用承担。
+- `human_strong_type:GC`：CV不等于RS；条件不是主体，人不是机制。
+- `human_strong_type:GS`：CV不等于RS；条件不是主体，人不是机制。
+- `human_strong_type:GE`：CV不等于RS；条件不是主体，人不是机制。
+- `human_strong_type:CV`：CV不等于RS；条件不是主体，人不是机制。
+- `human_strong_type:RS`：CV不等于RS；条件不是主体，人不是机制。
+- `human_strong_type:IS`：CV不等于RS；条件不是主体，人不是机制。
+- `human_strong_type:IM`：CV不等于RS；条件不是主体，人不是机制。
+- `human_strong_type:IB`：CV不等于RS；条件不是主体，人不是机制。
+- `human_variable:HV01`：R0不被高档前提封死；input_dependencies非推理图。
+- `human_variable:HV02`：R0不被高档前提封死；input_dependencies非推理图。
+- `human_variable:HV03`：R0不被高档前提封死；input_dependencies非推理图。
+- `human_variable:HV04`：R0不被高档前提封死；input_dependencies非推理图。
+- `human_variable:HV05`：R0不被高档前提封死；input_dependencies非推理图。
+- `human_variable:HV06`：R0不被高档前提封死；input_dependencies非推理图。
+- `human_variable:HV07`：R0不被高档前提封死；input_dependencies非推理图。
+- `human_variable:HV08`：R0不被高档前提封死；input_dependencies非推理图。
+- `human_variable:HV09`：将G2提升为R0必经门；不同型量直接相减。
+- `human_variable:HV10`：R0不被高档前提封死；input_dependencies非推理图。
+- `human_variable:HV11`：R1后果等于因果，R2等于爱；低成本等于无价值。
+
+## 依赖
+
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV01` → `V90-CANON-D0`；base
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV01` → `V90-CANON-D0`；base
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV01` → `V90-CANON-G1`；HV01-R1-effective-domain
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV01` → `V90-EXTERNAL-GATE-G1-INSTANCE`；HV01-R1-effective-domain
+- `input_dependencies`：`V90-CANON-HUMAN-VARIABLE-HV01` → `V90-EXTERNAL-GATE-INPUT-HUMAN-VARIABLE-HV01`；base
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV01` → `V90-CANON-E1`；base
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV01` → `V90-CANON-E1`；base
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV01` → `V90-CANON-E4`；HV01-R1-effective-domain
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV01` → `V90-CANON-E4`；HV01-R1-effective-domain
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV01` → `V90-EXTERNAL-GATE-EVIDENCE`；base
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV01` → `V90-EXTERNAL-GATE-EVIDENCE-C0F115F0`；base
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV01` → `V90-EXTERNAL-GATE-SOURCE`；base
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV01` → `V90-EXTERNAL-GATE-SOURCE-56CCD012`；base
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV02` → `V90-CANON-G2`；HV02-R1-selective-effect
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV02` → `V90-CANON-HUMAN-VARIABLE-HV01`；base
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV02` → `V90-CANON-HUMAN-VARIABLE-HV01`；base
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV02` → `V90-EXTERNAL-GATE-G2-INSTANCE`；HV02-R1-selective-effect
+- `input_dependencies`：`V90-CANON-HUMAN-VARIABLE-HV02` → `V90-EXTERNAL-GATE-INPUT-HUMAN-VARIABLE-HV02`；base
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV02` → `V90-CANON-E1`；base
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV02` → `V90-CANON-E1`；base
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV02` → `V90-CANON-E4`；HV02-R1-selective-effect
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV02` → `V90-CANON-E4`；HV02-R1-selective-effect
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV02` → `V90-EXTERNAL-GATE-CAUSAL`；HV02-R1-selective-effect
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV02` → `V90-EXTERNAL-GATE-CAUSAL-DE06B986`；HV02-R1-selective-effect
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV02` → `V90-EXTERNAL-GATE-EVIDENCE`；base
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV02` → `V90-EXTERNAL-GATE-EVIDENCE-C0F115F0`；base
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV02` → `V90-EXTERNAL-GATE-SOURCE`；base
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV02` → `V90-EXTERNAL-GATE-SOURCE-56CCD012`；base
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV03` → `V90-CANON-H1`；HV03-R1-effective-anchor
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV03` → `V90-CANON-HUMAN-VARIABLE-HV01`；base
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV03` → `V90-CANON-HUMAN-VARIABLE-HV01`；base
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV03` → `V90-EXTERNAL-GATE-H1-INSTANCE`；HV03-R1-effective-anchor
+- `input_dependencies`：`V90-CANON-HUMAN-VARIABLE-HV03` → `V90-EXTERNAL-GATE-INPUT-HUMAN-VARIABLE-HV03`；base
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV03` → `V90-CANON-E2`；base
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV03` → `V90-CANON-E2`；base
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV03` → `V90-CANON-E4`；HV03-R1-effective-anchor
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV03` → `V90-CANON-E4`；HV03-R1-effective-anchor
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV03` → `V90-EXTERNAL-GATE-CAUSAL`；HV03-R1-effective-anchor
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV03` → `V90-EXTERNAL-GATE-CAUSAL-DE06B986`；HV03-R1-effective-anchor
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV03` → `V90-EXTERNAL-GATE-EVIDENCE`；base
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV03` → `V90-EXTERNAL-GATE-EVIDENCE-C0F115F0`；base
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV03` → `V90-EXTERNAL-GATE-SOURCE`；base
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV03` → `V90-EXTERNAL-GATE-SOURCE-56CCD012`；base
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV04` → `V90-CANON-G2`；HV04-R1-generation-mechanism
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV04` → `V90-EXTERNAL-GATE-G2-INSTANCE`；HV04-R1-generation-mechanism
+- `input_dependencies`：`V90-CANON-HUMAN-VARIABLE-HV04` → `V90-EXTERNAL-GATE-INPUT-HUMAN-VARIABLE-HV04`；base
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV04` → `V90-CANON-E4`；HV04-R1-generation-mechanism
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV04` → `V90-CANON-E4`；HV04-R1-generation-mechanism
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV04` → `V90-EXTERNAL-GATE-CAUSAL`；HV04-R1-generation-mechanism
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV04` → `V90-EXTERNAL-GATE-CAUSAL-DE06B986`；HV04-R1-generation-mechanism
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV04` → `V90-EXTERNAL-GATE-EVIDENCE`；base
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV04` → `V90-EXTERNAL-GATE-EVIDENCE-C0F115F0`；base
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV04` → `V90-EXTERNAL-GATE-SOURCE`；base
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV04` → `V90-EXTERNAL-GATE-SOURCE-56CCD012`；base
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV05` → `V90-CANON-G2`；HV05-R1-functional-carrier-effect
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV05` → `V90-CANON-G2`；HV05-R2-intertemporal-reproduction
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV05` → `V90-CANON-G3`；HV05-R2-intertemporal-reproduction
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV05` → `V90-CANON-H5`；HV05-R3-historical-carrier-trace
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV05` → `V90-EXTERNAL-GATE-G2-INSTANCE`；HV05-R1-functional-carrier-effect
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV05` → `V90-EXTERNAL-GATE-G2-INSTANCE`；HV05-R2-intertemporal-reproduction
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV05` → `V90-EXTERNAL-GATE-G3-INSTANCE`；HV05-R2-intertemporal-reproduction
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV05` → `V90-EXTERNAL-GATE-H5-INSTANCE`；HV05-R3-historical-carrier-trace
+- `input_dependencies`：`V90-CANON-HUMAN-VARIABLE-HV05` → `V90-EXTERNAL-GATE-INPUT-HUMAN-VARIABLE-HV05`；base
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV05` → `V90-CANON-E4`；HV05-R1-functional-carrier-effect
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV05` → `V90-CANON-E4`；HV05-R1-functional-carrier-effect
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV05` → `V90-CANON-E4`；HV05-R2-intertemporal-reproduction
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV05` → `V90-CANON-E4`；HV05-R2-intertemporal-reproduction
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV05` → `V90-CANON-E4`；HV05-R3-historical-carrier-trace
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV05` → `V90-CANON-E4`；HV05-R3-historical-carrier-trace
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV05` → `V90-EXTERNAL-GATE-CAUSAL`；HV05-R1-functional-carrier-effect
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV05` → `V90-EXTERNAL-GATE-CAUSAL`；HV05-R2-intertemporal-reproduction
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV05` → `V90-EXTERNAL-GATE-CAUSAL-DE06B986`；HV05-R1-functional-carrier-effect
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV05` → `V90-EXTERNAL-GATE-CAUSAL-DE06B986`；HV05-R2-intertemporal-reproduction
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV05` → `V90-EXTERNAL-GATE-EVIDENCE`；base
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV05` → `V90-EXTERNAL-GATE-EVIDENCE-C0F115F0`；base
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV05` → `V90-EXTERNAL-GATE-SOURCE`；base
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV05` → `V90-EXTERNAL-GATE-SOURCE-56CCD012`；base
+- `specializes`：`V90-CANON-HUMAN-VARIABLE-HV05` → `V90-CANON-H2`；base
+- `specializes`：`V90-CANON-HUMAN-VARIABLE-HV05` → `V90-CANON-H2`；base
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV06` → `V90-CANON-G2`；HV06-R2-effective-channel
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV06` → `V90-CANON-HUMAN-VARIABLE-HV03`；HV06-R1-complete-chain-composition
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV06` → `V90-CANON-HUMAN-VARIABLE-HV03`；HV06-R1-complete-chain-composition
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV06` → `V90-CANON-HUMAN-VARIABLE-HV03`；HV06-R2-effective-channel
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV06` → `V90-CANON-HUMAN-VARIABLE-HV03`；HV06-R2-effective-channel
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV06` → `V90-CANON-HUMAN-VARIABLE-HV04`；HV06-R1-complete-chain-composition
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV06` → `V90-CANON-HUMAN-VARIABLE-HV04`；HV06-R1-complete-chain-composition
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV06` → `V90-CANON-HUMAN-VARIABLE-HV04`；HV06-R2-effective-channel
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV06` → `V90-CANON-HUMAN-VARIABLE-HV04`；HV06-R2-effective-channel
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV06` → `V90-CANON-HUMAN-VARIABLE-HV05`；HV06-R1-complete-chain-composition
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV06` → `V90-CANON-HUMAN-VARIABLE-HV05`；HV06-R1-complete-chain-composition
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV06` → `V90-CANON-HUMAN-VARIABLE-HV05`；HV06-R2-effective-channel
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV06` → `V90-CANON-HUMAN-VARIABLE-HV05`；HV06-R2-effective-channel
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV06` → `V90-EXTERNAL-GATE-G2-INSTANCE`；HV06-R2-effective-channel
+- `input_dependencies`：`V90-CANON-HUMAN-VARIABLE-HV06` → `V90-EXTERNAL-GATE-INPUT-HUMAN-VARIABLE-HV06`；base
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV06` → `V90-CANON-E4`；HV06-R2-effective-channel
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV06` → `V90-CANON-E4`；HV06-R2-effective-channel
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV06` → `V90-EXTERNAL-GATE-CAUSAL`；HV06-R2-effective-channel
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV06` → `V90-EXTERNAL-GATE-CAUSAL-DE06B986`；HV06-R2-effective-channel
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV06` → `V90-EXTERNAL-GATE-EVIDENCE`；base
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV06` → `V90-EXTERNAL-GATE-EVIDENCE-C0F115F0`；base
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV06` → `V90-EXTERNAL-GATE-SOURCE`；base
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV06` → `V90-EXTERNAL-GATE-SOURCE-56CCD012`；base
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV07` → `V90-CANON-D2`；base
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV07` → `V90-CANON-D2`；base
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV07` → `V90-CANON-G2`；HV07-R1-causal-feedback
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV07` → `V90-CANON-G2`；HV07-R2-feedback-mediated-learning
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV07` → `V90-CANON-G3`；HV07-R2-feedback-mediated-learning
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV07` → `V90-EXTERNAL-GATE-G2-INSTANCE`；HV07-R1-causal-feedback
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV07` → `V90-EXTERNAL-GATE-G2-INSTANCE`；HV07-R2-feedback-mediated-learning
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV07` → `V90-EXTERNAL-GATE-G3-INSTANCE`；HV07-R2-feedback-mediated-learning
+- `input_dependencies`：`V90-CANON-HUMAN-VARIABLE-HV07` → `V90-EXTERNAL-GATE-INPUT-HUMAN-VARIABLE-HV07`；base
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV07` → `V90-CANON-E4`；HV07-R1-causal-feedback
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV07` → `V90-CANON-E4`；HV07-R1-causal-feedback
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV07` → `V90-CANON-E4`；HV07-R2-feedback-mediated-learning
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV07` → `V90-CANON-E4`；HV07-R2-feedback-mediated-learning
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV07` → `V90-EXTERNAL-GATE-CAUSAL`；HV07-R1-causal-feedback
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV07` → `V90-EXTERNAL-GATE-CAUSAL`；HV07-R2-feedback-mediated-learning
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV07` → `V90-EXTERNAL-GATE-CAUSAL-DE06B986`；HV07-R1-causal-feedback
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV07` → `V90-EXTERNAL-GATE-CAUSAL-DE06B986`；HV07-R2-feedback-mediated-learning
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV07` → `V90-EXTERNAL-GATE-EVIDENCE`；base
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV07` → `V90-EXTERNAL-GATE-EVIDENCE-C0F115F0`；base
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV07` → `V90-EXTERNAL-GATE-SOURCE`；base
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV07` → `V90-EXTERNAL-GATE-SOURCE-56CCD012`；base
+- `specializes`：`V90-CANON-HUMAN-VARIABLE-HV07` → `V90-CANON-H3`；base
+- `specializes`：`V90-CANON-HUMAN-VARIABLE-HV07` → `V90-CANON-H3`；base
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV08` → `V90-CANON-H4`；HV08-R1-position-or-mediation-effect
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV08` → `V90-CANON-H4`；HV08-R2-reflexive-response
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV08` → `V90-EXTERNAL-GATE-H4-INSTANCE`；HV08-R1-position-or-mediation-effect
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV08` → `V90-EXTERNAL-GATE-H4-INSTANCE`；HV08-R2-reflexive-response
+- `input_dependencies`：`V90-CANON-HUMAN-VARIABLE-HV08` → `V90-EXTERNAL-GATE-INPUT-HUMAN-VARIABLE-HV08`；base
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV08` → `V90-CANON-E2`；base
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV08` → `V90-CANON-E2`；base
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV08` → `V90-CANON-E3`；HV08-R2-reflexive-response
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV08` → `V90-CANON-E3`；HV08-R2-reflexive-response
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV08` → `V90-CANON-E4`；HV08-R1-position-or-mediation-effect
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV08` → `V90-CANON-E4`；HV08-R1-position-or-mediation-effect
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV08` → `V90-CANON-E4`；HV08-R2-reflexive-response
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV08` → `V90-CANON-E4`；HV08-R2-reflexive-response
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV08` → `V90-EXTERNAL-GATE-CAUSAL`；HV08-R1-position-or-mediation-effect
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV08` → `V90-EXTERNAL-GATE-CAUSAL`；HV08-R2-reflexive-response
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV08` → `V90-EXTERNAL-GATE-CAUSAL-DE06B986`；HV08-R1-position-or-mediation-effect
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV08` → `V90-EXTERNAL-GATE-CAUSAL-DE06B986`；HV08-R2-reflexive-response
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV08` → `V90-EXTERNAL-GATE-EVIDENCE`；base
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV08` → `V90-EXTERNAL-GATE-EVIDENCE-C0F115F0`；base
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV08` → `V90-EXTERNAL-GATE-SOURCE`；base
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV08` → `V90-EXTERNAL-GATE-SOURCE-56CCD012`；base
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV09` → `V90-CANON-CM-LOAD`；HV09-R1-overload-mechanism
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV09` → `V90-CANON-CM-LOAD`；HV09-R1-overload-mechanism
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV09` → `V90-CANON-CM-LOAD`；HV09-R2-cumulative-overload
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV09` → `V90-CANON-CM-LOAD`；HV09-R2-cumulative-overload
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV09` → `V90-CANON-G2`；HV09-R1-overload-mechanism
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV09` → `V90-CANON-G2`；HV09-R2-cumulative-overload
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV09` → `V90-CANON-G3`；HV09-R2-cumulative-overload
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV09` → `V90-EXTERNAL-GATE-G2-INSTANCE`；HV09-R1-overload-mechanism
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV09` → `V90-EXTERNAL-GATE-G2-INSTANCE`；HV09-R2-cumulative-overload
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV09` → `V90-EXTERNAL-GATE-G3-INSTANCE`；HV09-R2-cumulative-overload
+- `input_dependencies`：`V90-CANON-HUMAN-VARIABLE-HV09` → `V90-EXTERNAL-GATE-INPUT-HUMAN-VARIABLE-HV09`；base
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV09` → `V90-CANON-E4`；HV09-R1-overload-mechanism
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV09` → `V90-CANON-E4`；HV09-R1-overload-mechanism
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV09` → `V90-CANON-E4`；HV09-R2-cumulative-overload
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV09` → `V90-CANON-E4`；HV09-R2-cumulative-overload
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV09` → `V90-EXTERNAL-GATE-CAUSAL`；HV09-R1-overload-mechanism
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV09` → `V90-EXTERNAL-GATE-CAUSAL`；HV09-R2-cumulative-overload
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV09` → `V90-EXTERNAL-GATE-CAUSAL-DE06B986`；HV09-R1-overload-mechanism
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV09` → `V90-EXTERNAL-GATE-CAUSAL-DE06B986`；HV09-R2-cumulative-overload
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV09` → `V90-EXTERNAL-GATE-EVIDENCE`；base
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV09` → `V90-EXTERNAL-GATE-EVIDENCE-C0F115F0`；base
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV09` → `V90-EXTERNAL-GATE-SOURCE`；base
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV09` → `V90-EXTERNAL-GATE-SOURCE-56CCD012`；base
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV10` → `V90-CANON-CM-PHASE`；HV10-R1-pattern-phase-match
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV10` → `V90-CANON-CM-PHASE`；HV10-R1-pattern-phase-match
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV10` → `V90-CANON-CM-PHASE`；HV10-R2-causal-transition
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV10` → `V90-CANON-CM-PHASE`；HV10-R2-causal-transition
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV10` → `V90-CANON-CM-PHASE`；HV10-R3-path-dependent-phase
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV10` → `V90-CANON-CM-PHASE`；HV10-R3-path-dependent-phase
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV10` → `V90-CANON-G2`；HV10-R2-causal-transition
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV10` → `V90-CANON-G3`；HV10-R3-path-dependent-phase
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV10` → `V90-CANON-HUMAN-VARIABLE-HV03`；base
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV10` → `V90-CANON-HUMAN-VARIABLE-HV03`；base
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV10` → `V90-CANON-HUMAN-VARIABLE-HV04`；base
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV10` → `V90-CANON-HUMAN-VARIABLE-HV04`；base
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV10` → `V90-CANON-HUMAN-VARIABLE-HV05`；base
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV10` → `V90-CANON-HUMAN-VARIABLE-HV05`；base
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV10` → `V90-CANON-HUMAN-VARIABLE-HV07`；base
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV10` → `V90-CANON-HUMAN-VARIABLE-HV07`；base
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV10` → `V90-EXTERNAL-GATE-G2-INSTANCE`；HV10-R2-causal-transition
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV10` → `V90-EXTERNAL-GATE-G3-INSTANCE`；HV10-R3-path-dependent-phase
+- `input_dependencies`：`V90-CANON-HUMAN-VARIABLE-HV10` → `V90-EXTERNAL-GATE-INPUT-HUMAN-VARIABLE-HV10`；base
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV10` → `V90-CANON-E4`；HV10-R1-pattern-phase-match
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV10` → `V90-CANON-E4`；HV10-R1-pattern-phase-match
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV10` → `V90-CANON-E4`；HV10-R2-causal-transition
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV10` → `V90-CANON-E4`；HV10-R2-causal-transition
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV10` → `V90-CANON-E4`；HV10-R3-path-dependent-phase
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV10` → `V90-CANON-E4`；HV10-R3-path-dependent-phase
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV10` → `V90-EXTERNAL-GATE-CAUSAL`；HV10-R2-causal-transition
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV10` → `V90-EXTERNAL-GATE-CAUSAL`；HV10-R3-path-dependent-phase
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV10` → `V90-EXTERNAL-GATE-CAUSAL-DE06B986`；HV10-R2-causal-transition
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV10` → `V90-EXTERNAL-GATE-CAUSAL-DE06B986`；HV10-R3-path-dependent-phase
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV10` → `V90-EXTERNAL-GATE-EVIDENCE`；base
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV10` → `V90-EXTERNAL-GATE-EVIDENCE-C0F115F0`；base
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV10` → `V90-EXTERNAL-GATE-SOURCE`；base
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV10` → `V90-EXTERNAL-GATE-SOURCE-56CCD012`；base
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV11` → `V90-CANON-G2`；HV11-R2-structural-consequence
+- `inferential_requires`：`V90-CANON-HUMAN-VARIABLE-HV11` → `V90-EXTERNAL-GATE-G2-INSTANCE`；HV11-R2-structural-consequence
+- `input_dependencies`：`V90-CANON-HUMAN-VARIABLE-HV11` → `V90-EXTERNAL-GATE-INPUT-HUMAN-VARIABLE-HV11`；base
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV11` → `V90-CANON-E4`；HV11-R2-structural-consequence
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV11` → `V90-CANON-E4`；HV11-R2-structural-consequence
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV11` → `V90-CANON-N4`；base
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV11` → `V90-CANON-N4`；base
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV11` → `V90-EXTERNAL-GATE-CAUSAL`；HV11-R2-structural-consequence
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV11` → `V90-EXTERNAL-GATE-CAUSAL-DE06B986`；HV11-R2-structural-consequence
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV11` → `V90-EXTERNAL-GATE-EVIDENCE`；base
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV11` → `V90-EXTERNAL-GATE-EVIDENCE-C0F115F0`；base
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV11` → `V90-EXTERNAL-GATE-SOURCE`；base
+- `protocol_requires`：`V90-CANON-HUMAN-VARIABLE-HV11` → `V90-EXTERNAL-GATE-SOURCE-56CCD012`；base
+- `specializes`：`V90-CANON-HUMAN-VARIABLE-HV11` → `V90-CANON-H2`；base
+- `specializes`：`V90-CANON-HUMAN-VARIABLE-HV11` → `V90-CANON-H2`；base
+- `specializes`：`V90-CANON-HUMAN-VARIABLE-HV11` → `V90-CANON-H6`；base
+- `specializes`：`V90-CANON-HUMAN-VARIABLE-HV11` → `V90-CANON-H6`；base

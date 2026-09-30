@@ -1,0 +1,92 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://xi-kari.local/schemas/candidate-decision-v90.schema.json",
+  "title": "Xi-Kari v9.0 terminal candidate decision",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "candidate_id",
+    "disposition",
+    "disposition_reason",
+    "semantic_review_note",
+    "bound_identity_ids",
+    "parent_identity_ids",
+    "out_of_scope_kind",
+    "review_basis"
+  ],
+  "properties": {
+    "candidate_id": {
+      "type": "string",
+      "pattern": "^V90-CANDIDATE-(?:P\\d{5}|T\\d{3}(?:-R\\d{3})?)$"
+    },
+    "disposition": {
+      "enum": ["canonical", "alias", "subordinate_value", "out_of_scope"]
+    },
+    "disposition_reason": {"type": "string", "minLength": 1},
+    "semantic_review_note": {"type": "string", "minLength": 12},
+    "bound_identity_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/identity"}
+    },
+    "parent_identity_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/identity"}
+    },
+    "out_of_scope_kind": {
+      "anyOf": [
+        {"type": "null"},
+        {
+          "enum": [
+            "navigation",
+            "editorial",
+            "bibliographic",
+            "historical_only",
+            "duplicate_source_unit"
+          ]
+        }
+      ]
+    },
+    "review_basis": {
+      "type": "object",
+      "minProperties": 1
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "disposition": {"enum": ["canonical", "alias"]}
+        }
+      },
+      "then": {
+        "properties": {"bound_identity_ids": {"minItems": 1}}
+      }
+    },
+    {
+      "if": {
+        "properties": {"disposition": {"const": "subordinate_value"}}
+      },
+      "then": {
+        "properties": {"parent_identity_ids": {"minItems": 1}}
+      }
+    },
+    {
+      "if": {
+        "properties": {"disposition": {"const": "out_of_scope"}}
+      },
+      "then": {
+        "properties": {
+          "out_of_scope_kind": {"not": {"type": "null"}}
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "identity": {
+      "type": "string",
+      "pattern": "^V90-(?:CANON|DOMAIN)-[A-Z0-9-]+$"
+    }
+  }
+}

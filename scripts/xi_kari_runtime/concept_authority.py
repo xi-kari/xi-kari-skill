@@ -6,6 +6,7 @@ from pathlib import Path
 from typing import Any
 
 from .canonical_json import read_json, read_json_text, sha256_file
+from .source_profile import SOURCE_VERSION
 
 
 CONCEPT_AUTHORITY_SCHEMA_ID = "xi-kari.v3.concept-authority-binding"
@@ -53,12 +54,22 @@ def _read_jsonl(path: Path) -> list[dict[str, Any]]:
 
 def load_concept_authority(
     repository_root: Path,
+    *,
+    source_version: str = SOURCE_VERSION,
 ) -> tuple[list[dict[str, Any]], dict[str, Any]]:
     """Read and cross-check the repository-owned 1:1 candidate closure."""
 
     repo = Path(repository_root).resolve()
-    source_root = repo / "references" / "source" / "v8.3"
-    ontology_root = repo / "references" / "ontology"
+    if source_version == "v8.3":
+        source_root = repo / "references" / "source" / "v8.3"
+        ontology_root = repo / "references" / "ontology"
+        domain_index_path = None
+    elif source_version == "v9.0":
+        source_root = repo / "references" / "source" / "v9.0"
+        ontology_root = repo / "references" / "ontology" / "v9.0"
+        domain_index_path = repo / "references" / "domains" / "index.json"
+    else:
+        raise ValueError(f"unsupported concept authority source version: {source_version}")
     source_path = source_root / "indexes" / "candidates.jsonl"
     manifest_path = source_root / "source-manifest.json"
     census_path = ontology_root / "candidate-census.jsonl"
@@ -122,10 +133,17 @@ def load_concept_authority(
         source_rows, census_rows, ledger_rows, strict=True
     ):
         candidate_id = source_row["candidate_id"]
-        if any(
-            census_row.get(field) != source_row.get(field)
-            for field in SOURCE_BINDING_FIELDS
-        ):
+        if source_version == "v8.3":
+            source_binding_differs = any(
+                census_row.get(field) != source_row.get(field)
+                for field in SOURCE_BINDING_FIELDS
+            )
+        else:
+            source_binding_differs = any(
+                census_row.get(field) != value
+                for field, value in source_row.items()
+            )
+        if source_binding_differs:
             raise ValueError(
                 f"candidate census differs from source authority: {candidate_id}"
             )
@@ -152,9 +170,50 @@ def load_concept_authority(
     ):
         raise ValueError("ontology concept authority count is invalid")
 
+    registered_ids = {
+        concept.get("concept_id")
+        for concept in concepts
+        if isinstance(concept, dict) and isinstance(concept.get("concept_id"), str)
+    }
+    if domain_index_path is not None:
+        if not domain_index_path.is_file() or domain_index_path.is_symlink():
+            raise ValueError("v9.0 domain identity authority is unavailable")
+        domain_index = read_json(domain_index_path)
+        entries = domain_index.get("entries") if isinstance(domain_index, dict) else None
+        if not isinstance(entries, list):
+            raise ValueError("v9.0 domain identity authority is invalid")
+        registered_ids.update(
+            entry.get("identity_id")
+            for entry in entries
+            if isinstance(entry, dict) and isinstance(entry.get("identity_id"), str)
+        )
+    if source_version == "v9.0":
+        terminal = {"canonical", "alias", "subordinate_value", "out_of_scope"}
+        for row in census_rows:
+            candidate_id = row.get("candidate_id")
+            disposition = row.get("disposition")
+            bound_ids = row.get("bound_concept_ids")
+            parent_ids = row.get("parent_concept_ids")
+            if disposition not in terminal:
+                raise ValueError(
+                    f"v9.0 candidate disposition is not terminal: {candidate_id}"
+                )
+            if not isinstance(bound_ids, list) or not isinstance(parent_ids, list):
+                raise ValueError(f"v9.0 candidate identity binding is invalid: {candidate_id}")
+            if any(value not in registered_ids for value in [*bound_ids, *parent_ids]):
+                raise ValueError(
+                    f"v9.0 candidate identity binding does not resolve: {candidate_id}"
+                )
+
     binding = {
-        "schema_id": CONCEPT_AUTHORITY_SCHEMA_ID,
-        "schema_version": CONCEPT_AUTHORITY_SCHEMA_VERSION,
+        "schema_id": (
+            CONCEPT_AUTHORITY_SCHEMA_ID
+            if source_version == "v8.3"
+            else "xi-kari.v4.concept-authority-binding"
+        ),
+        "schema_version": (
+            CONCEPT_AUTHORITY_SCHEMA_VERSION if source_version == "v8.3" else 2
+        ),
         "source_candidate_count": candidate_count,
         "source_candidate_index_sha256": source_sha256,
         "candidate_census_sha256": census_sha256,
@@ -163,4 +222,6 @@ def load_concept_authority(
         "concept_registry_sha256": sha256_file(registry_path),
         "concept_relations_sha256": sha256_file(relations_path),
     }
+    if source_version == "v9.0":
+        binding["framework_version"] = source_version
     return census_rows, binding

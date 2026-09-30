@@ -18,6 +18,7 @@ from .canonical_json import (
     sha256_file,
     sha256_json,
 )
+from .source_profile import SOURCE_VERSION
 
 
 PLAN_SCHEMA_ID = "xi-kari.v3.ontology-read-plan"
@@ -170,9 +171,13 @@ def read_ontology_item_bytes(
         raise OntologyReadTraceError("ontology plan record identity is invalid")
     root = Path(repository_root).resolve()
     if kind == "candidate":
-        census_path = root / "references" / "ontology" / "candidate-census.jsonl"
-        if path != "references/ontology/candidate-census.jsonl":
+        allowed_paths = {
+            "references/ontology/candidate-census.jsonl",
+            "references/ontology/v9.0/candidate-census.jsonl",
+        }
+        if path not in allowed_paths:
             raise OntologyReadTraceError("candidate plan path is invalid")
+        census_path = _safe_authority_path(root, path)
         try:
             metadata = census_path.stat()
         except OSError as exc:
@@ -235,7 +240,7 @@ def derive_content_observation(content: bytes, item_id: str) -> str:
             end += 1
         excerpt = text[start:end].strip()
         signal = re.sub(
-            r"v83[-_a-z0-9]+|[0-9a-f]{16,}|references/[a-z0-9_./-]+",
+            r"v(?:83|90)[-_a-z0-9]+|[0-9a-f]{16,}|references/[a-z0-9_./-]+",
             " ",
             excerpt,
             flags=re.IGNORECASE,
@@ -269,12 +274,13 @@ def _normalise_identifier_free_rationale(
         text = text.replace(unicodedata.normalize("NFKC", identifier).casefold(), " ")
     # Remove common identifier forms even when a model changes punctuation.
     text = re.sub(
-        r"\b(?:candidate|card|neighbor|bundle)\s*[:/#-]\s*[a-z0-9._:/-]+",
+        r"\b(?:candidate|card|neighbor|bundle|learning[-_ ]?pack|domain[-_ ]?index)"
+        r"\s*[:/#-]\s*[a-z0-9._:/-]+",
         " ",
         text,
         flags=re.IGNORECASE,
     )
-    text = re.sub(r"\bv83[-_a-z0-9]+\b", " ", text, flags=re.IGNORECASE)
+    text = re.sub(r"\bv(?:83|90)[-_a-z0-9]+\b", " ", text, flags=re.IGNORECASE)
     text = re.sub(r"\b[0-9a-f]{64}\b", " ", text, flags=re.IGNORECASE)
     return " ".join(text.split())
 
@@ -328,6 +334,7 @@ def _record(
 def build_ontology_read_plan(
     repository_root: Path,
     *,
+    source_version: str = SOURCE_VERSION,
     run_id: str,
     problem_contract_sha256: str,
     content_access_challenge: str,
@@ -341,12 +348,24 @@ def build_ontology_read_plan(
     )
     content_access_challenge = _require_challenge(content_access_challenge)
     repo = Path(repository_root).resolve()
-    ontology = repo / "references" / "ontology"
+    if source_version == "v8.3":
+        ontology_relative = "references/ontology"
+    elif source_version == "v9.0":
+        ontology_relative = "references/ontology/v9.0"
+    else:
+        raise OntologyReadTraceError(
+            f"unsupported ontology read source version: {source_version}"
+        )
+    ontology = repo / ontology_relative
     census_path = ontology / "candidate-census.jsonl"
     registry_path = ontology / "concept-registry.json"
     relations_path = ontology / "concept-relations.json"
     bundles_path = ontology / "continuity-bundle-registry.json"
+    knowledge_index_path = ontology / "knowledge-index.json"
+    domain_index_path = repo / "references" / "domains" / "index.json"
     required = (census_path, registry_path, relations_path, bundles_path)
+    if source_version == "v9.0":
+        required = (*required, knowledge_index_path, domain_index_path)
     if not all(path.is_file() and not path.is_symlink() for path in required):
         raise OntologyReadTraceError("complete ontology read authority is unavailable")
 
@@ -379,7 +398,7 @@ def build_ontology_read_plan(
                 item_id=f"candidate:{candidate_id}",
                 kind="candidate",
                 subject_id=candidate_id,
-                path="references/ontology/candidate-census.jsonl",
+                path=f"{ontology_relative}/candidate-census.jsonl",
                 content_sha256=sha256_bytes(candidate_bytes[candidate_id]),
                 disposition=disposition,
             )
@@ -480,10 +499,63 @@ def build_ontology_read_plan(
             )
         )
 
+    learning_pack_count = 0
+    if source_version == "v9.0":
+        knowledge_index = read_json(knowledge_index_path)
+        domain_index = read_json(domain_index_path)
+        if not isinstance(knowledge_index, Mapping) or not isinstance(
+            domain_index, Mapping
+        ):
+            raise OntologyReadTraceError(
+                "v9.0 knowledge or domain identity index is invalid"
+            )
+        learning_packs = knowledge_index.get("learning_packs")
+        if not isinstance(learning_packs, list):
+            raise OntologyReadTraceError("v9.0 learning pack index is invalid")
+        for asset in learning_packs:
+            if not isinstance(asset, Mapping):
+                raise OntologyReadTraceError("v9.0 learning pack record is invalid")
+            path = asset.get("path")
+            expected_hash = asset.get("sha256")
+            if not isinstance(path, str) or not isinstance(expected_hash, str):
+                raise OntologyReadTraceError("v9.0 learning pack binding is invalid")
+            pack = repo / path
+            if not pack.is_file() or pack.is_symlink():
+                raise OntologyReadTraceError(
+                    f"v9.0 learning pack is unavailable: {path}"
+                )
+            observed_hash = sha256_file(pack)
+            if observed_hash != expected_hash:
+                raise OntologyReadTraceError(
+                    f"v9.0 learning pack hash differs: {path}"
+                )
+            records.append(
+                _record(
+                    item_id=f"learning-pack:{path}",
+                    kind="learning_pack",
+                    subject_id=path,
+                    path=path,
+                    content_sha256=observed_hash,
+                    disposition="learning_pack",
+                )
+            )
+            learning_pack_count += 1
+        domain_relative = domain_index_path.relative_to(repo).as_posix()
+        records.append(
+            _record(
+                item_id="domain-index:v9.0",
+                kind="domain_identity_index",
+                subject_id="D.01-D.32",
+                path=domain_relative,
+                content_sha256=sha256_file(domain_index_path),
+                disposition="identity_only",
+            )
+        )
+
     item_ids = [record["item_id"] for record in records]
     if len(item_ids) != len(set(item_ids)):
         raise OntologyReadTraceError("ontology read plan item identities collide")
-    return {
+    result = {
         "schema_id": PLAN_SCHEMA_ID,
         "schema_version": 1,
         "run_id": run_id,
@@ -505,6 +577,16 @@ def build_ontology_read_plan(
         "records": records,
         "complete": True,
     }
+    if source_version == "v9.0":
+        result["framework_version"] = source_version
+        result["learning_pack_count"] = learning_pack_count
+        result["authority_bindings"]["knowledge_index_sha256"] = sha256_file(
+            knowledge_index_path
+        )
+        result["authority_bindings"]["domain_index_sha256"] = sha256_file(
+            domain_index_path
+        )
+    return result
 
 
 def _model_records(

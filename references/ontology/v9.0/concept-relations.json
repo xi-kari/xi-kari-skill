@@ -1,0 +1,3043 @@
+{
+  "V90-CANON-AI-V90-B01158-BB09C395CA": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-AI-V90-B01174-AA532AB527": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-APP-EMG": {
+    "dependency_roles": {
+      "specializes": [
+        "V90-CANON-V90-B01295-8C21EA43FD"
+      ]
+    },
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-APP-FAM": {
+    "dependency_roles": {
+      "specializes": [
+        "V90-CANON-V90-B01295-8C21EA43FD"
+      ]
+    },
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-APP-INS": {
+    "dependency_roles": {
+      "specializes": [
+        "V90-CANON-V90-B01295-8C21EA43FD"
+      ]
+    },
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-APP-OPI": {
+    "dependency_roles": {
+      "specializes": [
+        "V90-CANON-V90-B01295-8C21EA43FD"
+      ]
+    },
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-APP-ORG": {
+    "dependency_roles": {
+      "specializes": [
+        "V90-CANON-V90-B01295-8C21EA43FD"
+      ]
+    },
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-APP-PLT": {
+    "dependency_roles": {
+      "specializes": [
+        "V90-CANON-V90-B01295-8C21EA43FD"
+      ]
+    },
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-APP-REL": {
+    "dependency_roles": {
+      "specializes": [
+        "V90-CANON-V90-B01295-8C21EA43FD"
+      ]
+    },
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-APP-SPC": {
+    "dependency_roles": {
+      "specializes": [
+        "V90-CANON-V90-B01295-8C21EA43FD"
+      ]
+    },
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-APP-ULS": {
+    "dependency_roles": {
+      "specializes": [
+        "V90-CANON-V90-B01295-8C21EA43FD"
+      ]
+    },
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B100-4FF2A3DB6F": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B102-13A3D6D342": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B104-83610A9934": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B111-EF2EB82487": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B115-9F81F084C5": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B117-EB2B4C48A8": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B118-CFEDDCAA98": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B119-D07B1AFB6D": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B12-91909DCD76": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B120-2068ABC37B": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B121-B6261C8AE7": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B124-CB830D24BC": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B125-DAE5DE6248": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B127-96358C4ACB": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B128-7C96A5369C": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B129-5D455D0F9A": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B13-7B2643243A": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B130-B2E5158FAE": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B132-C11780A653": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B133-SP-T-K-69169DBFA3": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B134-C58D6C5C6B": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B136-D90993E3F1": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B137-921B213A55": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B138-EEDFC479BF": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B139-393F23186A": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B140-B44D3EA98D": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B142-FBD1B24B0A": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B143-25F88F43D8": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B144-0066E536F2": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B146-D-G-E-H-N-O-327A30961B": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B15-DED4B7EEC1": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B153-A0F85C13F8": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B154-F840751352": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B155-AB8BAC119C": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B157-7D7552F1C1": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B158-CFD4A377E5": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B16-A392A8436B": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B160-E77193CE21": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B162-6F1DD4765E": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B163-949FDEEBF3": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B165-D-G-C-EE4B843C27": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B167-8AC279D742": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B168-444F76E047": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B170-A27BFDAE26": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B171-BAEAB6F0F3": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B172-8FD9B39AB8": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B174-4560193521": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B175-BCAE8337E7": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B177-2CB1971FE0": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B178-29881E49DE": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B179-688F1A2B45": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B181-AA0B3C3DEB": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B182-G-INSTANCE-2189AE0737": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B184-642D631087": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B185-38B40A521F": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B187-ED7A07932A": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B188-EMPIRICAL-EVIDENCE-RECORDS-745EACB578": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B189-N0-52FA46BF0C": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B19-XX-XX-E8F2CD3DED": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B191-C234F0E518": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B192-BC52E90FED": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B193-32FA511442": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B195-9965591C7A": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B196-C3C72176BC": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B197-11F5C6DBF4": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B198-FFAB5D3E4D": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B199-CF1E8AA5E3": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B200-8FDE7B7B9D": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B201-670C2F61C3": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B202-3EE9074AB3": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B204-585B2D05A9": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B206-73A93ADD92": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B207-A96D90FFD3": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B208-DA89456CCC": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B209-1F18E28A29": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B211-CA1A36D5E4": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B212-49CE40E4C8": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B214-BC4B342E53": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B215-A1785773D8": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B217-1EE8890F78": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B218-D54F965805": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B22-D-2325144E7B": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B220-E26C9756E0": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B223-E1AE6CEAED": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B254-FF51F2AB6A": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B282-U01-U03-U04-U06-U07-U10-U11-E51F08F33E": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B283-EBC0898EFE": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B285-04E2F1C7CA": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B287-A241FB8F8E": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B296-08EB157029": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B344-04FDD257CB": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B449-G1-INSTANCE-G2-INSTANCE-G3-INSTANCE-G4A-G4B-6870022262": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B450-5B8DC87566": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B452-D52962B720": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B454-C387FFF2D7": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B456-A26924AC3C": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B457-7388D801D4": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B458-A74515AE02": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B459-A33F9CEB80": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B460-217861B3B5": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B461-52193A6E78": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B463-G1-G4-A9DF2DA21B": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B464-C1-C12-30A5F202B6": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B466-6089F791B4": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B467-AB0CA70D7A": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B469-SP0-SP1-09A4777D5D": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B471-D-SCALE-AXIS-DEFINITION-O-SCALE-TRANSFORMAT-4D026C7309": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B472-ID-SCALE-AXIS-A-SCALE-AXIS-J-SCALE-OPERATOR-BB35825F3B": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B475-SP-A-X-T-O-C-R-I-N-J-1D24358794": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B476-4D23C63A2D": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B478-EQUAL-EXPANDS-CONTRACTS-INCOMPARABLE-UNKNOW-E7E090F5DA": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B479-C17750C00E": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B480-91C1219167": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B481-D3D818AE84": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B483-SP0-SP1-EQUAL-EXPANDS-SP0-SP1-EXPANDS-D950E038A9": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B490-MIXED-HORIZONTAL-OR-INCOMPARABLE-UNRESOLVED-7BC1148FC1": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B491-J-F9D65A9F5B": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B493-OPERATOR-IDS-SELECTED-OPERATOR-BRANCH-CLAIM-E248C6B5E6": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B499-NULL-SUPPORTED-B6D7ABA879": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B501-SEMANTIC-SIGNATURE-M01-9E585EFC59": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B538-72D86E44EC": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B551-UNKNOWN-NOT-APPLICABLE-NOT-OBSERVABLE-WITHH-A20CFB2A86": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B554-M01-M09-55E74B3850": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B555-74FB4945A3": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B557-8972F2D47A": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B559-30EBBA0387": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B564-76C7F63173": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B568-A996E7E161": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B572-442BE143A3": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B576-066B403352": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B577-D3AE9EF02A": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B579-88142A1BF2": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B581-4D10819C25": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B600-41036A1F37": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B632-D01FD42F98": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B638-4FF94CF640": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B640-D9208A3E86": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B641-9AF473E749": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B642-6626CEB62B": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B643-636ABA4481": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B647-85A1D7E624": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B648-0E2DA5D048": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B649-433A2C6127": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B682-3C5B4AF629": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B714-6FF6B4B393": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B717-34D9667CF1": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B722-618C858377": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B731-10AFEE9787": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B736-BC14DA981A": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B778-29B84E453F": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B812-9C67D03059": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B82-191063788A": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B835-53CC0007E1": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B838-63CFF0D097": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B84-D7F67089FD": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B844-EFCE0C82B3": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B85-E60026BC55": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B853-C05E1D5EF3": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B87-CE5AFF0178": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B90-43B5D35FD7": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B903-7E20835F12": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B914-3517958CFC": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B918-EFA24B07E5": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B92-BAC5F04D79": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B922-3EAED4C20B": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B928-BAA7A69148": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B93-84C969CC86": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B931-01EE06C432": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B934-294C29C125": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B948-2E113A0241": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B95-5751160E16": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B97-A63BB1D387": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-B98-35B8EA9AB6": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-C1": {
+    "dependency_roles": {
+      "inferential_requires": [
+        "V90-CANON-D0",
+        "V90-CANON-G1"
+      ],
+      "protocol_requires": [
+        "V90-CANON-E1",
+        "V90-CANON-E4",
+        "V90-EXTERNAL-GATE-EVIDENCE",
+        "V90-EXTERNAL-GATE-EVIDENCE-C0F115F0"
+      ]
+    },
+    "disposition": "canonical_concept",
+    "required_neighbors": [
+      "V90-CANON-D0",
+      "V90-CANON-G1"
+    ]
+  },
+  "V90-CANON-C1-C3-B368-EDA36D3E77": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-C10": {
+    "dependency_roles": {
+      "inferential_requires": [
+        "V90-CANON-G2",
+        "V90-CANON-G3"
+      ],
+      "protocol_requires": [
+        "V90-CANON-E4",
+        "V90-CANON-H2",
+        "V90-EXTERNAL-GATE-CAUSAL",
+        "V90-EXTERNAL-GATE-CAUSAL-DE06B986",
+        "V90-EXTERNAL-GATE-EVIDENCE",
+        "V90-EXTERNAL-GATE-EVIDENCE-C0F115F0"
+      ],
+      "specializes": [
+        "V90-CANON-H5"
+      ]
+    },
+    "disposition": "canonical_concept",
+    "required_neighbors": [
+      "V90-CANON-G2",
+      "V90-CANON-G3"
+    ]
+  },
+  "V90-CANON-C11": {
+    "dependency_roles": {
+      "inferential_requires": [
+        "V90-CANON-D2",
+        "V90-CANON-G2"
+      ],
+      "protocol_requires": [
+        "V90-CANON-E4",
+        "V90-CANON-H3",
+        "V90-EXTERNAL-GATE-CAUSAL",
+        "V90-EXTERNAL-GATE-CAUSAL-DE06B986",
+        "V90-EXTERNAL-GATE-EVIDENCE",
+        "V90-EXTERNAL-GATE-EVIDENCE-C0F115F0"
+      ]
+    },
+    "disposition": "canonical_concept",
+    "required_neighbors": [
+      "V90-CANON-D2",
+      "V90-CANON-G2"
+    ]
+  },
+  "V90-CANON-C12": {
+    "dependency_roles": {
+      "inferential_requires": [
+        "V90-CANON-N1",
+        "V90-CANON-O1",
+        "V90-CANON-O2",
+        "V90-CANON-O3",
+        "V90-CANON-O4"
+      ],
+      "protocol_requires": [
+        "V90-CANON-PF-1",
+        "V90-CANON-PF-10",
+        "V90-CANON-PF-2",
+        "V90-CANON-PF-3",
+        "V90-CANON-PF-4",
+        "V90-CANON-PF-5",
+        "V90-CANON-PF-6",
+        "V90-CANON-PF-7",
+        "V90-CANON-PF-8",
+        "V90-CANON-PF-9",
+        "V90-EXTERNAL-GATE-EVIDENCE",
+        "V90-EXTERNAL-GATE-EVIDENCE-C0F115F0"
+      ]
+    },
+    "disposition": "canonical_concept",
+    "required_neighbors": [
+      "V90-CANON-N1",
+      "V90-CANON-O1",
+      "V90-CANON-O2",
+      "V90-CANON-O3",
+      "V90-CANON-O4"
+    ]
+  },
+  "V90-CANON-C12-B445-29F517C825": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-C2": {
+    "dependency_roles": {
+      "inferential_requires": [
+        "V90-CANON-D0",
+        "V90-CANON-G2"
+      ],
+      "protocol_requires": [
+        "V90-CANON-E1",
+        "V90-CANON-E4",
+        "V90-EXTERNAL-GATE-CAUSAL",
+        "V90-EXTERNAL-GATE-CAUSAL-DE06B986",
+        "V90-EXTERNAL-GATE-EVIDENCE",
+        "V90-EXTERNAL-GATE-EVIDENCE-C0F115F0"
+      ]
+    },
+    "disposition": "canonical_concept",
+    "required_neighbors": [
+      "V90-CANON-D0",
+      "V90-CANON-G2"
+    ]
+  },
+  "V90-CANON-C3": {
+    "dependency_roles": {
+      "inferential_requires": [
+        "V90-CANON-D2",
+        "V90-CANON-G2",
+        "V90-CANON-G3"
+      ],
+      "protocol_requires": [
+        "V90-CANON-E4",
+        "V90-EXTERNAL-GATE-CAUSAL",
+        "V90-EXTERNAL-GATE-CAUSAL-DE06B986",
+        "V90-EXTERNAL-GATE-EVIDENCE",
+        "V90-EXTERNAL-GATE-EVIDENCE-C0F115F0"
+      ]
+    },
+    "disposition": "canonical_concept",
+    "required_neighbors": [
+      "V90-CANON-D2",
+      "V90-CANON-G2",
+      "V90-CANON-G3"
+    ]
+  },
+  "V90-CANON-C4": {
+    "dependency_roles": {
+      "inferential_requires": [
+        "V90-CANON-D1",
+        "V90-CANON-G3"
+      ],
+      "protocol_requires": [
+        "V90-CANON-E1",
+        "V90-CANON-E4",
+        "V90-EXTERNAL-GATE-CAUSAL",
+        "V90-EXTERNAL-GATE-CAUSAL-DE06B986",
+        "V90-EXTERNAL-GATE-EVIDENCE",
+        "V90-EXTERNAL-GATE-EVIDENCE-C0F115F0"
+      ]
+    },
+    "disposition": "canonical_concept",
+    "required_neighbors": [
+      "V90-CANON-D1",
+      "V90-CANON-G3"
+    ]
+  },
+  "V90-CANON-C4-C7-B400-20EB0C8C00": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-C5": {
+    "dependency_roles": {
+      "inferential_requires": [
+        "V90-CANON-D0",
+        "V90-CANON-G2",
+        "V90-CANON-G3"
+      ],
+      "protocol_requires": [
+        "V90-CANON-E1",
+        "V90-CANON-E4",
+        "V90-EXTERNAL-GATE-CAUSAL",
+        "V90-EXTERNAL-GATE-CAUSAL-DE06B986",
+        "V90-EXTERNAL-GATE-EVIDENCE",
+        "V90-EXTERNAL-GATE-EVIDENCE-C0F115F0"
+      ]
+    },
+    "disposition": "canonical_concept",
+    "required_neighbors": [
+      "V90-CANON-D0",
+      "V90-CANON-G2",
+      "V90-CANON-G3"
+    ]
+  },
+  "V90-CANON-C6": {
+    "dependency_roles": {
+      "inferential_requires": [
+        "V90-CANON-D3",
+        "V90-CANON-G4"
+      ],
+      "protocol_requires": [
+        "V90-CANON-E4",
+        "V90-CANON-E5",
+        "V90-EXTERNAL-GATE-EVIDENCE",
+        "V90-EXTERNAL-GATE-EVIDENCE-C0F115F0"
+      ]
+    },
+    "disposition": "canonical_concept",
+    "required_neighbors": [
+      "V90-CANON-D3",
+      "V90-CANON-G4"
+    ]
+  },
+  "V90-CANON-C7": {
+    "dependency_roles": {
+      "inferential_requires": [
+        "V90-CANON-G2",
+        "V90-CANON-G4"
+      ],
+      "protocol_requires": [
+        "V90-CANON-E4",
+        "V90-CANON-E5",
+        "V90-EXTERNAL-GATE-CAUSAL",
+        "V90-EXTERNAL-GATE-CAUSAL-DE06B986",
+        "V90-EXTERNAL-GATE-EVIDENCE",
+        "V90-EXTERNAL-GATE-EVIDENCE-C0F115F0"
+      ]
+    },
+    "disposition": "canonical_concept",
+    "required_neighbors": [
+      "V90-CANON-G2",
+      "V90-CANON-G4"
+    ]
+  },
+  "V90-CANON-C8": {
+    "dependency_roles": {
+      "inferential_requires": [
+        "V90-CANON-D1",
+        "V90-CANON-G2",
+        "V90-CANON-G3"
+      ],
+      "protocol_requires": [
+        "V90-CANON-E4",
+        "V90-EXTERNAL-GATE-CAUSAL",
+        "V90-EXTERNAL-GATE-CAUSAL-DE06B986",
+        "V90-EXTERNAL-GATE-EVIDENCE",
+        "V90-EXTERNAL-GATE-EVIDENCE-C0F115F0"
+      ]
+    },
+    "disposition": "canonical_concept",
+    "required_neighbors": [
+      "V90-CANON-D1",
+      "V90-CANON-G2",
+      "V90-CANON-G3"
+    ]
+  },
+  "V90-CANON-C8-C11-B435-AF9206093F": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-C9": {
+    "dependency_roles": {
+      "inferential_requires": [
+        "V90-CANON-G2",
+        "V90-CANON-G3"
+      ],
+      "protocol_requires": [
+        "V90-CANON-E2",
+        "V90-CANON-E3",
+        "V90-CANON-E4",
+        "V90-EXTERNAL-GATE-CAUSAL",
+        "V90-EXTERNAL-GATE-CAUSAL-DE06B986",
+        "V90-EXTERNAL-GATE-EVIDENCE",
+        "V90-EXTERNAL-GATE-EVIDENCE-C0F115F0"
+      ]
+    },
+    "disposition": "canonical_concept",
+    "required_neighbors": [
+      "V90-CANON-G2",
+      "V90-CANON-G3"
+    ]
+  },
+  "V90-CANON-CLAIM-REGISTRY": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-CM-FEEDBACK": {
+    "dependency_roles": {
+      "inferential_requires": [
+        "V90-CANON-D2",
+        "V90-CANON-G2"
+      ],
+      "protocol_requires": [
+        "V90-CANON-E4",
+        "V90-EXTERNAL-GATE-CAUSAL",
+        "V90-EXTERNAL-GATE-CAUSAL-DE06B986",
+        "V90-EXTERNAL-GATE-EVIDENCE",
+        "V90-EXTERNAL-GATE-EVIDENCE-C0F115F0"
+      ]
+    },
+    "disposition": "canonical_concept",
+    "required_neighbors": [
+      "V90-CANON-D2",
+      "V90-CANON-G2"
+    ]
+  },
+  "V90-CANON-CM-LEARNING": {
+    "dependency_roles": {
+      "inferential_requires": [
+        "V90-CANON-CM-FEEDBACK",
+        "V90-CANON-G3"
+      ],
+      "protocol_requires": [
+        "V90-CANON-E4",
+        "V90-EXTERNAL-GATE-CAUSAL",
+        "V90-EXTERNAL-GATE-CAUSAL-DE06B986",
+        "V90-EXTERNAL-GATE-EVIDENCE",
+        "V90-EXTERNAL-GATE-EVIDENCE-C0F115F0"
+      ]
+    },
+    "disposition": "canonical_concept",
+    "required_neighbors": [
+      "V90-CANON-CM-FEEDBACK",
+      "V90-CANON-G3"
+    ]
+  },
+  "V90-CANON-CM-LOAD": {
+    "dependency_roles": {
+      "inferential_requires": [
+        "V90-CANON-D0",
+        "V90-CANON-G2",
+        "V90-CANON-G3"
+      ],
+      "protocol_requires": [
+        "V90-CANON-E4",
+        "V90-EXTERNAL-GATE-CAUSAL",
+        "V90-EXTERNAL-GATE-CAUSAL-DE06B986",
+        "V90-EXTERNAL-GATE-EVIDENCE",
+        "V90-EXTERNAL-GATE-EVIDENCE-C0F115F0"
+      ]
+    },
+    "disposition": "canonical_concept",
+    "required_neighbors": [
+      "V90-CANON-D0",
+      "V90-CANON-G2",
+      "V90-CANON-G3"
+    ]
+  },
+  "V90-CANON-CM-MAINTENANCE": {
+    "dependency_roles": {
+      "inferential_requires": [
+        "V90-CANON-D0",
+        "V90-CANON-G2",
+        "V90-CANON-G3"
+      ],
+      "protocol_requires": [
+        "V90-CANON-E4",
+        "V90-EXTERNAL-GATE-CAUSAL",
+        "V90-EXTERNAL-GATE-CAUSAL-DE06B986",
+        "V90-EXTERNAL-GATE-EVIDENCE",
+        "V90-EXTERNAL-GATE-EVIDENCE-C0F115F0"
+      ],
+      "specializes": [
+        "V90-CANON-D1"
+      ]
+    },
+    "disposition": "canonical_concept",
+    "required_neighbors": [
+      "V90-CANON-D0",
+      "V90-CANON-G2",
+      "V90-CANON-G3"
+    ]
+  },
+  "V90-CANON-CM-PHASE": {
+    "dependency_roles": {
+      "inferential_requires": [
+        "V90-CANON-D0",
+        "V90-CANON-D1",
+        "V90-CANON-G2",
+        "V90-CANON-G3"
+      ],
+      "protocol_requires": [
+        "V90-CANON-E4",
+        "V90-EXTERNAL-GATE-CAUSAL",
+        "V90-EXTERNAL-GATE-CAUSAL-DE06B986",
+        "V90-EXTERNAL-GATE-EVIDENCE",
+        "V90-EXTERNAL-GATE-EVIDENCE-C0F115F0"
+      ]
+    },
+    "disposition": "canonical_concept",
+    "required_neighbors": [
+      "V90-CANON-D0",
+      "V90-CANON-D1",
+      "V90-CANON-G2",
+      "V90-CANON-G3"
+    ]
+  },
+  "V90-CANON-CM-SELECTION": {
+    "dependency_roles": {
+      "inferential_requires": [
+        "V90-CANON-D1",
+        "V90-CANON-G2",
+        "V90-CANON-G3"
+      ],
+      "protocol_requires": [
+        "V90-CANON-E4",
+        "V90-EXTERNAL-GATE-CAUSAL",
+        "V90-EXTERNAL-GATE-CAUSAL-DE06B986",
+        "V90-EXTERNAL-GATE-EVIDENCE",
+        "V90-EXTERNAL-GATE-EVIDENCE-C0F115F0"
+      ]
+    },
+    "disposition": "canonical_concept",
+    "required_neighbors": [
+      "V90-CANON-D1",
+      "V90-CANON-G2",
+      "V90-CANON-G3"
+    ]
+  },
+  "V90-CANON-COERCION-AND-CHOICE-V90-B01210-9264251BCF": {
+    "dependency_roles": {
+      "applies_to": [
+        "V90-CANON-SEL-AGT",
+        "V90-CANON-SEL-GOV"
+      ]
+    },
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-COUNTEREXAMPLE-REGISTRY": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-D-B147-D1F7EF67C0": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-D0": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-D1": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-D2": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-D3": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-E-B149-DBB8E79EAE": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-E1": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-E2": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-E3": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-E4": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-E5": {
+    "dependency_roles": {
+      "inferential_requires": [
+        "V90-CANON-D3"
+      ],
+      "protocol_requires": [
+        "V90-CANON-E1",
+        "V90-CANON-E4",
+        "V90-EXTERNAL-GATE-ANALOGY",
+        "V90-EXTERNAL-GATE-ANALOGY-D39ADDF3",
+        "V90-EXTERNAL-GATE-EVIDENCE",
+        "V90-EXTERNAL-GATE-EVIDENCE-C0F115F0"
+      ]
+    },
+    "disposition": "canonical_concept",
+    "required_neighbors": [
+      "V90-CANON-D3"
+    ]
+  },
+  "V90-CANON-EXECUTION-STATE-LOG-V90-B01264-FBAB571E1C": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-FLOW-EXECUTION-RECORD-V90-B01161-1DF320BE64": {
+    "dependency_roles": {
+      "protocol_requires": [
+        "V90-CANON-C12"
+      ]
+    },
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-FORECAST-REGISTRY": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-G-B148-8B90E500A7": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-G1": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-G2": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-G3": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-G4": {
+    "dependency_roles": {
+      "protocol_requires": [
+        "V90-CANON-E5"
+      ]
+    },
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-GOV-01": {
+    "dependency_roles": {
+      "applies_to": [
+        "V90-EXTERNAL-GATE-SOURCE-IDENTITY-22145EAD",
+        "V90-EXTERNAL-GATE-SOURCE-IDENTITY-372A2CAF",
+        "V90-EXTERNAL-GATE-SOURCE-IDENTITY-6C14ED25",
+        "V90-EXTERNAL-GATE-SOURCE-IDENTITY-8BCA3940"
+      ]
+    },
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-GOV-02": {
+    "dependency_roles": {
+      "protocol_requires": [
+        "V90-CANON-GOV-20",
+        "V90-CANON-VERSION-LOG"
+      ]
+    },
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-GOV-03": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-GOV-04": {
+    "dependency_roles": {
+      "protocol_requires": [
+        "V90-CANON-CLAIM-REGISTRY",
+        "V90-CANON-COUNTEREXAMPLE-REGISTRY",
+        "V90-CANON-FORECAST-REGISTRY",
+        "V90-CANON-VERSION-LOG",
+        "V90-EXTERNAL-GATE-CASE-REGISTRY-7AA5992D"
+      ]
+    },
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-GOV-05": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-GOV-06": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-GOV-07": {
+    "dependency_roles": {
+      "applies_to": [
+        "V90-CANON-S6",
+        "V90-EXTERNAL-GATE-HSP-DOMAIN-HUMAN-INTENTIONAL-COLLECTIVE-B4DF8773"
+      ]
+    },
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-GOV-08": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-GOV-09": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-GOV-10": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-GOV-11": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-GOV-12": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-GOV-13": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-GOV-14": {
+    "dependency_roles": {
+      "protocol_requires": [
+        "V90-CANON-V90-B01179-68AF20E841"
+      ]
+    },
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-GOV-15": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-GOV-16": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-GOV-17": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-GOV-18": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-GOV-19": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-GOV-20": {
+    "dependency_roles": {
+      "protocol_requires": [
+        "V90-CANON-GOV-04",
+        "V90-CANON-V90-B01144-943C60DEF1"
+      ]
+    },
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-GOV-21": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-GOV-22": {
+    "dependency_roles": {
+      "protocol_requires": [
+        "V90-CANON-FORECAST-REGISTRY"
+      ]
+    },
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-GOV-23": {
+    "dependency_roles": {
+      "protocol_requires": [
+        "V90-CANON-AI-V90-B01174-AA532AB527"
+      ]
+    },
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-GOV-24": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-GOVERNANCE-PROCEDURE-V90-B01212-3D9F6E5D7B": {
+    "dependency_roles": {
+      "applies_to": [
+        "V90-CANON-SEL-GOV"
+      ]
+    },
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-H-B150-08402DED44": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-H-WORLD-V90-P00955-E405782740": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-H1": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-H2": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-H3": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-H4": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-H5": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-H6": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-HUMAN-STRONG-TYPE-CV": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-HUMAN-STRONG-TYPE-GC": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-HUMAN-STRONG-TYPE-GE": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-HUMAN-STRONG-TYPE-GS": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-HUMAN-STRONG-TYPE-IB": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-HUMAN-STRONG-TYPE-IM": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-HUMAN-STRONG-TYPE-IS": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-HUMAN-STRONG-TYPE-RS": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-HUMAN-VARIABLE-HV01": {
+    "dependency_roles": {
+      "inferential_requires": [
+        "V90-CANON-D0",
+        "V90-CANON-G1",
+        "V90-EXTERNAL-GATE-G1-INSTANCE"
+      ],
+      "input_dependencies": [
+        "V90-EXTERNAL-GATE-INPUT-HUMAN-VARIABLE-HV01"
+      ],
+      "protocol_requires": [
+        "V90-CANON-E1",
+        "V90-CANON-E4",
+        "V90-EXTERNAL-GATE-EVIDENCE",
+        "V90-EXTERNAL-GATE-EVIDENCE-C0F115F0",
+        "V90-EXTERNAL-GATE-SOURCE",
+        "V90-EXTERNAL-GATE-SOURCE-56CCD012"
+      ]
+    },
+    "disposition": "canonical_concept",
+    "required_neighbors": [
+      "V90-CANON-D0",
+      "V90-CANON-G1"
+    ]
+  },
+  "V90-CANON-HUMAN-VARIABLE-HV02": {
+    "dependency_roles": {
+      "inferential_requires": [
+        "V90-CANON-G2",
+        "V90-CANON-HUMAN-VARIABLE-HV01",
+        "V90-EXTERNAL-GATE-G2-INSTANCE"
+      ],
+      "input_dependencies": [
+        "V90-EXTERNAL-GATE-INPUT-HUMAN-VARIABLE-HV02"
+      ],
+      "protocol_requires": [
+        "V90-CANON-E1",
+        "V90-CANON-E4",
+        "V90-EXTERNAL-GATE-CAUSAL",
+        "V90-EXTERNAL-GATE-CAUSAL-DE06B986",
+        "V90-EXTERNAL-GATE-EVIDENCE",
+        "V90-EXTERNAL-GATE-EVIDENCE-C0F115F0",
+        "V90-EXTERNAL-GATE-SOURCE",
+        "V90-EXTERNAL-GATE-SOURCE-56CCD012"
+      ]
+    },
+    "disposition": "canonical_concept",
+    "required_neighbors": [
+      "V90-CANON-G2",
+      "V90-CANON-HUMAN-VARIABLE-HV01"
+    ]
+  },
+  "V90-CANON-HUMAN-VARIABLE-HV03": {
+    "dependency_roles": {
+      "inferential_requires": [
+        "V90-CANON-H1",
+        "V90-CANON-HUMAN-VARIABLE-HV01",
+        "V90-EXTERNAL-GATE-H1-INSTANCE"
+      ],
+      "input_dependencies": [
+        "V90-EXTERNAL-GATE-INPUT-HUMAN-VARIABLE-HV03"
+      ],
+      "protocol_requires": [
+        "V90-CANON-E2",
+        "V90-CANON-E4",
+        "V90-EXTERNAL-GATE-CAUSAL",
+        "V90-EXTERNAL-GATE-CAUSAL-DE06B986",
+        "V90-EXTERNAL-GATE-EVIDENCE",
+        "V90-EXTERNAL-GATE-EVIDENCE-C0F115F0",
+        "V90-EXTERNAL-GATE-SOURCE",
+        "V90-EXTERNAL-GATE-SOURCE-56CCD012"
+      ]
+    },
+    "disposition": "canonical_concept",
+    "required_neighbors": [
+      "V90-CANON-H1",
+      "V90-CANON-HUMAN-VARIABLE-HV01"
+    ]
+  },
+  "V90-CANON-HUMAN-VARIABLE-HV04": {
+    "dependency_roles": {
+      "inferential_requires": [
+        "V90-CANON-G2",
+        "V90-EXTERNAL-GATE-G2-INSTANCE"
+      ],
+      "input_dependencies": [
+        "V90-EXTERNAL-GATE-INPUT-HUMAN-VARIABLE-HV04"
+      ],
+      "protocol_requires": [
+        "V90-CANON-E4",
+        "V90-EXTERNAL-GATE-CAUSAL",
+        "V90-EXTERNAL-GATE-CAUSAL-DE06B986",
+        "V90-EXTERNAL-GATE-EVIDENCE",
+        "V90-EXTERNAL-GATE-EVIDENCE-C0F115F0",
+        "V90-EXTERNAL-GATE-SOURCE",
+        "V90-EXTERNAL-GATE-SOURCE-56CCD012"
+      ]
+    },
+    "disposition": "canonical_concept",
+    "required_neighbors": [
+      "V90-CANON-G2"
+    ]
+  },
+  "V90-CANON-HUMAN-VARIABLE-HV05": {
+    "dependency_roles": {
+      "inferential_requires": [
+        "V90-CANON-G2",
+        "V90-CANON-G3",
+        "V90-CANON-H5",
+        "V90-EXTERNAL-GATE-G2-INSTANCE",
+        "V90-EXTERNAL-GATE-G3-INSTANCE",
+        "V90-EXTERNAL-GATE-H5-INSTANCE"
+      ],
+      "input_dependencies": [
+        "V90-EXTERNAL-GATE-INPUT-HUMAN-VARIABLE-HV05"
+      ],
+      "protocol_requires": [
+        "V90-CANON-E4",
+        "V90-EXTERNAL-GATE-CAUSAL",
+        "V90-EXTERNAL-GATE-CAUSAL-DE06B986",
+        "V90-EXTERNAL-GATE-EVIDENCE",
+        "V90-EXTERNAL-GATE-EVIDENCE-C0F115F0",
+        "V90-EXTERNAL-GATE-SOURCE",
+        "V90-EXTERNAL-GATE-SOURCE-56CCD012"
+      ],
+      "specializes": [
+        "V90-CANON-H2"
+      ]
+    },
+    "disposition": "canonical_concept",
+    "required_neighbors": [
+      "V90-CANON-G2",
+      "V90-CANON-G3",
+      "V90-CANON-H5"
+    ]
+  },
+  "V90-CANON-HUMAN-VARIABLE-HV06": {
+    "dependency_roles": {
+      "inferential_requires": [
+        "V90-CANON-G2",
+        "V90-CANON-HUMAN-VARIABLE-HV03",
+        "V90-CANON-HUMAN-VARIABLE-HV04",
+        "V90-CANON-HUMAN-VARIABLE-HV05",
+        "V90-EXTERNAL-GATE-G2-INSTANCE"
+      ],
+      "input_dependencies": [
+        "V90-EXTERNAL-GATE-INPUT-HUMAN-VARIABLE-HV06"
+      ],
+      "protocol_requires": [
+        "V90-CANON-E4",
+        "V90-EXTERNAL-GATE-CAUSAL",
+        "V90-EXTERNAL-GATE-CAUSAL-DE06B986",
+        "V90-EXTERNAL-GATE-EVIDENCE",
+        "V90-EXTERNAL-GATE-EVIDENCE-C0F115F0",
+        "V90-EXTERNAL-GATE-SOURCE",
+        "V90-EXTERNAL-GATE-SOURCE-56CCD012"
+      ]
+    },
+    "disposition": "canonical_concept",
+    "required_neighbors": [
+      "V90-CANON-G2",
+      "V90-CANON-HUMAN-VARIABLE-HV03",
+      "V90-CANON-HUMAN-VARIABLE-HV04",
+      "V90-CANON-HUMAN-VARIABLE-HV05"
+    ]
+  },
+  "V90-CANON-HUMAN-VARIABLE-HV07": {
+    "dependency_roles": {
+      "inferential_requires": [
+        "V90-CANON-D2",
+        "V90-CANON-G2",
+        "V90-CANON-G3",
+        "V90-EXTERNAL-GATE-G2-INSTANCE",
+        "V90-EXTERNAL-GATE-G3-INSTANCE"
+      ],
+      "input_dependencies": [
+        "V90-EXTERNAL-GATE-INPUT-HUMAN-VARIABLE-HV07"
+      ],
+      "protocol_requires": [
+        "V90-CANON-E4",
+        "V90-EXTERNAL-GATE-CAUSAL",
+        "V90-EXTERNAL-GATE-CAUSAL-DE06B986",
+        "V90-EXTERNAL-GATE-EVIDENCE",
+        "V90-EXTERNAL-GATE-EVIDENCE-C0F115F0",
+        "V90-EXTERNAL-GATE-SOURCE",
+        "V90-EXTERNAL-GATE-SOURCE-56CCD012"
+      ],
+      "specializes": [
+        "V90-CANON-H3"
+      ]
+    },
+    "disposition": "canonical_concept",
+    "required_neighbors": [
+      "V90-CANON-D2",
+      "V90-CANON-G2",
+      "V90-CANON-G3"
+    ]
+  },
+  "V90-CANON-HUMAN-VARIABLE-HV08": {
+    "dependency_roles": {
+      "inferential_requires": [
+        "V90-CANON-H4",
+        "V90-EXTERNAL-GATE-H4-INSTANCE"
+      ],
+      "input_dependencies": [
+        "V90-EXTERNAL-GATE-INPUT-HUMAN-VARIABLE-HV08"
+      ],
+      "protocol_requires": [
+        "V90-CANON-E2",
+        "V90-CANON-E3",
+        "V90-CANON-E4",
+        "V90-EXTERNAL-GATE-CAUSAL",
+        "V90-EXTERNAL-GATE-CAUSAL-DE06B986",
+        "V90-EXTERNAL-GATE-EVIDENCE",
+        "V90-EXTERNAL-GATE-EVIDENCE-C0F115F0",
+        "V90-EXTERNAL-GATE-SOURCE",
+        "V90-EXTERNAL-GATE-SOURCE-56CCD012"
+      ]
+    },
+    "disposition": "canonical_concept",
+    "required_neighbors": [
+      "V90-CANON-H4"
+    ]
+  },
+  "V90-CANON-HUMAN-VARIABLE-HV09": {
+    "dependency_roles": {
+      "inferential_requires": [
+        "V90-CANON-CM-LOAD",
+        "V90-CANON-G2",
+        "V90-CANON-G3",
+        "V90-EXTERNAL-GATE-G2-INSTANCE",
+        "V90-EXTERNAL-GATE-G3-INSTANCE"
+      ],
+      "input_dependencies": [
+        "V90-EXTERNAL-GATE-INPUT-HUMAN-VARIABLE-HV09"
+      ],
+      "protocol_requires": [
+        "V90-CANON-E4",
+        "V90-EXTERNAL-GATE-CAUSAL",
+        "V90-EXTERNAL-GATE-CAUSAL-DE06B986",
+        "V90-EXTERNAL-GATE-EVIDENCE",
+        "V90-EXTERNAL-GATE-EVIDENCE-C0F115F0",
+        "V90-EXTERNAL-GATE-SOURCE",
+        "V90-EXTERNAL-GATE-SOURCE-56CCD012"
+      ]
+    },
+    "disposition": "canonical_concept",
+    "required_neighbors": [
+      "V90-CANON-CM-LOAD",
+      "V90-CANON-G2",
+      "V90-CANON-G3"
+    ]
+  },
+  "V90-CANON-HUMAN-VARIABLE-HV10": {
+    "dependency_roles": {
+      "inferential_requires": [
+        "V90-CANON-CM-PHASE",
+        "V90-CANON-G2",
+        "V90-CANON-G3",
+        "V90-CANON-HUMAN-VARIABLE-HV03",
+        "V90-CANON-HUMAN-VARIABLE-HV04",
+        "V90-CANON-HUMAN-VARIABLE-HV05",
+        "V90-CANON-HUMAN-VARIABLE-HV07",
+        "V90-EXTERNAL-GATE-G2-INSTANCE",
+        "V90-EXTERNAL-GATE-G3-INSTANCE"
+      ],
+      "input_dependencies": [
+        "V90-EXTERNAL-GATE-INPUT-HUMAN-VARIABLE-HV10"
+      ],
+      "protocol_requires": [
+        "V90-CANON-E4",
+        "V90-EXTERNAL-GATE-CAUSAL",
+        "V90-EXTERNAL-GATE-CAUSAL-DE06B986",
+        "V90-EXTERNAL-GATE-EVIDENCE",
+        "V90-EXTERNAL-GATE-EVIDENCE-C0F115F0",
+        "V90-EXTERNAL-GATE-SOURCE",
+        "V90-EXTERNAL-GATE-SOURCE-56CCD012"
+      ]
+    },
+    "disposition": "canonical_concept",
+    "required_neighbors": [
+      "V90-CANON-CM-PHASE",
+      "V90-CANON-G2",
+      "V90-CANON-G3",
+      "V90-CANON-HUMAN-VARIABLE-HV03",
+      "V90-CANON-HUMAN-VARIABLE-HV04",
+      "V90-CANON-HUMAN-VARIABLE-HV05",
+      "V90-CANON-HUMAN-VARIABLE-HV07"
+    ]
+  },
+  "V90-CANON-HUMAN-VARIABLE-HV11": {
+    "dependency_roles": {
+      "inferential_requires": [
+        "V90-CANON-G2",
+        "V90-EXTERNAL-GATE-G2-INSTANCE"
+      ],
+      "input_dependencies": [
+        "V90-EXTERNAL-GATE-INPUT-HUMAN-VARIABLE-HV11"
+      ],
+      "protocol_requires": [
+        "V90-CANON-E4",
+        "V90-CANON-N4",
+        "V90-EXTERNAL-GATE-CAUSAL",
+        "V90-EXTERNAL-GATE-CAUSAL-DE06B986",
+        "V90-EXTERNAL-GATE-EVIDENCE",
+        "V90-EXTERNAL-GATE-EVIDENCE-C0F115F0",
+        "V90-EXTERNAL-GATE-SOURCE",
+        "V90-EXTERNAL-GATE-SOURCE-56CCD012"
+      ],
+      "specializes": [
+        "V90-CANON-H2",
+        "V90-CANON-H6"
+      ]
+    },
+    "disposition": "canonical_concept",
+    "required_neighbors": [
+      "V90-CANON-G2"
+    ]
+  },
+  "V90-CANON-K-B541-AA69CFC05A": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-N-B151-D87051C39A": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-N1": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-N1-N5-V90-B01192-382332A2A8": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-N2": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-N3": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-N4": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-N5": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-NO-ACTION-V90-B01203-D85C589636": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-NOT-EVALUATED-B498-39E02C02B3": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-NSP-LEAST-HARM": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-NSP-PROPORTIONALITY": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-NULL-SUPPORTED-B497-188104EA81": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-O-B152-E612C9CB38": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-O1": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-O1-O4-V90-B01182-1EE3EF8666": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-O2": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-O3": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-O4": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-PF-1": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-PF-1-PF-10-V90-B01228-7F41199188": {
+    "dependency_roles": {
+      "protocol_requires": [
+        "V90-CANON-PF-10"
+      ]
+    },
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-PF-10": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-PF-2": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-PF-3": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-PF-4": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-PF-5": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-PF-6": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-PF-7": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-PF-8": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-PF-9": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-S0": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-S1": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-S2": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-S3": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-S4": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-S5": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-S6": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-SCALE-AXIS-A": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-SCALE-AXIS-C": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-SCALE-AXIS-I": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-SCALE-AXIS-J": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-SCALE-AXIS-N": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-SCALE-AXIS-O": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-SCALE-AXIS-R": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-SCALE-AXIS-T": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-SCALE-AXIS-X": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-SCALE-OPERATOR-M01": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-SCALE-OPERATOR-M02": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-SCALE-OPERATOR-M03": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-SCALE-OPERATOR-M04": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-SCALE-OPERATOR-M05": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-SCALE-OPERATOR-M06": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-SCALE-OPERATOR-M07": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-SCALE-OPERATOR-M08": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-SCALE-OPERATOR-M09": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-SCALE-PROFILE-SP-A-X-T-O-C-R-I-N-J-A-X-T-O-C-R-I-30E1998313": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-SEL-AGT": {
+    "dependency_roles": {
+      "specializes": [
+        "V90-CANON-V90-B01187-9BEA31A0E8"
+      ]
+    },
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-SEL-GOV": {
+    "dependency_roles": {
+      "specializes": [
+        "V90-CANON-V90-B01187-9BEA31A0E8"
+      ]
+    },
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-SEL-SYS": {
+    "dependency_roles": {
+      "specializes": [
+        "V90-CANON-V90-B01187-9BEA31A0E8"
+      ]
+    },
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-SELECTED-ACTION-V90-B01204-E9E02DC68B": {
+    "dependency_roles": {
+      "protocol_requires": [
+        "V90-CANON-SCALE-AXIS-J"
+      ]
+    },
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-SUPPORTED-B495-8DD523337F": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-T0": {
+    "dependency_roles": {
+      "specializes": [
+        "V90-CANON-T0-T4-V90-B01262-FD11C9C523"
+      ]
+    },
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-T0-T4-V90-B01262-FD11C9C523": {
+    "dependency_roles": {
+      "protocol_requires": [
+        "V90-CANON-C12",
+        "V90-CANON-N1-N5-V90-B01192-382332A2A8",
+        "V90-CANON-O1",
+        "V90-CANON-O2",
+        "V90-CANON-O3",
+        "V90-CANON-O4",
+        "V90-CANON-PF-1-PF-10-V90-B01228-7F41199188",
+        "V90-CANON-SCALE-AXIS-J"
+      ]
+    },
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-T1": {
+    "dependency_roles": {
+      "specializes": [
+        "V90-CANON-T0-T4-V90-B01262-FD11C9C523"
+      ]
+    },
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-T2": {
+    "dependency_roles": {
+      "specializes": [
+        "V90-CANON-T0-T4-V90-B01262-FD11C9C523"
+      ]
+    },
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-T3": {
+    "dependency_roles": {
+      "specializes": [
+        "V90-CANON-T0-T4-V90-B01262-FD11C9C523"
+      ]
+    },
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-T4": {
+    "dependency_roles": {
+      "specializes": [
+        "V90-CANON-T0-T4-V90-B01262-FD11C9C523"
+      ]
+    },
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-TOOL-AI-BOUNDARY-V90-B01153-4790749079": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-TOOL-CLAIM-VALIDATION-V90-B01153-6A3F7F0390": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-TOOL-EVIDENCE-LEDGER-V90-B01153-528DB61FC2": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-TOOL-FORECAST-REGISTRY-V90-B01153-CEDCE84801": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-TOOL-OPEN-ASSERTION-V90-B01153-F77321C755": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-TOOL-STRESS-TEST-V90-B01153-37E16B6C00": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-TRAUMA-NO-HEALTHY-BASELINE": {
+    "dependency_roles": {
+      "specializes": [
+        "V90-CANON-GOV-13"
+      ]
+    },
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-U01": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-U02": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-U03": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-U04": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-U05": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-U06": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-U07": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-U08": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-U09": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-U10": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-U11": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-V90-B00952-BD3FB507FD": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-V90-B00958-BF1550D98A": {
+    "dependency_roles": {
+      "protocol_requires": [
+        "V90-CANON-V90-B00952-BD3FB507FD"
+      ]
+    },
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-V90-B00966-346EC237AF": {
+    "dependency_roles": {
+      "protocol_requires": [
+        "V90-CANON-V90-B00952-BD3FB507FD"
+      ]
+    },
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-V90-B00984-E9334189CF": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-V90-B00989-07CCD1C73E": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-V90-B00994-21E2E4BB63": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-V90-B00999-11A859D2F1": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-V90-B01005-DCC323087C": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-V90-B01009-9555AC7BF1": {
+    "dependency_roles": {
+      "protocol_requires": [
+        "V90-CANON-V90-B00994-21E2E4BB63"
+      ]
+    },
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-V90-B01032-B60142495D": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-V90-B01036-5261614445": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-V90-B01043-3B5B5C486B": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-V90-B01048-EF756A2D88": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-V90-B01051-B5C1E13D41": {
+    "dependency_roles": {
+      "applies_to": [
+        "V90-CANON-V90-B01009-9555AC7BF1"
+      ],
+      "protocol_requires": [
+        "V90-CANON-V90-B01043-3B5B5C486B"
+      ]
+    },
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-V90-B01054-2DFF35E52C": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-V90-B01058-AFC7BCEC96": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-V90-B01066-F6827B4286": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-V90-B01071-3815F13359": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-V90-B01075-74F1F97487": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-V90-B01078-6AE7760B77": {
+    "dependency_roles": {
+      "protocol_requires": [
+        "V90-CANON-C12",
+        "V90-CANON-N1-N5-V90-B01192-382332A2A8",
+        "V90-CANON-O1-O4-V90-B01182-1EE3EF8666",
+        "V90-CANON-PF-1-PF-10-V90-B01228-7F41199188",
+        "V90-CANON-SCALE-AXIS-J"
+      ]
+    },
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-V90-B01081-E23D039462": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-V90-B01086-B57A933AC1": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-V90-B01090-978FFA1B45": {
+    "dependency_roles": {
+      "applies_to": [
+        "V90-CANON-V90-B01086-B57A933AC1"
+      ]
+    },
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-V90-B01092-1D1B7BD0DE": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-V90-B01097-803B6C8BE9": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-V90-B01110-82E42C585E": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-V90-B01116-48ED8FDEC7": {
+    "dependency_roles": {
+      "protocol_requires": [
+        "V90-CANON-D0",
+        "V90-EXTERNAL-GATE-SP-A-X-T-O-C-R-I-N-J-D2A4A4FE"
+      ]
+    },
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-V90-B01121-9EB9DBDD62": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-V90-B01127-FDAF8C63A7": {
+    "dependency_roles": {
+      "protocol_requires": [
+        "V90-EXTERNAL-GATE-G1-G4-INSTANCE-35D06BBC",
+        "V90-EXTERNAL-GATE-H1-H4-H5-INSTANCE-6DE56E4E"
+      ]
+    },
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-V90-B01130-8BE8CBFF1B": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-V90-B01136-D6973197D8": {
+    "dependency_roles": {
+      "specializes": [
+        "V90-CANON-V90-B01130-8BE8CBFF1B"
+      ]
+    },
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-V90-B01144-943C60DEF1": {
+    "dependency_roles": {
+      "applies_to": [
+        "V90-CANON-V90-B01149-1DD4F7BBC2"
+      ],
+      "protocol_requires": [
+        "V90-CANON-V90-B01130-8BE8CBFF1B"
+      ]
+    },
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-V90-B01149-1DD4F7BBC2": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-V90-B01153-EA8EEF60BC": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-V90-B01167-D441EC497F": {
+    "dependency_roles": {
+      "specializes": [
+        "V90-CANON-V90-B01130-8BE8CBFF1B"
+      ]
+    },
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-V90-B01179-68AF20E841": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-V90-B01187-9BEA31A0E8": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-V90-B01202-3C82225234": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-V90-B01221-F82B23B8DB": {
+    "dependency_roles": {
+      "protocol_requires": [
+        "V90-CANON-C12",
+        "V90-CANON-N1-N5-V90-B01192-382332A2A8",
+        "V90-CANON-NSP-LEAST-HARM",
+        "V90-CANON-NSP-PROPORTIONALITY",
+        "V90-CANON-O1",
+        "V90-CANON-O2",
+        "V90-CANON-O3",
+        "V90-CANON-O4",
+        "V90-CANON-PF-1-PF-10-V90-B01228-7F41199188",
+        "V90-CANON-SCALE-AXIS-J"
+      ]
+    },
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-V90-B01244-9B598D5B27": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-V90-B01248-864EA2404A": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-V90-B01255-8087E2072C": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-V90-B01295-8C21EA43FD": {
+    "dependency_roles": {
+      "protocol_requires": [
+        "V90-CANON-D0",
+        "V90-CANON-PF-1-PF-10-V90-B01228-7F41199188",
+        "V90-CANON-V90-B01130-8BE8CBFF1B"
+      ]
+    },
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-V90-B01360-BF27444D5D": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-V90-B01364-C8121F41E6": {
+    "dependency_roles": {
+      "applies_to": [
+        "V90-CANON-APP-EMG",
+        "V90-CANON-APP-FAM",
+        "V90-CANON-APP-INS",
+        "V90-CANON-APP-OPI",
+        "V90-CANON-APP-ORG",
+        "V90-CANON-APP-PLT",
+        "V90-CANON-APP-REL",
+        "V90-CANON-APP-SPC",
+        "V90-CANON-APP-ULS"
+      ]
+    },
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-V90-B01368-393923B6F5": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-V90-B01505-5E3A18ACCA": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-V90-P00992-BC9B94349D": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-V90-P01370-4D2D8D9D05": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-V90-P01436-01D9041DE7": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-V90-P01523-2275BEFBD8": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-V90-P01568-69EEC78466": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-V90-P01591-198B283015": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-V90-P01622-16D307DA5D": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-V90-P01828-562A512AFB": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-V90-P01842-0259E6053A": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-V90-P01959-218E636397": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-V90-P01969-CD5B0277D4": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-V90-P02039-D4850FA775": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-V90-P02042-A1D1865FED": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-V90-P02066-23F1DC2EDB": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-V90-P02097-F5232B2304": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-V90-P02429-C8AC1AE9F5": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-V90-P02528-FC37549FA0": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-V90-P02551-FD873296E8": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-V90-P02555-C93EDA52B7": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-V90-P02667-6817118489": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-V90-P02672-1E14351DAF": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-V90-P02768-CCB3ED85E3": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-V90-P02796-1D6B3B658B": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-V90-P02810-FBBA4710C2": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-V90-P03903-174D91677D": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-V90-P03931-62CD76DD45": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-V90-P04025-174ED10AED": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-V90-P04027-F347F777F7": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-V90-P04074-01069FFDCA": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-VERSION-LOG": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  },
+  "V90-CANON-X0": {
+    "dependency_roles": {},
+    "disposition": "canonical_concept",
+    "required_neighbors": []
+  }
+}

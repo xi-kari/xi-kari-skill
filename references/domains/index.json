@@ -1,0 +1,2811 @@
+{
+  "entries": [
+    {
+      "candidate_ids": [
+        "V90-CANDIDATE-P04075",
+        "V90-CANDIDATE-P04077",
+        "V90-CANDIDATE-P04078",
+        "V90-CANDIDATE-P04080"
+      ],
+      "content_owner": "P11A",
+      "content_path": null,
+      "content_sha256": null,
+      "content_status": "identity_only",
+      "contract": "Domain-native methods, extra distinctions, input/output, exit and counterexample remain separately required; appendix does not add empirical axioms.",
+      "domain_id": "D.01",
+      "identity_id": "V90-DOMAIN-D01",
+      "index_and_consumer_owner": "sole_engineering_integrator",
+      "primary_candidate_id": "V90-CANDIDATE-P04075",
+      "read_trace_status": "not_yet_available",
+      "required_runtime_evidence": [
+        "loaded_content_hash",
+        "read_trace",
+        "authority_binding",
+        "reader_projection",
+        "modified_domain_bytes_invalidate_prior_binding"
+      ],
+      "source_anchors": [
+        "V90-P04075",
+        "V90-P04076",
+        "V90-P04077",
+        "V90-P04078",
+        "V90-P04079",
+        "V90-P04080",
+        "V90-P04081"
+      ],
+      "source_fingerprint_sha256": "3d534632a204ebcdd5b79ec7f19e1b99fdceda9dca003ee7b2179922e18d7a55",
+      "source_refs": [
+        {
+          "body_anchor": "V90-B01729",
+          "paragraph_anchors": [
+            "V90-P04075"
+          ],
+          "text_sha256": "074e885421c04782db630e4fa0432078e30745c66b747b843fe19ebb2c5dd2af"
+        },
+        {
+          "body_anchor": "V90-B01730",
+          "paragraph_anchors": [
+            "V90-P04076"
+          ],
+          "text_sha256": "1e53b42d3326dfb207b0f37eb49928d192b39046fbe77c9087464f28e45a3b7f"
+        },
+        {
+          "body_anchor": "V90-B01731",
+          "paragraph_anchors": [
+            "V90-P04077"
+          ],
+          "text_sha256": "febbf232f275a2b3dfb905e9bb833626175cf606ffd122763dfabf2e44342d49"
+        },
+        {
+          "body_anchor": "V90-B01732",
+          "paragraph_anchors": [
+            "V90-P04078"
+          ],
+          "text_sha256": "7093a379aedcb937da66804fcde9e55de27b5e64163bc704f3b5b43b2082bcc8"
+        },
+        {
+          "body_anchor": "V90-B01733",
+          "paragraph_anchors": [
+            "V90-P04079"
+          ],
+          "text_sha256": "ae05598bcca43bb0710c8e79bd52767dacba1c6d878797e4d1b3d262c57e5cec"
+        },
+        {
+          "body_anchor": "V90-B01734",
+          "paragraph_anchors": [
+            "V90-P04080"
+          ],
+          "text_sha256": "1720e36acca9d4e663a040ba876eed9d6fb5cc91450f9a431379508172cc30ab"
+        },
+        {
+          "body_anchor": "V90-B01735",
+          "paragraph_anchors": [
+            "V90-P04081"
+          ],
+          "text_sha256": "aee18118a69b8be197a27a592f4cbc6190b45b7ee29155bf3c001b7ee870f319"
+        }
+      ],
+      "title": "D.01　框架自身、解释任务与理论借用"
+    },
+    {
+      "candidate_ids": [
+        "V90-CANDIDATE-P04082",
+        "V90-CANDIDATE-P04084",
+        "V90-CANDIDATE-P04085",
+        "V90-CANDIDATE-P04086"
+      ],
+      "content_owner": "P11A",
+      "content_path": null,
+      "content_sha256": null,
+      "content_status": "identity_only",
+      "contract": "Domain-native methods, extra distinctions, input/output, exit and counterexample remain separately required; appendix does not add empirical axioms.",
+      "domain_id": "D.02",
+      "identity_id": "V90-DOMAIN-D02",
+      "index_and_consumer_owner": "sole_engineering_integrator",
+      "primary_candidate_id": "V90-CANDIDATE-P04082",
+      "read_trace_status": "not_yet_available",
+      "required_runtime_evidence": [
+        "loaded_content_hash",
+        "read_trace",
+        "authority_binding",
+        "reader_projection",
+        "modified_domain_bytes_invalidate_prior_binding"
+      ],
+      "source_anchors": [
+        "V90-P04082",
+        "V90-P04083",
+        "V90-P04084",
+        "V90-P04085",
+        "V90-P04086",
+        "V90-P04087",
+        "V90-P04088"
+      ],
+      "source_fingerprint_sha256": "19b2b79b87724c4e9bb799140d7b76cef28c9359e45b4ae375fa6df4389d9661",
+      "source_refs": [
+        {
+          "body_anchor": "V90-B01736",
+          "paragraph_anchors": [
+            "V90-P04082"
+          ],
+          "text_sha256": "b9c2403e5b901c44fad25263fe4e009529deb71a2466f0e77ebd117357c9c552"
+        },
+        {
+          "body_anchor": "V90-B01737",
+          "paragraph_anchors": [
+            "V90-P04083"
+          ],
+          "text_sha256": "65bffb8b796104ccc63adef3fa9bc621d0a943f91168ea114ef1a4840461062f"
+        },
+        {
+          "body_anchor": "V90-B01738",
+          "paragraph_anchors": [
+            "V90-P04084"
+          ],
+          "text_sha256": "1f79618a8258b011c5e9810518205500be031b22b5b65988a0e3fb1604ccef73"
+        },
+        {
+          "body_anchor": "V90-B01739",
+          "paragraph_anchors": [
+            "V90-P04085"
+          ],
+          "text_sha256": "b28c6dd5f45baf425ca52eaf1fd7659440e333ed5cae5ac0272e9536ebbcf68b"
+        },
+        {
+          "body_anchor": "V90-B01740",
+          "paragraph_anchors": [
+            "V90-P04086"
+          ],
+          "text_sha256": "dad66f78e14f9b79710bc8992384b324cdf18571e5fad8364933aeaf38b59704"
+        },
+        {
+          "body_anchor": "V90-B01741",
+          "paragraph_anchors": [
+            "V90-P04087"
+          ],
+          "text_sha256": "59764cbd349c2952360d8b6ce88963e3d87fb8384a5bf79189450dee377db844"
+        },
+        {
+          "body_anchor": "V90-B01742",
+          "paragraph_anchors": [
+            "V90-P04088"
+          ],
+          "text_sha256": "e2da16384853cee8a7c4d3b8d0f9f9f9bfad349b0214b00e7b5a72bb60913e1e"
+        }
+      ],
+      "title": "D.02　知识、概念、语境与认识位置"
+    },
+    {
+      "candidate_ids": [
+        "V90-CANDIDATE-P04089",
+        "V90-CANDIDATE-P04091",
+        "V90-CANDIDATE-P04092",
+        "V90-CANDIDATE-P04093",
+        "V90-CANDIDATE-P04094"
+      ],
+      "content_owner": "P11A",
+      "content_path": null,
+      "content_sha256": null,
+      "content_status": "identity_only",
+      "contract": "Domain-native methods, extra distinctions, input/output, exit and counterexample remain separately required; appendix does not add empirical axioms.",
+      "domain_id": "D.03",
+      "identity_id": "V90-DOMAIN-D03",
+      "index_and_consumer_owner": "sole_engineering_integrator",
+      "primary_candidate_id": "V90-CANDIDATE-P04089",
+      "read_trace_status": "not_yet_available",
+      "required_runtime_evidence": [
+        "loaded_content_hash",
+        "read_trace",
+        "authority_binding",
+        "reader_projection",
+        "modified_domain_bytes_invalidate_prior_binding"
+      ],
+      "source_anchors": [
+        "V90-P04089",
+        "V90-P04090",
+        "V90-P04091",
+        "V90-P04092",
+        "V90-P04093",
+        "V90-P04094",
+        "V90-P04095"
+      ],
+      "source_fingerprint_sha256": "6f1363d3fb27a84af1563f5c1bab4b2a1c59a34d9a7062280f09345ed64bd5a0",
+      "source_refs": [
+        {
+          "body_anchor": "V90-B01743",
+          "paragraph_anchors": [
+            "V90-P04089"
+          ],
+          "text_sha256": "cf400b000da4bbb99e641182fe297d63b573d3d45436461f76165e9550513825"
+        },
+        {
+          "body_anchor": "V90-B01744",
+          "paragraph_anchors": [
+            "V90-P04090"
+          ],
+          "text_sha256": "f9fedd3a22d7d8bee069fc283c35d551096d7c91f92ae1a0312be9ed10324c0a"
+        },
+        {
+          "body_anchor": "V90-B01745",
+          "paragraph_anchors": [
+            "V90-P04091"
+          ],
+          "text_sha256": "24118a8d3524f8e0409927963c9c1ccc4d311884db2a71f8353b6e38173f8860"
+        },
+        {
+          "body_anchor": "V90-B01746",
+          "paragraph_anchors": [
+            "V90-P04092"
+          ],
+          "text_sha256": "7b823635b174b281dc31ddacb66b706b77229081fc9c60af6f5a5973711c3c01"
+        },
+        {
+          "body_anchor": "V90-B01747",
+          "paragraph_anchors": [
+            "V90-P04093"
+          ],
+          "text_sha256": "b075a61a9100f517a29b3b7b88f3f9d0f34d680446f59234717addaa210e54f5"
+        },
+        {
+          "body_anchor": "V90-B01748",
+          "paragraph_anchors": [
+            "V90-P04094"
+          ],
+          "text_sha256": "773503961d903e6b4b0c82d8dcb635bd699fd1f728871bd3fffc3a558750942a"
+        },
+        {
+          "body_anchor": "V90-B01749",
+          "paragraph_anchors": [
+            "V90-P04095"
+          ],
+          "text_sha256": "dafbe0d06a47afb74bc0a76554cfe22441fa0973a89ca82a746374af57a8c60d"
+        }
+      ],
+      "title": "D.03　研究设计、测量、因果与材料形成"
+    },
+    {
+      "candidate_ids": [
+        "V90-CANDIDATE-P04096",
+        "V90-CANDIDATE-P04098",
+        "V90-CANDIDATE-P04099",
+        "V90-CANDIDATE-P04101"
+      ],
+      "content_owner": "P11A",
+      "content_path": null,
+      "content_sha256": null,
+      "content_status": "identity_only",
+      "contract": "Domain-native methods, extra distinctions, input/output, exit and counterexample remain separately required; appendix does not add empirical axioms.",
+      "domain_id": "D.04",
+      "identity_id": "V90-DOMAIN-D04",
+      "index_and_consumer_owner": "sole_engineering_integrator",
+      "primary_candidate_id": "V90-CANDIDATE-P04096",
+      "read_trace_status": "not_yet_available",
+      "required_runtime_evidence": [
+        "loaded_content_hash",
+        "read_trace",
+        "authority_binding",
+        "reader_projection",
+        "modified_domain_bytes_invalidate_prior_binding"
+      ],
+      "source_anchors": [
+        "V90-P04096",
+        "V90-P04097",
+        "V90-P04098",
+        "V90-P04099",
+        "V90-P04100",
+        "V90-P04101",
+        "V90-P04102"
+      ],
+      "source_fingerprint_sha256": "92e0ffcbb50af11a3bff149fb1336e1fe6e88d426dd9bc84ccff82b76dc1f5b0",
+      "source_refs": [
+        {
+          "body_anchor": "V90-B01750",
+          "paragraph_anchors": [
+            "V90-P04096"
+          ],
+          "text_sha256": "ea4640ef9eabb35196c3b522f6398d011c1648963f6364bff62cdd4a7e16464c"
+        },
+        {
+          "body_anchor": "V90-B01751",
+          "paragraph_anchors": [
+            "V90-P04097"
+          ],
+          "text_sha256": "77f0910ffbadd920dc3bab97d215ca376d2208e47e5babc81940de9af9ea18cd"
+        },
+        {
+          "body_anchor": "V90-B01752",
+          "paragraph_anchors": [
+            "V90-P04098"
+          ],
+          "text_sha256": "cb234899bd1a0fb82f91a6b217396711192cf720354c5975a6d884b5ac6d9077"
+        },
+        {
+          "body_anchor": "V90-B01753",
+          "paragraph_anchors": [
+            "V90-P04099"
+          ],
+          "text_sha256": "77febde6436783590bedc61725e9a80467a2dd6e4c4999b65030d8c285fe7cde"
+        },
+        {
+          "body_anchor": "V90-B01754",
+          "paragraph_anchors": [
+            "V90-P04100"
+          ],
+          "text_sha256": "6dd801738d2e0c979c89297dd6c71220c0d8f0d63c05f24093bb360c21460bd9"
+        },
+        {
+          "body_anchor": "V90-B01755",
+          "paragraph_anchors": [
+            "V90-P04101"
+          ],
+          "text_sha256": "43a434e8dad3408ed378bdcc4826412c6c1fae0219a27a4c1ce64b9ecc11ef15"
+        },
+        {
+          "body_anchor": "V90-B01756",
+          "paragraph_anchors": [
+            "V90-P04102"
+          ],
+          "text_sha256": "e20b1b957ca249c9d872aef2530aa41e482b4c90caa09c2621246a97f0ab7907"
+        }
+      ],
+      "title": "D.04　系统、控制、反馈、韧性与时滞"
+    },
+    {
+      "candidate_ids": [
+        "V90-CANDIDATE-P04103",
+        "V90-CANDIDATE-P04105",
+        "V90-CANDIDATE-P04106",
+        "V90-CANDIDATE-P04107",
+        "V90-CANDIDATE-P04108"
+      ],
+      "content_owner": "P11B",
+      "content_path": null,
+      "content_sha256": null,
+      "content_status": "identity_only",
+      "contract": "Domain-native methods, extra distinctions, input/output, exit and counterexample remain separately required; appendix does not add empirical axioms.",
+      "domain_id": "D.05",
+      "identity_id": "V90-DOMAIN-D05",
+      "index_and_consumer_owner": "sole_engineering_integrator",
+      "primary_candidate_id": "V90-CANDIDATE-P04103",
+      "read_trace_status": "not_yet_available",
+      "required_runtime_evidence": [
+        "loaded_content_hash",
+        "read_trace",
+        "authority_binding",
+        "reader_projection",
+        "modified_domain_bytes_invalidate_prior_binding"
+      ],
+      "source_anchors": [
+        "V90-P04103",
+        "V90-P04104",
+        "V90-P04105",
+        "V90-P04106",
+        "V90-P04107",
+        "V90-P04108",
+        "V90-P04109"
+      ],
+      "source_fingerprint_sha256": "51486f4789411a0b6ec675ea45c2fd2a542f95ca7fee4396033b8bc75f084f33",
+      "source_refs": [
+        {
+          "body_anchor": "V90-B01757",
+          "paragraph_anchors": [
+            "V90-P04103"
+          ],
+          "text_sha256": "adaa1a23c24b777e93d167587e182d1a2824b0c66a4259d14a8dd510091c32ee"
+        },
+        {
+          "body_anchor": "V90-B01758",
+          "paragraph_anchors": [
+            "V90-P04104"
+          ],
+          "text_sha256": "2f49d2ef6c4f6e429d29985924427c0a28c6f58f350f0e1f43061e1e6bd58b26"
+        },
+        {
+          "body_anchor": "V90-B01759",
+          "paragraph_anchors": [
+            "V90-P04105"
+          ],
+          "text_sha256": "128c505b3bc156a98b02890f0db9a21b866efef976a23ddbc3b46bfda752bc3a"
+        },
+        {
+          "body_anchor": "V90-B01760",
+          "paragraph_anchors": [
+            "V90-P04106"
+          ],
+          "text_sha256": "68d67fd4448a4f0eaea811c26437a713459dac37fbd80a4707c2b34e345da44d"
+        },
+        {
+          "body_anchor": "V90-B01761",
+          "paragraph_anchors": [
+            "V90-P04107"
+          ],
+          "text_sha256": "be1be41c75a051e3ffc01360d9d9761e0ed07e86b3381a661463deaa6266a2c7"
+        },
+        {
+          "body_anchor": "V90-B01762",
+          "paragraph_anchors": [
+            "V90-P04108"
+          ],
+          "text_sha256": "0c03de02ed3436344383c41a62fe6cd3049fd10af5b280f04649b07cc8e40c8c"
+        },
+        {
+          "body_anchor": "V90-B01763",
+          "paragraph_anchors": [
+            "V90-P04109"
+          ],
+          "text_sha256": "4de5f8ebc39c5e2653bf2d200b8e4152ce9d072509775eace3e2cf016c5b5163"
+        }
+      ],
+      "title": "D.05　信息、表示、数学与物理借用"
+    },
+    {
+      "candidate_ids": [
+        "V90-CANDIDATE-P04110",
+        "V90-CANDIDATE-P04112",
+        "V90-CANDIDATE-P04113",
+        "V90-CANDIDATE-P04114",
+        "V90-CANDIDATE-P04115"
+      ],
+      "content_owner": "P11B",
+      "content_path": null,
+      "content_sha256": null,
+      "content_status": "identity_only",
+      "contract": "Domain-native methods, extra distinctions, input/output, exit and counterexample remain separately required; appendix does not add empirical axioms.",
+      "domain_id": "D.06",
+      "identity_id": "V90-DOMAIN-D06",
+      "index_and_consumer_owner": "sole_engineering_integrator",
+      "primary_candidate_id": "V90-CANDIDATE-P04110",
+      "read_trace_status": "not_yet_available",
+      "required_runtime_evidence": [
+        "loaded_content_hash",
+        "read_trace",
+        "authority_binding",
+        "reader_projection",
+        "modified_domain_bytes_invalidate_prior_binding"
+      ],
+      "source_anchors": [
+        "V90-P04110",
+        "V90-P04111",
+        "V90-P04112",
+        "V90-P04113",
+        "V90-P04114",
+        "V90-P04115",
+        "V90-P04116"
+      ],
+      "source_fingerprint_sha256": "0807fbc3fcb0285adf06624024f9c264e4e59f55296e476b5531a06048f6b4f3",
+      "source_refs": [
+        {
+          "body_anchor": "V90-B01764",
+          "paragraph_anchors": [
+            "V90-P04110"
+          ],
+          "text_sha256": "2e17b7b24abcd88f1991aa095540c49d74c5204e1ec40ebd5746ceef30da8de0"
+        },
+        {
+          "body_anchor": "V90-B01765",
+          "paragraph_anchors": [
+            "V90-P04111"
+          ],
+          "text_sha256": "05f483ea241167d6e0eb24f7ad37075f40cf215a90d8b6274c6d0dfd4316e561"
+        },
+        {
+          "body_anchor": "V90-B01766",
+          "paragraph_anchors": [
+            "V90-P04112"
+          ],
+          "text_sha256": "0d04e2a5743047a72fe5f6b8f1c175abb7c6ae01e857ea4c4cfac295b39cf6fd"
+        },
+        {
+          "body_anchor": "V90-B01767",
+          "paragraph_anchors": [
+            "V90-P04113"
+          ],
+          "text_sha256": "1554e1998c75c901cf9f167c611cd89f571845c2d20bea456808afd30404e564"
+        },
+        {
+          "body_anchor": "V90-B01768",
+          "paragraph_anchors": [
+            "V90-P04114"
+          ],
+          "text_sha256": "eb9077cfc2526e2f79a8f3bc1425373c73d341997bb919d4928493ab3eb04686"
+        },
+        {
+          "body_anchor": "V90-B01769",
+          "paragraph_anchors": [
+            "V90-P04115"
+          ],
+          "text_sha256": "c81397484c40aa1b7deb16872c1297eb5e9c9d81cd399d33467b4f81432eed17"
+        },
+        {
+          "body_anchor": "V90-B01770",
+          "paragraph_anchors": [
+            "V90-P04116"
+          ],
+          "text_sha256": "6c20efb1de4eef8b68498105761389f1e9cc36514621ac239ab201afd57d59e6"
+        }
+      ],
+      "title": "D.06　人性、演化、习惯与行动能力"
+    },
+    {
+      "candidate_ids": [
+        "V90-CANDIDATE-P04117",
+        "V90-CANDIDATE-P04119",
+        "V90-CANDIDATE-P04120",
+        "V90-CANDIDATE-P04121",
+        "V90-CANDIDATE-P04122"
+      ],
+      "content_owner": "P11B",
+      "content_path": null,
+      "content_sha256": null,
+      "content_status": "identity_only",
+      "contract": "Domain-native methods, extra distinctions, input/output, exit and counterexample remain separately required; appendix does not add empirical axioms.",
+      "domain_id": "D.07",
+      "identity_id": "V90-DOMAIN-D07",
+      "index_and_consumer_owner": "sole_engineering_integrator",
+      "primary_candidate_id": "V90-CANDIDATE-P04117",
+      "read_trace_status": "not_yet_available",
+      "required_runtime_evidence": [
+        "loaded_content_hash",
+        "read_trace",
+        "authority_binding",
+        "reader_projection",
+        "modified_domain_bytes_invalidate_prior_binding"
+      ],
+      "source_anchors": [
+        "V90-P04117",
+        "V90-P04118",
+        "V90-P04119",
+        "V90-P04120",
+        "V90-P04121",
+        "V90-P04122",
+        "V90-P04123"
+      ],
+      "source_fingerprint_sha256": "eb4526456916c7e790d07c1f84d733b172611594e8b0e1d0f8f4277b20ddd019",
+      "source_refs": [
+        {
+          "body_anchor": "V90-B01771",
+          "paragraph_anchors": [
+            "V90-P04117"
+          ],
+          "text_sha256": "aa93b47bc13412f4a718b87e5a6f80fce8c84ec9bf6575a970f57672e7658a5b"
+        },
+        {
+          "body_anchor": "V90-B01772",
+          "paragraph_anchors": [
+            "V90-P04118"
+          ],
+          "text_sha256": "2d2c805679d2cff75c991f2cdddc090f43550d5a17ea6d6e04512ea7a3d1722c"
+        },
+        {
+          "body_anchor": "V90-B01773",
+          "paragraph_anchors": [
+            "V90-P04119"
+          ],
+          "text_sha256": "758b7c8867518826ff988f2c1b0464015f48298b49a0ccb7c3cc3ef8da710a76"
+        },
+        {
+          "body_anchor": "V90-B01774",
+          "paragraph_anchors": [
+            "V90-P04120"
+          ],
+          "text_sha256": "25d5cb3d4884723bcf9ad06a2ccdf22c9872569401bd74599887c94906ef020b"
+        },
+        {
+          "body_anchor": "V90-B01775",
+          "paragraph_anchors": [
+            "V90-P04121"
+          ],
+          "text_sha256": "ce50262b0f1779f78e41b66e785c81d0e9a4ce0ea8aff7d4965ad3acec59ef13"
+        },
+        {
+          "body_anchor": "V90-B01776",
+          "paragraph_anchors": [
+            "V90-P04122"
+          ],
+          "text_sha256": "2455528ceac9cf4f2439fb60e02870ce76b6619e2dd61d5453961a5d5a62d6fc"
+        },
+        {
+          "body_anchor": "V90-B01777",
+          "paragraph_anchors": [
+            "V90-P04123"
+          ],
+          "text_sha256": "a172a7b97f1af09a7c223de83fd8fc2506fd02fbaa099deda8a82d651176d7c0"
+        }
+      ],
+      "title": "D.07　有限理性、情绪、群体决策与试探"
+    },
+    {
+      "candidate_ids": [
+        "V90-CANDIDATE-P04124",
+        "V90-CANDIDATE-P04126",
+        "V90-CANDIDATE-P04127",
+        "V90-CANDIDATE-P04128",
+        "V90-CANDIDATE-P04129"
+      ],
+      "content_owner": "P11B",
+      "content_path": null,
+      "content_sha256": null,
+      "content_status": "identity_only",
+      "contract": "Domain-native methods, extra distinctions, input/output, exit and counterexample remain separately required; appendix does not add empirical axioms.",
+      "domain_id": "D.08",
+      "identity_id": "V90-DOMAIN-D08",
+      "index_and_consumer_owner": "sole_engineering_integrator",
+      "primary_candidate_id": "V90-CANDIDATE-P04124",
+      "read_trace_status": "not_yet_available",
+      "required_runtime_evidence": [
+        "loaded_content_hash",
+        "read_trace",
+        "authority_binding",
+        "reader_projection",
+        "modified_domain_bytes_invalidate_prior_binding"
+      ],
+      "source_anchors": [
+        "V90-P04124",
+        "V90-P04125",
+        "V90-P04126",
+        "V90-P04127",
+        "V90-P04128",
+        "V90-P04129",
+        "V90-P04130"
+      ],
+      "source_fingerprint_sha256": "fe67b04e1780f0bbc509028f553af68d662d4256cd0b87ecf2fc6be086308261",
+      "source_refs": [
+        {
+          "body_anchor": "V90-B01778",
+          "paragraph_anchors": [
+            "V90-P04124"
+          ],
+          "text_sha256": "b29567d1c253958a4be9b7034115a0dfb4f5e2725317ff89acda453819923e51"
+        },
+        {
+          "body_anchor": "V90-B01779",
+          "paragraph_anchors": [
+            "V90-P04125"
+          ],
+          "text_sha256": "ae34fbc7b450f966aa6aaec48e126a36872a8e82b618bbf4a6bb2081ef4de9f3"
+        },
+        {
+          "body_anchor": "V90-B01780",
+          "paragraph_anchors": [
+            "V90-P04126"
+          ],
+          "text_sha256": "ce2dcccbef01ee31fa08539372dbd770af9986b3d90be183f6456b635674846a"
+        },
+        {
+          "body_anchor": "V90-B01781",
+          "paragraph_anchors": [
+            "V90-P04127"
+          ],
+          "text_sha256": "49398cd279b2739452264329bf3fad1bd32b5914177dec428b35239efe312bb8"
+        },
+        {
+          "body_anchor": "V90-B01782",
+          "paragraph_anchors": [
+            "V90-P04128"
+          ],
+          "text_sha256": "fd66b73c66dab643889e53d2b8551ff23d488e81d2969f6d0bb301543db86bca"
+        },
+        {
+          "body_anchor": "V90-B01783",
+          "paragraph_anchors": [
+            "V90-P04129"
+          ],
+          "text_sha256": "f5fd3fecd78c0755fab764bfb0c8a8bd27eea55893aa91f21f4d48678e46fbc4"
+        },
+        {
+          "body_anchor": "V90-B01784",
+          "paragraph_anchors": [
+            "V90-P04130"
+          ],
+          "text_sha256": "714ce26b0192a1bd3424c82cf3df99d35e4cf552e569b9895a831491308aa7d5"
+        }
+      ],
+      "title": "D.08　发展、心理经验、治疗理论与专业边界"
+    },
+    {
+      "candidate_ids": [
+        "V90-CANDIDATE-P04131",
+        "V90-CANDIDATE-P04133",
+        "V90-CANDIDATE-P04134",
+        "V90-CANDIDATE-P04135",
+        "V90-CANDIDATE-P04136"
+      ],
+      "content_owner": "P11C",
+      "content_path": null,
+      "content_sha256": null,
+      "content_status": "identity_only",
+      "contract": "Domain-native methods, extra distinctions, input/output, exit and counterexample remain separately required; appendix does not add empirical axioms.",
+      "domain_id": "D.09",
+      "identity_id": "V90-DOMAIN-D09",
+      "index_and_consumer_owner": "sole_engineering_integrator",
+      "primary_candidate_id": "V90-CANDIDATE-P04131",
+      "read_trace_status": "not_yet_available",
+      "required_runtime_evidence": [
+        "loaded_content_hash",
+        "read_trace",
+        "authority_binding",
+        "reader_projection",
+        "modified_domain_bytes_invalidate_prior_binding"
+      ],
+      "source_anchors": [
+        "V90-P04131",
+        "V90-P04132",
+        "V90-P04133",
+        "V90-P04134",
+        "V90-P04135",
+        "V90-P04136",
+        "V90-P04137"
+      ],
+      "source_fingerprint_sha256": "7dfa7d41c584cb16d98601102d874b75380aea3e22bc1f745c6db3151b51a4ba",
+      "source_refs": [
+        {
+          "body_anchor": "V90-B01785",
+          "paragraph_anchors": [
+            "V90-P04131"
+          ],
+          "text_sha256": "1445645c9cb8a8ab37b028dfcee59c53003b7a15b7a20101010b2bf54e036888"
+        },
+        {
+          "body_anchor": "V90-B01786",
+          "paragraph_anchors": [
+            "V90-P04132"
+          ],
+          "text_sha256": "c1bb1d424d26b8552e90f6388beab19ca96a66bf5a431425f7e33aff06805eac"
+        },
+        {
+          "body_anchor": "V90-B01787",
+          "paragraph_anchors": [
+            "V90-P04133"
+          ],
+          "text_sha256": "95fac4b28922d626331d99ba738e340ac46db2eff3ecb219a2d115251c436e1b"
+        },
+        {
+          "body_anchor": "V90-B01788",
+          "paragraph_anchors": [
+            "V90-P04134"
+          ],
+          "text_sha256": "8f8422c874c9080be40a1f08b6848f280d18ec5a6a4dad4d792b72d7b90871ce"
+        },
+        {
+          "body_anchor": "V90-B01789",
+          "paragraph_anchors": [
+            "V90-P04135"
+          ],
+          "text_sha256": "8cee923ebdc27e9f3e23d70be7983066b1d9fb79911d1b3d3cbc79bcf9e098b6"
+        },
+        {
+          "body_anchor": "V90-B01790",
+          "paragraph_anchors": [
+            "V90-P04136"
+          ],
+          "text_sha256": "2ddcdb1550e4037a44197487b5ad5f8804f55ad64b8c299aa351b8d27a255f66"
+        },
+        {
+          "body_anchor": "V90-B01791",
+          "paragraph_anchors": [
+            "V90-P04137"
+          ],
+          "text_sha256": "eb96701c9f79509d2d7a9c941d1dadf4b80b9e178642d81d77a05b5c298e10b6"
+        }
+      ],
+      "title": "D.09　爱、照护、承认、意义与生活质量"
+    },
+    {
+      "candidate_ids": [
+        "V90-CANDIDATE-P04138",
+        "V90-CANDIDATE-P04140",
+        "V90-CANDIDATE-P04141",
+        "V90-CANDIDATE-P04142",
+        "V90-CANDIDATE-P04143"
+      ],
+      "content_owner": "P11C",
+      "content_path": null,
+      "content_sha256": null,
+      "content_status": "identity_only",
+      "contract": "Domain-native methods, extra distinctions, input/output, exit and counterexample remain separately required; appendix does not add empirical axioms.",
+      "domain_id": "D.10",
+      "identity_id": "V90-DOMAIN-D10",
+      "index_and_consumer_owner": "sole_engineering_integrator",
+      "primary_candidate_id": "V90-CANDIDATE-P04138",
+      "read_trace_status": "not_yet_available",
+      "required_runtime_evidence": [
+        "loaded_content_hash",
+        "read_trace",
+        "authority_binding",
+        "reader_projection",
+        "modified_domain_bytes_invalidate_prior_binding"
+      ],
+      "source_anchors": [
+        "V90-P04138",
+        "V90-P04139",
+        "V90-P04140",
+        "V90-P04141",
+        "V90-P04142",
+        "V90-P04143",
+        "V90-P04144"
+      ],
+      "source_fingerprint_sha256": "89df1b1588510fa4264686277ca1bcefa8cba2277564cae6443caf41eb9e161b",
+      "source_refs": [
+        {
+          "body_anchor": "V90-B01792",
+          "paragraph_anchors": [
+            "V90-P04138"
+          ],
+          "text_sha256": "04ddc30654852a06f59c36f3af4e2562b8e16b95b743e52e62f0261178492378"
+        },
+        {
+          "body_anchor": "V90-B01793",
+          "paragraph_anchors": [
+            "V90-P04139"
+          ],
+          "text_sha256": "2909c8c4317a51c2ce01c6e2c1a28795e335f7dafc2eac1af0ce989e2c87cd75"
+        },
+        {
+          "body_anchor": "V90-B01794",
+          "paragraph_anchors": [
+            "V90-P04140"
+          ],
+          "text_sha256": "f91ce1f26940f41935ab6071637180512c004d7d17ddf343e5d57898b3cc1b3d"
+        },
+        {
+          "body_anchor": "V90-B01795",
+          "paragraph_anchors": [
+            "V90-P04141"
+          ],
+          "text_sha256": "2da6b37068819d2fb918ac8dae22b85a8580c0a1298a4f3cafc3b95911785a3b"
+        },
+        {
+          "body_anchor": "V90-B01796",
+          "paragraph_anchors": [
+            "V90-P04142"
+          ],
+          "text_sha256": "9df9aa06ec53edaa5fdd4725ed5c5e90dccfad15b5c7a8dd13e9d4d8648b50aa"
+        },
+        {
+          "body_anchor": "V90-B01797",
+          "paragraph_anchors": [
+            "V90-P04143"
+          ],
+          "text_sha256": "d13c7e6a4c678d08514d5a1f6facb30bb5e0d404175854a5dfd3de93480b97cf"
+        },
+        {
+          "body_anchor": "V90-B01798",
+          "paragraph_anchors": [
+            "V90-P04144"
+          ],
+          "text_sha256": "a64f636e914620cf695c500a48523a46a261b876c0136f9c772ec0e27498b8b9"
+        }
+      ],
+      "title": "D.10　伦理分歧、能力与有限责任"
+    },
+    {
+      "candidate_ids": [
+        "V90-CANDIDATE-P04145",
+        "V90-CANDIDATE-P04147",
+        "V90-CANDIDATE-P04148",
+        "V90-CANDIDATE-P04149",
+        "V90-CANDIDATE-P04150"
+      ],
+      "content_owner": "P11C",
+      "content_path": null,
+      "content_sha256": null,
+      "content_status": "identity_only",
+      "contract": "Domain-native methods, extra distinctions, input/output, exit and counterexample remain separately required; appendix does not add empirical axioms.",
+      "domain_id": "D.11",
+      "identity_id": "V90-DOMAIN-D11",
+      "index_and_consumer_owner": "sole_engineering_integrator",
+      "primary_candidate_id": "V90-CANDIDATE-P04145",
+      "read_trace_status": "not_yet_available",
+      "required_runtime_evidence": [
+        "loaded_content_hash",
+        "read_trace",
+        "authority_binding",
+        "reader_projection",
+        "modified_domain_bytes_invalidate_prior_binding"
+      ],
+      "source_anchors": [
+        "V90-P04145",
+        "V90-P04146",
+        "V90-P04147",
+        "V90-P04148",
+        "V90-P04149",
+        "V90-P04150",
+        "V90-P04151"
+      ],
+      "source_fingerprint_sha256": "f22db4141feac2d020d9a7eecc7182dc03c0fb4e64dc5d173125e6b027025160",
+      "source_refs": [
+        {
+          "body_anchor": "V90-B01799",
+          "paragraph_anchors": [
+            "V90-P04145"
+          ],
+          "text_sha256": "16e5b12da6e1c4eb3a621dc6377a276c1f61c38d305acecd15398617fb3aeba6"
+        },
+        {
+          "body_anchor": "V90-B01800",
+          "paragraph_anchors": [
+            "V90-P04146"
+          ],
+          "text_sha256": "3268fd195157d12982bfc7963257091fd33d59345f8bf80c01a455483305e96b"
+        },
+        {
+          "body_anchor": "V90-B01801",
+          "paragraph_anchors": [
+            "V90-P04147"
+          ],
+          "text_sha256": "81d2380d83f0a91df501ed231b4b64e18fe8348aeb6854c1c8039ab9680a13fa"
+        },
+        {
+          "body_anchor": "V90-B01802",
+          "paragraph_anchors": [
+            "V90-P04148"
+          ],
+          "text_sha256": "0ed23beb1921b22c114b3411dff5943b3b2d7536f99538ef566bcc5a424eaa12"
+        },
+        {
+          "body_anchor": "V90-B01803",
+          "paragraph_anchors": [
+            "V90-P04149"
+          ],
+          "text_sha256": "f67115f8c369279835a565b8696813899f86142b05859eb0d0903f7f2cb69a58"
+        },
+        {
+          "body_anchor": "V90-B01804",
+          "paragraph_anchors": [
+            "V90-P04150"
+          ],
+          "text_sha256": "2cce4e822063231eaee00ce40fa86082ef8a0be5998ccdf5ed80d3349938fd2d"
+        },
+        {
+          "body_anchor": "V90-B01805",
+          "paragraph_anchors": [
+            "V90-P04151"
+          ],
+          "text_sha256": "4c8dc5d9b4ac8048fa7f59066b3c1bb5547bd68bf53b0a8c38a749b1bf7eea4b"
+        }
+      ],
+      "title": "D.11　中国思想与实践传统的现代转译"
+    },
+    {
+      "candidate_ids": [
+        "V90-CANDIDATE-P04152",
+        "V90-CANDIDATE-P04154",
+        "V90-CANDIDATE-P04155",
+        "V90-CANDIDATE-P04157"
+      ],
+      "content_owner": "P11C",
+      "content_path": null,
+      "content_sha256": null,
+      "content_status": "identity_only",
+      "contract": "Domain-native methods, extra distinctions, input/output, exit and counterexample remain separately required; appendix does not add empirical axioms.",
+      "domain_id": "D.12",
+      "identity_id": "V90-DOMAIN-D12",
+      "index_and_consumer_owner": "sole_engineering_integrator",
+      "primary_candidate_id": "V90-CANDIDATE-P04152",
+      "read_trace_status": "not_yet_available",
+      "required_runtime_evidence": [
+        "loaded_content_hash",
+        "read_trace",
+        "authority_binding",
+        "reader_projection",
+        "modified_domain_bytes_invalidate_prior_binding"
+      ],
+      "source_anchors": [
+        "V90-P04152",
+        "V90-P04153",
+        "V90-P04154",
+        "V90-P04155",
+        "V90-P04156",
+        "V90-P04157",
+        "V90-P04158"
+      ],
+      "source_fingerprint_sha256": "c2be78d39fb6f42e85952677265e2a1f1598ed4e6df65c18c85b83e5a7c7211e",
+      "source_refs": [
+        {
+          "body_anchor": "V90-B01806",
+          "paragraph_anchors": [
+            "V90-P04152"
+          ],
+          "text_sha256": "ef3acc32230be8aba1546580df80df1e6b5c026dfc863212c608567dba328548"
+        },
+        {
+          "body_anchor": "V90-B01807",
+          "paragraph_anchors": [
+            "V90-P04153"
+          ],
+          "text_sha256": "4a6f49825c9ff3f1f0794c40fdc27380c7722a752f565cb9bd86570911c09096"
+        },
+        {
+          "body_anchor": "V90-B01808",
+          "paragraph_anchors": [
+            "V90-P04154"
+          ],
+          "text_sha256": "4a99d319be034bde01a9ef61619e3a44e3fadd8bdeb8ac892a9f53a7d9824699"
+        },
+        {
+          "body_anchor": "V90-B01809",
+          "paragraph_anchors": [
+            "V90-P04155"
+          ],
+          "text_sha256": "4e711b522290d5dcef078bf989b1ca8f84e2f730927d7aaf56ba154ae0d0998d"
+        },
+        {
+          "body_anchor": "V90-B01810",
+          "paragraph_anchors": [
+            "V90-P04156"
+          ],
+          "text_sha256": "10948e88e64fef68b37fd18db6b3c8b3c32fd5f096ab06cdf4b0c76d2d594010"
+        },
+        {
+          "body_anchor": "V90-B01811",
+          "paragraph_anchors": [
+            "V90-P04157"
+          ],
+          "text_sha256": "606f7c63e6d24c4719a0432d8ec6039d87c47e196db4034db09464645c3920de"
+        },
+        {
+          "body_anchor": "V90-B01812",
+          "paragraph_anchors": [
+            "V90-P04158"
+          ],
+          "text_sha256": "8da1cf40846619dc1f581ef207fee353514cfbdec9aae78fbe174d654628a197"
+        }
+      ],
+      "title": "D.12　宗教、文明比较与关系性知识"
+    },
+    {
+      "candidate_ids": [
+        "V90-CANDIDATE-P04159",
+        "V90-CANDIDATE-P04161",
+        "V90-CANDIDATE-P04162",
+        "V90-CANDIDATE-P04163",
+        "V90-CANDIDATE-P04164"
+      ],
+      "content_owner": "P11D",
+      "content_path": null,
+      "content_sha256": null,
+      "content_status": "identity_only",
+      "contract": "Domain-native methods, extra distinctions, input/output, exit and counterexample remain separately required; appendix does not add empirical axioms.",
+      "domain_id": "D.13",
+      "identity_id": "V90-DOMAIN-D13",
+      "index_and_consumer_owner": "sole_engineering_integrator",
+      "primary_candidate_id": "V90-CANDIDATE-P04159",
+      "read_trace_status": "not_yet_available",
+      "required_runtime_evidence": [
+        "loaded_content_hash",
+        "read_trace",
+        "authority_binding",
+        "reader_projection",
+        "modified_domain_bytes_invalidate_prior_binding"
+      ],
+      "source_anchors": [
+        "V90-P04159",
+        "V90-P04160",
+        "V90-P04161",
+        "V90-P04162",
+        "V90-P04163",
+        "V90-P04164",
+        "V90-P04165"
+      ],
+      "source_fingerprint_sha256": "65df388fc06d47f72022808e0c186a39cdfce00560f88b74f3454dbba5e4f907",
+      "source_refs": [
+        {
+          "body_anchor": "V90-B01813",
+          "paragraph_anchors": [
+            "V90-P04159"
+          ],
+          "text_sha256": "b7baf054de6618478a0f9d77fbc5be4da304eeb5e706c36a63ae3a15933aeb3c"
+        },
+        {
+          "body_anchor": "V90-B01814",
+          "paragraph_anchors": [
+            "V90-P04160"
+          ],
+          "text_sha256": "21d4329e5ded4a344f2a496dbd1bdee0a13b146a291c872cb9a154892e96c0c5"
+        },
+        {
+          "body_anchor": "V90-B01815",
+          "paragraph_anchors": [
+            "V90-P04161"
+          ],
+          "text_sha256": "6cc0c444ad40732b35d200dbc67e881a1262c8baff58fe54272857e5da8c3f80"
+        },
+        {
+          "body_anchor": "V90-B01816",
+          "paragraph_anchors": [
+            "V90-P04162"
+          ],
+          "text_sha256": "73515a6e62c3a3291259e32187510a14fa77e946f3e0e173dcc550b5dc32cda4"
+        },
+        {
+          "body_anchor": "V90-B01817",
+          "paragraph_anchors": [
+            "V90-P04163"
+          ],
+          "text_sha256": "0713aa760fcff79a483a0a3c93f261cf1b2f226ef0d0e803f49e205ad5d16399"
+        },
+        {
+          "body_anchor": "V90-B01818",
+          "paragraph_anchors": [
+            "V90-P04164"
+          ],
+          "text_sha256": "3a3d7075e0decfc07657ff8ba09a4c8b0df869f25c82b7c99bfcbc1f4f2476ae"
+        },
+        {
+          "body_anchor": "V90-B01819",
+          "paragraph_anchors": [
+            "V90-P04165"
+          ],
+          "text_sha256": "fff8b41bcf56c60d977a3e6867019434126ff27118303490e7258813ec0269b0"
+        }
+      ],
+      "title": "D.13　亲属、交换、仪式、民族志与文化变迁"
+    },
+    {
+      "candidate_ids": [
+        "V90-CANDIDATE-P04166",
+        "V90-CANDIDATE-P04168",
+        "V90-CANDIDATE-P04169",
+        "V90-CANDIDATE-P04170",
+        "V90-CANDIDATE-P04171",
+        "V90-CANDIDATE-P04172"
+      ],
+      "content_owner": "P11D",
+      "content_path": null,
+      "content_sha256": null,
+      "content_status": "identity_only",
+      "contract": "Domain-native methods, extra distinctions, input/output, exit and counterexample remain separately required; appendix does not add empirical axioms.",
+      "domain_id": "D.14",
+      "identity_id": "V90-DOMAIN-D14",
+      "index_and_consumer_owner": "sole_engineering_integrator",
+      "primary_candidate_id": "V90-CANDIDATE-P04166",
+      "read_trace_status": "not_yet_available",
+      "required_runtime_evidence": [
+        "loaded_content_hash",
+        "read_trace",
+        "authority_binding",
+        "reader_projection",
+        "modified_domain_bytes_invalidate_prior_binding"
+      ],
+      "source_anchors": [
+        "V90-P04166",
+        "V90-P04167",
+        "V90-P04168",
+        "V90-P04169",
+        "V90-P04170",
+        "V90-P04171",
+        "V90-P04172"
+      ],
+      "source_fingerprint_sha256": "26028335cb19308415d0a58c494f6eaca301f138059ca5059642d661ffa6d5d2",
+      "source_refs": [
+        {
+          "body_anchor": "V90-B01820",
+          "paragraph_anchors": [
+            "V90-P04166"
+          ],
+          "text_sha256": "f454ff6cb288a1738590cbe6f00b46b74cd140c39dfd6e6a6062a5024cbde8a5"
+        },
+        {
+          "body_anchor": "V90-B01821",
+          "paragraph_anchors": [
+            "V90-P04167"
+          ],
+          "text_sha256": "63d83d22dc831a34d2fa91f90d7378065036d9c829f4c567a02c817e4f57990c"
+        },
+        {
+          "body_anchor": "V90-B01822",
+          "paragraph_anchors": [
+            "V90-P04168"
+          ],
+          "text_sha256": "e33254647585269a9ca0c7b591453646c42c7eddfa2265103470468aaf4f59bd"
+        },
+        {
+          "body_anchor": "V90-B01823",
+          "paragraph_anchors": [
+            "V90-P04169"
+          ],
+          "text_sha256": "26881b2d481c62a85e491d589321d0b4bf5affc665b27356d8ae39222115bd9d"
+        },
+        {
+          "body_anchor": "V90-B01824",
+          "paragraph_anchors": [
+            "V90-P04170"
+          ],
+          "text_sha256": "b463aa7d2c556fa86106f14579067f7a4f69583d313aa0a137d5bca39a3e23cb"
+        },
+        {
+          "body_anchor": "V90-B01825",
+          "paragraph_anchors": [
+            "V90-P04171"
+          ],
+          "text_sha256": "56534f9d6fae5a131f64231454da93408528744aebd783110a2b5a99a2d240b5"
+        },
+        {
+          "body_anchor": "V90-B01826",
+          "paragraph_anchors": [
+            "V90-P04172"
+          ],
+          "text_sha256": "d457d39831c27e287c6db3368a5bca15f3d259f022a2d996e1660ea435294c19"
+        }
+      ],
+      "title": "D.14　社会理论、权力、交往与制度再生产"
+    },
+    {
+      "candidate_ids": [
+        "V90-CANDIDATE-P04173",
+        "V90-CANDIDATE-P04175",
+        "V90-CANDIDATE-P04176",
+        "V90-CANDIDATE-P04177"
+      ],
+      "content_owner": "P11D",
+      "content_path": null,
+      "content_sha256": null,
+      "content_status": "identity_only",
+      "contract": "Domain-native methods, extra distinctions, input/output, exit and counterexample remain separately required; appendix does not add empirical axioms.",
+      "domain_id": "D.15",
+      "identity_id": "V90-DOMAIN-D15",
+      "index_and_consumer_owner": "sole_engineering_integrator",
+      "primary_candidate_id": "V90-CANDIDATE-P04173",
+      "read_trace_status": "not_yet_available",
+      "required_runtime_evidence": [
+        "loaded_content_hash",
+        "read_trace",
+        "authority_binding",
+        "reader_projection",
+        "modified_domain_bytes_invalidate_prior_binding"
+      ],
+      "source_anchors": [
+        "V90-P04173",
+        "V90-P04174",
+        "V90-P04175",
+        "V90-P04176",
+        "V90-P04177",
+        "V90-P04178",
+        "V90-P04179"
+      ],
+      "source_fingerprint_sha256": "e1e68bde5c3f30310de1952e82280b850969abc4dcb633097ac8a1c79cce87de",
+      "source_refs": [
+        {
+          "body_anchor": "V90-B01827",
+          "paragraph_anchors": [
+            "V90-P04173"
+          ],
+          "text_sha256": "0e6f87a0e18f10b771ee644015a73bbf4e0a3c7e7e8dc32c3fec76372cc0be72"
+        },
+        {
+          "body_anchor": "V90-B01828",
+          "paragraph_anchors": [
+            "V90-P04174"
+          ],
+          "text_sha256": "8e90671f8d33deb3fa98aad53dd9dea95d04dd678e8ee0207273a7a554015a4d"
+        },
+        {
+          "body_anchor": "V90-B01829",
+          "paragraph_anchors": [
+            "V90-P04175"
+          ],
+          "text_sha256": "ff1dcd68eabb89f720082128cf5501cf36faf7924e629ed07a34717c7c2805ac"
+        },
+        {
+          "body_anchor": "V90-B01830",
+          "paragraph_anchors": [
+            "V90-P04176"
+          ],
+          "text_sha256": "14a586584f1d9d8c8dc2aba2940b3862e17052cf919608ec68fb1fda17c0893a"
+        },
+        {
+          "body_anchor": "V90-B01831",
+          "paragraph_anchors": [
+            "V90-P04177"
+          ],
+          "text_sha256": "1eac18a81d3a557c528ba513fa1e8861e864499ac5638b3c458a689cd9f7af21"
+        },
+        {
+          "body_anchor": "V90-B01832",
+          "paragraph_anchors": [
+            "V90-P04178"
+          ],
+          "text_sha256": "3955e1fe0e28d54eee092af4a774cd12f46a39aa71ebf2977b2e156e01945976"
+        },
+        {
+          "body_anchor": "V90-B01833",
+          "paragraph_anchors": [
+            "V90-P04179"
+          ],
+          "text_sha256": "90d268996d61957abd877595657b2f7f48b884c340853b44fead085918ed293a"
+        }
+      ],
+      "title": "D.15　博弈、合作、信号、承诺与实施"
+    },
+    {
+      "candidate_ids": [
+        "V90-CANDIDATE-P04180",
+        "V90-CANDIDATE-P04182",
+        "V90-CANDIDATE-P04183",
+        "V90-CANDIDATE-P04184",
+        "V90-CANDIDATE-P04185"
+      ],
+      "content_owner": "P11D",
+      "content_path": null,
+      "content_sha256": null,
+      "content_status": "identity_only",
+      "contract": "Domain-native methods, extra distinctions, input/output, exit and counterexample remain separately required; appendix does not add empirical axioms.",
+      "domain_id": "D.16",
+      "identity_id": "V90-DOMAIN-D16",
+      "index_and_consumer_owner": "sole_engineering_integrator",
+      "primary_candidate_id": "V90-CANDIDATE-P04180",
+      "read_trace_status": "not_yet_available",
+      "required_runtime_evidence": [
+        "loaded_content_hash",
+        "read_trace",
+        "authority_binding",
+        "reader_projection",
+        "modified_domain_bytes_invalidate_prior_binding"
+      ],
+      "source_anchors": [
+        "V90-P04180",
+        "V90-P04181",
+        "V90-P04182",
+        "V90-P04183",
+        "V90-P04184",
+        "V90-P04185",
+        "V90-P04186"
+      ],
+      "source_fingerprint_sha256": "ade0c429bc33b62776db6af541670d8c4edd7901840a9705a40c81659499b301",
+      "source_refs": [
+        {
+          "body_anchor": "V90-B01834",
+          "paragraph_anchors": [
+            "V90-P04180"
+          ],
+          "text_sha256": "ee9d392d2f4b5523e555debb38ae7a014017aeca018efb4c4098c04205c3c52d"
+        },
+        {
+          "body_anchor": "V90-B01835",
+          "paragraph_anchors": [
+            "V90-P04181"
+          ],
+          "text_sha256": "9cbbaa1d1baa0ad3e9ed7eda55ffa6bdc77f55cad4d5a9073e97c616bfde58aa"
+        },
+        {
+          "body_anchor": "V90-B01836",
+          "paragraph_anchors": [
+            "V90-P04182"
+          ],
+          "text_sha256": "8e1cee75386132da2757c3de39188694253c593577b1223a9683f437cebbd0ab"
+        },
+        {
+          "body_anchor": "V90-B01837",
+          "paragraph_anchors": [
+            "V90-P04183"
+          ],
+          "text_sha256": "4a474c60f077e7b91a67b9b18e2bf9880e5f98411729d0fb2b96c255f902d4d2"
+        },
+        {
+          "body_anchor": "V90-B01838",
+          "paragraph_anchors": [
+            "V90-P04184"
+          ],
+          "text_sha256": "5bac7cde507f0188a120f0b6169d0b8851b5e9f63cfec0e90d645ca4bd3681d4"
+        },
+        {
+          "body_anchor": "V90-B01839",
+          "paragraph_anchors": [
+            "V90-P04185"
+          ],
+          "text_sha256": "89b973d3adbb0585ef84d0081c7e9492b28e86f82b3437fb9adbc59ea2d1e131"
+        },
+        {
+          "body_anchor": "V90-B01840",
+          "paragraph_anchors": [
+            "V90-P04186"
+          ],
+          "text_sha256": "ffb5a5beeedcdab169ed97ac01cfcde9cf6ec8c4847de5c22c3db923617b526c"
+        }
+      ],
+      "title": "D.16　组织、工作、领导与劳动保护"
+    },
+    {
+      "candidate_ids": [
+        "V90-CANDIDATE-P04187",
+        "V90-CANDIDATE-P04189",
+        "V90-CANDIDATE-P04190",
+        "V90-CANDIDATE-P04191",
+        "V90-CANDIDATE-P04192"
+      ],
+      "content_owner": "P11E",
+      "content_path": null,
+      "content_sha256": null,
+      "content_status": "identity_only",
+      "contract": "Domain-native methods, extra distinctions, input/output, exit and counterexample remain separately required; appendix does not add empirical axioms.",
+      "domain_id": "D.17",
+      "identity_id": "V90-DOMAIN-D17",
+      "index_and_consumer_owner": "sole_engineering_integrator",
+      "primary_candidate_id": "V90-CANDIDATE-P04187",
+      "read_trace_status": "not_yet_available",
+      "required_runtime_evidence": [
+        "loaded_content_hash",
+        "read_trace",
+        "authority_binding",
+        "reader_projection",
+        "modified_domain_bytes_invalidate_prior_binding"
+      ],
+      "source_anchors": [
+        "V90-P04187",
+        "V90-P04188",
+        "V90-P04189",
+        "V90-P04190",
+        "V90-P04191",
+        "V90-P04192",
+        "V90-P04193"
+      ],
+      "source_fingerprint_sha256": "d9bf4262ece59ffca40e775be15f980a3c87f032c0cf0435932a43c22b2328fc",
+      "source_refs": [
+        {
+          "body_anchor": "V90-B01841",
+          "paragraph_anchors": [
+            "V90-P04187"
+          ],
+          "text_sha256": "98a85bdc878837435ea9f8d081e16d5d628318ceaeb769407611710ead63829e"
+        },
+        {
+          "body_anchor": "V90-B01842",
+          "paragraph_anchors": [
+            "V90-P04188"
+          ],
+          "text_sha256": "17e83e2ff8ac36164a993fd0985070b20f1004a3f7a8a561fce5c3294bbeff99"
+        },
+        {
+          "body_anchor": "V90-B01843",
+          "paragraph_anchors": [
+            "V90-P04189"
+          ],
+          "text_sha256": "06e4c96adee469caa0dd76dae89b5f0868690c6f5c9201f685c433ca21264e28"
+        },
+        {
+          "body_anchor": "V90-B01844",
+          "paragraph_anchors": [
+            "V90-P04190"
+          ],
+          "text_sha256": "88680a6d357db20a55429d331f5542f53104894e87669f005262686828db5aa8"
+        },
+        {
+          "body_anchor": "V90-B01845",
+          "paragraph_anchors": [
+            "V90-P04191"
+          ],
+          "text_sha256": "f5e9601322e7e7c95a1f0b5d7d8e55606a0fd935ab39765af6dd6990ac2994f6"
+        },
+        {
+          "body_anchor": "V90-B01846",
+          "paragraph_anchors": [
+            "V90-P04192"
+          ],
+          "text_sha256": "06adab02a46d9e2999cb236638c07f4cb22c99e29425e7fff3a90a0e5991e2af"
+        },
+        {
+          "body_anchor": "V90-B01847",
+          "paragraph_anchors": [
+            "V90-P04193"
+          ],
+          "text_sha256": "509192734cb095f8c0ea25c4bbcd3fdf0b65eb97e1f18b43a7a03942dc8b1b33"
+        }
+      ],
+      "title": "D.17　生产、交换、产权、制度与发展"
+    },
+    {
+      "candidate_ids": [
+        "V90-CANDIDATE-P04194",
+        "V90-CANDIDATE-P04196",
+        "V90-CANDIDATE-P04197",
+        "V90-CANDIDATE-P04198",
+        "V90-CANDIDATE-P04199",
+        "V90-CANDIDATE-P04200"
+      ],
+      "content_owner": "P11E",
+      "content_path": null,
+      "content_sha256": null,
+      "content_status": "identity_only",
+      "contract": "Domain-native methods, extra distinctions, input/output, exit and counterexample remain separately required; appendix does not add empirical axioms.",
+      "domain_id": "D.18",
+      "identity_id": "V90-DOMAIN-D18",
+      "index_and_consumer_owner": "sole_engineering_integrator",
+      "primary_candidate_id": "V90-CANDIDATE-P04194",
+      "read_trace_status": "not_yet_available",
+      "required_runtime_evidence": [
+        "loaded_content_hash",
+        "read_trace",
+        "authority_binding",
+        "reader_projection",
+        "modified_domain_bytes_invalidate_prior_binding"
+      ],
+      "source_anchors": [
+        "V90-P04194",
+        "V90-P04195",
+        "V90-P04196",
+        "V90-P04197",
+        "V90-P04198",
+        "V90-P04199",
+        "V90-P04200"
+      ],
+      "source_fingerprint_sha256": "72c551b50c289427c14e6c0e847ddd45ab066698a724d69ab24db230d9062227",
+      "source_refs": [
+        {
+          "body_anchor": "V90-B01848",
+          "paragraph_anchors": [
+            "V90-P04194"
+          ],
+          "text_sha256": "b7f690e26498353c423f2244a345a9b719cad2031b8f08bbd6abb8a57904019d"
+        },
+        {
+          "body_anchor": "V90-B01849",
+          "paragraph_anchors": [
+            "V90-P04195"
+          ],
+          "text_sha256": "731584bf81a4634760c0d294cb603ad8fdca29578558705c3aa5514988f872c3"
+        },
+        {
+          "body_anchor": "V90-B01850",
+          "paragraph_anchors": [
+            "V90-P04196"
+          ],
+          "text_sha256": "e82bf4fc869d7eca0cf710b0b53562da076ac880ece0ca3077d059665ff1dd5b"
+        },
+        {
+          "body_anchor": "V90-B01851",
+          "paragraph_anchors": [
+            "V90-P04197"
+          ],
+          "text_sha256": "2928c54c74895e92e78d8f7887dc489652dcb2281f68bc91b092c522e02b2b6d"
+        },
+        {
+          "body_anchor": "V90-B01852",
+          "paragraph_anchors": [
+            "V90-P04198"
+          ],
+          "text_sha256": "1ac97b5d77e46526492f09020bdf63e0a76c5cc96bbd1167bc3636ddf9a71ae4"
+        },
+        {
+          "body_anchor": "V90-B01853",
+          "paragraph_anchors": [
+            "V90-P04199"
+          ],
+          "text_sha256": "037f804e47da5e222ce67e0fd78ab6593cf669478230020ef52cb81717ef08f5"
+        },
+        {
+          "body_anchor": "V90-B01854",
+          "paragraph_anchors": [
+            "V90-P04200"
+          ],
+          "text_sha256": "20b3460cf359eaf9d1d894c28c59600a458e84ede99d4419511065ebb4422c51"
+        }
+      ],
+      "title": "D.18　货币、信用、金融与危机"
+    },
+    {
+      "candidate_ids": [
+        "V90-CANDIDATE-P04201",
+        "V90-CANDIDATE-P04206"
+      ],
+      "content_owner": "P11E",
+      "content_path": null,
+      "content_sha256": null,
+      "content_status": "identity_only",
+      "contract": "Domain-native methods, extra distinctions, input/output, exit and counterexample remain separately required; appendix does not add empirical axioms.",
+      "domain_id": "D.19",
+      "identity_id": "V90-DOMAIN-D19",
+      "index_and_consumer_owner": "sole_engineering_integrator",
+      "primary_candidate_id": "V90-CANDIDATE-P04201",
+      "read_trace_status": "not_yet_available",
+      "required_runtime_evidence": [
+        "loaded_content_hash",
+        "read_trace",
+        "authority_binding",
+        "reader_projection",
+        "modified_domain_bytes_invalidate_prior_binding"
+      ],
+      "source_anchors": [
+        "V90-P04201",
+        "V90-P04202",
+        "V90-P04203",
+        "V90-P04204",
+        "V90-P04205",
+        "V90-P04206",
+        "V90-P04207"
+      ],
+      "source_fingerprint_sha256": "5e70630d980247dd93bffb4fddc6d73d5818d03f8426eab8e98f6a4bf87da7fc",
+      "source_refs": [
+        {
+          "body_anchor": "V90-B01855",
+          "paragraph_anchors": [
+            "V90-P04201"
+          ],
+          "text_sha256": "1b62c9bdaf25e4918ecae6b4802b4a2b605dabee403519e3c982248a886eda99"
+        },
+        {
+          "body_anchor": "V90-B01856",
+          "paragraph_anchors": [
+            "V90-P04202"
+          ],
+          "text_sha256": "28375e403d2e75cdd2db3de9c019899acea48cc5af216ae6d2510392494b8c60"
+        },
+        {
+          "body_anchor": "V90-B01857",
+          "paragraph_anchors": [
+            "V90-P04203"
+          ],
+          "text_sha256": "f0e1c0714872ef8bcb20bf80532f830e2a37a367ef79394d3f8621e5747a3fcd"
+        },
+        {
+          "body_anchor": "V90-B01858",
+          "paragraph_anchors": [
+            "V90-P04204"
+          ],
+          "text_sha256": "293b6ca68c1fa7e72c33a98694ab16e60591ef558cbfb35e16f50a954270be28"
+        },
+        {
+          "body_anchor": "V90-B01859",
+          "paragraph_anchors": [
+            "V90-P04205"
+          ],
+          "text_sha256": "c75caa68aeff4670f208e059290c3b0753b4cd996d548f48b1fe57f5ad09c93d"
+        },
+        {
+          "body_anchor": "V90-B01860",
+          "paragraph_anchors": [
+            "V90-P04206"
+          ],
+          "text_sha256": "db0c1f9757417c0873673cafb1d5714e8ffddfeb248d9a6e91e32bec878018f7"
+        },
+        {
+          "body_anchor": "V90-B01861",
+          "paragraph_anchors": [
+            "V90-P04207"
+          ],
+          "text_sha256": "5416dc0c4bd77dc2339a1bd0c2ce9f353f9c106a35b7a6edc5b734fe83cc5979"
+        }
+      ],
+      "title": "D.19　政治思想、制度愿景与规范分歧"
+    },
+    {
+      "candidate_ids": [
+        "V90-CANDIDATE-P04208",
+        "V90-CANDIDATE-P04211",
+        "V90-CANDIDATE-P04212",
+        "V90-CANDIDATE-P04213"
+      ],
+      "content_owner": "P11E",
+      "content_path": null,
+      "content_sha256": null,
+      "content_status": "identity_only",
+      "contract": "Domain-native methods, extra distinctions, input/output, exit and counterexample remain separately required; appendix does not add empirical axioms.",
+      "domain_id": "D.20",
+      "identity_id": "V90-DOMAIN-D20",
+      "index_and_consumer_owner": "sole_engineering_integrator",
+      "primary_candidate_id": "V90-CANDIDATE-P04208",
+      "read_trace_status": "not_yet_available",
+      "required_runtime_evidence": [
+        "loaded_content_hash",
+        "read_trace",
+        "authority_binding",
+        "reader_projection",
+        "modified_domain_bytes_invalidate_prior_binding"
+      ],
+      "source_anchors": [
+        "V90-P04208",
+        "V90-P04209",
+        "V90-P04210",
+        "V90-P04211",
+        "V90-P04212",
+        "V90-P04213",
+        "V90-P04214"
+      ],
+      "source_fingerprint_sha256": "62786a9dc8d2ffcb3e589ce7d74afc817371ba1454972978fabe125764abcca8",
+      "source_refs": [
+        {
+          "body_anchor": "V90-B01862",
+          "paragraph_anchors": [
+            "V90-P04208"
+          ],
+          "text_sha256": "e113bb90369c116a4147b994a436a8409f49d292b154ea4dfc02c0e8d769702d"
+        },
+        {
+          "body_anchor": "V90-B01863",
+          "paragraph_anchors": [
+            "V90-P04209"
+          ],
+          "text_sha256": "bb44587953a935c07a2147c21ad0d411802dab0efcdf2ff0d8a47a631792c486"
+        },
+        {
+          "body_anchor": "V90-B01864",
+          "paragraph_anchors": [
+            "V90-P04210"
+          ],
+          "text_sha256": "c1f2a34f55ab7fdbc5b0a745abb755f190d62119402b0b0c89e5c09e59b66021"
+        },
+        {
+          "body_anchor": "V90-B01865",
+          "paragraph_anchors": [
+            "V90-P04211"
+          ],
+          "text_sha256": "d7b4f55ff197a925fc32642af37e0b9c60362b4b59de95daee983ff701f98058"
+        },
+        {
+          "body_anchor": "V90-B01866",
+          "paragraph_anchors": [
+            "V90-P04212"
+          ],
+          "text_sha256": "fd2f8afb37ac9f97d82d373079eabf93db6953a01899bc02a9237d1e8d9118f9"
+        },
+        {
+          "body_anchor": "V90-B01867",
+          "paragraph_anchors": [
+            "V90-P04213"
+          ],
+          "text_sha256": "cc1444fa913532768fcf90191639eff109e414def71a3f251d1717427c7fda43"
+        },
+        {
+          "body_anchor": "V90-B01868",
+          "paragraph_anchors": [
+            "V90-P04214"
+          ],
+          "text_sha256": "e125fcf21d0c8336af3c7071bb2cdb6899e92ed476752a95d0b296c1dfeb599d"
+        }
+      ],
+      "title": "D.20　国家能力、政策执行与治理"
+    },
+    {
+      "candidate_ids": [
+        "V90-CANDIDATE-P04215",
+        "V90-CANDIDATE-P04218",
+        "V90-CANDIDATE-P04219",
+        "V90-CANDIDATE-P04220"
+      ],
+      "content_owner": "P11F",
+      "content_path": null,
+      "content_sha256": null,
+      "content_status": "identity_only",
+      "contract": "Domain-native methods, extra distinctions, input/output, exit and counterexample remain separately required; appendix does not add empirical axioms.",
+      "domain_id": "D.21",
+      "identity_id": "V90-DOMAIN-D21",
+      "index_and_consumer_owner": "sole_engineering_integrator",
+      "primary_candidate_id": "V90-CANDIDATE-P04215",
+      "read_trace_status": "not_yet_available",
+      "required_runtime_evidence": [
+        "loaded_content_hash",
+        "read_trace",
+        "authority_binding",
+        "reader_projection",
+        "modified_domain_bytes_invalidate_prior_binding"
+      ],
+      "source_anchors": [
+        "V90-P04215",
+        "V90-P04216",
+        "V90-P04217",
+        "V90-P04218",
+        "V90-P04219",
+        "V90-P04220",
+        "V90-P04221"
+      ],
+      "source_fingerprint_sha256": "f1f03912012814445b313696bb4db0fe8c53464901cccf01e101a819342d69e0",
+      "source_refs": [
+        {
+          "body_anchor": "V90-B01869",
+          "paragraph_anchors": [
+            "V90-P04215"
+          ],
+          "text_sha256": "8bc50304e2fa13daa730ae2f8936c2f6634043a384c1d99250eae174751e4f4a"
+        },
+        {
+          "body_anchor": "V90-B01870",
+          "paragraph_anchors": [
+            "V90-P04216"
+          ],
+          "text_sha256": "8bb9a72d2d847ef6b183ba5270282817fef60132f691300caa267e7cd7d0fae6"
+        },
+        {
+          "body_anchor": "V90-B01871",
+          "paragraph_anchors": [
+            "V90-P04217"
+          ],
+          "text_sha256": "9666ee5f4faeb457abca62f3b964aada78520e9cf840a145aa1f251ef6f54232"
+        },
+        {
+          "body_anchor": "V90-B01872",
+          "paragraph_anchors": [
+            "V90-P04218"
+          ],
+          "text_sha256": "c2dd3481a80b9c0f2af80b5d9761bce2d75963cbd4ee881ccf77c566a323289a"
+        },
+        {
+          "body_anchor": "V90-B01873",
+          "paragraph_anchors": [
+            "V90-P04219"
+          ],
+          "text_sha256": "0fe7e5afa2fb78156febff0dcc86c991150a30ccd79696a89ebb8a127483b7d0"
+        },
+        {
+          "body_anchor": "V90-B01874",
+          "paragraph_anchors": [
+            "V90-P04220"
+          ],
+          "text_sha256": "4ae4becb8111ee2be5bdf7311296d87a624469b31e5a418438eeffcf6f88cb86"
+        },
+        {
+          "body_anchor": "V90-B01875",
+          "paragraph_anchors": [
+            "V90-P04221"
+          ],
+          "text_sha256": "c11cc90b43d829555345d0e620e5ca0f04ccbc75adf4740a271cc717072924e8"
+        }
+      ],
+      "title": "D.21　法律、授权、程序与责任"
+    },
+    {
+      "candidate_ids": [
+        "V90-CANDIDATE-P04222",
+        "V90-CANDIDATE-P04224",
+        "V90-CANDIDATE-P04225",
+        "V90-CANDIDATE-P04226",
+        "V90-CANDIDATE-P04227"
+      ],
+      "content_owner": "P11F",
+      "content_path": null,
+      "content_sha256": null,
+      "content_status": "identity_only",
+      "contract": "Domain-native methods, extra distinctions, input/output, exit and counterexample remain separately required; appendix does not add empirical axioms.",
+      "domain_id": "D.22",
+      "identity_id": "V90-DOMAIN-D22",
+      "index_and_consumer_owner": "sole_engineering_integrator",
+      "primary_candidate_id": "V90-CANDIDATE-P04222",
+      "read_trace_status": "not_yet_available",
+      "required_runtime_evidence": [
+        "loaded_content_hash",
+        "read_trace",
+        "authority_binding",
+        "reader_projection",
+        "modified_domain_bytes_invalidate_prior_binding"
+      ],
+      "source_anchors": [
+        "V90-P04222",
+        "V90-P04223",
+        "V90-P04224",
+        "V90-P04225",
+        "V90-P04226",
+        "V90-P04227",
+        "V90-P04228"
+      ],
+      "source_fingerprint_sha256": "2f0bcdf72f1f2da43746a064dc6f833b97b550dba799a1ad15426bdaae03f5b7",
+      "source_refs": [
+        {
+          "body_anchor": "V90-B01876",
+          "paragraph_anchors": [
+            "V90-P04222"
+          ],
+          "text_sha256": "9f58d7320e035c5577fca3ed7eeeaddad5d0330c800e073df614a462ab73ce64"
+        },
+        {
+          "body_anchor": "V90-B01877",
+          "paragraph_anchors": [
+            "V90-P04223"
+          ],
+          "text_sha256": "c61ddba60b5f74994362994c34f032d3b137d222fa63d52ff8cfec0585b6a463"
+        },
+        {
+          "body_anchor": "V90-B01878",
+          "paragraph_anchors": [
+            "V90-P04224"
+          ],
+          "text_sha256": "d55370ac32ef1a903f67ed765ad89c0b80867db48d557822c8e5e35c7167464f"
+        },
+        {
+          "body_anchor": "V90-B01879",
+          "paragraph_anchors": [
+            "V90-P04225"
+          ],
+          "text_sha256": "f7ca69a37d6f2b0d775518a77149513295c50d349398658d2ef5361b5681d3d4"
+        },
+        {
+          "body_anchor": "V90-B01880",
+          "paragraph_anchors": [
+            "V90-P04226"
+          ],
+          "text_sha256": "acc3ac9a908375b2993cccb1af52b8597ee1733bfe29304c287f24f061d28139"
+        },
+        {
+          "body_anchor": "V90-B01881",
+          "paragraph_anchors": [
+            "V90-P04227"
+          ],
+          "text_sha256": "6219a1a7f8bbd537a04962f5c42c2a03f865a74935161b96dbb8112e257030f6"
+        },
+        {
+          "body_anchor": "V90-B01882",
+          "paragraph_anchors": [
+            "V90-P04228"
+          ],
+          "text_sha256": "a575a3cbde0eea1c3ec6a47a8b7141d0252f576aa6ac33226bc98aeca4485708"
+        }
+      ],
+      "title": "D.22　阶级、身份、不平等与社会排斥"
+    },
+    {
+      "candidate_ids": [
+        "V90-CANDIDATE-P04229",
+        "V90-CANDIDATE-P04232",
+        "V90-CANDIDATE-P04233",
+        "V90-CANDIDATE-P04234"
+      ],
+      "content_owner": "P11F",
+      "content_path": null,
+      "content_sha256": null,
+      "content_status": "identity_only",
+      "contract": "Domain-native methods, extra distinctions, input/output, exit and counterexample remain separately required; appendix does not add empirical axioms.",
+      "domain_id": "D.23",
+      "identity_id": "V90-DOMAIN-D23",
+      "index_and_consumer_owner": "sole_engineering_integrator",
+      "primary_candidate_id": "V90-CANDIDATE-P04229",
+      "read_trace_status": "not_yet_available",
+      "required_runtime_evidence": [
+        "loaded_content_hash",
+        "read_trace",
+        "authority_binding",
+        "reader_projection",
+        "modified_domain_bytes_invalidate_prior_binding"
+      ],
+      "source_anchors": [
+        "V90-P04229",
+        "V90-P04230",
+        "V90-P04231",
+        "V90-P04232",
+        "V90-P04233",
+        "V90-P04234",
+        "V90-P04235"
+      ],
+      "source_fingerprint_sha256": "68f90b4fe6cf9e6f1b2d5e4549e67f754e2bfcc6a3b8e62c7b66a5d061867358",
+      "source_refs": [
+        {
+          "body_anchor": "V90-B01883",
+          "paragraph_anchors": [
+            "V90-P04229"
+          ],
+          "text_sha256": "2391b7fbbe1e70a685a7c5c044870288df8ca6d58c36d8af6ed56f82036b84a6"
+        },
+        {
+          "body_anchor": "V90-B01884",
+          "paragraph_anchors": [
+            "V90-P04230"
+          ],
+          "text_sha256": "1786a4dfb7a7bf321f90f9d0ed3d7958681ff3c559471e483a51a029fd776028"
+        },
+        {
+          "body_anchor": "V90-B01885",
+          "paragraph_anchors": [
+            "V90-P04231"
+          ],
+          "text_sha256": "a2b8e56fdafc5a0a91a9c8219c8ff1ec754c334713e1a32c52ebe953d155eca9"
+        },
+        {
+          "body_anchor": "V90-B01886",
+          "paragraph_anchors": [
+            "V90-P04232"
+          ],
+          "text_sha256": "b4f06f7e222afc273649b0644cc2a237e60f62d6ffd7cb2dadc0cc694915eaff"
+        },
+        {
+          "body_anchor": "V90-B01887",
+          "paragraph_anchors": [
+            "V90-P04233"
+          ],
+          "text_sha256": "c067489fd137d480e518876584f494d3b53010340124154bef626b2e534d216a"
+        },
+        {
+          "body_anchor": "V90-B01888",
+          "paragraph_anchors": [
+            "V90-P04234"
+          ],
+          "text_sha256": "36b426dc676415cbb74349040adabe952a5877fffb1bb4ed9f8706b58bb9dd87"
+        },
+        {
+          "body_anchor": "V90-B01889",
+          "paragraph_anchors": [
+            "V90-P04235"
+          ],
+          "text_sha256": "c0342388ecc6375e938ac077ed2827d66c85c3ec50be1196036b20ba04bcbe5c"
+        }
+      ],
+      "title": "D.23　家庭、性别、身体、依赖与照护"
+    },
+    {
+      "candidate_ids": [
+        "V90-CANDIDATE-P04236",
+        "V90-CANDIDATE-P04238",
+        "V90-CANDIDATE-P04239",
+        "V90-CANDIDATE-P04240"
+      ],
+      "content_owner": "P11F",
+      "content_path": null,
+      "content_sha256": null,
+      "content_status": "identity_only",
+      "contract": "Domain-native methods, extra distinctions, input/output, exit and counterexample remain separately required; appendix does not add empirical axioms.",
+      "domain_id": "D.24",
+      "identity_id": "V90-DOMAIN-D24",
+      "index_and_consumer_owner": "sole_engineering_integrator",
+      "primary_candidate_id": "V90-CANDIDATE-P04236",
+      "read_trace_status": "not_yet_available",
+      "required_runtime_evidence": [
+        "loaded_content_hash",
+        "read_trace",
+        "authority_binding",
+        "reader_projection",
+        "modified_domain_bytes_invalidate_prior_binding"
+      ],
+      "source_anchors": [
+        "V90-P04236",
+        "V90-P04237",
+        "V90-P04238",
+        "V90-P04239",
+        "V90-P04240",
+        "V90-P04241",
+        "V90-P04242"
+      ],
+      "source_fingerprint_sha256": "998d868a83701877ed1ea888910ccc671face3f669c7dc07aaa6e874a9ea9f38",
+      "source_refs": [
+        {
+          "body_anchor": "V90-B01890",
+          "paragraph_anchors": [
+            "V90-P04236"
+          ],
+          "text_sha256": "64f5e298482d7426846bfea3bb99dcb587abcc1dd24ca576ea74397d534fe371"
+        },
+        {
+          "body_anchor": "V90-B01891",
+          "paragraph_anchors": [
+            "V90-P04237"
+          ],
+          "text_sha256": "115b5a71675a71938c902b6aa4d7c2ce469c80166b5b314ac52d3994ad8603ff"
+        },
+        {
+          "body_anchor": "V90-B01892",
+          "paragraph_anchors": [
+            "V90-P04238"
+          ],
+          "text_sha256": "054f792f24e253fd73805155f5892352fd97732e8417cf4866b16a0d5ed942b9"
+        },
+        {
+          "body_anchor": "V90-B01893",
+          "paragraph_anchors": [
+            "V90-P04239"
+          ],
+          "text_sha256": "7b14d1518a4d121e53f3d99fb4568063a3a2d13317cd68d155d8569febc6b831"
+        },
+        {
+          "body_anchor": "V90-B01894",
+          "paragraph_anchors": [
+            "V90-P04240"
+          ],
+          "text_sha256": "ecdab18c7593ddf880d2511ff76f26797e64efb41befb7fcd3f1795c9b62fcfe"
+        },
+        {
+          "body_anchor": "V90-B01895",
+          "paragraph_anchors": [
+            "V90-P04241"
+          ],
+          "text_sha256": "5396678603601be675f702d371896730b79ecadb08245c0ee66aea78bc17d715"
+        },
+        {
+          "body_anchor": "V90-B01896",
+          "paragraph_anchors": [
+            "V90-P04242"
+          ],
+          "text_sha256": "1e6d82c310be44a739d449c4b69609f3fef3a31be9d79e9053ac909d4fc16dfb"
+        }
+      ],
+      "title": "D.24　人口、代际、生命历程与跨地生活"
+    },
+    {
+      "candidate_ids": [
+        "V90-CANDIDATE-P04243",
+        "V90-CANDIDATE-P04245",
+        "V90-CANDIDATE-P04246",
+        "V90-CANDIDATE-P04247",
+        "V90-CANDIDATE-P04248"
+      ],
+      "content_owner": "P11G",
+      "content_path": null,
+      "content_sha256": null,
+      "content_status": "identity_only",
+      "contract": "Domain-native methods, extra distinctions, input/output, exit and counterexample remain separately required; appendix does not add empirical axioms.",
+      "domain_id": "D.25",
+      "identity_id": "V90-DOMAIN-D25",
+      "index_and_consumer_owner": "sole_engineering_integrator",
+      "primary_candidate_id": "V90-CANDIDATE-P04243",
+      "read_trace_status": "not_yet_available",
+      "required_runtime_evidence": [
+        "loaded_content_hash",
+        "read_trace",
+        "authority_binding",
+        "reader_projection",
+        "modified_domain_bytes_invalidate_prior_binding"
+      ],
+      "source_anchors": [
+        "V90-P04243",
+        "V90-P04244",
+        "V90-P04245",
+        "V90-P04246",
+        "V90-P04247",
+        "V90-P04248",
+        "V90-P04249"
+      ],
+      "source_fingerprint_sha256": "97f7ee1394a616f1eafb637356e3f84ef4908a90c63ad04d61f010f9e81180c9",
+      "source_refs": [
+        {
+          "body_anchor": "V90-B01897",
+          "paragraph_anchors": [
+            "V90-P04243"
+          ],
+          "text_sha256": "bcebc4f261cede4dced7951781229af9017ff4ffade4c4b458ab9b9e5149e900"
+        },
+        {
+          "body_anchor": "V90-B01898",
+          "paragraph_anchors": [
+            "V90-P04244"
+          ],
+          "text_sha256": "9f4e19cd545a69c72e5e1ca26d7d0d16a46a8280d35d14f34227b5f248fab624"
+        },
+        {
+          "body_anchor": "V90-B01899",
+          "paragraph_anchors": [
+            "V90-P04245"
+          ],
+          "text_sha256": "c847020507b186fbe3aca1f9c92b79725ccf239c08b4ab918829fd3b67f7a5b3"
+        },
+        {
+          "body_anchor": "V90-B01900",
+          "paragraph_anchors": [
+            "V90-P04246"
+          ],
+          "text_sha256": "012e639b90330e2f48296ac4e038a263fe4d40da5fcb158dad3c84e96570427e"
+        },
+        {
+          "body_anchor": "V90-B01901",
+          "paragraph_anchors": [
+            "V90-P04247"
+          ],
+          "text_sha256": "a9b4572ebc6f0b57efeaf799db6201090c0d84559375c6a5e5e3e23556ec8a15"
+        },
+        {
+          "body_anchor": "V90-B01902",
+          "paragraph_anchors": [
+            "V90-P04248"
+          ],
+          "text_sha256": "98f82cc4bb0a02ae9b50ec7520bf4c8239de81c76adce8d675d75535294e1a3d"
+        },
+        {
+          "body_anchor": "V90-B01903",
+          "paragraph_anchors": [
+            "V90-P04249"
+          ],
+          "text_sha256": "9d4fda064d361e2e3af651877176f5ba57603504bde7e5ef51d57b88294ae62c"
+        }
+      ],
+      "title": "D.25　教育、知识生产、专业与终身学习"
+    },
+    {
+      "candidate_ids": [
+        "V90-CANDIDATE-P04250",
+        "V90-CANDIDATE-P04252",
+        "V90-CANDIDATE-P04253",
+        "V90-CANDIDATE-P04254",
+        "V90-CANDIDATE-P04255"
+      ],
+      "content_owner": "P11G",
+      "content_path": null,
+      "content_sha256": null,
+      "content_status": "identity_only",
+      "contract": "Domain-native methods, extra distinctions, input/output, exit and counterexample remain separately required; appendix does not add empirical axioms.",
+      "domain_id": "D.26",
+      "identity_id": "V90-DOMAIN-D26",
+      "index_and_consumer_owner": "sole_engineering_integrator",
+      "primary_candidate_id": "V90-CANDIDATE-P04250",
+      "read_trace_status": "not_yet_available",
+      "required_runtime_evidence": [
+        "loaded_content_hash",
+        "read_trace",
+        "authority_binding",
+        "reader_projection",
+        "modified_domain_bytes_invalidate_prior_binding"
+      ],
+      "source_anchors": [
+        "V90-P04250",
+        "V90-P04251",
+        "V90-P04252",
+        "V90-P04253",
+        "V90-P04254",
+        "V90-P04255",
+        "V90-P04256"
+      ],
+      "source_fingerprint_sha256": "e5bd4881aef41c2a15bdc5a919bca39c11b6fc62486afa54c9cf48946be2193c",
+      "source_refs": [
+        {
+          "body_anchor": "V90-B01904",
+          "paragraph_anchors": [
+            "V90-P04250"
+          ],
+          "text_sha256": "a17b169bc278341e6d7d72421ef6c5a4b27180926bb9895c53809f0614c7ff9f"
+        },
+        {
+          "body_anchor": "V90-B01905",
+          "paragraph_anchors": [
+            "V90-P04251"
+          ],
+          "text_sha256": "3d99288723c8a564d2a7f9caa73b122f867f4848e2783fa475adb92166bcdb59"
+        },
+        {
+          "body_anchor": "V90-B01906",
+          "paragraph_anchors": [
+            "V90-P04252"
+          ],
+          "text_sha256": "55940733b100baebfab52b5613f66ca096d888218ce36c7878269495987f6c2c"
+        },
+        {
+          "body_anchor": "V90-B01907",
+          "paragraph_anchors": [
+            "V90-P04253"
+          ],
+          "text_sha256": "f28c8296d6542e2dde563fbd06d5cccc74df8d58934bddacc87c51236c311cf8"
+        },
+        {
+          "body_anchor": "V90-B01908",
+          "paragraph_anchors": [
+            "V90-P04254"
+          ],
+          "text_sha256": "642e8c7be2e9c285c214dccb88b447ee8dc0b1c1eef8d527c08ac2174be8302e"
+        },
+        {
+          "body_anchor": "V90-B01909",
+          "paragraph_anchors": [
+            "V90-P04255"
+          ],
+          "text_sha256": "c3a550ce970418331f14c59d20b6d4651ac3e705e610ea99426fe76ecd9ebd93"
+        },
+        {
+          "body_anchor": "V90-B01910",
+          "paragraph_anchors": [
+            "V90-P04256"
+          ],
+          "text_sha256": "c7b66b0ad0025dbf7bb4894cbb568dd8c1b499cd8ed5b813065d71a940e7c5f7"
+        }
+      ],
+      "title": "D.26　网络、媒体、语言、叙事与认同"
+    },
+    {
+      "candidate_ids": [
+        "V90-CANDIDATE-P04257",
+        "V90-CANDIDATE-P04262"
+      ],
+      "content_owner": "P11G",
+      "content_path": null,
+      "content_sha256": null,
+      "content_status": "identity_only",
+      "contract": "Domain-native methods, extra distinctions, input/output, exit and counterexample remain separately required; appendix does not add empirical axioms.",
+      "domain_id": "D.27",
+      "identity_id": "V90-DOMAIN-D27",
+      "index_and_consumer_owner": "sole_engineering_integrator",
+      "primary_candidate_id": "V90-CANDIDATE-P04257",
+      "read_trace_status": "not_yet_available",
+      "required_runtime_evidence": [
+        "loaded_content_hash",
+        "read_trace",
+        "authority_binding",
+        "reader_projection",
+        "modified_domain_bytes_invalidate_prior_binding"
+      ],
+      "source_anchors": [
+        "V90-P04257",
+        "V90-P04258",
+        "V90-P04259",
+        "V90-P04260",
+        "V90-P04261",
+        "V90-P04262",
+        "V90-P04263"
+      ],
+      "source_fingerprint_sha256": "c7e16269223243c19908644bd3dfcbd93376a05664fe16770e53a1137833446e",
+      "source_refs": [
+        {
+          "body_anchor": "V90-B01911",
+          "paragraph_anchors": [
+            "V90-P04257"
+          ],
+          "text_sha256": "0f3cda4a6e9ebbc56889d866af1198a61127ca2ca33f47e769e9a28f721d0441"
+        },
+        {
+          "body_anchor": "V90-B01912",
+          "paragraph_anchors": [
+            "V90-P04258"
+          ],
+          "text_sha256": "44021cd0d3f1d51971c314d247611b285b05d33d1f297ed0fb67585c7f4ce6d6"
+        },
+        {
+          "body_anchor": "V90-B01913",
+          "paragraph_anchors": [
+            "V90-P04259"
+          ],
+          "text_sha256": "e59d8443be66b6ae0fd7bb2dfa8e9b8fca6226379d96a4c578ace08401bbe844"
+        },
+        {
+          "body_anchor": "V90-B01914",
+          "paragraph_anchors": [
+            "V90-P04260"
+          ],
+          "text_sha256": "a43c4640c85060f93078a119e270197f6eb1770cd8ed2dcd820b6fc403c78288"
+        },
+        {
+          "body_anchor": "V90-B01915",
+          "paragraph_anchors": [
+            "V90-P04261"
+          ],
+          "text_sha256": "60bcb777d29f06c08c36e81c94524e72fa790a4e8d40b52984501748822b5ae9"
+        },
+        {
+          "body_anchor": "V90-B01916",
+          "paragraph_anchors": [
+            "V90-P04262"
+          ],
+          "text_sha256": "daa7b46f5eb5f5b3b57e1ef341381185eca0e84715efa378f462eabc7739e49a"
+        },
+        {
+          "body_anchor": "V90-B01917",
+          "paragraph_anchors": [
+            "V90-P04263"
+          ],
+          "text_sha256": "093942f92edd51736c0c3b7d6e0ab2a3777ad10d64e0546d6c5005806e871b1b"
+        }
+      ],
+      "title": "D.27　审美、艺术、文学、游戏与日常文化"
+    },
+    {
+      "candidate_ids": [
+        "V90-CANDIDATE-P04264",
+        "V90-CANDIDATE-P04266",
+        "V90-CANDIDATE-P04267",
+        "V90-CANDIDATE-P04268",
+        "V90-CANDIDATE-P04269"
+      ],
+      "content_owner": "P11G",
+      "content_path": null,
+      "content_sha256": null,
+      "content_status": "identity_only",
+      "contract": "Domain-native methods, extra distinctions, input/output, exit and counterexample remain separately required; appendix does not add empirical axioms.",
+      "domain_id": "D.28",
+      "identity_id": "V90-DOMAIN-D28",
+      "index_and_consumer_owner": "sole_engineering_integrator",
+      "primary_candidate_id": "V90-CANDIDATE-P04264",
+      "read_trace_status": "not_yet_available",
+      "required_runtime_evidence": [
+        "loaded_content_hash",
+        "read_trace",
+        "authority_binding",
+        "reader_projection",
+        "modified_domain_bytes_invalidate_prior_binding"
+      ],
+      "source_anchors": [
+        "V90-P04264",
+        "V90-P04265",
+        "V90-P04266",
+        "V90-P04267",
+        "V90-P04268",
+        "V90-P04269",
+        "V90-P04270"
+      ],
+      "source_fingerprint_sha256": "2aca00e134b8a2167d9872346c252b8153eac5678436735b56d5be8c55888052",
+      "source_refs": [
+        {
+          "body_anchor": "V90-B01918",
+          "paragraph_anchors": [
+            "V90-P04264"
+          ],
+          "text_sha256": "e7f7c902dce4301ec1b39467a8e1eef2736cb5c0912b89119821ed3d69a9a7bb"
+        },
+        {
+          "body_anchor": "V90-B01919",
+          "paragraph_anchors": [
+            "V90-P04265"
+          ],
+          "text_sha256": "d913a70604fddae8723a9faef5f4fe44e5df972142e199a9dfebf1e51884be0b"
+        },
+        {
+          "body_anchor": "V90-B01920",
+          "paragraph_anchors": [
+            "V90-P04266"
+          ],
+          "text_sha256": "e2a8f2f136b965157f992b1b481d663fae15892b6a3a61c1029593869a49ef16"
+        },
+        {
+          "body_anchor": "V90-B01921",
+          "paragraph_anchors": [
+            "V90-P04267"
+          ],
+          "text_sha256": "5e777d55ab7f59b577050fdd7fd6555799439f933141912e3a575d2a90d2cbe3"
+        },
+        {
+          "body_anchor": "V90-B01922",
+          "paragraph_anchors": [
+            "V90-P04268"
+          ],
+          "text_sha256": "8f05729c3fc278eb84d6297d627fc48899d520f8097413e3a9f70a9dfeba3bb8"
+        },
+        {
+          "body_anchor": "V90-B01923",
+          "paragraph_anchors": [
+            "V90-P04269"
+          ],
+          "text_sha256": "5a305dfaf5297de55bee25b72dda7d1842fb1d979e37bcf0a4985d4eb6af7ce7"
+        },
+        {
+          "body_anchor": "V90-B01924",
+          "paragraph_anchors": [
+            "V90-P04270"
+          ],
+          "text_sha256": "4df64c9ef948fa816b34436819a204d1b3636904bed666ec20fc3fbfc31f1e07"
+        }
+      ],
+      "title": "D.28　技术、基础设施、平台与人工智能"
+    },
+    {
+      "candidate_ids": [
+        "V90-CANDIDATE-P04271",
+        "V90-CANDIDATE-P04273",
+        "V90-CANDIDATE-P04275",
+        "V90-CANDIDATE-P04276"
+      ],
+      "content_owner": "P11H",
+      "content_path": null,
+      "content_sha256": null,
+      "content_status": "identity_only",
+      "contract": "Domain-native methods, extra distinctions, input/output, exit and counterexample remain separately required; appendix does not add empirical axioms.",
+      "domain_id": "D.29",
+      "identity_id": "V90-DOMAIN-D29",
+      "index_and_consumer_owner": "sole_engineering_integrator",
+      "primary_candidate_id": "V90-CANDIDATE-P04271",
+      "read_trace_status": "not_yet_available",
+      "required_runtime_evidence": [
+        "loaded_content_hash",
+        "read_trace",
+        "authority_binding",
+        "reader_projection",
+        "modified_domain_bytes_invalidate_prior_binding"
+      ],
+      "source_anchors": [
+        "V90-P04271",
+        "V90-P04272",
+        "V90-P04273",
+        "V90-P04274",
+        "V90-P04275",
+        "V90-P04276",
+        "V90-P04277"
+      ],
+      "source_fingerprint_sha256": "ec9d903e9223bbb730e8a4bfca392a9cb4b1dcbe9a0a2d37bb6ead7bd99c3f5d",
+      "source_refs": [
+        {
+          "body_anchor": "V90-B01925",
+          "paragraph_anchors": [
+            "V90-P04271"
+          ],
+          "text_sha256": "0602a7baf1349928f76bccbbe4d346d4ffadba71425bd7136a4c5f301184b04d"
+        },
+        {
+          "body_anchor": "V90-B01926",
+          "paragraph_anchors": [
+            "V90-P04272"
+          ],
+          "text_sha256": "2df1fcfc1895a1fe39ff950b4aaafb43e630e75530a3749b79879530a216645d"
+        },
+        {
+          "body_anchor": "V90-B01927",
+          "paragraph_anchors": [
+            "V90-P04273"
+          ],
+          "text_sha256": "81819fcd3b22fdcb4251d5b806831a8df79061a2b3879354492c22edf6dfe918"
+        },
+        {
+          "body_anchor": "V90-B01928",
+          "paragraph_anchors": [
+            "V90-P04274"
+          ],
+          "text_sha256": "1d744f7ac131cb2d932bf9e4bb0878836450a960cff50c6bd71705d9f99a1fbc"
+        },
+        {
+          "body_anchor": "V90-B01929",
+          "paragraph_anchors": [
+            "V90-P04275"
+          ],
+          "text_sha256": "5c8fecad7bc691783d2476f4a2319255da10ad93db92385d79b91f3c3fc77a25"
+        },
+        {
+          "body_anchor": "V90-B01930",
+          "paragraph_anchors": [
+            "V90-P04276"
+          ],
+          "text_sha256": "4e007028eea484cceba3a3caf082967a3bdc1bcc22516d9067124a19519d6253"
+        },
+        {
+          "body_anchor": "V90-B01931",
+          "paragraph_anchors": [
+            "V90-P04277"
+          ],
+          "text_sha256": "b908f1d2707a486613fabe5fb2a330a0910aecb74487a29c275deec57f71d73f"
+        }
+      ],
+      "title": "D.29　城市、空间、住房、乡村与公共可达"
+    },
+    {
+      "candidate_ids": [
+        "V90-CANDIDATE-P04278",
+        "V90-CANDIDATE-P04280",
+        "V90-CANDIDATE-P04281",
+        "V90-CANDIDATE-P04282",
+        "V90-CANDIDATE-P04283"
+      ],
+      "content_owner": "P11H",
+      "content_path": null,
+      "content_sha256": null,
+      "content_status": "identity_only",
+      "contract": "Domain-native methods, extra distinctions, input/output, exit and counterexample remain separately required; appendix does not add empirical axioms.",
+      "domain_id": "D.30",
+      "identity_id": "V90-DOMAIN-D30",
+      "index_and_consumer_owner": "sole_engineering_integrator",
+      "primary_candidate_id": "V90-CANDIDATE-P04278",
+      "read_trace_status": "not_yet_available",
+      "required_runtime_evidence": [
+        "loaded_content_hash",
+        "read_trace",
+        "authority_binding",
+        "reader_projection",
+        "modified_domain_bytes_invalidate_prior_binding"
+      ],
+      "source_anchors": [
+        "V90-P04278",
+        "V90-P04279",
+        "V90-P04280",
+        "V90-P04281",
+        "V90-P04282",
+        "V90-P04283",
+        "V90-P04284"
+      ],
+      "source_fingerprint_sha256": "ef533c2363f9b0fa9d093e470dfac2148121aa8937410f2420f04e04cfb54af2",
+      "source_refs": [
+        {
+          "body_anchor": "V90-B01932",
+          "paragraph_anchors": [
+            "V90-P04278"
+          ],
+          "text_sha256": "19fe46b5f2d6728cfebef2663da7a13f4e7e11a6b887284dcbbe655243a8144a"
+        },
+        {
+          "body_anchor": "V90-B01933",
+          "paragraph_anchors": [
+            "V90-P04279"
+          ],
+          "text_sha256": "3e5fc481063c20fd653a97be5aaf502564f5ce91ef4a29f4e332816ad5756d48"
+        },
+        {
+          "body_anchor": "V90-B01934",
+          "paragraph_anchors": [
+            "V90-P04280"
+          ],
+          "text_sha256": "e4e0d4a4c98ba7ee06ca116859dd1743fecc1fac0c564ebcf1230b99c1916ba0"
+        },
+        {
+          "body_anchor": "V90-B01935",
+          "paragraph_anchors": [
+            "V90-P04281"
+          ],
+          "text_sha256": "324ba6316ef55b6249755c61ba86ef63783cf4ef9d1581144945cb23ace3dfcb"
+        },
+        {
+          "body_anchor": "V90-B01936",
+          "paragraph_anchors": [
+            "V90-P04282"
+          ],
+          "text_sha256": "a2d6fe4266a9d9aa21b0eeb0b5233fb37fd747caa0e9155841ed4979598d69e5"
+        },
+        {
+          "body_anchor": "V90-B01937",
+          "paragraph_anchors": [
+            "V90-P04283"
+          ],
+          "text_sha256": "f0a960d41a251f900aba7cd6e57a10cd1d8cfe332268459f28345f9f488904ff"
+        },
+        {
+          "body_anchor": "V90-B01938",
+          "paragraph_anchors": [
+            "V90-P04284"
+          ],
+          "text_sha256": "09cc09d576b36582242b6e5bdb9c7cca437753822851060ea2e346b6bba1ae22"
+        }
+      ],
+      "title": "D.30　生态、资源、公地与可持续生活"
+    },
+    {
+      "candidate_ids": [
+        "V90-CANDIDATE-P04285",
+        "V90-CANDIDATE-P04287",
+        "V90-CANDIDATE-P04288",
+        "V90-CANDIDATE-P04289",
+        "V90-CANDIDATE-P04290"
+      ],
+      "content_owner": "P11H",
+      "content_path": null,
+      "content_sha256": null,
+      "content_status": "identity_only",
+      "contract": "Domain-native methods, extra distinctions, input/output, exit and counterexample remain separately required; appendix does not add empirical axioms.",
+      "domain_id": "D.31",
+      "identity_id": "V90-DOMAIN-D31",
+      "index_and_consumer_owner": "sole_engineering_integrator",
+      "primary_candidate_id": "V90-CANDIDATE-P04285",
+      "read_trace_status": "not_yet_available",
+      "required_runtime_evidence": [
+        "loaded_content_hash",
+        "read_trace",
+        "authority_binding",
+        "reader_projection",
+        "modified_domain_bytes_invalidate_prior_binding"
+      ],
+      "source_anchors": [
+        "V90-P04285",
+        "V90-P04286",
+        "V90-P04287",
+        "V90-P04288",
+        "V90-P04289",
+        "V90-P04290",
+        "V90-P04291"
+      ],
+      "source_fingerprint_sha256": "867dd938d5adb3bb1397b6351ffb63235f510747f6e268405e595b7867dd3a3e",
+      "source_refs": [
+        {
+          "body_anchor": "V90-B01939",
+          "paragraph_anchors": [
+            "V90-P04285"
+          ],
+          "text_sha256": "af82b024f05f6250a8229d2e64b47de44c71e3fc6a57d29ddb2c428b35d86591"
+        },
+        {
+          "body_anchor": "V90-B01940",
+          "paragraph_anchors": [
+            "V90-P04286"
+          ],
+          "text_sha256": "9a6f2086a4682b2cd087c0049953938bc1fcc939da899aa66821dd4166d6c5ce"
+        },
+        {
+          "body_anchor": "V90-B01941",
+          "paragraph_anchors": [
+            "V90-P04287"
+          ],
+          "text_sha256": "0df5784b526340758caacfd0eab9751017963e77ffece3aaff9f1140e8385c55"
+        },
+        {
+          "body_anchor": "V90-B01942",
+          "paragraph_anchors": [
+            "V90-P04288"
+          ],
+          "text_sha256": "80ce5c85c42c482e86b56de103d4f426a6e6061a97ebc48aa6b0b181f4960b3e"
+        },
+        {
+          "body_anchor": "V90-B01943",
+          "paragraph_anchors": [
+            "V90-P04289"
+          ],
+          "text_sha256": "b38edd67ca6cc9dd6fb50c457bfec19731e707d9ffb99cf8385f41b776a0e032"
+        },
+        {
+          "body_anchor": "V90-B01944",
+          "paragraph_anchors": [
+            "V90-P04290"
+          ],
+          "text_sha256": "0dc0ad7625b4392ef60263c1909face672f3849580c4ace56277ebc2db1e9c65"
+        },
+        {
+          "body_anchor": "V90-B01945",
+          "paragraph_anchors": [
+            "V90-P04291"
+          ],
+          "text_sha256": "6c53eef9cb36ca20d0addeab7e6274ac31b6a68cdd93b5a46a21d75839888138"
+        }
+      ],
+      "title": "D.31　风险、灾害、公共卫生、指挥与恢复"
+    },
+    {
+      "candidate_ids": [
+        "V90-CANDIDATE-P04292",
+        "V90-CANDIDATE-P04295",
+        "V90-CANDIDATE-P04296",
+        "V90-CANDIDATE-P04297"
+      ],
+      "content_owner": "P11H",
+      "content_path": null,
+      "content_sha256": null,
+      "content_status": "identity_only",
+      "contract": "Domain-native methods, extra distinctions, input/output, exit and counterexample remain separately required; appendix does not add empirical axioms.",
+      "domain_id": "D.32",
+      "identity_id": "V90-DOMAIN-D32",
+      "index_and_consumer_owner": "sole_engineering_integrator",
+      "primary_candidate_id": "V90-CANDIDATE-P04292",
+      "read_trace_status": "not_yet_available",
+      "required_runtime_evidence": [
+        "loaded_content_hash",
+        "read_trace",
+        "authority_binding",
+        "reader_projection",
+        "modified_domain_bytes_invalidate_prior_binding"
+      ],
+      "source_anchors": [
+        "V90-P04292",
+        "V90-P04293",
+        "V90-P04294",
+        "V90-P04295",
+        "V90-P04296",
+        "V90-P04297",
+        "V90-P04298"
+      ],
+      "source_fingerprint_sha256": "12335543eee7b3d95741bda6d7cf8a39ee4108b3994c1f30be5f7f931917a158",
+      "source_refs": [
+        {
+          "body_anchor": "V90-B01946",
+          "paragraph_anchors": [
+            "V90-P04292"
+          ],
+          "text_sha256": "3d704f3e30b6523cb5fa5ae00d53250f5a94cf5a5303d38c2378c548d5f2ad1d"
+        },
+        {
+          "body_anchor": "V90-B01947",
+          "paragraph_anchors": [
+            "V90-P04293"
+          ],
+          "text_sha256": "57de707b4124704fe4f993848c26c0a954b3f124a8670ce0d7f37f6276596794"
+        },
+        {
+          "body_anchor": "V90-B01948",
+          "paragraph_anchors": [
+            "V90-P04294"
+          ],
+          "text_sha256": "b5a33917b94f05f92604fc4d7917d2eebe693a4a14a2a3c2de7a75c7f56fa278"
+        },
+        {
+          "body_anchor": "V90-B01949",
+          "paragraph_anchors": [
+            "V90-P04295"
+          ],
+          "text_sha256": "d5240948551187dc1d3a4fdcda0c04c2a7c78e42543043abc29eefd6c8aa6e00"
+        },
+        {
+          "body_anchor": "V90-B01950",
+          "paragraph_anchors": [
+            "V90-P04296"
+          ],
+          "text_sha256": "f0e4c94762ed7763ff4db29f7bff9cdfdb83535c10341d0202d7bfbc37443db7"
+        },
+        {
+          "body_anchor": "V90-B01951",
+          "paragraph_anchors": [
+            "V90-P04297"
+          ],
+          "text_sha256": "b1d4866d26b1cebad740b4f6772a1c58a4382b20605d5b3d7b3dfd4ed7cc746a"
+        },
+        {
+          "body_anchor": "V90-B01952",
+          "paragraph_anchors": [
+            "V90-P04298"
+          ],
+          "text_sha256": "c7b017e1d76d76d57b75ef7995a0f3e6f9308c09671a8b7e0754b214741ccbba"
+        }
+      ],
+      "title": "D.32　战争、革命、帝国、发展与历史路径"
+    }
+  ],
+  "entry_count": 32,
+  "entry_count_semantics": "source-defined domain entry identities; P11 content and P12 consumption remain separate",
+  "framework_version": "v9.0",
+  "schema_id": "xi-kari.v9.0.domain-index",
+  "schema_version": 1,
+  "source_raw_sha256": "ffc45afdc288ecd268fd02e46d47318b7ddf17bf7b47605aa6c413c95398544b"
+}

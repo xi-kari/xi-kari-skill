@@ -1,0 +1,102 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://xi-kari.local/schemas/dependency-graph-v90.schema.json",
+  "title": "Xi-Kari v9.0 typed dependency graph",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "schema_version",
+    "framework_version",
+    "source_raw_sha256",
+    "role_contract",
+    "external_nodes",
+    "edges",
+    "hard_inference_edges"
+  ],
+  "properties": {
+    "schema_id": {"const": "xi-kari.v9.0.dependency-graph"},
+    "schema_version": {"const": 1},
+    "framework_version": {"const": "v9.0"},
+    "source_raw_sha256": {
+      "const": "ffc45afdc288ecd268fd02e46d47318b7ddf17bf7b47605aa6c413c95398544b"
+    },
+    "role_contract": {
+      "type": "object",
+      "required": [
+        "inferential_requires",
+        "protocol_requires",
+        "specializes",
+        "applies_to",
+        "input_dependencies"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "inferential_requires": {"type": "string", "minLength": 1},
+        "protocol_requires": {"type": "string", "minLength": 1},
+        "specializes": {"type": "string", "minLength": 1},
+        "applies_to": {"type": "string", "minLength": 1},
+        "input_dependencies": {"type": "string", "minLength": 1}
+      }
+    },
+    "external_nodes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["node_id", "source_label", "node_kind"],
+        "properties": {
+          "node_id": {"type": "string", "pattern": "^V90-EXTERNAL-GATE-[A-Z0-9-]+$"},
+          "source_label": {"type": "string", "minLength": 1},
+          "node_kind": {"const": "external_gate"}
+        }
+      }
+    },
+    "edges": {"type": "array", "items": {"$ref": "#/$defs/edge"}},
+    "hard_inference_edges": {"type": "array", "items": {"$ref": "#/$defs/edge"}}
+  },
+  "$defs": {
+    "edge": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "from_id",
+        "to_id",
+        "target_source_concept_id",
+        "role",
+        "condition",
+        "scope",
+        "basis"
+      ],
+      "properties": {
+        "from_id": {"type": "string", "pattern": "^V90-CANON-[A-Z0-9-]+$"},
+        "to_id": {"type": "string", "pattern": "^V90-(?:CANON|EXTERNAL-GATE)-[A-Z0-9-]+$"},
+        "target_source_concept_id": {"type": "string", "minLength": 1},
+        "role": {
+          "enum": [
+            "inferential_requires",
+            "protocol_requires",
+            "specializes",
+            "applies_to",
+            "input_dependencies"
+          ]
+        },
+        "condition": {"type": "string", "minLength": 1},
+        "scope": {"type": ["string", "null"]},
+        "basis": {"type": "string", "minLength": 1},
+        "source_candidate_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "pattern": "^V90-CANDIDATE-"}
+        },
+        "source_anchors": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "pattern": "^V90-(?:P\\d{5}|T\\d{3}(?:-R\\d{3})?)$"}
+        }
+      }
+    }
+  }
+}

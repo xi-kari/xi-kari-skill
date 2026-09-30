@@ -280,7 +280,7 @@ def _markdown_section(text: str, heading: str) -> str | None:
     return text.split(marker, 1)[1].split("\n## ", 1)[0].strip()
 
 
-def check(root: Path) -> list[str]:
+def _check_v83(root: Path) -> list[str]:
     errors: list[str] = []
     ontology = root / "references" / "ontology"
     inventory_paths = sorted((ontology / "inventory").glob("*.jsonl"))
@@ -533,12 +533,23 @@ def check(root: Path) -> list[str]:
     return list(dict.fromkeys(errors))
 
 
+def check(root: Path, *, source_version: str = "v8.3") -> list[str]:
+    if source_version == "v8.3":
+        return _check_v83(root)
+    if source_version == "v9.0":
+        from ontology_check_v90 import check as check_v90
+
+        return check_v90(root)
+    return [f"unsupported ontology source version: {source_version}"]
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--root", type=Path, default=Path.cwd())
     parser.add_argument("--all", action="store_true")
+    parser.add_argument("--source-version", default="v8.3")
     args = parser.parse_args()
-    errors = check(args.root.resolve())
+    errors = check(args.root.resolve(), source_version=args.source_version)
     if errors:
         for error in errors:
             print(f"ERROR: {error}", file=sys.stderr)

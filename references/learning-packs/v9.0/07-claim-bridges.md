@@ -1,0 +1,140 @@
+# 条件桥接与裁决边界
+
+本学习包从 v9.0 身份卡与类型化依赖图生成；它组织阅读，不替代原文或候选处置。
+
+## 必读身份
+
+- `C1` → `V90-CANON-C1`；卡片：`references/ontology/v9.0/cards/c1.md`
+- `C2` → `V90-CANON-C2`；卡片：`references/ontology/v9.0/cards/c2.md`
+- `C3` → `V90-CANON-C3`；卡片：`references/ontology/v9.0/cards/c3.md`
+- `C4` → `V90-CANON-C4`；卡片：`references/ontology/v9.0/cards/c4.md`
+- `C5` → `V90-CANON-C5`；卡片：`references/ontology/v9.0/cards/c5.md`
+- `C6` → `V90-CANON-C6`；卡片：`references/ontology/v9.0/cards/c6.md`
+- `C7` → `V90-CANON-C7`；卡片：`references/ontology/v9.0/cards/c7.md`
+- `C8` → `V90-CANON-C8`；卡片：`references/ontology/v9.0/cards/c8.md`
+- `C9` → `V90-CANON-C9`；卡片：`references/ontology/v9.0/cards/c9.md`
+- `C10` → `V90-CANON-C10`；卡片：`references/ontology/v9.0/cards/c10.md`
+- `C11` → `V90-CANON-C11`；卡片：`references/ontology/v9.0/cards/c11.md`
+- `C12` → `V90-CANON-C12`；卡片：`references/ontology/v9.0/cards/c12.md`
+
+## 边界
+
+- `C1`：C12是规范桥接不是经验根；根并列不充分。
+- `C2`：C12是规范桥接不是经验根；根并列不充分。
+- `C3`：C12是规范桥接不是经验根；根并列不充分。
+- `C4`：C12是规范桥接不是经验根；根并列不充分。
+- `C5`：C12是规范桥接不是经验根；根并列不充分。
+- `C6`：C12是规范桥接不是经验根；根并列不充分。
+- `C7`：无G4否定所有外部性，或损害事实直接生成归责。
+- `C8`：C12是规范桥接不是经验根；根并列不充分。
+- `C9`：C12是规范桥接不是经验根；根并列不充分。
+- `C10`：C12是规范桥接不是经验根；根并列不充分。
+- `C11`：C12是规范桥接不是经验根；根并列不充分。
+- `C12`：从效率、事实、状态原型或只有N1生成正向授权方案。
+
+## 依赖
+
+- `inferential_requires`：`V90-CANON-C1` → `V90-CANON-D0`；base
+- `inferential_requires`：`V90-CANON-C1` → `V90-CANON-G1`；base
+- `protocol_requires`：`V90-CANON-C1` → `V90-CANON-E1`；formal_qualification
+- `protocol_requires`：`V90-CANON-C1` → `V90-CANON-E4`；formal_qualification
+- `protocol_requires`：`V90-CANON-C1` → `V90-EXTERNAL-GATE-EVIDENCE`；formal_qualification
+- `protocol_requires`：`V90-CANON-C1` → `V90-EXTERNAL-GATE-EVIDENCE-C0F115F0`；formal_qualification
+- `inferential_requires`：`V90-CANON-C10` → `V90-CANON-G2`；base
+- `inferential_requires`：`V90-CANON-C10` → `V90-CANON-G3`；intertemporal
+- `protocol_requires`：`V90-CANON-C10` → `V90-CANON-E4`；formal_qualification
+- `protocol_requires`：`V90-CANON-C10` → `V90-CANON-H2`；human_bearer_typing
+- `protocol_requires`：`V90-CANON-C10` → `V90-EXTERNAL-GATE-CAUSAL`；formal_qualification
+- `protocol_requires`：`V90-CANON-C10` → `V90-EXTERNAL-GATE-CAUSAL-DE06B986`；formal_qualification
+- `protocol_requires`：`V90-CANON-C10` → `V90-EXTERNAL-GATE-EVIDENCE`；formal_qualification
+- `protocol_requires`：`V90-CANON-C10` → `V90-EXTERNAL-GATE-EVIDENCE-C0F115F0`；formal_qualification
+- `specializes`：`V90-CANON-C10` → `V90-CANON-H5`；historical_carrier_attribution_requires_qualified_H5_instance
+- `inferential_requires`：`V90-CANON-C11` → `V90-CANON-D2`；base
+- `inferential_requires`：`V90-CANON-C11` → `V90-CANON-G2`；base
+- `protocol_requires`：`V90-CANON-C11` → `V90-CANON-E4`；formal_qualification
+- `protocol_requires`：`V90-CANON-C11` → `V90-CANON-H3`；institutional_writeback
+- `protocol_requires`：`V90-CANON-C11` → `V90-EXTERNAL-GATE-CAUSAL`；formal_qualification
+- `protocol_requires`：`V90-CANON-C11` → `V90-EXTERNAL-GATE-CAUSAL-DE06B986`；formal_qualification
+- `protocol_requires`：`V90-CANON-C11` → `V90-EXTERNAL-GATE-EVIDENCE`；formal_qualification
+- `protocol_requires`：`V90-CANON-C11` → `V90-EXTERNAL-GATE-EVIDENCE-C0F115F0`；formal_qualification
+- `inferential_requires`：`V90-CANON-C12` → `V90-CANON-N1`；base
+- `inferential_requires`：`V90-CANON-C12` → `V90-CANON-O1`；base
+- `inferential_requires`：`V90-CANON-C12` → `V90-CANON-O2`；base
+- `inferential_requires`：`V90-CANON-C12` → `V90-CANON-O3`；base
+- `inferential_requires`：`V90-CANON-C12` → `V90-CANON-O4`；base
+- `protocol_requires`：`V90-CANON-C12` → `V90-CANON-PF-1`；formal_qualification
+- `protocol_requires`：`V90-CANON-C12` → `V90-CANON-PF-10`；formal_qualification
+- `protocol_requires`：`V90-CANON-C12` → `V90-CANON-PF-2`；formal_qualification
+- `protocol_requires`：`V90-CANON-C12` → `V90-CANON-PF-3`；formal_qualification
+- `protocol_requires`：`V90-CANON-C12` → `V90-CANON-PF-4`；formal_qualification
+- `protocol_requires`：`V90-CANON-C12` → `V90-CANON-PF-5`；formal_qualification
+- `protocol_requires`：`V90-CANON-C12` → `V90-CANON-PF-6`；formal_qualification
+- `protocol_requires`：`V90-CANON-C12` → `V90-CANON-PF-7`；formal_qualification
+- `protocol_requires`：`V90-CANON-C12` → `V90-CANON-PF-8`；formal_qualification
+- `protocol_requires`：`V90-CANON-C12` → `V90-CANON-PF-9`；formal_qualification
+- `protocol_requires`：`V90-CANON-C12` → `V90-EXTERNAL-GATE-EVIDENCE`；formal_qualification
+- `protocol_requires`：`V90-CANON-C12` → `V90-EXTERNAL-GATE-EVIDENCE-C0F115F0`；formal_qualification
+- `inferential_requires`：`V90-CANON-C2` → `V90-CANON-D0`；base
+- `inferential_requires`：`V90-CANON-C2` → `V90-CANON-G2`；base
+- `protocol_requires`：`V90-CANON-C2` → `V90-CANON-E1`；formal_qualification
+- `protocol_requires`：`V90-CANON-C2` → `V90-CANON-E4`；formal_qualification
+- `protocol_requires`：`V90-CANON-C2` → `V90-EXTERNAL-GATE-CAUSAL`；formal_qualification
+- `protocol_requires`：`V90-CANON-C2` → `V90-EXTERNAL-GATE-CAUSAL-DE06B986`；formal_qualification
+- `protocol_requires`：`V90-CANON-C2` → `V90-EXTERNAL-GATE-EVIDENCE`；formal_qualification
+- `protocol_requires`：`V90-CANON-C2` → `V90-EXTERNAL-GATE-EVIDENCE-C0F115F0`；formal_qualification
+- `inferential_requires`：`V90-CANON-C3` → `V90-CANON-D2`；base
+- `inferential_requires`：`V90-CANON-C3` → `V90-CANON-G2`；base
+- `inferential_requires`：`V90-CANON-C3` → `V90-CANON-G3`；learning
+- `protocol_requires`：`V90-CANON-C3` → `V90-CANON-E4`；formal_qualification
+- `protocol_requires`：`V90-CANON-C3` → `V90-EXTERNAL-GATE-CAUSAL`；formal_qualification
+- `protocol_requires`：`V90-CANON-C3` → `V90-EXTERNAL-GATE-CAUSAL-DE06B986`；formal_qualification
+- `protocol_requires`：`V90-CANON-C3` → `V90-EXTERNAL-GATE-EVIDENCE`；formal_qualification
+- `protocol_requires`：`V90-CANON-C3` → `V90-EXTERNAL-GATE-EVIDENCE-C0F115F0`；formal_qualification
+- `inferential_requires`：`V90-CANON-C4` → `V90-CANON-D1`；base
+- `inferential_requires`：`V90-CANON-C4` → `V90-CANON-G3`；base
+- `protocol_requires`：`V90-CANON-C4` → `V90-CANON-E1`；formal_qualification
+- `protocol_requires`：`V90-CANON-C4` → `V90-CANON-E4`；formal_qualification
+- `protocol_requires`：`V90-CANON-C4` → `V90-EXTERNAL-GATE-CAUSAL`；formal_qualification
+- `protocol_requires`：`V90-CANON-C4` → `V90-EXTERNAL-GATE-CAUSAL-DE06B986`；formal_qualification
+- `protocol_requires`：`V90-CANON-C4` → `V90-EXTERNAL-GATE-EVIDENCE`；formal_qualification
+- `protocol_requires`：`V90-CANON-C4` → `V90-EXTERNAL-GATE-EVIDENCE-C0F115F0`；formal_qualification
+- `inferential_requires`：`V90-CANON-C5` → `V90-CANON-D0`；base
+- `inferential_requires`：`V90-CANON-C5` → `V90-CANON-G2`；base
+- `inferential_requires`：`V90-CANON-C5` → `V90-CANON-G3`；cumulative
+- `protocol_requires`：`V90-CANON-C5` → `V90-CANON-E1`；formal_qualification
+- `protocol_requires`：`V90-CANON-C5` → `V90-CANON-E4`；formal_qualification
+- `protocol_requires`：`V90-CANON-C5` → `V90-EXTERNAL-GATE-CAUSAL`；formal_qualification
+- `protocol_requires`：`V90-CANON-C5` → `V90-EXTERNAL-GATE-CAUSAL-DE06B986`；formal_qualification
+- `protocol_requires`：`V90-CANON-C5` → `V90-EXTERNAL-GATE-EVIDENCE`；formal_qualification
+- `protocol_requires`：`V90-CANON-C5` → `V90-EXTERNAL-GATE-EVIDENCE-C0F115F0`；formal_qualification
+- `inferential_requires`：`V90-CANON-C6` → `V90-CANON-D3`；base
+- `inferential_requires`：`V90-CANON-C6` → `V90-CANON-G4`；base
+- `protocol_requires`：`V90-CANON-C6` → `V90-CANON-E4`；formal_qualification
+- `protocol_requires`：`V90-CANON-C6` → `V90-CANON-E5`；formal_qualification
+- `protocol_requires`：`V90-CANON-C6` → `V90-EXTERNAL-GATE-EVIDENCE`；formal_qualification
+- `protocol_requires`：`V90-CANON-C6` → `V90-EXTERNAL-GATE-EVIDENCE-C0F115F0`；formal_qualification
+- `inferential_requires`：`V90-CANON-C7` → `V90-CANON-G2`；base
+- `inferential_requires`：`V90-CANON-C7` → `V90-CANON-G4`；base
+- `protocol_requires`：`V90-CANON-C7` → `V90-CANON-E4`；formal_qualification
+- `protocol_requires`：`V90-CANON-C7` → `V90-CANON-E5`；formal_qualification
+- `protocol_requires`：`V90-CANON-C7` → `V90-EXTERNAL-GATE-CAUSAL`；formal_qualification
+- `protocol_requires`：`V90-CANON-C7` → `V90-EXTERNAL-GATE-CAUSAL-DE06B986`；formal_qualification
+- `protocol_requires`：`V90-CANON-C7` → `V90-EXTERNAL-GATE-EVIDENCE`；formal_qualification
+- `protocol_requires`：`V90-CANON-C7` → `V90-EXTERNAL-GATE-EVIDENCE-C0F115F0`；formal_qualification
+- `inferential_requires`：`V90-CANON-C8` → `V90-CANON-D1`；base
+- `inferential_requires`：`V90-CANON-C8` → `V90-CANON-G2`；carrier
+- `inferential_requires`：`V90-CANON-C8` → `V90-CANON-G3`；history
+- `protocol_requires`：`V90-CANON-C8` → `V90-CANON-E4`；formal_qualification
+- `protocol_requires`：`V90-CANON-C8` → `V90-EXTERNAL-GATE-CAUSAL`；formal_qualification
+- `protocol_requires`：`V90-CANON-C8` → `V90-EXTERNAL-GATE-CAUSAL-DE06B986`；formal_qualification
+- `protocol_requires`：`V90-CANON-C8` → `V90-EXTERNAL-GATE-EVIDENCE`；formal_qualification
+- `protocol_requires`：`V90-CANON-C8` → `V90-EXTERNAL-GATE-EVIDENCE-C0F115F0`；formal_qualification
+- `inferential_requires`：`V90-CANON-C9` → `V90-CANON-G2`；base
+- `inferential_requires`：`V90-CANON-C9` → `V90-CANON-G3`；persistent
+- `protocol_requires`：`V90-CANON-C9` → `V90-CANON-E2`；formal_qualification
+- `protocol_requires`：`V90-CANON-C9` → `V90-CANON-E3`；formal_qualification
+- `protocol_requires`：`V90-CANON-C9` → `V90-CANON-E4`；formal_qualification
+- `protocol_requires`：`V90-CANON-C9` → `V90-EXTERNAL-GATE-CAUSAL`；formal_qualification
+- `protocol_requires`：`V90-CANON-C9` → `V90-EXTERNAL-GATE-CAUSAL-DE06B986`；formal_qualification
+- `protocol_requires`：`V90-CANON-C9` → `V90-EXTERNAL-GATE-EVIDENCE`；formal_qualification
+- `protocol_requires`：`V90-CANON-C9` → `V90-EXTERNAL-GATE-EVIDENCE-C0F115F0`；formal_qualification
