@@ -20,13 +20,15 @@ def _packet():
     return build_analysis_packet_v4(semantic, run_contract=contract, repository_root=ROOT), contract
 
 
-def test_v4_production_entry_points_are_independent_of_active_v3():
+def test_v4_production_entry_points_follow_current_source_profile():
     from xi_kari_runtime.materialization_v4 import materialize_run_v4
     from xi_kari_runtime.validation_v4 import validate_run_v4
-    from xi_kari_runtime.source_profile import RUNTIME_VERSION, SOURCE_VERSION
+    from xi_kari_runtime.source_profile import DEFAULT_CONTRACT_VERSION, LEGACY_RUNTIME_VERSION, RUNTIME_VERSION, SOURCE_VERSION, get_source_profile
 
     assert callable(materialize_run_v4) and callable(validate_run_v4)
-    assert (RUNTIME_VERSION, SOURCE_VERSION) == ('3.0.0', 'v8.3')
+    assert (RUNTIME_VERSION, SOURCE_VERSION, DEFAULT_CONTRACT_VERSION) == ('4.0.0', 'v9.0', 4)
+    assert LEGACY_RUNTIME_VERSION == '3.0.0'
+    assert get_source_profile('v8.3').source_version == 'v8.3'
 
 
 def test_static_v4_phase_artifacts_preserve_real_claims_and_no_world_invention():
@@ -44,27 +46,29 @@ def test_static_v4_phase_artifacts_preserve_real_claims_and_no_world_invention()
     assert world['result']['evaluated'] is False
 
 
-def test_semantic_materialization_rebuilds_the_actual_formal_instance_registry():
-    from tests.test_p04_instance_results_v4 import packet_inputs
+def test_semantic_materialization_rebuilds_the_actual_formal_instance_registry(tmp_path):
+    from tests.test_temporal_outer_execution import observed_packet
     from xi_kari_runtime.validation_v4 import build_semantic_phase_artifacts_v4
 
-    semantic, contract = packet_inputs()
+    semantic, contract, audit = observed_packet(tmp_path)
     from xi_kari_runtime.packet_v4 import prepare_analysis_packet_v4
     from xi_kari_runtime.semantic_projection import semantic_atom_paths
-    pending = prepare_analysis_packet_v4(semantic, run_contract=contract, repository_root=ROOT)
+    pending = prepare_analysis_packet_v4(semantic, run_contract=contract, repository_root=ROOT, temporal_audit=audit)
     finalization = {'reader_sections': semantic['reader_sections'], 'visibility_ledger': {'entries': [
         {'canonical_path': path, 'classification': 'public', 'disclosure': 'include',
          'purpose': 'bounded source-scope analysis', 'authority_refs': [], 'protection_reason': None}
         for path in semantic_atom_paths(pending)
     ]}}
-    packet = build_analysis_packet_v4(semantic, run_contract=contract, repository_root=ROOT, reader_finalization=finalization)
-    documents = build_semantic_phase_artifacts_v4(packet, contract=contract, repository_root=ROOT)
+    packet = build_analysis_packet_v4(semantic, run_contract=contract, repository_root=ROOT, reader_finalization=finalization, temporal_audit=audit)
+    documents = build_semantic_phase_artifacts_v4(packet, contract=contract, repository_root=ROOT, temporal_audit=audit)
     claim = documents['XK7']['authoring/XK07-claim-mechanism-graph.json']['result']['claims'][0]
     assert claim['formal_qualification']['status'] == 'qualified'
     assert claim['formal_qualification']['result_status'] == 'supported'
-    packet['empirical_instances'][0]['evaluation']['prerequisite_claim_ids'] = {}
     with pytest.raises(ValueError, match='recomputed|qualification|instance'):
         build_semantic_phase_artifacts_v4(packet, contract=contract, repository_root=ROOT)
+    packet['empirical_instances'][0]['evaluation']['prerequisite_claim_ids'] = {}
+    with pytest.raises(ValueError, match='recomputed|qualification|instance'):
+        build_semantic_phase_artifacts_v4(packet, contract=contract, repository_root=ROOT, temporal_audit=audit)
 
 
 def test_materializer_rejects_v3_source_and_never_mutates_it(tmp_path):
@@ -364,7 +368,8 @@ def test_real_lamport_signature_requires_v4_fresh_completion_disk_closure(tmp_pa
     assert errors == ['version-four signed completion closure is unreadable or invalid']
 
 
-def test_explicit_v4_static_production_rebuilds_base_packet_and_seals_actual_disk_chain(tmp_path):
+@pytest.mark.parametrize('with_temporal_audit', [False, True], ids=['ordinary', 'temporal'])
+def test_explicit_v4_static_production_rebuilds_base_packet_and_seals_actual_disk_chain(tmp_path, with_temporal_audit):
     from tests.test_v4_pipeline_e2e_fixtures import BODY, CLOSED_MATERIALS, deterministic_provider, static_author_output
     from xi_kari_runtime import execution
     from xi_kari_runtime.validation_v4 import run_fresh_validator_v4
@@ -373,6 +378,10 @@ def test_explicit_v4_static_production_rebuilds_base_packet_and_seals_actual_dis
     problem['evidence_cutoff'] = '2030-01-01T00:00:00Z'
     transport = tmp_path / 'synthetic-production'
     transport.mkdir()
+    audit = None
+    if with_temporal_audit:
+        from tests.test_temporal_outer_execution import observed_packet
+        _, _, audit = observed_packet(transport)
     provider, observation = deterministic_provider(transport)
     program = provider.read_text('utf-8').replace('prompt = sys.stdin.read()', "prompt = sys.stdin.buffer.read().decode('utf-8')")
     program = program.replace('运行时请求（只读绑定）：\\n', '运行时请求：\\n')
@@ -412,7 +421,7 @@ if PROTECTED:''')
     result = execution.execute_authored_run(transport / 'runs', problem_contract=problem,
         run_id='synthetic-v4-production', repository_root=ROOT,
         codex_provider_executable=provider, timeout_seconds=60, mode='closed-input',
-        closed_input_materials=CLOSED_MATERIALS, contract_version=4, source_version='v9.0')
+        closed_input_materials=CLOSED_MATERIALS, contract_version=4, source_version='v9.0', temporal_audit=audit)
     assert read_json(observation)['synthetic'] is True
     assert read_json(observation)['actual_model_runs'] == 0
     run = Path(result['run_dir'])
@@ -449,6 +458,26 @@ if PROTECTED:''')
         finally:
             path.write_bytes(prior)
     assert validate_terminal_closure_v4(run, contract, records, required=True) == ('complete', [])
+    if audit is not None:
+        from xi_kari_runtime.temporal_context import load_temporal_context_v4
+        request = read_json(run / 'authoring/XK01-base-authoring-request.json')
+        context = load_temporal_context_v4(run, run_contract=contract,
+            expected_binding=request['source_inputs']['temporal_audit_binding'], repository_root=ROOT)
+        assert context.audit.run_dir == audit.run_dir
+        assert set(context.artifact_paths) <= {row['path'] for row in records[2]['artifact_bindings']}
+        authors = read_json(run / 'authoring/XK02-author-executions.json')
+        assert authors['stage_controls']['temporal_audit_binding']['audit_sha256'] == audit.expected_audit_sha256
+        original = audit.run_dir / 'analysis.json'
+        original_bytes = original.read_bytes()
+        try:
+            original.write_bytes(original_bytes + b'\n')
+            changed = run_fresh_validator_v4(run, repository_root=ROOT)
+            assert changed['valid'] is changed['complete'] is False
+            assert any('temporal context' in error for error in changed['errors'])
+        finally:
+            original.write_bytes(original_bytes)
+        restored = run_fresh_validator_v4(run, repository_root=ROOT)
+        assert restored['valid'] is restored['complete'] is True
 
 
 def test_production_gate_reopens_signed_process_proof_and_rejects_synthetic_model_flags(tmp_path):
@@ -759,3 +788,104 @@ def test_base_request_accepts_only_the_closed_temporal_context_binding():
         bad = deepcopy(inputs)
         bad['temporal_audit_binding'][field] = value
         assert not validator.is_valid(bad)
+
+
+def test_packet_preparation_forwards_the_runtime_temporal_reader_unchanged(monkeypatch):
+    from xi_kari_runtime import packet_v4
+    from xi_kari_runtime.validation_v4 import prepare_packet_v4
+
+    runtime_reader = object()
+    observed = {}
+
+    def consumer(semantic, **arguments):
+        observed.update(arguments)
+        return {'synthetic_seam': True}
+
+    monkeypatch.setattr(packet_v4, 'prepare_analysis_packet_v4', consumer)
+    result = prepare_packet_v4({}, contract={}, repository_root=ROOT, domain_read_plan=None, temporal_audit=runtime_reader)
+    assert result == {'synthetic_seam': True}
+    assert observed['temporal_audit'] is runtime_reader
+
+
+def test_temporal_descriptor_is_the_only_added_runtime_root_owner(tmp_path):
+    from xi_kari_runtime.validation_v4 import _expected_root_ids_v4, schema_registry_v4
+
+    for name, identity in (('context.json', 'xi-kari.runtime.temporal-audit-context'), ('unknown.json', 'xi-kari.runtime.unregistered')):
+        atomic_write_json(tmp_path / 'schemas' / name, {'$schema': 'https://json-schema.org/draft/2020-12/schema', '$id': 'urn:' + name,
+            'type': 'object', 'properties': {'schema_id': {'const': identity}}})
+    registry, errors = schema_registry_v4(tmp_path)
+    assert errors == []
+    assert registry['xi-kari.runtime.temporal-audit-context'].name == 'context.json'
+    assert 'xi-kari.runtime.unregistered' not in registry
+    assert _expected_root_ids_v4('authoring/XK02-temporal-audit-context.json') == {'xi-kari.runtime.temporal-audit-context'}
+    assert _expected_root_ids_v4('other-temporal-context.json') is None
+
+
+@pytest.fixture(scope='module')
+def temporal_materials_v4(tmp_path_factory):
+    from tests.test_temporal_outer_execution import observed_packet
+    from xi_kari_runtime.temporal_context import freeze_temporal_context_v4, load_temporal_context_v4, persist_temporal_context_v4
+
+    directory = tmp_path_factory.mktemp('production-temporal-materials')
+    semantic, contract, audit = observed_packet(directory)
+    context = freeze_temporal_context_v4(audit, run_id=contract['run_id'], problem_contract_sha256=contract['problem_contract_sha256'], repository_root=ROOT)
+    run = directory / 'imported-run'
+    persist_temporal_context_v4(context, run_dir=run, run_contract=contract)
+    loaded = load_temporal_context_v4(run, run_contract=contract, expected_binding=context.binding, repository_root=ROOT)
+    return semantic, contract, loaded, run
+
+
+def test_only_verified_temporal_snapshots_have_raw_ownership_and_phase_bindings(temporal_materials_v4):
+    from xi_kari_runtime.validation_v4 import expected_phase_paths_v4, validate_json_artifact_ownership_v4
+
+    _, contract, context, run = temporal_materials_v4
+    paths = expected_phase_paths_v4('XK2', mode=contract['mode'], run_dir=run, temporal_context=context)
+    assert set(context.artifact_paths) <= set(paths)
+    assert validate_json_artifact_ownership_v4(run, ROOT, temporal_context=context) == []
+    assert any('temporal-evidence/source/' in error for error in validate_json_artifact_ownership_v4(run, ROOT))
+    with pytest.raises(ValueError, match='no verified context'):
+        expected_phase_paths_v4('XK2', mode=contract['mode'], run_dir=run)
+    with pytest.raises(ValueError, match='verified runtime context'):
+        validate_json_artifact_ownership_v4(run, ROOT, temporal_context={'artifact_paths': list(context.artifact_paths)})
+    extra = run / 'temporal-evidence/source/unregistered.json'
+    try:
+        atomic_write_json(extra, {'protected': 'do-not-disclose-extra-material'})
+        errors = validate_json_artifact_ownership_v4(run, ROOT, temporal_context=context)
+        assert any('unregistered.json' in error for error in errors)
+        assert all('do-not-disclose-extra-material' not in error for error in errors)
+    finally:
+        extra.unlink(missing_ok=True)
+
+
+def test_materializer_rejects_unbound_temporal_argument(temporal_materials_v4):
+    from xi_kari_runtime.materialization_v4 import _bound_temporal_audit_v4
+
+    _, _, context, _ = temporal_materials_v4
+    assert _bound_temporal_audit_v4(context, context.audit) is context.audit
+    assert _bound_temporal_audit_v4(context, None) is context.audit
+    assert _bound_temporal_audit_v4(None, None) is None
+    for context_value, supplied in ((None, context.audit), (context, {'verified': True})):
+        with pytest.raises(ValueError, match='verified execute input'):
+            _bound_temporal_audit_v4(context_value, supplied)
+
+
+def test_base_capture_must_validate_before_temporal_originals_are_loaded(tmp_path, monkeypatch):
+    from xi_kari_runtime import temporal_context
+    from xi_kari_runtime.validation_v4 import validate_authoring_inputs_v4
+
+    provider, _ = _provider_pair()
+    atomic_write_json(tmp_path / 'authoring/XK01-base-authoring-request.json', {'source_inputs': {
+        'base_provider_binding': provider,
+        'temporal_audit_binding': {'context_sha256': 'a' * 64, 'audit_sha256': 'b' * 64, 'evidence_scope': 'isolated_runtime_reads'},
+    }})
+    atomic_write_json(tmp_path / 'authoring/XK01-base-authoring-receipt.json', {'input_sha256': '0' * 64})
+    opened = []
+
+    def observe_originals(*args, **kwargs):
+        opened.append(True)
+        return None
+
+    monkeypatch.setattr(temporal_context, 'load_temporal_context_v4', observe_originals)
+    with pytest.raises(ValueError, match='physical input hash differs'):
+        validate_authoring_inputs_v4(tmp_path, contract={'mode': 'open-world'}, repository_root=ROOT)
+    assert opened == []

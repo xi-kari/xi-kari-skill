@@ -60,6 +60,8 @@ AUTHOR_EXECUTIONS_RELATIVE = 'authoring/XK02-author-executions.json'
 STDERR_RELATIVE = 'authoring/XK01-base-authoring-stderr.bin'
 SOURCE_TRACE_INPUT_RELATIVE = 'authoring/XK01-semantic-read-trace-input.json'
 ONTOLOGY_TRACE_INPUT_RELATIVE = 'authoring/XK04-ontology-read-trace-input.json'
+TEMPORAL_CONTEXT_RELATIVE = 'authoring/XK02-temporal-audit-context.json'
+TEMPORAL_CONTEXT_SCHEMA_ID = 'xi-kari.runtime.temporal-audit-context'
 _CUSTOM_SOURCE_IDS = frozenset({
     'xi-kari.v4.source-lock', 'xi-kari.v4.source-read-event',
     'xi-kari.v4.semantic-read-trace',
@@ -121,9 +123,9 @@ def domain_plan_v4(run_dir: Path, request: Mapping[str, Any] | None = None, *, r
     return deepcopy(dict(plan))
 
 
-def prepare_packet_v4(semantic: Mapping[str, Any], *, contract: Mapping[str, Any], repository_root: Path, domain_read_plan: Mapping[str, Any] | None, probe_outcomes: Mapping[str, Any] | None = None) -> dict[str, Any]:
+def prepare_packet_v4(semantic: Mapping[str, Any], *, contract: Mapping[str, Any], repository_root: Path, domain_read_plan: Mapping[str, Any] | None, probe_outcomes: Mapping[str, Any] | None = None, temporal_audit: object = None) -> dict[str, Any]:
     from .packet_v4 import prepare_analysis_packet_v4
-    arguments = {'run_contract': contract, 'repository_root': repository_root, 'domain_read_plan': domain_read_plan}
+    arguments = {'run_contract': contract, 'repository_root': repository_root, 'domain_read_plan': domain_read_plan, 'temporal_audit': temporal_audit}
     if probe_outcomes is not None:
         arguments['probe_outcomes'] = probe_outcomes
     return prepare_analysis_packet_v4(semantic, **arguments)
@@ -155,9 +157,9 @@ def _rebased_execution_v4(execution: Mapping[str, Any], *, run_dir: Path, origin
     return value
 
 
-def checked_execution_v4(execution: Mapping[str, Any], *, expected_request: Mapping[str, Any], binding: Mapping[str, Any], run_dir: Path, original_run_dir: str, repository_root: Path) -> dict[str, Any]:
+def checked_execution_v4(execution: Mapping[str, Any], *, expected_request: Mapping[str, Any], binding: Mapping[str, Any], run_dir: Path, original_run_dir: str, repository_root: Path, temporal_audit: object = None) -> dict[str, Any]:
     from .semantic_executions_v4 import validate_semantic_execution_v4
-    observed = validate_semantic_execution_v4(_rebased_execution_v4(execution, run_dir=run_dir, original_run_dir=original_run_dir), expected_request=expected_request, binding=binding, repository_root=repository_root)
+    observed = validate_semantic_execution_v4(_rebased_execution_v4(execution, run_dir=run_dir, original_run_dir=original_run_dir), expected_request=expected_request, binding=binding, repository_root=repository_root, temporal_audit=temporal_audit)
     if observed.get('status') != 'executed' or observed.get('semantic_gate') != 'validated' or observed.get('actual_model_execution') is not True:
         raise ValueError('version-four actual configured provider process did not close its semantic execution gate')
     return observed
@@ -185,7 +187,7 @@ def probe_outcomes_v4(responses: list[Mapping[str, Any]], requests: list[Mapping
     return {'red_team': deepcopy(responses[0]), 'stance': {'support': deepcopy(responses[1]), 'oppose': deepcopy(responses[2])}, 'sensitivity': {'baseline': deepcopy(responses[3]), 'changed': deepcopy(responses[4]), 'changes': deepcopy(changes)}, 'comparison': gates}
 
 
-def replay_author_executions_v4(run_dir: Path, semantic_base: Mapping[str, Any], *, contract: Mapping[str, Any], repository_root: Path, bundle: Mapping[str, Any]) -> tuple[dict[str, Any], dict[str, Any]]:
+def replay_author_executions_v4(run_dir: Path, semantic_base: Mapping[str, Any], *, contract: Mapping[str, Any], repository_root: Path, bundle: Mapping[str, Any], temporal_audit: object = None) -> tuple[dict[str, Any], dict[str, Any]]:
     from .packet_v4 import build_analysis_packet_v4
     from .stage_consumers_v4 import validate_stage_chain_v4
     from .semantic_executions_v4 import build_semantic_execution_request_v4
@@ -202,25 +204,25 @@ def replay_author_executions_v4(run_dir: Path, semantic_base: Mapping[str, Any],
         raise ValueError('version-four unused provider authority is not an author execution')
     domain = domain_plan_v4(run_dir, repository_root=repository_root)
     semantic = deepcopy(dict(semantic_base))
-    pending = prepare_packet_v4(semantic, contract=contract, repository_root=repository_root, domain_read_plan=domain)
+    pending = prepare_packet_v4(semantic, contract=contract, repository_root=repository_root, domain_read_plan=domain, temporal_audit=temporal_audit)
     consumed = set()
     for row in bundle['next_author_executions']:
         target = (row['path_id'], row['step_index'])
         if target in consumed or sha256_json(pending) != row['prior_pending_sha256']:
             raise ValueError('version-four next author prior pending digest or target differs')
-        controls = validate_stage_chain_v4(pending, run_contract=contract, repository_root=repository_root)
+        controls = validate_stage_chain_v4(pending, run_contract=contract, repository_root=repository_root, temporal_audit=temporal_audit)
         actual = next((item for item in recursive_author_targets_v4(controls) if (item['path_id'], item['step_index']) == target), None)
         if actual is None or actual['author_request'] != row['author_request']:
             raise ValueError('version-four next author does not bind the actual child input')
-        request = build_semantic_execution_request_v4(pending, controls, run_contract=contract, kind='next_author', author_request=actual['author_request'], repository_root=repository_root)
-        checked = checked_execution_v4(row['execution'], expected_request=request, binding=binding, run_dir=run_dir, original_run_dir=bundle['run_directory'], repository_root=repository_root)
+        request = build_semantic_execution_request_v4(pending, controls, run_contract=contract, kind='next_author', author_request=actual['author_request'], repository_root=repository_root, temporal_audit=temporal_audit)
+        checked = checked_execution_v4(row['execution'], expected_request=request, binding=binding, run_dir=run_dir, original_run_dir=bundle['run_directory'], repository_root=repository_root, temporal_audit=temporal_audit)
         path = next(path for path in semantic['recursive_lineage']['paths'] if path['path_id'] == row['path_id'])
         path['steps'][row['step_index']]['next_author_response'] = deepcopy(checked['semantic_response'])
-        pending = prepare_packet_v4(semantic, contract=contract, repository_root=repository_root, domain_read_plan=domain)
+        pending = prepare_packet_v4(semantic, contract=contract, repository_root=repository_root, domain_read_plan=domain, temporal_audit=temporal_audit)
         if sha256_json(pending) != row['after_pending_sha256']:
             raise ValueError('version-four next author after pending digest differs')
         consumed.add(target)
-    controls = validate_stage_chain_v4(pending, run_contract=contract, repository_root=repository_root)
+    controls = validate_stage_chain_v4(pending, run_contract=contract, repository_root=repository_root, temporal_audit=temporal_audit)
     if consumed != {(row['path_id'], row['step_index']) for row in recursive_author_targets_v4(controls)}:
         raise ValueError('version-four actual recursive author execution does not cover every active child')
     outcomes = None
@@ -230,28 +232,28 @@ def replay_author_executions_v4(run_dir: Path, semantic_base: Mapping[str, Any],
             raise ValueError('version-four actual semantic probes are missing')
         requests, responses = [], []
         for spec, execution in zip((('red_team', None), ('stance_stability', 'support'), ('stance_stability', 'oppose'), ('sensitivity', 'baseline'), ('sensitivity', 'changed')), probes['executions'], strict=True):
-            request = build_semantic_execution_request_v4(pending, controls, run_contract=contract, kind=spec[0], variant=spec[1], sensitivity_changes=bundle['sensitivity_changes'], repository_root=repository_root)
-            checked = checked_execution_v4(execution, expected_request=request, binding=binding, run_dir=run_dir, original_run_dir=bundle['run_directory'], repository_root=repository_root)
+            request = build_semantic_execution_request_v4(pending, controls, run_contract=contract, kind=spec[0], variant=spec[1], sensitivity_changes=bundle['sensitivity_changes'], repository_root=repository_root, temporal_audit=temporal_audit)
+            checked = checked_execution_v4(execution, expected_request=request, binding=binding, run_dir=run_dir, original_run_dir=bundle['run_directory'], repository_root=repository_root, temporal_audit=temporal_audit)
             requests.append(request)
             responses.append(checked['semantic_response'])
         outcomes = probe_outcomes_v4(responses, requests, bundle['sensitivity_changes'])
         if probes['gates'] != outcomes['comparison']:
             raise ValueError('version-four probe comparisons differ from fresh semantic executions')
-        pending = prepare_packet_v4(semantic, contract=contract, repository_root=repository_root, domain_read_plan=domain, probe_outcomes=outcomes)
+        pending = prepare_packet_v4(semantic, contract=contract, repository_root=repository_root, domain_read_plan=domain, probe_outcomes=outcomes, temporal_audit=temporal_audit)
     elif bundle['probe_bundle'] is not None or bundle['sensitivity_changes']:
         raise ValueError('version-four nonapplicable probes cannot carry invented executions')
     if controls != bundle['stage_controls'] or sha256_json(pending) != bundle['prepared_packet_sha256']:
         raise ValueError('version-four prepared packet or stage controls differ from actual execution replay')
     finalization = None
     if bundle['reader_execution'] is not None:
-        request = build_semantic_execution_request_v4(pending, controls, run_contract=contract, kind='final_reader', repository_root=repository_root)
-        checked = checked_execution_v4(bundle['reader_execution'], expected_request=request, binding=binding, run_dir=run_dir, original_run_dir=bundle['run_directory'], repository_root=repository_root)
+        request = build_semantic_execution_request_v4(pending, controls, run_contract=contract, kind='final_reader', repository_root=repository_root, temporal_audit=temporal_audit)
+        checked = checked_execution_v4(bundle['reader_execution'], expected_request=request, binding=binding, run_dir=run_dir, original_run_dir=bundle['run_directory'], repository_root=repository_root, temporal_audit=temporal_audit)
         finalization = checked['semantic_response']
         if bundle['reader_reused']:
             raise ValueError('version-four final reader execution conflicts with a reused base reader')
     elif bundle['reader_reused'] is not True or outcomes is not None:
         raise ValueError('version-four final reader execution is missing')
-    arguments = {'run_contract': contract, 'repository_root': repository_root, 'domain_read_plan': domain, 'reader_finalization': finalization}
+    arguments = {'run_contract': contract, 'repository_root': repository_root, 'domain_read_plan': domain, 'reader_finalization': finalization, 'temporal_audit': temporal_audit}
     if outcomes is not None:
         arguments['probe_outcomes'] = outcomes
     final = build_analysis_packet_v4(semantic, **arguments)
@@ -272,7 +274,7 @@ def schema_registry_v4(repository_root: Path) -> tuple[dict[str, Path], list[str
                 if previous != path:
                     errors.append('duplicate root schema URI: ' + path.name)
             for identity in root_schema_ids(schema):
-                if not identity.startswith(('xi-kari.v3.', 'xi-kari.v4.')):
+                if not identity.startswith(('xi-kari.v3.', 'xi-kari.v4.')) and identity != TEMPORAL_CONTEXT_SCHEMA_ID:
                     continue
                 previous = registry.setdefault(identity, path)
                 if previous != path:
@@ -295,6 +297,7 @@ def _expected_root_ids_v4(relative: str) -> set[str] | None:
         'authoring/XK01-base-authoring-request.json': {'xi-kari.v4.base-authoring-request'},
         PACKET_RELATIVE: {'xi-kari.v4.analysis-packet'},
         AUTHOR_EXECUTIONS_RELATIVE: {'xi-kari.v4.production-author-executions'},
+        TEMPORAL_CONTEXT_RELATIVE: {TEMPORAL_CONTEXT_SCHEMA_ID},
         'authoring/XK04-domain-binding.json': {'xi-kari.v4.production-phase-artifact'},
         'authoring/XK04-domain-read-plan.json': {'xi-kari.v4.domain-read-plan'},
         'authoring/XK07-causal-results.json': {'xi-kari.v4.production-phase-artifact'},
@@ -324,8 +327,18 @@ def _expected_root_ids_v4(relative: str) -> set[str] | None:
     return _expected_artifact_schema_ids(relative)
 
 
-def validate_json_artifact_ownership_v4(run_dir: Path, repository_root: Path) -> list[str]:
+def temporal_artifact_paths_v4(context: Any) -> tuple[str, ...]:
+    if context is None:
+        return ()
+    from .temporal_context import TemporalAuditContext
+    if type(context) is not TemporalAuditContext:
+        raise ValueError('version-four temporal artifact ownership requires a verified runtime context')
+    return context.artifact_paths
+
+
+def validate_json_artifact_ownership_v4(run_dir: Path, repository_root: Path, *, temporal_context: Any = None) -> list[str]:
     owners, errors = schema_registry_v4(repository_root)
+    raw_temporal_paths = set(temporal_artifact_paths_v4(temporal_context)) - {TEMPORAL_CONTEXT_RELATIVE}
     resources = Registry()
     for path in sorted((repository_root / 'schemas').glob('*.json')):
         schema = read_json(path)
@@ -335,6 +348,8 @@ def validate_json_artifact_ownership_v4(run_dir: Path, repository_root: Path) ->
         if not path.is_file() or path.suffix not in {'.json', '.jsonl'}:
             continue
         relative = path.relative_to(run_dir).as_posix()
+        if relative in raw_temporal_paths:
+            continue
         relative_path = Path(relative)
         if relative == 'authoring/XK01-base-authoring-events.jsonl' or len(relative_path.parts) == 4 and any(relative_path.parts[0] == base and relative_path.match(base + '/attempt-*/' + suffix) for base in ('sem', 'semantic-executions') for suffix in ('capture/stdout.jsonl', 'provider/semantic-output.json')):
             continue
@@ -477,7 +492,7 @@ def _phase_document(packet: Mapping[str, Any], contract: Mapping[str, Any], phas
     }
 
 
-def _stage_results(packet: Mapping[str, Any], contract: Mapping[str, Any], repository_root: Path) -> dict[str, Any]:
+def _stage_results(packet: Mapping[str, Any], contract: Mapping[str, Any], repository_root: Path, *, temporal_audit: object = None) -> dict[str, Any]:
     try:
         from .stage_consumers_v4 import validate_stage_chain_v4
     except ModuleNotFoundError as exc:
@@ -493,21 +508,21 @@ def _stage_results(packet: Mapping[str, Any], contract: Mapping[str, Any], repos
             else:
                 result[stage] = {'applicability': applicability, 'evaluated': False}
         return result
-    bundle = validate_stage_chain_v4(packet, run_contract=contract, repository_root=repository_root)
+    bundle = validate_stage_chain_v4(packet, run_contract=contract, repository_root=repository_root, temporal_audit=temporal_audit)
     stages = bundle.get('stage_results')
     if not isinstance(stages, Mapping) or set(stages) != set(packet['applicability']):
         raise ValueError('version-four stage consumer did not return all actual stage results')
     return {stage: {'applicability': packet['applicability'][stage], 'evaluated': row.get('validation_status') == 'validated', **dict(row)} for stage, row in stages.items()}
 
 
-def build_semantic_phase_artifacts_v4(packet: Mapping[str, Any], *, contract: Mapping[str, Any], repository_root: Path, input_packet_sha256: str | None = None, author_executions: Mapping[str, Any] | None = None) -> dict[str, dict[str, Any]]:
-    require_packet_contract_v4(packet, mode=contract['mode'], run_contract=contract, repository_root=repository_root)
+def build_semantic_phase_artifacts_v4(packet: Mapping[str, Any], *, contract: Mapping[str, Any], repository_root: Path, input_packet_sha256: str | None = None, author_executions: Mapping[str, Any] | None = None, temporal_audit: object = None) -> dict[str, dict[str, Any]]:
+    require_packet_contract_v4(packet, mode=contract['mode'], run_contract=contract, repository_root=repository_root, temporal_audit=temporal_audit)
     packet_sha256 = input_packet_sha256 or sha256_json(packet)
-    stages = _stage_results(packet, contract, repository_root)
+    stages = _stage_results(packet, contract, repository_root, temporal_audit=temporal_audit)
     registry = None
     if 'empirical_instances' in packet or 'derived_instances' in packet:
         from .formal_results import rebuild_instance_registry
-        registry = rebuild_instance_registry(packet.get('empirical_instances', []), graph=packet['claim_mechanism_graph'], derived_instances=packet.get('derived_instances', []), evidence_mode=contract['mode'], repository_root=repository_root)
+        registry = rebuild_instance_registry(packet.get('empirical_instances', []), graph=packet['claim_mechanism_graph'], derived_instances=packet.get('derived_instances', []), evidence_mode=contract['mode'], repository_root=repository_root, temporal_audit=temporal_audit)
     graph = validate_claim_graph(packet['claim_mechanism_graph'], evidence_mode=contract['mode'], repository_root=repository_root, verified_instance_results=registry)
     dispositions, closure = load_concept_authority(repository_root, source_version='v9.0')
     if packet['concept_disposition'] != dispositions:
@@ -529,7 +544,7 @@ def build_semantic_phase_artifacts_v4(packet: Mapping[str, Any], *, contract: Ma
     add('XK7', 'XK07-claim-mechanism-graph', 'claim-mechanism-graph', packet['claim_mechanism_graph'], graph)
     if 'causal_assessments' in packet:
         from .causal_results_v4 import recompute_causal_results_v4
-        causal = recompute_causal_results_v4(packet['causal_assessments'], graph=graph, empirical_instances=packet.get('empirical_instances', []), derived_instances=packet.get('derived_instances', []), mode=contract['mode'], repository_root=repository_root)
+        causal = recompute_causal_results_v4(packet['causal_assessments'], graph=graph, empirical_instances=packet.get('empirical_instances', []), derived_instances=packet.get('derived_instances', []), mode=contract['mode'], repository_root=repository_root, temporal_audit=temporal_audit)
         if causal != packet.get('causal_results'):
             raise ValueError('version-four causal outcomes differ from actual scoped assessments')
     else:
@@ -568,7 +583,7 @@ def build_semantic_phase_artifacts_v4(packet: Mapping[str, Any], *, contract: Ma
     return documents
 
 
-def expected_phase_paths_v4(phase: str, *, mode: str, run_dir: Path | None = None) -> tuple[str, ...]:
+def expected_phase_paths_v4(phase: str, *, mode: str, run_dir: Path | None = None, temporal_context: Any = None) -> tuple[str, ...]:
     from .contracts import expected_phase_artifact_paths
     paths = list(expected_phase_artifact_paths(phase, contract_profile='production-authoring-v3', mode=mode))
     if phase == 'XK1':
@@ -581,6 +596,10 @@ def expected_phase_paths_v4(phase: str, *, mode: str, run_dir: Path | None = Non
         paths.append('authoring/XK07-causal-results.json')
     if phase == 'XK2':
         paths.append(AUTHOR_EXECUTIONS_RELATIVE)
+        if temporal_context is not None:
+            paths.extend(temporal_artifact_paths_v4(temporal_context))
+        elif run_dir is not None and ((run_dir / TEMPORAL_CONTEXT_RELATIVE).exists() or (run_dir / 'temporal-evidence/source').exists()):
+            raise ValueError('version-four temporal phase artifacts have no verified context')
         if run_dir is not None and (run_dir / AUTHOR_EXECUTIONS_RELATIVE).is_file():
             bundle = read_json(run_dir / AUTHOR_EXECUTIONS_RELATIVE)
             executions = [row['execution'] for row in bundle['next_author_executions']]
@@ -663,10 +682,9 @@ def validate_preparation_v4(run_dir: Path, *, contract: Mapping[str, Any], repos
         raise ValueError('XK1 exact input hash differs')
 
 
-def validate_authoring_replay_v4(run_dir: Path, *, contract: Mapping[str, Any], packet: Mapping[str, Any] | None = None, repository_root: Path) -> dict[str, Any]:
+def validate_authoring_inputs_v4(run_dir: Path, *, contract: Mapping[str, Any], repository_root: Path) -> tuple[dict[str, Any], Any]:
     from .authoring import require_base_authoring_provider
-    from .execution import _base_prompt, _project_retrieval, _rebind_visibility_ledger, parse_base_authoring_output
-    from .contracts import build_analysis_packet
+    from .execution import _base_prompt, _project_retrieval, parse_base_authoring_output
     from .retrieval_execution import load_host_capture_bundle, validate_retrieval_execution_receipt
 
     base = read_json(run_dir / 'authoring/XK01-base-authoring-receipt.json')
@@ -746,14 +764,36 @@ def validate_authoring_replay_v4(run_dir: Path, *, contract: Mapping[str, Any], 
         errors = validate_retrieval_execution_receipt(receipt, host_retrieval, run_id=contract['run_id'], evidence_cutoff=contract['evidence_cutoff'], semantic_retrieval=semantic, event_stream=(run_dir / 'authoring/XK01-base-authoring-events.jsonl').read_bytes(), adapter_input=request_path.read_bytes(), host_captures=host_captures)
     if errors:
         raise ValueError('version-four actual retrieval execution receipt failed')
+    validate_versioned_schema('xk-v4-base-authoring-request.schema.json', request, repository_root=repository_root)
+    from .temporal_context import load_temporal_context_v4
+    try:
+        context = load_temporal_context_v4(run_dir, run_contract=contract,
+            expected_binding=request['source_inputs'].get('temporal_audit_binding'), repository_root=repository_root)
+    except ValueError:
+        raise ValueError('version-four temporal context failed original-source or execute-input binding validation') from None
+    return projected, context
+
+
+def validate_authoring_projection_v4(run_dir: Path, projected: Mapping[str, Any], *, contract: Mapping[str, Any], packet: Mapping[str, Any], repository_root: Path, temporal_context: Any = None) -> None:
+    from .contracts import build_analysis_packet
+    temporal_artifact_paths_v4(temporal_context)
+    audit = temporal_context.audit if temporal_context is not None else None
+    if (run_dir / AUTHOR_EXECUTIONS_RELATIVE).is_file():
+        expected, _ = replay_author_executions_v4(run_dir, projected, contract=contract, repository_root=repository_root,
+            bundle=read_json(run_dir / AUTHOR_EXECUTIONS_RELATIVE), temporal_audit=audit)
+    else:
+        domain_plan = domain_plan_v4(run_dir, repository_root=repository_root)
+        expected = build_analysis_packet(projected, run_contract=contract, repository_root=repository_root,
+            domain_read_plan=domain_plan, temporal_audit=audit)
+    if expected != packet:
+        raise ValueError('version-four persisted packet differs from the actual author projection')
+
+
+def validate_authoring_replay_v4(run_dir: Path, *, contract: Mapping[str, Any], packet: Mapping[str, Any] | None = None, repository_root: Path) -> dict[str, Any]:
+    projected, context = validate_authoring_inputs_v4(run_dir, contract=contract, repository_root=repository_root)
     if packet is not None:
-        if (run_dir / AUTHOR_EXECUTIONS_RELATIVE).is_file():
-            expected, _ = replay_author_executions_v4(run_dir, projected, contract=contract, repository_root=repository_root, bundle=read_json(run_dir / AUTHOR_EXECUTIONS_RELATIVE))
-        else:
-            domain_plan = (request['source_inputs'].get('domain_inputs') or {}).get('plan')
-            expected = build_analysis_packet(projected, run_contract=contract, repository_root=repository_root, domain_read_plan=domain_plan)
-        if expected != packet:
-            raise ValueError('version-four persisted packet differs from the actual author projection')
+        validate_authoring_projection_v4(run_dir, projected, contract=contract, packet=packet,
+            repository_root=repository_root, temporal_context=context)
     return projected
 
 
@@ -898,19 +938,21 @@ def validate_run_v4(run_dir: Path, *, repository_root: Path | None = None, requi
                 raise ValueError('version-four run is inside a repository or Skill installation')
         records, chain_errors = validate_phase_chain(root)
         errors.extend(chain_errors)
-        errors.extend(validate_json_artifact_ownership_v4(root, repo))
         if any(row.get('run_id') != contract['run_id'] for row in records):
             errors.append('version-four phase chain run identity differs')
         validate_preparation_v4(root, contract=contract, repository_root=repo, records=records)
         packet = read_json(root / PACKET_RELATIVE)
-        require_packet_contract_v4(packet, mode=contract['mode'], run_contract=contract, repository_root=repo)
-        validate_authoring_replay_v4(root, contract=contract, packet=packet, repository_root=repo)
+        projected, temporal_context = validate_authoring_inputs_v4(root, contract=contract, repository_root=repo)
+        audit = temporal_context.audit if temporal_context is not None else None
+        require_packet_contract_v4(packet, mode=contract['mode'], run_contract=contract, repository_root=repo, temporal_audit=audit)
+        validate_authoring_projection_v4(root, projected, contract=contract, packet=packet, repository_root=repo, temporal_context=temporal_context)
+        errors.extend(validate_json_artifact_ownership_v4(root, repo, temporal_context=temporal_context))
         packet_sha256 = sha256_file(root / PACKET_RELATIVE)
         authors = read_json(root / AUTHOR_EXECUTIONS_RELATIVE)
-        expected_documents = build_semantic_phase_artifacts_v4(packet, contract=contract, repository_root=repo, input_packet_sha256=packet_sha256, author_executions=authors)
+        expected_documents = build_semantic_phase_artifacts_v4(packet, contract=contract, repository_root=repo, input_packet_sha256=packet_sha256, author_executions=authors, temporal_audit=audit)
         for record in records:
             phase = record['phase']
-            paths = expected_phase_paths_v4(phase, mode=contract['mode'], run_dir=root)
+            paths = expected_phase_paths_v4(phase, mode=contract['mode'], run_dir=root, temporal_context=temporal_context)
             if tuple(row['path'] for row in record['artifact_bindings']) != paths:
                 errors.append(phase + ' exact artifact ownership differs')
             if record['index'] >= 2:
