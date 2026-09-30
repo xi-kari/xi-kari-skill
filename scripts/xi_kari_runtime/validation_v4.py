@@ -677,7 +677,11 @@ def validate_run_v4(run_dir: Path, *, repository_root: Path | None = None, requi
             terminal_state, terminal_errors = validate_terminal_closure_v4(root, contract, records, required=validation_boundary == 'final')
             errors.extend(terminal_errors)
     except Exception as exc:
-        if isinstance(exc, ValueError) and str(exc).startswith(('version-four ', 'incompatible version-four ', 'supplied repository root ', 'repository authority ', 'provider environment ', 'XK0 ', 'XK1 ')):
+        origin = exc.__traceback__
+        while origin is not None and origin.tb_next is not None:
+            origin = origin.tb_next
+        code_owned = origin is not None and Path(origin.tb_frame.f_code.co_filename).resolve() == Path(__file__).resolve()
+        if code_owned and isinstance(exc, ValueError) and str(exc).startswith(('version-four ', 'incompatible version-four ', 'supplied repository root ', 'repository authority ', 'provider environment ', 'XK0 ', 'XK1 ')):
             errors.append(str(exc))
         else:
             errors.append('version-four disk validation failed: ' + type(exc).__name__)

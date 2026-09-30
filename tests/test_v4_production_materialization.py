@@ -116,6 +116,22 @@ def test_unknown_root_schema_is_rejected_without_leaking_its_values(tmp_path):
     assert all(secret not in error for error in errors)
 
 
+def test_foreign_validator_exception_cannot_expose_protected_raw_text(tmp_path, monkeypatch):
+    from xi_kari_runtime import validation_v4
+
+    secret = 'protected-raw-user-text'
+    atomic_write_json(tmp_path / 'run-contract.json', {'run_id': 'privacy-error'})
+    monkeypatch.setattr(validation_v4, 'require_run_contract_v4', lambda *args, **kwargs: ROOT)
+
+    def foreign_failure(*args, **kwargs):
+        raise ValueError('version-four evidence validation failed: ' + secret)
+
+    monkeypatch.setattr(validation_v4, 'validate_preparation_v4', foreign_failure)
+    report = validation_v4.validate_run_v4(tmp_path, repository_root=ROOT, require_complete=False)
+    assert report['valid'] is False
+    assert secret not in json.dumps(report)
+
+
 def test_recognized_source_protocol_cannot_be_relocated_to_an_unknown_path(tmp_path):
     from xi_kari_runtime.validation_v4 import validate_json_artifact_ownership_v4
 
