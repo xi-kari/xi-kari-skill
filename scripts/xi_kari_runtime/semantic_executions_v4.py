@@ -15,6 +15,7 @@ import sys
 import uuid
 from typing import Any
 
+from .authoring import CODEX_MODEL as MODEL, CODEX_REASONING_EFFORT as EFFORT
 from .canonical_json import canonical_bytes, read_bounded_regular_file, read_json, read_json_text, sha256_bytes, sha256_file, sha256_json
 from .formal_results import bind_formal_claim_results
 from .output_transport import COMPLETION_NOTICE, parse_provider_events, read_semantic_output
@@ -23,8 +24,6 @@ from .v4_contracts import repository_path, validate_versioned_schema, v4_authori
 from .world_volume import _native_snapshot
 
 
-MODEL='gpt-6.1-sol'
-EFFORT='max'
 KINDS={'next_author','red_team','stance_stability','sensitivity','final_reader'}
 DOMAIN=b'xi-kari.v4.semantic-execution-receipt/v1'
 MAX_BYTES=16*1024*1024
@@ -163,7 +162,7 @@ def build_semantic_execution_request_v4(packet: Mapping[str, Any],stage_controls
 def bind_semantic_execution_provider_v4(executable_path: str | Path,*,repository_root: Path,timeout_seconds: int=1200) -> dict[str, Any]:
     from .authoring import bind_base_authoring_provider
     provider=bind_base_authoring_provider(executable_path,mode='closed-input',repository_root=repository_path(repository_root),timeout_seconds=timeout_seconds)
-    if provider['model']!=MODEL or provider['reasoning_effort']!=EFFORT:raise ValueError('semantic execution requires gpt-6.1-sol/max')
+    if provider['model']!=MODEL or provider['reasoning_effort']!=EFFORT:raise ValueError('semantic execution requires the frozen provider model and effort')
     return {'kind':'codex_provider','provider':dict(provider)}
 
 
@@ -394,6 +393,9 @@ def execute_semantic_request_v4(request: Mapping[str, Any],*,binding: Mapping[st
 
 def validate_semantic_execution_v4(execution: Mapping[str, Any],*,expected_request: Mapping[str, Any],binding: Mapping[str, Any] | None,repository_root: Path | None=None) -> dict[str, Any]:
     root=repository_path(repository_root)
+    expected_request=_native(expected_request)
+    validate_versioned_schema('xk-v4-semantic-execution-request.schema.json',expected_request,repository_root=root)
+    if expected_request['model']!=MODEL or expected_request['reasoning_effort']!=EFFORT:raise ValueError('semantic execution request differs from the frozen provider configuration')
     attempt=Path(execution['attempt_directory']).resolve()
     from .materialization import _require_external_runs_root
     _require_external_runs_root(attempt,root)
@@ -402,6 +404,7 @@ def validate_semantic_execution_v4(execution: Mapping[str, Any],*,expected_reque
     validate_versioned_schema('xk-v4-semantic-execution-attestation.schema.json',receipt,repository_root=root)
     payload=_verify_signature(receipt,execution['authority_commitment_sha256'])
     validate_versioned_schema('xk-v4-semantic-execution-receipt.schema.json',payload,repository_root=root)
+    if payload['model']!=MODEL or payload['reasoning_effort']!=EFFORT:raise ValueError('semantic execution receipt differs from the frozen provider configuration')
     if receipt!=execution['receipt'] or payload['binding_sha256']!=sha256_json(binding) or payload['request_sha256']!=sha256_json(expected_request) or payload['source_inputs']!=_source(root):raise ValueError('semantic execution receipt differs from expected runtime input')
     for name,record in payload['files'].items():
         raw=_raw_file(capture/name,limit=MAX_CAPTURE_BYTES if name=='request.json' else MAX_BYTES if name!='stdout.jsonl' else 64*1024*1024)

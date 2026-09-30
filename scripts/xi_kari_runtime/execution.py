@@ -40,6 +40,7 @@ from .authoring import (
     _ordinary_executable,
     bind_semantic_authoring_adapter,
     bind_base_authoring_provider,
+    require_base_authoring_provider,
 )
 from .canonical_json import (
     atomic_write_bytes,
@@ -1705,11 +1706,6 @@ def execute_authored_run(
         raise ValueError('version-four execution requires source v9.0')
     if contract_version not in {3, 4} or (contract_version == 3 and selected_source != 'v8.3'):
         raise ValueError('unsupported execution source and contract version')
-    if contract_version == 4:
-        from .authoring import CODEX_MODEL, CODEX_REASONING_EFFORT
-        if CODEX_MODEL != 'gpt-6.1-sol' or CODEX_REASONING_EFFORT != 'max':
-            raise ValueError('version-four execution requires the authorized gpt-6.1-sol/max provider configuration')
-
     if mode not in {"open-world", "closed-input"}:
         raise ValueError("unsupported execution mode")
     if _continuation_kind not in {"original", "fork", "repair"}:
@@ -1789,6 +1785,9 @@ def execute_authored_run(
         repository_root=repo,
         timeout_seconds=timeout_seconds,
     )
+    if contract_version == 4:
+        require_base_authoring_provider(provider, mode="closed-input")
+        require_base_authoring_provider(base_provider, mode=mode)
     contract_evidence = None
     if request_text is not None:
         contract_provider = bind_base_authoring_provider(
