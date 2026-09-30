@@ -15,6 +15,48 @@ from .problem_contract import FROZEN_FIELDS, contract_hash, stance_neutrality_ke
 from .v4_contracts import validate_applicability, validate_versioned_schema
 
 
+def validate_world_stage(
+    world: Mapping[str, Any], *, evidence_ledger: Mapping[str, Any], retrieval_index: Mapping[str, Any]
+) -> dict[str, Any]:
+    from .world_volume import (
+        apply_registered_events, bind_registered_event_evidence,
+        freeze_object_identity, validate_identity_continuation, validate_prototype_record,
+    )
+    required = {
+        'initial_state', 'events', 'event_bindings', 'channel_registry', 'authorization_registry',
+        'identities', 'prototypes', 'identity_changes',
+    }
+    if not isinstance(world, Mapping) or set(world) != required:
+        raise ValueError('world consumer requires exact state, event, identity and registry inputs')
+    state = world['initial_state']
+    if not isinstance(state, Mapping) or not {'snapshot_id', 'model_version', 'run_id', 'evidence_cutoff', 'objects', 'unknowns', 'losses', 'residuals'}.issubset(state):
+        raise ValueError('world initial state is incomplete')
+    identities = {row['object_id']: freeze_object_identity(row) for row in world['identities']}
+    if len(identities) != len(world['identities']):
+        raise ValueError('world identities are duplicated')
+    evidence = bind_registered_event_evidence(
+        state, world['events'], evidence_ledger=evidence_ledger,
+        retrieval_index=retrieval_index, bindings=world['event_bindings'],
+    )
+    for change in world['identity_changes']:
+        validate_identity_continuation(change['previous'], change['current'], recheck_id=change['recheck_id'], identity_rechecks=change['identity_rechecks'])
+    prototypes = [
+        validate_prototype_record(row, identity_record=identities[row['object_id']], evidence_registry=evidence)
+        for row in world['prototypes']
+    ]
+    transitions = apply_registered_events(
+        state, world['events'], evidence_registry=evidence,
+        channel_registry=world['channel_registry'], authorization_registry=world['authorization_registry'],
+    )
+    fields = ('state_diff_id', 'source_state_sha256', 'result_state_sha256', 'event_id', 'event_role', 'evidence_identity', 'authorization_status', 'external_action_authorized', 'reported_content_status')
+    return {
+        'initial_state_sha256': sha256_json(state),
+        'output_state': transitions[-1].output_state if transitions else deepcopy(dict(state)),
+        'transitions': [{field: getattr(transition, field) for field in fields} for transition in transitions],
+        'identities': identities, 'prototypes': prototypes,
+    }
+
+
 def build_analysis_packet_v4(
     semantic_packet: Mapping[str, Any], *, run_contract: Mapping[str, Any], repository_root: Path
 ) -> dict[str, Any]:
@@ -63,7 +105,10 @@ def require_packet_contract_v4(
             value = packet.get(field)
             if not isinstance(value, Mapping) or not value:
                 raise ValueError(f'{stage} consumer requires substantive {field} inputs')
-            raise ValueError(f'{stage} version-four production consumer is not integrated')
+            if stage == 'world_state':
+                validate_world_stage(value, evidence_ledger=packet['evidence'], retrieval_index=packet['retrieval'])
+            else:
+                raise ValueError(f'{stage} version-four production consumer is not integrated')
     ledger = packet['evidence']
     errors = validate_evidence_ledger(dict(ledger), dict(packet['retrieval']))
     if errors:
@@ -81,4 +126,4 @@ def require_packet_contract_v4(
     validate_visibility_ledger(packet, privacy_contract=run_contract.get('privacy_contract') if run_contract else None)
 
 
-__all__ = ('build_analysis_packet_v4', 'require_packet_contract_v4')
+__all__ = ('build_analysis_packet_v4', 'require_packet_contract_v4', 'validate_world_stage')
