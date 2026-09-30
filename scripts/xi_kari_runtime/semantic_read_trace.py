@@ -1,4 +1,4 @@
-"""Runtime-owned binding and validation for the 21-volume semantic read trace."""
+"""Runtime-owned binding and validation for manifest-ordered semantic reading."""
 
 from __future__ import annotations
 
@@ -12,6 +12,7 @@ from typing import Any
 
 from .canonical_json import read_json, sha256_file, sha256_json
 from .contracts import PRODUCTION_CONTRACT_PROFILE
+from .source_profile import get_source_profile
 
 
 INPUT_SCHEMA_ID = "xi-kari.v3.semantic-read-trace-input"
@@ -79,6 +80,18 @@ RECEIPT_FIELDS = frozenset(
 )
 
 
+def _trace_identities(source_lock: Mapping[str, Any]) -> tuple[str, str, str, str]:
+    version = source_lock.get('framework_version', 'v8.3')
+    get_source_profile(version)
+    namespace = 'v4' if version == 'v9.0' else 'v3'
+    return (
+        f'xi-kari.{namespace}.semantic-read-trace-input',
+        f'xi-kari.{namespace}.semantic-read-trace',
+        f'xi-kari.{namespace}.semantic-read-import-receipt/v1',
+        'production-authoring-v4' if version == 'v9.0' else PRODUCTION_CONTRACT_PROFILE,
+    )
+
+
 def _require_exact_fields(
     value: Any, expected: frozenset[str], *, label: str
 ) -> Mapping[str, Any]:
@@ -137,7 +150,8 @@ def _source_context(
     source_lock: Mapping[str, Any],
     source_events: Sequence[Mapping[str, Any]],
 ) -> tuple[Mapping[str, Any], str, list[str], dict[str, set[str]]]:
-    source_root = Path(repository_root) / "references/source/v8.3"
+    source_version = source_lock.get('framework_version', 'v8.3')
+    source_root = get_source_profile(source_version).source_directory(repository_root)
     manifest_path = source_root / "source-manifest.json"
     manifest = read_json(manifest_path)
     if not isinstance(manifest, Mapping):
@@ -146,10 +160,11 @@ def _source_context(
     reader_units = manifest.get("reader_units")
     if (
         not isinstance(reader_units, list)
-        or len(reader_units) != 21
+        or len(reader_units) != manifest.get('reader_unit_count')
+        or not reader_units
         or any(not isinstance(unit, str) or not unit for unit in reader_units)
     ):
-        raise ValueError("semantic read trace source manifest has no exact 21-unit sequence")
+        raise ValueError('semantic read trace source manifest has no exact reader-unit sequence')
     if source_lock.get("source_manifest_sha256") != manifest_sha256:
         raise ValueError("semantic read trace source lock manifest binding differs")
     if source_lock.get("reader_sequence") != reader_units:
@@ -186,7 +201,7 @@ def _bound_records(
         label="semantic read trace input",
     )
     if (
-        document.get("schema_id") != INPUT_SCHEMA_ID
+        document.get("schema_id") != _trace_identities(source_lock)[0]
         or document.get("schema_version") != 1
     ):
         raise ValueError("semantic read trace input schema identity is invalid")
@@ -194,8 +209,8 @@ def _bound_records(
         repository_root, source_lock, source_events
     )
     records = document.get("records")
-    if not isinstance(records, list) or len(records) != 21:
-        raise ValueError("semantic read trace must contain exactly 21 records")
+    if not isinstance(records, list) or len(records) != len(reader_units):
+        raise ValueError('semantic read trace must cover the exact manifest reader sequence')
     observed_units = [
         record.get("reader_unit") if isinstance(record, Mapping) else None
         for record in records
@@ -209,7 +224,9 @@ def _bound_records(
         raise ValueError("semantic read trace manifest has no reader file hashes")
     output: list[dict[str, Any]] = []
     boilerplate_owners: dict[str, str] = {}
-    source_root = Path(repository_root) / "references/source/v8.3"
+    source_version = source_lock.get('framework_version', 'v8.3')
+    source_root = get_source_profile(source_version).source_directory(repository_root)
+    anchor_pattern = re.compile(r'^V90-(?:P\d{5}|T\d{3})$') if source_version == 'v9.0' else SOURCE_ANCHOR
     for index, (raw_record, unit) in enumerate(
         zip(records, reader_units, strict=True)
     ):
@@ -261,7 +278,7 @@ def _bound_records(
                 require_nonempty=True,
             )
             for anchor in anchors:
-                if SOURCE_ANCHOR.fullmatch(anchor) is None:
+                if anchor_pattern.fullmatch(anchor) is None:
                     raise ValueError(
                         f"semantic read trace source anchor is invalid: {anchor}"
                     )
@@ -345,7 +362,7 @@ def _bound_records(
                 "sequence": index + 1,
                 "reader_unit": unit,
                 "source_binding": {
-                    "path": f"references/source/v8.3/{source_file}",
+                    "path": f"references/source/{source_version}/{source_file}",
                     "source_file": source_file,
                     "expected_sha256": expected_sha256,
                     "observed_sha256": observed_sha256,
@@ -407,13 +424,16 @@ def build_semantic_read_trace(
         source_lock=source_lock,
         source_events=source_events,
     )
+    input_schema_id, artifact_schema_id, receipt_protocol, contract_profile = _trace_identities(source_lock)
+    if run_contract.get('contract_profile') != contract_profile:
+        raise ValueError('semantic read trace source version differs from its production profile')
     semantic_payload = {
-        "schema_id": INPUT_SCHEMA_ID,
+        "schema_id": input_schema_id,
         "schema_version": 1,
         "records": [_semantic_projection(record) for record in records],
     }
     receipt: dict[str, Any] = {
-        "protocol": RECEIPT_PROTOCOL,
+        "protocol": receipt_protocol,
         "receipt_id": "",
         "run_id": run_contract.get("run_id"),
         "problem_contract_sha256": run_contract.get("problem_contract_sha256"),
@@ -428,12 +448,12 @@ def build_semantic_read_trace(
     }
     receipt["receipt_id"] = _receipt_id(receipt)
     artifact = {
-        "schema_id": ARTIFACT_SCHEMA_ID,
+        "schema_id": artifact_schema_id,
         "schema_version": 1,
         "run_id": run_contract.get("run_id"),
-        "contract_profile": PRODUCTION_CONTRACT_PROFILE,
+        "contract_profile": contract_profile,
         "source_manifest_sha256": manifest_sha256,
-        "reader_unit_count": 21,
+        "reader_unit_count": len(records),
         "import_receipt": receipt,
         "import_receipt_sha256": sha256_json(receipt),
         "records": records,
@@ -458,6 +478,7 @@ def validate_semantic_read_trace(
     xk0_record_sha256: str,
 ) -> list[str]:
     try:
+        input_schema_id, artifact_schema_id, receipt_protocol, contract_profile = _trace_identities(source_lock)
         if not isinstance(value, Mapping):
             raise ValueError("XK1 semantic read trace is not an object")
         allowed_fields = set(ARTIFACT_FIELDS) | {OPTIONAL_BASE_EXECUTION_FIELD}
@@ -465,17 +486,17 @@ def validate_semantic_read_trace(
             raise ValueError("XK1 semantic read trace fields are not exact")
         artifact = value
         if (
-            artifact.get("schema_id") != ARTIFACT_SCHEMA_ID
+            artifact.get("schema_id") != artifact_schema_id
             or artifact.get("schema_version") != 1
-            or artifact.get("reader_unit_count") != 21
+            or artifact.get("reader_unit_count") != source_lock.get('reader_unit_count')
             or artifact.get("complete") is not True
         ):
             raise ValueError("XK1 semantic read trace identity is invalid")
         if artifact.get("run_id") != run_contract.get("run_id"):
             raise ValueError("XK1 semantic read trace run_id differs from run contract")
         if (
-            artifact.get("contract_profile") != PRODUCTION_CONTRACT_PROFILE
-            or run_contract.get("contract_profile") != PRODUCTION_CONTRACT_PROFILE
+            artifact.get("contract_profile") != contract_profile
+            or run_contract.get("contract_profile") != contract_profile
         ):
             raise ValueError("XK1 semantic read trace is not bound to production profile")
         raw_records = artifact.get("records")
@@ -497,14 +518,14 @@ def validate_semantic_read_trace(
                 raise ValueError("XK1 base authoring execution run_id differs")
             if execution.get("semantic_read_trace_sha256") != sha256_json(
                 {
-                    "schema_id": INPUT_SCHEMA_ID,
+                    "schema_id": input_schema_id,
                     "schema_version": 1,
                     "records": semantic_records,
                 }
             ):
                 raise ValueError("XK1 base authoring execution trace hash differs")
         payload = {
-            "schema_id": INPUT_SCHEMA_ID,
+            "schema_id": input_schema_id,
             "schema_version": 1,
             "records": semantic_records,
         }
@@ -524,7 +545,7 @@ def validate_semantic_read_trace(
             label="XK1 semantic read import receipt",
         )
         expected_receipt_values = {
-            "protocol": RECEIPT_PROTOCOL,
+            "protocol": receipt_protocol,
             "run_id": run_contract.get("run_id"),
             "problem_contract_sha256": run_contract.get(
                 "problem_contract_sha256"

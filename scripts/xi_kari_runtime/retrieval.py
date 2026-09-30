@@ -16,12 +16,14 @@ from .canonical_json import (
     atomic_write_json,
     confined_path,
     read_json,
+    read_json_text,
     sha256_bytes,
     sha256_file,
     sha256_json,
     sha256_text,
 )
 from .problem_contract import parse_instant
+from .source_profile import SOURCE_VERSION, get_source_profile
 
 
 ALLOWED_MODES = {"open-world", "closed-input"}
@@ -429,8 +431,75 @@ def _reader_for_ordinal(manifest: dict[str, Any], ordinal: int) -> str:
     raise ValueError(f"source ordinal is outside the manifest divisions: {ordinal}")
 
 
-def build_full_source_lock(
+def _build_v90_source_lock(
     repository_root: Path, *, run_id: str
+) -> tuple[dict[str, Any], list[dict[str, Any]]]:
+    profile = get_source_profile('v9.0')
+    root = Path(repository_root).resolve()
+    source_root = profile.source_directory(root)
+    manifest_path = source_root / 'source-manifest.json'
+    manifest = read_json(manifest_path)
+    if manifest.get('raw_sha256') != profile.raw_sha256 or sha256_file(profile.source_document(root)) != profile.raw_sha256:
+        raise ValueError('v9.0 source revision differs from the immutable source profile')
+    for relative, expected in manifest['source_unit_file_sha256'].items():
+        if sha256_file(confined_path(source_root, relative)) != expected:
+            raise ValueError(f'v9.0 source unit artifact differs: {relative}')
+    sequence = manifest['reader_units']
+    if not sequence or len(sequence) != manifest['reader_unit_count'] or manifest['sequence'] != sequence:
+        raise ValueError('v9.0 reader sequence differs from the manifest')
+    receipts = []
+    for index, name in enumerate(sequence, 1):
+        relative = 'reader/' + name
+        content = confined_path(source_root, relative).read_bytes()
+        expected = manifest['reader_file_sha256'][relative]
+        observed = sha256_bytes(content)
+        if expected != observed:
+            raise ValueError(f'v9.0 reader unit differs: {relative}')
+        receipts.append({
+            'receipt_id': f'reader-{index:02d}', 'sequence': index, 'unit': name,
+            'path': f'references/source/v9.0/{relative}', 'bytes_read': len(content),
+            'expected_sha256': expected, 'observed_sha256': observed, 'read_complete': True,
+        })
+    paragraphs = [read_json_text(line) for line in (source_root / 'audit/paragraphs.jsonl').read_text(encoding='utf-8').splitlines() if line.strip()]
+    units = {row['anchor']: ('paragraph', sha256_text(row['text'])) for row in paragraphs}
+    tables = read_json(source_root / 'indexes/tables.json')
+    for table in tables:
+        anchor = table['anchor']
+        units[anchor] = ('table', sha256_file(source_root / 'audit/tables' / (anchor + '.json')))
+    ownership: dict[str, str] = {}
+    for division in manifest['divisions']:
+        for anchor in division['source_unit_anchors']:
+            if anchor in ownership:
+                raise ValueError('v9.0 source unit has duplicate reader ownership')
+            ownership[anchor] = division['reader_file']
+    unit_sequence = manifest['source_unit_sequence']
+    if len(units) != manifest['source_unit_count'] or set(unit_sequence) != set(units) or set(ownership) != set(units) or len(unit_sequence) != len(set(unit_sequence)):
+        raise ValueError('v9.0 source unit sequence or reader ownership is incomplete')
+    if len(paragraphs) != profile.expected_paragraphs or len(tables) != profile.expected_tables:
+        raise ValueError('v9.0 source unit counts differ from the source profile')
+    events = [
+        {
+            'schema_id': 'xi-kari.v4.source-read-event', 'schema_version': 4,
+            'event_id': f'read-{index:05d}', 'run_id': run_id, 'ordinal': index,
+            'source_anchor': anchor, 'source_unit_type': units[anchor][0],
+            'reader_unit': ownership[anchor], 'source_sha256': units[anchor][1], 'status': 'read',
+        }
+        for index, anchor in enumerate(unit_sequence, 1)
+    ]
+    lock = {
+        'schema_id': 'xi-kari.v4.source-lock', 'schema_version': 4, 'run_id': run_id,
+        'framework_version': 'v9.0', 'source_manifest_sha256': sha256_file(manifest_path),
+        'source_raw_sha256': manifest['raw_sha256'], 'source_semantic_sha256': manifest['semantic_sha256'],
+        'validator_set_sha256': validator_set_sha256(root),
+        'paragraph_count': len(paragraphs), 'table_count': len(tables), 'source_unit_count': len(events),
+        'reader_unit_count': len(sequence), 'reader_sequence': sequence,
+        'reader_receipts': receipts, 'source_unit_event_sha256': sha256_json(events), 'complete': True,
+    }
+    return lock, events
+
+
+def build_full_source_lock(
+    repository_root: Path, *, run_id: str, source_version: str = SOURCE_VERSION
 ) -> tuple[dict[str, Any], list[dict[str, Any]]]:
     """Read all 21 volumes and all 4631+122 source units.
 
@@ -439,6 +508,10 @@ def build_full_source_lock(
     a volume-level receipt can never be mistaken for semantic source coverage.
     """
 
+    if source_version == 'v9.0':
+        return _build_v90_source_lock(repository_root, run_id=run_id)
+    if source_version != 'v8.3':
+        raise ValueError('unsupported source-lock version')
     repository_root = Path(repository_root).resolve()
     source_root = repository_root / "references" / "source" / "v8.3"
     manifest_path = source_root / "source-manifest.json"
@@ -591,7 +664,8 @@ def validate_full_source_lock(
     errors: list[str] = []
     try:
         fresh_lock, fresh_events = build_full_source_lock(
-            repository_root, run_id=str(lock.get("run_id", ""))
+            repository_root, run_id=str(lock.get("run_id", "")),
+            source_version=lock.get('framework_version', SOURCE_VERSION),
         )
     except Exception as exc:
         return [f"fresh full source read failed: {exc}"]
@@ -614,8 +688,8 @@ def validate_full_source_lock(
             errors.append(f"full source lock mismatch: {field}")
     if events != fresh_events:
         errors.append("full source read events differ from fresh source units")
-    if len(events) != FULL_SOURCE_UNIT_COUNT:
-        errors.append("full source read event count is not 4753")
+    if len(events) != fresh_lock['source_unit_count']:
+        errors.append('full source read event count differs from the manifest')
     return errors
 
 
