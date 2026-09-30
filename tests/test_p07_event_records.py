@@ -174,3 +174,23 @@ def test_multiple_events_replay_in_time_order_with_independent_evidence():
     assert output[-1].output_state["objects"][0]["variables"][0]["value"] == "latest"
     with pytest.raises(world_volume.WorldVolumeError, match="time"):
         world_volume.apply_registered_events(state, [second, first], evidence_registry=evidence)
+
+
+def test_unrelated_evidence_changes_do_not_invalidate_an_independent_transition():
+    state = frozen_state()
+    event, evidence = observed_event(state)
+    first = world_volume.apply_registered_event(state, event, evidence_registry=evidence)
+    evidence["UNRELATED"] = {"evidence_id": "UNRELATED", "content": "different independent issue"}
+    second = world_volume.apply_registered_event(state, event, evidence_registry=evidence)
+    assert first.state_diff_id == second.state_diff_id
+
+
+def test_no_delta_event_still_requires_actual_occurrence_evidence():
+    state = frozen_state()
+    event, evidence = observed_event(state)
+    event["deltas"] = []
+    with pytest.raises(world_volume.WorldVolumeError, match="evidence"):
+        world_volume.apply_registered_event(state, event, evidence_registry={})
+    transition = world_volume.apply_registered_event(state, event, evidence_registry=evidence)
+    assert transition.output_state == state
+    assert transition.event_role == "e(t)"

@@ -45,7 +45,7 @@ def scale_fixture():
         artifact = {"result_id": "CMP-" + axis, "axis_id": axis, "relation": "equal", "valid": True, "source_profile_sha256": world_volume._canonical_sha256(profile), "target_profile_sha256": world_volume._canonical_sha256(profile), "task_sha256": world_volume._canonical_sha256(task), "contract_version": "4.0.0", "comparison_payload": payload, "evidence_refs": ["E-OBJECT"]}
         comparators["CMP-" + axis] = {**artifact, "artifact_sha256": world_volume._canonical_sha256(artifact)}
         record["scale"]["axis_differences"].append({"axis_id": axis, "relation": "equal", "comparator_result_id": "CMP-" + axis, "artifact_sha256": comparators["CMP-" + axis]["artifact_sha256"]})
-    record["transformation"].update(operator_ids=["V90-CANON-M02"], selected_operator_branch="descriptive_nesting", claim_mode="descriptive_mapping", rules={"boundary_map": "identity"}, decision_rule={"preregistered_at": "2026-09-29T00:00:00Z", "result_accessed_at": "2026-09-30T00:00:00Z", "evaluation_id": "EVAL-1"}, positive_threshold=1, result_state="supported")
+    record["transformation"].update(operator_ids=["scale_operator:M02"], selected_operator_branch="descriptive_nesting", claim_mode="descriptive_mapping", rules={"boundary_map": "identity"}, decision_rule={"preregistered_at": "2026-09-29T00:00:00Z", "result_accessed_at": "2026-09-30T00:00:00Z", "evaluation_id": "EVAL-1"}, positive_threshold=1, result_state="supported")
     record["semantics"].update(preserved_core=["boundary and member identity"], allowed_changes=[], lost_elements=[], prohibited_mappings=["description does not authorize intervention"], task_preservation={"target_quantity": "membership", "preserved_for_task": ["boundary"], "allowed_changes": [], "validity_conditions": ["frozen description only"]})
     record["evidence"].update(source_refs=["E-OBJECT"], target_refs=["E-OBJECT"], task_checks=[{"check_id": "CHECK-1", "task_ref": "describe nested boundary", "evidence_refs": ["E-OBJECT"], "result": "supported", "tolerance_ref": "exact", "scope": "description"}])
     record["protection"]["applicability"] = {"object_type": "nonhuman", "downstream_uses": ["description_only"], "reason": "Synthetic natural-object description", "evidence_refs": ["E-OBJECT"]}
@@ -78,7 +78,7 @@ def test_formal_scale_instance_rejects_unproved_responsibility(mutation):
     if mutation == "internal_valid": registries["comparator_results"] = {}; record["scale"]["axis_differences"][0]["valid"] = True
     if mutation == "wrong_task": record["identity"]["purpose"]["allowed_operations"] = ["intervene"]
     if mutation == "K_name_only": record["objects"]["target_K"]["definition"] = "different definition with same object name"
-    if mutation == "extra_operator": record["transformation"]["operator_ids"].append("V90-CANON-M08")
+    if mutation == "extra_operator": record["transformation"]["operator_ids"].append("scale_operator:M08")
     if mutation == "missing_root": record["transformation"].update(claim_mode="causal", selected_operator_branch="cross_layer_causal", causal_bridge=["claimed bridge"])
     if mutation == "human_floor": record["protection"]["applicability"].update(object_type="human", downstream_uses=["allocation"])
     with pytest.raises(transformations.TransformationError):
@@ -164,3 +164,12 @@ def test_scale_chain_retains_earlier_unresolved_step_and_unique_contracts():
     second["identity"]["contract_id"] = "SCALE-1"
     with pytest.raises(transformations.TransformationError, match="unique"):
         transformations.validate_scale_chain([first, second], **registries)
+
+
+def test_scale_operator_uses_actual_source_qualified_identity():
+    record, registries = scale_fixture()
+    record["transformation"]["operator_ids"] = ["scale_operator:M02"]
+    assert transformations.validate_scale_instance(record, **registries)["result_state"] == "supported"
+    record["transformation"]["operator_ids"] = ["V90-CANON-M02"]
+    with pytest.raises(transformations.TransformationError, match="qualified"):
+        transformations.validate_scale_instance(record, **registries)

@@ -1687,7 +1687,7 @@ def validate_prototype_record(
         if not isinstance(reviewer_id, str):
             raise WorldVolumeError("prototype reviewer identity is missing")
         normalized = unicodedata.normalize("NFKC", reviewer_id).strip().casefold()
-        if not normalized or normalized == object_alias or normalized.startswith(object_alias + "/") or normalized.startswith(object_alias + "-") or normalized.startswith(object_alias + "_") or reviewer.get("independent") is not True or reviewer.get("material_version") != snapshot.get("material_version") or not reviewer.get("outcome"):
+        if not normalized or re.search(r"(?<!\w)" + re.escape(object_alias) + r"(?!\w)", normalized) or normalized.startswith(object_alias + "_") or reviewer.get("independent") is not True or reviewer.get("material_version") != snapshot.get("material_version") or not reviewer.get("outcome"):
             raise WorldVolumeError("prototype review is not independently identity-bound")
         _registered_time(reviewer.get("reviewed_at"), "prototype review time")
     for field in ("appeal", "rollback"):
@@ -1733,6 +1733,18 @@ def apply_registered_event(
         raise WorldVolumeError("event occurs after frozen evidence cutoff")
     if record.get("authorization_status") not in {"authorized", "unauthorized", "unknown"}:
         raise WorldVolumeError("event authorization status is missing")
+    refs = record.get("evidence_refs")
+    if not isinstance(refs, list) or not refs or len(refs) != len(set(refs)):
+        raise WorldVolumeError("event occurrence requires independent evidence references")
+    used_evidence: dict[str, Mapping[str, Any]] = {}
+    for ref in refs:
+        item = evidence.get(ref)
+        if not isinstance(item, dict) or item.get("evidence_id") != ref or item.get("event_id") != record.get("event_id") or item.get("identity") != kind or not item.get("source_refs"):
+            raise WorldVolumeError("event occurrence evidence is unresolved or has a different identity")
+        availability = _registered_time(item.get("available_at"), "event evidence availability")
+        if availability > cutoff or path in {"observed_direct", "reported_belief"} and availability < occurred:
+            raise WorldVolumeError("event occurrence evidence exceeds its frozen observation window")
+        used_evidence[ref] = item
     if record["authorization_status"] == "authorized":
         authorization = (authorization_registry or {}).get(record.get("authorization_ref"))
         if (
@@ -1769,6 +1781,7 @@ def apply_registered_event(
             item = evidence.get(ref)
             if not isinstance(item, Mapping) or item.get("evidence_id") != ref or item.get("channel_id") != channel["channel_id"] or item.get("mechanism_id") != record["mechanism_id"] or item.get("support_status") != "supported" or item.get("identity") != "observed" or not item.get("source_refs") or _registered_time(item.get("available_at"), "channel evidence time") > cutoff:
                 raise WorldVolumeError("channel lacks independent causal/timing evidence")
+            used_evidence[ref] = item
         for condition in channel["threshold_conditions"]:
             target = objects.get(condition.get("object_id"))
             variable = next((v for v in target["variables"] if v["variable_id"] == condition.get("variable_id")), None) if target else None
@@ -1818,7 +1831,7 @@ def apply_registered_event(
                 raise WorldVolumeError("late evidence requires a new frozen run")
         variable["value"] = copy.deepcopy(delta["after"])
         variable["provenance"] = {"event_id": record["event_id"], "identity": kind, "update_path": path, "evidence_refs": list(refs), "conditions": copy.deepcopy(record["conditions"]), "channel_id": record.get("channel_id"), "mechanism_id": record.get("mechanism_id")}
-    payload = {"parent": parent, "event": record, "evidence": evidence, "channel": channel, "authorization": (authorization_registry or {}).get(record.get("authorization_ref")), "output": state}
+    payload = {"parent": parent, "event": record, "evidence": used_evidence, "channel": channel, "authorization": (authorization_registry or {}).get(record.get("authorization_ref")), "output": state}
     return RegisteredTransition(
         state_diff_id="DIFF-" + _canonical_sha256(payload)[:20].upper(),
         source_state_sha256=_canonical_sha256(parent), result_state_sha256=_canonical_sha256(state),
@@ -1847,7 +1860,83 @@ def apply_registered_events(
     return tuple(transitions)
 
 
+def registered_event_target_hashes(events: Sequence[Mapping[str, Any]]) -> dict[str, str]:
+    catalog: dict[str, str] = {}
+    seen: set[str] = set()
+    for event in events:
+        identifier = event.get("event_id")
+        if not isinstance(identifier, str) or not identifier or identifier in seen:
+            raise WorldVolumeError("registered event target catalog requires unique event IDs")
+        seen.add(identifier)
+        for index, delta in enumerate(event["deltas"]):
+            catalog[f"events.{identifier}.deltas[{index}]"] = _canonical_sha256(delta)
+    return catalog
+
+
+def bind_registered_event_evidence(
+    parent: Mapping[str, Any], events: Sequence[Mapping[str, Any]], *,
+    evidence_ledger: Mapping[str, Any], retrieval_index: Mapping[str, Any],
+    bindings: Sequence[Mapping[str, Any]],
+) -> dict[str, dict[str, Any]]:
+    """Adapt frozen version-four material support to exact registered deltas."""
+
+    from .evidence import validate_evidence_ledger
+    from .v4_contracts import evidence_supports_claim
+
+    ledger = _native_snapshot(evidence_ledger, label="registered XK3 ledger", error_type=WorldVolumeError)
+    retrieval = _native_snapshot(retrieval_index, label="registered XK2 sources", error_type=WorldVolumeError)
+    if ledger.get("schema_version") != 4 or ledger.get("run_id") != parent.get("run_id") or retrieval.get("run_id") != parent.get("run_id"):
+        raise WorldVolumeError("registered events require a same-run version-four evidence ledger")
+    if validate_evidence_ledger(ledger, retrieval):
+        raise WorldVolumeError("registered event evidence failed the frozen P04 ledger validator")
+    by_event = _records_by_id(events, "event_id", label="registered event")
+    by_claim = _records_by_id(ledger["claims"], "claim_id", label="registered claim")
+    by_evidence = _records_by_id(ledger["evidence"], "evidence_id", label="registered evidence")
+    by_source = _records_by_id(retrieval["sources"], "source_id", label="registered source")
+    edges = {(edge["claim_id"], edge["evidence_id"], edge["source_id"]) for edge in ledger["support_edges"]}
+    targets = registered_event_target_hashes(events)
+    registry: dict[str, dict[str, Any]] = {}
+    for binding in bindings:
+        if not isinstance(binding, Mapping) or set(binding) != {"event_id", "delta_index", "evidence_ref", "xk3_evidence_id"}:
+            raise WorldVolumeError("event evidence binding has an inexact field set")
+        event = by_event.get(binding["event_id"])
+        index, ref = binding["delta_index"], binding["evidence_ref"]
+        item = by_evidence.get(binding["xk3_evidence_id"])
+        if event is None or type(index) is not int or not 0 <= index < len(event["deltas"]) or ref in registry or item is None:
+            raise WorldVolumeError("event evidence binding is duplicate or unresolved")
+        delta = event["deltas"][index]
+        claim = by_claim[item["claim_id"]]
+        source = by_source[item["source_id"]]
+        target_path = f"events.{event['event_id']}.deltas[{index}]"
+        expected_target = {"target_path": target_path, "target_sha256": targets[target_path], "relation": "descriptive"}
+        if expected_target not in claim["world_targets"] or ref not in event["evidence_refs"] or ref not in delta["evidence_refs"] or (claim["claim_id"], item["evidence_id"], item["source_id"]) not in edges or not evidence_supports_claim(item, claim):
+            raise WorldVolumeError("P04 material support does not bind the exact event delta")
+        if event["kind"] == "observed" and (claim["claim_basis"]["kind"] != "domain_empirical" or item["support_checks"]["world_fact_supported"]["status"] != "passed"):
+            raise WorldVolumeError("a source assertion or unconfirmed content cannot become an observed world update")
+        available_at = source.get("accessed_at")
+        _registered_time(available_at, "frozen material access time")
+        registry[ref] = {
+            "evidence_id": ref, "identity": event["kind"], "source_refs": [item["source_id"]],
+            "available_at": available_at, "event_id": event["event_id"],
+            "object_id": delta["object_id"], "variable_id": delta["variable_id"],
+            "observed_value": copy.deepcopy(delta["after"]),
+            "xk3_evidence_id": item["evidence_id"], "claim_id": claim["claim_id"],
+            "material_identity": copy.deepcopy(item["evidence_identity"]),
+            "support_checks": copy.deepcopy(item["support_checks"]),
+            "research_context": copy.deepcopy(item["research_context"]),
+            "claim_basis": copy.deepcopy(claim["claim_basis"]),
+            "formal_qualification": copy.deepcopy(claim["formal_qualification"]),
+            "visibility": item["visibility"], "protected_review": copy.deepcopy(item["protected_review"]),
+            "target_binding": expected_target,
+        }
+    required_refs = {ref for event in events for delta in event["deltas"] for ref in delta["evidence_refs"]}
+    if set(registry) != required_refs:
+        raise WorldVolumeError("registered event deltas lack exact external evidence coverage")
+    return registry
+
+
 __all__ = (
+    "RegisteredTransition",
     "StateDiff",
     "WorldVolumeError",
     "apply_event",
@@ -1856,4 +1945,11 @@ __all__ = (
     "world_evidence_target_catalog",
     "world_evidence_target_hashes",
     "validate_world_volume",
+    "apply_registered_event",
+    "apply_registered_events",
+    "freeze_object_identity",
+    "validate_identity_continuation",
+    "validate_prototype_record",
+    "registered_event_target_hashes",
+    "bind_registered_event_evidence",
 )

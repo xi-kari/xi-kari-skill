@@ -75,3 +75,26 @@ def test_prototype_rejects_failed_or_unbound_classification(mutation):
     if mutation == "unknown_candidate": record["classification_mode"] = "unknown"
     with pytest.raises(world_volume.WorldVolumeError):
         world_volume.validate_prototype_record(record, identity_record=obj, evidence_registry=evidence)
+
+
+@pytest.mark.parametrize("alias", ["collective:reviewer", "reviewer@collective", "collective.reviewer", "collective reviewer"])
+def test_reviewer_alias_does_not_create_independent_review(alias):
+    obj, record, evidence = prototype()
+    record["reviewers"][0]["reviewer_id"] = alias
+    with pytest.raises(world_volume.WorldVolumeError, match="independent"):
+        world_volume.validate_prototype_record(record, identity_record=obj, evidence_registry=evidence)
+
+
+def test_unknown_mode_is_valid_with_no_candidates_and_explicit_missing_distinction():
+    obj, record, evidence = prototype()
+    record.update(classification_mode="unknown", candidate_states=[], conditions={key: [] for key in record["conditions"]}, missing_data=[{"status": "unknown", "reason": "No observed entry or falsification distinguishes candidates"}])
+    assert world_volume.validate_prototype_record(record, identity_record=obj, evidence_registry=evidence)["classification_mode"] == "unknown"
+
+
+def test_S0_can_enter_X0_without_becoming_S7_or_completed_exit():
+    obj, record, evidence = prototype()
+    record["path_candidates"] = [{"path_id": "PATH-X0", "path_type": "X0", "origin_state": "S0", "exit_status": "partial", "reason": "Unresolved receivers and debt", "evidence_refs": ["E-1"]}]
+    assert world_volume.validate_prototype_record(record, identity_record=obj, evidence_registry=evidence)["path_candidates"][0]["exit_status"] == "partial"
+    record["path_candidates"][0]["exit_status"] = "completed"
+    with pytest.raises(world_volume.WorldVolumeError, match="X0"):
+        world_volume.validate_prototype_record(record, identity_record=obj, evidence_registry=evidence)

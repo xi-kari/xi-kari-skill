@@ -28,9 +28,9 @@ SCALE_MISSING_STATES = {"unknown", "not_applicable", "not_observable", "withheld
 K_CHECKS = ("source_under_source_K", "source_under_target_K", "target_under_source_K", "target_under_target_K")
 RESULT_STATES = {"supported", "null_supported", "unsupported_or_undecided", "not_evaluated"}
 SOURCE_BRANCHES = {
-    "V90-CANON-M02": {"descriptive_nesting": "descriptive_mapping", "cross_layer_causal": "causal", "object_conversion": "object_conversion", "intervention_conversion": "intervention_conversion"},
-    "V90-CANON-M05": {"institutional_fact": "descriptive_mapping", "institutional_causal_effect": "causal", "institutional_object_conversion": "object_conversion", "institutional_intervention_conversion": "intervention_conversion"},
-    "V90-CANON-M07": {"representation_claim": "descriptive_mapping", "actual_acts": "descriptive_mapping", "delegation_validity": "descriptive_mapping", "J_transfer": "descriptive_mapping"},
+    "scale_operator:M02": {"descriptive_nesting": "descriptive_mapping", "cross_layer_causal": "causal", "object_conversion": "object_conversion", "intervention_conversion": "intervention_conversion"},
+    "scale_operator:M05": {"institutional_fact": "descriptive_mapping", "institutional_causal_effect": "causal", "institutional_object_conversion": "object_conversion", "institutional_intervention_conversion": "intervention_conversion"},
+    "scale_operator:M07": {"representation_claim": "descriptive_mapping", "actual_acts": "descriptive_mapping", "delegation_validity": "descriptive_mapping", "J_transfer": "descriptive_mapping"},
 }
 
 
@@ -141,7 +141,7 @@ def validate_scale_instance(
     if classification != scale["transformation_class"] or set(scale["unchanged_axes"]) != {row["axis_id"] for row in rows if row["relation"] == "equal"}:
         raise ScaleContractError("scale classification or unchanged axes differs from verified comparisons")
     operators = transform["operator_ids"]
-    if not isinstance(operators, list) or len(operators) != 1 or operators[0] not in {f"V90-CANON-M{i:02d}" for i in range(1, 10)}:
+    if not isinstance(operators, list) or len(operators) != 1 or operators[0] not in {f"scale_operator:M{i:02d}" for i in range(1, 10)}:
         raise ScaleContractError("atomic scale record requires one qualified M01-M09 operator")
     branches = SOURCE_BRANCHES.get(operators[0], (operator_branches or {}).get(operators[0], {}))
     mode, result = transform["claim_mode"], transform["result_state"]
@@ -225,7 +225,7 @@ def validate_scale_instance(
                     _artifact(verification_artifacts or {}, ref, "artifact_id")
             if mode == "object_conversion" and (root.get("root_id") != "G4" or root.get("selected_subtype") != "G4b"):
                 raise ScaleContractError("object conversion requires a supported G4b instance")
-            if operators[0] == "V90-CANON-M02" and mode != "root_hypothesis" and root.get("root_id") != "G4":
+            if operators[0] == "scale_operator:M02" and mode != "root_hypothesis" and root.get("root_id") != "G4":
                 raise ScaleContractError("cross-layer M02 modes require their registered G4 root")
     if mode == "object_conversion":
         allowed_mapping = {"supported": {"converted_object"}, "null_supported": {"same_object"}, "unsupported_or_undecided": {"same_object", "incomparable", "undetermined"}, "not_evaluated": {"undetermined"}}
