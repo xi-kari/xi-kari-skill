@@ -1529,6 +1529,136 @@ def replay_state_diff(
     return candidate
 
 
+@dataclass(frozen=True, slots=True)
+class RegisteredTransition:
+    state_diff_id: str
+    source_state_sha256: str
+    result_state_sha256: str
+    event_id: str
+    event_role: str
+    evidence_identity: str
+    authorization_status: str
+    external_action_authorized: bool
+    reported_content_status: str | None
+    _output_json: str
+
+    @property
+    def output_state(self) -> dict[str, Any]:
+        return json.loads(self._output_json)
+
+    def replay(self, parent: Mapping[str, Any]) -> dict[str, Any]:
+        if _canonical_sha256(parent) != self.source_state_sha256:
+            raise WorldVolumeError("registered transition parent content changed")
+        result = self.output_state
+        if _canonical_sha256(result) != self.result_state_sha256:
+            raise WorldVolumeError("registered transition output content changed")
+        return result
+
+
+def _registered_time(value: object, label: str) -> datetime:
+    if not isinstance(value, str):
+        raise WorldVolumeError(f"{label} requires an aware timestamp")
+    try:
+        instant = datetime.fromisoformat(value.replace("Z", "+00:00"))
+    except ValueError as error:
+        raise WorldVolumeError(f"{label} requires an aware timestamp") from error
+    if instant.tzinfo is None:
+        raise WorldVolumeError(f"{label} requires an aware timestamp")
+    return instant
+
+
+def apply_registered_event(
+    parent: Mapping[str, Any],
+    event: Mapping[str, Any],
+    *,
+    evidence_registry: Mapping[str, Mapping[str, Any]],
+    channel_registry: Mapping[str, Mapping[str, Any]] | None = None,
+    authorization_registry: Mapping[str, Mapping[str, Any]] | None = None,
+) -> RegisteredTransition:
+    """Apply evidence-bound direct observations to a frozen registered state."""
+
+    state = _native_snapshot(parent, label="registered state", error_type=WorldVolumeError)
+    record = _native_snapshot(event, label="registered event", error_type=WorldVolumeError)
+    evidence = _native_snapshot(dict(evidence_registry), label="event evidence", error_type=WorldVolumeError)
+    if not isinstance(state, dict) or not isinstance(record, dict):
+        raise WorldVolumeError("registered state and event must be objects")
+    path = record.get("update_path")
+    kind = record.get("kind")
+    allowed_kinds = {
+        "observed_direct": {"observed"}, "reported_belief": {"reported"},
+        "scenario": {"planned", "hypothetical", "simulated"},
+    }
+    if kind not in allowed_kinds.get(path, set()):
+        raise WorldVolumeError("unsupported event update path")
+    if path in {"observed_direct", "reported_belief"} and record.get("occurrence_status") != "occurred":
+        raise WorldVolumeError("direct observation requires actual occurrence")
+    if path == "scenario" and record.get("occurrence_status") != "not_occurred":
+        raise WorldVolumeError("scenario cannot claim actual occurrence")
+    cutoff = _registered_time(state.get("evidence_cutoff"), "evidence cutoff")
+    occurred = _registered_time(record.get("occurred_at"), "event occurrence")
+    if path != "scenario" and occurred > cutoff:
+        raise WorldVolumeError("event occurs after frozen evidence cutoff")
+    if record.get("authorization_status") not in {"authorized", "unauthorized", "unknown"}:
+        raise WorldVolumeError("event authorization status is missing")
+    if record["authorization_status"] == "authorized":
+        authorization = (authorization_registry or {}).get(record.get("authorization_ref"))
+        if (
+            not isinstance(authorization, Mapping)
+            or authorization.get("authorization_id") != record.get("authorization_ref")
+            or authorization.get("status") != "valid"
+            or not authorization.get("source_refs")
+            or any(authorization.get(key) != record.get(key) for key in ("actor_id", "object_id", "event_id"))
+            or not (_registered_time(authorization.get("starts_at"), "authorization start") <= occurred <= _registered_time(authorization.get("ends_at"), "authorization end"))
+        ):
+            raise WorldVolumeError("event lacks exact independent external authorization")
+    objects = _records_by_id(state["objects"], "object_id", label="registered object")
+    seen: set[tuple[str, str]] = set()
+    for delta in record["deltas"]:
+        key = (delta["object_id"], delta["variable_id"])
+        if key in seen or delta["object_id"] not in objects:
+            raise WorldVolumeError("event has a duplicate or unknown target")
+        seen.add(key)
+        variables = _records_by_id(objects[delta["object_id"]]["variables"], "variable_id", label="registered variable")
+        variable = variables.get(delta["variable_id"])
+        if path == "reported_belief" and delta.get("category") != "beliefs":
+            raise WorldVolumeError("reported content can only update source-labelled beliefs")
+        if (
+            variable is None
+            or variable["category"] != delta["category"]
+            or variable["clock_id"] != delta["clock_id"]
+            or not _same_json_value(variable["value"], delta["before"])
+            or _same_json_value(delta["before"], delta["after"])
+        ):
+            raise WorldVolumeError("event delta differs from registered variable")
+        refs = delta["evidence_refs"]
+        if not refs or not set(refs).issubset(set(record["evidence_refs"])):
+            raise WorldVolumeError("event delta has no exact evidence coverage")
+        for ref in refs:
+            item = evidence.get(ref)
+            if (
+                item is None or item.get("evidence_id") != ref
+                or item.get("identity") != kind or not item.get("source_refs")
+                or item.get("event_id") != record["event_id"]
+                or item.get("object_id") != delta["object_id"]
+                or item.get("variable_id") != delta["variable_id"]
+                or not _same_json_value(item.get("observed_value"), delta["after"])
+            ):
+                raise WorldVolumeError("direct observation lacks independently resolved target evidence")
+            if _registered_time(item.get("available_at"), "evidence availability") > cutoff:
+                raise WorldVolumeError("late evidence requires a new frozen run")
+        variable["value"] = copy.deepcopy(delta["after"])
+        variable["provenance"] = {"event_id": record["event_id"], "identity": kind, "update_path": path, "evidence_refs": list(refs), "conditions": copy.deepcopy(record["conditions"])}
+    payload = {"parent": parent, "event": record, "evidence": evidence, "output": state}
+    return RegisteredTransition(
+        state_diff_id="DIFF-" + _canonical_sha256(payload)[:20].upper(),
+        source_state_sha256=_canonical_sha256(parent), result_state_sha256=_canonical_sha256(state),
+        event_id=record["event_id"], event_role=("scenario" if path == "scenario" else "u(t)" if path == "observed_direct" and record["authorization_status"] == "authorized" else "e(t)"), evidence_identity=kind,
+        authorization_status=record["authorization_status"], external_action_authorized=False,
+        reported_content_status="unknown" if kind == "reported" else None,
+        _output_json=json.dumps(state, ensure_ascii=False, allow_nan=False, sort_keys=True),
+    )
+
+
 __all__ = (
     "StateDiff",
     "WorldVolumeError",
