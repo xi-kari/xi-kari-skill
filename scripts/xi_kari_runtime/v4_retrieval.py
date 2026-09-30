@@ -13,6 +13,7 @@ MATERIAL_FIELDS = (
     'visibility', 'protected_review',
 )
 BINDING_FIELD = 'material_responsibility_binding'
+PROJECTED_FIELDS = (*MATERIAL_FIELDS, 'assessment_verdict')
 
 
 def host_retrieval_view(retrieval: Mapping[str, Any]) -> dict[str, Any]:
@@ -24,7 +25,7 @@ def host_retrieval_view(retrieval: Mapping[str, Any]) -> dict[str, Any]:
     for field in binding.get('added_root_fields', []):
         value.pop(field, None)
     for source in value['sources']:
-        for field in MATERIAL_FIELDS:
+        for field in PROJECTED_FIELDS:
             source.pop(field, None)
         source.update(originals[source['source_id']])
     if sha256_json(value) != binding['host_index_sha256']:
@@ -43,6 +44,12 @@ def bind_material_responsibilities(
     if not isinstance(authors, list) or len(authors) != len(value.get('sources', [])):
         raise ValueError('material responsibilities do not cover the actual host sources')
     originals = []
+    verdicts = {}
+    for assessment in value.get('assessments', []):
+        identifier = assessment.get('source_id')
+        if identifier in verdicts:
+            raise ValueError('actual host retrieval source assessment is duplicated')
+        verdicts[identifier] = assessment.get('verdict')
     for host, author in zip(value['sources'], authors, strict=True):
         if not isinstance(author, Mapping) or set(MATERIAL_FIELDS) - set(author):
             raise ValueError('source material responsibilities are incomplete')
@@ -62,10 +69,15 @@ def bind_material_responsibilities(
             locator = base + locator[len(authored_id):]
         if not isinstance(locator, str) or not (locator == base or locator.startswith(base + ':') or locator.startswith(base + '#')):
             raise ValueError('material canonical locator refers outside its actual source')
-        originals.append({'source_id': host['source_id'], 'fields': {field: deepcopy(host[field]) for field in MATERIAL_FIELDS if field in host}})
+        originals.append({'source_id': host['source_id'], 'fields': {field: deepcopy(host[field]) for field in PROJECTED_FIELDS if field in host}})
         for field in MATERIAL_FIELDS:
             host[field] = deepcopy(author[field])
         host['canonical_locator'] = locator
+        if host['source_id'] in verdicts:
+            verdict = verdicts[host['source_id']]
+            if 'assessment_verdict' in host and host['assessment_verdict'] != verdict:
+                raise ValueError('material admission differs from its actual source assessment')
+            host['assessment_verdict'] = verdict
     added = []
     if run_id is not None:
         if 'run_id' in value and value['run_id'] != run_id:

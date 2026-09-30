@@ -73,3 +73,13 @@ def test_runtime_run_identity_can_be_added_without_changing_the_original_transpo
     checked = bind_material_responsibilities(host, author, run_id='runtime-owned')
     assert checked['run_id'] == 'runtime-owned'
     assert host_retrieval_view(checked) == host
+
+
+@pytest.mark.parametrize('verdict', ['admitted', 'rejected'])
+def test_source_admission_is_derived_from_its_actual_assessment(verdict):
+    from xi_kari_runtime.v4_retrieval import bind_material_responsibilities, host_retrieval_view
+    host, author = inputs()
+    host['assessments'] = [{'source_id': 'HOST-1', 'verdict': verdict}]
+    checked = bind_material_responsibilities(host, author)
+    assert checked['sources'][0]['assessment_verdict'] == verdict
+    assert host_retrieval_view(checked) == host
