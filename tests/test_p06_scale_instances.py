@@ -119,10 +119,10 @@ def test_nontrivial_K_mapping_uses_all_four_criteria_and_verification_artifact()
         transformations.validate_scale_instance(record, **registries)
 
 
-def test_object_conversion_requires_exact_supported_G4b_root():
-    from tests.test_p06_empirical_root_binding import empirical_scale_fixture, bind
-    record, registries, inputs, graph, objects = empirical_scale_fixture()
-    bundle = bind(record, inputs, graph, objects)
+def test_object_conversion_requires_exact_supported_G4b_root(tmp_path):
+    from tests.test_p06_empirical_root_binding import audited_empirical_scale_fixture, bind
+    record, registries, inputs, graph, objects, audit = audited_empirical_scale_fixture(tmp_path)
+    bundle = bind(record, inputs, graph, objects, temporal_audit=audit)
     registries["root_instances"] = bundle["root_instances"]
     registries["verification_artifacts"].update(bundle["verification_artifacts"])
     registries["evidence_registry"].update(bundle["evidence_registry"])

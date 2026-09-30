@@ -11,6 +11,7 @@ from xi_kari_runtime import transformations, world_volume, empirical_instances
 from tests.test_p04_v4_claim_contracts import _v4_graph
 from tests.test_p06_scale_instances import scale_fixture, attach_mapping
 from tests.test_causal_judgment_instances import root_contract, root_result
+from tests.temporal_materials import record_temporal_inputs
 
 
 def empirical_scale_fixture():
@@ -40,13 +41,22 @@ def empirical_scale_fixture():
     return record, registries, [{"frozen": empirical_instances.freeze_empirical_instance(contract), "evaluation": result}], graph, {"OBJECT-CONTRACT-1": identity}
 
 
-def bind(record, inputs, graph, objects):
-    return transformations.bind_scale_root_instances(record, instance_inputs=inputs, claim_mechanism_graph=graph, object_contracts=objects)
-
-
-def test_P06_consumes_code_recomputed_P05_root_and_frozen_P07_identity():
+def audited_empirical_scale_fixture(tmp_path):
     record, registries, inputs, graph, objects = empirical_scale_fixture()
-    bundle = bind(record, inputs, graph, objects)
+    contract, evaluation, audit = record_temporal_inputs(
+        tmp_path, inputs[0]["frozen"]["preregistration"], inputs[0]["evaluation"]
+    )
+    inputs = [{"frozen": empirical_instances.freeze_empirical_instance(contract), "evaluation": evaluation}]
+    return record, registries, inputs, graph, objects, audit
+
+
+def bind(record, inputs, graph, objects, *, temporal_audit=None):
+    return transformations.bind_scale_root_instances(record, instance_inputs=inputs, claim_mechanism_graph=graph, object_contracts=objects, temporal_audit=temporal_audit)
+
+
+def test_P06_consumes_code_recomputed_P05_root_and_frozen_P07_identity(tmp_path):
+    record, registries, inputs, graph, objects, audit = audited_empirical_scale_fixture(tmp_path)
+    bundle = bind(record, inputs, graph, objects, temporal_audit=audit)
     root = bundle["root_instances"]["ROOT-1"]
     assert root["eligibility_status"] == "eligible"
     assert root["selected_success_criterion"] == "identity_criterion_violation"

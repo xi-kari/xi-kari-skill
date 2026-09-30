@@ -9,6 +9,7 @@ import pytest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 from tests.test_p04_v4_claim_contracts import _v4_graph
+from tests.temporal_materials import record_temporal_inputs
 from xi_kari_runtime import claims
 
 
@@ -70,7 +71,7 @@ def test_fresh_process_recomputes_causal_support_from_disk(tmp_path):
     assert before["claim_graph_sha256"] != after["claim_graph_sha256"]
 
 
-def test_actual_empirical_instance_uses_v4_material_identity_and_checks():
+def test_actual_empirical_instance_uses_v4_material_identity_and_checks(tmp_path):
     from tests.test_causal_judgment_instances import root_contract, root_result
     from xi_kari_runtime.empirical_instances import freeze_empirical_instance
     graph = empirical_graph()
@@ -80,13 +81,14 @@ def test_actual_empirical_instance_uses_v4_material_identity_and_checks():
     evaluation["prerequisite_claim_ids"] = {key: ["CLAIM-FACTUAL"] for key in evaluation["prerequisite_claim_ids"]}
     evaluation["null_gate_claim_ids"] = {key: ["CLAIM-FACTUAL"] for key in evaluation["null_gate_claim_ids"]}
     evaluation["dimension_claim_ids"] = {"delay": ["CLAIM-FACTUAL"]}
-    bundle = [{"frozen": freeze_empirical_instance(root_contract()), "evaluation": evaluation}]
-    checked = claims.validate_empirical_instances(bundle, claim_mechanism_graph=graph)
+    contract, evaluation, audit = record_temporal_inputs(tmp_path, root_contract(), evaluation)
+    bundle = [{"frozen": freeze_empirical_instance(contract), "evaluation": evaluation}]
+    checked = claims.validate_empirical_instances(bundle, claim_mechanism_graph=graph, temporal_audit=audit)
     assert checked["instances"][0]["result"]["result_state"] == "supported"
     assert set(checked["instances"][0]["measured_dimensions"]) == {"delay"}
     graph["evidence"][0]["identity"] = "simulated-result"
     with pytest.raises(claims.ClaimMechanismError, match="empirical"):
-        claims.validate_empirical_instances(bundle, claim_mechanism_graph=graph)
+        claims.validate_empirical_instances(bundle, claim_mechanism_graph=graph, temporal_audit=audit)
 
 
 def test_nested_identification_check_cannot_use_a_normative_argument_as_empirical_evidence():
@@ -117,7 +119,7 @@ def test_plain_cached_result_dictionary_is_not_an_evaluated_instance_registry():
         claims.claim_constraints(claims.validate_claim_graph(graph), verified_instance_results=forged)
 
 
-def test_recomputed_registry_can_supply_a_real_root_premise_and_detects_graph_change():
+def test_recomputed_registry_can_supply_a_real_root_premise_and_detects_graph_change(tmp_path):
     from tests.test_causal_judgment_instances import root_contract, root_result
     from xi_kari_runtime.empirical_instances import EvaluatedInstanceRegistry, freeze_empirical_instance
     graph = empirical_graph()
@@ -126,7 +128,8 @@ def test_recomputed_registry_can_supply_a_real_root_premise_and_detects_graph_ch
     graph["dependency_targets"] = [{"kind": "instance", "id": instance_id, "status": "not_run", "reason": "Code must evaluate the real root"}]
     evaluation = root_result()
     evaluation.update(evidence_claim_ids=["CLAIM-FACTUAL"], analysis_artifact_claim_ids=["CLAIM-FACTUAL"], prerequisite_claim_ids={key: ["CLAIM-FACTUAL"] for key in evaluation["prerequisite_claim_ids"]}, dimension_claim_ids={"delay": ["CLAIM-FACTUAL"]}, null_gate_claim_ids={key: ["CLAIM-FACTUAL"] for key in evaluation["null_gate_claim_ids"]})
-    registry = EvaluatedInstanceRegistry([{"frozen": freeze_empirical_instance(root_contract()), "evaluation": evaluation}], graph=graph)
+    contract, evaluation, audit = record_temporal_inputs(tmp_path, root_contract(), evaluation)
+    registry = EvaluatedInstanceRegistry([{"frozen": freeze_empirical_instance(contract), "evaluation": evaluation}], graph=graph, temporal_audit=audit)
     assert claims.claim_constraints(graph, verified_instance_results=registry)["CLAIM-STRUCTURAL"]["blocked"] is False
     graph["evidence"][0]["support_checks"]["world_fact_supported"]["status"] = "failed"
     with pytest.raises(claims.ClaimMechanismError, match="same graph"):
