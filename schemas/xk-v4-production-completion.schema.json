@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema_id": {
+      "const": "xi-kari.v4.completion"
+    },
+    "schema_version": {
+      "const": 4
+    },
+    "run_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "official_validation_path": {
+      "const": "validation/attempts/official/validator-report.json"
+    },
+    "official_validation_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "chain_head_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "phase_count": {
+      "const": 13
+    },
+    "validator_set_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "manifest_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "final_chat_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "xk12_transaction_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "provider_environment_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "completed_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "schema_id",
+    "schema_version",
+    "run_id",
+    "official_validation_path",
+    "official_validation_sha256",
+    "chain_head_sha256",
+    "phase_count",
+    "validator_set_sha256",
+    "manifest_sha256",
+    "final_chat_sha256",
+    "xk12_transaction_sha256",
+    "provider_environment_sha256",
+    "completed_at"
+  ],
+  "$id": "https://xi-kari.local/schemas/xi-kari.v4.completion.schema.json",
+  "title": "Xi-Kari v4 completion"
+}

@@ -1,0 +1,79 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema_id": {
+      "const": "xi-kari.v4.production-phase-artifact"
+    },
+    "schema_version": {
+      "const": 4
+    },
+    "run_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "phase": {
+      "enum": [
+        "XK2",
+        "XK3",
+        "XK4",
+        "XK5",
+        "XK6",
+        "XK7",
+        "XK8",
+        "XK9",
+        "XK10",
+        "XK11"
+      ]
+    },
+    "kind": {
+      "enum": [
+        "retrieval-ledger",
+        "evidence-ledger",
+        "unknown-register",
+        "concept-disposition",
+        "concept-closure-report",
+        "local-world-model",
+        "transformation-ledger",
+        "cascade",
+        "claim-mechanism-graph",
+        "case-ledger",
+        "recursive-lineage",
+        "semantic-authoring-bundle",
+        "order-evaluation",
+        "red-team-report",
+        "stance-pair",
+        "sensitivity-report",
+        "stance-stability-report",
+        "verdict",
+        "action-ranking",
+        "forecast-ledger",
+        "framework-gap-ledger",
+        "output-plan",
+        "semantic-coverage",
+        "prose-review"
+      ]
+    },
+    "input_packet_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "payload": {},
+    "result": {
+      "type": "object"
+    }
+  },
+  "required": [
+    "schema_id",
+    "schema_version",
+    "run_id",
+    "phase",
+    "kind",
+    "input_packet_sha256",
+    "payload",
+    "result"
+  ],
+  "$id": "https://xi-kari.local/schemas/xi-kari.v4.production-phase-artifact.schema.json",
+  "title": "Xi-Kari v4 production-phase-artifact"
+}
