@@ -7,6 +7,8 @@ import pytest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 
+from tests.temporal_materials import evaluate_empirical_with_materials
+
 
 def root_contract():
     return {
@@ -29,27 +31,27 @@ def root_result():
         "prerequisite_claim_ids": {key: ["experiment"] for key in ("identification", "alternative_channels", "common_inputs", "measurement_protocol")}, "dimension_claim_ids": {"delay": ["experiment"]}}
 
 
-def test_root_qualification_keeps_four_results_and_three_null_gates():
+def test_root_qualification_keeps_four_results_and_three_null_gates(tmp_path):
     instances = import_module("xi_kari_runtime.empirical_instances")
     frozen = instances.freeze_empirical_instance(root_contract())
     assert frozen["result"]["result_state"] == "not_evaluated"
     support = {ref: {"blocked": False} for ref in ("experiment", "analysis", "null-analysis")}
     result = root_result()
-    checked = instances.evaluate_empirical_instance(frozen, result, claim_constraints=support)
+    checked = evaluate_empirical_with_materials(tmp_path, frozen, result, claim_constraints=support)
     assert checked["qualification"] == "qualified"
     assert checked["result"]["result_state"] == "supported"
     result["metrics"].update(controlled_perturbation_effect=0.01, **{"equivalence-upper": 0.02})
-    assert instances.evaluate_empirical_instance(frozen, result, claim_constraints=support)["result"]["result_state"] == "null_supported"
+    assert evaluate_empirical_with_materials(tmp_path, frozen, result, claim_constraints=support)["result"]["result_state"] == "null_supported"
     result["metrics"]["detectable-effect"] = 0.3
-    assert instances.evaluate_empirical_instance(frozen, result, claim_constraints=support)["result"]["result_state"] == "unsupported_or_undecided"
+    assert evaluate_empirical_with_materials(tmp_path, frozen, result, claim_constraints=support)["result"]["result_state"] == "unsupported_or_undecided"
 
 
-def test_g2_support_cannot_come_from_effect_number_without_identification_checks():
+def test_g2_support_cannot_come_from_effect_number_without_identification_checks(tmp_path):
     instances = import_module("xi_kari_runtime.empirical_instances")
     frozen = instances.freeze_empirical_instance(root_contract())
     result = root_result()
     result["prerequisite_claim_ids"] = {}
-    checked = instances.evaluate_empirical_instance(frozen, result, claim_constraints={ref: {"blocked": False} for ref in ("experiment", "analysis", "null-analysis")})
+    checked = evaluate_empirical_with_materials(tmp_path, frozen, result, claim_constraints={ref: {"blocked": False} for ref in ("experiment", "analysis", "null-analysis")})
     assert checked["result"]["result_state"] == "unsupported_or_undecided"
     assert checked["qualification"] == "unqualified"
 
@@ -83,7 +85,7 @@ def test_empirical_gate_rejects_posthoc_or_ineligible_instance(change):
     ("H4", "H4-expression-safety", "position_or_mediation_expression_safety_effect", {"position": "synthetic-low-power-position"}, ["selected_position_or_mediation", "identification", "measurement_protocol"]),
     ("H5", "habit_or_practice", "repeat_detection_across_preregistered_windows", {"carrier": "synthetic-practice"}, ["selected_carrier", "registered_observation_windows", "measurement_protocol"]),
 ])
-def test_each_empirical_family_uses_only_its_preselected_criterion_and_checks(family, subtype, criterion, candidate, checks):
+def test_each_empirical_family_uses_only_its_preselected_criterion_and_checks(family, subtype, criterion, candidate, checks, tmp_path):
     instances = import_module("xi_kari_runtime.empirical_instances")
     contract, evaluation = root_contract(), root_result()
     if family.startswith("H"):
@@ -94,13 +96,13 @@ def test_each_empirical_family_uses_only_its_preselected_criterion_and_checks(fa
     if family == "H5": contract.update(selected_carrier_family_id=subtype, selected_carrier="synthetic-practice")
     evaluation["metrics"][criterion] = 0.2
     evaluation["prerequisite_claim_ids"] = {key: ["experiment"] for key in checks}
-    checked = instances.evaluate_empirical_instance(instances.freeze_empirical_instance(contract), evaluation, claim_constraints={ref: {"blocked": False} for ref in ("experiment", "analysis", "null-analysis")})
+    checked = evaluate_empirical_with_materials(tmp_path, instances.freeze_empirical_instance(contract), evaluation, claim_constraints={ref: {"blocked": False} for ref in ("experiment", "analysis", "null-analysis")})
     assert checked["result"]["result_state"] == "supported"
     assert checked["preregistration"]["selected_success_criterion"] == criterion
     for check in checks:
         missing = deepcopy(evaluation)
         missing["prerequisite_claim_ids"].pop(check)
-        assert instances.evaluate_empirical_instance(instances.freeze_empirical_instance(contract), missing, claim_constraints={ref: {"blocked": False} for ref in ("experiment", "analysis", "null-analysis")})["qualification"] == "unqualified"
+        assert evaluate_empirical_with_materials(tmp_path, instances.freeze_empirical_instance(contract), missing, claim_constraints={ref: {"blocked": False} for ref in ("experiment", "analysis", "null-analysis")})["qualification"] == "unqualified"
     if family == "H5":
         contract["selected_carrier"] = ["one", "another"]
         from xi_kari_runtime.causality import CausalError
@@ -108,7 +110,7 @@ def test_each_empirical_family_uses_only_its_preselected_criterion_and_checks(fa
             instances.freeze_empirical_instance(contract)
 
 
-def test_g3b_null_requires_both_history_increment_and_the_preselected_intervention_to_be_null():
+def test_g3b_null_requires_both_history_increment_and_the_preselected_intervention_to_be_null(tmp_path):
     instances = import_module("xi_kari_runtime.empirical_instances")
     contract, result = root_contract(), root_result()
     contract.update(root_id="G3", selected_subtype="G3b", selected_success_criterion="history_erasure_effect", evaluation_metric="history_erasure_effect", candidate_specification={"current_state": {"skill": "registered"}, "known_current_state_fields": ["skill"], "environment": "fixed", "measurement_protocol": "score-v1", "history_variable": "training", "split_id": "held-out", "conditional_gain_threshold": 0.1, "conditional_gain_null_threshold": 0.01})
@@ -117,6 +119,6 @@ def test_g3b_null_requires_both_history_increment_and_the_preselected_interventi
     result["prerequisite_claim_ids"] = {key: ["experiment"] for key in ("current_state_conditioning", "environment_conditioning", "measurement_protocol", "out_of_sample")}
     support = {ref: {"blocked": False} for ref in ("experiment", "analysis", "null-analysis")}
     frozen = instances.freeze_empirical_instance(contract)
-    assert instances.evaluate_empirical_instance(frozen, result, claim_constraints=support)["result"]["result_state"] == "unsupported_or_undecided"
+    assert evaluate_empirical_with_materials(tmp_path, frozen, result, claim_constraints=support)["result"]["result_state"] == "unsupported_or_undecided"
     result["historical_conditional_predictive_gain"] = 0.001
-    assert instances.evaluate_empirical_instance(frozen, result, claim_constraints=support)["result"]["result_state"] == "null_supported"
+    assert evaluate_empirical_with_materials(tmp_path, frozen, result, claim_constraints=support)["result"]["result_state"] == "null_supported"

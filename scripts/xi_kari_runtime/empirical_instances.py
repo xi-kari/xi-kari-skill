@@ -11,6 +11,7 @@ from pathlib import Path
 from .canonical_json import sha256_json
 from .causality import CausalError, _number, claim_support
 from .problem_contract import parse_instant
+from .temporal_audit import verify_temporal_binding
 
 
 CRITERIA = {
@@ -95,7 +96,8 @@ def freeze_empirical_instance(record: Mapping[str, Any]) -> dict[str, Any]:
 
 
 def evaluate_empirical_instance(
-    frozen: Mapping[str, Any], evaluation: Mapping[str, Any], *, claim_constraints: Mapping[str, Any]
+    frozen: Mapping[str, Any], evaluation: Mapping[str, Any], *, claim_constraints: Mapping[str, Any],
+    temporal_audit: object = None,
 ) -> dict[str, Any]:
     contract = frozen["preregistration"]
     if frozen.get("preregistration_sha256") != sha256_json(contract):
@@ -105,7 +107,9 @@ def evaluate_empirical_instance(
     registered = parse_instant(contract["preregistration_timestamp"], field="empirical registration")
     accessed = parse_instant(evaluation["first_result_access_timestamp"], field="empirical result access")
     completed = parse_instant(evaluation["result_timestamp"], field="empirical completion")
-    eligible = registered < accessed <= completed and contract["preregistration_status"] == "frozen_before_evidence" and evaluation.get("completion_status") == "completed_from_frozen" and evaluation.get("contract_version") == contract["contract_version"] and not contract["deviation_record"] and not evaluation.get("deviation_record") and contract["evidence_mode"] != "exploratory"
+    temporal = verify_temporal_binding(temporal_audit, kind="empirical", contract=contract, evaluation=evaluation)
+    snapshot["temporal_audit"] = temporal
+    eligible = temporal["status"] == "verified" and registered < accessed <= completed and contract["preregistration_status"] == "frozen_before_evidence" and evaluation.get("completion_status") == "completed_from_frozen" and evaluation.get("contract_version") == contract["contract_version"] and not contract["deviation_record"] and not evaluation.get("deviation_record") and contract["evidence_mode"] != "exploratory"
     evidence = claim_support(evaluation.get("evidence_claim_ids", []), claim_constraints) == "supported"
     artifacts = claim_support(evaluation.get("analysis_artifact_claim_ids", []), claim_constraints) == "supported"
     eligible = eligible and evidence and artifacts
@@ -147,12 +151,13 @@ def evaluate_empirical_instance(
 
 class EvaluatedInstanceRegistry(Mapping[str, Mapping[str, Any]]):
     """A per-input registry rebuilt by actual validation, never from result labels."""
-    def __init__(self, inputs: list[Mapping[str, Any]], *, graph: Mapping[str, Any], derived_instances: list[Mapping[str, Any]] | None = None, evidence_mode: str = 'open-world', repository_root: Path | None = None):
+    def __init__(self, inputs: list[Mapping[str, Any]], *, graph: Mapping[str, Any], derived_instances: list[Mapping[str, Any]] | None = None, evidence_mode: str = 'open-world', repository_root: Path | None = None, temporal_audit: object = None):
         from .claims import claim_constraints, validate_empirical_instances
         from .causality import assess_derived_causal_instance
         from .v4_contracts import claim_graph_input
         graph = claim_graph_input(graph)
-        checked = validate_empirical_instances(inputs, claim_mechanism_graph=graph, evidence_mode=evidence_mode, repository_root=repository_root)
+        temporal_options = {"temporal_audit": temporal_audit} if temporal_audit is not None else {}
+        checked = validate_empirical_instances(inputs, claim_mechanism_graph=graph, evidence_mode=evidence_mode, repository_root=repository_root, **temporal_options)
         results = {}
         for instance in checked["instances"]:
             prereg = instance["preregistration"]
@@ -168,6 +173,24 @@ class EvaluatedInstanceRegistry(Mapping[str, Mapping[str, Any]]):
         self.graph_sha256 = checked["claim_graph_sha256"]
         self.inputs_sha256 = sha256_json({"empirical": inputs, "derived": derived_instances or []})
         self._inputs_json = json.dumps({**{item['frozen']['preregistration']['instance_id']: item for item in inputs}, **{item['instance_id']: item for item in derived_instances or []}}, ensure_ascii=False, sort_keys=True, allow_nan=False)
+        self._temporal_audit = temporal_audit
+        self._constraints_json = json.dumps(constraints, ensure_ascii=False, sort_keys=True, allow_nan=False)
+        self._derived_ids = tuple(item["instance_id"] for item in derived_instances or [])
+
+    def _current_results(self) -> dict[str, Any]:
+        from .causality import assess_derived_causal_instance
+        inputs = json.loads(self._inputs_json)
+        constraints = json.loads(self._constraints_json)
+        results = {}
+        for identifier, item in inputs.items():
+            if identifier in self._derived_ids:
+                continue
+            instance = evaluate_empirical_instance(item["frozen"], item["evaluation"], claim_constraints=constraints, temporal_audit=self._temporal_audit)
+            prereg = instance["preregistration"]
+            results[identifier] = {**instance, "instance_id": identifier, "instance_family": prereg.get("root_id", prereg.get("claim_id")), "formal_result": instance["result"]["result_state"]}
+        for identifier in self._derived_ids:
+            results[identifier] = assess_derived_causal_instance(inputs[identifier], formal_results=results, claim_constraints=constraints)
+        return results
 
     def matches_graph(self, graph: Mapping[str, Any]) -> bool:
         from .v4_contracts import claim_graph_input
@@ -177,7 +200,7 @@ class EvaluatedInstanceRegistry(Mapping[str, Mapping[str, Any]]):
         return json.loads(self._inputs_json)[identifier]
 
     def __getitem__(self, identifier: str) -> Mapping[str, Any]:
-        return json.loads(self._results_json)[identifier]
+        return self._current_results()[identifier]
 
     def __iter__(self):
         return iter(json.loads(self._results_json))

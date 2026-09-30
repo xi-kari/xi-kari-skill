@@ -7,6 +7,8 @@ import pytest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 
+from tests.temporal_materials import assess_history_with_materials
+
 
 def test_identified_total_effect_preserves_unknown_mechanism_and_transport():
     causal = import_module("xi_kari_runtime.causality")
@@ -80,11 +82,11 @@ def history_result():
     }
 
 
-def test_history_carried_by_current_skill_retains_learning_without_g3():
+def test_history_carried_by_current_skill_retains_learning_without_g3(tmp_path):
     causal = import_module("xi_kari_runtime.causality")
     frozen = causal.freeze_history_contract(history_contract())
     support = {ref: {"blocked": False, "limiting": False} for ref in ("training-process", "conditional-test")}
-    result = causal.assess_history(frozen, history_result(), claim_constraints=support, ordinary_history_claim_ids=["training-process"])
+    result = assess_history_with_materials(tmp_path, frozen, history_result(), claim_constraints=support, ordinary_history_claim_ids=["training-process"])
     assert result["ordinary_history"] == "supported"
     assert result["formal_result"] == "unsupported_or_undecided"
     assert result["qualification"] == "qualified"
@@ -108,7 +110,7 @@ def test_history_qualification_failure_preserves_ordinary_history(change):
     assert assessment["qualification"] != "qualified"
 
 
-def test_history_null_requires_three_independent_preregistered_gates():
+def test_history_null_requires_three_independent_preregistered_gates(tmp_path):
     causal = import_module("xi_kari_runtime.causality")
     contract = history_contract()
     contract["null_rule"] = {
@@ -121,30 +123,30 @@ def test_history_null_requires_three_independent_preregistered_gates():
     result["null_claim_ids"] = ["null-analysis"]
     support = {ref: {"blocked": False} for ref in ("training", "conditional-test", "null-analysis")}
     frozen = causal.freeze_history_contract(contract)
-    assessment = causal.assess_history(frozen, result, claim_constraints=support, ordinary_history_claim_ids=["training"])
+    assessment = assess_history_with_materials(tmp_path, frozen, result, claim_constraints=support, ordinary_history_claim_ids=["training"])
     assert assessment["formal_result"] == "null_supported"
     result["null_metrics"]["detectable-effect"] = 0.1
-    assessment = causal.assess_history(frozen, result, claim_constraints=support, ordinary_history_claim_ids=["training"])
+    assessment = assess_history_with_materials(tmp_path, frozen, result, claim_constraints=support, ordinary_history_claim_ids=["training"])
     assert assessment["formal_result"] == "unsupported_or_undecided"
 
 
-def test_positive_g3a_and_preselected_g3b_have_distinct_responsibilities():
+def test_positive_g3a_and_preselected_g3b_have_distinct_responsibilities(tmp_path):
     causal = import_module("xi_kari_runtime.causality")
     contract = history_contract()
     result = history_result()
     result["predictive_gain"] = 0.2
     support = {"conditional-test": {"blocked": False}, "erasure-study": {"blocked": False}}
-    assert causal.assess_history(causal.freeze_history_contract(contract), result, claim_constraints=support, ordinary_history_claim_ids=[])["formal_result"] == "supported"
+    assert assess_history_with_materials(tmp_path, causal.freeze_history_contract(contract), result, claim_constraints=support, ordinary_history_claim_ids=[])["formal_result"] == "supported"
     contract.update(subtype="G3b", criterion="history_erasure_effect")
     result["criterion_values"] = {"history_erasure_effect": 0.001, "history_restoration_effect": 0.5}
     result["criterion_claim_ids"] = ["erasure-study"]
     frozen = causal.freeze_history_contract(contract)
-    assert causal.assess_history(frozen, result, claim_constraints=support, ordinary_history_claim_ids=[])["formal_result"] == "unsupported_or_undecided"
+    assert assess_history_with_materials(tmp_path, frozen, result, claim_constraints=support, ordinary_history_claim_ids=[])["formal_result"] == "unsupported_or_undecided"
     result["criterion_values"]["history_erasure_effect"] = 0.2
-    assert causal.assess_history(frozen, result, claim_constraints=support, ordinary_history_claim_ids=[])["formal_result"] == "supported"
+    assert assess_history_with_materials(tmp_path, frozen, result, claim_constraints=support, ordinary_history_claim_ids=[])["formal_result"] == "supported"
     frozen["contract"]["criterion"] = "history_restoration_effect"
     with pytest.raises(causal.CausalError, match="changed"):
-        causal.assess_history(frozen, result, claim_constraints=support, ordinary_history_claim_ids=[])
+        assess_history_with_materials(tmp_path, frozen, result, claim_constraints=support, ordinary_history_claim_ids=[])
 
 
 @pytest.mark.parametrize("criterion", [["history_erasure_effect", "history_restoration_effect"], "historical_conditional_predictive_gain"])

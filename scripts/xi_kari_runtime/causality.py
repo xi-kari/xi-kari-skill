@@ -9,6 +9,7 @@ from typing import Any
 
 from .canonical_json import sha256_json
 from .problem_contract import parse_instant
+from .temporal_audit import verify_temporal_binding
 
 
 class CausalError(ValueError):
@@ -106,12 +107,14 @@ def freeze_history_contract(record: Mapping[str, Any]) -> dict[str, Any]:
 def assess_history(
     frozen: Mapping[str, Any], result: Mapping[str, Any] | None, *,
     claim_constraints: Mapping[str, Any], ordinary_history_claim_ids: list[str],
+    temporal_audit: object = None,
 ) -> dict[str, Any]:
     contract = frozen["contract"]
     if frozen.get("contract_sha256") != sha256_json(contract):
         raise CausalError("frozen history contract changed")
+    freeze_history_contract(contract)
     ordinary = claim_support(ordinary_history_claim_ids, claim_constraints)
-    assessment = {"ordinary_history": ordinary, "qualification": "qualified", "formal_result": "not_evaluated", "contract_sha256": frozen["contract_sha256"]}
+    assessment = {"ordinary_history": ordinary, "qualification": "not_evaluated", "formal_result": "not_evaluated", "contract_sha256": frozen["contract_sha256"]}
     known = contract["known_current_state_fields"]
     if not isinstance(known, list) or not isinstance(contract["current_state"], Mapping) or any(field not in contract["current_state"] for field in known):
         assessment.update(qualification="paused", formal_result="unsupported_or_undecided", reason="known_current_state_omitted")
@@ -126,6 +129,12 @@ def assess_history(
         return assessment
     if any(result.get(field) != contract[field] for field in ("target", "window", "split_id", "model_version")):
         raise CausalError("history result differs from its frozen evaluation scope")
+    temporal = verify_temporal_binding(temporal_audit, kind="history", contract=contract, evaluation=result)
+    assessment["temporal_audit"] = temporal
+    if temporal["status"] != "verified":
+        assessment.update(qualification="unqualified", formal_result="unsupported_or_undecided", reason="temporal_evidence_unverified")
+        return assessment
+    assessment["qualification"] = "qualified"
     gain = _number(result.get("predictive_gain"))
     gain_supported = claim_support(result.get("out_of_sample_claim_ids", []), claim_constraints) == "supported"
     artifacts = claim_support(result.get("analysis_artifact_claim_ids", []), claim_constraints) == "supported"
