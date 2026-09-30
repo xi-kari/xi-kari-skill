@@ -35,6 +35,8 @@ def empirical_scale_fixture():
     factual = next(claim for claim in graph["claims"] if claim["claim_id"] == "CLAIM-FACTUAL")
     factual["claim_basis"]["kind"] = "domain_empirical"
     factual["claim_basis"]["scope"]["object"] = identity["object_id"]
+    factual["claim_basis"]["scope"]["window"] = deepcopy(identity["window"])
+    factual["claim_basis"]["scope"]["target"] = "membership"
     return record, registries, [{"frozen": empirical_instances.freeze_empirical_instance(contract), "evaluation": result}], graph, {"OBJECT-CONTRACT-1": identity}
 
 
@@ -101,5 +103,13 @@ def test_preselected_operator_branch_and_mode_cannot_change_after_root_evaluatio
 def test_root_retained_variables_cannot_be_changed_in_the_formal_record():
     record, registries, inputs, graph, objects = empirical_scale_fixture()
     record["variables"]["states"] = ["a different retained variable"]
+    with pytest.raises(transformations.TransformationError, match="scope"):
+        bind(record, inputs, graph, objects)
+
+
+@pytest.mark.parametrize("field,value", [("window", "another observation window"), ("target", "another measured target")])
+def test_root_empirical_material_cannot_use_a_different_window_or_target(field, value):
+    record, registries, inputs, graph, objects = empirical_scale_fixture()
+    graph["claims"][0]["claim_basis"]["scope"][field] = value
     with pytest.raises(transformations.TransformationError, match="scope"):
         bind(record, inputs, graph, objects)
