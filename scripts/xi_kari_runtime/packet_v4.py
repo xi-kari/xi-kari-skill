@@ -16,12 +16,26 @@ from .v4_contracts import validate_applicability, validate_versioned_schema
 
 
 def validate_world_stage(
-    world: Mapping[str, Any], *, evidence_ledger: Mapping[str, Any], retrieval_index: Mapping[str, Any]
+    world: Mapping[str, Any], *, evidence_ledger: Mapping[str, Any], retrieval_index: Mapping[str, Any],
+    repository_root: Path | None = None,
 ) -> dict[str, Any]:
     from .world_volume import (
         apply_registered_events, bind_registered_event_evidence,
         freeze_object_identity, validate_identity_continuation, validate_prototype_record,
+        validate_registered_world_bundle,
     )
+    if world.get('schema_id') == 'xi-kari.v4.xk.world-volume':
+        checked = validate_registered_world_bundle(
+            world, repository_root=repository_root, evidence_ledger=evidence_ledger,
+            retrieval_index=retrieval_index, expected_run_id=evidence_ledger['run_id'],
+        )
+        fields = ('state_diff_id', 'source_state_sha256', 'result_state_sha256', 'event_id', 'event_role', 'evidence_identity', 'authorization_status', 'external_action_authorized', 'reported_content_status')
+        return {
+            'initial_state_sha256': sha256_json(world['registered_state']),
+            'output_state': checked['final_state'],
+            'transitions': [{field: getattr(row, field) for field in fields} for row in checked['transitions']],
+            'identities': checked['identity_bindings'],
+        }
     required = {
         'initial_state', 'events', 'event_bindings', 'channel_registry', 'authorization_registry',
         'identities', 'prototypes', 'identity_changes',
@@ -106,7 +120,7 @@ def require_packet_contract_v4(
             if not isinstance(value, Mapping) or not value:
                 raise ValueError(f'{stage} consumer requires substantive {field} inputs')
             if stage == 'world_state':
-                validate_world_stage(value, evidence_ledger=packet['evidence'], retrieval_index=packet['retrieval'])
+                validate_world_stage(value, evidence_ledger=packet['evidence'], retrieval_index=packet['retrieval'], repository_root=repository_root)
             else:
                 raise ValueError(f'{stage} version-four production consumer is not integrated')
     ledger = packet['evidence']
