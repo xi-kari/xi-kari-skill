@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://xi-kari.local/schemas/xi-kari.v4.xk.semantic-execution-attestation.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "schema_version",
+    "algorithm",
+    "domain",
+    "public_key",
+    "signed_payload",
+    "signature"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "xi-kari.v4.xk.semantic-execution-attestation"
+    },
+    "schema_version": {
+      "const": 4
+    },
+    "algorithm": {
+      "const": "lamport-sha256-v1"
+    },
+    "domain": {
+      "const": "xi-kari.v4.semantic-execution-receipt/v1"
+    },
+    "public_key": {
+      "type": "array",
+      "minItems": 256,
+      "maxItems": 256,
+      "items": {
+        "type": "array",
+        "minItems": 2,
+        "maxItems": 2,
+        "items": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      }
+    },
+    "signed_payload": {
+      "$ref": "https://xi-kari.local/schemas/xi-kari.v4.xk.semantic-execution-receipt.schema.json"
+    },
+    "signature": {
+      "type": "array",
+      "minItems": 256,
+      "maxItems": 256,
+      "items": {
+        "type": "string",
+        "pattern": "^[a-f0-9]{64}$"
+      }
+    }
+  }
+}

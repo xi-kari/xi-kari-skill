@@ -1,0 +1,209 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://xi-kari.local/schemas/xi-kari.v4.xk.semantic-execution-request.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "schema_version",
+    "kind",
+    "run_id",
+    "source_inputs",
+    "model",
+    "reasoning_effort",
+    "evidence_mode",
+    "material_context",
+    "task",
+    "source_undefined_refs",
+    "bindings",
+    "reader_requirements"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "xi-kari.v4.xk.semantic-execution-request"
+    },
+    "schema_version": {
+      "const": 4
+    },
+    "kind": {
+      "enum": [
+        "next_author",
+        "red_team",
+        "stance_stability",
+        "sensitivity",
+        "final_reader"
+      ]
+    },
+    "run_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "source_inputs": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_version",
+        "source_revision",
+        "files",
+        "reader_root",
+        "ontology_root"
+      ],
+      "properties": {
+        "source_version": {
+          "const": "v9.0"
+        },
+        "source_revision": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "files": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "minProperties": 3
+        },
+        "reader_root": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "ontology_root": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        }
+      }
+    },
+    "model": {
+      "const": "gpt-6.1-sol"
+    },
+    "reasoning_effort": {
+      "const": "max"
+    },
+    "evidence_mode": {
+      "enum": [
+        "open-world",
+        "closed-input"
+      ]
+    },
+    "material_context": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "problem_contract",
+        "claim_mechanism_graph",
+        "evidence",
+        "retrieval",
+        "empirical_instances",
+        "derived_instances"
+      ],
+      "properties": {
+        "problem_contract": {
+          "type": "object"
+        },
+        "claim_mechanism_graph": {
+          "type": "object"
+        },
+        "evidence": {
+          "type": "object"
+        },
+        "retrieval": {
+          "type": "object"
+        },
+        "empirical_instances": {
+          "type": "array"
+        },
+        "derived_instances": {
+          "type": "array"
+        },
+        "state": {
+          "type": "object"
+        },
+        "computed_packet": {
+          "type": "object"
+        },
+        "stage_controls": {
+          "type": "object"
+        },
+        "formal_outcomes": {
+          "type": "object"
+        }
+      }
+    },
+    "task": {
+      "type": "object"
+    },
+    "source_undefined_refs": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "pattern": "\\S"
+      }
+    },
+    "bindings": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "problem_contract_sha256",
+        "parent_graph_sha256",
+        "materials_sha256",
+        "state_sha256",
+        "source_inputs_sha256",
+        "base_information_sha256"
+      ],
+      "properties": {
+        "problem_contract_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "parent_graph_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "materials_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "state_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "source_inputs_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "base_information_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      }
+    },
+    "reader_requirements": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "purpose",
+        "atoms",
+        "protected_constraints"
+      ],
+      "properties": {
+        "purpose": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "atoms": {
+          "type": "array"
+        },
+        "protected_constraints": {
+          "type": "array"
+        }
+      }
+    }
+  }
+}

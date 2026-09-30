@@ -1,0 +1,386 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://xi-kari.local/schemas/xi-kari.v4.xk.semantic-execution-receipt.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "schema_version",
+    "execution_id",
+    "kind",
+    "status",
+    "parent_pid",
+    "child_pid",
+    "exit_status",
+    "started_at",
+    "completed_at",
+    "input_complete",
+    "model",
+    "reasoning_effort",
+    "served_model",
+    "binding_kind",
+    "binding_sha256",
+    "executable_sha256",
+    "argv",
+    "argv_sha256",
+    "request_sha256",
+    "bindings",
+    "source_inputs",
+    "files",
+    "thread_id",
+    "usage",
+    "usage_provenance",
+    "semantic_response_sha256",
+    "source_repository_before",
+    "source_repository_after",
+    "errors",
+    "permission_effect",
+    "qualification_effect",
+    "external_action_executed"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "xi-kari.v4.xk.semantic-execution-receipt"
+    },
+    "schema_version": {
+      "const": 4
+    },
+    "execution_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "kind": {
+      "enum": [
+        "next_author",
+        "red_team",
+        "stance_stability",
+        "sensitivity",
+        "final_reader"
+      ]
+    },
+    "status": {
+      "enum": [
+        "executed",
+        "failed",
+        "not_run"
+      ]
+    },
+    "parent_pid": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "child_pid": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "exit_status": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "started_at": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "completed_at": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "input_complete": {
+      "type": "boolean"
+    },
+    "model": {
+      "const": "gpt-6.1-sol"
+    },
+    "reasoning_effort": {
+      "const": "max"
+    },
+    "served_model": {
+      "const": "not_independently_reported"
+    },
+    "binding_kind": {
+      "enum": [
+        "codex_provider",
+        "controlled_process_fixture",
+        null
+      ]
+    },
+    "binding_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "executable_sha256": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "argv": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "pattern": "\\S"
+      }
+    },
+    "argv_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "request_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "bindings": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "problem_contract_sha256",
+        "parent_graph_sha256",
+        "materials_sha256",
+        "state_sha256",
+        "source_inputs_sha256",
+        "base_information_sha256"
+      ],
+      "properties": {
+        "problem_contract_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "parent_graph_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "materials_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "state_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "source_inputs_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "base_information_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      }
+    },
+    "source_inputs": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_version",
+        "source_revision",
+        "files",
+        "reader_root",
+        "ontology_root"
+      ],
+      "properties": {
+        "source_version": {
+          "const": "v9.0"
+        },
+        "source_revision": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "files": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "minProperties": 3
+        },
+        "reader_root": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "ontology_root": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        }
+      }
+    },
+    "files": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "request.json",
+        "stdin.bin",
+        "stdout.jsonl",
+        "stderr.bin",
+        "output.bin",
+        "notice.bin"
+      ],
+      "properties": {
+        "request.json": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "sha256",
+            "bytes"
+          ],
+          "properties": {
+            "sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            },
+            "bytes": {
+              "type": "integer",
+              "minimum": 0
+            }
+          }
+        },
+        "stdin.bin": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "sha256",
+            "bytes"
+          ],
+          "properties": {
+            "sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            },
+            "bytes": {
+              "type": "integer",
+              "minimum": 0
+            }
+          }
+        },
+        "stdout.jsonl": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "sha256",
+            "bytes"
+          ],
+          "properties": {
+            "sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            },
+            "bytes": {
+              "type": "integer",
+              "minimum": 0
+            }
+          }
+        },
+        "stderr.bin": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "sha256",
+            "bytes"
+          ],
+          "properties": {
+            "sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            },
+            "bytes": {
+              "type": "integer",
+              "minimum": 0
+            }
+          }
+        },
+        "output.bin": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "sha256",
+            "bytes"
+          ],
+          "properties": {
+            "sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            },
+            "bytes": {
+              "type": "integer",
+              "minimum": 0
+            }
+          }
+        },
+        "notice.bin": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "sha256",
+            "bytes"
+          ],
+          "properties": {
+            "sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            },
+            "bytes": {
+              "type": "integer",
+              "minimum": 0
+            }
+          }
+        }
+      }
+    },
+    "thread_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "usage": {
+      "type": [
+        "object",
+        "null"
+      ]
+    },
+    "usage_provenance": {
+      "enum": [
+        "captured_provider_JSONL",
+        "unavailable"
+      ]
+    },
+    "semantic_response_sha256": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "source_repository_before": {
+      "type": "object"
+    },
+    "source_repository_after": {
+      "type": "object"
+    },
+    "errors": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "pattern": "\\S"
+      }
+    },
+    "permission_effect": {
+      "const": "none"
+    },
+    "qualification_effect": {
+      "const": "none"
+    },
+    "external_action_executed": {
+      "const": false
+    }
+  }
+}

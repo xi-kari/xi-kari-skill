@@ -1,0 +1,489 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://xi-kari.local/schemas/xi-kari.v4.xk.semantic-execution-response.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "semantic_response",
+    "source_bindings"
+  ],
+  "properties": {
+    "semantic_response": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/nextAuthor"
+        },
+        {
+          "$ref": "#/$defs/probe"
+        },
+        {
+          "$ref": "#/$defs/sensitivity"
+        },
+        {
+          "$ref": "#/$defs/reader"
+        }
+      ]
+    },
+    "source_bindings": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/sourceBinding"
+      }
+    }
+  },
+  "$defs": {
+    "sourceBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "claim_id",
+        "material_refs"
+      ],
+      "properties": {
+        "claim_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "material_refs": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          }
+        }
+      }
+    },
+    "nextAuthor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "possible_choice_ids"
+      ],
+      "properties": {
+        "possible_choice_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          }
+        },
+        "choice_basis": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "rationale": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        }
+      }
+    },
+    "assessment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "claim_id",
+        "position",
+        "classification",
+        "judgment",
+        "evidence_refs",
+        "limits",
+        "withdrawal_conditions"
+      ],
+      "properties": {
+        "claim_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "position": {
+          "enum": [
+            "affirm",
+            "withhold",
+            "reject",
+            "source_undefined"
+          ]
+        },
+        "classification": {
+          "enum": [
+            "source_fact",
+            "domain_empirical",
+            "text_interpretation",
+            "formal_proof",
+            "normative_argument",
+            "formal_framework_instance"
+          ]
+        },
+        "judgment": {
+          "type": "string",
+          "minLength": 24
+        },
+        "evidence_refs": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          }
+        },
+        "limits": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          }
+        },
+        "withdrawal_conditions": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          }
+        }
+      }
+    },
+    "counterargument": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "claim_id",
+        "evidence_refs",
+        "argument",
+        "defeat_condition",
+        "scope",
+        "costs"
+      ],
+      "properties": {
+        "claim_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "evidence_refs": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          }
+        },
+        "argument": {
+          "type": "string",
+          "minLength": 24
+        },
+        "defeat_condition": {
+          "type": "string",
+          "minLength": 12
+        },
+        "scope": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "object",
+            "population",
+            "window",
+            "target"
+          ],
+          "properties": {
+            "object": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            },
+            "population": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            },
+            "window": {},
+            "target": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            }
+          }
+        },
+        "costs": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          }
+        }
+      }
+    },
+    "change": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "before",
+        "after",
+        "reason"
+      ],
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "before": {},
+        "after": {},
+        "reason": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        }
+      }
+    },
+    "probe": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "claim_assessments",
+        "counterarguments",
+        "source_undefined_refs"
+      ],
+      "properties": {
+        "claim_assessments": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/assessment"
+          }
+        },
+        "counterarguments": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/counterargument"
+          }
+        },
+        "source_undefined_refs": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          }
+        }
+      }
+    },
+    "sensitivity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "claim_assessments",
+        "counterarguments",
+        "source_undefined_refs",
+        "changes_considered"
+      ],
+      "properties": {
+        "claim_assessments": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/assessment"
+          }
+        },
+        "counterarguments": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/counterargument"
+          }
+        },
+        "source_undefined_refs": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          }
+        },
+        "changes_considered": {
+          "type": "array",
+          "minItems": 0,
+          "items": {
+            "$ref": "#/$defs/change"
+          }
+        }
+      }
+    },
+    "readerBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_path",
+        "paragraph_index",
+        "excerpt"
+      ],
+      "properties": {
+        "source_path": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "paragraph_index": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "excerpt": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        }
+      }
+    },
+    "readerSection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "section_id",
+        "heading",
+        "local_judgment",
+        "paragraphs",
+        "source_bindings"
+      ],
+      "properties": {
+        "section_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "heading": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "local_judgment": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "paragraphs": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          }
+        },
+        "source_bindings": {
+          "type": "array",
+          "minItems": 0,
+          "items": {
+            "$ref": "#/$defs/readerBinding"
+          }
+        }
+      }
+    },
+    "visibilityEntry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "canonical_path",
+        "classification",
+        "disclosure",
+        "purpose",
+        "authority_refs",
+        "protection_reason"
+      ],
+      "properties": {
+        "canonical_path": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "classification": {
+          "enum": [
+            "public",
+            "context_limited",
+            "sensitive",
+            "highly_sensitive",
+            "refused_disclosure"
+          ]
+        },
+        "disclosure": {
+          "enum": [
+            "include",
+            "withhold"
+          ]
+        },
+        "purpose": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "authority_refs": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          }
+        },
+        "protection_reason": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "reader": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "reader_sections",
+        "visibility_ledger"
+      ],
+      "properties": {
+        "reader_sections": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/readerSection"
+          }
+        },
+        "visibility_ledger": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "entries"
+          ],
+          "properties": {
+            "entries": {
+              "type": "array",
+              "minItems": 0,
+              "items": {
+                "$ref": "#/$defs/visibilityEntry"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
