@@ -98,3 +98,14 @@ def test_S0_can_enter_X0_without_becoming_S7_or_completed_exit():
     record["path_candidates"][0]["exit_status"] = "completed"
     with pytest.raises(world_volume.WorldVolumeError, match="X0"):
         world_volume.validate_prototype_record(record, identity_record=obj, evidence_registry=evidence)
+
+
+def test_nested_prototype_review_and_missing_data_evidence_must_resolve():
+    obj, record, evidence = prototype()
+    record["reviewers"][0]["evidence_refs"] = ["GHOST"]
+    with pytest.raises(world_volume.WorldVolumeError, match="evidence"):
+        world_volume.validate_prototype_record(record, identity_record=obj, evidence_registry=evidence)
+    record["reviewers"][0]["evidence_refs"] = ["E-1"]
+    record["missing_data"] = [{"status": "unknown", "reason": "Unresolved criterion", "evidence_refs": ["GHOST"]}]
+    with pytest.raises(world_volume.WorldVolumeError, match="evidence"):
+        world_volume.validate_prototype_record(record, identity_record=obj, evidence_registry=evidence)

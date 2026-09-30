@@ -56,6 +56,8 @@ def scale_fixture():
         "evidence_registry": {"E-OBJECT": {"evidence_id": "E-OBJECT", "identity": "observed", "source_refs": ["SYNTHETIC-UNIT-FIXTURE"], "object_sha256": world_volume._canonical_sha256(source)}},
         "evaluation_results": {"EVAL-1": {"evaluation_id": "EVAL-1", "contract_id": "SCALE-1", "task_sha256": world_volume._canonical_sha256(task), "observed_value": 1, "operator": "ge", "evidence_refs": ["E-OBJECT"]}},
     }
+    check = {"check_id": "CHECK-1", "task_sha256": world_volume._canonical_sha256(task), "result": "supported", "scope": "description", "evidence_refs": ["E-OBJECT"]}
+    registries["task_check_results"] = {"CHECK-1": {**check, "artifact_sha256": world_volume._canonical_sha256(check)}}
     return record, registries
 
 
@@ -94,7 +96,9 @@ def attach_mapping(record, registries, classification="same_object"):
     obj = record["objects"]
     digests = {key + "_sha256": world_volume._canonical_sha256(obj[key]) for key in ("source_object", "target_object", "source_K", "target_K")}
     checks = dict.fromkeys(("source_under_source_K", "source_under_target_K", "target_under_source_K", "target_under_target_K"), "passed")
-    if classification == "converted_object": checks["target_under_source_K"] = "failed"
+    if classification == "converted_object":
+        checks["target_under_source_K"] = "failed"
+        checks["source_under_target_K"] = "failed"
     mapping = {"mapping_id": "MAP-1", "classification": classification, **digests, "criterion_results": checks,
         "forward_mapping": {"status": "valid", "evidence_refs": ["E-OBJECT"]}, "reverse_mapping": {"status": "valid", "evidence_refs": ["E-OBJECT"]},
         "preserved_criteria": ["tracked boundary"], "violated_criteria": ["old boundary"] if classification == "converted_object" else [],
@@ -117,6 +121,10 @@ def test_nontrivial_K_mapping_uses_all_four_criteria_and_verification_artifact()
 
 def test_object_conversion_requires_exact_supported_G4b_root():
     record, registries = scale_fixture()
+    record["objects"]["target_object"]["boundary"].append("unit-3")
+    record["objects"]["target_K"] = {"version": "2", "definition": "same three bounded synthetic units"}
+    record["evidence"]["target_refs"] = ["E-TARGET"]
+    registries["evidence_registry"]["E-TARGET"] = {"evidence_id": "E-TARGET", "identity": "observed", "source_refs": ["SYNTHETIC-TARGET-FIXTURE"], "object_sha256": world_volume._canonical_sha256(record["objects"]["target_object"])}
     attach_mapping(record, registries, "converted_object")
     record["transformation"].update(claim_mode="object_conversion", selected_operator_branch="object_conversion", root_instance_ids=["ROOT-1"], selected_subtype="G4b", selected_success_criterion="object_conversion", causal_bridge=["synthetic verified bridge"])
     root = {"instance_id": "ROOT-1", "root_id": "G4", "contract_version": "4.0.0", "selected_subtype": "G4b", "selected_success_criterion": "object_conversion", "result_state": "supported", "eligibility_status": "eligible", "scope_sha256": world_volume._canonical_sha256({"SP0": record["scale"]["SP0"], "SP1": record["scale"]["SP1"], "source_K": record["objects"]["source_K"], "target_K": record["objects"]["target_K"], "task": record["identity"]["purpose"]}), "preregistration_timestamp": "2026-09-29T00:00:00Z", "result_timestamp": "2026-09-30T00:00:00Z", "evidence_refs": ["E-OBJECT"], "analysis_artifact_refs": ["VER-MAP-1"]}
@@ -185,3 +193,62 @@ def test_present_fields_cannot_replace_their_semantic_responsibility(mutation):
     if mutation == "empty_identity_K": record["objects"]["source_K"] = {}; record["objects"]["target_K"] = {}
     with pytest.raises(transformations.TransformationError):
         transformations.validate_scale_instance(record, **registries)
+
+
+def test_independent_K_artifact_cannot_claim_failed_cross_check_for_identical_Ks():
+    record, registries = scale_fixture()
+    attach_mapping(record, registries)
+    artifact = registries["identity_mapping_results"]["MAP-1"]
+    artifact["criterion_results"]["target_under_source_K"] = "failed"
+    artifact["classification"] = "incomparable"
+    artifact["forward_mapping"]["status"] = "invalid"
+    payload = {key: value for key, value in artifact.items() if key != "artifact_sha256"}
+    artifact["artifact_sha256"] = world_volume._canonical_sha256(payload)
+    record["objects"]["identity_mapping"].update(classification="incomparable", artifact_sha256=artifact["artifact_sha256"])
+    record["transformation"]["result_state"] = "unsupported_or_undecided"
+    proof = registries["verification_artifacts"]["VER-MAP-1"]
+    proof["artifact_sha256"] = world_volume._canonical_sha256({key: value for key, value in proof.items() if key != "artifact_sha256"})
+    with pytest.raises(transformations.TransformationError, match="identical K"):
+        transformations.validate_scale_instance(record, **registries)
+
+
+def test_comparator_payload_preserves_actual_nested_value_types():
+    record, registries = scale_fixture()
+    record["scale"]["SP0"]["A"] = {"count": 1}
+    record["scale"]["SP1"]["A"] = {"count": 1}
+    for row in record["scale"]["axis_differences"]:
+        artifact = registries["comparator_results"][row["comparator_result_id"]]
+        artifact["source_profile_sha256"] = world_volume._canonical_sha256(record["scale"]["SP0"])
+        artifact["target_profile_sha256"] = world_volume._canonical_sha256(record["scale"]["SP1"])
+        if row["axis_id"] == "A": artifact["comparison_payload"].update(source={"count": True}, target={"count": True})
+        artifact["artifact_sha256"] = world_volume._canonical_sha256({key: value for key, value in artifact.items() if key != "artifact_sha256"})
+        row["artifact_sha256"] = artifact["artifact_sha256"]
+    with pytest.raises(transformations.TransformationError, match="witness"):
+        transformations.validate_scale_instance(record, **registries)
+
+
+def test_parent_representation_content_return_locations_and_candidate_variables_are_consumed():
+    record, registries = scale_fixture()
+    content = {"components": [{"component_ref": "COMP-1", "detail": "folded synthetic distinction"}]}
+    parent = {"representation_id": "REP-1", "version": "1", "content": content, "mapping_ref": "REP-MAP-1", "reconstruction_method_ref": "RECON-1", "source_object_sha256": world_volume._canonical_sha256(record["objects"]["source_object"]), "task_sha256": world_volume._canonical_sha256(record["identity"]["purpose"])}
+    registries["representation_registry"] = {"REP-1": {**parent, "artifact_sha256": world_volume._canonical_sha256(parent)}}
+    record["transformation"]["parent_representation"] = {key: parent[key] for key in ("representation_id", "version", "mapping_ref", "reconstruction_method_ref")}
+    record["transformation"]["parent_representation"]["content_hash"] = world_volume._canonical_sha256(content)
+    task = record["identity"]["purpose"]["target_task"]
+    record["loss"].update(folded_differences=[{"component_ref": "COMP-1", "difference": "folded distinction", "recoverability": "irrecoverable", "affected_task_refs": [task]}], return_positions=[{"parent_location_ref": "COMP-1", "return_condition": "task changes", "reconstruction_check_ref": "CHECK-RECON"}])
+    record["variables"]["effective_variable_candidates"] = [{"variable_id": "XK-PROV-COMP", "source_location_refs": ["COMP-1"], "task_ref": task, "candidate_reason": "may distinguish the new intervention task", "validation_refs": ["CHECK-1"]}]
+    check = {"check_id": "CHECK-RECON", "task_sha256": world_volume._canonical_sha256(record["identity"]["purpose"]), "result": "unsupported_or_undecided", "scope": "reconstruction", "evidence_refs": ["E-OBJECT"]}
+    registries["task_check_results"] = {"CHECK-RECON": {**check, "artifact_sha256": world_volume._canonical_sha256(check)}}
+    check = {"check_id": "CHECK-1", "task_sha256": world_volume._canonical_sha256(record["identity"]["purpose"]), "result": "supported", "scope": "description", "evidence_refs": ["E-OBJECT"]}
+    registries["task_check_results"]["CHECK-1"] = {**check, "artifact_sha256": world_volume._canonical_sha256(check)}
+    result = transformations.validate_scale_instance(record, **registries)
+    assert result["consumed_representation_ids"] == ["REP-1"]
+    assert result["result_state"] == "supported"
+    assert result["reconstruction_results"]["CHECK-RECON"] == "unsupported_or_undecided"
+    for mutation in ("parent_hash", "return_location", "candidate_location"):
+        bad = deepcopy(record)
+        if mutation == "parent_hash": bad["transformation"]["parent_representation"]["content_hash"] = "a" * 64
+        if mutation == "return_location": bad["loss"]["return_positions"][0]["parent_location_ref"] = "GHOST"
+        if mutation == "candidate_location": bad["variables"]["effective_variable_candidates"][0]["source_location_refs"] = ["GHOST"]
+        with pytest.raises(transformations.TransformationError):
+            transformations.validate_scale_instance(bad, **registries)

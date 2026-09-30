@@ -178,3 +178,19 @@ def test_verified_feedback_creates_new_frozen_run_consumed_by_next_author_and_pr
     assert update["original_prediction_sha256"] == world_volume._canonical_sha256(prediction)
     with pytest.raises(recursion.RecursiveInferenceError, match="new"):
         recursion.apply_verified_feedback(prediction, parent["output_state"], feedback, new_run_id=prediction["run_id"], new_evidence_cutoff="2026-10-02T12:00:00Z", action_catalog=actions, evidence_registry=evidence, author=lambda request: {}, competing_predictions=[parent], simple_baseline=parent)
+
+
+def test_legal_terminal_node_does_not_become_its_own_parent():
+    parent, event, evidence, actions = recursive_fixture()
+    terminal = recursion.execute_recursive_step(parent, event, action_catalog=actions, author=lambda request: pytest.fail("No independent next question"), evidence_registry=evidence, independent_question=None, incremental_gain=None)
+    assert terminal.get("parent_binding", {}).get("node_id") != terminal["node_id"]
+    assert terminal["completion_binding"]["node_id"] == parent["node_id"]
+
+
+def test_third_order_stop_never_creates_a_fourth_order_record():
+    parent, event, evidence, actions = recursive_fixture()
+    parent.update(order=3, status="failed", stop_reason="third-order mechanism failed")
+    terminal = recursion.execute_recursive_step(parent, event, action_catalog=actions, author=lambda request: pytest.fail("Fourth order author invoked"), evidence_registry=evidence, independent_question="next", incremental_gain="conditional change")
+    assert terminal["order"] == 3
+    assert terminal["status"] == "stopped"
+    assert terminal["not_run_orders"] == []

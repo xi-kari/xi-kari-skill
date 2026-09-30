@@ -194,3 +194,13 @@ def test_no_delta_event_still_requires_actual_occurrence_evidence():
     transition = world_volume.apply_registered_event(state, event, evidence_registry=evidence)
     assert transition.output_state == state
     assert transition.event_role == "e(t)"
+
+
+def test_nested_boolean_cannot_replace_an_evidence_bound_integer():
+    state = frozen_state()
+    state["objects"][0]["variables"][0]["value"] = {"enabled": False}
+    event, evidence = observed_event(state)
+    event["deltas"][0].update(before={"enabled": False}, after={"enabled": 1})
+    evidence["EV-1"]["observed_value"] = {"enabled": True}
+    with pytest.raises(world_volume.WorldVolumeError, match="evidence"):
+        world_volume.apply_registered_event(state, event, evidence_registry=evidence)

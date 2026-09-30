@@ -108,11 +108,13 @@ def execute_recursive_step(
     binding = registered_parent_binding(frozen)
     if frozen.get("status") in {"stopped", "failed", "not_run"}:
         reason = frozen.get("stop_reason", frozen.get("reason", "parent premise failed"))
+        if frozen["order"] == 3:
+            return {**frozen, "status": "stopped", "stop_reason": reason, "terminal_binding": binding, "not_run_orders": []}
         return {"status": "not_run", "order": frozen["order"] + 1, "blocked_by_node_id": frozen["node_id"], "reason": reason, "parent_binding": binding, "not_run_orders": [{"order": order, "blocked_by_node_id": frozen["node_id"], "reason": reason} for order in range(frozen["order"] + 1, 4)]}
     if not independent_question or not incremental_gain or frozen.get("status") == "completed":
-        return {**frozen, "status": "completed", "completion_reason": "no_independent_next_question" if not independent_question else "no_incremental_gain", "parent_binding": binding}
+        return {**frozen, "status": "completed", "completion_reason": "no_independent_next_question" if not independent_question else "no_incremental_gain", "completion_binding": binding}
     if frozen["order"] == 3:
-        return {**frozen, "status": "completed", "completion_reason": "third_order_limit", "parent_binding": binding}
+        return {**frozen, "status": "completed", "completion_reason": "third_order_limit", "completion_binding": binding}
     if event.get("kind") == "observed" and frozen.get("evidence_identity") != "observed":
         raise RecursiveInferenceError("new observed feedback requires a new frozen run, not promotion of a simulated child")
     try:

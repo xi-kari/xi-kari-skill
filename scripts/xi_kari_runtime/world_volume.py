@@ -136,7 +136,7 @@ def _semantic_volume_sha256(volume: Mapping[str, Any]) -> str:
 
 
 def _same_json_value(left: object, right: object) -> bool:
-    return type(left) is type(right) and left == right
+    return type(left) is type(right) and _canonical_sha256(left) == _canonical_sha256(right)
 
 
 def _value_sha256(value: object) -> str:
@@ -1653,6 +1653,18 @@ def validate_prototype_record(
                 raise WorldVolumeError("prototype cannot upgrade report content or simulation to object observation")
 
     evidence_check(object_refs)
+    def check_nested_evidence(value: object) -> None:
+        if isinstance(value, dict):
+            for key, child in value.items():
+                if key == "evidence_refs":
+                    evidence_check(child)
+                else:
+                    check_nested_evidence(child)
+        elif isinstance(value, list):
+            for child in value:
+                check_nested_evidence(child)
+
+    check_nested_evidence(snapshot)
     seen: set[str] = set()
     for category, rows in conditions.items():
         if not isinstance(rows, list) or candidates and {row.get("state_id") for row in rows} != set(candidates):

@@ -105,6 +105,8 @@ def validate_scale_instance(
     evaluation_results: Mapping[str, Mapping[str, Any]],
     operator_branches: Mapping[str, Mapping[str, str]] | None = None,
     verification_artifacts: Mapping[str, Mapping[str, Any]] | None = None,
+    representation_registry: Mapping[str, Mapping[str, Any]] | None = None,
+    task_check_results: Mapping[str, Mapping[str, Any]] | None = None,
 ) -> dict[str, Any]:
     contract = _native_snapshot(record, label="scale instance", error_type=ScaleContractError)
     if not isinstance(contract, dict) or set(contract) != set(SECTION_FIELDS):
@@ -152,6 +154,63 @@ def validate_scale_instance(
 
     resolve_evidence(contract["evidence"]["source_refs"], target_hash=_canonical_sha256(objects["source_object"]))
     resolve_evidence(contract["evidence"]["target_refs"], target_hash=_canonical_sha256(objects["target_object"]))
+    checks_consumed: dict[str, str] = {}
+
+    def task_check(identifier: str, expected: Mapping[str, Any] | None = None) -> dict[str, Any]:
+        check = _artifact(task_check_results or {}, identifier, "check_id")
+        if check.get("task_sha256") != task_hash or check.get("result") not in RESULT_STATES:
+            raise ScaleContractError("independent task/reconstruction check has a different task or result")
+        if expected is not None and (check["result"] != expected["result"] or check.get("scope") != expected["scope"]):
+            raise ScaleContractError("declared task check differs from the independently verified artifact")
+        resolve_evidence(check.get("evidence_refs"))
+        checks_consumed[identifier] = check["result"]
+        return check
+
+    task_rows = contract["evidence"]["task_checks"]
+    if not _missing(task_rows):
+        for row in task_rows:
+            if not isinstance(row, dict) or set(row) != {"check_id", "task_ref", "evidence_refs", "result", "tolerance_ref", "scope"} or row["task_ref"] != task["target_task"] or row["tolerance_ref"] != task["tolerance"]:
+                raise ScaleContractError("task check must bind the declared target task, scope and tolerance")
+            resolve_evidence(row["evidence_refs"])
+            task_check(row["check_id"], row)
+    parents_consumed: list[str] = []
+    reconstruction_results: dict[str, str] = {}
+    parent_binding = transform["parent_representation"]
+    parent_locations: set[str] = set()
+    if not _missing(parent_binding):
+        if set(parent_binding) != {"representation_id", "version", "content_hash", "mapping_ref", "reconstruction_method_ref"}:
+            raise ScaleContractError("parent representation lineage has an inexact field set")
+        parent = _artifact(representation_registry or {}, parent_binding["representation_id"], "representation_id")
+        if parent_binding["content_hash"] != _canonical_sha256(parent.get("content")) or any(_canonical_sha256(parent_binding[key]) != _canonical_sha256(parent.get(key)) for key in ("version", "mapping_ref", "reconstruction_method_ref")) or parent.get("source_object_sha256") != _canonical_sha256(objects["source_object"]) or parent.get("task_sha256") != task_hash:
+            raise ScaleContractError("parent representation content, mapping, method or task binding changed")
+        content = parent.get("content")
+        if isinstance(content, dict):
+            parent_locations.update(content)
+            for component in content.get("components", []):
+                if isinstance(component, dict) and isinstance(component.get("component_ref"), str):
+                    parent_locations.add(component["component_ref"])
+        parents_consumed.append(parent_binding["representation_id"])
+    folded = contract["loss"]["folded_differences"]
+    if not _missing(folded):
+        for difference in folded:
+            if not isinstance(difference, dict) or set(difference) != {"component_ref", "difference", "recoverability", "affected_task_refs"} or difference["component_ref"] not in parent_locations or not difference["difference"] or not difference["recoverability"] or task["target_task"] not in difference["affected_task_refs"]:
+                raise ScaleContractError("folded difference does not resolve the actual parent/task scope")
+    returns = contract["loss"]["return_positions"]
+    if not _missing(returns):
+        for position in returns:
+            if not isinstance(position, dict) or set(position) != {"parent_location_ref", "return_condition", "reconstruction_check_ref"} or position["parent_location_ref"] not in parent_locations or not position["return_condition"]:
+                raise ScaleContractError("return position does not resolve the retained parent representation")
+            check = task_check(position["reconstruction_check_ref"])
+            if check.get("scope") != "reconstruction":
+                raise ScaleContractError("return position references a task-sufficiency check instead of reconstruction")
+            reconstruction_results[position["reconstruction_check_ref"]] = check["result"]
+    candidates = contract["variables"]["effective_variable_candidates"]
+    if not _missing(candidates):
+        for candidate in candidates:
+            if not isinstance(candidate, dict) or set(candidate) != {"variable_id", "source_location_refs", "task_ref", "candidate_reason", "validation_refs"} or not candidate["variable_id"].startswith("XK-PROV-") or candidate["task_ref"] != task["target_task"] or not candidate["candidate_reason"] or not candidate["source_location_refs"] or not set(candidate["source_location_refs"]).issubset(parent_locations):
+                raise ScaleContractError("effective-variable candidate must remain provisional and resolve actual parent locations")
+            for ref in candidate["validation_refs"]:
+                task_check(ref)
     for profile_key in ("SP0", "SP1"):
         if not isinstance(scale[profile_key], dict) or set(scale[profile_key]) != set("AXTOCRINJ"):
             raise ScaleContractError("scale profile must have all nine distinct axes")
@@ -171,7 +230,7 @@ def validate_scale_instance(
         if any(artifact.get(key) != value for key, value in expected.items()) or artifact.get("valid") is not True:
             raise ScaleContractError("axis comparator is not bound to this profile/task/version")
         payload = artifact.get("comparison_payload")
-        if not isinstance(payload, dict) or payload.get("source") != scale["SP0"][row["axis_id"]] or payload.get("target") != scale["SP1"][row["axis_id"]] or not isinstance(payload.get("witness"), dict) or not payload["witness"] or payload["witness"].get("relation") != row["relation"]:
+        if not isinstance(payload, dict) or _canonical_sha256(payload.get("source")) != _canonical_sha256(scale["SP0"][row["axis_id"]]) or _canonical_sha256(payload.get("target")) != _canonical_sha256(scale["SP1"][row["axis_id"]]) or not isinstance(payload.get("witness"), dict) or not payload["witness"] or payload["witness"].get("relation") != row["relation"]:
             raise ScaleContractError("axis comparator lacks its independent structured witness")
         resolve_evidence(artifact.get("evidence_refs"))
         if row["relation"] == "equal" and _canonical_sha256(payload["source"]) != _canonical_sha256(payload["target"]):
@@ -208,6 +267,10 @@ def validate_scale_instance(
         checks = mapping_result.get("criterion_results")
         if not isinstance(checks, dict) or set(checks) != set(K_CHECKS) or not set(checks.values()).issubset({"passed", "failed", "undetermined"}):
             raise ScaleContractError("K mapping must expose all four typed criterion results")
+        if digests["source_K_sha256"] == digests["target_K_sha256"] and (checks["source_under_source_K"] != checks["source_under_target_K"] or checks["target_under_source_K"] != checks["target_under_target_K"]):
+            raise ScaleContractError("identical K criteria cannot produce contradictory checks on the same object")
+        if digests["source_object_sha256"] == digests["target_object_sha256"] and (checks["source_under_source_K"] != checks["target_under_source_K"] or checks["source_under_target_K"] != checks["target_under_target_K"]):
+            raise ScaleContractError("identical object content cannot produce contradictory checks under a frozen K")
         direction_results = []
         for direction in ("forward_mapping", "reverse_mapping"):
             attempt = mapping_result.get(direction)
@@ -316,7 +379,7 @@ def validate_scale_instance(
             if not isinstance(declared, dict) or declared.get("evaluation_id") != evaluation_id or not isinstance(evaluation, Mapping) or any(evaluation.get(key) != expected for key, expected in {"evaluation_id": evaluation_id, "contract_id": identity["contract_id"], "task_sha256": task_hash, "gate": gate, "result": "passed"}.items()):
                 raise ScaleContractError("null support gate is missing, failed or bound to another task")
             resolve_evidence(evaluation.get("evidence_refs"))
-    return {"contract_id": identity["contract_id"], "contract_sha256": _canonical_sha256(contract), "task_sha256": task_hash, "transformation_class": classification, "mapping_class": mapping_class, "result_state": result, "consumed_comparator_ids": consumed}
+    return {"contract_id": identity["contract_id"], "contract_sha256": _canonical_sha256(contract), "task_sha256": task_hash, "transformation_class": classification, "mapping_class": mapping_class, "result_state": result, "consumed_comparator_ids": consumed, "consumed_representation_ids": parents_consumed, "task_check_results": checks_consumed, "reconstruction_results": reconstruction_results}
 
 
 def evaluate_task_partition(representation_by_source: Mapping[str, Any], answer_by_source: Mapping[str, Any]) -> dict[str, Any]:
