@@ -8,6 +8,24 @@ import re
 from typing import Any
 
 from .canonical_json import sha256_json
+from .choice import (
+    ChoiceError,
+    IsolatedChoiceExecutor,
+    transition_choice_state,
+    validate_action_comparison,
+    validate_external_selection,
+    validate_no_new_action_choice,
+)
+from .governance import assess_governance_change
+from .judgment_boundaries import (
+    assess_action_chain,
+    assess_compliance_risk,
+    assess_correction_endpoints,
+    assess_hv_route,
+    assess_protected_opacity,
+    assess_oversight,
+    validate_professional_reference,
+)
 from .claims import ClaimMechanismError, claim_constraints, validate_claim_graph
 from .problem_contract import parse_instant
 from .recursion import LineageValidation
@@ -733,7 +751,55 @@ _validate_action_ranking = validate_action_ranking
 _validate_framework_gap_isolation = validate_framework_gap_isolation
 
 
+def validate_decision_from_recursive_forecast(
+    record: Mapping[str, Any], *, forecast: Mapping[str, Any],
+    child: Mapping[str, Any], parent: Mapping[str, Any], event: Mapping[str, Any],
+    action_catalog: list[Mapping[str, Any]], evidence_registry: Mapping[str, Mapping[str, Any]],
+    claim_mechanism_graph: Mapping[str, Any], repository_root: Path | None = None,
+    channel_registry: Mapping[str, Mapping[str, Any]] | None = None,
+    authorization_registry: Mapping[str, Mapping[str, Any]] | None = None,
+) -> dict[str, Any]:
+    """Validate deliberation against its replayed state and frozen prospective input."""
+    from .stability import freeze_forecast_from_recursive_child
+    from .recursion import current_action_set
+    fresh = freeze_forecast_from_recursive_child(forecast["contract"], child=child, parent=parent, event=event, action_catalog=action_catalog, evidence_registry=evidence_registry, claim_mechanism_graph=claim_mechanism_graph, channel_registry=channel_registry, authorization_registry=authorization_registry, repository_root=repository_root)
+    if any(forecast.get(field) != fresh.get(field) for field in ("contract_sha256", "parent_state_sha256", "parent_transition_sha256", "recursive_child_sha256", "claim_graph_sha256")):
+        raise JudgmentError("decision forecast differs from its fresh recursive input")
+    graph = validate_claim_graph(claim_mechanism_graph, repository_root=repository_root)
+    if graph["applicability"]["action_choice"]["status"] != "applicable":
+        raise JudgmentError("requested choice cannot bypass action applicability")
+    claims_by_id = {row["claim_id"]: row for row in graph["claims"]}
+    registered_premises = set()
+    for ref in record.get("normative_basis_claim_ids", []):
+        if ref not in claims_by_id or claims_by_id[ref]["claim_basis"]["kind"] != "normative_argument":
+            raise JudgmentError("fact or forecast cannot replace a separate normative premise")
+        registered_premises.update(claims_by_id[ref]["responsibility_refs"])
+    if any(f"V90-CANON-{premise}" not in registered_premises for premise in record.get("normative_premises", [])):
+        raise JudgmentError("choice uses a registered N premise that its normative argument does not bind")
+    try:
+        checked = validate_action_comparison(record, action_state=current_action_set(child["output_state"], action_catalog), claim_constraints=claim_constraints(graph))
+    except ValueError:
+        raise JudgmentError("decision does not satisfy its current normative comparison") from None
+    checked["forecast_contract_sha256"] = fresh["contract_sha256"]
+    return checked
+
+
 __all__ = (
+    "ChoiceError",
+    "IsolatedChoiceExecutor",
+    "transition_choice_state",
+    "validate_action_comparison",
+    "validate_external_selection",
+    "validate_no_new_action_choice",
+    "assess_governance_change",
+    "assess_action_chain",
+    "assess_compliance_risk",
+    "assess_correction_endpoints",
+    "assess_hv_route",
+    "assess_protected_opacity",
+    "assess_oversight",
+    "validate_professional_reference",
+    "validate_decision_from_recursive_forecast",
     "JudgmentError",
     "empty_framework_gap_ledger",
     "five_by_kind",
