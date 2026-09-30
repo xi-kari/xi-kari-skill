@@ -65,6 +65,18 @@ V4_SCHEMA_IDENTITIES = {
     "xk-v4-semantic-read-trace.schema.json": (
         "xi-kari.v4.semantic-read-trace", frozenset({"xi-kari.v4.semantic-read-trace"}),
     ),
+    "xk-v4-semantic-execution-request.schema.json": (
+        "xi-kari.v4.xk.semantic-execution-request", frozenset({"xi-kari.v4.xk.semantic-execution-request"}),
+    ),
+    "xk-v4-semantic-execution-response.schema.json": (
+        "xi-kari.v4.xk.semantic-execution-response", frozenset(),
+    ),
+    "xk-v4-semantic-execution-receipt.schema.json": (
+        "xi-kari.v4.xk.semantic-execution-receipt", frozenset({"xi-kari.v4.xk.semantic-execution-receipt"}),
+    ),
+    "xk-v4-semantic-execution-attestation.schema.json": (
+        "xi-kari.v4.xk.semantic-execution-attestation", frozenset({"xi-kari.v4.xk.semantic-execution-attestation"}),
+    ),
     "xk-v4-source.schema.json": (
         "xi-kari.v4.source-artifact",
         frozenset({"xi-kari.v4.source-lock", "xi-kari.v4.source-read-event"}),

@@ -135,3 +135,42 @@ def test_source_version_and_unknown_artifact_root_are_not_softened_by_registrati
     changed = deepcopy(_json(ROOT / "schemas/xk-v4-production-completion.schema.json"))
     changed["properties"]["schema_id"]["const"] = "xi-kari.v4.completion-unknown"
     assert schema_ownership.schema_identity_errors(Path("xk-v4-production-completion.schema.json"), changed)
+
+
+def test_committed_semantic_execution_resources_have_exact_body_and_envelope_owners(registry):
+    expected = {
+        "request": {"xi-kari.v4.xk.semantic-execution-request"},
+        "response": set(),
+        "receipt": {"xi-kari.v4.xk.semantic-execution-receipt"},
+        "attestation": {"xi-kari.v4.xk.semantic-execution-attestation"},
+    }
+    registered, errors = registry(ROOT)
+    assert errors == []
+    for suffix, roots in expected.items():
+        name = f"xk-v4-semantic-execution-{suffix}.schema.json"
+        document = _json(ROOT / "schemas" / name)
+        identity = f"xi-kari.v4.xk.semantic-execution-{suffix}"
+        assert schema_ownership.V4_SCHEMA_IDENTITIES[name] == (identity, frozenset(roots))
+        assert document["$id"] == f"https://xi-kari.local/schemas/{identity}.schema.json"
+        assert schema_ownership.root_schema_ids(document) == roots
+        assert schema_ownership.schema_identity_errors(Path(name), document) == []
+        for root_id in roots:
+            assert registered[root_id].schema["$id"] == document["$id"]
+    assert "xi-kari.v4.xk.semantic-execution-response" not in registered
+
+
+@pytest.mark.parametrize("suffix", ["request", "response", "receipt", "attestation"])
+def test_semantic_execution_resource_uri_mutation_is_rejected(repository, registry, suffix):
+    name = f"xk-v4-semantic-execution-{suffix}.schema.json"
+    document = _json(repository / "schemas" / name)
+    document["$id"] = "https://xi-kari.local/schemas/xi-kari.v4.xk.semantic-execution-unpublished.schema.json"
+    _write(repository, name, document)
+    _, errors = registry(repository)
+    assert any("unsupported $id" in error and name in error for error in errors)
+
+
+def test_deleted_semantic_execution_resource_remains_required(repository):
+    name = "xk-v4-semantic-execution-response.schema.json"
+    (repository / "schemas" / name).unlink()
+    errors = checker._check_runtime_schemas(repository)
+    assert f"published runtime schema is missing: {name}" in errors
