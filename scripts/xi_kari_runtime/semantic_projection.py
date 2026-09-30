@@ -311,7 +311,12 @@ def _value_type(value: Any, *, key: str | None = None) -> str:
         return "number"
     if value is None:
         return "null"
-    if key in {"kind", "status", "identity", "evidence_identity", "declared_evidence_grade"}:
+    if key in {
+        "kind", "status", "identity", "evidence_identity", "declared_evidence_grade",
+        "qualification", "formal_result", "result_state", "result_status",
+        "authorization_status", "occurrence_status", "execution_status", "selection_status",
+        "option_kind", "update_path", "claim_mode", "transformation_class", "probability_scope",
+    }:
         return "enum"
     if isinstance(value, str) and _exact_id_prefix(value) is not None:
         return "reference"
@@ -2038,7 +2043,13 @@ def _binding_preserves_atom(atom: Mapping[str, Any], excerpt: str) -> bool:
         pattern = r"(?<![\d.\-])" + pattern
     if normalized[-1].isdigit():
         pattern += r"(?![\d.])"
-    return re.search(pattern, _content_normalized(excerpt)) is not None
+    body = _content_normalized(excerpt)
+    for match in re.finditer(pattern, body):
+        if atom.get('value_type') in {'enum', 'boolean'} and body[:match.start()].endswith(
+                ('未', '不', '无', '非', '没有', '不能', '并非', '尚未')):
+            continue
+        return True
+    return False
 
 
 def validate_reader_sections(payload: Mapping[str, Any]) -> list[str]:

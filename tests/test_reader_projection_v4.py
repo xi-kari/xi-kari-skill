@@ -234,7 +234,7 @@ def test_full_chat_accepts_the_same_safe_withholding_text_as_the_full_file(domai
     assert prose.render_chat_projection(payload) == full
 
 
-def test_code_rebuilt_empirical_inputs_and_results_require_visibility_and_body_bindings():
+def checked_empirical_projection_input():
     from tests.test_causal_judgment_v4_graph import empirical_graph
     from tests.test_causal_judgment_instances import root_contract, root_result
     from xi_kari_runtime.empirical_instances import EvaluatedInstanceRegistry, freeze_empirical_instance
@@ -247,6 +247,11 @@ def test_code_rebuilt_empirical_inputs_and_results_require_visibility_and_body_b
         dimension_claim_ids={'delay': ['CLAIM-FACTUAL']})
     registry = EvaluatedInstanceRegistry(
         [{'frozen': freeze_empirical_instance(preregistration), 'evaluation': evaluation}], graph=graph)
+    return preregistration, evaluation, registry
+
+
+def test_code_rebuilt_empirical_inputs_and_results_require_visibility_and_body_bindings():
+    preregistration, evaluation, registry = checked_empirical_projection_input()
     payload = {'schema_version': 4,
         'empirical_instances': [{'preregistration': preregistration, 'evaluation': evaluation}],
         'formal_results': {'source_version': 'v9.0', 'source_revision': 'a' * 64,
@@ -329,3 +334,22 @@ def test_safe_wording_cannot_hide_a_copied_private_value_in_authored_units(domai
     with pytest.raises(ValueError) as caught:
         authored_reader_units(payload)
     assert private not in str(caught.value)
+
+
+def test_a_negated_qualification_does_not_preserve_the_code_rebuilt_positive_status():
+    preregistration, _, registry = checked_empirical_projection_input()
+    identifier = preregistration['instance_id']
+    qualification = registry[identifier]['qualification']
+    assert qualification == 'qualified'
+    path = 'formal_results.instance_results[0].qualification'
+    text = '这项实例尚未取得资格。'
+    payload = visibility({'schema_version': 4,
+        'formal_results': {'instance_results': {identifier: {'qualification': qualification}}},
+        'reader_sections': [{'section_id': 'qualification', 'heading': '资格的状态',
+            'local_judgment': text, 'paragraphs': ['资格与具体结果分别核验。'],
+            'source_bindings': [{'source_path': path, 'paragraph_index': 0, 'excerpt': text}]}]})
+    assert any(path in error for error in validate_reader_sections(payload))
+    valid = '这项实例已取得资格，但资格本身不能代替具体结果。'
+    payload['reader_sections'][0].update(local_judgment=valid,
+        source_bindings=[{'source_path': path, 'paragraph_index': 0, 'excerpt': valid}])
+    assert validate_reader_sections(payload) == []
