@@ -283,6 +283,9 @@ def build_parser() -> argparse.ArgumentParser:
         help="read a xi-kari.v3.closed-input-materials envelope",
     )
     execute.add_argument("--timeout-seconds", type=int, default=DEFAULT_ADAPTER_TIMEOUT_SECONDS)
+    execute.add_argument('--contract-version', type=int, choices=(3, 4), default=3)
+    execute.add_argument('--source-version', choices=('v8.3', 'v9.0'))
+    execute.add_argument('--domain-id', action='append', default=[])
 
     materialize = sub.add_parser("materialize", help="materialize the disk-reloaded semantic packet")
     materialize.add_argument("--run-dir", required=True, type=Path)
@@ -363,6 +366,9 @@ def main(argv: list[str] | None = None) -> int:
                 timeout_seconds=args.timeout_seconds,
                 privacy_purpose=args.privacy_purpose,
                 delivery_audience=args.delivery_audience,
+                contract_version=args.contract_version,
+                source_version=args.source_version,
+                selected_domain_ids=args.domain_id,
             )
         elif args.command == "materialize":
             result = materialize_run(args.run_dir, _json_value(str(args.packet) if args.packet else None), repository_root=repository_root)
