@@ -4,9 +4,10 @@ import sys
 import pytest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'scripts'))
-from xi_kari_runtime import authoring, execution
+from xi_kari_runtime import execution
 from xi_kari_runtime.concept_authority import load_concept_authority
 from tests.test_p04_v4_authoring import _authoring_input
+from tests.test_v4_provider_configuration import run_child
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -36,12 +37,22 @@ def test_source_nine_ontology_plan_is_owned_by_its_real_auxiliary_schema():
     validate_versioned_schema('xk-ontology-read-plan.schema.json', plan, repository_root=ROOT)
 
 
-def test_provider_default_records_exact_authorized_model_and_effort():
-    binding = authoring.bind_base_authoring_provider(Path(sys.executable), mode='closed-input', repository_root=ROOT, timeout_seconds=30)
-    assert binding['model'] == 'gpt-6.1-sol'
+def test_provider_default_records_exact_authorized_model_and_effort(tmp_path):
+    binding = run_child(tmp_path, 'binding', {})
+    assert binding['model'] == 'gpt-6-astra'
     assert binding['reasoning_effort'] == 'max'
-    assert binding['argv'][binding['argv'].index('--model') + 1] == 'gpt-6.1-sol'
+    assert binding['argv'][binding['argv'].index('--model') + 1] == 'gpt-6-astra'
     assert 'model_reasoning_effort="max"' in binding['argv']
+
+
+def test_provider_explicit_override_records_exact_model_and_effort(tmp_path):
+    binding = run_child(tmp_path, 'binding', {
+        'XI_KARI_PROVIDER_MODEL': 'gpt-6.1-sol', 'XI_KARI_REASONING_EFFORT': 'high',
+    })
+    assert binding['model'] == 'gpt-6.1-sol'
+    assert binding['reasoning_effort'] == 'high'
+    assert binding['argv'][binding['argv'].index('--model') + 1] == 'gpt-6.1-sol'
+    assert 'model_reasoning_effort="high"' in binding['argv']
 
 
 def test_v4_execution_rejects_mixed_source_before_launch(tmp_path):

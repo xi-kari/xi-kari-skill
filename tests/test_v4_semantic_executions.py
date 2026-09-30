@@ -78,7 +78,7 @@ def test_actual_fixture_process_records_exact_request_bytes_pid_usage_and_output
     receipt=result['receipt']['signed_payload']
     assert receipt['child_pid']>0 and receipt['child_pid']!=os.getpid()
     assert receipt['usage']['input_tokens']==11
-    assert receipt['model']=='gpt-6.1-sol' and receipt['reasoning_effort']=='max'
+    assert receipt['model']==binding['model'] and receipt['reasoning_effort']==binding['reasoning_effort']
     root=Path(result['attempt_directory'])
     assert (root/'capture/stdout.jsonl').read_bytes()
     assert (root/'capture/stderr.bin').read_bytes()

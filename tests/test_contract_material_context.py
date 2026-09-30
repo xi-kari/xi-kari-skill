@@ -43,8 +43,6 @@ def test_execute_passes_frozen_materials_before_author_freezes_scope(tmp_path, m
         observed.update(kwargs)
         raise Captured
     monkeypatch.setattr(execution, '_author_natural_contract', author)
-    monkeypatch.setattr(execution, 'bind_semantic_authoring_adapter', lambda *a, **k: {'provider_binding': {}})
-    monkeypatch.setattr(execution, 'bind_base_authoring_provider', lambda *a, **k: {})
     raw = [{'source_id': 'SOURCE-1', 'title': '组内决定', 'content': '十二人小组尚未表决，只同意起草。'}]
     with pytest.raises(Captured):
         execution.execute_authored_run(tmp_path, request_text='只用给定材料解释这个决定',
@@ -110,13 +108,13 @@ for event in ({"type":"thread.started","thread_id":"material-test"}, {"type":"tu
 def test_execute_replays_contract_with_materials_after_base_author(tmp_path, monkeypatch):
     provider_path = tmp_path / 'two_stage_material_provider.py'
     provider_path.write_text(f'#!{Path(sys.executable).resolve()}\n' + '''import json, pathlib, sys
-prompt = sys.stdin.read()
-if "运行时请求（只读绑定）：\\n" in prompt:
-    result = {}
-else:
-    request = json.loads(prompt.rsplit("运行时请求（只读）：\\n", 1)[1])
+prompt = sys.stdin.buffer.read().decode("utf-8")
+request = json.loads(prompt.splitlines()[-1])
+if "draft_problem_contract" in request:
     result = dict(request["draft_problem_contract"])
     result["boundary"] = request["source_inputs"]["closed_input_materials"][0]["content"]
+else:
+    result = {}
 pathlib.Path("semantic-output.json").write_text(json.dumps(result, ensure_ascii=False), encoding="utf-8")
 pathlib.Path(sys.argv[sys.argv.index("--output-last-message") + 1]).write_text("SEMANTIC_OUTPUT_READY", encoding="utf-8")
 for event in ({"type":"thread.started","thread_id":"two-stage-material"}, {"type":"turn.started"}, {"type":"turn.completed"}):
@@ -137,7 +135,11 @@ for event in ({"type":"thread.started","thread_id":"two-stage-material"}, {"type
         if len(observed) == 2:
             raise ReplayObserved
     monkeypatch.setattr(execution, 'validate_contract_authoring_evidence', validate)
-    monkeypatch.setattr(execution, '_parse_base_output', lambda *a, **k: ({}, {}, {}))
+    def parse_base(raw, **kwargs):
+        assert kwargs['contract_version'] == 4
+        assert json.loads(raw) == {}
+        return {}, {}, {}
+    monkeypatch.setattr(execution, 'parse_base_authoring_output', parse_base)
     monkeypatch.setattr(execution, 'validate_semantic_read_trace_input', lambda *a, **k: None)
     monkeypatch.setattr(execution, 'validate_visibility_ledger', lambda *a, **k: None)
     with pytest.raises(execution.AuthoringFailure) as captured:
