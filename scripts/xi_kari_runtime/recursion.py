@@ -107,7 +107,8 @@ def execute_recursive_step(
         raise RecursiveInferenceError("recursive parent order or evidence grade is invalid")
     binding = registered_parent_binding(frozen)
     if frozen.get("status") in {"stopped", "failed", "not_run"}:
-        return {"status": "not_run", "order": frozen["order"] + 1, "blocked_by_node_id": frozen["node_id"], "reason": frozen.get("stop_reason", frozen.get("reason", "parent premise failed")), "parent_binding": binding}
+        reason = frozen.get("stop_reason", frozen.get("reason", "parent premise failed"))
+        return {"status": "not_run", "order": frozen["order"] + 1, "blocked_by_node_id": frozen["node_id"], "reason": reason, "parent_binding": binding, "not_run_orders": [{"order": order, "blocked_by_node_id": frozen["node_id"], "reason": reason} for order in range(frozen["order"] + 1, 4)]}
     if not independent_question or not incremental_gain or frozen.get("status") == "completed":
         return {**frozen, "status": "completed", "completion_reason": "no_independent_next_question" if not independent_question else "no_incremental_gain", "parent_binding": binding}
     if frozen["order"] == 3:
@@ -181,6 +182,147 @@ def validate_registered_child(
     if snapshot.get("node_id") != expected_node_id:
         raise RecursiveInferenceError("recursive node identity differs from its actual transition content")
     return snapshot
+
+
+def validate_branch_dispositions(
+    dispositions: Mapping[str, Mapping[str, Any]], *,
+    evidence_registry: Mapping[str, Mapping[str, Any]],
+) -> tuple[str, ...]:
+    kinds = ("main", "strongest_rival", "low_probability_high_consequence", "residual")
+    if set(dispositions) != set(kinds):
+        raise RecursiveInferenceError("all four branch classes require independent applicability dispositions")
+    applicable = []
+    for kind in kinds:
+        row = dispositions[kind]
+        if set(row) != {"status", "reason", "evidence_refs"} or row["status"] not in {"applicable", "not_applicable", "undetermined"} or not isinstance(row["reason"], str) or not row["reason"].strip() or not isinstance(row["evidence_refs"], list):
+            raise RecursiveInferenceError("branch applicability requires a typed status and substantive reason")
+        if row["status"] == "applicable" and not row["evidence_refs"]:
+            raise RecursiveInferenceError("applicable branch needs substantive resolving evidence")
+        for ref in row["evidence_refs"]:
+            evidence = evidence_registry.get(ref)
+            if not isinstance(evidence, Mapping) or evidence.get("evidence_id") != ref or not evidence.get("source_refs"):
+                raise RecursiveInferenceError("branch evidence does not resolve")
+        if row["status"] == "applicable":
+            applicable.append(kind)
+    return tuple(applicable)
+
+
+def record_pruned_branch(
+    branch: Mapping[str, Any], *, rule_id: str, reason: str, evaluated_at: str,
+    pruning_rules: Mapping[str, Mapping[str, Any]],
+) -> dict[str, Any]:
+    from .world_volume import _registered_time
+
+    rule = pruning_rules.get(rule_id)
+    if not isinstance(rule, Mapping) or rule.get("rule_id") != rule_id or reason not in rule.get("allowed_reasons", []) or _registered_time(rule.get("frozen_at"), "pruning rule freeze") >= _registered_time(evaluated_at, "pruning evaluation"):
+        raise RecursiveInferenceError("pruning requires an actual predeclared rule and matching reason")
+    if branch.get("harm_level") in {"high", "severe", "critical"} and reason == "low_probability":
+        raise RecursiveInferenceError("low probability alone cannot prune a supported high-consequence branch")
+    mass = branch.get("probability_mass")
+    if not isinstance(mass, dict) or not branch.get("branch_id") or not branch.get("evidence_refs"):
+        raise RecursiveInferenceError("pruned branch must retain identity, evidence and explicit probability mass")
+    if mass.get("kind") == "unknown" and (not mass.get("reason") or "value" in mass):
+        raise RecursiveInferenceError("unknown probability mass cannot be replaced by a numeric zero")
+    frozen = _native_snapshot(branch, label="pruned branch", error_type=RecursiveInferenceError)
+    return {**frozen, "status": "pruned", "pruning_rule_id": rule_id, "pruning_rule_sha256": _canonical_sha256(rule), "prune_reason": reason, "evaluated_at": evaluated_at}
+
+
+def can_merge_recursive_nodes(
+    left: Mapping[str, Any], right: Mapping[str, Any], *,
+    tolerances: Mapping[str, Any],
+    history_equivalence_id: str | None = None,
+    history_equivalence_results: Mapping[str, Mapping[str, Any]] | None = None,
+) -> bool:
+    from .world_volume import _registered_time
+
+    if any(left.get(key) != right.get(key) for key in ("run_id", "order", "model_version", "evidence_identity", "declared_evidence_grade", "dimensions")):
+        return False
+    for field in ("available_actions", "excluded_actions", "existing_obligations", "no_action_option_id"):
+        if left["author_request"].get(field) != right["author_request"].get(field):
+            return False
+    if left.get("history") != right.get("history"):
+        artifact = (history_equivalence_results or {}).get(history_equivalence_id)
+        if not isinstance(artifact, Mapping) or artifact.get("result_id") != history_equivalence_id or artifact.get("status") != "passed" or artifact.get("independent") is not True or not artifact.get("evidence_refs") or artifact.get("left_node_sha256") != _canonical_sha256(left) or artifact.get("right_node_sha256") != _canonical_sha256(right):
+            return False
+    source, target = left["output_state"], right["output_state"]
+    if any(source.get(key) != target.get(key) for key in ("unknowns", "losses", "residuals", "existing_obligations", "evidence_cutoff")):
+        return False
+    source_objects = {obj["object_id"]: obj for obj in source["objects"]}
+    target_objects = {obj["object_id"]: obj for obj in target["objects"]}
+    if set(source_objects) != set(target_objects):
+        return False
+    for identifier, obj in source_objects.items():
+        other = target_objects[identifier]
+        if obj.get("K") != other.get("K") or obj.get("SP") != other.get("SP"):
+            return False
+        variables = {variable["variable_id"]: variable for variable in obj["variables"]}
+        other_variables = {variable["variable_id"]: variable for variable in other["variables"]}
+        if set(variables) != set(other_variables):
+            return False
+        for variable_id, variable in variables.items():
+            other_variable = other_variables[variable_id]
+            if variable.get("category") != other_variable.get("category") or variable.get("clock_id") != other_variable.get("clock_id"):
+                return False
+            if _canonical_sha256(variable["value"]) == _canonical_sha256(other_variable["value"]):
+                continue
+            tolerance = tolerances.get(identifier + "/" + variable_id)
+            if not isinstance(tolerance, dict) or type(tolerance.get("value")) not in {int, float} or tolerance["value"] < 0 or type(variable["value"]) not in {int, float} or type(other_variable["value"]) not in {int, float}:
+                return False
+            if _registered_time(tolerance.get("preregistered_at"), "merge tolerance freeze") >= _registered_time(tolerance.get("result_accessed_at"), "merge result access") or abs(variable["value"] - other_variable["value"]) > tolerance["value"]:
+                return False
+    return True
+
+
+def apply_verified_feedback(
+    original_prediction: Mapping[str, Any], observed_base_state: Mapping[str, Any],
+    feedback: Mapping[str, Any], *, new_run_id: str, new_evidence_cutoff: str,
+    action_catalog: Sequence[Mapping[str, Any]],
+    evidence_registry: Mapping[str, Mapping[str, Any]], author: Any,
+    competing_predictions: Sequence[Mapping[str, Any]], simple_baseline: Mapping[str, Any],
+    previous_feedback: Sequence[Mapping[str, Any]] = (),
+) -> dict[str, Any]:
+    """Append verified feedback and consume the changed state in a new run."""
+
+    from .world_volume import _registered_time
+
+    prediction = _native_snapshot(original_prediction, label="original prediction", error_type=RecursiveInferenceError)
+    record = _native_snapshot(feedback, label="feedback", error_type=RecursiveInferenceError)
+    state = _native_snapshot(observed_base_state, label="observed feedback base", error_type=RecursiveInferenceError)
+    records = _native_snapshot(list(previous_feedback), label="feedback archive", error_type=RecursiveInferenceError)
+    if not new_run_id or new_run_id in {prediction["run_id"], state["run_id"]} or _registered_time(new_evidence_cutoff, "new evidence cutoff") <= _registered_time(state["evidence_cutoff"], "original evidence cutoff"):
+        raise RecursiveInferenceError("verified feedback requires a genuinely new frozen run and later cutoff")
+    if record.get("category") not in {"fact_error", "mechanism_error", "different_choice", "execution_deviation", "external_change"} or record.get("prediction_node_id") != prediction["node_id"] or not record.get("feedback_id") or not record.get("source_refs") or any(item.get("feedback_id") == record["feedback_id"] for item in records):
+        raise RecursiveInferenceError("feedback identity, error category, source or original prediction is unresolved")
+    event = record.get("observed_event")
+    if not isinstance(event, dict) or event.get("event_id") != record.get("event_id") or event.get("kind") != "observed" or event.get("update_path") != "observed_direct":
+        raise RecursiveInferenceError("verified feedback must bind the actual observed event identity")
+    if not competing_predictions or not isinstance(simple_baseline, Mapping):
+        raise RecursiveInferenceError("feedback needs original, competing and simple-baseline comparison records")
+    for field in ("unknowns", "losses", "residuals"):
+        inherited = {_canonical_sha256(item) for item in prediction["output_state"].get(field, [])}
+        if not inherited.issubset({_canonical_sha256(item) for item in state.get(field, [])}):
+            raise RecursiveInferenceError("feedback must preserve original unresolved content before explicit adjudication")
+    event_sources = {source for ref in event.get("evidence_refs", []) for source in evidence_registry.get(ref, {}).get("source_refs", [])}
+    if not set(record["source_refs"]).issubset(event_sources):
+        raise RecursiveInferenceError("feedback source does not resolve through the actual occurrence evidence")
+    state.update(run_id=new_run_id, evidence_cutoff=new_evidence_cutoff)
+    state["snapshot_id"] = "STATE-" + _canonical_sha256(state)[:20].upper()
+    try:
+        transition = apply_registered_event(state, event, evidence_registry=evidence_registry)
+        current = transition.replay(state)
+    except WorldVolumeError as error:
+        raise RecursiveInferenceError(str(error)) from error
+    actions = current_action_set(current, action_catalog)
+    comparison = {"original_prediction_sha256": _canonical_sha256(prediction), "competing_prediction_sha256": [_canonical_sha256(item) for item in competing_predictions], "simple_baseline_sha256": _canonical_sha256(simple_baseline), "observed_state_sha256": _canonical_sha256(current)}
+    request = {"run_id": new_run_id, "order": 1, "input_state": current, "input_state_sha256": _canonical_sha256(current), "original_prediction_binding": registered_parent_binding(prediction), "feedback_record": record, "comparison": comparison, "model_version": prediction["model_version"], **actions}
+    response = _native_snapshot(author(copy.deepcopy(request)), label="feedback author response", error_type=RecursiveInferenceError)
+    if not isinstance(response, dict) or set(response) - {"possible_choice_ids", "choice_basis", "rationale"}:
+        raise RecursiveInferenceError("feedback author may only fill semantic choice fields")
+    choices = response.get("possible_choice_ids", [])
+    if not isinstance(choices, list) or not set(choices).issubset({option["option_id"] for option in actions["available_actions"]}):
+        raise RecursiveInferenceError("feedback author choice ignores the actual corrected action constraints")
+    records.append({**record, "feedback_sha256": _canonical_sha256(record), "new_run_id": new_run_id, "comparison": comparison})
+    return {"run_id": new_run_id, "original_prediction_sha256": _canonical_sha256(prediction), "state_diff_id": transition.state_diff_id, "input_state": current, "author_request": request, "author_request_sha256": _canonical_sha256(request), "author_response": response, "feedback_records": records, "comparison_records": {"original": prediction, "competitors": copy.deepcopy(list(competing_predictions)), "simple_baseline": copy.deepcopy(simple_baseline)}, "corrective_update_consumed": True, "general_learning_claim": False, "event_role": transition.event_role, "external_action_authorized": False}
 
 
 def _validate_identity_roles(state: Mapping[str, Any]) -> None:

@@ -1339,6 +1339,7 @@ def validate_world_volume(
     repository_root: Path | None = None,
     evidence_ledger: Mapping[str, Any] | None = None,
     expected_run_id: str | None = None,
+    retrieval_index: Mapping[str, Any] | None = None,
 ) -> None:
     """Validate one v8.3-bound Omega document without mutating it."""
 
@@ -1347,6 +1348,9 @@ def validate_world_volume(
     )
     if not isinstance(snapshot, dict):
         raise WorldVolumeError("world volume must be a mapping")
+    if snapshot.get("schema_version") == 4:
+        validate_registered_world_bundle(snapshot, repository_root=repository_root, evidence_ledger=evidence_ledger, retrieval_index=retrieval_index, expected_run_id=expected_run_id)
+        return
     try:
         _validate_schema(
             "xk-world-volume.schema.json",
@@ -1935,6 +1939,62 @@ def bind_registered_event_evidence(
     return registry
 
 
+def validate_registered_world_bundle(
+    bundle: Mapping[str, Any], *, repository_root: Path | None = None,
+    evidence_ledger: Mapping[str, Any] | None,
+    retrieval_index: Mapping[str, Any] | None,
+    expected_run_id: str | None = None,
+    prototype_evidence_registry: Mapping[str, Mapping[str, Any]] | None = None,
+    channel_registry: Mapping[str, Mapping[str, Any]] | None = None,
+    authorization_registry: Mapping[str, Mapping[str, Any]] | None = None,
+) -> dict[str, Any]:
+    """Consume source-bound version-four state, identity and event records."""
+
+    from .v4_contracts import validate_v4_binding, validate_applicability
+
+    snapshot = _native_snapshot(bundle, label="registered world bundle", error_type=WorldVolumeError)
+    fields = {"schema_id", "schema_version", "source_version", "ontology_refs", "source_anchors", "applicability", "registered_state", "identity_records", "prototype_records", "event_records", "event_evidence_bindings"}
+    if not isinstance(snapshot, dict) or set(snapshot) != fields or snapshot["schema_id"] != "xi-kari.v4.xk.world-volume":
+        raise WorldVolumeError("version-four world bundle requires its exact semantic field set")
+    try:
+        authority = validate_v4_binding(snapshot, repository_root=repository_root)
+        validate_applicability(snapshot["applicability"], claims=(evidence_ledger or {}).get("claims", []), anchors=authority["anchors"], repository_root=repository_root)
+    except ValueError as error:
+        raise WorldVolumeError(str(error)) from error
+    world_applicability = snapshot["applicability"]["world_state"]["status"]
+    if world_applicability != "applicable":
+        if any(snapshot[key] for key in ("identity_records", "prototype_records", "event_records", "event_evidence_bindings")) or not isinstance(snapshot["registered_state"], dict) or snapshot["registered_state"].get("status") != world_applicability or not snapshot["registered_state"].get("reason"):
+            raise WorldVolumeError("inapplicable or undetermined world state cannot impersonate an actual state model")
+        return {"world_state_status": world_applicability, "final_state": snapshot["registered_state"], "identity_bindings": [], "transitions": ()}
+    state = snapshot["registered_state"]
+    if not isinstance(state, dict) or not isinstance(state.get("objects"), list) or not state["objects"] or evidence_ledger is None or retrieval_index is None:
+        raise WorldVolumeError("applicable world state requires registered objects and frozen P04 evidence")
+    if expected_run_id is not None and state.get("run_id") != expected_run_id:
+        raise WorldVolumeError("registered world bundle differs from the expected run")
+    root = _repository_root(repository_root)
+    manifest = json.loads((root / "references/source/v9.0/source-manifest.json").read_text(encoding="utf-8"))
+    identities = _records_by_id(snapshot["identity_records"], "object_id", label="identity record")
+    objects = _records_by_id(state["objects"], "object_id", label="registered object")
+    if set(identities) != set(objects):
+        raise WorldVolumeError("every registered object requires exactly one frozen identity record")
+    frozen = []
+    for identifier, identity in identities.items():
+        binding = freeze_object_identity(identity)
+        if binding["source_revision"] != manifest["raw_sha256"] or binding["K"] != objects[identifier].get("K"):
+            raise WorldVolumeError("world identity source revision or K differs from the actual source/state")
+        if "SP" in objects[identifier] and objects[identifier]["SP"] != binding["SP"]:
+            raise WorldVolumeError("world object SP differs from its frozen identity scope")
+        frozen.append(binding)
+    for prototype in snapshot["prototype_records"]:
+        identity = identities.get(prototype.get("object_id"))
+        if identity is None:
+            raise WorldVolumeError("prototype object does not resolve the frozen world identity")
+        validate_prototype_record(prototype, identity_record=identity, evidence_registry=prototype_evidence_registry or {})
+    registry = bind_registered_event_evidence(state, snapshot["event_records"], evidence_ledger=evidence_ledger, retrieval_index=retrieval_index, bindings=snapshot["event_evidence_bindings"])
+    transitions = apply_registered_events(state, snapshot["event_records"], evidence_registry=registry, channel_registry=channel_registry, authorization_registry=authorization_registry)
+    return {"world_state_status": "applicable", "final_state": transitions[-1].output_state if transitions else copy.deepcopy(state), "identity_bindings": frozen, "transitions": transitions, "evidence_registry": registry, "source_revision": manifest["raw_sha256"]}
+
+
 __all__ = (
     "RegisteredTransition",
     "StateDiff",
@@ -1952,4 +2012,5 @@ __all__ = (
     "validate_prototype_record",
     "registered_event_target_hashes",
     "bind_registered_event_evidence",
+    "validate_registered_world_bundle",
 )

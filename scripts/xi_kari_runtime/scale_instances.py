@@ -24,6 +24,35 @@ SECTION_FIELDS = {
     "correction": "appeal review rollback repair writeback",
     "lifecycle": "validity review_points pause exit",
 }
+FIELD_TYPES_BY_SECTION = {section: {field: (list,) for field in fields.split()} for section, fields in SECTION_FIELDS.items()}
+for _section, _fields in {
+    "identity": "contract_id concept_id version",
+    "scale": "transformation_class",
+    "transformation": "selected_operator_branch claim_mode selected_subtype selected_success_criterion result_state",
+    "normative": "selection_kind",
+    "action": "judgment_ceiling action_ceiling",
+}.items():
+    for _field in _fields.split():
+        FIELD_TYPES_BY_SECTION[_section][_field] = (str,)
+for _section, _fields in {
+    "identity": "purpose", "scale": "SP0 SP1",
+    "objects": "source_object target_object source_K target_K identity_mapping population",
+    "semantics": "task_preservation",
+    "transformation": "rules validity decision_rule null_decision_rule parent_representation",
+    "evidence": "coverage", "normative": "selection_record c12_gate",
+    "protection": "applicability safe_submission anti_retaliation",
+    "action": "selected_action",
+    "correction": "appeal review rollback repair", "lifecycle": "validity",
+}.items():
+    for _field in _fields.split():
+        FIELD_TYPES_BY_SECTION[_section][_field] = (dict,)
+for _field in ("lag", "mapping_error", "positive_threshold", "equivalence_or_sufficiency", "power_or_sensitivity", "tolerance"):
+    FIELD_TYPES_BY_SECTION["transformation"][_field] = (dict, int, float)
+for _field in ("units", "boundaries", "members"):
+    FIELD_TYPES_BY_SECTION["objects"][_field] = (dict, list)
+FIELD_TYPES_BY_SECTION["scale"]["j_authorization"] = (dict, list)
+FIELD_TYPES_BY_SECTION["action"]["action_owner"] = (str, dict)
+FIELD_TYPES_BY_SECTION["correction"]["writeback"] = (dict, list)
 SCALE_MISSING_STATES = {"unknown", "not_applicable", "not_observable", "withheld_for_protection"}
 K_CHECKS = ("source_under_source_K", "source_under_target_K", "target_under_source_K", "target_under_target_K")
 RESULT_STATES = {"supported", "null_supported", "unsupported_or_undecided", "not_evaluated"}
@@ -84,9 +113,13 @@ def validate_scale_instance(
         content = contract[section]
         if not isinstance(content, dict) or set(content) != set(fields.split()):
             raise ScaleContractError(f"scale section has an inexact field set: {section}")
-        for value in content.values():
-            if isinstance(value, dict) and "status" in value and value["status"] in SCALE_MISSING_STATES and not value.get("reason"):
-                raise ScaleContractError("scale missing states require an explicit reason")
+        for field, value in content.items():
+            missing_record = isinstance(value, dict) and "status" in value and set(value).issubset({"status", "reason", "evidence_refs"})
+            if missing_record:
+                if value["status"] not in SCALE_MISSING_STATES or not isinstance(value.get("reason"), str) or not value["reason"].strip():
+                    raise ScaleContractError("scale missing states require the exact four-state vocabulary and reason")
+            elif type(value) not in FIELD_TYPES_BY_SECTION[section][field]:
+                raise ScaleContractError(f"scale field has an invalid fixed type: {section}.{field}")
     identity, scale, objects, transform = (contract[key] for key in ("identity", "scale", "objects", "transformation"))
     if not all(isinstance(identity[key], str) and identity[key] for key in ("contract_id", "concept_id", "version")) or not isinstance(identity["proposition_ids"], list) or not identity["proposition_ids"]:
         raise ScaleContractError("scale identity is incomplete")
@@ -97,6 +130,13 @@ def validate_scale_instance(
     if not isinstance(task["use_scope"], list) or not task["use_scope"] or not isinstance(task["allowed_operations"], list) or not task["allowed_operations"]:
         raise ScaleContractError("scale task requires declared uses and operations")
     task_hash = _canonical_sha256(task)
+    preservation = contract["semantics"]["task_preservation"]
+    if not isinstance(preservation, dict) or set(preservation) != {"target_quantity", "preserved_for_task", "allowed_changes", "validity_conditions"} or preservation["target_quantity"] != task["target_quantity"] or not isinstance(preservation["preserved_for_task"], list) or not isinstance(preservation["allowed_changes"], list) or not preservation["validity_conditions"]:
+        raise ScaleContractError("task preservation must bind the declared quantity and validity conditions")
+    for side in ("source", "target"):
+        obj, criterion = objects[side + "_object"], objects[side + "_K"]
+        if not isinstance(obj, dict) or not obj.get("object_id") or not isinstance(criterion, dict) or set(criterion) != {"version", "definition"} or not criterion["version"] or not criterion["definition"]:
+            raise ScaleContractError("scale object and K must be explicit nonempty registered values")
 
     def resolve_evidence(refs: object, *, target_hash: str | None = None) -> None:
         if not isinstance(refs, list) or not refs:
@@ -147,6 +187,12 @@ def validate_scale_instance(
     mode, result = transform["claim_mode"], transform["result_state"]
     if branches.get(transform["selected_operator_branch"]) != mode or result not in RESULT_STATES:
         raise ScaleContractError("scale branch, mode or result is not independently registered")
+    if result in {"supported", "null_supported"} and (not isinstance(transform["rules"], dict) or _missing(transform["rules"]) or not transform["rules"]):
+        raise ScaleContractError("supported scale mapping requires its concrete operator bridge")
+    if operators[0] == "scale_operator:M02" and result in {"supported", "null_supported"}:
+        rules = transform["rules"]
+        if not {"boundary_map", "member_map", "overlap_map", "exit_map", "interface_map"}.issubset(rules) or any(_missing(rules[key]) for key in ("boundary_map", "member_map", "overlap_map", "exit_map", "interface_map")):
+            raise ScaleContractError("M02 description needs boundary/member/overlap/exit/interface mappings")
     mapping = objects["identity_mapping"]
     if not isinstance(mapping, dict) or mapping.get("classification") not in {"same_object", "converted_object", "incomparable", "undetermined"}:
         raise ScaleContractError("scale K mapping classification is missing")

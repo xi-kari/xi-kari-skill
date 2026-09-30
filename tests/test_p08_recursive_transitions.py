@@ -112,3 +112,69 @@ def test_no_action_baseline_does_not_erase_existing_obligations_or_choose_for_ac
     assert "selected_action" not in child
     with pytest.raises(recursion.RecursiveInferenceError, match="no_action"):
         recursion.current_action_set(parent["output_state"], [*actions, deepcopy(actions[0]) | {"option_id": "WAIT-2"}])
+
+
+def test_four_branch_classes_need_dispositions_but_only_supported_classes_expand():
+    dispositions = {
+        "main": {"status": "applicable", "reason": "Declared conditional path", "evidence_refs": ["E-SPEND"]},
+        "strongest_rival": {"status": "undetermined", "reason": "No discriminating material yet", "evidence_refs": []},
+        "low_probability_high_consequence": {"status": "not_applicable", "reason": "No substantive severe route supported", "evidence_refs": []},
+        "residual": {"status": "applicable", "reason": "Inherited measured gap", "evidence_refs": ["E-SPEND"]},
+    }
+    _, _, evidence, _ = recursive_fixture()
+    assert recursion.validate_branch_dispositions(dispositions, evidence_registry=evidence) == ("main", "residual")
+    dispositions["low_probability_high_consequence"].update(status="applicable", reason="Need a fourth story", evidence_refs=[])
+    with pytest.raises(recursion.RecursiveInferenceError, match="evidence"):
+        recursion.validate_branch_dispositions(dispositions, evidence_registry=evidence)
+
+
+def test_low_probability_alone_cannot_prune_supported_severe_path():
+    branch = {"branch_id": "SEVERE-1", "harm_level": "high", "probability_mass": {"kind": "unknown", "reason": "No reality probability estimate"}, "evidence_refs": ["E-SPEND"]}
+    rules = {"RULE-1": {"rule_id": "RULE-1", "frozen_at": "2026-09-29T00:00:00Z", "allowed_reasons": ["dominated", "low_probability"]}}
+    with pytest.raises(recursion.RecursiveInferenceError, match="high"):
+        recursion.record_pruned_branch(branch, rule_id="RULE-1", reason="low_probability", evaluated_at="2026-09-30T00:00:00Z", pruning_rules=rules)
+    retained = recursion.record_pruned_branch(branch, rule_id="RULE-1", reason="dominated", evaluated_at="2026-09-30T00:00:00Z", pruning_rules=rules)
+    assert retained["probability_mass"]["kind"] == "unknown"
+    assert retained["branch_id"] == "SEVERE-1"
+
+
+def test_merge_refuses_different_future_actions_even_with_close_state():
+    parent, child, event, evidence, actions = make_child()
+    same = deepcopy(child)
+    assert recursion.can_merge_recursive_nodes(child, same, tolerances={}) is True
+    same["author_request"]["available_actions"] = [same["author_request"]["available_actions"][0]]
+    assert recursion.can_merge_recursive_nodes(child, same, tolerances={}) is False
+    same = deepcopy(child)
+    same["history"].append("different mechanism history")
+    assert recursion.can_merge_recursive_nodes(child, same, tolerances={}) is False
+
+
+def test_failed_parent_records_every_downstream_order_as_not_run():
+    parent, event, evidence, actions = recursive_fixture()
+    parent.update(status="failed", stop_reason="invalid cross-scale map")
+    result = recursion.execute_recursive_step(parent, event, action_catalog=actions, author=lambda request: pytest.fail("dependent author invoked"), evidence_registry=evidence, independent_question="next", incremental_gain="gain")
+    assert [item["order"] for item in result["not_run_orders"]] == [2, 3]
+    assert all(item["blocked_by_node_id"] == "NODE-1" for item in result["not_run_orders"])
+
+
+def test_verified_feedback_creates_new_frozen_run_consumed_by_next_author_and_preserves_prediction(tmp_path):
+    import json
+    parent, prediction, _, _, actions = make_child()
+    old = json.dumps(prediction, sort_keys=True).encode()
+    old_path = tmp_path / "original-prediction.json"
+    old_path.write_bytes(old)
+    feedback_event = {"event_id": "OBSERVED-SPEND", "actor_id": "actor", "object_id": "actor", "kind": "observed", "update_path": "observed_direct", "occurrence_status": "occurred", "authorization_status": "unauthorized", "occurred_at": "2026-10-02T10:00:00Z", "evidence_refs": ["E-OBSERVED"], "conditions": [], "deltas": [{"object_id": "actor", "variable_id": "XK-PROV-CASH", "category": "resources", "before": 10, "after": 3, "clock_id": "interaction", "evidence_refs": ["E-OBSERVED"]}], "channel_id": None, "mechanism_id": None, "authorization_ref": None}
+    evidence = {"E-OBSERVED": {"evidence_id": "E-OBSERVED", "identity": "observed", "source_refs": ["SYNTHETIC-FEEDBACK"], "available_at": "2026-10-02T11:00:00Z", "event_id": "OBSERVED-SPEND", "object_id": "actor", "variable_id": "XK-PROV-CASH", "observed_value": 3}}
+    feedback = {"feedback_id": "FEEDBACK-1", "category": "external_change", "event_id": "OBSERVED-SPEND", "prediction_node_id": prediction["node_id"], "source_refs": ["SYNTHETIC-FEEDBACK"], "observed_event": feedback_event}
+    requests = []
+    update = recursion.apply_verified_feedback(prediction, parent["output_state"], feedback, new_run_id="RUN-UPDATED", new_evidence_cutoff="2026-10-02T12:00:00Z", action_catalog=actions, evidence_registry=evidence, author=lambda request: requests.append(deepcopy(request)) or {"possible_choice_ids": ["CHEAP"]}, competing_predictions=[parent], simple_baseline=parent)
+    assert old_path.read_bytes() == old
+    assert json.dumps(prediction, sort_keys=True).encode() == old
+    assert update["run_id"] == "RUN-UPDATED"
+    assert requests[0]["input_state"]["objects"][0]["variables"][0]["value"] == 3
+    assert update["corrective_update_consumed"] is True
+    assert update["general_learning_claim"] is False
+    assert update["feedback_records"][0]["feedback_id"] == "FEEDBACK-1"
+    assert update["original_prediction_sha256"] == world_volume._canonical_sha256(prediction)
+    with pytest.raises(recursion.RecursiveInferenceError, match="new"):
+        recursion.apply_verified_feedback(prediction, parent["output_state"], feedback, new_run_id=prediction["run_id"], new_evidence_cutoff="2026-10-02T12:00:00Z", action_catalog=actions, evidence_registry=evidence, author=lambda request: {}, competing_predictions=[parent], simple_baseline=parent)
