@@ -8,6 +8,13 @@ from .canonical_json import canonical_dumps
 
 def build_prompt(request: Mapping[str, Any], *, byte_limit: int) -> bytes:
     instructions = (
+        '运行时已在当前工作目录准备 runtime-inputs/support.json。先读取它，使用其中 python_executable 与 preflight_arguments 指定的现成解释器和只读检查命令。\n'
+        '预检入口是 scripts/check_authoring_output.py，按支持文件中的准确参数运行 --contract-version 4；无需寻找或安装 Python、jsonschema 或其他环境。'
+        'PowerShell 可用：$supportInfo = Get-Content -Raw -Encoding UTF8 runtime-inputs/support.json | ConvertFrom-Json; $preflightArgs = @($supportInfo.preflight_arguments); & $supportInfo.python_executable @preflightArgs。\n'
+        'runtime-inputs/output-contract.json 从实际 schema 导出输出结构、必填字段、引用入口和作者/运行时代码责任；'
+        '本体逐项阅读定位视图见 runtime-inputs/ontology-read-plan.json，源阅读计划见 runtime-inputs/source-read-plan.json。'
+        '定位视图不提供各项期待散列或 witness；必须读取真实内容并自行形成读取记录，预检会从受绑定仓库独立重建完整期望。'
+        'runtime-inputs 文件由运行代码写入并会核验字节，不得改写。工具不会替你生成语义值、read trace、回执或完成标记。\n'
         '根据冻结的问题合同，完整读取 source_inputs 中 v9.0 的 reader、源清单和本体读取计划，完成问题相关的分析。\n'
         '理论定义、适用条件和源未定义边界以当前原文为准；外部资料用于现实事实和案例。\n'
         '按实际读到的字节及问题关系填写 semantic_read_trace 和 ontology_read_trace。源单位必须对应真实 reader 文件，完整范围和顺序由读取计划确定。\n'
@@ -37,7 +44,8 @@ def build_prompt(request: Mapping[str, Any], *, byte_limit: int) -> bytes:
         'facts 包含 known、claimed、inferred、unknown；案例区分真实案例、条件场景和反例；answer.basis_refs 引用本包存在的声明、证据或机制。\n'
         'reader_sections 写完整中文可读正文，并通过 source_bindings 精确引用责任字段。visibility_ledger 对全部语义逐项分类，purpose 等于隐私合同的 purpose。\n'
         '在当前私有工作目录写完整 semantic-output.json，顶层恰为 semantic_packet、semantic_read_trace、ontology_read_trace；'
-        '自磁盘回读核对 schema 与引用。最后消息只写 SEMANTIC_OUTPUT_READY。运行权威、回执、终态和散列由代码保存。\n'
+        '自磁盘回读并运行上述只读预检，修正真实 schema、冻结字段、引用与读取记录错误；预检通过只表示作者输入检查通过，不表示 runtime 封存。'
+        '最后消息只写 SEMANTIC_OUTPUT_READY。运行权威、回执、终态和散列由代码保存。\n'
         '运行时请求：\n'
     )
     prompt = (instructions + canonical_dumps(dict(request)) + '\n').encode('utf-8')

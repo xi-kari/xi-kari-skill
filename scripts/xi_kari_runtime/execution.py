@@ -1713,7 +1713,7 @@ def execute_authored_run(
 
     selected_source = source_version or SOURCE_VERSION
     if contract_version != DEFAULT_CONTRACT_VERSION or selected_source != SOURCE_VERSION:
-        raise ValueError('active production execution requires the current v9.0 source and version-four contract')
+        raise ValueError('active version-four production execution requires the current v9.0 source and contract')
     from .temporal_audit import TemporalAudit
     if temporal_audit is not None and type(temporal_audit) is not TemporalAudit:
         raise ValueError('execute temporal evidence must be a runtime-observed audit, not author JSON')
@@ -1876,6 +1876,11 @@ def execute_authored_run(
         capture_root = Path(temporary)
         workspace = capture_root / "author-workspace"
         workspace.mkdir()
+        workspace_inputs = None
+        if contract_version == 4:
+            from .authoring_support_v4 import prepare_authoring_workspace_v4, verify_authoring_workspace_v4
+            workspace_inputs = prepare_authoring_workspace_v4(workspace, request=request,
+                ontology_read_plan=ontology_read_plan, source_events=source_events, repository_root=repo)
         notice_path = capture_root / "completion-notice.txt"
         command[-2] = str(notice_path)
         launch_command = _provider_launch_argv(base_provider, command)
@@ -1899,6 +1904,8 @@ def execute_authored_run(
                 raise ValueError(f"base authoring process exited with status {process.returncode}{suffix}")
             if not input_complete:
                 raise ValueError("base authoring process did not consume the complete request")
+            if workspace_inputs is not None:
+                verify_authoring_workspace_v4(workspace, workspace_inputs)
             thread_id, events = _strict_event_stream(raw_events)
             notice = read_bounded_regular_file(notice_path, limit=4096)
             output = read_semantic_output(workspace, notice=notice, limit=MAX_BASE_OUTPUT_BYTES)
