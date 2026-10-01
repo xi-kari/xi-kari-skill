@@ -136,7 +136,7 @@ def fixture_executor(api, behavior="completed", *, token_count=20, model="gpt-6.
         else:
             events += [dict(type="item.completed", item=dict(type="agent_message", text="合成夹具输出；没有真实模型或评测结论。")),
                 dict(type="turn.completed", usage=dict(input_tokens=100, output_tokens=token_count, cached_input_tokens=0))]
-        program = "import json,sys;sys.stdin.buffer.read();events=json.loads(sys.argv[1]);[print(json.dumps(e,ensure_ascii=False),flush=True) for e in events];sys.exit(int(sys.argv[2]))"
+        program = "import json,sys;sys.stdout.reconfigure(encoding='utf-8');sys.stdin.buffer.read();events=json.loads(sys.argv[1]);[print(json.dumps(e,ensure_ascii=False),flush=True) for e in events];sys.exit(int(sys.argv[2]))"
         request = dict(request, argv=[sys.executable, "-B", "-c", program, json.dumps(events),
             "2" if behavior == "before_generation" else "0"])
         return api.execute_process(request)
@@ -158,7 +158,9 @@ def test_frozen_public_plan_has_18_holdout_and_6_debug_cells_without_reading_gra
     assert not any("grader-only" in str(path) for path in (run / "trials").rglob("*"))
 
 
-def test_real_process_fixtures_freeze_actual_output_receipts_and_cannot_complete_p14(api, preparation, packages, tmp_path):
+def test_real_process_fixtures_freeze_actual_output_receipts_and_cannot_complete_p14(api, preparation, packages, tmp_path, monkeypatch):
+    environment = api._environment
+    monkeypatch.setattr(api, "_environment", lambda attempt: dict(environment(attempt), PYTHONIOENCODING="cp1252"))
     run = prepare(api, preparation, tmp_path, packages)
     result = api.run_evaluation(run, split="debug", execute=fixture_executor(api))
     assert result["author_process_launches"] == 6
