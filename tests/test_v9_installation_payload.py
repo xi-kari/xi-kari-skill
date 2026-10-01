@@ -33,7 +33,7 @@ def installation(tmp_path_factory):
             continue
         destination = target / relative
         destination.parent.mkdir(parents=True, exist_ok=True)
-        shutil.copyfile(path, destination)
+        shutil.copy2(path, destination)
     return target
 
 
