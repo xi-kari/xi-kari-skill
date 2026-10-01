@@ -37,7 +37,16 @@ jobs:
       - name: byte-compile scripts and runtime
         run: python -m compileall -q scripts
       - name: regression tests
-        run: python -m pytest -q
+        shell: python
+        run: |
+          import subprocess
+          import sys
+          from pathlib import Path
+
+          subprocess.run(
+              [str(Path(sys.executable).resolve(strict=True)), "-m", "pytest", "-q"],
+              check=True,
+          )
       - name: source snapshot
         run: python scripts/check_source_snapshot.py --all
       - name: knowledge index
