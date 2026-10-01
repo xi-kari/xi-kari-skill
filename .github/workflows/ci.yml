@@ -33,10 +33,10 @@ jobs:
         if: matrix.os != 'windows-latest' || matrix.python != '3.11'
         with:
           python-version: ${{ matrix.python }}
-      - uses: astral-sh/setup-uv@v9
+      - uses: astral-sh/setup-uv@94527f2e458b27549849d47d273a16bec83a01e9
         if: matrix.os == 'windows-latest' && matrix.python == '3.11'
         with:
-          version: "0.12.21"
+          version: "0.11.19"
           python-version: "3.11.15"
           activate-environment: true
           venv-path: ${{ runner.temp }}/xikari-checker
