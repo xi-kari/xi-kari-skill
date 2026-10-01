@@ -135,12 +135,12 @@ async function setupResearch() {
       $('[data-domain-count]', domainNodes.get(domain.id)).textContent = `${done} / ${domain.topics.length}`;
       $('.nav-domain-count', navNodes.get(domain.id)).textContent = `${done}/${domain.topics.length}`;
     }
-    $('[data-completion]').textContent = `${complete} / ${topicNodes.size} 项已完成`;
+    $('[data-completion]').textContent = `${complete} / ${topicNodes.size} 项已有完成记录`;
     const bar = $('[data-progress-bar]');
     bar.style.transform = `scaleX(${complete / topicNodes.size})`;
     $('[data-progress-meter]').setAttribute('aria-valuenow', String(complete));
     $('[data-progress-meter]').setAttribute('aria-valuemax', String(topicNodes.size));
-    $('[data-updated]').textContent = progress.updatedAt ? `更新于 ${progress.updatedAt.slice(0, 10).replaceAll('-', '.')}` : '专题研究待逐项推进';
+    $('[data-updated]').textContent = progress.updatedAt ? `更新于 ${progress.updatedAt.slice(0, 10).replaceAll('-', '.')}` : '尚无已发布的勾选记录';
     editor.disabled = saving;
     editor.setAttribute('aria-pressed', String(editMode));
     editor.textContent = editMode ? '结束编辑' : '维护进度';
@@ -266,7 +266,7 @@ async function setupResearch() {
     filter();
     retry.hidden = true;
     root.dataset.loaded = 'true';
-    message('正式进度由项目维护者统一更新。勾选表示本轮专题研究已完成。');
+    message('勾选记录由维护者发布，表示这份清单中的专题研究已完成；未标记项仅表示尚无公开记录。');
     search.disabled = false;
     $$('[data-status-filter], [data-expand], [data-collapse]').forEach((button) => { button.disabled = false; });
     domainSelect.disabled = false;
@@ -288,7 +288,7 @@ async function setupResearch() {
           editor.addEventListener('click', () => {
             editMode = !editMode;
             update();
-            message(editMode ? '维护模式已开启。勾选后会直接保存项目正式进度。' : '已结束编辑。进度保存在项目文件中，发布后统一展示。');
+            message(editMode ? '维护模式已开启。勾选后会直接保存这份清单的完成记录。' : '已结束编辑。进度保存在项目文件中，发布后统一展示。');
           });
         }
       } catch {}

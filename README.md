@@ -4,6 +4,8 @@
 
 # xi-kari-skill
 
+**框架 v9.0 · 软件 4.0.0 · 运行合同 v4**
+
 **Hello There — I am xi-kari.**
 
 <p align="center">
@@ -57,20 +59,24 @@ xi-kari-skill 用合同把回答约束为：什么对象发生了什么变化、
 
 ## 安装
 
-把本仓库克隆（或下载解压）到你所用代理的技能目录，文件夹名保持 `xi-kari-skill`：
+下载 [干净安装包](https://github.com/xi-kari/xi-kari-skill/releases/latest/download/xi-kari-skill-v4.0.0-theory-v9.0.zip)，解压后得到一个 `xi-kari-skill` 文件夹。把整个文件夹放入宿主的技能目录，保持 `skills/xi-kari-skill/SKILL.md` 这一层级，再从新一轮对话中精确点名调用。
 
 | 宿主 | 技能目录（Windows 示例） |
 | --- | --- |
-| Claude Code / Claude Desktop | `C:\Users\<你>\.claude\skills\` |
-| Codex CLI | `C:\Users\<你>\.codex\skills\` |
-| 其他支持 AGENTS.md 的代理 | 将本仓库文件夹设为工作区即可 |
-| 不支持技能目录的软件 | 把 `SKILL.md` 全文作为系统指令，并提供整个文件夹作为工作区 |
+| Codex 桌面端 / CLI | `C:\Users\<你>\.codex\skills\`；自定义过 `CODEX_HOME` 时使用对应目录 |
+| Claude Code | `C:\Users\<你>\.claude\skills\` |
+| 已使用共享技能目录的宿主 | `C:\Users\<你>\.agents\skills\` |
+| 其他支持 Skill 的代理 | 使用该宿主的技能目录，并提供完整文件夹 |
+
+安装包包含入口、原文、阅读快照、本体、协议、领域资源、模板及检查脚本，不包含网站、测试、CI、运行记录或虚拟环境。已有版本时先保留旧目录备份，再替换为完整新文件夹；旧 run 不自动迁移或重新签名。
+
+默认指令层沿用宿主的模型与工具，不需要 Python。完整性自检与可选封存模式需要 Python 3.11+ 和 `jsonschema>=4.23,<5`；依赖声明与锁定文件随包提供。安装不等于一次分析已经完成，也不等于运行已封存。
+
+[发行说明与校验清单](https://github.com/xi-kari/xi-kari-skill/releases/latest)同时提供完整源码归档和旧基线回退包。需要开发或查看全部测试、网站源码时，可以克隆仓库到独立工作目录：
 
 ```bash
-git clone https://github.com/xi-kari/xi-kari-skill "$HOME/.claude/skills/xi-kari-skill"
+git clone https://github.com/xi-kari/xi-kari-skill.git
 ```
-
-指令层运行不需要 Python；只有运行完整性自检或封存模式时才需要 Python 3.11+。
 
 ## 使用
 
@@ -84,7 +90,7 @@ git clone https://github.com/xi-kari/xi-kari-skill "$HOME/.claude/skills/xi-kari
 
 预期：
 
-- 一次完整运行通常需要 30–60 分钟，最大时间块是逐卷阅读框架原文。长时间没有文字输出不等于卡住，可以看它的工具调用是否正在逐卷读文件。
+- 完整运行需要逐卷阅读原文，并处理与问题有关的证据和候选。耗时随模型、材料与任务而变，不保证固定时长；可通过读取回执和实际工具活动核对进度。
 - 它的价值区是动态推演类问题（"某个变化接下来会怎么传导"）。静态问题（事实、翻译、算术）会在完成边界检查后明确告知"三阶推演不适用"。
 - 话题不设限，但底层模型自身的内容政策照常生效。
 
@@ -99,6 +105,8 @@ git clone https://github.com/xi-kari/xi-kari-skill "$HOME/.claude/skills/xi-kari
 
 ## 完整性自检
 
+在 Skill 文件夹中，使用已安装上述依赖的 Python 环境执行：
+
 ```bash
 python scripts/check_source_snapshot.py --all
 python scripts/build_knowledge_index.py --check
@@ -107,7 +115,7 @@ python scripts/check_xi_kari_skill.py --all
 python scripts/check_xi_kari_runtime.py --all
 ```
 
-五条全部退出码 0，说明包完整、未被改动。同样的检查由 GitHub Actions 在每次 push 与 pull request 上自动运行（Linux 与 Windows 双平台），另附一条公开卫生检查。
+五条全部退出码 0，表示当前包通过相应完整性与合同检查。仓库 CI 另在 Linux / Windows、Python 3.11 / 3.13 上执行工程回归与公开卫生检查。软件检查、来源限定语义回答、真实模型表现和 runtime 封存是不同证据；不能把工程通过写成所有现实判断都正确或新版必然优于其他方法。
 
 默认检查 v9.0：21 卷、4298 个段落和 120 张表，共 4418 个源单元；其中非空段落 4175 个。
 当前提取规则得到 3105 条候选，候选数不是永恒或完备的概念总数。软件测试通过、源文件完整、
@@ -129,6 +137,7 @@ python scripts/check_ontology.py --all --source-version v8.3
 python scripts/xi_kari_runtime.py execute --runs-root <输出目录> --run-id <本次编号> --request-text "<问题>" --mode open-world --repository-root <本包绝对路径> --codex-provider-executable <codex可执行文件路径> --timeout-seconds 1200
 ```
 
+- provider 与 adapter 使用实体文件路径；符号链接或目录链接会被拒绝。
 - 模型与端点由环境变量控制：`XI_KARI_PROVIDER_MODEL`（模型名）、`XI_KARI_REASONING_EFFORT`（推理档位）、`XI_KARI_PROVIDER_BASE_URL`（自定义 API 端点）、`XI_KARI_PROVIDER_WIRE_API`（默认 `responses`）。`execute` 与 `validate` 必须在相同的环境变量取值下执行。
 - 跑完用 `python scripts/xi_kari_runtime.py validate --run-dir <run目录>` 复验；退出码 0 且存在签名终态才算封存完成，可读答案在 run 包 `delivery/` 下。
 - 边界说明：封存证明的是"产物出自被观察的独立进程且未被改动"，不证明端点背后的模型真实身份。
@@ -145,7 +154,7 @@ schemas/        结构字段与拒绝条件
 scripts/        完整性自检脚本与封存 runtime
 templates/      交付模板
 source/         框架原文
-docs/           在线介绍页（GitHub Pages）
+docs/           在线介绍页（GitHub Pages，仅完整源码归档）
 pyproject.toml  自检与封存功能的 Python 依赖声明
 uv.lock         依赖锁定文件
 ```
