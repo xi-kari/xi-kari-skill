@@ -434,6 +434,8 @@ def _reader_for_ordinal(manifest: dict[str, Any], ordinal: int) -> str:
 def _build_v90_source_lock(
     repository_root: Path, *, run_id: str
 ) -> tuple[dict[str, Any], list[dict[str, Any]]]:
+    from .validation_v4 import validator_set_sha256_v4
+
     profile = get_source_profile('v9.0')
     root = Path(repository_root).resolve()
     source_root = profile.source_directory(root)
@@ -490,7 +492,7 @@ def _build_v90_source_lock(
         'schema_id': 'xi-kari.v4.source-lock', 'schema_version': 4, 'run_id': run_id,
         'framework_version': 'v9.0', 'source_manifest_sha256': sha256_file(manifest_path),
         'source_raw_sha256': manifest['raw_sha256'], 'source_semantic_sha256': manifest['semantic_sha256'],
-        'validator_set_sha256': validator_set_sha256(root),
+        'validator_set_sha256': validator_set_sha256_v4(root),
         'paragraph_count': len(paragraphs), 'table_count': len(tables), 'source_unit_count': len(events),
         'reader_unit_count': len(sequence), 'reader_sequence': sequence,
         'reader_receipts': receipts, 'source_unit_event_sha256': sha256_json(events), 'complete': True,

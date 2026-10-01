@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Read-only repository and run-contract checker for Xi-Kari v3."""
+"""Read-only repository and run-contract checker for Xi-Kari."""
 
 from __future__ import annotations
 
@@ -16,7 +16,7 @@ from referencing import Registry, Resource
 
 from build_source_snapshot import build as check_source_build
 from check_ontology import check as check_ontology
-from check_source_snapshot import check_candidate_index, check_coverage
+from check_source_snapshot import check_v90_candidate_index, check_v90_source_units
 from xi_kari_runtime.schema_ownership import (
     V4_SCHEMA_IDENTITIES,
     root_schema_ids,
@@ -961,8 +961,8 @@ def check_repository(root: Path, *, all_checks: bool) -> list[str]:
     errors.extend(_check_forbidden_control_plane(root))
     if all_checks:
         errors.extend(check_source_build(root, check=True))
-        errors.extend(check_coverage(root))
-        errors.extend(check_candidate_index(root))
+        errors.extend(check_v90_source_units(root))
+        errors.extend(check_v90_candidate_index(root))
         errors.extend(check_ontology(root))
     return list(dict.fromkeys(errors))
 
@@ -1057,7 +1057,7 @@ def check_run(root: Path, run_dir: Path) -> list[str]:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Check the Xi-Kari v3 runtime contract")
+    parser = argparse.ArgumentParser(description="Check the Xi-Kari runtime contract")
     parser.add_argument("--root", type=Path, default=Path.cwd())
     parser.add_argument("--run-dir", type=Path)
     parser.add_argument("--all", action="store_true")

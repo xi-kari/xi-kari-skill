@@ -74,7 +74,7 @@ def _validate_json_schemas(root: Path) -> list[str]:
                 errors.append(f"registry schema {location}: {error.message}")
         except (OSError, json.JSONDecodeError) as exc:
             errors.append(f"cannot read generated registry: {exc}")
-    elif registry_schema:
+    elif registry_schema and SOURCE_VERSION != "v9.0":
         errors.append(f"missing generated registry: {registry_path}")
     for artifact_name, schema_name in (
         ("concept-relations.json", "concept-relations.schema.json"),
@@ -85,7 +85,8 @@ def _validate_json_schemas(root: Path) -> list[str]:
         if not artifact_schema:
             continue
         if not artifact_path.is_file():
-            errors.append(f"missing generated ontology artifact: {artifact_path}")
+            if SOURCE_VERSION != "v9.0":
+                errors.append(f"missing generated ontology artifact: {artifact_path}")
             continue
         try:
             artifact = json.loads(artifact_path.read_text(encoding="utf-8"))
@@ -201,7 +202,10 @@ def check(root: Path, *, all_checks: bool) -> list[str]:
         if stale.exists():
             errors.append(f"stale pre-v1 surface remains: {stale}")
     if all_checks:
-        for source_version in dict.fromkeys((SOURCE_VERSION, "v8.3")):
+        installed_sources = [SOURCE_VERSION]
+        if SOURCE_VERSION != "v8.3" and (root / "source/跨尺度多圈层结构推演框架v8.3.docx").is_file():
+            installed_sources.append("v8.3")
+        for source_version in installed_sources:
             errors.extend(check_source(root, check=True, source_version=source_version))
             if source_version == "v9.0":
                 errors.extend(check_v90_manifest(root))

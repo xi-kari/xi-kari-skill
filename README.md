@@ -68,13 +68,13 @@ xi-kari-skill 用合同把回答约束为：什么对象发生了什么变化、
 | 已使用共享技能目录的宿主 | `C:\Users\<你>\.agents\skills\` |
 | 其他支持 Skill 的代理 | 使用该宿主的技能目录，并提供完整文件夹 |
 
-安装包包含入口、原文、阅读快照、本体、协议、领域资源、模板及检查脚本，不包含网站、测试、CI、运行记录或虚拟环境。已有版本时先保留旧目录备份，再替换为完整新文件夹；旧 run 不自动迁移或重新签名。
+安装包只包含 9.0 原文及阅读快照、9.0 概念卡与学习包、领域资源、行为合同、运行脚本和交付模板。网站、开发测试、比较评测工具、运行记录与虚拟环境不在安装包中。已有安装时先保留旧目录备份，再替换为完整新文件夹；不同版本的 run 不混用。
 
-默认指令层沿用宿主的模型与工具，不需要 Python。完整性自检与可选封存模式需要 Python 3.11+ 和 `jsonschema>=4.23,<5`；依赖声明与锁定文件随包提供。安装不等于一次分析已经完成，也不等于运行已封存。
+默认指令层沿用宿主的模型与工具，不需要 Python。完整性自检与可选封存模式需要 Python 3.11+，可在独立 Python 环境中执行 `python -m pip install -r requirements.txt` 安装检查依赖。安装不等于一次分析已经完成，也不等于运行已封存。
 
 Windows 可选封存模式使用 CPython 3.11.10+、3.12.4+ 或 3.13+，以支持私有运行目录的权限设置；推荐使用所在分支的最新补丁版本。
 
-[发行说明与校验清单](https://github.com/xi-kari/xi-kari-skill/releases/latest)同时提供完整源码归档和旧基线回退包。需要开发或查看全部测试、网站源码时，可以克隆仓库到独立工作目录：
+[发行说明与校验清单](https://github.com/xi-kari/xi-kari-skill/releases/latest)提供安装包的文件清单和哈希。需要开发或查看测试、网站源码时，可以克隆仓库到独立工作目录：
 
 ```bash
 git clone https://github.com/xi-kari/xi-kari-skill.git
@@ -123,14 +123,6 @@ python scripts/check_xi_kari_runtime.py --all
 当前提取规则得到 3105 条候选，候选数不是永恒或完备的概念总数。软件测试通过、源文件完整、
 领域内容可用和语义封存分别验证，不能互相替代。
 
-如需核对保留的旧源，使用以下显式只读入口；它们不创建、升级或重新签署历史运行：
-
-```bash
-python scripts/check_source_snapshot.py --all --source-version v8.3
-python scripts/build_knowledge_index.py --check --source-version v8.3
-python scripts/check_ontology.py --all --source-version v8.3
-```
-
 ## 进阶：封存运行（默认关闭）
 
 默认的指令层运行靠合同与回执表约束，产物由你抽查。若需要机器级防伪（独立作者子进程＋哈希链＋磁盘重验的签名终态），可显式要求"封存运行"，由 `scripts/xi_kari_runtime.py` 执行：
@@ -157,8 +149,7 @@ scripts/        完整性自检脚本与封存 runtime
 templates/      交付模板
 source/         框架原文
 docs/           在线介绍页（GitHub Pages，仅完整源码归档）
-pyproject.toml  自检与封存功能的 Python 依赖声明
-uv.lock         依赖锁定文件
+requirements.txt  自检与封存功能的 Python 依赖
 ```
 
 ## 关于作者

@@ -4,7 +4,6 @@
 `source/跨尺度多圈层结构推演框架v9.0.docx`，通过校验的阅读快照位于
 `references/source/v9.0/`；软件版本为 4.0.0，活动合同为 v4。
 源目录名和源散列由完整性校验锁定，不得重命名或以同号文件替换。
-`references/source/v8.3/` 保留为显式旧源检查材料，不得混入当前语义运行。
 行为合同以 `SKILL.md` 为准，本文件只补充工作区边界。
 
 ## 运行边界
@@ -58,6 +57,3 @@ python scripts/check_xi_kari_runtime.py --all
 ```
 
 五条命令都应以退出码 0 结束；任何一条失败说明包不完整或被改动，先修复再运行语义链。
-
-旧源只读检查须显式传入 `--source-version v8.3`，适用于 source snapshot、knowledge
-index 和 ontology 三个入口。旧源检查通过不替代当前源、活动合同或封存运行的验证。

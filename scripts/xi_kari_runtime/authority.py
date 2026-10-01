@@ -42,8 +42,18 @@ def _required_glob(
     return paths
 
 
-def authority_paths(root: Path, *, require_complete: bool = True) -> tuple[Path, ...]:
+def authority_paths(root: Path, *, require_complete: bool = True, source_version: str = "v8.3") -> tuple[Path, ...]:
+    from .source_profile import get_source_profile
+
     root = repository_root(root)
+    profile = get_source_profile(source_version)
+    ontology = root / "references" / "ontology"
+    learning = "references/learning-packs"
+    if source_version == "v9.0":
+        ontology = ontology / source_version
+        learning += "/" + source_version
+    source = profile.source_directory(root)
+    ontology_relative = ontology.relative_to(root).as_posix()
     paths: list[Path] = [
         root / "SKILL.md",
         root / "scripts" / "xi_kari_runtime.py",
@@ -54,20 +64,20 @@ def authority_paths(root: Path, *, require_complete: bool = True) -> tuple[Path,
         root / "references" / "retrieval-policy.md",
         root / "references" / "runtime-read-map.md",
         root / "references" / "source-quality-policy.md",
-        root / "references" / "ontology" / "candidate-census.jsonl",
-        root / "references" / "ontology" / "candidate-semantic-scopes.json",
-        root / "references" / "ontology" / "concept-disposition-ledger.jsonl",
-        root / "references" / "ontology" / "concept-family-map.md",
-        root / "references" / "ontology" / "concept-registry.json",
-        root / "references" / "ontology" / "concept-relations.json",
-        root / "references" / "ontology" / "continuity-bundle-registry.json",
-        root / "references" / "ontology" / "continuity-map.md",
-        root / "references" / "ontology" / "source-to-concept-map.json",
-        root / "references" / "source" / "v8.3" / "source-manifest.json",
-        root / "references" / "source" / "v8.3" / "indexes" / "anchors.json",
-        root / "references" / "source" / "v8.3" / "indexes" / "candidates.jsonl",
-        root / "references" / "source" / "v8.3" / "indexes" / "tables.json",
-        root / "references" / "source" / "v8.3" / "audit" / "paragraphs.jsonl",
+        ontology / "candidate-census.jsonl",
+        ontology / "candidate-semantic-scopes.json",
+        ontology / "concept-disposition-ledger.jsonl",
+        ontology / "concept-family-map.md",
+        ontology / "concept-registry.json",
+        ontology / "concept-relations.json",
+        ontology / "continuity-bundle-registry.json",
+        ontology / "continuity-map.md",
+        ontology / "source-to-concept-map.json",
+        source / "source-manifest.json",
+        source / "indexes" / "anchors.json",
+        source / "indexes" / "candidates.jsonl",
+        source / "indexes" / "tables.json",
+        source / "audit" / "paragraphs.jsonl",
     ]
     paths.extend(
         _required_glob(
@@ -104,7 +114,7 @@ def authority_paths(root: Path, *, require_complete: bool = True) -> tuple[Path,
     paths.extend(
         _required_glob(
             root,
-            "references/learning-packs/*.md",
+            learning + "/*.md",
             "learning packs",
             require_complete=require_complete,
         )
@@ -112,7 +122,7 @@ def authority_paths(root: Path, *, require_complete: bool = True) -> tuple[Path,
     paths.extend(
         _required_glob(
             root,
-            "references/ontology/inventory/*.jsonl",
+            (ontology_relative + "/authored/*.json*" if source_version == "v9.0" else ontology_relative + "/inventory/*.jsonl"),
             "ontology inventory",
             require_complete=require_complete,
         )
@@ -120,7 +130,7 @@ def authority_paths(root: Path, *, require_complete: bool = True) -> tuple[Path,
     paths.extend(
         _required_glob(
             root,
-            "references/ontology/cards/**/*.md",
+            ontology_relative + "/cards/**/*.md",
             "ontology concept cards",
             require_complete=require_complete,
         )
@@ -128,7 +138,7 @@ def authority_paths(root: Path, *, require_complete: bool = True) -> tuple[Path,
     paths.extend(
         _required_glob(
             root,
-            "references/ontology/bundles/*.md",
+            ontology_relative + "/bundles/*.md",
             "ontology continuity bundles",
             require_complete=require_complete,
         )
@@ -136,7 +146,7 @@ def authority_paths(root: Path, *, require_complete: bool = True) -> tuple[Path,
     paths.extend(
         _required_glob(
             root,
-            "references/source/v8.3/reader/*.md",
+            profile.snapshot_directory + "/reader/*.md",
             "source reader volumes",
             require_complete=require_complete,
         )
@@ -144,7 +154,7 @@ def authority_paths(root: Path, *, require_complete: bool = True) -> tuple[Path,
     paths.extend(
         _required_glob(
             root,
-            "references/source/v8.3/audit/tables/V83-T*.md",
+            profile.snapshot_directory + "/audit/tables/" + profile.anchor_prefix + ("-T*.json" if source_version == "v9.0" else "-T*.md"),
             "source tables",
             require_complete=require_complete,
         )

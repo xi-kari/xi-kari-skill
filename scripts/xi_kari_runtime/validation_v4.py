@@ -81,8 +81,9 @@ provider_environment_sha256 = provider_environment_sha256_v4
 
 def validator_set_sha256_v4(repository_root: Path) -> str:
     root = resolve_repository_root(repository_root)
-    paths = set(authority_paths(root))
-    for directory in ('references/source/v9.0', 'references/ontology/v9.0', 'references/domains'):
+    paths = set(authority_paths(root, source_version='v9.0'))
+    for directory in ('references/source/v9.0', 'references/ontology/v9.0', 'references/domains',
+                      'references/learning-packs/v9.0', 'references/learning-packs/domains'):
         base = root / directory
         if not base.is_dir() or base.is_symlink():
             raise ValueError('version-four source, ontology or domain authority is missing')
