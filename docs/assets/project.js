@@ -128,7 +128,7 @@ async function setupResearch() {
       row.dataset.editable = String(editMode);
       row.classList.toggle('is-complete', done);
       date.hidden = !done;
-      date.textContent = done ? `完成于 ${stamp.slice(0, 10).replaceAll('-', '.')}` : '';
+      date.textContent = done ? `记录于 ${stamp.slice(0, 10).replaceAll('-', '.')}` : '';
     }
     for (const domain of modules) {
       const done = domain.topics.filter((topic) => typeof progress.completed[topic.id] === 'string').length;
