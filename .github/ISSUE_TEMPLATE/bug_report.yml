@@ -1,0 +1,46 @@
+name: 运行问题
+description: 报告一次运行中出现的问题（指令层、封存运行或自检脚本）
+labels: ["bug"]
+body:
+  - type: input
+    id: host
+    attributes:
+      label: 宿主与模型
+      description: 例如 Claude Code + Opus 5、Codex CLI + gpt-5.6-sol
+    validations:
+      required: true
+  - type: dropdown
+    id: mode
+    attributes:
+      label: 运行方式
+      options:
+        - 指令层（默认，精确点名触发）
+        - 封存运行（scripts/xi_kari_runtime.py）
+        - 完整性自检脚本
+        - 其他 / 不确定
+    validations:
+      required: true
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: 发生了什么
+      description: 期望行为、实际行为与复现步骤
+    validations:
+      required: true
+  - type: textarea
+    id: error-output
+    attributes:
+      label: 精确报错或输出
+      description: 原样粘贴报错文本；封存运行请附 validate 的输出与退出码
+      render: text
+  - type: input
+    id: version
+    attributes:
+      label: 版本或 commit
+      description: git rev-parse --short HEAD 的结果，或下载日期
+  - type: textarea
+    id: checker-output
+    attributes:
+      label: 五条完整性自检的输出（可选）
+      description: README「完整性自检」小节的五条命令；这能快速排除安装包损坏
+      render: text

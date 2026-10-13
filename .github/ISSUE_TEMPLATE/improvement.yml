@@ -1,0 +1,15 @@
+name: 改进建议
+description: 提出功能、文档或流程上的改进
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: proposal
+    attributes:
+      label: 想改进什么
+    validations:
+      required: true
+  - type: textarea
+    id: motivation
+    attributes:
+      label: 动机或场景
+      description: 什么情况下遇到的、为什么值得改

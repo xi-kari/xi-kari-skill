@@ -1,0 +1,18 @@
+{
+  "wallpaper": {
+    "file": "hero-landscape.jpg",
+    "source": "https://xi-kari.com/assets/home-backgrounds/void-01.jpg",
+    "width": 5039,
+    "height": 2160,
+    "sha256": "c7c324841f669a89fbef67f585ddd07a628f08493cb51e5b8ce6a4857ae64f84",
+    "transformation": "Original bytes; display adaptation uses CSS only."
+  },
+  "signature": {
+    "source": "https://xi-kari.com/",
+    "implementation": "Original SVG strokes, masks, ornaments and timing from the blog signature component."
+  },
+  "visuals": {
+    "source": "https://xi-kari.com/",
+    "implementation": "Blog Chinese wordmark, icon color field and three-layer tide paths."
+  }
+}
