@@ -1,7 +1,7 @@
 {
   "name": "xi-kari-skill",
   "display_name": "Xikari Skill",
-  "version": "5.0.0",
+  "version": "5.1.0",
   "author": "Xikari",
   "theory_title": "Xikari-条件结构与转化论",
   "platform": "Windows",
@@ -11,6 +11,12 @@
     "LICENSE",
     "skill-package.json",
     "agents/openai.yaml",
+    "references/full-source-study.md",
+    "references/forward-workflow.md",
+    "references/reasoning-capabilities.md",
+    "references/critique-and-invention.md",
+    "references/complete-answer.md",
+    "references/presentation.md",
     "references/decision.md",
     "references/theory-core.md",
     "references/routing.md",
@@ -20,6 +26,9 @@
     "references/communication.md",
     "references/state.md",
     "scripts/read_source.py",
+    "scripts/render_answer.py",
+    "assets/reader.css",
+    "assets/reader.js",
     "source/source-manifest.json",
     "source/Xikari-条件结构与转化论.md"
   ]

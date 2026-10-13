@@ -36,6 +36,28 @@ class SourceAndPackageTests(unittest.TestCase):
         self.assertEqual(result.returncode, 2)
         self.assertFalse(result.stdout)
 
+    def test_full_chunks_preserve_every_character_of_theory(self):
+        text = reader.SOURCE.read_bytes().decode('utf-8-sig')
+        chunks = reader.full_text_chunks(text, 6000)
+        self.assertEqual(''.join(text[start:end] for start, end in chunks), text)
+        self.assertEqual(chunks[0][0], 0)
+        self.assertEqual(chunks[-1][1], len(text))
+        self.assertTrue(all(0 < end - start <= 6000 for start, end in chunks))
+
+    def test_chunks_handle_long_lines_unicode_and_empty_text(self):
+        text = '书前\n\n' + '长表格🙂' * 200 + '\n末尾文献'
+        chunks = reader.full_text_chunks(text, 27)
+        self.assertEqual(''.join(text[a:b] for a, b in chunks), text)
+        self.assertTrue(all(b - a <= 27 for a, b in chunks))
+        self.assertEqual(reader.full_text_chunks('', 27), [])
+        with self.assertRaises(ValueError):
+            reader.full_text_chunks(text, 0)
+
+    def test_out_of_range_chunk_returns_error_without_partial_text(self):
+        result = subprocess.run([sys.executable, str(ROOT / 'scripts/read_source.py'), '--chunk', '999999'], capture_output=True)
+        self.assertEqual(result.returncode, 2)
+        self.assertFalse(result.stdout)
+
     def test_real_source_parts_and_nested_section(self):
         lines = reader.SOURCE.read_text(encoding='utf-8').splitlines()
         sections, parts = reader.build_index(lines)

@@ -57,6 +57,25 @@ def merge_ranges(ranges: list[tuple[int, int]]) -> list[tuple[int, int]]:
     return merged
 
 
+def full_text_chunks(text: str, size: int) -> list[tuple[int, int]]:
+    if size < 1:
+        raise ValueError("Chunk size must be positive")
+    chunks = []
+    start = 0
+    while start < len(text):
+        end = min(start + size, len(text))
+        if end < len(text):
+            paragraph = text.rfind("\n\n", start, end)
+            line = text.rfind("\n", start, end)
+            if paragraph >= start + size // 2:
+                end = paragraph + 2
+            elif line >= start + size // 2:
+                end = line + 1
+        chunks.append((start, end))
+        start = end
+    return chunks
+
+
 def main() -> int:
     if hasattr(sys.stdout, "reconfigure"):
         sys.stdout.reconfigure(encoding="utf-8")
@@ -65,11 +84,31 @@ def main() -> int:
     parser.add_argument("--part", type=int, action="append", default=[], help="Part anchor number 1 through 21")
     parser.add_argument("--list", action="store_true", help="List available sections")
     parser.add_argument("--check", action="store_true", help="Maintenance-only source identity check")
+    parser.add_argument("--chunks", action="store_true", help="Show total chunks for sequential complete reading")
+    parser.add_argument("--chunk", type=int, action="append", default=[], help="Read a complete-text chunk, starting at 1")
+    parser.add_argument("--chunk-size", type=int, default=6000, help="Maximum characters per chunk; keep fixed while reading")
     args = parser.parse_args()
     try:
         data = SOURCE.read_bytes()
-        lines = data.decode("utf-8-sig").splitlines()
+        source_text = data.decode("utf-8-sig")
+        lines = source_text.splitlines()
         sections, parts = build_index(lines)
+        chunks = full_text_chunks(source_text, args.chunk_size)
+        for number in args.chunk:
+            if not 1 <= number <= len(chunks):
+                raise ValueError(f"Unknown chunk: {number}; available: 1 through {len(chunks)}")
+        if args.chunks:
+            print(json.dumps({"source": SOURCE.name, "characters": len(source_text),
+                              "chunk_size": args.chunk_size, "chunks": len(chunks),
+                              "reading_order": f"1 through {len(chunks)}", "includes_preface_and_references": True}, ensure_ascii=False))
+        for number in args.chunk:
+            start, end = chunks[number - 1]
+            first_line = source_text.count("\n", 0, start) + 1
+            last_line = source_text.count("\n", 0, end - 1) + 1
+            print(f"\n[{SOURCE.name} · chunk {number}/{len(chunks)} · chars {start + 1}-{end} · lines {first_line}-{last_line}]\n")
+            sys.stdout.write(source_text[start:end])
+            if not source_text[start:end].endswith("\n"):
+                print()
         if args.check:
             manifest = json.loads(MANIFEST.read_text(encoding="utf-8"))
             digest = hashlib.sha256(data).hexdigest()
@@ -95,7 +134,7 @@ def main() -> int:
         for start, end in merge_ranges(ranges):
             print(f"\n[{SOURCE.name} · lines {start + 1}-{end}]\n")
             print("\n".join(lines[start:end]))
-        if not (args.check or args.list or ranges):
+        if not (args.check or args.list or ranges or args.chunks or args.chunk):
             parser.print_help()
         return 0
     except (OSError, ValueError, KeyError) as exc:
