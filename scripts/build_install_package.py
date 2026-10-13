@@ -1,79 +1,62 @@
-"""Build a clean, self-contained Skill folder from its verified source archive."""
-from pathlib import Path, PurePosixPath
-import argparse, hashlib, io, json, stat, zipfile, zlib
+"""Build the explicit Xikari skill payload for Windows hosts."""
 
-ROOT_FILES={'SKILL.md','AGENTS.md','README.md','LICENSE','requirements.txt'}
-ROOT_DIRS={'agents','protocols','references','schemas','scripts','source','templates'}
-EXCLUDED={'scripts/serve_project_page.py','scripts/build_install_package.py',
-          'scripts/evaluate_xi_kari_v4.py','scripts/xi_kari_runtime/evaluation_v4.py',
-          'scripts/verify_source_preservation.py',
-          'schemas/source-manifest.schema.json','schemas/source-candidate.schema.json',
-          'schemas/concept-registry.schema.json','schemas/concept-inventory.schema.json',
-          'schemas/concept-candidate-semantic-scopes.schema.json',
-          'schemas/source-to-concept-map.schema.json','schemas/concept-relations.schema.json'}
-STAMP=(1980,1,1,0,0,0)
-def sha(raw):return hashlib.sha256(raw).hexdigest()
-def selected(name):
-    p=PurePosixPath(name)
-    if name in EXCLUDED or '__pycache__' in p.parts or p.suffix in {'.pyc','.pyo'}:
-        return False
-    if name.startswith('source/'):
-        return name=='source/跨尺度多圈层结构推演框架v9.0.docx'
-    if name.startswith('references/source/'):
-        return name.startswith('references/source/v9.0/')
-    if name.startswith('references/ontology/'):
-        return name.startswith('references/ontology/v9.0/')
-    if name.startswith('references/learning-packs/'):
-        return name.startswith(('references/learning-packs/v9.0/','references/learning-packs/domains/'))
-    return name not in EXCLUDED and (name in ROOT_FILES or (len(p.parts)>1 and p.parts[0] in ROOT_DIRS))
-def assemble(source_zip,source_manifest):
-    source=json.loads(source_manifest.read_text('utf-8'))
-    assert sha(source_zip.read_bytes())==source['archive']['sha256']
-    members=[];excluded=[]
-    buffer=io.BytesIO()
-    with zipfile.ZipFile(source_zip) as original,zipfile.ZipFile(buffer,'w',compression=zipfile.ZIP_DEFLATED,compresslevel=9) as result:
-        assert original.testzip() is None
-        assert original.namelist()==[row['path'] for row in source['members']]
-        for row in source['members']:
-            name=row['path'];data=original.read(name)
-            assert sha(data)==row['sha256']
-            if not selected(name):
-                excluded.append(name);continue
-            p=PurePosixPath(name)
-            assert not p.is_absolute() and '..' not in p.parts and '\\' not in name
-            archive_name='xi-kari-skill/'+name
-            info=zipfile.ZipInfo(archive_name,STAMP)
-            info.create_system=3
-            info.compress_type=zipfile.ZIP_DEFLATED
-            info.external_attr=(stat.S_IFREG | (0o755 if row['git_mode']=='100755' else 0o644)) << 16
-            result.writestr(info,data,compress_type=zipfile.ZIP_DEFLATED,compresslevel=9)
-            members.append({'path':archive_name,'source_path':name,'git_blob_oid':row['git_blob_oid'],
-                'git_mode':row['git_mode'],'bytes':len(data),'sha256':sha(data)})
-    raw=buffer.getvalue()
-    manifest={'schema':'xikari-install-package/1','source':source['source'],
-        'source_archive_sha256':source['archive']['sha256'],
-        'archive':{'root_directory':'xi-kari-skill','sha256':sha(raw),'bytes':len(raw),'members':len(members),
-                   'compression':'deflate','compression_level':9,'zlib_version':zlib.ZLIB_VERSION,'timestamp':'1980-01-01T00:00:00'},
-        'selection':{'root_files':sorted(ROOT_FILES),'root_directories':sorted(ROOT_DIRS),'excluded_paths':excluded},
-        'members':members,'all_member_bytes_unchanged_from_source_commit':True,
-        'python_or_dependencies_bundled':False,'default_instruction_mode_requires_python':False}
-    return raw,(json.dumps(manifest,ensure_ascii=False,indent=2)+'\n').encode('utf-8')
-def main():
-    p=argparse.ArgumentParser(description=__doc__)
-    p.add_argument('--source-zip',type=Path,required=True)
-    p.add_argument('--source-manifest',type=Path,required=True)
-    p.add_argument('--output',type=Path,required=True)
-    p.add_argument('--manifest',type=Path,required=True)
-    p.add_argument('--check',action='store_true')
-    a=p.parse_args();raw,manifest=assemble(a.source_zip,a.source_manifest)
-    if a.check:
-        assert a.output.read_bytes()==raw
-        assert a.manifest.read_bytes()==manifest
-    else:
-        assert not a.output.exists() and not a.manifest.exists()
-        a.output.parent.mkdir(parents=True,exist_ok=True)
-        a.manifest.parent.mkdir(parents=True,exist_ok=True)
-        a.output.write_bytes(raw);a.manifest.write_bytes(manifest)
-    print(json.dumps({'operation':'check' if a.check else 'build','passed':True,'writes':0 if a.check else 2,
-        'sha256':sha(raw),'bytes':len(raw),'members':json.loads(manifest)['archive']['members']}))
-if __name__=='__main__':main()
+from __future__ import annotations
+
+import argparse
+import hashlib
+import json
+from pathlib import Path, PurePosixPath
+import zipfile
+
+ROOT = Path(__file__).resolve().parents[1]
+
+
+def selected_files(root: Path) -> tuple[dict, list[str]]:
+    metadata = json.loads((root / "skill-package.json").read_text(encoding="utf-8"))
+    files = metadata["files"]
+    if not files or len(files) != len(set(name.casefold() for name in files)):
+        raise ValueError("Package paths must be nonempty and unique")
+    for name in files:
+        relative = PurePosixPath(name)
+        target = (root / name).resolve()
+        if relative.is_absolute() or ".." in relative.parts or "\\" in name or ":" in name:
+            raise ValueError(f"Invalid package path: {name}")
+        if not target.is_relative_to(root.resolve()) or not target.is_file():
+            raise ValueError(f"Missing or external package file: {name}")
+    return metadata, sorted(files)
+
+
+def build(root: Path, output: Path) -> dict:
+    metadata, names = selected_files(root)
+    payload = {name: (root / name).read_bytes() for name in names}
+    source_manifest = json.loads(payload["source/source-manifest.json"])
+    source = payload["source/" + source_manifest["source_file"]]
+    if hashlib.sha256(source).hexdigest() != source_manifest["sha256"]:
+        raise ValueError("Theory source does not match its manifest")
+    output.mkdir(parents=True, exist_ok=True)
+    archive = output / f"xi-kari-skill-{metadata['version']}-windows.zip"
+    with zipfile.ZipFile(archive, "w", zipfile.ZIP_DEFLATED) as zf:
+        for name, data in payload.items():
+            info = zipfile.ZipInfo(name, date_time=(2026, 10, 13, 0, 0, 0))
+            info.compress_type = zipfile.ZIP_DEFLATED
+            zf.writestr(info, data)
+    raw = archive.read_bytes()
+    manifest = {
+        "name": metadata["name"], "version": metadata["version"],
+        "archive": archive.name, "sha256": hashlib.sha256(raw).hexdigest(),
+        "bytes": len(raw), "file_count": len(payload),
+        "theory_source_sha256": source_manifest["sha256"],
+        "files": [{"path": name, "bytes": len(data), "sha256": hashlib.sha256(data).hexdigest()}
+                  for name, data in payload.items()]
+    }
+    (output / "install-manifest.json").write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    (output / "SHA256SUMS").write_text(f"{manifest['sha256']}  {archive.name}\n", encoding="utf-8")
+    return manifest
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--output", type=Path, required=True)
+    args = parser.parse_args()
+    result = build(ROOT, args.output)
+    print(json.dumps({k: v for k, v in result.items() if k != "files"}, ensure_ascii=False))
