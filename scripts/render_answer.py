@@ -12,7 +12,9 @@ import base64
 import hashlib
 import html
 import json
-from pathlib import Path
+import ntpath
+import os
+from pathlib import Path, PureWindowsPath
 import re
 import sys
 from urllib.parse import unquote, urlsplit
@@ -145,12 +147,19 @@ class MarkdownReader:
         if not safe_url(destination):
             self.notes.add('危险链接协议已停用，链接文字与原地址仍保留。')
             return f'<span class="disabled-link">{self.inline(label)}（{escape(destination)}）</span>'
-        if re.match(r'^[A-Za-z]:[\\/]', destination):
-            destination = Path(destination).as_uri()
-        elif not urlsplit(destination).scheme and not destination.startswith(('#', '//')):
-            path, mark, fragment = destination.partition('#')
-            if path:
-                destination = (self.source_path.parent / unquote(path)).resolve().as_uri() + (mark + fragment if mark else '')
+        path_and_query, fragment_mark, fragment = destination.partition('#')
+        path, query_mark, query = path_and_query.partition('?')
+        decoded_path = unquote(path)
+        windows_path = PureWindowsPath(decoded_path)
+        suffix = (query_mark + query if query_mark else '') + (fragment_mark + fragment if fragment_mark else '')
+        if windows_path.is_absolute():
+            destination = PureWindowsPath(ntpath.normpath(decoded_path)).as_uri() + suffix
+        elif not urlsplit(destination).scheme and not destination.startswith('#') and path:
+            base = PureWindowsPath(self.source_path.parent)
+            if base.is_absolute():
+                destination = PureWindowsPath(ntpath.normpath(str(base / decoded_path))).as_uri() + suffix
+            else:
+                destination = Path(os.path.abspath(self.source_path.parent / decoded_path)).as_uri() + suffix
         return f'<a href="{escape(destination)}" rel="noopener noreferrer">{self.inline(label)}</a>'
 
     @staticmethod

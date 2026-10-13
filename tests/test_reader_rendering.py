@@ -7,6 +7,8 @@ import subprocess
 import sys
 import tempfile
 import unittest
+from unittest.mock import patch
+from urllib.parse import quote
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -33,6 +35,41 @@ class Document(HTMLParser):
 
 
 class ReaderRenderingTests(unittest.TestCase):
+    def test_windows_drive_and_unc_links_use_explicit_file_uris(self):
+        module = renderer()
+        reader = module.MarkdownReader(Path('D:/workspace/articles/answer.md'))
+        cases = [
+            ('D:/理论/完整 原文.md', 'file:///D:/' + quote('理论/完整 原文.md', safe='/')),
+            (r'C:\figures\diagram.svg#overview', 'file:///C:/figures/diagram.svg#overview'),
+            ('D:/docs/a%20b.html?view=full#part-2', 'file:///D:/docs/a%20b.html?view=full#part-2'),
+            (r'\\fileserver\share\图 文件.svg#overview', 'file://fileserver/share/' + quote('图 文件.svg') + '#overview'),
+            ('//fileserver/share/report.html#part-2', 'file://fileserver/share/report.html#part-2'),
+            ('D:/docs/literal%23name.md#part-2', 'file:///D:/docs/literal%23name.md#part-2'),
+        ]
+        with patch.object(module.Path, 'resolve', side_effect=AssertionError('Link formatting must not inspect its target')):
+            for target, expected in cases:
+                with self.subTest(target=target):
+                    output = reader.inline('[本地材料](<' + target + '>)')
+                    href = next(attrs['href'] for tag, attrs in Document(output).tags if tag == 'a')
+                    self.assertEqual(href, expected)
+
+    def test_external_anchor_and_relative_link_semantics_remain_intact(self):
+        module = renderer()
+        reader = module.MarkdownReader(Path('D:/workspace/articles/answer.md'))
+        cases = [
+            ('https://example.com/a?x=1&y=2#top', 'https://example.com/a?x=1&y=2#top'),
+            ('mailto:reader@example.com?subject=Hello', 'mailto:reader@example.com?subject=Hello'),
+            ('#section-2', '#section-2'),
+            ('file:///D:/docs/a%20b.html#part-2', 'file:///D:/docs/a%20b.html#part-2'),
+            ('../figures/a%20b.svg#view', 'file:///D:/workspace/figures/a%20b.svg#view'),
+        ]
+        with patch.object(module.Path, 'resolve', side_effect=AssertionError('Link formatting must not inspect its target')):
+            for target, expected in cases:
+                with self.subTest(target=target):
+                    output = reader.link('材料', target)
+                    href = next(attrs['href'] for tag, attrs in Document(output).tags if tag == 'a')
+                    self.assertEqual(href, expected)
+
     def test_literal_heading_suffix_and_malformed_url_are_preserved(self):
         output = renderer().render_document('# C#\n\n[坏地址](http://[)')
         self.assertIn('C#', ''.join(Document(output).text))
