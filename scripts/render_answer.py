@@ -564,8 +564,9 @@ def render_document(source: str, *, title: str | None = None, source_path: Path 
 
 
 def main() -> int:
-    if hasattr(sys.stdout, 'reconfigure'):
-        sys.stdout.reconfigure(encoding='utf-8')
+    for stream in (sys.stdout, sys.stderr):
+        if hasattr(stream, 'reconfigure'):
+            stream.reconfigure(encoding='utf-8')
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('input', type=Path, help='完整 UTF-8 Markdown 文件')
     parser.add_argument('--output', '-o', type=Path, required=True, help='输出的单文件 HTML')

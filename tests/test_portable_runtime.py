@@ -49,6 +49,7 @@ class PortableRuntimeTests(unittest.TestCase):
         result = subprocess.run(
             [sys.executable, str(self.install / "scripts" / script), *map(str, arguments)],
             cwd=cwd or self.cwd, capture_output=True, encoding="utf-8", timeout=45,
+            env={**os.environ, "PYTHONIOENCODING": "ascii", "PYTHONUTF8": "0"},
         )
         if success:
             self.assertEqual(result.returncode, 0, result.stderr)

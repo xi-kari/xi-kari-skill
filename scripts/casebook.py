@@ -137,8 +137,9 @@ def find_cases(library: dict, query: str) -> list[dict]:
 
 
 def main() -> int:
-    if hasattr(sys.stdout, 'reconfigure'):
-        sys.stdout.reconfigure(encoding='utf-8')
+    for stream in (sys.stdout, sys.stderr):
+        if hasattr(stream, 'reconfigure'):
+            stream.reconfigure(encoding='utf-8')
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--library', type=Path, required=True, help='用户选定的案例库 JSON；不使用全局记忆目录')
     commands = parser.add_subparsers(dest='command', required=True)
