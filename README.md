@@ -1,5 +1,8 @@
 <p align="center">
-  <img src="docs/assets/readme-cover.svg" alt="Xikari Skill：让理解走向判断。辨认材料、机制与代价，比较路径，形成行动方案。" width="100%">
+  <picture>
+    <source media="(max-width: 600px)" srcset="docs/assets/readme-cover-mobile.svg">
+    <img src="docs/assets/readme-cover.svg" alt="Xikari Skill：让理解走向判断。辨认材料、机制与代价，比较路径，形成行动方案。" width="100%">
+  </picture>
 </p>
 
 <p align="center">
