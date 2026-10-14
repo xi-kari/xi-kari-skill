@@ -263,6 +263,14 @@
   });
   const headingLinks = new Map([...document.querySelectorAll('#contents nav a')].map(link => [link.hash.slice(1), link]));
   const headings = sections;
+  function alignLegacyAnchor() {
+    const anchor = document.getElementById(window.location.hash.slice(1));
+    if (!anchor?.classList.contains('legacy-anchor')) return;
+    const heading = anchor.nextElementSibling;
+    if (heading?.matches('[data-reader-section]')) heading.scrollIntoView({ block: 'start', behavior: 'auto' });
+  }
+  window.addEventListener('hashchange', alignLegacyAnchor);
+  window.addEventListener('load', alignLegacyAnchor);
   let scrollPending = false;
   function updateCurrent() {
     scrollPending = false;
