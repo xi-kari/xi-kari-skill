@@ -1,0 +1,20 @@
+Xikari handbook uses the following open-source components.
+
+VitePress 1.6.4 — MIT
+https://github.com/vuejs/vitepress
+License: licenses/VitePress-MIT.txt
+
+Vue — MIT
+https://github.com/vuejs/core
+License: licenses/Vue-MIT.txt
+
+MiniSearch — MIT
+https://github.com/lucaong/minisearch
+License: licenses/MiniSearch-MIT.txt
+
+Inter fonts bundled by VitePress — SIL Open Font License 1.1
+https://github.com/rsms/inter
+License: licenses/Inter-OFL.txt
+
+The explanatory diagrams in images/ are authored for this handbook.
+Their factual and conceptual sources are identified on the corresponding pages.

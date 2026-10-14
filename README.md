@@ -11,6 +11,7 @@
 
 <p align="center">
   <a href="https://xi-kari.github.io/xi-kari-skill/">认识 Xikari</a> ·
+  <a href="https://xi-kari.github.io/xi-kari-skill/handbook/">概念、案例与原文</a> ·
   <a href="https://github.com/xi-kari/xi-kari-skill/discussions?discussions_q=">案例实测</a> ·
   <a href="https://github.com/xi-kari/xi-kari-skill/releases/latest">获取技能</a> ·
   <a href="source/Xikari-条件结构与转化论.md">阅读理论</a>

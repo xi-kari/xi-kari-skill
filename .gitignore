@@ -6,3 +6,5 @@ __pycache__/
 tmp/
 .artifacts/
 node_modules/
+website/.vitepress/cache/
+website/.vitepress/dist/

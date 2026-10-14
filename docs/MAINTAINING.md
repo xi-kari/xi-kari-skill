@@ -62,7 +62,31 @@ IDs or private receipts. Use an aggregate public snapshot with named work and
 its meaning. Keep installation artifacts and research-run outputs outside the
 website assets.
 
-## Verification
+## Handbook
+
+The concept lessons, real cases and full-text reading site are authored in
+`website/` and built to `docs/handbook/`. The installed Skill is selected by
+`skill-package.json` and does not include this website.
+
+Run `npm ci --prefix website`, then `npm run build --prefix website` to generate
+the static handbook. The build reads the unchanged canonical manuscript in
+`source/`, checks its identity, splits it into reading pages and preserves the
+complete Markdown and Word downloads. To supply a missing Word download, run
+`python website/scripts/build_theory.py --docx <path>` with the matching edition.
+
+The source, concept lessons and case explanations have separate responsibilities.
+Keep original text unchanged; cite actual primary sources for real case facts.
+Explanatory diagrams and interactive teaching models must retain their assumptions.
+New case research belongs outside the repository until its content is ready to
+be used. Do not publish private research inventories or prompt handoffs with
+the static site.
+
+Verify source coverage with `python -m unittest discover -s tests -p test_handbook_source.py`.
+The full build checks page links. Before publication, also check native static
+URLs, section anchors, Chinese search, download identities, diagrams, teaching
+interactions, desktop/mobile layouts and both themes in a browser.
+
+## Project page verification
 
 Check the data arithmetic, unique domain/topic/pending IDs, source-domain title
 alignment, release links, static fallback consistency and absence of obsolete

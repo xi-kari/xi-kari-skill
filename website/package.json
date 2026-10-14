@@ -1,0 +1,14 @@
+{
+  "name": "xikari-handbook",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "prepare:theory": "python scripts/build_theory.py",
+    "dev": "npm run prepare:theory && vitepress dev",
+    "build": "npm run prepare:theory && vitepress build",
+    "preview": "vitepress preview"
+  },
+  "devDependencies": {
+    "vitepress": "1.6.4"
+  }
+}

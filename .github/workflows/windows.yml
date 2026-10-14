@@ -32,6 +32,8 @@ jobs:
           python -m pip install pypdf==6.19.0
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           npm ci --prefix tests/dom --ignore-scripts --no-audit --no-fund
+      - name: Install handbook dependencies
+        run: npm ci --prefix website --ignore-scripts --no-audit --no-fund
       - name: Test tools and package boundaries
         run: python -m unittest discover -s tests -v
       - name: Check authoritative source
@@ -47,3 +49,5 @@ jobs:
           node tests/test_condition_interaction.cjs "$PWD/tests/dom/node_modules/jsdom" "$env:RUNNER_TEMP/xikari-condition/condition-results.html"
       - name: Test project page interaction
         run: node tests/test_project_page_interaction.cjs "$PWD/tests/dom/node_modules/jsdom"
+      - name: Build handbook
+        run: npm run build --prefix website
