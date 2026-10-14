@@ -10,6 +10,13 @@ import re
 import sys
 import tempfile
 
+sys.dont_write_bytecode = True
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+try:
+    from xikari_paths import require_external_output
+finally:
+    sys.path.pop(0)
+
 
 OUTCOMES = {'not_observed', 'user_reported', 'observed', 'mixed', 'unknown'}
 
@@ -62,7 +69,10 @@ def validate_case(case: dict) -> None:
 
 
 def save_library(path: Path, library: dict, expected: bytes | None) -> None:
+    require_external_output(path, __file__)
+    require_external_output(path.with_name(path.name + '.lock'), __file__)
     path = path.resolve()
+    require_external_output(path.with_name(path.name + '.lock'), __file__)
     path.parent.mkdir(parents=True, exist_ok=True)
     payload = (json.dumps(library, ensure_ascii=False, indent=2) + '\n').encode('utf-8')
     temporary = None
@@ -100,6 +110,7 @@ def save_library(path: Path, library: dict, expected: bytes | None) -> None:
 
 
 def add_case(library_path: Path, record_path: Path) -> dict:
+    require_external_output(library_path, __file__)
     if library_path.resolve() == record_path.resolve():
         raise ValueError('案例记录和资料库不能是同一文件')
     expected = library_path.read_bytes() if library_path.exists() else None

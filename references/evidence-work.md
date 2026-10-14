@@ -16,18 +16,18 @@
 
 命令以JSON输出。参数错误或无法执行时返回非零退出码；跨多份来源搜索会返回`skipped_sources`与`complete`，因此`complete: false`时不能把零命中当作全部来源不存在该内容。
 
-以下PowerShell例子假定当前目录是技能根目录，材料文件已经存在；把路径替换成用户任务中的实际路径。材料目录放在任务文件旁，不放进理论原文或技能安装目录。
+以下PowerShell例子使用`$skillRoot`表示当前`SKILL.md`所在安装目录，`$taskRoot`表示安装外的用户任务目录；路径设置见[宿主接入](host-setup.md)。材料文件已经存在，可从任意当前目录调用。材料目录放在任务文件旁，不放进理论原文或技能安装目录。
 
 ```powershell
-python scripts/evidence.py --catalog 'D:/任务/材料目录.json' add 'D:/任务/材料/访谈.md' --id interview-1 --title '访谈转录' --source-date '2026-10-01' --locator-note 'L为转录文件行号；说话人和时间戳保留在转录中'
-python scripts/evidence.py --catalog 'D:/任务/材料目录.json' add 'D:/任务/材料/数据.csv' --id table-1 --title '原始数据表'
-python scripts/evidence.py --catalog 'D:/任务/材料目录.json' add 'D:/任务/材料/规则.docx' --id rule-1 --title '规则正文'
-python scripts/evidence.py --catalog 'D:/任务/材料目录.json' list
-python scripts/evidence.py --catalog 'D:/任务/材料目录.json' search '申诉' --limit 15
-python scripts/evidence.py --catalog 'D:/任务/材料目录.json' search '预算' --id table-1
-python scripts/evidence.py --catalog 'D:/任务/材料目录.json' show --id interview-1 --at L12:L19
-python scripts/evidence.py --catalog 'D:/任务/材料目录.json' show --id table-1 --at R3C2
-python scripts/evidence.py --catalog 'D:/任务/材料目录.json' show --id rule-1 --at T1R2C1
+python "$skillRoot/scripts/evidence.py" --catalog "$taskRoot/材料目录.json" add "$taskRoot/材料/访谈.md" --id interview-1 --title '访谈转录' --source-date '2026-10-01' --locator-note 'L为转录文件行号；说话人和时间戳保留在转录中'
+python "$skillRoot/scripts/evidence.py" --catalog "$taskRoot/材料目录.json" add "$taskRoot/材料/数据.csv" --id table-1 --title '原始数据表'
+python "$skillRoot/scripts/evidence.py" --catalog "$taskRoot/材料目录.json" add "$taskRoot/材料/规则.docx" --id rule-1 --title '规则正文'
+python "$skillRoot/scripts/evidence.py" --catalog "$taskRoot/材料目录.json" list
+python "$skillRoot/scripts/evidence.py" --catalog "$taskRoot/材料目录.json" search '申诉' --limit 15
+python "$skillRoot/scripts/evidence.py" --catalog "$taskRoot/材料目录.json" search '预算' --id table-1
+python "$skillRoot/scripts/evidence.py" --catalog "$taskRoot/材料目录.json" show --id interview-1 --at L12:L19
+python "$skillRoot/scripts/evidence.py" --catalog "$taskRoot/材料目录.json" show --id table-1 --at R3C2
+python "$skillRoot/scripts/evidence.py" --catalog "$taskRoot/材料目录.json" show --id rule-1 --at T1R2C1
 ```
 
 `add`解析材料确认格式、登记源文件内容身份和提取方式，不把整份原始材料或提取全文复制进目录。`search`和带`--at`的`show`每次从原文件读取；`show --id`单独使用时显示元数据和当前文件状态。搜索按大小写不敏感的字面子串匹配，返回完整命中单元，不提供语义检索、检索排序或支持程度判断。
@@ -53,7 +53,7 @@ PDF缺少`pypdf`时，命令会明确提示使用宿主PDF工具，或在用户�
 先用宿主工具在任务权限内取得材料，保留原来源。工具不会代替宿主打开页面。将必要提取内容保存成UTF-8任务文件后，登记其来源和定位对应关系：
 
 ```powershell
-python scripts/evidence.py --catalog 'D:/任务/材料目录.json' add 'D:/任务/材料/网页正文.txt' --id web-1 --origin 'https://example.org/material' --source-date '2026-09-20' --locator-note '宿主提取正文；L是提取副本行号，原网页以小标题和原句定位；未包含页面附件'
+python "$skillRoot/scripts/evidence.py" --catalog "$taskRoot/材料目录.json" add "$taskRoot/材料/网页正文.txt" --id web-1 --origin 'https://example.org/material' --source-date '2026-09-20' --locator-note '宿主提取正文；L是提取副本行号，原网页以小标题和原句定位；未包含页面附件'
 ```
 
 上面URL只是命令占位示例，不是实际证据。填写`--origin`时必须填写`--locator-note`，明确原位置和提取位置的关系、遗漏及不确定性。URL、日期和定位说明由作者提供，工具不验证其真实性，也不因元数据齐全就赋予材料权威性。网页副本内容未变，不意味着网上原页面仍然未变；需要当前事实时，仍须重新访问原站。
@@ -63,8 +63,8 @@ python scripts/evidence.py --catalog 'D:/任务/材料目录.json' add 'D:/任�
 只有选中的片段才写入材料目录。保存关键依据时，作者填写支持范围，可另列自己的判断与必要假设：
 
 ```powershell
-python scripts/evidence.py --catalog 'D:/任务/材料目录.json' clip --id interview-1 --clip-id appeal-observation --at L12:L19 --claim '这一受访者叙述了申诉等待' --support '支持受访者在该时点的自身叙述；不独立证明全部申诉的平均耗时或制度执行率' --assumption '转录准确保存了受访者原意'
-python scripts/evidence.py --catalog 'D:/任务/材料目录.json' show --clip appeal-observation
+python "$skillRoot/scripts/evidence.py" --catalog "$taskRoot/材料目录.json" clip --id interview-1 --clip-id appeal-observation --at L12:L19 --claim '这一受访者叙述了申诉等待' --support '支持受访者在该时点的自身叙述；不独立证明全部申诉的平均耗时或制度执行率' --assumption '转录准确保存了受访者原意'
+python "$skillRoot/scripts/evidence.py" --catalog "$taskRoot/材料目录.json" show --clip appeal-observation
 ```
 
 `source_extracts`是按定位提取的来源文字，`author_statement`是作者判断，`support_boundary`和`assumptions`是作者填写的边界与假设。工具不自动生成结论、置信度、可靠性分数或“证据充分”的认证。需要修改作者判断时用新的片段ID保存新表述，不静默抹去已引用的旧记录；正文只呈现当前成熟论证，无须展示管理字段。
@@ -76,9 +76,9 @@ python scripts/evidence.py --catalog 'D:/任务/材料目录.json' show --clip a
 材料目录记住登记版本的内容身份。源文件内容变了，工具不会用旧定位读取新内容；已保存的片段仍可查看，并标明原文件已变化或丢失。登记新版本使用新ID，保留旧版本关联：
 
 ```powershell
-python scripts/evidence.py --catalog 'D:/任务/材料目录.json' add 'D:/任务/材料/规则.docx' --id rule-2 --supersedes rule-1 --source-date '2026-10-10'
-python scripts/evidence.py --catalog 'D:/任务/材料目录.json' show --id rule-1
-python scripts/evidence.py --catalog 'D:/任务/材料目录.json' show --id rule-2
+python "$skillRoot/scripts/evidence.py" --catalog "$taskRoot/材料目录.json" add "$taskRoot/材料/规则.docx" --id rule-2 --supersedes rule-1 --source-date '2026-10-10'
+python "$skillRoot/scripts/evidence.py" --catalog "$taskRoot/材料目录.json" show --id rule-1
+python "$skillRoot/scripts/evidence.py" --catalog "$taskRoot/材料目录.json" show --id rule-2
 ```
 
 该操作保留旧条目，但不保存旧源全文。需要日后检查旧版本完整上下文，应在用户授权范围内保留原版本文件，并分别登记；不能指望少量片段重建全篇。目录中的`current`仅表示本地文件字节与登记时一致，不表示事实当前有效、来源可信、政策仍在生效或该片段支持作者全部判断。

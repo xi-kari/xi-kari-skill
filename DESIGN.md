@@ -100,7 +100,7 @@ One static landscape anchors the opening scene. Below it, generous open sections
 - Original signature, ink lettering, icon color field and three tide layers.
 - Open reading columns that become one column on small screens.
 - Quiet controls with explicit focus and selected states.
-- Shared published progress, with a separate local maintenance state.
+- Shared published research-delivery progress, with a separate historical topic directory.
 
 ## Colors
 
@@ -108,11 +108,11 @@ The light palette is cool paper, blue ink and muted indigo; night mode preserves
 
 ### Primary
 
-The accent colors identify signatures, links, focus rings, native checkbox selection and the completion bar. The icon field also mixes the current accent with cyan and lilac during its cycle; those mixtures are decorative animation colors, not additional interface palettes.
+The accent colors identify signatures, links, focus rings, the active domain and research-delivery bars. The icon field also mixes the current accent with cyan and lilac during its cycle; those mixtures are decorative animation colors, not additional interface palettes.
 
 ### Neutral
 
-Background fills the page and tides. Surface supports the command block and skip link. Ink carries primary text; muted carries explanations, counts and dates. Line separates sections and rows; soft marks selected filters and button hover.
+Background fills the page and tides. Surface supports the command block and skip link. Ink carries primary text; muted carries explanations, counts and dates. Line separates sections and rows; soft marks button hover.
 
 The initial theme is light (`lace`). Only an explicitly saved `night` preference changes startup appearance. The theme toggle persists the preference locally; research completion does not use local storage. Night mode applies brightness `.7` and saturation `.9` to the wallpaper.
 
@@ -130,6 +130,8 @@ The opening cover is `100svh` with a desktop minimum height of `800px`. Its fixe
 
 The reading container is `min(1180px, calc(100% - 112px))`. Introduction and usage use `.85fr 1.15fr` columns with a `90px` gap. Research uses a `244px` sticky domain navigator and a flexible list, separated by `55px`. The navigator starts `100px` below the top and scrolls within `calc(100svh - 125px)`.
 
+Research delivery precedes the topic directory in the same open reading flow. A full-width progress bar accompanies the delivered and pending counts; a table names each task group and its counts. Pending tasks use two columns of open, ruled rows, becoming one column on mobile. Tables preserve readable numeric columns and may scroll inside their own wrapper rather than widening the page.
+
 At widths up to `1050px`, reading gutters become `36px`, introduction/usage gaps become `48px`, and the research split becomes `200px` plus the list with a `34px` gap.
 
 At widths up to `760px`, gutters become `22px`; introduction and usage become single columns with `22px` gaps and `58px` vertical padding. The research toolbar stacks, and a native domain select replaces the sticky navigator. Topic rows lose the desktop list indent. The cover minimum becomes `890px`; the wallpaper occupies the upper `52%` of its fixed scene, crops at `58% top`, and fades vertically into the page. Cover text begins at `clamp(295px, 38svh, 350px)`.
@@ -142,7 +144,7 @@ Depth comes from the fixed landscape, translucent paper overlays, fine grain and
 
 ## Shapes
 
-Controls use restrained rounded corners as recorded in the frontmatter. Icon buttons are circles; native checkboxes retain their platform shape. Search uses a single bottom border. Domain groups and capability rows use horizontal rules rather than enclosed cards. The opening scene clips at its boundary; only the original tide paths shape the transition into reading content.
+Controls use restrained rounded corners as recorded in the frontmatter. Icon buttons are circles; the mobile domain selector is native. Search uses a single bottom border. Domain groups, research tables, pending tasks and capability rows use horizontal rules rather than enclosed cards. The opening scene clips at its boundary; only the original tide paths shape the transition into reading content.
 
 ## Components
 
@@ -158,15 +160,19 @@ Reduced-motion mode displays complete lettering, a static colored icon field and
 
 Navigation is fixed, `72px` tall on desktop and `68px` on mobile. For a fine pointer with hover, it is tucked above the opening scene until pointer proximity, keyboard focus or scrolling reveals it. Mobile keeps the primary navigation visible and hides secondary links. Text links move their arrow `4px` on hover. The return-to-top control appears after `600px` of scrolling.
 
-Icon buttons use soft hover fill. Status filters expose selection through `aria-pressed`, accent text and soft fill. A visible keyboard focus ring uses the accent at `2px` with a `5px` offset. The command block wraps long text and offers a copy action with a live success or failure message.
+Icon buttons use soft hover fill. The theme toggle exposes its state through `aria-pressed`; the active domain link uses `aria-current="location"` and accent text. A visible keyboard focus ring uses the accent at `2px` with a `5px` offset. The command block wraps long text and offers a copy action with a live success or failure message.
 
-### Research list
+### Research status and directory
 
-Native `details`/`summary` groups contain labeled native checkboxes, topic identifiers, questions and completion dates. The first domain opens initially. Search matches every entered term against domain and topic text; status filtering combines with search. Filtering opens matching groups and restores their prior open states when cleared. Domain navigation opens the destination, focuses its summary and updates its fragment.
+The research section presents three distinct objects: the current manuscript's identity, a dated snapshot of distinct research-task deliveries, and a directory of preserved historical topics. Manuscript baseline, research snapshot date and page update date remain separate. A completed manuscript and a delivered research task do not imply empirical validation or completion of the final source and semantic review.
 
-The public page reads `docs/data/research-topics.json` and `docs/data/research-progress.json`. It displays the shared official completion state with disabled checkboxes; the maintenance action stays hidden. A local owner session must be supplied by the maintenance service before that action appears. Editing is explicit, saves through the service to the project progress file, disables controls while saving and restores the preceding state on failure. Completion counts and dates derive from returned progress, not a visitor's browser storage.
+The delivery snapshot names the total, delivered and pending counts, group counts and every pending task. The overall bar has numeric accessible values, and each native group progress bar has a descriptive accessible name. The same full snapshot exists in static HTML and `docs/data/research-status.json`; the script checks the JSON's arithmetic before replacing the fallback. Without JavaScript or a successful fetch, the published HTML snapshot remains readable.
 
-Loading keeps data controls disabled. Failure exposes a retry action and the downloadable full outline while project text remains readable. Empty search results explain how to recover. Progress and saving messages use live status regions; the progress bar has a numeric accessible value. A text outline remains available without JavaScript.
+Native `details`/`summary` groups contain topic identifiers, titles and research questions. The first domain opens initially. Search matches every entered term against domain and topic text. Filtering opens matching groups and restores their prior open states when cleared. Domain navigation opens the destination, focuses its summary and updates its fragment. A native selector offers the same navigation on mobile.
+
+The directory reads `docs/data/research-topics.json`: 32 current appendix-D domain titles and 296 preserved historical topics. `docs/data/research-progress.json` remains a separately linked historical record dated 2026-10-01; its checkmarks do not become the current theory's completion percentage. The page has no editing controls, research-write endpoint or visitor-local completion state. Maintainers update the public files and fallback together, then publish through the repository's static-site workflow described in `docs/MAINTAINING.md`.
+
+Loading keeps directory controls disabled. A directory failure exposes retry and the downloadable text outline while the research snapshot and project text remain readable. Empty search results explain how to recover. Load and copy messages use live status regions. The full outline remains available without JavaScript.
 
 ### Artwork dialog and accessibility
 
@@ -179,7 +185,7 @@ The native modal dialog presents the same full landscape with descriptive altern
 - **Do** preserve the original blog identity assets and use the single landscape recorded in the provenance file.
 - **Do** use the current semantic color roles, open reading layout and native research controls.
 - **Do** retain keyboard focus, reduced-motion behavior, loading feedback and recoverable failures.
-- **Do** keep public progress read-only and local maintenance explicit.
+- **Do** keep public progress read-only, preserve the visible pending-task names and publish matching data and HTML fallback.
 
 ### Don't
 

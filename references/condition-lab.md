@@ -16,12 +16,12 @@
 
 `scripts/condition_lab.py`使用Python 3.10以上版本和标准库。它读取用户提供的JSON，只向明确的输出目录写入固定产物，不修改输入模型。
 
-以下PowerShell命令在技能根目录运行，输出路径替换成实际任务目录：
+以下PowerShell命令使用`$skillRoot`表示当前`SKILL.md`所在安装目录，`$taskRoot`表示安装外的用户任务目录，可从任意当前目录调用；路径设置见[宿主接入](host-setup.md)。随包教学模型只读，输出保存在任务目录：
 
 ```powershell
-python scripts/condition_lab.py assets/examples/condition-university.json --output 'D:/任务/高校容量推演'
-python scripts/condition_lab.py assets/examples/condition-project.json --output 'D:/任务/项目容量推演'
-python scripts/condition_lab.py 'D:/任务/我的模型.json' --output 'D:/任务/推演结果' --format all
+python "$skillRoot/scripts/condition_lab.py" "$skillRoot/assets/examples/condition-university.json" --output "$taskRoot/高校容量推演"
+python "$skillRoot/scripts/condition_lab.py" "$skillRoot/assets/examples/condition-project.json" --output "$taskRoot/项目容量推演"
+python "$skillRoot/scripts/condition_lab.py" "$taskRoot/我的模型.json" --output "$taskRoot/推演结果" --format all
 ```
 
 默认产生三个文件：
@@ -33,7 +33,7 @@ python scripts/condition_lab.py 'D:/任务/我的模型.json' --output 'D:/任�
 `--format json`、`csv`或`html`可只生成一种产物。默认拒绝覆盖已有文件；明确需要更新已生成结果时，使用：
 
 ```powershell
-python scripts/condition_lab.py 'D:/任务/我的模型.json' --output 'D:/任务/推演结果' --force
+python "$skillRoot/scripts/condition_lab.py" "$taskRoot/我的模型.json" --output "$taskRoot/推演结果" --force
 ```
 
 `--force`只覆盖这些固定文件名且能识别为本工具产物的已有文件，不能覆盖输入，即使输入使用相同文件名。已有任意用户文件、符号链接或写入锁有冲突时，应选择新输出目录或先了解冲突原因。不要把覆盖授权扩展到其他文件。

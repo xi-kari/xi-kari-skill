@@ -10,14 +10,14 @@
 - 正文保留完整的当前内容，不加入制作过程说明。快照索引、差异、冲突资料和工作关系图放在稿件工作目录，不混入理论原文或正式正文。
 - 稿件保存为 UTF-8；支持 BOM、中文与现有换行。文本合并以完整行为单位，不统一全稿换行，也不把冲突标记塞进一份声称可交付的文章。
 
-下列命令从技能目录执行；`python` 指宿主已有的 Python 3.10 或更新版本。输出父目录需要已经存在。没有 Python 时，可由主作者直接进行同等范围的比较和新稿写作，不把安装工具变成分析前置条件。
+下列PowerShell命令使用`$skillRoot`表示当前`SKILL.md`所在安装目录，`$taskRoot`表示安装外的用户任务目录，可从任意当前目录调用；路径设置见[宿主接入](host-setup.md)。`python` 指宿主已有的 Python 3.10 或更新版本。输出父目录需要已经存在。没有 Python 时，可由主作者直接进行同等范围的比较和新稿写作，不把安装工具变成分析前置条件。
 
 ## 保留一个完整分支
 
 重要方案分叉或采纳前，选择继续工作真正需要的主稿、图形和必要上下文。相对路径保留，因此图形仍能与正文一起定位。工具不会递归复制整个工程，也不会自行包含未列出的文件。
 
 ```powershell
-python scripts/manuscript.py snapshot --root "D:/研究/现行稿" --file "xi-kari-answer.md" --file "images/机制.svg" --file "xikari-work-context.md" --output-dir "D:/研究/分支/方案甲"
+python "$skillRoot/scripts/manuscript.py" snapshot --root "$taskRoot/现行稿" --file "xi-kari-answer.md" --file "images/机制.svg" --file "xikari-work-context.md" --output-dir "$taskRoot/分支/方案甲"
 ```
 
 输出目录内的 `.manuscript-snapshot.json` 只记录原目录、所选文件路径、字节数和内容标识，以帮助找到共同基线。它不证明作者完成了学习或稿件已经正确。尚未同步的 HTML 不应作为最新阅读版一起保存；需要保存时明确选择文件，并保持其实际版本身份。
@@ -27,7 +27,7 @@ python scripts/manuscript.py snapshot --root "D:/研究/现行稿" --file "xi-ka
 ## 比较现行稿与候选稿
 
 ```powershell
-python scripts/manuscript.py compare --current "D:/研究/现行稿/xi-kari-answer.md" --candidate "D:/研究/分支/方案乙/xi-kari-answer.md" --output "D:/研究/工作/甲乙比较.diff"
+python "$skillRoot/scripts/manuscript.py" compare --current "$taskRoot/现行稿/xi-kari-answer.md" --candidate "$taskRoot/分支/方案乙/xi-kari-answer.md" --output "$taskRoot/工作/甲乙比较.diff"
 ```
 
 产生包含上下文的逐行差异，保留“文件末尾没有换行”的提示。没有差异时写入空差异文件，并返回 `different: false`。文本差异帮助找到变化，不能直接告诉作者两个不同段落是否表达相同意思，或者删去的限定是否影响远处的结论。
@@ -37,7 +37,7 @@ python scripts/manuscript.py compare --current "D:/研究/现行稿/xi-kari-answ
 例如，用户在外部修改了前言，协作者同时修改了另一章。两者都从同一份旧稿出发时：
 
 ```powershell
-python scripts/manuscript.py merge --base "D:/研究/分支/共同基线/xi-kari-answer.md" --current "D:/研究/现行稿/xi-kari-answer.md" --candidate "D:/研究/分支/协作者稿/xi-kari-answer.md" --output "D:/研究/工作/合稿候选.md" --conflicts "D:/研究/工作/合稿冲突.json"
+python "$skillRoot/scripts/manuscript.py" merge --base "$taskRoot/分支/共同基线/xi-kari-answer.md" --current "$taskRoot/现行稿/xi-kari-answer.md" --candidate "$taskRoot/分支/协作者稿/xi-kari-answer.md" --output "$taskRoot/工作/合稿候选.md" --conflicts "$taskRoot/工作/合稿冲突.json"
 ```
 
 `current` 通常是含有用户最新外部修改的现行稿；`candidate` 是另一分支。工具只把基于同一基线、互不重叠的文本修改组合起来，相同修改保留一次。输出永远是新文件，不覆盖两侧输入。
@@ -67,7 +67,7 @@ python scripts/manuscript.py merge --base "D:/研究/分支/共同基线/xi-kari
 `source → dependent` 表示后者依赖前者。每个节点有唯一 `id` 和 `location.path`，还可记录标题 `heading`、锚点 `anchor` 或正整数行号 `line`。相对文件位置以这份关系文件所在目录为参照；工具只返回定位信息，不读取或自动修改这些文件。修改后行号和标题可能过时，应以实际文件为准。
 
 ```powershell
-python scripts/manuscript.py affected --links "D:/研究/工作/稿件关系.json" --changed "claim.scope" --output "D:/研究/工作/影响位置.json"
+python "$skillRoot/scripts/manuscript.py" affected --links "$taskRoot/工作/稿件关系.json" --changed "claim.scope" --output "$taskRoot/工作/影响位置.json"
 ```
 
 可重复 `--changed`。输出分别列出已改变节点、沿显式依赖可达的其他节点和一条到达路径；多个变化源分别保留。循环会去重遍历，不会无限展开。未知节点、重复节点 ID 或非法定位会报错，避免把写错 ID 当成没有影响。结果不把已经列作变化源的节点再列为待查节点。

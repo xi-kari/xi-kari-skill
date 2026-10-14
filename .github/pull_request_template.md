@@ -2,13 +2,13 @@
 
 <!-- 改了什么、为什么 -->
 
-## 自检清单
+## 验证
 
-- [ ] `python scripts/check_source_snapshot.py --all` 退出码 0
-- [ ] `python scripts/build_knowledge_index.py --check` 退出码 0
-- [ ] `python scripts/check_ontology.py --all` 退出码 0
-- [ ] `python scripts/check_xi_kari_skill.py --all` 退出码 0
-- [ ] `python scripts/check_xi_kari_runtime.py --all` 退出码 0
-- [ ] 未改动 `references/source/v8.3/`（如确需重建源快照，已在变更说明中列出构建方式与哈希变化）
-- [ ] 若涉及 runtime 字段语义：绑定器、校验器、`schemas/` 与 `protocols/` 文档四处口径已同步
-- [ ] 变更不含个人身份信息、真实机器路径或同步盘路径
+- [ ] `python -m unittest discover -s tests` 通过
+- [ ] `python scripts/read_source.py --check` 通过，理论原件身份保持明确
+- [ ] `python scripts/build_install_package.py --output <外部交付目录>` 成功
+- [ ] 安装包只含清单选定的运行资源，任务产物保存在安装目录外
+- [ ] 涉及网页或阅读器时，已检查相关交互与显示
+- [ ] 公开内容不含个人路径、私有任务材料、凭据或开发记录
+
+<!-- 写出实际执行的验证和未覆盖范围。开发检查不代表理论有效性或模型理解已经得到证明。 -->

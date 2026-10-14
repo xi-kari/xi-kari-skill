@@ -33,7 +33,14 @@
 
 明确的行内`\(...\)`、保守识别的`$...$`及独占行`$$...$$`、`\[...\]`可使用随包KaTeX离线排版，所需字体和脚本只在有公式时内嵌。代码与普通货币金额保持文字；有歧义时采用`\(...\)`。未知指令、错误公式或资源不可用时保留原式，不能将红色错误文本当成已排版公式。选择和搜索公式使用原始表达式，避免把MathML和显示层重复复制。完整Markdown始终可下载。
 
-可使用随包的`python scripts/render_answer.py --help`查看离线生成工具，在技能目录中执行`python scripts/render_answer.py <完整正文路径> --output <阅读版路径.html>`，或使用脚本绝对路径。生成器支持的Markdown语法和图形能力以实际实现为准；不支持的语法保留可见原文与原稿入口，不悄悄丢失。需要其他文档格式、复杂图形或交互模型时，使用宿主实际可用的相应工具，缺少能力时提供完整静态版本。
+可使用随包离线生成工具。以下PowerShell命令使用`$skillRoot`表示当前`SKILL.md`所在安装目录，`$taskRoot`表示安装外的用户任务目录，可从任意当前目录调用；路径设置见[宿主接入](host-setup.md)：
+
+```powershell
+python "$skillRoot/scripts/render_answer.py" --help
+python "$skillRoot/scripts/render_answer.py" "$taskRoot/xi-kari-answer.md" --output "$taskRoot/xi-kari-answer.html"
+```
+
+生成器支持的Markdown语法和图形能力以实际实现为准；不支持的语法保留可见原文与原稿入口，不悄悄丢失。需要其他文档格式、复杂图形或交互模型时，使用宿主实际可用的相应工具，缺少能力时提供完整静态版本。
 
 具体条件比较可用[条件模型](condition-lab.md)生成自包含的离散探索页面；该页面展示模型实际计算结果，完整论证与取舍仍在正文。DOCX、PDF、表格及跨设备交付按[领域与宿主接入](domain-and-host.md)处理。
 

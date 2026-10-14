@@ -22,6 +22,13 @@ import unicodedata
 from urllib.parse import unquote, urlsplit
 import xml.etree.ElementTree as ET
 
+sys.dont_write_bytecode = True
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+try:
+    from xikari_paths import require_external_output
+finally:
+    sys.path.pop(0)
+
 
 ASSETS = Path(__file__).resolve().parents[1] / 'assets'
 HEADING = re.compile(r'^ {0,3}(#{1,6})(?:\s+|$)(.*?)\s*$')
@@ -565,6 +572,7 @@ def main() -> int:
     parser.add_argument('--title', help='浏览器标签标题；不更改正文')
     args = parser.parse_args()
     try:
+        require_external_output(args.output, __file__)
         if args.input.resolve() == args.output.resolve():
             raise ValueError('输入与输出不能是同一个文件')
         raw = args.input.read_bytes()

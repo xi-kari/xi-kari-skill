@@ -21,6 +21,13 @@ import re
 import sys
 import tempfile
 
+sys.dont_write_bytecode = True
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+try:
+    from xikari_paths import require_external_output
+finally:
+    sys.path.pop(0)
+
 
 TOOL = "xikari-condition-lab-1"
 MAX_CASES = 512
@@ -417,9 +424,11 @@ def same_path(first, second):
 
 
 def write_outputs(result, source, output, output_format="all", force=False):
+    require_external_output(output, __file__)
     kinds = list(OUTPUTS) if output_format == "all" else [output_format]
     paths = {kind: output / OUTPUTS[kind] for kind in kinds}
     for kind, path in paths.items():
+        require_external_output(path, __file__)
         if same_path(path, source):
             raise ModelError("输出路径与输入文件相同，--force也不能覆盖输入。")
         if path.is_symlink():
@@ -434,6 +443,7 @@ def write_outputs(result, source, output, output_format="all", force=False):
         if len(rendered[kind].encode("utf-8")) > 32 * 1024 * 1024:
             raise ModelError("单项输出超过32MiB；缩小模型说明或组合数量。")
     lock = output / ".condition-lab.lock"
+    require_external_output(lock, __file__)
     if same_path(lock, source):
         raise ModelError("输出锁路径与输入相同，拒绝写入。")
     output.mkdir(parents=True, exist_ok=True)
@@ -505,7 +515,7 @@ def main(argv=None):
         model, digest = read_model(args.model)
         result = evaluate_model(model)
         result["source_model"] = {"path": str(args.model.resolve()), "sha256": digest}
-        outputs = write_outputs(result, args.model.resolve(), args.output.resolve(), args.format, args.force)
+        outputs = write_outputs(result, args.model.resolve(), args.output, args.format, args.force)
     except (ModelError, OSError) as exc:
         print(json.dumps({"error": str(exc)}, ensure_ascii=False), file=sys.stderr)
         return 2

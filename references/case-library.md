@@ -8,16 +8,16 @@
 
 事实、原判断、用户报告和已观察结果分开。尚未实施的方案，其结果是未观察；用户说有效，就保存用户报告及其依据，不能自动升级为独立实测。原判断曾经失败时，不能用后来修订的成功稿覆盖它。
 
-可选工具使用标准库，库路径须显式给定：
+可选工具使用标准库，库路径须显式给定。以下PowerShell命令使用`$skillRoot`表示当前`SKILL.md`所在安装目录，`$taskRoot`表示安装外的用户任务目录，可从任意当前目录调用；路径设置见[宿主接入](host-setup.md)：
 
 ```powershell
-python scripts/casebook.py --library D:/ResearchCases/cases.json add --record D:/CurrentTask/case.json
-python scripts/casebook.py --library D:/ResearchCases/cases.json list
-python scripts/casebook.py --library D:/ResearchCases/cases.json search "容量 复核"
-python scripts/casebook.py --library D:/ResearchCases/cases.json show capacity-example
+python "$skillRoot/scripts/casebook.py" --library "$taskRoot/案例库/cases.json" add --record "$taskRoot/case.json"
+python "$skillRoot/scripts/casebook.py" --library "$taskRoot/案例库/cases.json" list
+python "$skillRoot/scripts/casebook.py" --library "$taskRoot/案例库/cases.json" search "容量 复核"
+python "$skillRoot/scripts/casebook.py" --library "$taskRoot/案例库/cases.json" show capacity-example
 ```
 
-命令中的目录是示意，执行时替换为用户指定位置。`assets/examples/case-record.json`给出一个明确虚构的最小记录。`id`、`title`、`question`是必需字段，其余按内容需要使用；不要求每份分析都入库。原案例补充结果时使用新`id`和`supersedes`指向旧记录，保留原来的未知或失败。
+命令中的目录是示意，执行时使用用户指定的安装外位置；跨任务保留的资料库可使用用户另选的独立目录。`$skillRoot/assets/examples/case-record.json`给出一个明确虚构的最小记录。实际案例记录写在`$taskRoot/case.json`等任务文件中，不修改随包示例。`id`、`title`、`question`是必需字段，其余按内容需要使用；不要求每份分析都入库。原案例补充结果时使用新`id`和`supersedes`指向旧记录，保留原来的未知或失败。
 
 同一库同时由一位作者负责写入。工具用同目录独占写锁保护最后的重读、比较和原子提交；首次建库也拒绝覆盖提交前新出现的文件。它拒绝重复标识、不可识别的库文件及已经变化的旧内容；遇到写锁或版本冲突，重读后重新处理，不静默重放旧库。不要同时用外部编辑器改写库文件；异常遗留的写锁须确认没有写入者后再处理，工具不自动清除。查询是字面检索，不能自动认定机制相似，也不抓取或刷新记录中的网页。
 

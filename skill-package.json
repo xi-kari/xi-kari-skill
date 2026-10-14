@@ -1,7 +1,7 @@
 {
   "name": "xi-kari-skill",
   "display_name": "Xikari Skill",
-  "version": "5.3.0",
+  "version": "5.3.1",
   "author": "Xikari",
   "theory_title": "Xikari-条件结构与转化论",
   "platform": "Windows",
@@ -73,6 +73,8 @@
     "assets/vendor/katex/katex.min.css",
     "assets/vendor/katex/katex.min.js",
     "assets/vendor/katex/LICENSE",
-    "assets/vendor/katex/source.json"
+    "assets/vendor/katex/source.json",
+    "scripts/xikari_paths.py",
+    "references/host-setup.md"
   ]
 }

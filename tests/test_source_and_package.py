@@ -1,5 +1,6 @@
 import importlib.util
 import json
+import hashlib
 from pathlib import Path
 import subprocess
 import sys
@@ -72,19 +73,58 @@ class SourceAndPackageTests(unittest.TestCase):
             result = builder.build(ROOT, Path(directory))
             with zipfile.ZipFile(Path(directory) / result['archive']) as zf:
                 self.assertIsNone(zf.testzip())
-                self.assertEqual(set(zf.namelist()), {r['path'] for r in result['files']})
-                self.assertFalse(any(n.startswith(('tests/', '.github/')) for n in zf.namelist()))
-                self.assertNotIn('scripts/build_install_package.py', zf.namelist())
+                self.assertEqual(result['archive_root'], 'xi-kari-skill')
+                prefix = result['archive_root'] + '/'
+                self.assertEqual(set(zf.namelist()), {prefix + r['path'] for r in result['files']})
+                self.assertFalse(any(n.startswith((prefix + 'tests/', prefix + '.github/')) for n in zf.namelist()))
+                self.assertNotIn(prefix + 'scripts/build_install_package.py', zf.namelist())
                 for name in zf.namelist():
-                    self.assertEqual(zf.read(name), (ROOT / name).read_bytes())
+                    relative = name.removeprefix(prefix)
+                    row = next(x for x in result['files'] if x['path'] == relative)
+                    self.assertEqual(hashlib.sha256(zf.read(name)).hexdigest(), row['sha256'])
+                    raw = (ROOT / relative).read_bytes()
+                    theory_path = 'source/' + json.loads((ROOT / 'source/source-manifest.json').read_text(encoding='utf-8'))['source_file']
+                    if not relative.endswith('.woff2') and relative != theory_path:
+                        raw = raw.replace(b'\r\n', b'\n')
+                    self.assertEqual(zf.read(name), raw)
 
     def test_package_rejects_path_escape_and_case_collision(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
             for names in [['../outside'], ['SKILL.md', 'skill.md']]:
-                (root / 'skill-package.json').write_text(json.dumps({'files': names}), encoding='utf-8')
+                (root / 'skill-package.json').write_text(json.dumps({'name': 'xi-kari-skill', 'files': names}), encoding='utf-8')
                 with self.assertRaises(ValueError):
                     builder.selected_files(root)
+
+    def test_development_and_runtime_files_cannot_be_added_to_payload(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            for name in ('tests/a.py', 'docs/index.html', 'scripts/__pycache__/a.pyc', 'runs/result.json', 'AGENTS.md', 'scripts/build_install_package.py'):
+                path = root / name
+                path.parent.mkdir(parents=True, exist_ok=True)
+                path.write_text('not for installation', encoding='utf-8')
+                (root / 'skill-package.json').write_text(json.dumps({'name': 'xi-kari-skill', 'files': [name]}), encoding='utf-8')
+                with self.subTest(path=name), self.assertRaises(ValueError):
+                    builder.selected_files(root)
+
+    def test_package_is_reproducible_across_worktree_line_endings(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            package = root / 'input'; package.mkdir()
+            source = b'# unchanged theory\r\nText\r\n'
+            (package / 'source').mkdir()
+            (package / 'source/theory.md').write_bytes(source)
+            manifest = {'source_file': 'theory.md', 'sha256': hashlib.sha256(source).hexdigest()}
+            (package / 'source/source-manifest.json').write_text(json.dumps(manifest), encoding='utf-8')
+            metadata = {'name': 'xi-kari-skill', 'version': '1.0.0', 'files': ['SKILL.md', 'skill-package.json', 'source/source-manifest.json', 'source/theory.md']}
+            (package / 'skill-package.json').write_text(json.dumps(metadata), encoding='utf-8')
+            (package / 'SKILL.md').write_bytes(b'line one\nline two\n')
+            first = builder.build(package, root / 'first')
+            (package / 'SKILL.md').write_bytes(b'line one\r\nline two\r\n')
+            second = builder.build(package, root / 'second')
+            self.assertEqual(first['sha256'], second['sha256'])
+            with zipfile.ZipFile(root / 'second' / second['archive']) as archive:
+                self.assertEqual(archive.read('xi-kari-skill/source/theory.md'), source)
 
 
 if __name__ == '__main__':

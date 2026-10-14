@@ -16,12 +16,12 @@
 
 ## 连续分块读取
 
-可选章节读取器提供完整分页，不需要安装模型后端。在技能目录执行下列命令，或将脚本替换为它在当前安装目录中的绝对路径：
+可选章节读取器提供完整分页，不需要安装模型后端。以下PowerShell命令使用`$skillRoot`表示当前`SKILL.md`所在安装目录，可从任意当前目录调用；路径设置见[宿主接入](host-setup.md)。理论由读取器从随包`source`目录取得：
 
 ```powershell
-python scripts/read_source.py --chunks
-python scripts/read_source.py --chunk 1
-python scripts/read_source.py --chunk 2
+python "$skillRoot/scripts/read_source.py" --chunks
+python "$skillRoot/scripts/read_source.py" --chunk 1
+python "$skillRoot/scripts/read_source.py" --chunk 2
 ```
 
 先取得总块数，再按1至末块顺序读取，每块真正进入作者可读的工具结果。默认块长为6000个字符；若宿主输出上限较低，使用更小的`--chunk-size`，并始终以同一块长继续，或按对应位置重新接续。不要把所有块塞进一次会截断的调用。

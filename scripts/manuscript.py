@@ -11,6 +11,13 @@ import json
 from pathlib import Path
 import sys
 
+sys.dont_write_bytecode = True
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+try:
+    from xikari_paths import require_external_output
+finally:
+    sys.path.pop(0)
+
 
 SNAPSHOT_INDEX = ".manuscript-snapshot.json"
 
@@ -20,6 +27,7 @@ def json_bytes(value: object) -> bytes:
 
 
 def check_new_file(path: Path) -> None:
+    require_external_output(path, __file__)
     if path.exists() or path.is_symlink():
         raise ValueError(f"Output already exists: {path}")
     if not path.parent.is_dir():
@@ -38,6 +46,7 @@ def read_text(path: Path) -> str:
 
 
 def snapshot(root: Path, files: list[str], output: Path) -> dict:
+    require_external_output(output, __file__)
     root = root.resolve(strict=True)
     if not root.is_dir():
         raise ValueError(f"Snapshot root is not a directory: {root}")

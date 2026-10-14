@@ -6,6 +6,7 @@ import argparse
 import hashlib
 import json
 from pathlib import Path, PurePosixPath
+import re
 import zipfile
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -13,11 +14,17 @@ ROOT = Path(__file__).resolve().parents[1]
 
 def selected_files(root: Path) -> tuple[dict, list[str]]:
     metadata = json.loads((root / "skill-package.json").read_text(encoding="utf-8"))
+    name = metadata.get('name', '')
+    if not isinstance(name, str) or not re.fullmatch(r'[a-z0-9]+(?:-[a-z0-9]+)*', name) or len(name) > 64:
+        raise ValueError('Invalid skill directory name')
     files = metadata["files"]
     if not files or len(files) != len(set(name.casefold() for name in files)):
         raise ValueError("Package paths must be nonempty and unique")
     for name in files:
         relative = PurePosixPath(name)
+        forbidden = {'.git', '.github', '.codex', '.claude', '.agents', '__pycache__', 'node_modules', 'tests', 'docs', 'deliverables', 'runs', 'memories', '.artifacts'}
+        if any(part.casefold() in forbidden for part in relative.parts) or name in {'AGENTS.md', 'README.md', 'scripts/build_install_package.py'}:
+            raise ValueError(f'Development or task files cannot enter the install payload: {name}')
         target = (root / name).resolve()
         if relative.is_absolute() or ".." in relative.parts or "\\" in name or ":" in name:
             raise ValueError(f"Invalid package path: {name}")
@@ -33,17 +40,22 @@ def build(root: Path, output: Path) -> dict:
     source = payload["source/" + source_manifest["source_file"]]
     if hashlib.sha256(source).hexdigest() != source_manifest["sha256"]:
         raise ValueError("Theory source does not match its manifest")
+    theory_path = 'source/' + source_manifest['source_file']
+    for name, data in payload.items():
+        if name != theory_path and (Path(name).suffix in {'.md', '.py', '.css', '.js', '.json', '.yaml', '.yml'} or Path(name).name == 'LICENSE'):
+            payload[name] = data.decode('utf-8').replace('\r\n', '\n').encode('utf-8')
     output.mkdir(parents=True, exist_ok=True)
     archive = output / f"xi-kari-skill-{metadata['version']}-windows.zip"
     with zipfile.ZipFile(archive, "w", zipfile.ZIP_DEFLATED) as zf:
         for name, data in payload.items():
-            info = zipfile.ZipInfo(name, date_time=(2026, 10, 13, 0, 0, 0))
+            info = zipfile.ZipInfo(metadata['name'] + '/' + name, date_time=(2026, 10, 13, 0, 0, 0))
             info.compress_type = zipfile.ZIP_DEFLATED
             zf.writestr(info, data)
     raw = archive.read_bytes()
     manifest = {
         "name": metadata["name"], "version": metadata["version"],
         "archive": archive.name, "sha256": hashlib.sha256(raw).hexdigest(),
+        "archive_root": metadata['name'],
         "bytes": len(raw), "file_count": len(payload),
         "theory_source_sha256": source_manifest["sha256"],
         "files": [{"path": name, "bytes": len(data), "sha256": hashlib.sha256(data).hexdigest()}

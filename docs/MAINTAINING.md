@@ -1,110 +1,70 @@
 # Maintaining the project page
 
-The website reads its research outline from `data/research-topics.json` and its
-shared progress from `data/research-progress.json`. Both files are committed
-project data. Publishing the same files gives every visitor the same progress.
-Checking a topic locally changes the progress source file; it does not publish
-the website automatically.
+The introduction is a static site. It reads published JSON files and does not
+write to the repository, offer an editor API, or store research completion in a
+visitor's browser. The theme preference is the only local preference saved by
+the page.
 
-## Edit research progress locally
+## Published sources
 
-From the repository root, run:
+- `data/research-status.json` describes the current manuscript identity and a
+  dated research-delivery snapshot. `theory.version` is `null` when the source
+  does not assign a version. The manuscript baseline, research snapshot date,
+  and page update date are separate fields.
+- `data/research-topics.json` contains the 32 domain titles from the current
+  manuscript's appendix D and the 296 preserved historical topic IDs, titles
+  and questions. It is a directory, not an evaluation score.
+- `data/research-outline.md` is the same directory in a readable download.
+- `data/research-progress.json` preserves the historical completion records
+  dated 2026-10-01. The page links to this archive but does not use its checkmarks
+  to compute current progress. Do not replace those timestamps with today's
+  date or reinterpret them as verification of the current theory.
 
-```text
-python scripts/serve_project_page.py
-```
+The delivery snapshot counts distinct tasks with delivered research material.
+It does not measure the truth of the theory, independent empirical support, or
+completion of the final source and semantic review. Keep the remaining task
+names visible, including quality review and final synthesis tasks.
 
-Open `http://127.0.0.1:4389/` in a browser. The local editor saves each checkbox
-change to `docs/data/research-progress.json`. Review the resulting file change,
-commit it, and publish the project page through the repository's normal website
-publishing process. Visitors to the static website can read the published
-progress; they cannot change the repository file.
+## Updating the page
 
-Use `--port 4390` to select a different port. `--directory` can point to another
-page directory containing the same two data files, for example when testing a
-temporary copy. The server binds only to `127.0.0.1`. It does not support remote
-editing, cross-origin requests, or a remote authentication service. Run one
-maintenance server per checkout, and stop it with Ctrl+C when finished.
+1. Review the actual source manuscript and research handoff records. Publish
+   only supported counts and status; do not infer completion from the presence
+   of a manuscript or a successful software test.
+2. Edit `research-status.json`. Group totals must sum to `delivery.total` and
+   group delivered counts to `delivery.delivered`. Delivered plus pending must
+   equal total. Forward plus reverse minus overlap must equal the distinct
+   delivered count. `pendingItems` must enumerate all pending tasks with unique
+   IDs and plain-language descriptions.
+3. Update the fallback snapshot in `index.html` to match the same data: dates,
+   total progress, named group rows, pending items and scope explanation. This
+   keeps the research status readable without JavaScript or a working fetch.
+   The script replaces these rows only after checking the JSON's consistency.
+4. If the source's domain titles change, update `research-topics.json` and the
+   matching outline. Preserve stable topic IDs and original questions unless
+   the research directory itself changes.
+5. Update release, installation and capability text in `index.html` together
+   with the repository README. A release link must name the exact published
+   asset. State only the operating systems and capabilities actually tested.
+6. Check the diff and publish through the repository's configured GitHub Pages
+   process. All visitors then receive the same published snapshot.
 
-The server serializes concurrent checkbox changes and replaces the progress
-file atomically. A failed save leaves the previous file intact. If the progress
-file is malformed, editing fails instead of silently resetting it. Restore or
-correct the file before retrying.
-
-## Public data formats
-
-`research-topics.json` contains only:
-
-```json
-{
-  "schemaVersion": 1,
-  "title": "Research outline",
-  "modules": [
-    {
-      "id": "01",
-      "title": "Domain",
-      "topics": [
-        { "id": "01.01", "title": "Topic", "question": "What should be studied?" }
-      ]
-    }
-  ]
-}
-```
-
-Keep topic IDs unique and stable. The public file must not include private
-research paths, local source inventories, credentials, or internal audit fields.
-After changing the outline, restart the local server so its known topic IDs are
-refreshed. Remove obsolete completed IDs when removing topics.
-
-`research-progress.json` starts with no completed topics:
-
-```json
-{
-  "schemaVersion": 1,
-  "updatedAt": null,
-  "completed": {}
-}
-```
-
-A completed topic is stored as an ID mapped to an ISO 8601 UTC timestamp, such
-as `"01.01": "2026-01-01T00:00:00.000Z"`. Unchecking removes that ID. Every
-successful edit updates `updatedAt`. An absent ID means incomplete. A published
-completion records the maintainer's research status; it does not by itself mean
-that a theory has been adopted into the framework or that historical claims
-have been independently verified.
-
-## Local editor API
-
-- `GET /api/project-editor` returns
-  `{ "editable": true, "token": "...", "progress": { ... } }`.
-- `POST /api/research-progress` accepts exactly
-  `{ "id": "01.01", "completed": true }` or the same object with `false`.
-  Send `Content-Type: application/json` and `X-Project-Token` with the token from
-  the editor endpoint. The browser supplies the same-origin `Origin` header;
-  other clients must supply it explicitly. The origin must match the request's
-  loopback host and port. A successful response is the complete progress object,
-  not a wrapper around it.
-- Requests must have an allowed loopback `Host`. Writes also require a matching
-  `Origin`, the current editor token, a known topic ID, an actual JSON boolean,
-  and a body of at most 4096 bytes. Invalid requests do not change progress.
-- Error responses contain `{ "error": "..." }`. Status codes are `400` for
-  invalid input, `403` for host/origin/token rejection, `404` for unknown API
-  paths, `413` for body size, `415` for content type, and `500` for read/save
-  failure. Keep the displayed state unchanged or restore it when a save fails.
-- Static files, including `/data/research-progress.json`, remain readable.
-  Local responses use `Cache-Control: no-store`; no CORS headers are enabled.
-  If the editor endpoint is absent on static hosting, the page is read-only.
-
-The random editor token lasts only for the local server instance. It is an
-in-memory CSRF protection value, never part of public data or the Skill runtime.
-Refresh the page after restarting the server to obtain a new token.
+Public files must not include machine-local paths, personal case material,
+private research inventories, scheduler locations, credentials, internal thread
+IDs or private receipts. Use an aggregate public snapshot with named work and
+its meaning. Keep installation artifacts and research-run outputs outside the
+website assets.
 
 ## Verification
 
-```text
-python -m unittest tests.test_project_page_progress -v
-```
+Check the data arithmetic, unique domain/topic/pending IDs, source-domain title
+alignment, release links, static fallback consistency and absence of obsolete
+editor endpoints. Preserve the original artwork and the 96-mark desktop /
+48-mark mobile icon field.
 
-The API tests use temporary page directories and ephemeral loopback ports. They
-exercise persistence, unchecking, request rejection, concurrent updates, restart
-behavior, and recovery after a failed save without editing published progress.
+On the actual published page, check desktop and mobile together: light/night
+theme, reduced motion, keyboard focus, copy success and failure feedback,
+research search and empty results, expand/collapse, domain jumps, source links,
+progress labels and readable pending tasks. Simulated DOM checks can exercise
+logic but do not replace actual layout and browser inspection. If data loading
+fails, the fallback research snapshot remains visible and the topic directory
+offers retry and a text download.

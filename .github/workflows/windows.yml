@@ -1,0 +1,49 @@
+name: Windows package and tools
+
+on:
+  push:
+    branches: [main, 'codex/**']
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: windows-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ['3.10', '3.13']
+    defaults:
+      run:
+        shell: pwsh
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: ${{ matrix.python }}
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1
+        with:
+          node-version: '22'
+      - name: Install development test dependencies
+        run: |
+          python -m pip install pypdf==6.19.0
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          npm ci --prefix tests/dom --ignore-scripts --no-audit --no-fund
+      - name: Test tools and package boundaries
+        run: python -m unittest discover -s tests -v
+      - name: Check authoritative source
+        run: python scripts/read_source.py --check
+      - name: Build installation archive
+        run: python scripts/build_install_package.py --output "$env:RUNNER_TEMP/xikari-package"
+      - name: Test reader interaction
+        run: node tests/test_reader_interaction.cjs "$PWD/tests/dom/node_modules/jsdom"
+      - name: Test condition model interaction
+        run: |
+          python scripts/condition_lab.py assets/examples/condition-university.json --output "$env:RUNNER_TEMP/xikari-condition"
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          node tests/test_condition_interaction.cjs "$PWD/tests/dom/node_modules/jsdom" "$env:RUNNER_TEMP/xikari-condition/condition-results.html"
+      - name: Test project page interaction
+        run: node tests/test_project_page_interaction.cjs "$PWD/tests/dom/node_modules/jsdom"

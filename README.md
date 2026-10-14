@@ -1,65 +1,92 @@
 # Xikari Skill
 
-依据Xikari著《Xikari-条件结构与转化论》，帮助智能体辨明问题的主导条件、作用通道、承接与反馈，作出明确判断和方案取舍，交付可以理解和使用的分析、制度条款、计划与评论。
+依据 **Xikari著《Xikari-条件结构与转化论》**，让智能体在完整学习理论后，深入分析具体问题，比较机制与反方，作出明确判断，并在持续对话中完成研究、方案和完整成果。
 
-技能包版本：5.3.0。宿主：Windows上的Codex、Claude及兼容技能目录的智能体。
+**技能版本：5.3.1 · 当前测试环境：Windows · 理论正文基线：2026年10月。** 技能版本与理论身份分别管理，不把软件版本当作理论版本。
 
-## 使用
+[项目介绍与研究进度](https://xi-kari.github.io/xi-kari-skill/) · [下载干净安装包](https://github.com/xi-kari/xi-kari-skill/releases/download/v5.3.1/xi-kari-skill-5.3.1-windows.zip) · [完整理论正文](source/Xikari-条件结构与转化论.md)
 
-将安装包中的文件放入宿主的`skills/xi-kari-skill`目录，通过`$xi-kari-skill`或明确点名Xikari Skill调用。
+## 能做什么
 
-例如：“使用Xikari Skill评估这套规则，给出具体修订条款。”
+- **深入解释与决断**：辨认材料、条件、机制、尺度和代价，处理反例与竞争解释，给出有理由的结论和具体取舍。
+- **完整成果**：按问题交付分析文章、评论、研究构想、计划、可审议条文或制度体系；默认不设字数上限，用普通语言、真实案例与合适图表解释。
+- **持续研究与协作**：接住补充材料、反驳与约束变化，保留有效成果，修订受影响的判断；独立承担理论分析的协作者各自完整学习原文。
+- **可回查材料**：定位文本、CSV、DOCX及带文字层PDF，保存选定片段、来源版本和支持范围。
+- **可运行条件模型**：明确区分观察、假设与未知，运行有限公式与离散情景，输出完整JSON、CSV和离线探索页。
+- **稿件与案例工作**：比较、保留分支与合稿，保护用户已有编辑；在用户选定目录积累案例，区分原判断与实际结果。
+- **离线阅读**：完整正文、目录、搜索、主题、字号、脚注、公式、打印和选段追问。页面不自动把选段发送给模型。
 
-每个新的Xikari分析任务，主作者先完整阅读并学习理论全文，再沿XK0—XK11正序完成取证、概念扫描、建模、变换、机制比较、一至三阶适用推演、批判、裁决与完整成文。作者自定义概念不能由模型既有同名词义替代。默认不设字数上限，复杂问题充分展开全部实质论证，配合真实案例、图表和适合的长文阅读页面。技能不生成学习证书、验签回执或流程回放。
+这些工具按需要使用，不要求每次回答创建相同表格或文件。工具完成的计算、抽取与文本操作不能代替理论理解、现实因果证据和规范判断。
 
-同一问题可以持续追问、补材、反驳、深化和打磨，不需要每轮重新点名技能。后续保留有效成果，从真正受影响处深入，既不每轮重跑全链，也不只改措辞；已授权打磨时，成熟修订进入当前完整稿及相关图表。独立承担案例判断的协作者各自全文学习，然后按问题与视角分工。
+## 安装
 
-按任务需要使用材料定位与引用、具体研究设计、可运行条件模型、稿件分支与合稿、现实结果接续和选定案例积累。可选工具不替代完整分析，不要求普通回答创建统一工件。离线阅读版支持脚注、公式、章节定位和选段追问。
+下载Release中的 **`xi-kari-skill-5.3.1-windows.zip`**。解压后只得到一个`xi-kari-skill`文件夹，将整个文件夹放入宿主的技能目录，使最终位置为`<技能目录>/xi-kari-skill/SKILL.md`。
 
-## 文件
+请使用Release安装包。GitHub的“Code → Download ZIP”和仓库克隆包含测试、网页及开发文件，不是供技能目录使用的安装包。
 
-- `SKILL.md`：共同执行原则。
-- `references/full-source-study.md`：全文学习、分块读取与理解接续。
-- `references/continuation.md`：持续对话、观点接续、深化与完整成果打磨。
-- `references/collaboration.md`：各自全文学习基础上的语义分工与辅助协作。
-- `references/forward-workflow.md`：XK0—XK11实质正序。
-- `references/reasoning-capabilities.md`：材料解释、因果、反事实、跨领域与建设性分析。
-- `references/critique-and-invention.md`：反方、批判、举一反三、构想与反思。
-- `references/complete-answer.md`：完整论证与成果。
-- `references/presentation.md`：分区总装与视觉阅读。
-- `references/theory-core.md`：理论怎样产生解释与决断，以及何时需要深入。
-- `references/decision.md`：明确判断与决策成果。
-- `references/routing.md`：全文学习后的重点复查与方法适用。
-- `references/analysis.md`：对象、证据与结构判断。
-- `references/dynamics.md`：条件路径、前瞻与结果更新。
-- `references/choice-execution.md`：方案、条款与工具结果。
-- `references/communication.md`：普通语言、真实案例与图表。
-- `references/state.md`：必要时保存与恢复工作。
-- `references/evidence-work.md`：多格式材料、来源位置、片段与版本。
-- `references/research-work.md`：从竞争解释到可开展的具体研究。
-- `references/condition-lab.md`：可复算模型与离散条件探索。
-- `references/manuscript-work.md`：稿件快照、分支比较与文本合稿。
-- `references/real-world-use.md`：采用材料、过渡安排与现实反馈。
-- `references/case-library.md`：用户选定的案例积累及迁移边界。
-- `references/domain-and-host.md`：专业材料、宿主工具与完整格式交付。
-- `source/`：完整理论原文及来源身份。
-- `scripts/read_source.py`：可选的标准库章节读取器。
-- `scripts/render_answer.py`：可选的离线完整长文阅读器生成工具。
-- `scripts/evidence.py`：材料定位及明确选择的引用片段。
-- `scripts/condition_lab.py`：受限表达式与完整离散情景计算。
-- `scripts/manuscript.py`：只读输入、冲突明确的新稿合并与依赖查询。
-- `scripts/casebook.py`：在明确目录保存选择的案例与结果身份。
-- `assets/examples/`：明确标注为教学的模型与资料格式。
-- `assets/vendor/katex/`：公式排版资源与许可证。
+| 宿主 | 常用本地位置 | 调用示例 |
+| --- | --- | --- |
+| Codex | 用户目录下`.agents/skills/xi-kari-skill/`；项目内可用`.agents/skills/xi-kari-skill/` | `$xi-kari-skill`或明确点名 |
+| Claude Code | 用户目录下`.claude/skills/xi-kari-skill/`；项目内可用`.claude/skills/xi-kari-skill/` | `/xi-kari-skill`或明确点名 |
+| 其他支持Agent Skills的本地智能体 | 宿主实际配置的技能根目录 | 让宿主加载该目录的`SKILL.md` |
 
-## 维护
+具体发现位置与调用策略由宿主决定，参见[Codex官方说明](https://learn.chatgpt.com/docs/build-skills)和[Claude Code官方说明](https://code.claude.com/docs/en/skills)。同一宿主通常只安装一份同名技能，避免重复入口。`agents/openai.yaml`为Codex提供界面信息与显式调用策略；其他宿主可以忽略该文件，按共同`SKILL.md`执行。云端服务的上传、目录发现及文件能力须按相应服务另行确认。
 
-Python供可选工作与维护工具使用，最低版本3.10；核心工具使用标准库，PDF材料读取可选使用宿主的pypdf或已有文档能力。普通分析由宿主模型完成，不需要另设模型后端。生成后的HTML可离线阅读；公式资源随包提供，不访问在线排版服务。
+更新时，先把旧技能目录完整备份到**技能扫描目录之外**，再换入新文件夹。不要将新旧文件混合，也不要把带`SKILL.md`的备份留在扫描目录中。若旧目录混入了自己的案例或工作文件，先迁到独立任务目录。
+
+安装包不包含开发用`AGENTS.md`、测试、网页、运行记录、个人案例、模型配置或作者机器路径；不会自动设置模型后端、权限、账户、全局记忆或定时任务。第三方公式排版资源保留其许可证。
+
+## 开始使用
+
+直接给出任务，例如：
+
+> 使用Xikari Skill评估这套规则，完整解释主要问题、最强反方和不同位置承担的代价，最后给出明确判断及具体修订条款。
+
+需要限制资料范围时补充“只使用我提供的材料”。同一问题后续可以直接说：
+
+> 这份新材料是否改变你的判断？请继续展开，并把成立的修改合入完整稿。
+
+> 先讨论这个反例，不要改主稿。
+
+> 比较这些条件变化，运行能复算的模型，并保留完整解释。
+
+首次分析先完整学习理论，再沿XK0—XK11进行问题界定、取证、概念扫描、建模、变换、机制比较、适用的多阶推演、批判、裁决和成文。同任务接续从真实受影响处深入；新作者须自行完成理论学习。目录、摘要和他人的读后报告不能代替全文。
+
+## 宿主能力与目录边界
+
+最低需要宿主能够读取包内完整Markdown、保持或恢复长任务上下文，并输出足够完整的答案。联网检索、Python、文档转换和多智能体协作均使用宿主实际已有能力，不假定所有代理都具备同样工具。当前可移植运行测试覆盖Windows；不把其他操作系统或每一种云端产品描述为已验证支持。
+
+可选Python工具需要Python 3.10或更新版本。核心功能使用标准库；PDF材料读取可选使用`pypdf`或宿主已有文档工具。生成的HTML可离线使用，公式字体与脚本随包提供。
+
+技能目录是只读资源；结果、材料目录、模型输出、案例库及快照写到安装目录外的任务位置。脚本从自身位置寻找随包资源，不要求固定盘符或从安装目录启动。首次接入与可复制命令见[宿主接入与干净工作目录](references/host-setup.md)。
+
+## 理论与研究进度
+
+当前随包正文为Xikari著《Xikari-条件结构与转化论》，包含16部分、4个附录和32个领域入口；正文身份与字节信息见[来源清单](source/source-manifest.json)。
+
+截至 **2026年10月13日的交接快照**，基于正式v10.0开展的620项后续研究任务中，**612项已有交付，8项尚待各自正式交付**。这是材料交付进度，正文成稿、分项交付、全库终审和实际使用效果分别记录。介绍页提供分组与未交付事项，公开数据位于[研究状态](docs/data/research-status.json)。网站更新时间不替代研究快照日期。
+
+## 目录与维护
+
+| 目录 | 用途 |
+| --- | --- |
+| `SKILL.md`、`references/` | 执行原则与按需工作指南 |
+| `source/` | 完整理论及来源身份 |
+| `scripts/` | 理论读取、材料定位、条件模型、稿件、案例和阅读器工具 |
+| `assets/` | 阅读与条件页面资源、明确虚构的教学输入、公式排版资源 |
+| `agents/` | 宿主可选界面元数据 |
+| `tests/`、`.github/`、`docs/` | 仓库开发、持续检查与介绍页，不进入技能安装包 |
+
+开发者在仓库运行：
 
 ```powershell
-python -m unittest discover -s tests
+python -m unittest discover -s tests -v
 python scripts/read_source.py --check
-python scripts/build_install_package.py --output D:/XikariPackage
+python scripts/build_install_package.py --output <安装目录之外的构建目录>
 ```
 
-安装包只包含技能必需资源。测试、开发文档、旧版本与运行记录不进入安装目录。软件检查证明文件与工具的实际检查结果，不能代替答案质量或现实效益。
+构建由`skill-package.json`显式选择文件，统一辅助文本换行并逐字节保留理论原文，生成单顶层目录ZIP、安装清单及`SHA256SUMS`。可移植测试会把payload放进含中文与空格的新目录，从另一工作目录实际调用工具，并检查安装内容未被运行污染。
+
+代码和文件检查说明具体工具行为与安装完整性；它们不认证模型已经理解理论，也不以通过数量证明现实效果。开放问题的分析质量需结合实际材料、论证和使用结果判断。
+
+项目许可证见[LICENSE](LICENSE)；公式排版组件的许可证见[KaTeX LICENSE](assets/vendor/katex/LICENSE)。

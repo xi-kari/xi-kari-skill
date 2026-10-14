@@ -17,6 +17,13 @@ from datetime import datetime, timezone
 import xml.etree.ElementTree as ET
 import zipfile
 
+sys.dont_write_bytecode = True
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+try:
+    from xikari_paths import require_external_output
+finally:
+    sys.path.pop(0)
+
 
 FORMAT = "xikari-materials-1"
 ID = re.compile(r"[A-Za-z0-9][A-Za-z0-9._-]{0,79}\Z")
@@ -247,6 +254,7 @@ def select(units, selectors):
 
 
 def save_catalog(path, catalog):
+    require_external_output(path, __file__)
     path.parent.mkdir(parents=True, exist_ok=True)
     fd, name = tempfile.mkstemp(prefix=".xikari-materials-", suffix=".tmp", dir=path.parent)
     try:
@@ -262,7 +270,9 @@ def save_catalog(path, catalog):
 
 
 def mutate(path, operation, original=None):
+    require_external_output(path, __file__)
     lock = path.with_name(path.name + ".lock")
+    require_external_output(lock, __file__)
     if original is not None and original.resolve() in {path.resolve(), lock.resolve()}:
         raise MaterialError("目录或锁文件路径与原始材料相同，拒绝覆盖。请指定独立的任务工作目录。")
     # Read before creating any path; reject unrelated existing files.
@@ -368,10 +378,14 @@ def parser():
 
 
 def run(args):
-    path = Path(args.catalog).resolve()
+    path = Path(args.catalog)
     if args.command == "add":
+        require_external_output(path, __file__)
+        path = path.resolve()
         return mutate(path, lambda catalog: add(catalog, args), Path(args.path))
     if args.command == "clip":
+        require_external_output(path, __file__)
+        path = path.resolve()
         return mutate(path, lambda catalog: clip(catalog, args))
     catalog = load_catalog(path)
     if args.command == "list":

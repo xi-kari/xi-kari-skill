@@ -77,6 +77,7 @@ function setupCopy() {
       button.setAttribute('aria-label', '已复制');
       $('[data-copy-status]').textContent = '已复制使用指令。';
     } catch {
+      button.setAttribute('aria-label', '复制使用指令');
       $('[data-copy-status]').textContent = '无法自动复制，请选中指令复制。';
     }
   }));
@@ -89,20 +90,91 @@ function element(tag, className, text) {
   return node;
 }
 
+async function requestJson(url) {
+  const response = await fetch(url, { cache: 'no-store', signal: AbortSignal.timeout(10000) });
+  if (!response.ok) throw new Error(String(response.status));
+  return response.json();
+}
+
+function validDelivery(data) {
+  const d = data?.delivery;
+  const integer = (n) => Number.isSafeInteger(n) && n >= 0;
+  if (data?.schemaVersion !== 1 || !d || !Array.isArray(d.groups) || !Array.isArray(d.pendingItems)) return false;
+  if (![d.total, d.delivered, d.pending, d.forwardDelivered, d.reverseDelivered, d.overlap].every(integer) || d.total === 0) return false;
+  if (d.delivered + d.pending !== d.total || d.forwardDelivered + d.reverseDelivered - d.overlap !== d.delivered) return false;
+  if (!d.groups.every((g) => typeof g.id === 'string' && typeof g.title === 'string' && integer(g.total) && integer(g.delivered) && g.total > 0 && g.delivered <= g.total)) return false;
+  if (new Set(d.groups.map((g) => g.id)).size !== d.groups.length) return false;
+  if (d.groups.reduce((n, g) => n + g.total, 0) !== d.total || d.groups.reduce((n, g) => n + g.delivered, 0) !== d.delivered) return false;
+  if (d.pendingItems.length !== d.pending || new Set(d.pendingItems.map((item) => item.id)).size !== d.pending) return false;
+  if (!d.pendingItems.every((item) => [item.id, item.title, item.detail].every((v) => typeof v === 'string' && v))) return false;
+  return /^\d{4}-\d{2}-\d{2}$/.test(d.snapshotDate) && /^\d{4}-\d{2}-\d{2}$/.test(data.updatedAt);
+}
+
+async function setupResearchSnapshot() {
+  const root = $('[data-delivery-snapshot]');
+  if (!root) return;
+  const status = $('[data-snapshot-status]');
+  try {
+    const data = await requestJson('./data/research-status.json');
+    if (!validDelivery(data)) throw new Error('invalid_snapshot');
+    const d = data.delivery;
+    const groups = document.createDocumentFragment();
+    for (const group of d.groups) {
+      const row = element('tr');
+      row.dataset.deliveryGroup = group.id;
+      const label = element('th', '', group.title);
+      label.scope = 'row';
+      const cell = element('td');
+      const bar = element('progress');
+      bar.max = group.total;
+      bar.value = group.delivered;
+      bar.textContent = `${group.delivered} / ${group.total}`;
+      bar.setAttribute('aria-label', `${group.title}：${group.delivered} / ${group.total} 项已交付`);
+      cell.append(bar);
+      row.append(label, element('td', '', `${group.delivered} / ${group.total}`), element('td', '', String(group.total - group.delivered)), cell);
+      groups.append(row);
+    }
+    const pending = document.createDocumentFragment();
+    for (const item of d.pendingItems) {
+      const row = element('li');
+      row.dataset.pendingId = item.id;
+      const description = element('div');
+      description.append(element('strong', '', item.title), element('p', '', item.detail));
+      row.append(element('span', 'pending-id', item.id), description);
+      pending.append(row);
+    }
+    $('[data-delivery-groups]').replaceChildren(groups);
+    $('[data-pending-items]').replaceChildren(pending);
+    $('[data-delivery-total]').replaceChildren(element('strong', '', `${d.delivered} / ${d.total}`), document.createTextNode(' 项已有交付，'), element('strong', '', String(d.pending)), document.createTextNode(' 项待正式交付。'));
+    $('#delivery-title').textContent = `${d.total} 项任务的交付进度`;
+    $('#pending-title').textContent = `仍待正式交付的 ${d.pending} 项`;
+    const meter = $('[data-delivery-meter]');
+    meter.setAttribute('aria-valuemax', String(d.total));
+    meter.setAttribute('aria-valuenow', String(d.delivered));
+    meter.setAttribute('aria-valuetext', `${d.delivered} 项已交付，${d.pending} 项待正式交付，共 ${d.total} 项`);
+    $('[data-delivery-fill]').style.width = `${100 * d.delivered / d.total}%`;
+    $('[data-delivery-union]').textContent = `正序 ${d.forwardDelivered} 项 + 倒序 ${d.reverseDelivered} 项 − 重复 ${d.overlap} 项 = ${d.delivered} 项。以下按任务类别统计，同一任务只计一次。`;
+    for (const [selector, value] of [['[data-snapshot-date]', d.snapshotDate], ['[data-page-date]', data.updatedAt]]) {
+      const date = $(selector);
+      date.dateTime = value;
+      date.textContent = value.replaceAll('-', '.');
+    }
+    root.dataset.loaded = 'true';
+    status.textContent = '维护者发布的静态快照；研究统计日期与页面更新日期分别列示。';
+  } catch {
+    status.textContent = '公开数据文件暂未读取，当前显示随页面发布的快照。可重新加载页面，或查看公开快照文件。';
+    status.classList.add('is-error');
+  }
+}
+
 async function setupResearch() {
   const root = $('[data-research-board]');
   if (!root) return;
   const results = $('[data-research-results]');
   const status = $('[data-save-status]');
-  const editor = $('[data-editor-toggle]');
   const search = $('[data-research-search]');
   const domainSelect = $('[data-domain-select]');
   const retry = $('[data-research-retry]');
-  let progress;
-  let token = null;
-  let editMode = false;
-  let saving = false;
-  let activeStatus = 'all';
   let searchOpened = new Map();
   let searchActive = false;
   let modules;
@@ -110,53 +182,17 @@ async function setupResearch() {
   const domainNodes = new Map();
   const navNodes = new Map();
 
-  const message = (text, isError = false) => { status.textContent = text; status.classList.toggle('is-error', isError); };
-  const requestJson = async (url, options = {}) => {
-    const response = await fetch(url, { cache: 'no-store', signal: AbortSignal.timeout(10000), ...options });
-    if (!response.ok) throw new Error(String(response.status));
-    return response.json();
-  };
-  const isProgress = (value) => value?.schemaVersion === 1 && value.completed && typeof value.completed === 'object' && !Array.isArray(value.completed);
-  const update = () => {
-    let complete = 0;
-    for (const [id, { row, check, date }] of topicNodes) {
-      const stamp = progress.completed[id];
-      const done = typeof stamp === 'string';
-      if (done) complete++;
-      check.checked = done;
-      check.disabled = !editMode || saving;
-      row.dataset.editable = String(editMode);
-      row.classList.toggle('is-complete', done);
-      date.hidden = !done;
-      date.textContent = done ? `记录于 ${stamp.slice(0, 10).replaceAll('-', '.')}` : '';
-    }
-    for (const domain of modules) {
-      const done = domain.topics.filter((topic) => typeof progress.completed[topic.id] === 'string').length;
-      $('[data-domain-count]', domainNodes.get(domain.id)).textContent = `${done} / ${domain.topics.length}`;
-      $('.nav-domain-count', navNodes.get(domain.id)).textContent = `${done}/${domain.topics.length}`;
-    }
-    $('[data-completion]').textContent = `${complete} / ${topicNodes.size} 项已有完成记录`;
-    const bar = $('[data-progress-bar]');
-    bar.style.transform = `scaleX(${complete / topicNodes.size})`;
-    $('[data-progress-meter]').setAttribute('aria-valuenow', String(complete));
-    $('[data-progress-meter]').setAttribute('aria-valuemax', String(topicNodes.size));
-    $('[data-updated]').textContent = progress.updatedAt ? `更新于 ${progress.updatedAt.slice(0, 10).replaceAll('-', '.')}` : '尚无已发布的勾选记录';
-    editor.disabled = saving;
-    editor.setAttribute('aria-pressed', String(editMode));
-    editor.textContent = editMode ? '结束编辑' : '维护进度';
-  };
   const filter = () => {
     const terms = search.value.trim().toLocaleLowerCase().split(/\s+/).filter(Boolean);
-    const filtering = terms.length > 0 || activeStatus !== 'all';
+    const filtering = terms.length > 0;
     if (filtering && !searchActive) searchOpened = new Map([...domainNodes].map(([id, node]) => [id, node.open]));
     let count = 0;
     for (const domain of modules) {
       let visible = 0;
       for (const topic of domain.topics) {
-        const done = typeof progress.completed[topic.id] === 'string';
         const text = `${domain.id} ${domain.title} ${topic.id} ${topic.title} ${topic.question}`.toLocaleLowerCase();
-        const matches = terms.every((term) => text.includes(term)) && (activeStatus === 'all' || (activeStatus === 'done' ? done : !done));
-        topicNodes.get(topic.id).row.hidden = !matches;
+        const matches = terms.every((term) => text.includes(term));
+        topicNodes.get(topic.id).hidden = !matches;
         if (matches) visible++;
       }
       const node = domainNodes.get(domain.id);
@@ -172,89 +208,61 @@ async function setupResearch() {
   };
   const jump = (id) => {
     if (!domainNodes.has(id)) return;
-    if (domainNodes.get(id).hidden) { search.value = ''; activeStatus = 'all'; syncFilters(); filter(); }
+    if (domainNodes.get(id).hidden) { search.value = ''; filter(); }
     const domain = domainNodes.get(id);
     domain.open = true;
     domain.scrollIntoView({ behavior: motion.matches ? 'instant' : 'smooth', block: 'start' });
     $('summary', domain).focus({ preventScroll: true });
-    for (const [other, link] of navNodes) link.setAttribute('aria-current', String(id === other));
+    for (const [other, link] of navNodes) {
+      if (id === other) link.setAttribute('aria-current', 'location');
+      else link.removeAttribute('aria-current');
+    }
     domainSelect.value = id;
     history.replaceState(null, '', `#research-${id}`);
   };
-  const syncFilters = () => $$('[data-status-filter]').forEach((button) => button.setAttribute('aria-pressed', String(button.dataset.statusFilter === activeStatus)));
-  const save = async (id, completed, check) => {
-    if (!editMode || !token || saving) { update(); return; }
-    saving = true;
-    update();
-    message('正在保存项目进度…');
-    try {
-      const next = await requestJson('./api/research-progress', {
-        method: 'POST', headers: { 'Content-Type': 'application/json', 'X-Project-Token': token },
-        body: JSON.stringify({ id, completed }),
-      });
-      if (!isProgress(next)) throw new Error('invalid_progress');
-      progress = next;
-      message('已保存到项目进度文件。发布后，所有访客看到同一份进度。');
-    } catch {
-      message('保存失败，页面已恢复原进度。请确认本地维护服务仍在运行后重试。', true);
-    } finally {
-      saving = false;
-      update();
-      filter();
-      if (!topicNodes.get(id).row.hidden) check.focus({ preventScroll: true });
-    }
-  };
 
   try {
-    const [data, initial] = await Promise.all([requestJson('./data/research-topics.json'), requestJson('./data/research-progress.json')]);
-    if (data.schemaVersion !== 1 || !Array.isArray(data.modules) || !isProgress(initial)) throw new Error('invalid_data');
+    const data = await requestJson('./data/research-topics.json');
+    if (data.schemaVersion !== 1 || !Array.isArray(data.modules) || !data.modules.length) throw new Error('invalid_data');
     modules = data.modules;
-    progress = initial;
+    const domainIds = new Set();
+    const topicIds = new Set();
+    for (const domain of modules) {
+      if (typeof domain.title !== 'string' || !/^\d{2}$/.test(domain.id) || domainIds.has(domain.id) || !Array.isArray(domain.topics)) throw new Error('invalid_domain');
+      domainIds.add(domain.id);
+      for (const topic of domain.topics) {
+        if (!/^\d{2}\.\d{2}$/.test(topic.id) || topicIds.has(topic.id) || typeof topic.title !== 'string' || typeof topic.question !== 'string') throw new Error('invalid_topic');
+        topicIds.add(topic.id);
+      }
+    }
     results.replaceChildren();
     const nav = $('[data-domain-nav]');
+    nav.replaceChildren();
     for (const domain of modules) {
       const section = element('details', 'research-domain');
       section.id = `research-${domain.id}`;
       section.dataset.domain = domain.id;
       section.open = domain.id === modules[0].id;
       const summary = element('summary');
-      summary.append(element('span', 'domain-number', domain.id), element('h3', '', domain.title));
-      const count = element('span', 'domain-count');
-      count.dataset.domainCount = '';
-      summary.append(count);
-      const chevron = $('#chevron-template').content.cloneNode(true);
-      summary.append(chevron);
+      summary.append(element('span', 'domain-number', domain.id), element('h3', '', domain.title), element('span', 'domain-count', `${domain.topics.length} 项`));
+      summary.append($('#chevron-template').content.cloneNode(true));
       section.append(summary);
       const list = element('ul', 'topic-list');
       for (const topic of domain.topics) {
-        if (topicNodes.has(topic.id)) throw new Error('duplicate_id');
         const row = element('li', 'topic-row');
-        const check = element('input', 'topic-check');
-        check.type = 'checkbox';
-        check.id = `topic-${topic.id}`;
-        check.disabled = true;
-        check.dataset.topic = topic.id;
-        check.setAttribute('aria-describedby', `question-${topic.id}`);
-        const label = element('label', 'topic-label');
-        label.htmlFor = check.id;
+        row.id = `topic-${topic.id}`;
+        const label = element('h4', 'topic-label');
         label.append(element('span', 'topic-id', topic.id), document.createTextNode(topic.title));
-        const content = element('div');
-        content.append(label);
-        const question = element('p', 'topic-question', topic.question);
-        question.id = `question-${topic.id}`;
-        const date = element('span', 'completed-date');
-        date.hidden = true;
-        row.append(check, content, question, date);
+        row.append(label, element('p', 'topic-question', topic.question));
         list.append(row);
-        topicNodes.set(topic.id, { row, check, date });
-        check.addEventListener('change', () => save(topic.id, check.checked, check));
+        topicNodes.set(topic.id, row);
       }
       section.append(list);
       results.append(section);
       domainNodes.set(domain.id, section);
       const link = element('a');
       link.href = `#research-${domain.id}`;
-      link.append(element('span', '', domain.title), element('span', 'nav-domain-count'));
+      link.append(element('span', '', domain.title), element('span', 'nav-domain-count', String(domain.topics.length)));
       link.addEventListener('click', (event) => { event.preventDefault(); jump(domain.id); });
       nav.append(link);
       navNodes.set(domain.id, link);
@@ -262,48 +270,23 @@ async function setupResearch() {
       option.value = domain.id;
       domainSelect.append(option);
     }
-    update();
     filter();
     retry.hidden = true;
     root.dataset.loaded = 'true';
-    message('勾选记录由维护者发布，表示这份清单中的专题研究已完成；未标记项仅表示尚无公开记录。');
+    status.textContent = '专题目录用于定位问题；历史完成记录与上方研究交付快照分别保留。';
     search.disabled = false;
-    $$('[data-status-filter], [data-expand], [data-collapse]').forEach((button) => { button.disabled = false; });
+    $$('[data-expand], [data-collapse]').forEach((button) => { button.disabled = false; });
     domainSelect.disabled = false;
     search.addEventListener('input', filter);
-    $$('[data-status-filter]').forEach((button) => button.addEventListener('click', () => { activeStatus = button.dataset.statusFilter; syncFilters(); filter(); }));
     $('[data-expand]').addEventListener('click', () => { for (const node of domainNodes.values()) if (!node.hidden) node.open = true; });
     $('[data-collapse]').addEventListener('click', () => { for (const node of domainNodes.values()) node.open = false; });
     domainSelect.addEventListener('change', () => jump(domainSelect.value));
     const hash = location.hash.match(/^#research-(\d+)$/);
     if (hash) jump(hash[1]);
-    if (['localhost', '127.0.0.1', '[::1]'].includes(location.hostname)) {
-      try {
-        const session = await requestJson('./api/project-editor');
-        if (session.editable === true && typeof session.token === 'string' && isProgress(session.progress)) {
-          token = session.token;
-          progress = session.progress;
-          editor.hidden = false;
-          update();
-          editor.addEventListener('click', () => {
-            editMode = !editMode;
-            update();
-            message(editMode ? '维护模式已开启。勾选后会直接保存这份清单的完成记录。' : '已结束编辑。进度保存在项目文件中，发布后统一展示。');
-          });
-        }
-      } catch {}
-    }
-    const refresh = async () => {
-      if (saving || document.visibilityState !== 'visible') return;
-      try {
-        const next = await requestJson('./data/research-progress.json');
-        if (isProgress(next)) { progress = next; update(); filter(); }
-      } catch {}
-    };
-    window.addEventListener('focus', refresh);
   } catch {
-    results.replaceChildren(element('p', 'empty-state', '研究清单暂时未能读取，项目介绍仍可正常浏览。'));
-    message('请重试加载，或下载完整研究目录。', true);
+    results.replaceChildren(element('p', 'empty-state', '专题目录暂时未能读取，上方研究进度与项目介绍仍可阅读。'));
+    status.textContent = '请重试加载，或下载文字专题目录。';
+    status.classList.add('is-error');
     retry.hidden = false;
     retry.onclick = () => location.reload();
   }
@@ -313,4 +296,5 @@ setupAppearance();
 setupMotion();
 setupArtwork();
 setupCopy();
+setupResearchSnapshot();
 setupResearch();
