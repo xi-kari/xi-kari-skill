@@ -328,7 +328,8 @@ def one_at_a_time(cases, model, explore):
             if len(set(group.values())) > 1:
                 flips += 1
                 if len(examples) < 2:
-                    ordered = sorted(group)
+                    declared = [json.dumps(value, ensure_ascii=False) for value in explore[key]]
+                    ordered = [value for value in declared if value in group]
                     examples.append({"values": ordered, "states": [group[value] for value in ordered]})
         report.append({
             "condition": key,
@@ -410,32 +411,67 @@ def render_csv(result):
     return output.getvalue()
 
 
+DOWNLOAD_ICON = ('<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" '
+                 'stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 4v11"/><path d="m7.5 10.5 4.5 4.5 4.5-4.5"/>'
+                 '<path d="M5 19.5h14"/></svg>')
+STATE_LEGEND = ('<dl class="state-legend" aria-label="状态图例">'
+                '<div><dt><span class="state state-ok">满足</span></dt><dd>所列约束都成立</dd></div>'
+                '<div><dt><span class="state state-bad">不满足</span></dt><dd>至少一项约束不成立</dd></div>'
+                '<div><dt><span class="state state-unsure">尚不能确定</span></dt><dd>结果依赖未知输入</dd></div>'
+                '<div><dt><span class="state state-err">计算错误</span></dt><dd>公式在此组合下算不出</dd></div></dl>')
+
+
+def title_html(title):
+    head, mark, tail = title.partition("：")
+    if mark and head.strip() and tail.strip():
+        return (f'<span class="title-main">{html.escape(head)}<span class="title-colon">：</span></span>'
+                f'<span class="title-sub">{html.escape(tail)}</span>')
+    return html.escape(title)
+
+
 def render_html(result):
     assets = Path(__file__).resolve().parents[1] / "assets"
     try:
-        css = (assets / "condition-lab.css").read_text(encoding="utf-8")
+        css = (assets / "xikari-base.css").read_text(encoding="utf-8") + "\n" + (assets / "condition-lab.css").read_text(encoding="utf-8")
         javascript = (assets / "condition-lab.js").read_text(encoding="utf-8")
     except OSError as exc:
         raise ModelError(f"缺少离线展示资源: {exc}") from exc
     payload = json.dumps(result, ensure_ascii=False, allow_nan=False).replace("&", "\\u0026").replace("<", "\\u003c").replace(">", "\\u003e").replace("\u2028", "\\u2028").replace("\u2029", "\\u2029")
-    title = html.escape(result["model"]["title"])
-    purpose = html.escape(result["model"]["purpose"])
+    model = result["model"]
+    title = html.escape(model["title"])
+    purpose = html.escape(model["purpose"])
     script_hash = base64.b64encode(hashlib.sha256(javascript.encode('utf-8')).digest()).decode('ascii')
     style_hash = base64.b64encode(hashlib.sha256(css.encode('utf-8')).digest()).decode('ascii')
     csp = f"default-src 'none'; script-src 'sha256-{script_hash}'; style-src 'sha256-{style_hash}'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'"
     download = base64.b64encode(json.dumps(result, ensure_ascii=False, allow_nan=False).encode('utf-8')).decode('ascii')
-    scope = ('这是明确虚构的教学模型，输入不是现实事实。' if result['model']['fictional'] else '这是作者提供的情境模型；输入来源与假设仍需分别判断。') + f" 已计算 {result['case_count']} 个组合。"
+    scope = ('这是明确虚构的教学模型，输入不是现实事实。' if model['fictional'] else '这是作者提供的情境模型；输入来源与假设仍需分别判断。') + f" 已计算 {result['case_count']} 个组合。"
+    scope_class = 'notice notice-fictional' if model['fictional'] else 'notice'
+    counts = (f"{len(result['scenarios'])} 种外部情景、{len(result['explore_combinations'])} 组离散条件、{len(result['plans'])} 个方案，"
+              "每个组合都已按模型公式算出。页面只在这些结果之间切换，不插值，也不预测。")
     return f'''<!doctype html>
-<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="generator" content="Xikari condition lab"><meta http-equiv="Content-Security-Policy" content="{html.escape(csp)}"><title>{title}</title><style>{css}</style></head>
-<body><main><header><h1>{title}</h1><p>{purpose}</p><p id="scope" class="notice">{html.escape(scope)}</p></header>
-<section aria-labelledby="controls-heading"><h2 id="controls-heading">选择已经计算的条件与方案</h2><p>下列选项是明确列出的离散情景；页面不进行连续插值，也不将未计算的组合伪装成预测。</p><div class="controls"><label>外部情景<select id="scenario"></select></label><label>条件组合<select id="combination"></select></label><label>展开方案<select id="plan"></select></label></div><p id="current-state" role="status" aria-live="polite"></p><div id="comparison" class="table-scroll" tabindex="0" role="region" aria-label="方案比较，可横向滚动"></div></section>
-<section><h2>输入与来源</h2><p>“观察值”表示作者声明有相应来源，工具没有认证来源。情景和网格覆盖后的值始终标为假设或未知。</p><div id="inputs" class="table-scroll" tabindex="0" role="region" aria-label="输入与来源，可横向滚动"></div></section>
-<section><h2>计算关系</h2><div id="derived" class="table-scroll" tabindex="0" role="region" aria-label="计算关系，可横向滚动"></div></section>
-<section><h2>逐项约束</h2><div id="constraints" class="table-scroll" tabindex="0" role="region" aria-label="逐项约束，可横向滚动"></div></section>
-<section class="two-columns"><div><h2>明确假设</h2><ul id="assumptions"></ul></div><div><h2>解释边界</h2><ul id="boundaries"></ul></div></section>
-<details><summary>方案与情景的定义</summary><div id="definitions"></div></details>
-<footer><p>{html.escape(result['interpretation'])}</p><p>数值单位由作者声明；相同单位、明确公式和模型内的结果，仍需结合现实材料解释。</p><a href="data:application/json;charset=utf-8;base64,{download}" download="condition-results.json">下载全部条件、公式与计算结果</a></footer>
-<noscript><p>启用本地JavaScript后可以切换已计算的情景；不开启脚本时，仍可下载本页内嵌的完整JSON结果。</p></noscript>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="generator" content="Xikari condition lab"><meta http-equiv="Content-Security-Policy" content="{html.escape(csp)}"><meta name="color-scheme" content="light dark"><title>{title}</title><style>{css}</style></head>
+<body><main class="lab">
+<header class="lab-header"><h1>{title_html(model["title"])}</h1><p class="lab-purpose">{purpose}</p><p id="scope" class="{scope_class}">{html.escape(scope)}</p><p class="lab-counts">{html.escape(counts)}</p></header>
+<div class="lab-body">
+<aside class="lab-controls" aria-labelledby="controls-heading">
+<h2 id="controls-heading">选择已经计算的组合</h2>
+<div class="controls"><label>外部情景<select id="scenario"></select></label><label>条件组合<select id="combination"></select></label><label>展开方案<select id="plan"></select></label></div>
+<div id="current-state" class="current-state" role="status" aria-live="polite"></div>
+{STATE_LEGEND}
+</aside>
+<div class="lab-results">
+<section class="lab-section" aria-labelledby="overview-heading"><h2 id="overview-heading">全部已计算组合</h2><p class="section-note">所选外部情景下，每个方案在每组条件中的模型状态。点选一格即可展开它的计算。</p><div id="overview" class="table-scroll" tabindex="0" role="region" aria-label="全部已计算组合，可横向滚动"></div></section>
+<section class="lab-section" aria-labelledby="comparison-heading"><h2 id="comparison-heading">同组条件下的方案</h2><p class="section-note">外部情景与条件组合不变，只换方案，逐项列出每条约束的结果。</p><div id="comparison" class="table-scroll" tabindex="0" role="region" aria-label="方案比较，可横向滚动"></div></section>
+<section class="lab-section" aria-labelledby="constraints-heading"><h2 id="constraints-heading">逐项约束</h2><div id="constraints" class="table-scroll" tabindex="0" role="region" aria-label="逐项约束，可横向滚动"></div></section>
+<section class="lab-section" aria-labelledby="derived-heading"><h2 id="derived-heading">计算关系</h2><div id="derived" class="table-scroll" tabindex="0" role="region" aria-label="计算关系，可横向滚动"></div></section>
+<section class="lab-section" aria-labelledby="inputs-heading"><h2 id="inputs-heading">输入与来源</h2><p class="section-note">“作者声明的观察值”表示作者给出了来源，工具没有核验它。情景、条件网格和方案覆盖后的值一律标为假设或未知。</p><div id="inputs" class="table-scroll" tabindex="0" role="region" aria-label="输入与来源，可横向滚动"></div></section>
+<section class="lab-section" aria-labelledby="sensitivity-heading"><h2 id="sensitivity-heading">单项条件的影响</h2><p class="section-note">固定其余条件、只改变一项离散条件时，模型状态是否随之改变。它只描述所列取值，不说明现实中哪一项最重要。</p><div id="sensitivity" class="sensitivity"></div></section>
+<section class="lab-section lab-limits" aria-label="假设与边界"><div><h2>明确假设</h2><ul id="assumptions"></ul></div><div><h2>解释边界</h2><ul id="boundaries"></ul></div></section>
+<section class="lab-section" aria-labelledby="definitions-heading"><h2 id="definitions-heading">方案与情景的定义</h2><div id="definitions" class="definitions"></div></section>
+</div>
+</div>
+<footer class="lab-footer"><p>{html.escape(result['interpretation'])}</p><p>数值单位由作者声明；相同单位、明确公式和模型内的结果，仍需结合现实材料解释。</p><a class="download" href="data:application/json;charset=utf-8;base64,{download}" download="condition-results.json">{DOWNLOAD_ICON}下载全部条件、公式与计算结果</a></footer>
+<noscript><p class="no-script">启用本地JavaScript后可以切换已计算的情景；不开启脚本时，仍可下载本页内嵌的完整JSON结果。</p></noscript>
 </main><script type="application/json" id="condition-data">{payload}</script><script>{javascript}</script></body></html>'''
 
 

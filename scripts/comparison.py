@@ -291,7 +291,7 @@ def render_markdown(result: dict) -> str:
         else:
             lines.append(dimension['reason'])
         for item in dimension['unranked']:
-            lines.append(f"- 未参与排序：{item['label']}（{item['reason']}）")
+            lines.append(f"- 未参与排序：{item['label']}（{UNRANKED_REASON.get(item['reason'], item['reason'])}）")
         lines.append('')
     lines.append('## 明确假设')
     lines.append('')
@@ -308,94 +308,115 @@ def render_markdown(result: dict) -> str:
     return '\n'.join(lines)
 
 
+ASSETS = Path(__file__).resolve().parents[1] / 'assets'
+DIRECTION = {
+    'higher_is_better': '数值越高越好',
+    'lower_is_better': '数值越低越好',
+    'not_orderable': '无共同尺度，不排序',
+}
+UNRANKED_REASON = {'unknown': '未知，不参与排序', 'not_orderable': '无共同尺度'}
+DOWNLOAD_ICON = ('<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" '
+                 'stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 4v11"/><path d="m7.5 10.5 4.5 4.5 4.5-4.5"/>'
+                 '<path d="M5 19.5h14"/></svg>')
+
+
+def comparison_css() -> str:
+    try:
+        return (ASSETS / 'xikari-base.css').read_text(encoding='utf-8') + '\n' + (ASSETS / 'comparison.css').read_text(encoding='utf-8')
+    except OSError as exc:
+        raise ComparisonError(f'缺少离线展示资源: {exc}') from exc
+
+
+def title_html(title: str) -> str:
+    head, mark, tail = title.partition('：')
+    if mark and head.strip() and tail.strip():
+        return (f'<span class="title-main">{html.escape(head)}<span class="title-colon">：</span></span>'
+                f'<span class="title-sub">{html.escape(tail)}</span>')
+    return html.escape(title)
+
+
+def basis_tag(basis: str) -> str:
+    return f'<span class="basis basis-{basis}">{LABEL[basis]}</span>'
+
+
+def direction_tag(direction: str) -> str:
+    extra = ' not-orderable' if direction == 'not_orderable' else ''
+    return f'<span class="direction{extra}">{DIRECTION[direction]}</span>'
+
+
 def render_html(result: dict) -> str:
+    css = comparison_css()
+    style_hash = base64.b64encode(hashlib.sha256(css.encode('utf-8')).digest()).decode('ascii')
+    csp = f"default-src 'none'; style-src 'sha256-{style_hash}'; base-uri 'none'; form-action 'none'"
     header = ''.join(f'<th scope="col">{html.escape(item["label"])}</th>' for item in result['candidates'])
-    dimension_rows = []
+    orders = []
     for dimension in result['dimensions']:
         unit = f"（{dimension['unit']}）" if dimension['unit'] else ''
+        head = f'<div class="order-head"><h3>{html.escape(dimension["label"] + unit)}</h3>{direction_tag(dimension["direction"])}</div>'
         if 'ranking' in dimension:
-            ordered = '；'.join(f"{item['rank']}. {html.escape(item['label'])}（{LABEL[item['basis']]}）"
-                                for item in dimension['ranking']) or '没有可参与排序的取值'
-            extra = ''.join(f"<li>未参与排序：{html.escape(item['label'])}（{html.escape(item['reason'])}）</li>"
-                            for item in dimension['unranked'])
-            body = f'<p>本次取值下的顺序（不代表现实最优）：{ordered}</p>'
-            if extra:
-                body += f'<ul>{extra}</ul>'
+            if dimension['ranking']:
+                ranked = ''.join(f'<li><span class="rank">{item["rank"]}</span><span class="candidate">{html.escape(item["label"])}</span>'
+                                 f'<span class="value">{html.escape(display(item["value"], item["basis"]))}</span>{basis_tag(item["basis"])}</li>'
+                                 for item in dimension['ranking'])
+                body = f'<ol class="ranking" aria-label="本次取值下的顺序">{ranked}</ol><p class="holds">本次取值下的顺序，不代表现实最优；只在列出的取值与依据条件下成立。</p>'
+            else:
+                body = '<p class="no-order">没有可参与排序的取值。</p>'
+            if dimension['unranked']:
+                names = '；'.join(f'{html.escape(item["label"])}（{html.escape(UNRANKED_REASON.get(item["reason"], item["reason"]))}）'
+                                 for item in dimension['unranked'])
+                body += f'<p class="unranked"><strong>未参与排序：</strong>{names}</p>'
         else:
-            body = f'<p>{html.escape(dimension["reason"])}</p>'
-        dimension_rows.append(f'<section><h3>{html.escape(dimension["label"])}{html.escape(unit)}</h3>{body}</section>')
+            values = ''.join(f'<li>{html.escape(item["label"])}：{html.escape(item["display"])} {basis_tag(item["basis"])}</li>' for item in dimension['values'])
+            body = f'<p class="no-order">此维度没有共同的比较尺度，本工具不生成排序，只列出各方案的取值。</p><ul class="plain-values">{values}</ul>'
+        orders.append(f'<article class="order">{head}{body}</article>')
+    fictional = ('这是明确虚构的教学比较，取值不是现实事实。' if result['fictional']
+                 else '这是作者提供的比较；各单元格的来源与假设仍需分别判断。')
+    notice_class = 'notice notice-fictional' if result['fictional'] else 'notice'
+    download = base64.b64encode(render_json(result).encode('utf-8')).decode('ascii')
     return f'''<!doctype html>
-<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">{HTML_MARK}<title>{html.escape(result['title'])}</title>
-<style>{CSS}</style></head>
-<body><main>
-<header><h1>{html.escape(result['title'])}</h1><p>{html.escape(result['purpose'])}</p>
-<p class="notice">{'这是明确虚构的教学比较，取值不是现实事实。' if result['fictional'] else '这是作者提供的比较；各单元格的来源与假设仍需分别判断。'}</p></header>
-<section><h2>比较表</h2>
-<div class="table-scroll" tabindex="0" role="region" aria-label="方案比较，可横向滚动"><table>
-<thead><tr><th scope="col">维度</th>{header}</tr></thead>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">{HTML_MARK}<meta http-equiv="Content-Security-Policy" content="{html.escape(csp)}"><meta name="color-scheme" content="light dark"><title>{html.escape(result['title'])}</title>
+<style>{css}</style></head>
+<body><main class="cmp">
+<header class="cmp-header"><h1>{title_html(result['title'])}</h1><p class="cmp-purpose">{html.escape(result['purpose'])}</p>
+<p class="{notice_class}">{fictional}</p></header>
+<section class="cmp-section" aria-labelledby="legend-heading"><h2 id="legend-heading">怎样读这张表</h2>
+<p class="section-note">每一格都标出它的依据身份。三种身份用实线、虚线和点线区分，黑白打印也能分辨。</p>
+<dl class="basis-legend"><div><dt>{basis_tag('observed')}</dt><dd>作者声明有来源的事实；工具没有核验这个来源。</dd></div>
+<div><dt>{basis_tag('assumed')}</dt><dd>作者设定的假设或方案取值。</dd></div>
+<div><dt>{basis_tag('unknown')}</dt><dd>尚无可信取值。不按 0、最差或最好处理，也不进入任何排序。</dd></div></dl>
+<p class="boundary">{html.escape(BOUNDARY)}</p></section>
+<section class="cmp-section" aria-labelledby="table-heading"><h2 id="table-heading">比较表</h2>
+<p class="section-note">共 {result['candidate_count']} 个方案、{result['dimension_count']} 个维度；表头下方注明每个维度的比较方向。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="方案比较，可横向滚动"><table class="cmp-table">
+<thead><tr><th scope="col" class="corner">维度</th>{header}</tr></thead>
 <tbody>{''.join(dimension_row(item, result) for item in result['dimensions'])}</tbody>
-</table></div>
-<p class="legend">标记：事实＝作者声明有来源（工具未验证）；假设＝作者设定；未知＝尚无可信取值。{html.escape(BOUNDARY)}</p></section>
-<section><h2>各维度排序与不可排序说明</h2>{''.join(dimension_rows)}</section>
-<section class="two-columns"><div><h2>明确假设</h2><ul>{''.join(f'<li>{html.escape(t)}</li>' for t in result['assumptions'])}</ul></div>
+</table></div></section>
+<section class="cmp-section" aria-labelledby="orders-heading"><h2 id="orders-heading">各维度的顺序</h2>
+<p class="section-note">只在有共同尺度的维度上排列本次取值；不跨维度加权，也不给出整体最优方案。</p>
+<div class="orders">{''.join(orders)}</div></section>
+<section class="cmp-section cmp-limits" aria-label="假设与边界"><div><h2>明确假设</h2><ul>{''.join(f'<li>{html.escape(t)}</li>' for t in result['assumptions'])}</ul></div>
 <div><h2>解释边界</h2><ul>{''.join(f'<li>{html.escape(t)}</li>' for t in result['boundaries'])}</ul></div></section>
-<footer><p>{html.escape(result['interpretation'])}</p>
-<a download="comparison-results.json" href="data:application/json;charset=utf-8;base64,{base64.b64encode(render_json(result).encode('utf-8')).decode('ascii')}">下载完整比较结果</a></footer>
+<footer class="cmp-footer"><p>{html.escape(result['interpretation'])}</p>
+<a class="download" download="comparison-results.json" href="data:application/json;charset=utf-8;base64,{download}">{DOWNLOAD_ICON}下载完整比较结果</a></footer>
 </main></body></html>'''
-
-
-def type_note(cell):
-    if cell['basis'] == 'observed' and cell['source']:
-        return f'来源：{cell["source"]}（由作者声明，未经验证）'
-    if cell['basis'] == 'assumed':
-        return '作者设定的假设值'
-    return ''
 
 
 def dimension_row(dimension, result):
     cells = []
     for candidate in result['candidates']:
         cell = next(item for item in dimension['values'] if item['id'] == candidate['id'])
-        notes = [text for text in (cell['note'], type_note(cell)) if text]
-        cells.append('<td>' + html.escape('未知' if cell['basis'] == 'unknown' else cell['display'])
-                     + f'<span class="basis basis-{cell["basis"]}">{LABEL[cell["basis"]]}</span>'
-                     + (f'<span class="note">{html.escape("；".join(notes))}</span>' if notes else '')
-                     + '</td>')
-    unit = f'（{dimension["unit"]}）' if dimension['unit'] else ''
-    return (f'<tr><th scope="row">{html.escape(dimension["label"])}{html.escape(unit)}</th>'
+        text = '未知' if cell['basis'] == 'unknown' else cell['display']
+        kind = ' value-text' if not isinstance(cell['value'], (int, float)) or isinstance(cell['value'], bool) else ''
+        parts = [f'<span class="value{kind}">{html.escape(text)}</span>', basis_tag(cell['basis'])]
+        if cell['note']:
+            parts.append(f'<span class="note">{html.escape(cell["note"])}</span>')
+        if cell['basis'] == 'observed' and cell['source']:
+            parts.append(f'<span class="source">来源：{html.escape(cell["source"])}（作者声明，未经核验）</span>')
+        unknown = ' class="cell-unknown"' if cell['basis'] == 'unknown' else ''
+        cells.append(f'<td{unknown}>' + ''.join(parts) + '</td>')
+    unit = f'<span class="dim-unit">单位：{html.escape(dimension["unit"])}</span>' if dimension['unit'] else ''
+    return (f'<tr><th scope="row"><span class="dim-label">{html.escape(dimension["label"])}</span>{unit}{direction_tag(dimension["direction"])}</th>'
             + ''.join(cells) + '</tr>')
-
-
-CSS = """
-:root{color-scheme:light;--ink:#1d2b28;--ink-strong:#0f1a17;--muted:#4d5f5a;--paper:#f6f5ef;--page:#fffef9;
---line:#ccd6ce;--line-strong:#93a89b;--accent:#1c5a47;--accent-soft:#e4ece5;--accent-line:#8fb3a2;--raise:#eff1e9;
---serif:"Noto Serif SC","Source Han Serif SC","Songti SC","SimSun",serif;--radius:6px;--radius-lg:10px}
-*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font-family:"Segoe UI","Microsoft YaHei",system-ui,sans-serif;font-size:16px;line-height:1.75}
-main{max-width:1200px;margin:auto;padding:52px 32px 76px}
-h1{font-family:var(--serif);font-size:2.1rem;line-height:1.3;margin:12px 0 18px;color:var(--ink-strong);padding-bottom:.45em;border-bottom:1px solid var(--line)}
-h1::after{content:"";display:block;width:64px;height:3px;background:var(--accent);margin:.5em 0 -.45em}
-h2{font-family:var(--serif);font-size:1.22rem;margin:0 0 16px;color:var(--ink-strong)}
-h3{font-family:var(--serif);font-size:1.02rem;margin:0 0 8px;color:var(--ink-strong)}
-p{margin:0 0 14px}section{padding:30px 0;border-top:1px solid var(--line)}section:first-of-type{border-top:none}
-.notice{border-left:3px solid var(--accent);padding:14px 20px;background:var(--accent-soft);border-radius:0 var(--radius) var(--radius) 0;color:var(--muted)}
-.table-scroll{overflow:auto;border:1px solid var(--line);border-radius:var(--radius-lg);background:var(--page)}
-table{border-collapse:collapse;width:100%;font-size:.92rem;text-align:left}
-th,td{padding:13px 15px;border-bottom:1px solid var(--line);vertical-align:top;min-width:110px}
-th{background:var(--accent-soft);font-weight:700;color:var(--ink-strong);white-space:nowrap}
-tbody tr:nth-child(even){background:var(--raise)}tbody tr:last-child td,tbody tr:last-child th{border-bottom:none}
-.basis{display:inline-block;margin-left:8px;padding:1px 7px;border-radius:10px;font-size:.72rem;line-height:1.7}
-.basis-observed{background:#dce9df;color:#1c5a47}.basis-assumed{background:#f2e6cd;color:#7a5a12}.basis-unknown{background:#e6e6e6;color:#5a5a5a}
-.note{display:block;margin-top:4px;font-size:.76rem;color:var(--muted)}
-.legend{font-size:.86rem;color:var(--muted)}
-.two-columns{display:grid;grid-template-columns:1fr 1fr;gap:40px}
-ul{padding-left:1.4em;margin:0}li{margin:0 0 10px}li::marker{color:var(--accent)}
-footer{padding-top:26px;color:var(--muted);font-size:.9rem;border-top:1px solid var(--line)}
-a{color:var(--accent)}::selection{background:#dce9df}
-@media(max-width:760px){main{padding:30px 18px 52px}.two-columns{grid-template-columns:1fr;gap:18px}th,td{padding:10px;min-width:96px}h1{font-size:1.8rem}}
-@media print{body{background:#fff}main{padding:0;max-width:none}.table-scroll{overflow:visible;border:1px solid #999;border-radius:0}
-table{font-size:9pt}th,td{min-width:0;padding:7px}tbody tr:nth-child(even){background:none}section{break-inside:avoid}
-.basis{border:1px solid #999;background:none!important;color:#000!important}}
-""".strip()
 
 
 def owned_output(path: Path, kind: str) -> bool:

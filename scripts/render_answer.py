@@ -37,10 +37,80 @@ LIST = re.compile(r'^( {0,3})([-+*]|\d+[.)])([ \t]+)(.*)$')
 REFERENCE = re.compile(r'^ {0,3}\[([^]\n]+)\]:\s*(?:<([^>]+)>|(\S+))(?:\s+[\"\x27](.*)[\"\x27])?\s*$')
 CLAUSE = re.compile(r'^\*\*(第[一二三四五六七八九十百零〇两\d]+条[\s\u3000].+?)\*\*$')
 FOOTNOTE = re.compile(r'^ {0,3}\[\^([^]\n]+)\]:[ \t]?(.*)$')
+CHINESE_NUMERAL = '一二三四五六七八九十百千零〇两'
+UNIT_AFTER_NUMBER = '年月日号时分秒岁个项条种人位次天元倍万亿千百%％'
+HEADING_NUMBER = re.compile(
+    '^(?:'
+    f'第[{CHINESE_NUMERAL}\\d]+(?:部分|[部篇编卷章节回])[、．.:：]?'
+    f'|[{CHINESE_NUMERAL}]{{1,4}}[、．]'
+    f'|[（(][{CHINESE_NUMERAL}\\d]{{1,3}}[)）]'
+    '|\\d{1,2}(?:\\.\\d{1,2}){0,3}[、．]'
+    f'|\\d{{1,2}}(?:\\.\\d{{1,2}}){{1,3}}(?=[\\u4e00-\\u9fff])(?![{UNIT_AFTER_NUMBER}])'
+    f'|\\d{{1,2}}(?:\\.\\d{{1,2}}){{0,3}}\\.?(?=[ \\t\\u3000]+(?![{UNIT_AFTER_NUMBER}]))'
+    ')[ \\t\\u3000]*'
+)
+TITLE_BREAKS = ('：', '——')
 
 
 def escape(value: str) -> str:
     return html.escape(value, quote=True)
+
+
+def number_heading(rendered: str, label: str = 'heading-no') -> str:
+    """Mark a heading's own leading number so it can hang in the margin; the text is unchanged."""
+    match = HEADING_NUMBER.match(rendered)
+    if not match or match.end() >= len(rendered):
+        return rendered
+    number = match.group(0)
+    figure = number.rstrip('、．.:： \t\u3000')
+    separator = number[len(figure):]
+    if separator:
+        number = f'{figure}<span class="number-sep">{separator}</span>'
+    return f'<span class="{label}">{number}</span>{rendered[match.end():]}'
+
+
+def split_title(rendered: str) -> str:
+    """Set a “主题：副题” title on two lines; the title text itself is unchanged."""
+    depth, i = 0, 0
+    while i < len(rendered):
+        if rendered[i] == '<':
+            end = rendered.find('>', i)
+            if end < 0:
+                return rendered
+            tag = rendered[i:end + 1]
+            if tag.startswith('</'):
+                depth -= 1
+            elif not tag.endswith('/>') and not re.match(r'<(?:br|img|wbr)\b', tag):
+                depth += 1
+            i = end + 1
+            continue
+        if depth == 0:
+            for mark in TITLE_BREAKS:
+                if rendered.startswith(mark, i):
+                    head, tail = rendered[:i], rendered[i + len(mark):]
+                    if not head.strip() or not tail.strip():
+                        return rendered
+                    return (f'<span class="title-main">{head}<span class="title-colon">{mark}</span></span>'
+                            f'<span class="title-sub">{tail}</span>')
+        i += 1
+    return rendered
+
+
+def reading_stats(body: str) -> str:
+    """Length and reading time of the rendered text, for orientation only."""
+    text = html.unescape(re.sub(r'<[^>]+>', ' ', body))
+    han = len(re.findall(r'[\u3400-\u4dbf\u4e00-\u9fff\uf900-\ufaff]', text))
+    words = len(re.findall(r"[A-Za-z]+(?:['’-][A-Za-z]+)*|\d+(?:[.,]\d+)*", text))
+    total = han + words
+    if total >= 10000:
+        count = f'约 {total / 10000:.1f} 万字'.replace('.0 万', ' 万')
+    elif total >= 1000:
+        count = f'约 {round(total, -2):,} 字'
+    else:
+        count = f'约 {max(1, round(total, -1) or total)} 字'
+    minutes = max(1, round(han / 400 + words / 220))
+    duration = f'{minutes} 分钟' if minutes < 60 else f'{minutes // 60} 小时' + (f' {minutes % 60} 分钟' if minutes % 60 else '')
+    return f'全文{count}，读完约需 {duration}。'
 
 
 def safe_url(value: str) -> bool:
@@ -122,6 +192,12 @@ class MarkdownReader:
         self.fragments.setdefault(slug, anchor)
         self.fragments.setdefault(plain, anchor)
         return anchor
+
+    def heading_content(self, level: int, text: str) -> str:
+        rendered = self.inline(text)
+        if level == 1:
+            return split_title(rendered)
+        return number_heading(rendered) if level <= 4 else rendered
 
     def heading_attributes(self, anchor: str, level: int) -> str:
         plain = self.headings[-1][2]
@@ -398,11 +474,11 @@ class MarkdownReader:
                 level = len(heading.group(1))
                 text = re.sub(r'\s+#+\s*$', '', heading.group(2))
                 anchor = self.anchor(level, text)
-                output.append(self.legacy_anchor() + f'<h{level} {self.heading_attributes(anchor, level)}>{self.inline(text)}</h{level}>'); i += 1; continue
+                output.append(self.legacy_anchor() + f'<h{level} {self.heading_attributes(anchor, level)}>{self.heading_content(level, text)}</h{level}>'); i += 1; continue
             if i + 1 < len(lines) and re.fullmatch(r' {0,3}(?:=+|-+)\s*', lines[i + 1]):
                 level = 1 if lines[i + 1].lstrip().startswith('=') else 2
                 anchor = self.anchor(level, line)
-                output.append(self.legacy_anchor() + f'<h{level} {self.heading_attributes(anchor, level)}>{self.inline(line)}</h{level}>'); i += 2; continue
+                output.append(self.legacy_anchor() + f'<h{level} {self.heading_attributes(anchor, level)}>{self.heading_content(level, line)}</h{level}>'); i += 2; continue
             if re.fullmatch(r' {0,3}(?:\*\s*){3,}| {0,3}(?:-\s*){3,}| {0,3}(?:_\s*){3,}', line):
                 output.append('<hr>'); i += 1; continue
             if re.match(r'^ {0,3}>', line):
@@ -459,7 +535,8 @@ class MarkdownReader:
             clause = CLAUSE.match(line)
             if clause:
                 anchor = self.anchor(3, clause.group(1))
-                output.append(self.legacy_anchor() + f'<p class="clause" {self.heading_attributes(anchor, 3)}>{self.inline(line)}</p>'); i += 1; continue
+                content = re.sub(f'^<strong>(第[{CHINESE_NUMERAL}\\d]+条)', r'<strong><span class="clause-no">\1</span>', self.inline(line), count=1)
+                output.append(self.legacy_anchor() + f'<p class="clause" {self.heading_attributes(anchor, 3)}>{content}</p>'); i += 1; continue
             paragraph = [line]; i += 1
             while i < len(lines) and lines[i].strip() and not self.block_start(lines[i]) and not CLAUSE.match(lines[i]):
                 if i + 1 < len(lines) and (table_separator(lines[i + 1]) or re.fullmatch(r' {0,3}(?:=+|-+)\s*', lines[i + 1])):
@@ -471,7 +548,13 @@ class MarkdownReader:
                 rendered.append(self.inline(part.rstrip() if part.endswith('  ') else (part[:-1] if part.endswith('\\') else part)))
                 if index + 1 < len(paragraph):
                     rendered.append('<br>\n' if hard else '\n')
-            output.append('<p>' + ''.join(rendered) + '</p>')
+            content = ''.join(rendered)
+            written_alt = re.match(r'^\s*!\[([^\]]*)\]', paragraph[0])
+            if len(paragraph) == 1 and re.fullmatch(r'<img [^>]*>', content) and written_alt and re.sub(r'[*`_]', '', written_alt.group(1)).strip():
+                caption = re.search(r' alt="([^"]*)"', content).group(1)
+                output.append(f'<figure class="figure-image">{content}<figcaption aria-hidden="true">{caption}</figcaption></figure>')
+                continue
+            output.append('<p>' + content + '</p>')
         return '\n'.join(output)
 
     def render(self, source: str) -> str:
@@ -506,15 +589,39 @@ def katex_assets() -> tuple[str, str]:
     return javascript, css
 
 
+def icon(paths: str, extra: str = '') -> str:
+    return (f'<svg class="icon{extra}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" '
+            f'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">{paths}</svg>')
+
+
+NOSCRIPT_CSS = ('.toolbar-actions,.search-control,#nav-toggle{display:none!important}'
+                '@media (max-width:1040px){.reader-sidebar{position:static;transform:none;visibility:visible;width:auto;'
+                'height:auto;box-shadow:none;border-right:0;border-bottom:1px solid var(--line)}}')
+ICONS = {
+    'contents': icon('<path d="M9 6h11M9 12h11M9 18h11"/><path d="M4.5 6h.01M4.5 12h.01M4.5 18h.01" stroke-width="2.6"/>'),
+    'search': icon('<circle cx="10.8" cy="10.8" r="6.3"/><path d="m15.6 15.6 4.4 4.4"/>'),
+    'up': icon('<path d="m6.5 14.5 5.5-5.5 5.5 5.5"/>'),
+    'down': icon('<path d="m6.5 9.5 5.5 5.5 5.5-5.5"/>'),
+    'close': icon('<path d="M6.5 6.5l11 11M17.5 6.5l-11 11"/>'),
+    'ask': icon('<path d="M20 11.6a7.6 7.6 0 0 1-11.1 6.8L4 19.6l1.3-4.3A7.6 7.6 0 1 1 20 11.6Z"/><path d="M9 10.2h6M9 13.4h3.6"/>'),
+    'moon': icon('<path d="M19.6 14.4A7.9 7.9 0 1 1 9.6 4.4a6.3 6.3 0 0 0 10 10Z"/>', ' theme-moon'),
+    'sun': icon('<circle cx="12" cy="12" r="3.8"/><path d="M12 3v1.8M12 19.2V21M4.9 4.9l1.3 1.3M17.8 17.8l1.3 1.3M3 12h1.8M19.2 12H21M4.9 19.1l1.3-1.3M17.8 6.2l1.3-1.3"/>', ' theme-sun'),
+    'print': icon('<path d="M7 8.5V4h10v4.5"/><path d="M7 17H5.5A1.5 1.5 0 0 1 4 15.5v-5A2 2 0 0 1 6 8.5h12a2 2 0 0 1 2 2v5a1.5 1.5 0 0 1-1.5 1.5H17"/><path d="M7 14h10v6H7z"/>'),
+    'download': icon('<path d="M12 4v11"/><path d="m7.5 10.5 4.5 4.5 4.5-4.5"/><path d="M5 19.5h14"/>'),
+    'type': '<span class="font-step" aria-hidden="true">Aa</span>',
+}
+
+
 def render_document(source: str, *, title: str | None = None, source_path: Path | None = None, source_bytes: bytes | None = None) -> str:
     source_path = Path(source_path or Path.cwd() / 'answer.md').resolve()
     reader = MarkdownReader(source_path)
     body = reader.render(source)
     title = title or next((text for level, _, text in reader.headings if level == 1), source_path.stem)
-    toc = ''.join(f'<li class="toc-level-{level}"><a href="#{anchor}">{escape(text)}</a></li>' for level, anchor, text in reader.headings)
+    toc = ''.join(f'<li class="toc-level-{level}"><a href="#{anchor}">{split_title(escape(text)) if level == 1 else number_heading(escape(text), "toc-no")}</a></li>'
+                  for level, anchor, text in reader.headings)
     if not toc:
         toc = '<li><a href="#document">阅读全文</a></li>'
-    css = (ASSETS / 'reader.css').read_text(encoding='utf-8')
+    css = (ASSETS / 'xikari-base.css').read_text(encoding='utf-8') + '\n' + (ASSETS / 'reader.css').read_text(encoding='utf-8')
     javascript = (ASSETS / 'reader.js').read_text(encoding='utf-8')
     scripts = [javascript]
     if reader.has_math:
@@ -526,39 +633,61 @@ def render_document(source: str, *, title: str | None = None, source_path: Path 
             reader.notes.add('公式排版资源不可用，已保留完整原式；其他阅读功能照常可用。')
     script_hashes = ' '.join("'sha256-" + base64.b64encode(hashlib.sha256(script.encode('utf-8')).digest()).decode('ascii') + "'" for script in scripts)
     style_hash = base64.b64encode(hashlib.sha256(css.encode('utf-8')).digest()).decode('ascii')
+    fallback_hash = base64.b64encode(hashlib.sha256(NOSCRIPT_CSS.encode('utf-8')).digest()).decode('ascii')
     original = base64.b64encode(source_bytes if source_bytes is not None else source.encode('utf-8')).decode('ascii')
     notes = ''.join('<li>' + escape(note) + '</li>' for note in sorted(reader.notes))
     note_html = '<details class="render-notes"><summary>阅读格式说明</summary><ul>' + notes + '</ul></details>' if notes else ''
     math_enabled = len(scripts) > 1
     style_attributes = "'unsafe-inline'" if math_enabled else "'none'"
     font_sources = 'data:' if math_enabled else "'none'"
-    csp = f"default-src 'none'; script-src {script_hashes}; script-src-attr 'none'; style-src 'sha256-{style_hash}'; style-src-elem 'sha256-{style_hash}'; style-src-attr {style_attributes}; img-src data:; connect-src 'none'; font-src {font_sources}; object-src 'none'; base-uri 'none'; form-action 'none'"
+    csp = f"default-src 'none'; script-src {script_hashes}; script-src-attr 'none'; style-src 'sha256-{style_hash}' 'sha256-{fallback_hash}'; style-src-elem 'sha256-{style_hash}' 'sha256-{fallback_hash}'; style-src-attr {style_attributes}; img-src data:; connect-src 'none'; font-src {font_sources}; object-src 'none'; base-uri 'none'; form-action 'none'"
     script_html = ''.join('<script>' + script + '</script>' for script in scripts)
     section_options = ''.join(f'<option value="{anchor}">{escape(text)}</option>' for _, anchor, text in reader.headings)
     return f'''<!doctype html>
-<html lang="zh-CN" data-theme="paper" data-font="medium">
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<html lang="zh-CN" data-font="medium">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta http-equiv="Content-Security-Policy" content="{escape(csp)}">
-<meta name="color-scheme" content="light dark"><title>{escape(title)}</title>
-<style>{css}</style></head>
+<meta name="color-scheme" content="light dark"><meta name="generator" content="Xikari reader"><title>{escape(title)}</title>
+<style>{css}</style><noscript><style>{NOSCRIPT_CSS}</style></noscript></head>
 <body>
 <a class="skip-link" href="#document">跳至正文</a>
+<div class="reader-shell">
+<aside id="contents" class="reader-sidebar" aria-label="目录">
+<nav aria-label="章节与条文"><ol>{toc}</ol></nav>
+<div class="sidebar-foot"><p class="doc-stats">{escape(reading_stats(body))}</p><a class="source-download" href="data:text/markdown;charset=utf-8;base64,{original}" download="{escape(source_path.name)}">{ICONS['download']}下载 Markdown 原稿</a></div>
+</aside>
+<div class="reader-main">
 <header class="reader-toolbar" aria-label="阅读工具">
-<button id="nav-toggle" type="button" aria-controls="contents" aria-expanded="false">目录</button>
-<div class="search-control"><label for="reader-search">搜索全文</label><input id="reader-search" type="search" placeholder="输入文字定位" autocomplete="off" spellcheck="false"><span id="search-status" role="status" aria-live="polite">保留全部正文</span></div>
-<div class="search-buttons"><button id="previous-match" type="button" disabled aria-label="上一处匹配">上一处</button><button id="next-match" type="button" disabled aria-label="下一处匹配">下一处</button></div>
-<div class="reading-controls"><button id="quote-question" type="button" aria-controls="question-panel" aria-expanded="false">追问此处</button><button id="font-smaller" type="button" aria-label="减小正文字号">字小</button><button id="font-larger" type="button" aria-label="增大正文字号">字大</button><button id="theme-toggle" type="button" aria-pressed="false">夜读</button><button id="print-reader" type="button">打印</button></div>
+<button id="nav-toggle" class="icon-button" type="button" aria-controls="contents" aria-expanded="false" aria-label="打开目录" title="目录">{ICONS['contents']}</button>
+<p class="toolbar-heading" aria-hidden="true"><span class="toolbar-doc">{escape(title)}</span><span class="toolbar-section" id="toolbar-section">{escape(title)}</span></p>
+<div class="search-control" role="search">{ICONS['search']}<label class="visually-hidden" for="reader-search">搜索全文</label><input id="reader-search" type="search" placeholder="搜索全文" autocomplete="off" spellcheck="false" enterkeyhint="search"><kbd class="search-key" aria-hidden="true">/</kbd><span id="search-status" role="status" aria-live="polite"></span><span class="search-buttons"><button id="previous-match" class="icon-button" type="button" disabled aria-label="上一处匹配" title="上一处（Shift+Enter）">{ICONS['up']}</button><button id="next-match" class="icon-button" type="button" disabled aria-label="下一处匹配" title="下一处（Enter）">{ICONS['down']}</button></span><button id="search-close" class="icon-button" type="button" aria-label="关闭搜索">{ICONS['close']}</button></div>
+<div class="toolbar-actions">
+<button id="search-toggle" class="icon-button" type="button" aria-label="搜索全文" aria-controls="reader-search" aria-expanded="false">{ICONS['search']}</button>
+<button id="quote-question" class="primary-button" type="button" aria-controls="question-panel" aria-expanded="false">{ICONS['ask']}<span class="button-label">追问此处</span></button>
+<button id="tools-toggle" class="icon-button" type="button" aria-label="阅读设置" aria-controls="reading-controls" aria-expanded="false">{ICONS['type']}</button>
+<div class="reading-controls" id="reading-controls">
+<button id="font-smaller" class="icon-button" type="button" aria-label="减小正文字号" title="减小字号"><span class="font-step" aria-hidden="true">A</span></button>
+<button id="font-larger" class="icon-button" type="button" aria-label="增大正文字号" title="增大字号"><span class="font-step" aria-hidden="true">A</span></button>
+<button id="theme-toggle" class="icon-button" type="button" aria-pressed="false" aria-label="夜间阅读" title="切换到夜间阅读">{ICONS['moon']}{ICONS['sun']}</button>
+<button id="print-reader" class="icon-button" type="button" aria-label="打印或存为 PDF" title="打印或存为 PDF">{ICONS['print']}</button>
+</div>
+</div>
 <div class="reader-progress" role="presentation"><span id="reader-progress-bar"></span></div>
 </header>
+<main><article id="document" tabindex="-1">{body}</article>{note_html}
+<footer class="reader-footer"><p>离线阅读版：正文完整保留，页面不联网，也不会自动发送任何内容。</p><a href="#document">回到开篇</a></footer></main>
+</div>
+</div>
+<div class="nav-scrim" id="nav-scrim" hidden></div>
 <section id="question-panel" class="question-panel" aria-labelledby="question-title" hidden>
-<div class="question-heading"><h2 id="question-title">围绕原文继续讨论</h2><button id="close-question" type="button">收起追问</button></div>
-<p id="question-help">先选中正文，再点“追问此处”；也可以选择一个章节。文字只在本页生成，由你复制到对话中。</p>
-<div class="question-section"><label for="question-section">选择章节</label><select id="question-section"><option value="">请选择章节或条款</option>{section_options}</select><button id="quote-section" type="button" disabled>引用所选章节</button></div>
-<label for="question-text">可编辑的追问内容</label><textarea id="question-text" rows="8" aria-describedby="question-help" placeholder="选取原文后，这里会包含作品、章节位置和原文选段。"></textarea>
-<div class="question-actions"><button id="copy-question" type="button" disabled>复制追问</button><span id="question-status" role="status" aria-live="polite">尚未选取原文</span></div>
+<div class="question-heading"><h2 id="question-title">围绕原文继续讨论</h2><button id="close-question" class="icon-button" type="button" aria-label="收起追问" title="收起追问（Esc）">{ICONS['close']}</button></div>
+<p id="question-help">先在正文中选中一段文字，或在下面选择一个章节。追问只在本页生成，由你复制到对话里。</p>
+<label class="question-label" for="question-section">引用一个章节</label>
+<div class="question-section"><select id="question-section"><option value="">选择章节或条款</option>{section_options}</select><button id="quote-section" class="secondary-button" type="button" disabled>引用此章节</button></div>
+<label class="question-label" for="question-text">追问内容（可编辑）</label><textarea id="question-text" rows="8" aria-describedby="question-help" placeholder="选取原文后，这里会列出作品、章节位置和原文选段。"></textarea>
+<div class="question-actions"><span id="question-status" role="status" aria-live="polite">尚未选取原文</span><button id="copy-question" class="primary-button" type="button" disabled>复制追问</button></div>
 </section>
-<div class="reading-layout"><aside id="contents" aria-label="目录"><div class="contents-heading">内容导航</div><nav aria-label="章节与条文"><ol>{toc}</ol></nav><a class="source-download" href="data:text/markdown;charset=utf-8;base64,{original}" download="{escape(source_path.name)}">下载完整 Markdown</a></aside>
-<main><article id="document" tabindex="-1">{body}</article>{note_html}<footer class="reader-footer"><a href="#document">回到开篇</a><span>正文完整保留 · 离线阅读</span></footer></main></div>
+<button id="selection-question" class="selection-bubble" type="button" hidden>{ICONS['ask']}追问选段</button>
 <noscript><p class="no-script">正文、目录、脚注和原文下载仍可使用，公式保留原式。浏览器内搜索与打印可通过 Ctrl+F、Ctrl+P 打开。</p></noscript>
 {script_html}
 </body></html>'''
