@@ -20,7 +20,9 @@ Xikari Skill 以 **Xikari 著《Xikari-条件结构与转化论》** 为基础�
 
 ## 看公开的案例实测
 
-Discussions 保存了 **17 篇历史版本的公开运行实录**，可以直接阅读当时的完整分析：
+Discussions 保存了 **17 篇基于 Xikari 8.3 的历史实测案例**。其中可能存在分析、推演或判断上的问题，保留作历史参考，不代表当前《Xikari-条件结构与转化论》及现行 Skill 的分析表现。
+
+可以直接阅读当时的完整分析：
 
 - [算法治理的民主悖论](https://github.com/xi-kari/xi-kari-skill/discussions/5)
 - [教育的本质困境](https://github.com/xi-kari/xi-kari-skill/discussions/10)
