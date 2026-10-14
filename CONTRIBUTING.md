@@ -4,7 +4,7 @@
 
 ## 开发环境
 
-当前工具与安装包在 Windows 上维护，CI 使用 Python 3.10、3.13 和 Node.js 22。Python 工具主体使用标准库；PDF 材料测试需要 `pypdf`，网页交互测试使用 `tests/dom` 中固定的开发依赖。
+当前工具与安装包在 Windows 上维护，CI 使用 Python 3.10、3.13 和 Node.js 22.x。网页测试需要 Node.js 22.22.2 及以上的 22.x，也可使用满足 `tests/dom/package.json` 中 `engines` 声明的新版 Node.js。Python 工具主体使用标准库；PDF 材料测试需要 `pypdf`，网页交互测试使用 `tests/dom` 中固定的开发依赖。
 
 在仓库根目录准备测试依赖：
 
