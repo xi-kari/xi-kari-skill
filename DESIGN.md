@@ -100,7 +100,7 @@ One static landscape anchors the opening scene. Below it, generous open sections
 - Original signature, ink lettering, icon color field and three tide layers.
 - Open reading columns that become one column on small screens.
 - Quiet controls with explicit focus and selected states.
-- Shared published research-delivery progress, with a separate historical topic directory.
+- Shared published research-completion status, with a separate historical topic directory.
 
 ## Colors
 
@@ -108,7 +108,7 @@ The light palette is cool paper, blue ink and muted indigo; night mode preserves
 
 ### Primary
 
-The accent colors identify signatures, links, focus rings, the active domain and research-delivery bars. The icon field also mixes the current accent with cyan and lilac during its cycle; those mixtures are decorative animation colors, not additional interface palettes.
+The accent colors identify signatures, links, focus rings, the active domain and research-progress bars. The icon field also mixes the current accent with cyan and lilac during its cycle; those mixtures are decorative animation colors, not additional interface palettes.
 
 ### Neutral
 
@@ -130,7 +130,7 @@ The opening cover is `100svh` with a desktop minimum height of `800px`. Its fixe
 
 The reading container is `min(1180px, calc(100% - 112px))`. Introduction and usage use `.85fr 1.15fr` columns with a `90px` gap. Research uses a `244px` sticky domain navigator and a flexible list, separated by `55px`. The navigator starts `100px` below the top and scrolls within `calc(100svh - 125px)`.
 
-Research delivery precedes the topic directory in the same open reading flow. A full-width progress bar accompanies the delivered and pending counts; a table names each task group and its counts. Pending tasks use two columns of open, ruled rows, becoming one column on mobile. Tables preserve readable numeric columns and may scroll inside their own wrapper rather than widening the page.
+Research completion precedes the topic directory in the same open reading flow. A full-width progress bar accompanies the completion count; a table names each task group and its counts. When pending tasks exist, they use two columns of open, ruled rows, becoming one column on mobile. A zero pending count hides that section. Tables preserve readable numeric columns and may scroll inside their own wrapper rather than widening the page.
 
 At widths up to `1050px`, reading gutters become `36px`, introduction/usage gaps become `48px`, and the research split becomes `200px` plus the list with a `34px` gap.
 
@@ -164,9 +164,9 @@ Icon buttons use soft hover fill. The theme toggle exposes its state through `ar
 
 ### Research status and directory
 
-The research section presents three distinct objects: the current manuscript's identity, a dated snapshot of distinct research-task deliveries, and a directory of preserved historical topics. Manuscript baseline, research snapshot date and page update date remain separate. A completed manuscript and a delivered research task do not imply empirical validation or completion of the final source and semantic review.
+The research section presents three distinct objects: the current manuscript's identity, a dated research-completion status, and a directory of preserved historical topics. Manuscript baseline, status-confirmation date and page update date remain separate. A confirmation date is not the actual completion date of each task. The scope note connects the completed research to the 32-domain, 296-topic directory below.
 
-The delivery snapshot names the total, delivered and pending counts, group counts and every pending task. The overall bar has numeric accessible values, and each native group progress bar has a descriptive accessible name. The same full snapshot exists in static HTML and `docs/data/research-status.json`; the script checks the JSON's arithmetic before replacing the fallback. Without JavaScript or a successful fetch, the published HTML snapshot remains readable.
+The current status shows all 620 research tasks complete, with completed totals for every group and no pending-task list. The overall bar has numeric accessible values, and each native group progress bar has a descriptive accessible name. The same full status exists in static HTML and `docs/data/research-status.json`; the script checks the JSON's arithmetic before replacing the fallback. Without JavaScript or a successful fetch, the published HTML status remains readable. An unobtrusive historical link provides the earlier snapshot without mixing its counts into the current state.
 
 Native `details`/`summary` groups contain topic identifiers, titles and research questions. The first domain opens initially. Search matches every entered term against domain and topic text. Filtering opens matching groups and restores their prior open states when cleared. Domain navigation opens the destination, focuses its summary and updates its fragment. A native selector offers the same navigation on mobile.
 
@@ -185,7 +185,7 @@ The native modal dialog presents the same full landscape with descriptive altern
 - **Do** preserve the original blog identity assets and use the single landscape recorded in the provenance file.
 - **Do** use the current semantic color roles, open reading layout and native research controls.
 - **Do** retain keyboard focus, reduced-motion behavior, loading feedback and recoverable failures.
-- **Do** keep public progress read-only, preserve the visible pending-task names and publish matching data and HTML fallback.
+- **Do** keep public progress read-only, show pending tasks only when they remain pending and publish matching data and HTML fallback.
 
 ### Don't
 

@@ -6,6 +6,7 @@ body:
     id: proposal
     attributes:
       label: 想改进什么
+      description: 描述希望得到的能力或行为，不必预先确定实现方式。
     validations:
       required: true
   - type: textarea
@@ -13,3 +14,8 @@ body:
     attributes:
       label: 动机或场景
       description: 什么情况下遇到的、为什么值得改
+  - type: textarea
+    id: expected-result
+    attributes:
+      label: 怎样算有帮助（可选）
+      description: 举一个可公开的输入与期望结果，或说明现有做法遇到的限制。

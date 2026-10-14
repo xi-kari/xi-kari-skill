@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="410" viewBox="0 0 1000 410" role="img" aria-labelledby="title desc">
+  <title id="title">Xikari Skill — 让理解走向判断</title>
+  <desc id="desc">蓝白色视觉图：材料、机制与代价汇入判断，比较不同路径，形成行动方案。</desc>
+  <rect width="1000" height="410" fill="#f3f7fc"/>
+  <path d="M0 0H1000" stroke="#445b9f" stroke-width="8"/>
+  <g fill="#1f3049">
+    <text x="54" y="128" font-family="Georgia, 'Times New Roman', serif" font-size="88" letter-spacing="-3">Xikari</text>
+    <text x="58" y="174" font-family="Georgia, 'Times New Roman', serif" font-size="27" letter-spacing="8" fill="#445b9f">SKILL</text>
+    <text x="54" y="250" font-family="'Microsoft YaHei', 'Noto Sans CJK SC', sans-serif" font-size="37">让理解走向判断。</text>
+    <text x="56" y="298" font-family="'Microsoft YaHei', 'Noto Sans CJK SC', sans-serif" font-size="20" fill="#52647f">深入解释 · 明确决断 · 持续创造</text>
+  </g>
+  <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M562 95C635 95 620 198 698 198M562 198H698M562 301C635 301 620 198 698 198" stroke="#a4b5cd" stroke-width="2"/>
+    <path d="M698 198C772 198 774 95 873 95M698 198C772 198 774 301 873 301" stroke="#b8c6da" stroke-width="2" stroke-dasharray="5 8"/>
+    <path d="M562 198H698C780 198 802 198 891 198" stroke="#445b9f" stroke-width="5"/>
+    <path d="M879 186L892 198L879 210" stroke="#445b9f" stroke-width="4"/>
+    <path d="M610 350H944" stroke="#d2ddea"/>
+    <circle cx="562" cy="95" r="8" fill="#f3f7fc" stroke="#8196b7" stroke-width="2"/>
+    <circle cx="562" cy="198" r="8" fill="#445b9f" stroke="#445b9f" stroke-width="2"/>
+    <circle cx="562" cy="301" r="8" fill="#f3f7fc" stroke="#8196b7" stroke-width="2"/>
+    <circle cx="698" cy="198" r="34" fill="#f3f7fc" stroke="#445b9f" stroke-width="2"/>
+    <circle cx="873" cy="95" r="6" fill="#f3f7fc" stroke="#b8c6da" stroke-width="2"/>
+    <circle cx="873" cy="301" r="6" fill="#f3f7fc" stroke="#b8c6da" stroke-width="2"/>
+  </g>
+  <g font-family="'Microsoft YaHei', 'Noto Sans CJK SC', sans-serif" font-size="19" fill="#52647f">
+    <text x="587" y="83">材料</text>
+    <text x="587" y="184">机制</text>
+    <text x="587" y="331">代价</text>
+    <text x="698" y="205" text-anchor="middle" fill="#445b9f" font-size="21">判断</text>
+    <text x="914" y="205" fill="#445b9f">行动</text>
+    <text x="944" y="378" text-anchor="end" font-size="17">条件改变，选择也可以改变。</text>
+  </g>
+</svg>

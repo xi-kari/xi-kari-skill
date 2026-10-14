@@ -84,7 +84,6 @@ class ProjectPageTests(unittest.TestCase):
         self.assertEqual(sum(g['total'] for g in d['groups']), d['total'])
         self.assertEqual(sum(g['delivered'] for g in d['groups']), d['delivered'])
         self.assertEqual(d['delivered'] + d['pending'], d['total'])
-        self.assertEqual(d['forwardDelivered'] + d['reverseDelivered'] - d['overlap'], d['delivered'])
         for group in d['groups']:
             self.assertGreater(group['total'], 0)
             self.assertGreaterEqual(group['delivered'], 0)
@@ -95,12 +94,27 @@ class ProjectPageTests(unittest.TestCase):
         for item in pending:
             self.assertTrue(item['title'] and item['detail'])
 
-    def test_current_snapshot_names_all_eight_unfinished_tasks(self):
+    def test_current_snapshot_records_author_confirmed_completion(self):
         d = self.status['delivery']
-        self.assertEqual((d['delivered'], d['total'], d['pending']), (612, 620, 8))
-        self.assertEqual({p['id'] for p in d['pendingItems']}, {'Q-01', 'Q-02', 'D-18', 'D-30', 'D-31', 'D-32', 'FINAL-SYN', 'FINAL-AUDIT'})
-        self.assertEqual(d['snapshotDate'], '2026-10-13')
+        self.assertEqual((d['delivered'], d['total'], d['pending']), (620, 620, 0))
+        self.assertEqual(d['pendingItems'], [])
+        self.assertTrue(all(group['delivered'] == group['total'] for group in d['groups']))
+        self.assertEqual(d['snapshotDate'], '2026-10-14')
+        self.assertEqual(d['provenance']['kind'], 'author-confirmation')
+        self.assertEqual(d['provenance']['confirmedAt'], '2026-10-14')
+        self.assertNotIn('completedAt', d)
+        for field in ('forwardDelivered', 'reverseDelivered', 'overlap'):
+            self.assertNotIn(field, d)
         self.assertGreaterEqual(self.status['updatedAt'], d['snapshotDate'])
+
+    def test_previous_delivery_snapshot_remains_historical(self):
+        archive = 'data/history/research-status-20261013.json'
+        old = json.loads((DOCS / archive).read_text(encoding='utf-8'))['delivery']
+        self.assertEqual((old['delivered'], old['total'], old['pending']), (612, 620, 8))
+        self.assertEqual(old['forwardDelivered'] + old['reverseDelivered'] - old['overlap'], old['delivered'])
+        self.assertEqual(old['snapshotDate'], '2026-10-13')
+        self.assertIn('./' + archive, [node.attrs.get('href') for node in self.page.elements])
+        self.assertNotIn('612 / 620', self.html)
 
     def test_manuscript_identity_matches_packaged_source(self):
         theory = self.status['theory']
@@ -144,6 +158,7 @@ class ProjectPageTests(unittest.TestCase):
             self.assertIn(group['title'], progress.attrs['aria-label'])
         pending = {node.attrs['data-pending-id']: node for node in self.page.find('data-pending-id')}
         self.assertEqual(set(pending), {item['id'] for item in d['pendingItems']})
+        self.assertEqual('hidden' in self.page.find('data-pending-section')[0].attrs, d['pending'] == 0)
         for item in d['pendingItems']:
             self.assertIn(item['title'], pending[item['id']].text())
             self.assertIn(item['detail'], pending[item['id']].text())
@@ -164,7 +179,8 @@ class ProjectPageTests(unittest.TestCase):
         self.assertNotIn('requestJson(\'./data/research-progress.json\')', self.js)
         for old in ('api/research-progress', 'api/project-editor', 'data-editor-toggle', 'data-status-filter', 'topic-check'):
             self.assertNotIn(old, self.html + self.js)
-        self.assertIn('理论验证率', self.page.find('data-delivery-boundary')[0].text())
+        self.assertIn('32 个领域', self.page.find('data-research-scope')[0].text())
+        self.assertIn('296 个专题', self.page.find('data-research-scope')[0].text())
 
     def test_page_links_and_release_match_current_package(self):
         ids = [node.attrs['id'] for node in self.page.find('id')]
@@ -178,6 +194,8 @@ class ProjectPageTests(unittest.TestCase):
         version = self.package['version']
         self.assertIn(f'https://github.com/xi-kari/xi-kari-skill/releases/download/v{version}/xi-kari-skill-{version}-windows.zip', links)
         self.assertIn(self.status['theory']['sourceUrl'], links)
+        self.assertIn('https://github.com/xi-kari/xi-kari-skill/blob/main/docs/INSTALL.md', links)
+        self.assertNotIn('https://github.com/xi-kari/xi-kari-skill#安装', links)
         self.assertIn('Windows', self.html)
 
     def test_original_artwork_and_icon_counts_are_preserved(self):

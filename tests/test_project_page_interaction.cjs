@@ -12,7 +12,7 @@ const data = {
   './data/research-topics.json': JSON.parse(fs.readFileSync(`${root}/data/research-topics.json`, 'utf8')),
 };
 const tick = () => new Promise(resolve => setTimeout(resolve, 15));
-async function load({fail = false, invalid = false, hash = ''} = {}) {
+async function load({fail = false, invalid = false, partial = false, hash = ''} = {}) {
   const dom = new JSDOM(html, {url: `https://xi-kari.github.io/xi-kari-skill/${hash}`, runScripts: 'outside-only'});
   const w = dom.window;
   const errors = [];
@@ -29,6 +29,12 @@ async function load({fail = false, invalid = false, hash = ''} = {}) {
     if (fail) throw new Error('offline');
     const value = JSON.parse(JSON.stringify(data[url]));
     if (invalid && url.includes('status')) value.delivery.groups[0].delivered = 3;
+    if (partial && url.includes('status')) {
+      value.delivery.groups[0].delivered = 3;
+      value.delivery.delivered = 619;
+      value.delivery.pending = 1;
+      value.delivery.pendingItems = [{id: 'TEST-PENDING', title: '测试待项', detail: '仅用于渲染行为测试。'}];
+    }
     return {ok: true, json: async () => value};
   };
   Object.defineProperty(w.navigator, 'clipboard', {value: {writeText: async text => { w.copied = text; }}, configurable: true});
@@ -46,9 +52,12 @@ async function load({fail = false, invalid = false, hash = ''} = {}) {
   assert.equal(d.querySelectorAll('.topic-row').length, 296);
   assert.equal(d.querySelectorAll('.topic-check, [data-editor-toggle]').length, 0);
   assert.equal(d.querySelectorAll('[data-delivery-group]').length, 8);
-  assert.equal(d.querySelectorAll('[data-pending-id]').length, 8);
-  assert.equal(d.querySelector('[data-delivery-meter]').getAttribute('aria-valuenow'), '612');
-  assert.equal(d.querySelector('[data-snapshot-date]').textContent, '2026.10.13');
+  assert.equal(d.querySelectorAll('[data-pending-id]').length, 0);
+  assert.equal(d.querySelector('[data-pending-section]').hidden, true);
+  assert.equal(d.querySelector('[data-delivery-meter]').getAttribute('aria-valuenow'), '620');
+  assert.equal(d.querySelector('[data-delivery-meter]').getAttribute('aria-valuetext'), '620 项研究任务已全部完成');
+  assert.equal(d.querySelector('[data-delivery-total]').textContent, '620 / 620 项研究任务已完成。');
+  assert.equal(d.querySelector('[data-snapshot-date]').textContent, '2026.10.14');
   assert.equal(d.querySelector('[data-page-date]').textContent, '2026.10.14');
   assert.equal(d.querySelector('#research-01').open, true);
   const search = d.querySelector('[data-research-search]');
@@ -85,15 +94,23 @@ async function load({fail = false, invalid = false, hash = ''} = {}) {
   assert.equal(deep.d.querySelector('#research-18').open, true); deep.dom.window.close();
   const offline = await load({fail: true});
   assert.equal(offline.d.querySelectorAll('[data-delivery-group]').length, 8);
-  assert.ok(offline.d.querySelector('[data-delivery-total]').textContent.includes('612 / 620'));
+  assert.ok(offline.d.querySelector('[data-delivery-total]').textContent.includes('620 / 620'));
+  assert.equal(offline.d.querySelector('[data-pending-section]').hidden, true);
   assert.equal(offline.d.querySelector('[data-research-retry]').hidden, false);
   assert.equal(offline.d.querySelector('[data-research-search]').disabled, true);
   assert.ok(offline.d.querySelector('[data-snapshot-status]').textContent.includes('随页面发布'));
   assert.deepEqual(offline.errors, []); offline.dom.window.close();
   const invalid = await load({invalid: true});
   assert.equal(invalid.d.querySelector('[data-delivery-snapshot]').dataset.loaded, undefined);
-  assert.ok(invalid.d.querySelector('[data-delivery-total]').textContent.includes('612 / 620'));
+  assert.ok(invalid.d.querySelector('[data-delivery-total]').textContent.includes('620 / 620'));
   assert.equal(invalid.d.querySelectorAll('.topic-row').length, 296);
   assert.deepEqual(invalid.errors, []); invalid.dom.window.close();
-  console.log(JSON.stringify({pass: true, checks: ['snapshot hydration', '32 domains / 296 topics', 'no editor or checkbox', 'search / empty / restoration', 'expand / collapse', 'domain jump / hash', 'theme persistence', 'copy success / failure', 'deep link', 'offline fallback', 'invalid count rejection'], scope: 'simulated DOM behavior; no browser layout or screenshot assertion'}, null, 2));
+  const partial = await load({partial: true});
+  assert.equal(partial.d.querySelector('[data-delivery-snapshot]').dataset.loaded, 'true');
+  assert.equal(partial.d.querySelector('[data-pending-section]').hidden, false);
+  assert.equal(partial.d.querySelectorAll('[data-pending-id]').length, 1);
+  assert.ok(partial.d.querySelector('[data-delivery-total]').textContent.includes('619 / 620'));
+  assert.ok(partial.d.querySelector('#pending-title').textContent.includes('1 项'));
+  assert.deepEqual(partial.errors, []); partial.dom.window.close();
+  console.log(JSON.stringify({pass: true, checks: ['completed snapshot hydration', '32 domains / 296 topics', 'zero pending items hidden', 'no editor or checkbox', 'search / empty / restoration', 'expand / collapse', 'domain jump / hash', 'theme persistence', 'copy success / failure', 'deep link', 'offline fallback', 'invalid count rejection', 'pending fixture rendering'], scope: 'simulated DOM behavior; no browser layout or screenshot assertion'}, null, 2));
 })().catch(error => { console.error(error); process.exitCode = 1; });

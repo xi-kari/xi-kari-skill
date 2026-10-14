@@ -100,8 +100,8 @@ function validDelivery(data) {
   const d = data?.delivery;
   const integer = (n) => Number.isSafeInteger(n) && n >= 0;
   if (data?.schemaVersion !== 1 || !d || !Array.isArray(d.groups) || !Array.isArray(d.pendingItems)) return false;
-  if (![d.total, d.delivered, d.pending, d.forwardDelivered, d.reverseDelivered, d.overlap].every(integer) || d.total === 0) return false;
-  if (d.delivered + d.pending !== d.total || d.forwardDelivered + d.reverseDelivered - d.overlap !== d.delivered) return false;
+  if (![d.total, d.delivered, d.pending].every(integer) || d.total === 0) return false;
+  if (d.delivered + d.pending !== d.total) return false;
   if (!d.groups.every((g) => typeof g.id === 'string' && typeof g.title === 'string' && integer(g.total) && integer(g.delivered) && g.total > 0 && g.delivered <= g.total)) return false;
   if (new Set(d.groups.map((g) => g.id)).size !== d.groups.length) return false;
   if (d.groups.reduce((n, g) => n + g.total, 0) !== d.total || d.groups.reduce((n, g) => n + g.delivered, 0) !== d.delivered) return false;
@@ -129,7 +129,7 @@ async function setupResearchSnapshot() {
       bar.max = group.total;
       bar.value = group.delivered;
       bar.textContent = `${group.delivered} / ${group.total}`;
-      bar.setAttribute('aria-label', `${group.title}：${group.delivered} / ${group.total} 项已交付`);
+      bar.setAttribute('aria-label', `${group.title}：${group.delivered} / ${group.total} 项已完成`);
       cell.append(bar);
       row.append(label, element('td', '', `${group.delivered} / ${group.total}`), element('td', '', String(group.total - group.delivered)), cell);
       groups.append(row);
@@ -145,22 +145,25 @@ async function setupResearchSnapshot() {
     }
     $('[data-delivery-groups]').replaceChildren(groups);
     $('[data-pending-items]').replaceChildren(pending);
-    $('[data-delivery-total]').replaceChildren(element('strong', '', `${d.delivered} / ${d.total}`), document.createTextNode(' 项已有交付，'), element('strong', '', String(d.pending)), document.createTextNode(' 项待正式交付。'));
-    $('#delivery-title').textContent = `${d.total} 项任务的交付进度`;
-    $('#pending-title').textContent = `仍待正式交付的 ${d.pending} 项`;
+    const summary = $('[data-delivery-total]');
+    summary.replaceChildren(element('strong', '', `${d.delivered} / ${d.total}`), document.createTextNode(' 项研究任务已完成'));
+    if (d.pending) summary.append(document.createTextNode('，'), element('strong', '', String(d.pending)), document.createTextNode(' 项待完成。'));
+    else summary.append(document.createTextNode('。'));
+    $('#delivery-title').textContent = d.pending ? `${d.total} 项研究任务的完成情况` : `${d.total} 项研究任务已完成`;
+    $('[data-pending-section]').hidden = d.pending === 0;
+    $('#pending-title').textContent = d.pending ? `待完成的 ${d.pending} 项研究任务` : '待完成的研究任务';
     const meter = $('[data-delivery-meter]');
     meter.setAttribute('aria-valuemax', String(d.total));
     meter.setAttribute('aria-valuenow', String(d.delivered));
-    meter.setAttribute('aria-valuetext', `${d.delivered} 项已交付，${d.pending} 项待正式交付，共 ${d.total} 项`);
+    meter.setAttribute('aria-valuetext', d.pending ? `${d.delivered} 项已完成，${d.pending} 项待完成，共 ${d.total} 项` : `${d.total} 项研究任务已全部完成`);
     $('[data-delivery-fill]').style.width = `${100 * d.delivered / d.total}%`;
-    $('[data-delivery-union]').textContent = `正序 ${d.forwardDelivered} 项 + 倒序 ${d.reverseDelivered} 项 − 重复 ${d.overlap} 项 = ${d.delivered} 项。以下按任务类别统计，同一任务只计一次。`;
     for (const [selector, value] of [['[data-snapshot-date]', d.snapshotDate], ['[data-page-date]', data.updatedAt]]) {
       const date = $(selector);
       date.dateTime = value;
       date.textContent = value.replaceAll('-', '.');
     }
     root.dataset.loaded = 'true';
-    status.textContent = '维护者发布的静态快照；研究统计日期与页面更新日期分别列示。';
+    status.textContent = '';
   } catch {
     status.textContent = '公开数据文件暂未读取，当前显示随页面发布的快照。可重新加载页面，或查看公开快照文件。';
     status.classList.add('is-error');
@@ -273,7 +276,7 @@ async function setupResearch() {
     filter();
     retry.hidden = true;
     root.dataset.loaded = 'true';
-    status.textContent = '专题目录用于定位问题；历史完成记录与上方研究交付快照分别保留。';
+    status.textContent = '专题目录用于定位问题；历史记录与上方研究完成状态分别保留。';
     search.disabled = false;
     $$('[data-expand], [data-collapse]').forEach((button) => { button.disabled = false; });
     domainSelect.disabled = false;

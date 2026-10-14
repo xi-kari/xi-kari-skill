@@ -13,35 +13,68 @@
     "sourceUrl": "https://github.com/xi-kari/xi-kari-skill/blob/main/source/Xikari-条件结构与转化论.md"
   },
   "delivery": {
-    "snapshotDate": "2026-10-13",
-    "title": "正式 v10.0 后续研究任务交接快照",
+    "snapshotDate": "2026-10-14",
+    "title": "正式 v10.0 后续研究任务完成状态",
     "total": 620,
-    "delivered": 612,
-    "pending": 8,
-    "forwardDelivered": 484,
-    "reverseDelivered": 142,
-    "overlap": 14,
-    "meaning": "已交付表示任务已有研究材料交付；交付数量不等于理论验证率，也不表示全库语义与来源终审已经完成。",
+    "delivered": 620,
+    "pending": 0,
+    "meaning": "正式 v10.0 后续 620 项研究任务，涵盖基线与材料、专题研究、补证、领域收束及最终整合与验收。",
     "groups": [
-      { "id": "baseline", "title": "基线与材料", "delivered": 4, "total": 4 },
-      { "id": "main", "title": "主纲余项", "delivered": 296, "total": 296 },
-      { "id": "supplement", "title": "增补余项", "delivered": 209, "total": 209 },
-      { "id": "evidence", "title": "专项补证", "delivered": 10, "total": 10 },
-      { "id": "candidate", "title": "候选后续验证", "delivered": 65, "total": 65 },
-      { "id": "quality", "title": "全库质量核对", "delivered": 0, "total": 2 },
-      { "id": "domains", "title": "领域收束", "delivered": 28, "total": 32 },
-      { "id": "final", "title": "最终整合与验收", "delivered": 0, "total": 2 }
+      {
+        "id": "baseline",
+        "title": "基线与材料",
+        "delivered": 4,
+        "total": 4
+      },
+      {
+        "id": "main",
+        "title": "主纲余项",
+        "delivered": 296,
+        "total": 296
+      },
+      {
+        "id": "supplement",
+        "title": "增补余项",
+        "delivered": 209,
+        "total": 209
+      },
+      {
+        "id": "evidence",
+        "title": "专项补证",
+        "delivered": 10,
+        "total": 10
+      },
+      {
+        "id": "candidate",
+        "title": "候选后续验证",
+        "delivered": 65,
+        "total": 65
+      },
+      {
+        "id": "quality",
+        "title": "全库质量核对",
+        "delivered": 2,
+        "total": 2
+      },
+      {
+        "id": "domains",
+        "title": "领域收束",
+        "delivered": 32,
+        "total": 32
+      },
+      {
+        "id": "final",
+        "title": "最终整合与验收",
+        "delivered": 2,
+        "total": 2
+      }
     ],
-    "pendingItems": [
-      { "id": "Q-01", "title": "来源谱系与支持范围", "detail": "核对来源谱系、重复证据与独立支持范围。" },
-      { "id": "Q-02", "title": "定位、勘误与逐问回指", "detail": "处理 39 处空定位、三项勘误与逐问回指。" },
-      { "id": "D-18", "title": "货币、信用、金融与危机", "detail": "完成剩余问题与领域整合。" },
-      { "id": "D-30", "title": "生态、资源、公地与可持续生活", "detail": "完成剩余问题与领域整合。" },
-      { "id": "D-31", "title": "风险、灾害、公共卫生、指挥与恢复", "detail": "完成剩余问题与领域整合。" },
-      { "id": "D-32", "title": "战争、革命、帝国、发展与历史路径", "detail": "完成剩余问题与领域整合。" },
-      { "id": "FINAL-SYN", "title": "全量研究收束", "detail": "完成正式 v10.0 后续全量研究的综合收束。" },
-      { "id": "FINAL-AUDIT", "title": "全库终审", "detail": "终审原问、证据材料与实际完成情况。" }
-    ]
+    "pendingItems": [],
+    "provenance": {
+      "kind": "author-confirmation",
+      "confirmedAt": "2026-10-14",
+      "dateMeaning": "完成状态的确认日期，不作为逐项研究的具体完成日期。"
+    }
   },
   "directory": {
     "domains": 32,
@@ -49,7 +82,8 @@
     "meaning": "历史专题题目在当前正文附录 D 的专题定位中保留；目录用于定位问题，不作为当前理论验证进度。"
   },
   "publication": {
-    "method": "维护者依据研究交接材料发布的静态快照。",
-    "boundary": "正文成稿不等于全库终审完成，也不证明当前理论组织方式的经验有效性。"
+    "method": "作者确认的研究完成状态。",
+    "scope": "正式 v10.0 后续 620 项研究任务的完成状态。",
+    "history": "history/research-status-20261013.json"
   }
 }
