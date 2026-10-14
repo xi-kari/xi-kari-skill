@@ -7,7 +7,7 @@ const { JSDOM, VirtualConsole } = require(process.argv[2] || 'jsdom');
 const python = process.argv[3] || 'python';
 const root = path.resolve(__dirname, '..');
 const source = '# 可继续讨论的完整文章\n\n## 主体\n\n可复算原式 \\(x^2\\)，保留价格 $5 与 $10 和注释[^a]。\n\n再次引用[^a]。\n\n$$\\frac{a}{b}$$\n\n错误原式 \\(\\unknownCommand{x}\\)。\n\n```text\n$x$ 是代码\n```\n\n## 后一节\n\n后文完整保留。\n\n| 方案 | 工时 | 人数 |\n| --- | --- | --- |\n| A | 10 | 2 |\n\n[^a]: 证据说明。\n';
-const render = spawnSync(python, ['-c', 'import importlib.util,sys; from pathlib import Path; s=importlib.util.spec_from_file_location("reader",sys.argv[1]); m=importlib.util.module_from_spec(s); s.loader.exec_module(m); sys.stdout.reconfigure(encoding="utf-8"); print(m.render_document(sys.stdin.read()))', path.join(root, 'scripts/render_answer.py')], { input: source, encoding: 'utf8', maxBuffer: 8 * 1024 * 1024 });
+const render = spawnSync(python, ['-c', 'import importlib.util,sys; from pathlib import Path; s=importlib.util.spec_from_file_location("reader",sys.argv[1]); m=importlib.util.module_from_spec(s); s.loader.exec_module(m); sys.stdout.reconfigure(encoding="utf-8"); print(m.render_document(sys.stdin.buffer.read().decode("utf-8")))', path.join(root, 'scripts/render_answer.py')], { input: source, encoding: 'utf8', maxBuffer: 8 * 1024 * 1024 });
 assert.equal(render.status, 0, render.stderr);
 const errors = [], copied = [];
 const virtualConsole = new VirtualConsole();
