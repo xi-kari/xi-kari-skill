@@ -304,6 +304,45 @@ def validate_model(model):
     return formulas, constraint_formulas, groups
 
 
+def one_at_a_time(cases, model, explore):
+    """Report whether varying one declared condition alone changes the model's state.
+
+    Reads only already computed cases: no interpolation, no new values, and no
+    ranking. It answers "which declared condition actually moves the outcome",
+    which the full grid alone does not surface.
+    """
+    if not explore:
+        return []
+    keys = list(explore)
+    report = []
+    for key in keys:
+        others = [name for name in keys if name != key]
+        groups = {}
+        for case in cases:
+            signature = (case["scenario"], case["plan"],
+                         tuple((name, json.dumps(case["explore"][name], ensure_ascii=False)) for name in others))
+            groups.setdefault(signature, {})[json.dumps(case["explore"][key], ensure_ascii=False)] = case["state"]
+        flips, states, examples = 0, set(), []
+        for group in groups.values():
+            states.update(group.values())
+            if len(set(group.values())) > 1:
+                flips += 1
+                if len(examples) < 2:
+                    ordered = sorted(group)
+                    examples.append({"values": ordered, "states": [group[value] for value in ordered]})
+        report.append({
+            "condition": key,
+            "label": model["inputs"][key].get("label", key),
+            "values": explore[key],
+            "groups": len(groups),
+            "state_changing_groups": flips,
+            "decisive": flips > 0,
+            "observed_states": sorted(states),
+            "examples": examples,
+        })
+    return report
+
+
 def check_override_type(original, value, key):
     if original is not None and value is not None and (type(original) is bool) != (type(value) is bool):
         raise ModelError(f"{key}的布尔与数值类型不能在覆盖时互换。")
@@ -342,7 +381,7 @@ def evaluate_model(model):
         elif not constraints: overall = "no_constraints"
         else: overall = "satisfies_model_constraints"
         cases.append({"id": f"case-{len(cases) + 1}", "scenario": scenario["id"], "scenario_label": scenario["label"], "plan": plan["id"], "plan_label": plan["label"], "explore_index": combination_index, "explore": combination, "inputs": inputs, "derived": derived, "constraints": constraints, "state": overall})
-    return {"format": TOOL, "schema_version": 1, "model": model, "scenarios": groups["scenarios"], "plans": groups["plans"], "explore_combinations": combinations, "case_count": len(cases), "cases": cases, "interpretation": "约束满足仅在此模型、这些输入与公式下成立；不证明现实可实施、最优、概率或因果关系。未知未作0处理。未列入的条件仍可能改变判断。"}
+    return {"format": TOOL, "schema_version": 1, "model": model, "scenarios": groups["scenarios"], "plans": groups["plans"], "explore_combinations": combinations, "case_count": len(cases), "cases": cases, "sensitivity": one_at_a_time(cases, model, explore), "interpretation": "约束满足仅在此模型、这些输入与公式下成立；不证明现实可实施、最优、概率或因果关系。未知未作0处理。未列入的条件仍可能改变判断。敏感性只说明所列离散条件下模型状态是否改变，不代表现实中最重要，也不代替对未列入条件的核查。"}
 
 
 def csv_cell(value):

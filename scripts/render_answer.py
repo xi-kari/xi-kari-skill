@@ -548,6 +548,7 @@ def render_document(source: str, *, title: str | None = None, source_path: Path 
 <div class="search-control"><label for="reader-search">搜索全文</label><input id="reader-search" type="search" placeholder="输入文字定位" autocomplete="off" spellcheck="false"><span id="search-status" role="status" aria-live="polite">保留全部正文</span></div>
 <div class="search-buttons"><button id="previous-match" type="button" disabled aria-label="上一处匹配">上一处</button><button id="next-match" type="button" disabled aria-label="下一处匹配">下一处</button></div>
 <div class="reading-controls"><button id="quote-question" type="button" aria-controls="question-panel" aria-expanded="false">追问此处</button><button id="font-smaller" type="button" aria-label="减小正文字号">字小</button><button id="font-larger" type="button" aria-label="增大正文字号">字大</button><button id="theme-toggle" type="button" aria-pressed="false">夜读</button><button id="print-reader" type="button">打印</button></div>
+<div class="reader-progress" role="presentation"><span id="reader-progress-bar"></span></div>
 </header>
 <section id="question-panel" class="question-panel" aria-labelledby="question-title" hidden>
 <div class="question-heading"><h2 id="question-title">围绕原文继续讨论</h2><button id="close-question" type="button">收起追问</button></div>

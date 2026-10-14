@@ -67,6 +67,49 @@ class ConditionLabTests(unittest.TestCase):
         self.assertEqual(demand["derived"][2]["value"], 3)
         self.assertEqual(demand["state"], "violates_model_constraints")
 
+    def test_sensitivity_reports_which_declared_condition_moves_the_state(self):
+        result = lab.evaluate_model(example("university"))
+        report = {item["condition"]: item for item in result["sensitivity"]}
+        self.assertEqual(set(report), {"total_hours"})
+        total = report["total_hours"]
+        self.assertTrue(total["decisive"])
+        self.assertGreater(total["state_changing_groups"], 0)
+        self.assertEqual(total["values"], [30, 40, 50])
+        self.assertEqual(total["label"], "总工时")
+        for sample in total["examples"]:
+            self.assertEqual(len(sample["values"]), len(sample["states"]))
+            self.assertGreater(len(set(sample["states"])), 1)
+
+    def test_sensitivity_is_empty_without_declared_explore_conditions(self):
+        result = lab.evaluate_model(minimal())
+        self.assertEqual(result["sensitivity"], [])
+
+    def test_sensitivity_reuses_computed_cases_without_adding_any(self):
+        model = example("university")
+        result = lab.evaluate_model(model)
+        self.assertEqual(result["case_count"], 27)
+        self.assertEqual(len(result["cases"]), 27)
+        states = {case["id"]: case["state"] for case in result["cases"]}
+        self.assertEqual(len(states), 27)
+
+    def test_sensitivity_does_not_invent_values_outside_the_declared_grid(self):
+        model = minimal()
+        model["explore"] = {"capacity": [2, 10]}
+        result = lab.evaluate_model(model)
+        report = result["sensitivity"][0]
+        self.assertEqual(report["condition"], "capacity")
+        self.assertEqual(set(report["values"]), {2, 10})
+        self.assertTrue(report["decisive"])
+        self.assertEqual(set(report["observed_states"]), {"violates_model_constraints", "satisfies_model_constraints"})
+
+    def test_a_condition_that_never_crosses_a_constraint_is_not_reported_decisive(self):
+        model = minimal()
+        model["explore"] = {"capacity": [6, 10]}
+        report = lab.evaluate_model(model)["sensitivity"][0]
+        self.assertFalse(report["decisive"])
+        self.assertEqual(report["state_changing_groups"], 0)
+        self.assertEqual(set(report["observed_states"]), {"satisfies_model_constraints"})
+
     def test_project_capacity_does_not_resolve_external_dependency(self):
         result = lab.evaluate_model(example("project"))
         self.assertEqual(self.case(result, available=24)["state"], "satisfies_model_constraints")

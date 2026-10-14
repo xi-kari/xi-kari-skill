@@ -57,6 +57,48 @@ def merge_ranges(ranges: list[tuple[int, int]]) -> list[tuple[int, int]]:
     return merged
 
 
+def section_at(order: list[tuple[str, dict]], index: int) -> tuple[str | None, dict | None]:
+    """Return the most specific section containing a zero-based line index.
+
+    ``order`` is sections sorted by ascending start line. Deeper subsections
+    begin later, so the last match is the innermost containing section.
+    """
+    found_key = found_item = None
+    for key, item in order:
+        if item["start"] > index:
+            break
+        if index < item["end"]:
+            found_key, found_item = key, item
+    return found_key, found_item
+
+
+def search_lines(lines: list[str], order: list[tuple[str, dict]], terms: list[str], limit: int,
+                 context: int = 0) -> list[dict]:
+    """Find lines containing every term (case-insensitive literal match)."""
+    needles = [term.casefold() for term in terms]
+    hits = []
+    for index, line in enumerate(lines):
+        folded = line.casefold()
+        if not all(needle in folded for needle in needles):
+            continue
+        key, item = section_at(order, index)
+        neighbours = []
+        if context:
+            start = max(0, index - context)
+            stop = min(len(lines), index + context + 1)
+            neighbours = [{"line": row + 1, "text": lines[row]} for row in range(start, stop) if row != index]
+        hits.append({
+            "line": index + 1,
+            "section": key,
+            "section_title": item["title"] if item else None,
+            "text": line,
+            "context": neighbours,
+        })
+        if limit and len(hits) >= limit:
+            break
+    return hits
+
+
 def full_text_chunks(text: str, size: int) -> list[tuple[int, int]]:
     if size < 1:
         raise ValueError("Chunk size must be positive")
@@ -88,6 +130,10 @@ def main() -> int:
     parser.add_argument("--chunks", action="store_true", help="Show total chunks for sequential complete reading")
     parser.add_argument("--chunk", type=int, action="append", default=[], help="Read a complete-text chunk, starting at 1")
     parser.add_argument("--chunk-size", type=int, default=6000, help="Maximum characters per chunk; keep fixed while reading")
+    parser.add_argument("--search", action="append", default=[], metavar="TERM",
+                        help="Locate a literal term after full-source study; repeatable, all terms must appear on a line")
+    parser.add_argument("--limit", type=int, default=20, help="Maximum reported search hits")
+    parser.add_argument("--context", type=int, default=0, help="Neighbouring lines reported around each search hit")
     args = parser.parse_args()
     try:
         data = SOURCE.read_bytes()
@@ -95,9 +141,32 @@ def main() -> int:
         lines = source_text.splitlines()
         sections, parts = build_index(lines)
         chunks = full_text_chunks(source_text, args.chunk_size)
+        if args.limit < 1:
+            raise ValueError("--limit must be positive")
+        if args.context < 0:
+            raise ValueError("--context must not be negative")
+        if any(not term.strip() for term in args.search):
+            raise ValueError("Search terms must not be empty")
         for number in args.chunk:
             if not 1 <= number <= len(chunks):
                 raise ValueError(f"Unknown chunk: {number}; available: 1 through {len(chunks)}")
+        if args.search:
+            order = sorted(sections.items(), key=lambda item: item[1]["start"])
+            hits = search_lines(lines, order, args.search, args.limit, args.context)
+            if not hits:
+                print("未找到包含全部检索词的原文行；可换用原文实际用词，或改读相关完整小节。")
+            else:
+                print(f"命中 {len(hits)} 行（检索词：{'、'.join(args.search)}；显示上限 {args.limit}；用于学完后定位复读，不替代完整阅读）")
+            for hit in hits:
+                where = f"§{hit['section']}　{hit['section_title']}" if hit["section"] else "书前说明或参考文献区域"
+                print(f"\n> {where}")
+                for neighbour in hit["context"]:
+                    if neighbour["line"] < hit["line"]:
+                        print(f"行{neighbour['line']}: {neighbour['text']}")
+                print(f"行{hit['line']}: {hit['text']}")
+                for neighbour in hit["context"]:
+                    if neighbour["line"] > hit["line"]:
+                        print(f"行{neighbour['line']}: {neighbour['text']}")
         if args.chunks:
             print(json.dumps({"source": SOURCE.name, "characters": len(source_text),
                               "chunk_size": args.chunk_size, "chunks": len(chunks),
@@ -135,7 +204,7 @@ def main() -> int:
         for start, end in merge_ranges(ranges):
             print(f"\n[{SOURCE.name} · lines {start + 1}-{end}]\n")
             print("\n".join(lines[start:end]))
-        if not (args.check or args.list or ranges or args.chunks or args.chunk):
+        if not (args.check or args.list or ranges or args.chunks or args.chunk or args.search):
             parser.print_help()
         return 0
     except (OSError, ValueError, KeyError) as exc:

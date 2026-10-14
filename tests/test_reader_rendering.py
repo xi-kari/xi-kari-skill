@@ -138,6 +138,17 @@ class ReaderRenderingTests(unittest.TestCase):
         for text in ('证据段落', '第二段', '[^missing]', '[^code]: 代码，不是脚注'):
             self.assertIn(text, ''.join(doc.text))
 
+    def test_reading_progress_and_sidebar_affordances_are_present(self):
+        output = renderer().render_document('# 长篇阅读\n\n## 第一节\n\n正文。\n')
+        document = Document(output)
+        identifiers = [attrs.get('id') for _, attrs in document.tags if attrs.get('id')]
+        self.assertIn('reader-progress-bar', identifiers)
+        progress = next(attrs for _, attrs in document.tags if attrs.get('class') == 'reader-progress')
+        self.assertEqual(progress.get('role'), 'presentation')
+        self.assertIn('class="reader-progress"', output)
+        for token in ('--accent-soft', '--ink-strong', '--quote-rule', '--radius-lg'):
+            self.assertIn(token + ':', output)
+
     def test_math_currency_and_code_are_distinguished_and_offline(self):
         source = r'# 公式' + '\n\n' + r'原式 \(x^2\)，也可用 $y+1$。价格 $5 与 $10。代码 `$z$`。' + '\n\n$$\\frac{a}{b}$$\n'
         output = renderer().render_document(source)

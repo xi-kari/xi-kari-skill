@@ -1,0 +1,51 @@
+{
+  "round": 1,
+  "question": "把散落在多轮对话里的结论集中登记：哪些已决定、哪些仍悬、哪些被新证据动摇、哪些已撤回",
+  "materials": [
+    "当事人提供的一页现状说明（非公开草稿）",
+    "上一轮对话里已确认的两条取舍：先做小范围试点，暂不铺开"
+  ],
+  "central_judgement": "当前中心判断：先以小范围试点验证接续装置是否够用，再决定是否扩大范围",
+  "manuscript": {
+    "path": "drafts/task-state-section.md",
+    "heading": "接续装置：现状与缺口",
+    "note": "本轮只写到现状一节，后续章节尚未动笔"
+  },
+  "decided": [
+    {
+      "id": "r1-decision-1",
+      "statement": "本轮采用小范围试点，先不铺开",
+      "kind": "decision",
+      "basis": "当事人明确选择先试点；这是取舍，不是对现实的主张",
+      "change_conditions": ["试点结果不支持继续时改判"],
+      "load_bearing": true
+    },
+    {
+      "id": "r1-fact-1",
+      "statement": "上一轮对话里文本长度为 671070 字节",
+      "kind": "fact",
+      "basis": "直接测量得到的字节数，不涉及解释",
+      "sources": [
+        {"path": "source/snapshot.md", "description": "封板快照文件"}
+      ]
+    },
+    {
+      "id": "r1-observation-1",
+      "statement": "在两轮之间，未决项的数量没有下降",
+      "kind": "observation",
+      "basis": "逐轮清点 open 条目得到的观察记录",
+      "sources": [
+        {"catalog_id": "round-open-count", "description": "轮次未决计数片段"}
+      ],
+      "change_conditions": ["未决项被逐条关闭后不再成立"]
+    }
+  ],
+  "open": [
+    {
+      "id": "r1-open-1",
+      "statement": "试点范围应覆盖几轮才足以判断接续装置是否够用",
+      "why_open": "尚无实测数据支撑轮数选择",
+      "competing": ["两轮即可判断", "至少需要五轮"]
+    }
+  ]
+}

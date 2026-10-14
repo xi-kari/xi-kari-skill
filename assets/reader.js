@@ -11,6 +11,7 @@
   const sections = [...article.querySelectorAll('[data-reader-section]')];
   const sizes = ['small', 'medium', 'large', 'largest'];
   const toolbar = document.querySelector('.reader-toolbar');
+  const progressBar = document.getElementById('reader-progress-bar');
   function updateToolbarHeight() {
     const height = Math.ceil(toolbar.getBoundingClientRect().height);
     if (height > 0) root.style.setProperty('--toolbar-height', `${height}px`);
@@ -274,15 +275,19 @@
   let scrollPending = false;
   function updateCurrent() {
     scrollPending = false;
-    const top = document.querySelector('.reader-toolbar').getBoundingClientRect().height + 48;
+    const top = toolbar.getBoundingClientRect().height + 48;
     let activeHeading = headings[0];
     for (const heading of headings) {
       if (heading.getBoundingClientRect().top <= top) activeHeading = heading;
     }
-    if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 8) activeHeading = headings.at(-1);
+    const reachedEnd = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 8;
+    if (reachedEnd) activeHeading = headings.at(-1);
     headingLinks.forEach(link => link.removeAttribute('aria-current'));
     const current = activeHeading && headingLinks.get(activeHeading.id);
     if (current) current.setAttribute('aria-current', 'location');
+    const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+    const ratio = scrollable > 0 ? Math.min(1, Math.max(0, window.scrollY / scrollable)) : 0;
+    progressBar.style.width = `${(ratio * 100).toFixed(2)}%`;
   }
   window.addEventListener('scroll', () => {
     if (!scrollPending) { scrollPending = true; requestAnimationFrame(updateCurrent); }

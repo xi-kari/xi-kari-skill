@@ -25,14 +25,20 @@
 ```powershell
 python "$skillRoot/scripts/read_source.py" --chunks
 python "$skillRoot/scripts/read_source.py" --chunk 1
+python "$skillRoot/scripts/read_source.py" --search '条件结构' --context 2
 python "$skillRoot/scripts/evidence.py" --catalog "$taskRoot/materials.json" add "$taskRoot/material.md" --id material-1
+python "$skillRoot/scripts/claims.py" --ledger "$taskRoot/claims.json" check
+python "$skillRoot/scripts/comparison.py" "$taskRoot/compare.json" --output "$taskRoot/compare" --format all
+python "$skillRoot/scripts/study_design.py" --design "$taskRoot/design.json" validate
+python "$skillRoot/scripts/task_state.py" --state "$taskRoot/state.json" init --task '本轮要回答的问题'
+python "$skillRoot/scripts/render_docx.py" "$taskRoot/xi-kari-answer.md" --output "$taskRoot/xi-kari-answer.docx"
 python "$skillRoot/scripts/condition_lab.py" "$skillRoot/assets/examples/condition-project.json" --output "$taskRoot/project-model"
 python "$skillRoot/scripts/render_answer.py" "$taskRoot/xi-kari-answer.md" --output "$taskRoot/xi-kari-answer.html"
 ```
 
 全文读取仍须顺序完成到末块；上述单块命令只是调用形式。教学模型明确虚构，不能充当用户现实问题的数据或结论。
 
-五个写入工具会在创建文件、目录、锁或临时文件前拒绝安装目录及其子目录中的目标，也检查解析后的目录链接和`..`路径。运行不会向技能目录写字节码缓存。该保护约束随包工具的写入，不是操作系统沙箱，不阻止用户自行用其他程序维护技能。
+十个写入工具会在创建文件、目录、锁或临时文件前拒绝安装目录及其子目录中的目标，也检查解析后的目录链接和`..`路径。运行不会向技能目录写字节码缓存。该保护约束随包工具的写入，不是操作系统沙箱，不阻止用户自行用其他程序维护技能。
 
 ## 更新与工作继承
 

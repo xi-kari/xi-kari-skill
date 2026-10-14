@@ -88,6 +88,7 @@ const dom = new JSDOM(render.stdout, {
   assert.equal(document.querySelectorAll('.current-match').length, 0);
   document.getElementById('theme-toggle').click();
   assert.equal(document.documentElement.dataset.theme, 'night');
+  assert.match(document.getElementById('reader-progress-bar').style.width, /^[\d.]+%$/, 'Reading progress must be a percentage width.');
   document.getElementById('font-larger').click();
   assert.equal(document.documentElement.dataset.font, 'large');
   const original = document.querySelector('a.source-download').href.split(',')[1];

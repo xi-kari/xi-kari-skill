@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "title": "三方复核安排的明确虚构比较",
+  "purpose": "演示每个单元格如何保留自己的依据身份，以及未知与不可排序维度如何处理。",
+  "fictional": true,
+  "assumptions": [
+    "全部取值都是教学设定，不是任何真实机构的数据。",
+    "「额外工时」按同一口径折算，但不同安排的工时构成并不相同。",
+    "「可逆性」没有共同数值尺度，因此不参与排序。"
+  ],
+  "boundaries": [
+    "本表只比较已列出的维度；未列出的条件（法律授权、当事人保护、长期维护成本）仍可能改变判断。",
+    "标为「事实」的取值只有作者声明的来源，工具没有核验该来源。",
+    "「混合规则」的额外工时没有任何可靠估计，保持未知，不按0或最差处理。"
+  ],
+  "candidates": [
+    { "id": "auto", "label": "完全自动排序" },
+    { "id": "manual", "label": "人工复核" },
+    { "id": "hybrid", "label": "混合规则" }
+  ],
+  "dimensions": [
+    { "id": "extra_hours", "label": "额外工时", "direction": "lower_is_better", "unit": "工时" },
+    { "id": "reversible", "label": "可逆性", "direction": "not_orderable" }
+  ],
+  "cells": {
+    "auto": {
+      "extra_hours": { "value": 0, "basis": "assumed", "note": "教学设定：无人工环节" },
+      "reversible": { "value": "低", "basis": "assumed", "note": "规则一旦生效，回退需要重建记录" }
+    },
+    "manual": {
+      "extra_hours": { "value": 12, "basis": "assumed", "note": "教学设定：按件折算" },
+      "reversible": { "value": "高", "basis": "assumed", "note": "逐案决定，可单独改判" }
+    },
+    "hybrid": {
+      "extra_hours": { "value": null, "basis": "unknown", "note": "尚无可靠估计，不能按0处理" },
+      "reversible": { "value": "中", "basis": "assumed", "note": "只有阈值可调，个案仍走自动规则" }
+    }
+  }
+}

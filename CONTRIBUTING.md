@@ -35,6 +35,17 @@ $xikariOutput = Join-Path ([System.IO.Path]::GetTempPath()) ('xikari-check-' + [
 python scripts/build_install_package.py --output $xikariOutput
 ```
 
+主张台账、方案比较表或研究设计修改，还应端到端跑一遍并检查写入保护：
+
+```powershell
+$xikariTaskRoot = Join-Path ([System.IO.Path]::GetTempPath()) ('xikari-task-' + [guid]::NewGuid().ToString('N'))
+python scripts/comparison.py assets/examples/comparison-example.json --output $xikariTaskRoot --format all
+python scripts/study_design.py --design assets/examples/study-design-example.json validate
+python scripts/study_design.py --design assets/examples/study-design-example.json render --output (Join-Path $xikariTaskRoot '研究说明.md')
+```
+
+三个工具都必须拒绝把输出写进技能安装目录；上面各命令的 `--output` 若改指仓库内路径，应以非零退出码失败而不是生成文件。
+
 阅读器、条件模型页面或项目介绍页修改，还应运行对应交互检查：
 
 ```powershell
