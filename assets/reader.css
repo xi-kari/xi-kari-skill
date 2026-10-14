@@ -11,6 +11,7 @@
   --current: #f5c86a;
   --body-size: 20px;
   --toolbar-height: 72px;
+  --toolbar-min-height: 72px;
   font-family: "Microsoft YaHei", "PingFang SC", system-ui, sans-serif;
   font-synthesis: none;
   scroll-padding-top: calc(var(--toolbar-height) + 28px);
@@ -36,7 +37,7 @@ body { margin: 0; background: var(--paper); color: var(--ink); }
 ::selection { background: var(--soft); color: var(--ink); }
 a { color: var(--accent); text-underline-offset: .22em; text-decoration-thickness: 1px; overflow-wrap: anywhere; }
 a:hover { text-decoration-thickness: 2px; }
-button, input { font: inherit; color: inherit; }
+button, input, select, textarea { font: inherit; color: inherit; }
 button { background: transparent; border: 1px solid var(--line); padding: 8px 11px; min-height: 40px; cursor: pointer; border-radius: 5px; white-space: nowrap; }
 button:hover:not(:disabled) { background: var(--soft); border-color: var(--accent); }
 button:active:not(:disabled) { background: var(--line); }
@@ -44,7 +45,7 @@ button:disabled { opacity: .45; cursor: default; }
 :focus-visible { outline: 3px solid var(--accent); outline-offset: 4px; }
 .skip-link { position: fixed; z-index: 5; top: -100px; left: 16px; padding: 12px 20px; background: var(--page); }
 .skip-link:focus { top: 12px; }
-.reader-toolbar { position: sticky; top: 0; z-index: 3; display: flex; align-items: center; gap: 14px; min-height: var(--toolbar-height); padding: 12px 28px; border-bottom: 1px solid var(--line); background: var(--paper); font-size: 13px; }
+.reader-toolbar { position: sticky; top: 0; z-index: 3; display: flex; align-items: center; gap: 14px; min-height: var(--toolbar-min-height); padding: 12px 28px; border-bottom: 1px solid var(--line); background: var(--paper); font-size: 13px; }
 .search-control { display: flex; gap: 10px; align-items: center; flex: 1; min-width: 140px; }
 .search-control label { color: var(--muted); white-space: nowrap; }
 .search-control input { width: min(260px, 100%); min-width: 90px; border: none; border-bottom: 1px solid var(--line); border-radius: 0; background: transparent; padding: 10px 2px; caret-color: var(--accent); }
@@ -109,6 +110,32 @@ mark.current-match { background: var(--current); outline: 2px solid var(--accent
 .render-notes summary { cursor: pointer; }
 .reader-footer { max-width: 72ch; margin: 60px auto 0; padding-top: 22px; border-top: 1px solid var(--line); display: flex; justify-content: space-between; gap: 20px; font-size: 12px; color: var(--muted); }
 .no-script { margin: 20px; }
+.legacy-anchor { display: block; height: 0; scroll-margin-top: calc(var(--toolbar-height) + 28px); }
+.question-panel { max-width: 1380px; margin: 0 auto; padding: 28px 34px 32px; background: var(--page); border-bottom: 1px solid var(--line); font-size: 15px; line-height: 1.7; }
+.question-panel[hidden] { display: none; }
+.question-heading, .question-section, .question-actions { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.question-heading { justify-content: space-between; }
+.question-heading h2 { margin: 0; font-size: 1.25em; }
+.question-panel p, #question-status { color: var(--muted); }
+.question-section { margin-block: 20px; }
+.question-panel select { max-width: 100%; min-width: 180px; flex: 1; background: var(--page); border: 1px solid var(--line); padding: 10px; }
+.question-panel textarea { display: block; width: 100%; min-height: 180px; resize: vertical; margin-top: 8px; padding: 16px; border: 1px solid var(--line); border-radius: 5px; background: var(--paper); line-height: 1.75; caret-color: var(--accent); }
+.question-panel textarea::placeholder { color: var(--muted); opacity: 1; }
+.question-actions { margin-top: 16px; }
+.footnotes { margin-top: 2.4em; font-size: .85em; }
+.footnotes h2 { font-family: inherit; font-size: 1.12em; }
+.footnote-ref { font-size: .72em; line-height: 0; }
+.footnote-ref a { padding-inline: .14em; }
+.footnote-returns, .footnote-unused { font-size: .85em; color: var(--muted); }
+.footnote-returns a { margin-right: 1em; }
+.reader-math { max-width: 100%; }
+.math-display { overflow-x: auto; margin-block: 1.5em; padding-block: .4em; }
+.math-source { font-family: Consolas, "Cascadia Code", ui-monospace, monospace; white-space: pre-wrap; font-size: .9em; }
+.math-error { text-decoration: underline dotted; text-underline-offset: .2em; }
+.math-error::after { content: "（公式保留原式）"; font: .72em "Microsoft YaHei", sans-serif; color: var(--muted); }
+.reader-math.math-match { background: var(--mark); }
+.reader-math.current-match { outline: 2px solid var(--accent); outline-offset: 2px; background: var(--current); }
+.reader-math .katex-display { margin: .3em 0; }
 @media (max-width: 1100px) {
   .reader-toolbar { gap: 9px; padding-inline: 18px; }
   .search-control label { display: none; }
@@ -117,7 +144,7 @@ mark.current-match { background: var(--current); outline: 2px solid var(--accent
   #contents { padding-inline: 18px; }
 }
 @media (max-width: 850px) {
-  :root { --toolbar-height: 118px; }
+  :root { --toolbar-height: 118px; --toolbar-min-height: 118px; }
   .reader-toolbar { flex-wrap: wrap; gap: 9px; padding: 10px 16px; }
   #nav-toggle { display: block; }
   .search-control { min-width: 150px; flex: 1; }
@@ -133,6 +160,7 @@ mark.current-match { background: var(--current); outline: 2px solid var(--accent
   article h1 { font-size: 1.6em; }
   article h2 { font-size: 1.3em; }
   .reader-footer { flex-wrap: wrap; }
+  .question-panel { padding: 22px 26px; }
 }
 @media (max-width: 480px) {
   :root { --body-size: 18px; --toolbar-height: 118px; }
@@ -148,11 +176,14 @@ mark.current-match { background: var(--current); outline: 2px solid var(--accent
   main { padding: 28px 21px; }
   article h1 { font-size: 1.45em; }
   article th, article td { padding: 10px; }
+  .question-panel { padding: 20px; }
+  .question-heading { align-items: flex-start; }
+  .question-section select { flex-basis: 100%; }
 }
 @media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
 @media print {
   :root, :root[data-theme], :root[data-font] { color-scheme: light; --ink: #000; --page: #fff; --paper: #fff; --line: #999; --muted: #444; --accent: #000; --body-size: 11pt; }
-  .reader-toolbar, #contents, .reader-footer, .render-notes, .skip-link, .no-script { display: none !important; }
+  .reader-toolbar, #contents, .reader-footer, .render-notes, .skip-link, .no-script, .question-panel { display: none !important; }
   .reading-layout { display: block; }
   main { padding: 0; }
   article { max-width: none; line-height: 1.75; }
@@ -165,5 +196,7 @@ mark.current-match { background: var(--current); outline: 2px solid var(--accent
   .table-scroll, article pre { overflow: visible; }
   article pre, article pre code { white-space: pre-wrap; overflow-wrap: anywhere; }
   mark, mark.current-match { background: transparent; color: inherit; outline: none; }
+  .reader-math.math-match, .reader-math.current-match { background: transparent; outline: none; }
+  .math-display { overflow: visible; }
   @page { margin: 18mm 17mm; }
 }

@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "title": "项目交付容量：明确虚构的教学模型",
+  "purpose": "比较功能数量与可用工时，并保留外部依赖可能阻止交付的影响。",
+  "fictional": true,
+  "assumptions": [
+    "全部数字均为虚构教学输入。",
+    "假设每个功能平均需要6工时，固定集成需要4工时，另保留2工时处理风险。",
+    "本例使用平均工时线性估算；真实任务可能存在返工、并行限制和不同复杂度。"
+  ],
+  "boundaries": [
+    "总量满足不证明工期按日历可排，也不证明功能质量或用户价值。",
+    "外部依赖若未就绪，增加工时不能自动解决该问题。",
+    "本工具比较已列出的有限方案，不求全局最优或成功概率。"
+  ],
+  "inputs": {
+    "available": { "label": "可用工时", "value": 24, "unit": "工时", "basis": "assumed", "role": "condition", "source": "虚构教学条件", "note": "探索16、24、32三个值" },
+    "per_feature": { "label": "每项功能平均投入", "value": 6, "unit": "工时/项", "basis": "assumed", "role": "condition", "source": "虚构教学条件", "note": "仅为线性近似" },
+    "integration": { "label": "集成工作", "value": 4, "unit": "工时", "basis": "assumed", "role": "condition", "source": "虚构教学条件", "note": "固定成本" },
+    "risk": { "label": "风险预留", "value": 2, "unit": "工时", "basis": "assumed", "role": "condition", "source": "虚构教学条件", "note": "不代表风险已被完全覆盖" },
+    "dependency_ready": { "label": "外部依赖就绪", "value": true, "unit": "布尔", "basis": "assumed", "role": "condition", "source": "虚构教学条件", "note": "基线假设；另列延期情景" },
+    "features": { "label": "交付功能数量", "value": 3, "unit": "项", "basis": "assumed", "role": "decision", "source": "虚构方案设定", "note": "各项暂视为相同平均投入" }
+  },
+  "derived": [
+    { "id": "required", "label": "所需总投入", "formula": "features * per_feature + integration + risk", "unit": "工时", "note": "功能投入加固定工作和风险预留" },
+    { "id": "slack", "label": "总量余量", "formula": "available - required", "unit": "工时", "note": "余量不等于日历时间" }
+  ],
+  "constraints": [
+    { "id": "valid_counts", "formula": "features >= 0 and features % 1 == 0 and per_feature >= 0 and integration >= 0 and risk >= 0 and available >= 0", "description": "功能数为非负整数且工时非负" },
+    { "id": "capacity", "formula": "slack >= 0", "description": "工时容量可覆盖所选范围" },
+    { "id": "dependency", "formula": "dependency_ready == True", "description": "外部依赖就绪" }
+  ],
+  "plans": [
+    { "id": "two_features", "label": "先交付两项功能", "overrides": { "features": 2 }, "note": "减少范围，但价值损失需另行讨论" },
+    { "id": "four_features", "label": "交付四项功能", "overrides": { "features": 4 }, "note": "需更多工时；外部依赖仍是独立条件" }
+  ],
+  "scenarios": [
+    { "id": "dependency_delayed", "label": "外部依赖延期", "overrides": { "dependency_ready": false }, "note": "假设情景" },
+    { "id": "dependency_unknown", "label": "尚不清楚依赖能否就绪", "overrides": { "dependency_ready": null }, "note": "未知不能用零或默认真替代" }
+  ],
+  "explore": { "available": [16, 24, 32] }
+}

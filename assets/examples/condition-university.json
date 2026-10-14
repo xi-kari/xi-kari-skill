@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "title": "高校复核容量：明确虚构的教学模型",
+  "purpose": "比较在有限工时下能否覆盖既有需求，并区分总量约束与逐案复核资格。",
+  "fictional": true,
+  "assumptions": [
+    "全部工时、需求量和方案数值都是教学设定，不是任何真实高校的数据。",
+    "总量单位统一为工时，暂将各项工作需求视为可相加；模型不处理每项工作的时间分布或先后依赖。",
+    "既有需求至少25工时、事务工作10工时、风险预留2工时是本例给定条件，不是理论推导出的通用比例。",
+    "两名复核者只表示人数；是否能在具体时间、对具体案件独立复核另列为未知条件。"
+  ],
+  "boundaries": [
+    "总量有余量不证明排程可行，也不证明两个复核者没有回避冲突。",
+    "all_cases_eligible只有取得逐案资格和时段材料后才可作为观察值；此处未知，不能改成默认真。",
+    "减少探索可能帮助保留既有事务容量，但其长期机会成本没有被本模型量化。",
+    "满足这些约束不代表方案公正、合法、最优，或对真实案件已经有效。"
+  ],
+  "inputs": {
+    "total_hours": { "label": "总工时", "value": 40, "unit": "工时", "basis": "assumed", "role": "condition", "note": "离散探索30、40、50工时", "source": "虚构教学条件" },
+    "existing_need": { "label": "既有需求下限", "value": 25, "unit": "工时", "basis": "assumed", "role": "condition", "note": "实际需求可能高于下限", "source": "虚构教学条件" },
+    "administration": { "label": "事务工作", "value": 10, "unit": "工时", "basis": "assumed", "role": "condition", "note": "不能在计算时悄悄忽略", "source": "虚构教学条件" },
+    "risk_reserve": { "label": "风险预留", "value": 2, "unit": "工时", "basis": "assumed", "role": "condition", "note": "只是示例预留，不保证能覆盖所有意外", "source": "虚构教学条件" },
+    "reviewers": { "label": "复核者人数", "value": 2, "unit": "人", "basis": "assumed", "role": "condition", "note": "人数不能代替工时、逐案独立性或排程", "source": "虚构教学条件" },
+    "all_cases_eligible": { "label": "逐案资格与时段已可满足", "value": null, "unit": "布尔", "basis": "unknown", "role": "condition", "note": "尚缺逐案回避、任职资格和可用时段信息", "source": "未取得相关材料" },
+    "protected_hours": { "label": "分配给既有需求", "value": 25, "unit": "工时", "basis": "assumed", "role": "decision", "note": "比较方案可调整", "source": "虚构方案设定" },
+    "exploration_hours": { "label": "新增探索", "value": 5, "unit": "工时", "basis": "assumed", "role": "decision", "note": "比较方案可调整", "source": "虚构方案设定" }
+  },
+  "derived": [
+    { "id": "committed_hours", "label": "全部已分配与预留", "formula": "protected_hours + exploration_hours + administration + risk_reserve", "unit": "工时", "note": "本例均采用同一工时单位" },
+    { "id": "remaining_hours", "label": "总量余量", "formula": "total_hours - committed_hours", "unit": "工时", "note": "负数代表总量超出；非负不证明排程或资格可行" },
+    { "id": "uncovered_need", "label": "未覆盖既有需求", "formula": "max(0, existing_need - protected_hours)", "unit": "工时", "note": "不把缺口隐藏在总量合计中" }
+  ],
+  "constraints": [
+    { "id": "nonnegative", "formula": "total_hours >= 0 and existing_need >= 0 and administration >= 0 and risk_reserve >= 0 and protected_hours >= 0 and exploration_hours >= 0", "description": "资源与分配均非负" },
+    { "id": "capacity", "formula": "remaining_hours >= 0", "description": "分配不超总工时" },
+    { "id": "existing", "formula": "protected_hours >= existing_need", "description": "覆盖既有需求下限" },
+    { "id": "headcount", "formula": "reviewers >= 2", "description": "至少两名复核者" },
+    { "id": "eligibility", "formula": "all_cases_eligible == True", "description": "逐案资格与时段确实可满足" }
+  ],
+  "plans": [
+    { "id": "appeals_first", "label": "优先覆盖既有需求，探索降至3工时", "overrides": { "protected_hours": 25, "exploration_hours": 3 }, "note": "40工时条件下总量恰好用完；资格仍未知" },
+    { "id": "reserve_more", "label": "既有需求增加到28，暂不新增探索", "overrides": { "protected_hours": 28, "exploration_hours": 0 }, "note": "适合比较既有需求上升的情景，仍不处理逐案排程" }
+  ],
+  "scenarios": [
+    { "id": "demand_rises", "label": "既有需求上升到28工时", "overrides": { "existing_need": 28 }, "note": "假设情景，不是已发生的事实" },
+    { "id": "eligibility_assumed", "label": "仅为比较：假设逐案资格与时段可满足", "overrides": { "all_cases_eligible": true }, "note": "这是显式假设，不能据此宣布现实资格已经审查完成" }
+  ],
+  "explore": { "total_hours": [30, 40, 50] }
+}

@@ -1,6 +1,6 @@
 interface:
   display_name: "Xikari Skill"
-  short_description: "完整学习后深入分析与决断，在持续对话中回应反驳、深化构想并打磨完整成果"
-  default_prompt: "使用 $xi-kari-skill，先完整学习Xikari著《Xikari-条件结构与转化论》，沿XK0—XK11深入分析、批判和裁决；同一任务后续承接已有材料与争议持续深化、打磨完整成果，用普通语言、真实案例与适合的图表充分呈现。"
+  short_description: "完整理论学习与决断，支持材料取证、条件推演、多轮协作和完整成果打磨"
+  default_prompt: "使用 $xi-kari-skill，先完整学习Xikari著《Xikari-条件结构与转化论》，沿XK0—XK11深入分析与决断；按需取得可回查材料、实际研究和运行条件模型，在持续协作中打磨完整成果，用普通语言、真实案例与适合的图表充分呈现。"
 policy:
   allow_implicit_invocation: false

@@ -1,0 +1,29 @@
+{
+  "nodes": [
+    {
+      "id": "claim.scope",
+      "label": "适用范围判断",
+      "location": {"path": "xi-kari-answer.md", "heading": "适用范围"}
+    },
+    {
+      "id": "rule.scope",
+      "label": "采用该范围的条款",
+      "location": {"path": "xi-kari-answer.md", "heading": "适用条款"}
+    },
+    {
+      "id": "example.scope",
+      "label": "展示条款用法的案例",
+      "location": {"path": "xi-kari-answer.md", "heading": "案例"}
+    },
+    {
+      "id": "figure.scope",
+      "label": "对应机制图",
+      "location": {"path": "images/mechanism.svg"}
+    }
+  ],
+  "links": [
+    {"source": "claim.scope", "dependent": "rule.scope", "reason": "条款采用判断中的适用条件"},
+    {"source": "rule.scope", "dependent": "example.scope", "reason": "案例展示条款的应用"},
+    {"source": "claim.scope", "dependent": "figure.scope", "reason": "图形呈现判断中的条件连接"}
+  ]
+}

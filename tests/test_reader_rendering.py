@@ -25,13 +25,21 @@ class Document(HTMLParser):
         super().__init__(convert_charrefs=True)
         self.tags = []
         self.text = []
+        self._noncontent = 0
         self.feed(source)
 
     def handle_starttag(self, tag, attrs):
         self.tags.append((tag, dict(attrs)))
+        if tag in ('script', 'style'):
+            self._noncontent += 1
+
+    def handle_endtag(self, tag):
+        if tag in ('script', 'style'):
+            self._noncontent -= 1
 
     def handle_data(self, data):
-        self.text.append(data)
+        if not self._noncontent:
+            self.text.append(data)
 
 
 class ReaderRenderingTests(unittest.TestCase):
@@ -105,8 +113,53 @@ class ReaderRenderingTests(unittest.TestCase):
         output = renderer().render_document(source)
         match = re.search(r'href="data:text/markdown;charset=utf-8;base64,([A-Za-z0-9+/=]+)"', output)
         self.assertEqual(base64.b64decode(match.group(1)).decode('utf-8'), source)
-        for text in ('$$ x^2 $$', '[^note]: 扩展脚注', ':::unknown', '扩展内容'):
+        for text in ('$$ x^2 $$', '扩展脚注', ':::unknown', '扩展内容'):
             self.assertIn(text, ''.join(Document(output).text))
+
+    def test_stable_heading_ids_survive_unrelated_insertions(self):
+        def ids(source):
+            return {attrs['data-section-title']: attrs['id'] for tag, attrs in Document(renderer().render_document(source)).tags if 'data-reader-section' in attrs}
+        before = ids('# 总题\n\n## 稳定章节\n\n内容\n\n**第二条　规则**\n')
+        after = ids('# 总题\n\n## 新增章节\n\n新内容\n\n## 稳定章节\n\n内容\n\n**第二条　规则**\n')
+        self.assertEqual(before['稳定章节'], after['稳定章节'])
+        self.assertEqual(before['第二条　规则'], after['第二条　规则'])
+        self.assertNotEqual(after['新增章节'], after['稳定章节'])
+
+    def test_footnote_multiple_references_and_code_are_preserved(self):
+        source = '# 脚注\n\n第一次[^a]，第二次[^a]，未知[^missing]。\n\n[^a]: 证据段落。\n\n    第二段有[出处](https://example.com)。\n\n```text\n[^code]: 代码，不是脚注\n```\n'
+        output = renderer().render_document(source)
+        doc = Document(output)
+        references = [attrs for tag, attrs in doc.tags if attrs.get('role') == 'doc-noteref']
+        back = [attrs for tag, attrs in doc.tags if attrs.get('class') == 'footnote-backref']
+        self.assertEqual(len(references), 2)
+        self.assertEqual(len(back), 2)
+        self.assertEqual(references[0]['href'], references[1]['href'])
+        self.assertEqual({x['href'][1:] for x in back}, {x['id'] for x in references})
+        for text in ('证据段落', '第二段', '[^missing]', '[^code]: 代码，不是脚注'):
+            self.assertIn(text, ''.join(doc.text))
+
+    def test_math_currency_and_code_are_distinguished_and_offline(self):
+        source = r'# 公式' + '\n\n' + r'原式 \(x^2\)，也可用 $y+1$。价格 $5 与 $10。代码 `$z$`。' + '\n\n$$\\frac{a}{b}$$\n'
+        output = renderer().render_document(source)
+        doc = Document(output)
+        formulas = [attrs for _, attrs in doc.tags if 'data-tex' in attrs]
+        self.assertEqual([x['data-tex'] for x in formulas], ['x^2', 'y+1', r'\frac{a}{b}'])
+        self.assertIn('价格 $5 与 $10', ''.join(doc.text))
+        self.assertIn('$z$', ''.join(doc.text))
+        self.assertIn('data:font/woff2;base64,', output)
+        self.assertIn('connect-src &#x27;none&#x27;', output)
+        self.assertFalse(any(tag == 'script' and 'src' in attrs for tag, attrs in doc.tags))
+        plain = renderer().render_document('# 没有公式\n\n普通段落')
+        self.assertNotIn('data:font/woff2;base64,', plain)
+
+    def test_missing_math_assets_preserve_formula_and_other_controls(self):
+        module = renderer()
+        with patch.object(module, 'katex_assets', side_effect=OSError('missing')):
+            output = module.render_document('# 公式\n\n$$x^2$$')
+        doc = Document(output)
+        self.assertIn('$$x^2$$', ''.join(doc.text))
+        self.assertIn('公式排版资源不可用', ''.join(doc.text))
+        self.assertTrue(any(attrs.get('id') == 'question-text' for _, attrs in doc.tags))
 
     def test_mermaid_is_honestly_preserved_not_executed(self):
         source = '# 图\n\n```mermaid\nflowchart LR\n A[材料] --> B[判断]\n```'
