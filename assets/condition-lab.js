@@ -83,6 +83,7 @@
   function select(planId, combinationIndex) {
     plan.value = planId; combination.value = String(combinationIndex);
     update();
+    document.querySelector('#overview button[aria-pressed="true"]')?.focus({ preventScroll: true });
   }
   function caseFor(scenarioId, explore, planId) {
     return data.cases.find(item => item.scenario === scenarioId && item.plan === planId &&

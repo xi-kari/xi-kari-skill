@@ -385,12 +385,19 @@ mark.current-match { background: var(--current); box-shadow: 0 0 0 2px var(--acc
 .footnote-preview {
   position: absolute; z-index: 55; width: min(400px, calc(100vw - 24px)); padding: 14px 16px 12px;
   border: 1px solid var(--line); border-radius: 12px; background: var(--raise); color: var(--ink);
-  font-size: 14px; line-height: 1.75; text-align: start; pointer-events: none;
+  font-size: 14px; line-height: 1.75; text-align: start; overflow-wrap: anywhere; pointer-events: none;
   box-shadow: 0 22px 50px -18px rgb(var(--shadow) / .4), 0 2px 6px rgb(var(--shadow) / .06);
   animation: pop-in .14s var(--ease);
 }
 .footnote-preview > :last-child { margin-bottom: 0; }
 .footnote-preview p { margin: 0 0 .5em; }
+.footnote-preview img { max-width: 100%; height: auto; }
+.footnote-preview figure { min-width: 0; max-width: 100%; margin-inline: 0; }
+.footnote-preview :is(pre, .table-scroll, .reader-math) { max-width: 100%; overflow-x: auto; }
+.footnote-preview table { min-width: 100%; }
+.footnote-preview :is(th, td) { min-width: 6.5em; }
+.footnote-preview .reader-math { display: inline-block; vertical-align: middle; }
+.footnote-preview .math-display { display: block; }
 .preview-label { display: block; margin-bottom: 4px; font-size: 12px; font-weight: 700; color: var(--accent); }
 .nav-scrim { display: none; }
 

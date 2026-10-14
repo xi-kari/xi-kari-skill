@@ -107,10 +107,14 @@ body { font-size: 15px; line-height: 1.7; }
   .cmp { padding: 0; max-width: none; }
   .download { display: none; }
   .table-scroll { overflow: visible; border-radius: 0; }
-  .cmp-table { min-width: 0; font-size: 9pt; }
+  .cmp-table { min-width: 0; table-layout: fixed; font-size: 9pt; }
+  .cmp-table thead th, .cmp-table tbody th, .cmp-table td {
+    min-width: 0; width: auto; padding: 7px; font-size: inherit; white-space: normal; overflow-wrap: anywhere;
+  }
+  .cmp-table .value, .cmp-table .note, .cmp-table .source, .cmp-table .direction { font-size: inherit; }
   .cmp-table tbody th { position: static; }
   .cmp-table tr, .order, .basis-legend div { break-inside: avoid; }
   .cmp h2 { break-after: avoid; }
-  .basis { background: none !important; color: #000 !important; border-color: #000 !important; }
+  .basis { height: auto; min-height: 1.65em; white-space: normal; background: none !important; color: #000 !important; border-color: #000 !important; }
   @page { size: A4; margin: 16mm 14mm 18mm; }
 }

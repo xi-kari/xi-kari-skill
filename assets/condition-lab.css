@@ -176,6 +176,11 @@ button.cell[aria-pressed="true"] { border-color: var(--cell); box-shadow: 0 0 0 
   .lab-controls { position: static; box-shadow: none; border: 0; padding: 0; margin-bottom: 18px; }
   .table-scroll { overflow: visible; border-radius: 0; }
   .lab table { min-width: 0; font-size: 9pt; }
+  .lab .matrix { table-layout: fixed; }
+  .lab .matrix th, .lab .matrix td { min-width: 0; max-width: none; width: auto; padding: 6px; white-space: normal; overflow-wrap: anywhere; }
+  .lab .matrix .cell { min-height: 0; padding: 3px; }
+  .lab .matrix .state { font-size: 9pt; white-space: normal; }
+  .lab .basis { height: auto; min-height: 1.65em; white-space: normal; background: none; color: #000; border-color: #000; }
   .lab tr, .sens-item, .definition { break-inside: avoid; }
   .lab h2 { break-after: avoid; }
   button.cell { border: 1px solid #999 !important; box-shadow: none !important; }
