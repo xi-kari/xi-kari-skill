@@ -4,7 +4,7 @@ contact_links:
     url: https://github.com/xi-kari/xi-kari-skill/blob/main/docs/INSTALL.md
     about: 安装目录、干净安装包与宿主能力说明
   - name: 理论讨论与使用交流
-    url: https://github.com/xi-kari/xi-kari-skill/discussions
+    url: https://github.com/xi-kari/xi-kari-skill/discussions?discussions_q=
     about: 讨论理论、分享使用经验或提出开放问题
   - name: 在线介绍页
     url: https://xi-kari.github.io/xi-kari-skill/

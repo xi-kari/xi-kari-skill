@@ -11,7 +11,7 @@
 
 <p align="center">
   <a href="https://xi-kari.github.io/xi-kari-skill/">认识 Xikari</a> ·
-  <a href="https://github.com/xi-kari/xi-kari-skill/discussions">案例实测</a> ·
+  <a href="https://github.com/xi-kari/xi-kari-skill/discussions?discussions_q=">案例实测</a> ·
   <a href="https://github.com/xi-kari/xi-kari-skill/releases/latest">获取技能</a> ·
   <a href="source/Xikari-条件结构与转化论.md">阅读理论</a>
 </p>
@@ -27,7 +27,7 @@ Discussions 保存了 **17 篇历史版本的公开运行实录**，可以直接
 - [数字永生的伦理困境](https://github.com/xi-kari/xi-kari-skill/discussions/6)
 - [翁法罗斯完整剧情与结构解读](https://github.com/xi-kari/xi-kari-skill/discussions/25)
 
-[浏览全部运行实录与讨论 →](https://github.com/xi-kari/xi-kari-skill/discussions)
+[浏览全部运行实录与讨论 →](https://github.com/xi-kari/xi-kari-skill/discussions?discussions_q=)
 
 ## 看懂复杂问题
 
@@ -76,4 +76,4 @@ Discussions 保存了 **17 篇历史版本的公开运行实录**，可以直接
 
 ---
 
-[安装与适配](docs/INSTALL.md) · [项目介绍与研究](https://xi-kari.github.io/xi-kari-skill/#research) · [交流与讨论](https://github.com/xi-kari/xi-kari-skill/discussions)
+[安装与适配](docs/INSTALL.md) · [项目介绍与研究](https://xi-kari.github.io/xi-kari-skill/#research) · [交流与讨论](https://github.com/xi-kari/xi-kari-skill/discussions?discussions_q=)

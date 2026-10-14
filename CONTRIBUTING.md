@@ -1,6 +1,6 @@
 # 参与开发
 
-运行问题和具体改进请提交 [Issue](https://github.com/xi-kari/xi-kari-skill/issues/new/choose)。理论讨论、使用经验和开放问题可以放在 [Discussions](https://github.com/xi-kari/xi-kari-skill/discussions)。安装与宿主接入见[安装指南](docs/INSTALL.md)。
+运行问题和具体改进请提交 [Issue](https://github.com/xi-kari/xi-kari-skill/issues/new/choose)。理论讨论、使用经验和开放问题可以放在 [Discussions](https://github.com/xi-kari/xi-kari-skill/discussions?discussions_q=)。安装与宿主接入见[安装指南](docs/INSTALL.md)。
 
 ## 开发环境
 
