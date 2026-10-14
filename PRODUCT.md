@@ -12,7 +12,7 @@ Readers who want to understand the concepts in Xikari's *条件结构与转化�
 
 ## Product Purpose
 
-Connect concepts to concrete questions, explanatory diagrams and sourced real examples, with a clear route back to the complete original text. Support both continuous reading and concept lookup.
+Use the complete original text as the reading sequence. After each section, place its explanation, diagrams and sourced examples directly below the original. Support continuous reading and concept lookup within that sequence.
 
 ## Operating Context
 
@@ -32,7 +32,7 @@ The complete theory is in `source/`. Existing Skill guides describe supported us
 
 ## Product Principles
 
-- Let a concrete question introduce a concept.
+- Follow the original text's order and keep each explanation attached to its source section.
 - Explain the distinction a concept makes, and the limits of that distinction.
 - Keep the original text accessible from every teaching route.
 - Make diagrams carry an explanation rather than decoration.

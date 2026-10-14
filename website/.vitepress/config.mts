@@ -1,5 +1,19 @@
 import { defineConfig } from 'vitepress'
 import theorySidebar from './theory-sidebar.json'
+import sectionLessons from '../content/section-lessons.json'
+
+function lessonSearchHtml(section: string) {
+  const lesson = (sectionLessons.lessons as Record<string, any>)[section]
+  if (!lesson) return ''
+  const escape = (value: string) => value.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
+  const fields = [lesson.lead, ...(lesson.explanation || []), ...(lesson.argumentSteps || []),
+    ...(lesson.distinctions || []).flatMap((item: any) => [item.leftTitle, item.leftText, item.rightTitle, item.rightText]),
+    ...(lesson.caseNotes || []).flatMap((item: any) => [item.title, item.text, item.boundary]),
+    ...(lesson.teachingExamples || []).flatMap((item: any) => [item.title, item.text, item.assumptions, item.boundary]),
+    ...(lesson.boundaries || []), ...(lesson.questions || []),
+    ...(lesson.questionAnswers || []).flatMap((item: any) => [item.question, item.answer, item.basis])]
+  return `<h3 id="explain-${section.toLowerCase().replaceAll('.', '-')}">讲解：${escape(lesson.title)}</h3>` + fields.filter(Boolean).map(value => `<p>${escape(String(value))}</p>`).join('')
+}
 
 const learningSidebar = [
   { text: '开始理解', items: [
@@ -18,7 +32,7 @@ const learningSidebar = [
   ] },
   { text: '真实案例', collapsed: true, items: [
     { text: '案例总览', link: '/cases/' },
-    { text: '火星气候探测者号', link: '/cases/mars-climate-orbiter' },
+    { text: '火星气候轨道器', link: '/cases/mars-climate-orbiter' },
     { text: '丰田安灯系统', link: '/cases/toyota-andon' },
   ] },
   { text: '继续阅读', items: [
@@ -30,10 +44,10 @@ const learningSidebar = [
 
 export default defineConfig({
   lang: 'zh-CN',
-  title: 'Xikari 阅读与实践',
-  description: '从概念图解和真实案例进入《Xikari-条件结构与转化论》，阅读完整原文，并了解技能的使用。',
+  title: 'Xikari 原文精读',
+  description: '沿《Xikari-条件结构与转化论》的原文顺序阅读，在对应章节之后查看讲解、图示与案例。',
   base: '/xi-kari-skill/handbook/',
-  srcExclude: ['public/**'],
+  srcExclude: ['public/**', 'content/**'],
   outDir: '../docs/handbook',
   lastUpdated: false,
   sitemap: { hostname: 'https://xi-kari.github.io/xi-kari-skill/handbook/' },
@@ -45,13 +59,14 @@ export default defineConfig({
   ],
   themeConfig: {
     nav: [
-      { text: '首页', link: '/' },
-      { text: '概念图解', link: '/concepts/' },
-      { text: '真实案例', link: '/cases/' },
-      { text: '理论原文', link: '/theory/' },
+      { text: '全书目录', link: '/' },
+      { text: '从头读起', link: '/theory/part-01' },
+      { text: '术语索引', link: '/theory/appendix-b' },
+      { text: '例解索引', link: '/concepts/' },
       { text: '使用指南', link: '/guide/' },
     ],
     sidebar: {
+      '/': theorySidebar,
       '/theory/': theorySidebar,
       '/concepts/': learningSidebar,
       '/cases/': learningSidebar,
@@ -70,6 +85,10 @@ export default defineConfig({
     search: {
       provider: 'local',
       options: {
+        _render(src, env, md) {
+          return md.render(src.replace(/<SectionLesson section="([^"]+)"\s*\/>/g,
+            (_match, section) => lessonSearchHtml(section)), env)
+        },
         detailedView: true,
         miniSearch: {
           options: {

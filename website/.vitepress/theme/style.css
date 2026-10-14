@@ -156,6 +156,30 @@ button, input { caret-color: var(--vp-c-brand-1); }
 .concept-directory span { color: var(--vp-c-text-2); font-size: 15px; line-height: 1.8; }
 .concept-directory a:hover strong { color: var(--vp-c-brand-1); }
 .source-note { font-size: 13px; color: var(--vp-c-text-2); }
+.section-lesson { margin: 30px 0 48px; padding: 25px 28px; border: 1px solid var(--vp-c-border); border-radius: 6px; background: var(--vp-c-bg-soft); font-size: 16px; }
+.section-lesson .lesson-heading { display: flex; justify-content: space-between; align-items: baseline; gap: 20px; padding-bottom: 14px; border-bottom: 1px solid var(--vp-c-border); }
+.section-lesson .lesson-heading h3 { margin: 0; font-family: var(--book-serif); font-size: 23px; font-weight: 600; }
+.lesson-heading span { color: var(--vp-c-brand-1); font-size: 12px; max-width: 55%; }
+.section-lesson h4 { font-size: 17px; margin: 28px 0 12px; font-weight: 600; }
+.section-lesson .lesson-lead { font-weight: 600; }
+.section-lesson p { line-height: 1.95; }
+.lesson-distinctions dl { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; margin: 18px 0; border-top: 1px solid var(--vp-c-border); padding-top: 15px; }
+.lesson-distinctions dt { color: var(--vp-c-brand-1); font-weight: 600; margin-bottom: 7px; }
+.lesson-distinctions dd { margin: 0; color: var(--vp-c-text-2); font-size: 15px; line-height: 1.85; }
+.section-lesson .lesson-figure { border: 0; border-radius: 0; }
+.section-lesson .model-explorer { border: 0; padding: 0; border-top: 1px solid var(--vp-c-border); border-radius: 0; padding-top: 22px; }
+.lesson-case { border-top: 1px solid var(--vp-c-border); margin-top: 28px; }
+.lesson-further { display: flex; flex-direction: column; gap: 10px; font-size: 14px; }
+.lesson-answer { border-top: 1px solid var(--vp-c-border); padding: 16px 0; }
+.lesson-answer summary { cursor: pointer; color: var(--vp-c-brand-1); }
+.reading-source-only .section-lesson { display: none; }
+@media (max-width: 760px) {
+  .section-lesson { padding: 20px 16px; margin-left: -6px; margin-right: -6px; }
+  .section-lesson .lesson-heading h3 { font-size: 21px; }
+  .lesson-distinctions dl { grid-template-columns: 1fr; gap: 16px; }
+  .reading-tools { align-items: flex-start; flex-wrap: wrap; }
+  .reading-actions { flex-wrap: wrap; }
+}
 .model-explorer { margin: 28px 0; padding: 24px; background: var(--vp-c-bg-soft); border: 1px solid var(--vp-c-divider); border-radius: 6px; }
 .model-explorer .model-setting { margin-top: 0; font-size: 14px; color: var(--vp-c-text-2); }
 .model-controls { display: flex; flex-wrap: wrap; gap: 20px; }

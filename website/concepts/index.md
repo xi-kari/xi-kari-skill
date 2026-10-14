@@ -1,31 +1,33 @@
 ---
-title: 从问题理解概念
-description: 先看具体情景，辨明容易混淆的区别，再回到理论原文。
+title: 原文例解索引
+description: 定位原文中的具体章节，接着阅读对应讲解、图示与案例。
 ---
 
-# 从问题理解概念
+# 原文例解索引
 
-一个概念是否有用，要看它帮助我们分清了什么。这里从具体问题进入：先看情景，再看图示，辨明成立条件与容易混淆的地方，最后回到原文。
+讲解以原文的章节为位置。下列入口直接定位对应原文；顺着读完这一节，就能接着看到解释、图示与案例。全书的阅读顺序见[目录](../)。
 
 这些例解依据原文整理。原文中的教学情景用于说明区别；有出处的现实事件集中在[真实案例](../cases/)中。
 
 <div class="concept-directory">
 
-[**反馈与学习** <span>收到意见，就算形成反馈了吗？</span>](./feedback)
+[**§3.3 有效反馈** <span>收到意见，就算形成反馈了吗？</span>](../theory/part-03#section-3-3)
 
-[**历史与载体** <span>把经验存下来，为什么仍不等于后来会使用？</span>](./history)
+[**§4.5 历史与载体** <span>把经验存下来，为什么仍不等于后来会使用？</span>](../theory/part-04#section-4-5)
 
-[**局部与整链** <span>每一步都成功，为何仍到不了终点？</span>](./chain)
+[**§2.4.2 局部与整链** <span>每一步都成功，为何仍到不了终点？</span>](../theory/part-02#section-2-4-2)
 
-[**表示与尺度** <span>平均数说清楚了什么，又藏住了什么？</span>](./representation)
+[**C.9 表示与尺度** <span>平均数说清楚了什么，又藏住了什么？</span>](../theory/appendix-c#section-c-9)
 
-[**联合可行性** <span>每个方案都可行，能一起实施吗？</span>](./joint-feasibility)
+[**C.12 联合可行性** <span>每个方案都可行，能一起实施吗？</span>](../theory/appendix-c#section-c-12)
 
-[**承接与责任** <span>谁接住了后果，谁就该负责吗？</span>](./responsibility)
+[**§7.2.4 承接与责任** <span>谁接住了后果，谁就该负责吗？</span>](../theory/part-07#section-7-2-4)
 
-[**支持与恢复** <span>依靠支持恢复功能，算不算真的恢复？</span>](./recovery)
+[**D.31 支持与恢复** <span>依靠支持恢复功能，算不算真的恢复？</span>](../theory/appendix-d/d-31#section-d-31)
 
-[**预测与行动** <span>预测准确，是否就知道应该怎样改变？</span>](./prediction)
+[**§4.6 预测与行动** <span>预测准确，是否就知道应该怎样改变？</span>](../theory/part-04#section-4-6)
+
+[**C.7 表示与规则** <span>资料足够，为什么仍可能作出错误计算？</span>](../theory/appendix-c#section-c-7)
 
 </div>
 

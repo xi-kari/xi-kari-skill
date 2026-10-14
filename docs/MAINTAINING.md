@@ -81,6 +81,14 @@ New case research belongs outside the repository until its content is ready to
 be used. Do not publish private research inventories or prompt handoffs with
 the static site.
 
+Section explanations live in `website/content/section-lessons.json`, keyed by
+the stable reading unit. The generator recreates `reading-units.json` from the
+canonical source and accepts all 412 numbered and unnumbered units. Each
+explanation follows its own original text; a parent section's introduction
+precedes the original child sections. Merge reviewed `sections.json` results
+into the matching keys and keep all substantive text in renderable fields.
+Search includes those explanations and resolves them to the source section.
+
 Verify source coverage with `python -m unittest discover -s tests -p test_handbook_source.py`.
 The full build checks page links. Before publication, also check native static
 URLs, section anchors, Chinese search, download identities, diagrams, teaching

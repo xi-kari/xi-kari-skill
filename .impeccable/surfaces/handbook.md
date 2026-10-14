@@ -13,9 +13,9 @@ Related targets: `docs/handbook/`
 
 Mode: Read.
 
-Purpose: Help readers understand concepts through concrete questions, sourced cases and precise diagrams, while supporting continuous reading and direct lookup of the complete original work.
+Purpose: Help readers understand the entire original work through section-by-section reading, with explanations, diagrams and sourced cases immediately following the corresponding original section.
 
-Composition: Familiar documentation navigation with a focused introductory reading page. On articles, a quiet left navigation, central text and local outline. Concept lessons start with a question, develop a concrete situation, show the decisive distinction and return to the source. Case pages separate documented events from the explanatory connection.
+Composition: The homepage opens the book's original title, reading introduction and complete table of contents. A quiet left book navigation, central original text and local outline carry the reading. The corresponding lesson immediately follows its source section, developing the distinction, diagram, examples, limits and comprehension questions. The original remains readable on its own through a source-only toggle.
 
 Visual direction: Extend the existing blue-white identity with cool paper, deep blue ink, restrained indigo and Chinese serif article titles. Fine rules and open spacing organize content. Diagram colors distinguish supported connections, missing connections and alternatives with accompanying labels. No decorative motion in the reading column.
 

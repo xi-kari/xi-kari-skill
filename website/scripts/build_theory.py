@@ -102,12 +102,98 @@ def safe_html(text: str) -> str:
     return "".join(output)
 
 
-def render_page(page: Page, lines: list[str], part_routes: dict[int, str]) -> str:
-    raw = "".join(lines[page.start:page.end])
-    raw = re.sub(r"\]\(#part_(\d+)\)",
-                 lambda match: f"]({part_routes[int(match.group(1))]}#part_{match.group(1)})", raw)
+def lesson_sections(website: Path) -> list[str]:
+    path = website / "content/section-lessons.json"
+    if not path.is_file():
+        return []
+    value = json.loads(path.read_text(encoding="utf-8"))
+    if not isinstance(value, dict) or not isinstance(value.get("lessons"), dict):
+        raise ValueError("section-lessons.json must contain a lessons object keyed by section number")
+    if any(not isinstance(lesson, dict) for lesson in value["lessons"].values()):
+        raise ValueError("Each section lesson must be an object")
+    return list(value["lessons"])
+
+
+def reading_units(lines: list[str], pages: list[Page]) -> list[dict]:
+    headings = []
+    part = None
+    for index, line in enumerate(lines):
+        if anchor := PART.match(line):
+            part = int(anchor.group(1))
+        if match := HEADING.match(line):
+            headings.append((index, len(match.group(1)), match.group(2), part))
+    units = []
+    current_task = "FRONT"
+    for position, (start, level, title, part) in enumerate(headings):
+        end = headings[position + 1][0] if position + 1 < len(headings) else len(lines)
+        match = SECTION.match(title)
+        section = match.group(1) if match else None
+        if section:
+            key = section
+            output_id = "section-" + section.lower().replace(".", "-")
+            kind = f"numbered_h{level}"
+            if level == 2:
+                current_task = "S-" + section.replace(".", "-")
+            task = current_task
+            subtree_end = next((index for index, other_level, _, _ in headings[position + 1:]
+                                if other_level <= level), len(lines))
+        else:
+            subtree_end = end
+            if position == 0:
+                key, task, kind = "front-title", "FRONT", "front_matter"
+            elif part is None:
+                key = {"范围与阅读方式": "front-scope", "分部目录": "front-contents"}[title]
+                task, kind = "FRONT", "front_matter"
+            elif part == 18:
+                key, task, kind = "app-b", "APP-B", "appendix_b"
+            elif part == 21:
+                key, task, kind = "references", "REFERENCES", "references"
+            else:
+                suffix = "part" if part <= 16 else {17: "appendix-a", 19: "appendix-c", 20: "appendix-d"}[part]
+                key, kind = f"intro-{part:02}-{suffix}", "part_introduction"
+                first_section = next(SECTION.match(other_title).group(1)
+                                     for _, other_level, other_title, other_part in headings[position + 1:]
+                                     if other_level == 2 and other_part == part and SECTION.match(other_title))
+                task = "S-" + first_section.replace(".", "-")
+            output_id = key
+        page = next(page for page in pages if page.start <= start < page.end)
+        units.append({"output_id": output_id, "lesson_key": key, "task_id": task,
+                      "section_id": section, "title_exact": title, "heading_level": level,
+                      "kind": kind, "source_start_line": start + 1, "source_end_line": end,
+                      "subtree_end_line": subtree_end,
+                      "source_sha256": sha256("".join(lines[start:end]).encode("utf-8")),
+                      "theory_sha256": SOURCE_SHA256,
+                      "website_source_route": page.route + "#" + heading_id(title, page.part) if section else None,
+                      "required_output": True})
+    return units
+
+
+def annotation_points(lines: list[str], pages: list[Page], sections: list[str]) -> tuple[dict[int, list[str]], list[str]]:
+    units = reading_units(lines, pages)
+    by_key = {unit["lesson_key"]: unit for unit in units}
+    unknown = set(sections) - set(by_key)
+    if unknown:
+        raise ValueError("Unknown lesson sections: " + ", ".join(sorted(unknown)))
+    ordered = [unit["lesson_key"] for unit in units if unit["lesson_key"] in sections]
+    points = {}
+    for section in ordered:
+        unit = by_key[section]
+        start, end = unit["source_start_line"] - 1, unit["source_end_line"]
+        while end > start and (not lines[end - 1].strip() or PART.match(lines[end - 1])):
+            end -= 1
+        page = next(page for page in pages if page.start <= start < page.end)
+        if end > page.end:
+            raise ValueError(f"Lesson section crosses generated pages: {section}")
+        points.setdefault(end, []).append(section)
+    return points, ordered
+
+
+def render_page(page: Page, lines: list[str], part_routes: dict[int, str],
+                annotations: dict[int, list[str]] | None = None) -> str:
     rendered = []
-    for line in raw.splitlines(keepends=True):
+    for index in range(page.start, page.end):
+        line = re.sub(r"\]\(#part_(\d+)\)",
+                      lambda match: f"]({part_routes[int(match.group(1))]}#part_{match.group(1)})", lines[index])
         match = HEADING.match(line)
         if match:
             level = len(match.group(1)) - page.level + 1
@@ -115,6 +201,8 @@ def render_page(page: Page, lines: list[str], part_routes: dict[int, str]) -> st
             rendered.append(f"{'#' * max(1, level)} {safe_html(match.group(2))} {{#{identifier}}}\n")
         else:
             rendered.append(safe_html(line))
+        for section in (annotations or {}).get(index + 1, []):
+            rendered.append(f'\n</div>\n\n<SectionLesson section="{section}" />\n\n<div v-pre class="theory-source">\n\n')
     frontmatter = "---\ntitle: " + json.dumps(page.title, ensure_ascii=False) + "\n---\n\n"
     return frontmatter + '<div v-pre class="theory-source">\n\n' + "".join(rendered).rstrip() + "\n\n</div>\n"
 
@@ -158,21 +246,25 @@ def build(website: Path = WEBSITE, source: Path | None = None, docx: Path | None
     if sha256(docx_data) != DOCX_SHA256:
         raise ValueError("The Word edition does not match the selected source identity")
     lines, pages = split_source(data.decode("utf-8"))
+    units = reading_units(lines, pages)
+    annotations, annotation_sections = annotation_points(lines, pages, lesson_sections(website))
     part_routes = {page.part: page.route for page in reversed(pages) if page.part is not None}
     records = []
     sections = {}
+    units_by_start = {unit["source_start_line"] - 1: unit for unit in units}
     for page in pages:
         raw = "".join(lines[page.start:page.end])
         path = website / page.path
         path.parent.mkdir(parents=True, exist_ok=True)
-        path.write_text(render_page(page, lines, part_routes), encoding="utf-8", newline="\n")
+        path.write_text(render_page(page, lines, part_routes, annotations), encoding="utf-8", newline="\n")
         records.append({"path": page.path, "route": page.route, "title": page.title,
                         "part": page.part, "source_start_line": page.start + 1,
                         "source_end_line": page.end, "source_sha256": sha256(raw.encode("utf-8"))})
-        for line in lines[page.start:page.end]:
+        for index, line in enumerate(lines[page.start:page.end], page.start):
             match = HEADING.match(line)
-            if match and (section := SECTION.match(match.group(2))):
-                sections[section.group(1)] = page.route + "#" + heading_id(match.group(2), page.part)
+            if match:
+                unit = units_by_start[index]
+                sections[unit["lesson_key"]] = page.route + "#" + heading_id(match.group(2), page.part)
     download_dir.mkdir(parents=True, exist_ok=True)
     (download_dir / f"{TITLE}.md").write_bytes(data)
     if docx.resolve() != existing_docx.resolve():
@@ -182,6 +274,10 @@ def build(website: Path = WEBSITE, source: Path | None = None, docx: Path | None
                 "source_lines": len(lines), "docx_sha256": DOCX_SHA256,
                 "parts": {f"part_{number}": route + f"#part_{number}" for number, route in sorted(part_routes.items())},
                 "sections": sections, "pages": records}
+    if annotation_sections:
+        manifest["annotation_sections"] = annotation_sections
+    write_json(website / "content/reading-units.json", {
+        "source_sha256": SOURCE_SHA256, "source_lines": len(lines), "units": units})
     write_json(website / "public/source-map.json", manifest)
     write_json(website / ".vitepress/theory-sidebar.json", sidebar_for(pages))
     return manifest
