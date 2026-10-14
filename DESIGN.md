@@ -195,76 +195,104 @@ The native modal dialog presents the same full landscape with descriptive altern
 
 ## Output surfaces
 
-The rules above define `docs/index.html`. The generated reading pages and condition
-exploration pages are separate surfaces with their own systems, documented here so
-the two are not confused.
+The rules above define `docs/index.html`. The pages the Skill generates for a task are
+separate surfaces with their own system, documented here so the two are not confused.
+
+### Shared foundation (`assets/xikari-base.css`)
+
+**North Star: "moon-white paper, indigo ink, one hue per kind of artifact."** Every
+generated HTML page inlines this file before its own stylesheet.
+
+- **Paper and ink.** 月白 paper (`--paper` #f0f4f9 for chrome, `--page` #fbfcfe for the
+  reading surface, `--raise` #fff for floating surfaces) and 黛 ink (`--ink` #1f2b3d,
+  `--ink-strong` #0f1928, `--muted` #5a687c). Lines are `--line` and `--line-strong`.
+  Night values replace the same roles; nothing structural changes with theme.
+- **One accent per surface.** Each surface sets `--hue` and `--hue-night`; derived
+  tints (`--accent-soft`, `--accent-line`, `--soft`) are mixed from it with `color-mix`.
+  Reading page 靛青 indigo #3a51a1, condition page 青碧 teal #1d6c78, comparison page
+  藕荷 lilac #6a4e96, so a reader can tell at a glance what kind of artifact they hold.
+- **Type.** Chinese serif (Noto Serif SC → Source Han Serif → Songti → SimSun) for titles
+  and section headings; system sans for text and interface; a Kai stack (LXGW WenKai,
+  then the system 楷体) for quoted material; monospace only for code and formulas.
+  A “主题：副题” title is set on two lines without changing its text.
+- **Identity tags.** `.basis-observed` is a solid filled tag, `.basis-assumed` a dashed
+  amber outline, `.basis-unknown` a dotted outline. The line style carries the meaning,
+  so it survives grayscale and print.
+- **Computed states.** `.state-ok` (filled circle), `.state-bad` (diamond),
+  `.state-unsure` (dotted ring), `.state-err` (square), `.state-none` (hollow ring).
+  The word is always printed next to the mark; colour never carries it alone.
+- **Theme.** Without a stored choice, pages follow `prefers-color-scheme`.
+  `[data-theme="paper"]` and `[data-theme="night"]` force either side.
+- **Motion.** Only responses to the reader's action (a sheet opening, a bubble
+  appearing, a drawer sliding). Reduced-motion preferences remove it.
 
 ### Reading page (`assets/reader.css`, `assets/reader.js`)
 
-**North Star: "a long argument on quiet paper."** The page carries a complete
-work-product; its design exists to keep a dense Chinese argument readable over
-thousands of words. Warm paper, dark ink, restrained blue accent, generous line
-height.
+**North Star: "a long argument set like a monograph."** The page carries a complete
+work-product; its design exists to keep a dense Chinese argument readable over tens of
+thousands of characters.
 
-- **Roles.** `--paper` and `--page` separate the shell from the reading column;
-  `--ink` and `--ink-strong` distinguish body from headings and emphasis;
-  `--accent` marks links, markers, table headers, the current chapter and the
-  progress line; `--soft`, `--raise` and `--accent-soft` fill code, tables and
-  quotes; `--line` and `--line-strong` draw every divider. Night mode reassigns
-  the same roles to dark surfaces; no structural rule changes with theme.
-- **Typography.** Chinese serif for headings, system sans for body, monospace
-  for code and unrendered formula source. Four body sizes step through
-  `data-font`. Headings use `text-wrap: balance`.
-- **Composition.** A sticky toolbar, a sticky directory column and one reading
-  column capped at `74ch`. Paragraph rhythm is uniform; runs of long paragraphs
-  stay whole rather than being broken into cards.
-- **Structure marks.** The title carries a short accent rule; level-two headings
-  a hairline above and a small accent dash before; clauses a left rule. These
-  are orientation marks, not decoration; they must never introduce content.
-- **Tables.** Each table sits in its own bordered, scrollable frame so a wide
-  comparison never widens the page. Headers are tinted, rows alternate in the
-  paper tone, numerals are tabular.
-- **Reading aids.** A scroll-position progress line under the toolbar, search
-  that highlights in place without hiding unmatched text, a "追问此处" panel
-  that quotes the reader's own selection, footnote reference and return links,
-  and a print stylesheet that drops chrome, flattens fills and keeps tables
-  from splitting rows.
-- **Constraints.** Everything stays one offline file: no network requests, no
-  external stylesheet or script, KaTeX and its fonts inlined only when a formula
-  is present. The reader does not add, summarize or reorder content.
+- **Composition.** A full-height contents spine on the left and the reading column on
+  the right, under a translucent 56px toolbar. The text column is `36em` (about 36
+  characters a line); tables with four or more columns and image figures widen to
+  `54em`. Text is justified when the column is wide enough and ragged on phones.
+- **Opening.** The title is set large in serif with any subtitle on its own line, then a
+  short indigo bar. The first paragraph after the title, where the Skill puts its
+  central judgment, is set slightly larger.
+- **Chapters.** Each `h2` opens with a hairline whose first segment is indigo. A
+  heading's own number (“二、”, “2.1”, “第一章”) hangs in the margin when there is room,
+  with its separator hidden but kept in the text; on narrow screens it stays inline.
+  Clause headings (“第一条　…”) show the clause number in the accent.
+- **Body marks.** Quoted material is set in Kai with a thin indigo rule; emphasis
+  (`em`) uses Kai instead of fake italics; tables are booktabs-style with right-aligned
+  numerals and scroll shadows when cut off; code sits in a tinted panel with its
+  language noted; `---` becomes three dots; footnote references are small pills.
+- **Contents.** Numbered entries align their numbers in a column; the current chapter
+  is marked with an indigo bar and follows the reader's scroll. Reading length and
+  time are stated at the foot of the spine with the Markdown download.
+- **Toolbar.** Search (press `/`), the follow-up button, text size, theme and print.
+  The document title appears once the opening has scrolled away; on narrow screens the
+  current chapter is shown instead, the contents become a drawer, and size, theme and
+  print fold into a small menu.
+- **Reading aids.** In-place search highlights without hiding text; footnote previews
+  on hover or focus; a “追问选段” bubble beside any selection; the follow-up panel
+  floats at the side (a bottom sheet on phones) so the reading position never moves.
+- **Print.** Chrome is dropped, numbers stop hanging, tables keep rows whole, external
+  links print their address, and pages are numbered “n / total”.
+- **Constraints.** Everything stays one offline file: no network requests, no external
+  stylesheet or script, KaTeX and its fonts inlined only when a formula is present. The
+  reader does not add, summarize or reorder content.
 
 ### Condition page (`assets/condition-lab.css`, `assets/condition-lab.js`)
 
-**North Star: "a worked calculation, shown honestly."** A cooler green-neutral
-system, deliberately distinct from the reading page so a model result is never
-mistaken for prose argument.
+**North Star: "a worked calculation on grid paper."** The teal accent and the faint grid
+behind the title keep a model result from being mistaken for the argument itself.
 
-- The selectors, the current-state line and the result tables are the whole
-  page. The current state is stated as a filled band, not a badge or a score.
-- Every table names its own identity: inputs with basis and source, derived
-  quantities with formula, constraints with their explicit test.
-- Unknown, assumed and observed values keep separate wording; no state is
-  rendered as a number it does not have.
-- Print flattens the page to the calculation and drops the selectors.
+- A sticky control card holds the three selectors, the current state as a filled band
+  (state mark, plan, scenario and the reminder that the state is not a feasibility or
+  success claim) and a legend of the state marks.
+- Results read top to bottom: an overview of every computed combination for the
+  selected scenario (each cell selects that case), the peer plans against every
+  constraint, the current case's constraints, derived quantities with formulas, inputs
+  with basis tag, role, origin and source, then how each declared discrete condition
+  alone moves the state, assumptions, boundaries and definitions.
+- Unknown, assumed and observed values keep separate wording; no state is rendered as a
+  number it does not have. Print drops the selectors and keeps the calculation.
 
-Both surfaces are generated by standard-library Python from the same skill
-assets. They read the assets at generation time and inline them, so editing
-`assets/` changes the next generated document and never the repository site.
+### Comparison table (`assets/comparison.css`, `scripts/comparison.py`)
 
-### Comparison table (`scripts/comparison.py`)
+**North Star: "every cell keeps its own basis."** A single self-contained HTML file with
+no script, external stylesheet or font, and a restrictive Content-Security-Policy.
 
-**North Star: "every cell keeps its own basis."** A third generated surface, in a
-single self-contained HTML file with no external stylesheet, script, or font.
-
-- Each cell carries one of three declared identities: fact (the author states a
-  source; the tool does not verify it), assumption, or unknown. The identity is
-  rendered as an inline tag, so it survives being read without color.
-- Unknown is never drawn as a number, a zero, or the bottom of a scale, and never
-  enters a ranking. A dimension that has no shared scale produces no order at all,
-  only the values with their reasons.
-- No cross-dimension weighting and no overall winner: the page states that
-  boundary in its own text, in the Markdown, and in the JSON.
-- Print flattens the tags to bordered words and drops the tinted fills.
+- A legend explains the three identities before the table. Each cell carries its tag;
+  an unknown cell is hatched and never drawn as a number, a zero, or the bottom of a
+  scale, and never enters a ranking.
+- Dimensions run down a sticky first column with unit and declared direction; candidates
+  run across. A dimension without a shared scale produces no order at all.
+- The order section lists each orderable dimension's values in order, says the order
+  holds only for the listed values, and names what did not take part and why.
+- No cross-dimension weighting and no overall winner: the page states that boundary in
+  its own text, in the Markdown, and in the JSON.
 
 ### Word document (`scripts/render_docx.py`)
 
@@ -283,7 +311,6 @@ network and no original paths.
 - The document is one version of the current manuscript. When the argument
   changes, it is re-exported rather than patched in Word.
 
-These generated surfaces stay deliberately distinct — warm paper for long
-argument, cool green for a worked calculation, this one for a comparison, and a
-plain document for hand-off —
-so a reader can tell at a glance what kind of artifact they are holding.
+All HTML surfaces are generated by standard-library Python. They read the assets at
+generation time and inline them, so editing `assets/` changes the next generated
+document and never the repository site.

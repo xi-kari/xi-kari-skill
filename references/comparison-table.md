@@ -63,7 +63,7 @@ python "$skillRoot/scripts/comparison.py" "$skillRoot/assets/examples/comparison
 
 一次运行产生三件同源产物：`comparison-results.json`（完整结构化结果，唯一权威）、`comparison-table.md`、`comparison-table.html`（单文件、内联样式、离线可开、可打印、可下载完整 JSON）。`--format` 可选 `json`、`md`、`html` 或 `all`（默认）。`--force` 只覆盖本工具先前生成的同名产物，永不覆盖输入。
 
-取值的依据身份在三种格式里都保留。HTML 用标签区分事实、假设与未知，并在打印时降为带边框的文字标记，不依赖颜色单独传达区别。
+取值的依据身份在三种格式里都保留。HTML 用实线、虚线、点线三种标签区分事实、假设与未知，未知格另加斜线底纹，并在打印时降为带边框的文字标记，不依赖颜色单独传达区别；每个维度注明比较方向。
 
 ## 与理论的关系
 
