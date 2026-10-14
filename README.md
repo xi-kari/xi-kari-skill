@@ -11,11 +11,23 @@
 
 <p align="center">
   <a href="https://xi-kari.github.io/xi-kari-skill/">认识 Xikari</a> ·
+  <a href="https://github.com/xi-kari/xi-kari-skill/discussions">案例实测</a> ·
   <a href="https://github.com/xi-kari/xi-kari-skill/releases/latest">获取技能</a> ·
   <a href="source/Xikari-条件结构与转化论.md">阅读理论</a>
 </p>
 
 Xikari Skill 以 **Xikari 著《Xikari-条件结构与转化论》** 为基础，让智能体完整学习理论后，进入真实问题：解释事情为什么发生，比较不同选择会带来什么，提出有理由的判断与具体方案。一次完整回答，也可以成为持续研究与共同创作的起点。
+
+## 看公开的案例实测
+
+Discussions 保存了 **17 篇历史版本的公开运行实录**，可以直接阅读当时的完整分析：
+
+- [算法治理的民主悖论](https://github.com/xi-kari/xi-kari-skill/discussions/5)
+- [教育的本质困境](https://github.com/xi-kari/xi-kari-skill/discussions/10)
+- [数字永生的伦理困境](https://github.com/xi-kari/xi-kari-skill/discussions/6)
+- [翁法罗斯完整剧情与结构解读](https://github.com/xi-kari/xi-kari-skill/discussions/25)
+
+[浏览全部运行实录与讨论 →](https://github.com/xi-kari/xi-kari-skill/discussions)
 
 ## 看懂复杂问题
 
