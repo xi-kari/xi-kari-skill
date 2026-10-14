@@ -1,7 +1,7 @@
 {
   "name": "xi-kari-skill",
   "display_name": "Xikari Skill",
-  "version": "5.1.0",
+  "version": "5.2.0",
   "author": "Xikari",
   "theory_title": "Xikari-条件结构与转化论",
   "platform": "Windows",
@@ -12,6 +12,8 @@
     "skill-package.json",
     "agents/openai.yaml",
     "references/full-source-study.md",
+    "references/continuation.md",
+    "references/collaboration.md",
     "references/forward-workflow.md",
     "references/reasoning-capabilities.md",
     "references/critique-and-invention.md",

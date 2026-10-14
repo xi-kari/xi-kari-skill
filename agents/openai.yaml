@@ -1,6 +1,6 @@
 interface:
   display_name: "Xikari Skill"
-  short_description: "先完整学习理论，再沿正序深入分析、批判和决断，完整呈现论证与构想"
-  default_prompt: "使用 $xi-kari-skill，先完整阅读学习Xikari著《Xikari-条件结构与转化论》，再沿XK0—XK11正序深入分析、批判、推演并给出明确判断和具体构想；用普通语言、真实案例与适合的图表完整展开全部实质论证，不默认缩写。"
+  short_description: "完整学习后深入分析与决断，在持续对话中回应反驳、深化构想并打磨完整成果"
+  default_prompt: "使用 $xi-kari-skill，先完整学习Xikari著《Xikari-条件结构与转化论》，沿XK0—XK11深入分析、批判和裁决；同一任务后续承接已有材料与争议持续深化、打磨完整成果，用普通语言、真实案例与适合的图表充分呈现。"
 policy:
   allow_implicit_invocation: false
