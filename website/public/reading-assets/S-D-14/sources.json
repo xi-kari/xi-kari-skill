@@ -1,0 +1,49 @@
+{
+  "sources": [
+    {
+      "id": "theory",
+      "title": "Xikari-条件结构与转化论，用户提供原文",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "现行全文第4737—4752行；每节精确范围见sourceRefs",
+      "claim_support": [
+        "D.14：术语、合同、论证责任和原文边界；不据此认证经验事实"
+      ],
+      "limits": [
+        "作者理论文本，是被解释对象，不替代外部经验资料；技能5.3.1不等于理论版本。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "theory-gov02",
+      "title": "原书16.2 GOV-02共识程序与版本权限",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "原书第3290—3310行，尤其末段逐异议处置与applied条件",
+      "claim_support": [
+        "关键异议相称处理、独立复核、实际change_id与受影响采用暂停"
+      ],
+      "limits": [
+        "框架内部合同，不直接替代其他组织法定程序。"
+      ],
+      "access_status": "partially_read"
+    },
+    {
+      "id": "rfc7282",
+      "title": "On Consensus and Humming in the IETF",
+      "url": "https://www.rfc-editor.org/rfc/rfc7282.html",
+      "source_type": "primary",
+      "version_or_date": "June2014",
+      "locator": "Abstract注及Status；§3印刷pp7—9，p9 Any finding…及Remember…，p10续句",
+      "claim_support": [
+        "Informational身份与非BCP；异议须实质处理及有理由未满足，不由人数替代"
+      ],
+      "limits": [
+        "原则文件而非现实个案实施证明；不能替代GOV-02。"
+      ],
+      "access_status": "partially_read"
+    }
+  ]
+}

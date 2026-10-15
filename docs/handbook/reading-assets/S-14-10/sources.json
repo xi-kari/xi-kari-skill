@@ -1,0 +1,124 @@
+{
+  "sources": [
+    {
+      "id": "T-main",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§14.10，第3010—3019行",
+      "claim_support": [
+        "资源、地位、代表不同步；非支配原则与四类范围。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-resource",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§10.6.1，第2145—2152行",
+      "claim_support": [
+        "资源转化为可用机会需要具体条件；总体不替个人控制。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-represent",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§5.5.7，第1143—1148行",
+      "claim_support": [
+        "代表主张、实际代行、有效委托与J转移不同。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-permission",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§14.6，第2940—2953行",
+      "claim_support": [
+        "法律有效、规范正当与原子权限分别核。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-protection",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§14.8，第2968—3001行",
+      "claim_support": [
+        "保护底板与实体权利不互代。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-dissent",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§14.5，第2928—2939行",
+      "claim_support": [
+        "实质异议、有理由回应和仍存分歧分开，公开决策规则。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "P-ADA",
+      "title": "白宫1990年ADA事实说明（美国国家档案馆转录）",
+      "url": "https://www.archives.gov/research/americans-with-disabilities/transcriptions/naid-6037490-fact-sheet-americans-with-disabilities-act-of-1990.html.html",
+      "source_type": "primary",
+      "version_or_date": "1990-07-26",
+      "locator": "1990-07-26；开头第1—3段，Employment第1段，Public Services第1—2段，Public Accommodations第2—3段",
+      "claim_support": [
+        "1990年7月26日签署ADA；当日说明列出就业反歧视与合理便利、公共服务参与及交通可及安排。"
+      ],
+      "limits": [
+        "这是当日政府对法律内容的说明，非现行法咨询；不能证明实施覆盖、就业净效应或每个人实际自主。"
+      ],
+      "access_status": "partially_read"
+    },
+    {
+      "id": "P-SIGN",
+      "title": "布什签署ADA声明（美国国家档案馆转录）",
+      "url": "https://www.archives.gov/research/americans-with-disabilities/transcriptions/naid-6037493-statement-by-the-president-americans-with-disabilities-act-of-1990.html",
+      "source_type": "primary",
+      "version_or_date": "1990-07-26",
+      "locator": "1990-07-26；以The ADA recognizes开头的段落及其后两段",
+      "claim_support": [
+        "声明计划由司法部长统筹技术协助，咨询相关机构并让行业和倡议组织参与。"
+      ],
+      "limits": [
+        "政策承诺与参与安排的原始声明，不证明参与已经发生、代表性充分或其影响预算的能力。"
+      ],
+      "access_status": "partially_read"
+    }
+  ]
+}

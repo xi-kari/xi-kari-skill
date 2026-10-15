@@ -1,0 +1,109 @@
+{
+  "sources": [
+    {
+      "id": "T-main",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§13.11，第2832—2835行",
+      "claim_support": [
+        "AI动态工作、禁越界与变量候选责任。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-check",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§13.11.1，第2836—2845行",
+      "claim_support": [
+        "材料四项、检索与一致性边界、形式检查及工具行动链。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-end",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§13.11.2，第2846—2863行",
+      "claim_support": [
+        "终点五层、并发/超时、停止与失败保留。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-dynamic",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§13.10，第2814—2831行",
+      "claim_support": [
+        "动态候选、条件分支和规范权限。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-human",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§13.8，第2794—2801行",
+      "claim_support": [
+        "有效人工复核的资源与停止权限。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "P-NIST",
+      "title": "NIST AI600-1：生成式AI风险文件",
+      "url": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.600-1.pdf",
+      "source_type": "primary",
+      "version_or_date": "2024",
+      "locator": "2024版，PDF第5页印刷1页Introduction，第10页印刷6页§2.2 Confabulation，第22页印刷18页GOVERN3.2。",
+      "claim_support": [
+        "该版自愿性配套文件讨论生成失实、错误逻辑/引文风险以及角色分工和反馈救济建议。"
+      ],
+      "limits": [
+        "治理文本及风险讨论，不是本题实验、所有模型表现的定量估计或现行强制法律。"
+      ],
+      "access_status": "partially_read"
+    },
+    {
+      "id": "P-AWS",
+      "title": "Malcolm Featonby：Making retries safe with idempotent APIs",
+      "url": "https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/",
+      "source_type": "primary",
+      "version_or_date": "读取于2026-10-14；页面正文未明确显示发布日期",
+      "locator": "官方Builders’ Library页面，2026-10-14读取；Retrying and side effects前两段；Reducing client complexity关于caller-provided identifier的段落；Same client request ID, different intent。",
+      "claim_support": [
+        "作者说明超时后结果不明可能引出重复副作用，介绍请求标识和同标识异参数的处理。"
+      ],
+      "limits": [
+        "技术设计说明，文中超时场景为假设；不是已核事故或本题工具实测，具体API仍须核各自合同。"
+      ],
+      "access_status": "partially_read"
+    }
+  ]
+}

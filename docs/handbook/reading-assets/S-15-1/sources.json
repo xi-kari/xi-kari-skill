@@ -1,0 +1,184 @@
+{
+  "sources": [
+    {
+      "id": "T-main",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§15.1，第3026—3039行",
+      "claim_support": [
+        "四任务及转换链、执行绑定与失效边界。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-intro",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§intro-15-part，第3020—3025行",
+      "claim_support": [
+        "本部分导航与语义实现边界。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-types",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§15.2，第3040—3049行",
+      "claim_support": [
+        "T为任务类型不是成熟阶梯。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-app",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§15.3，第3112—3121行",
+      "claim_support": [
+        "模块共同门、领域证据与缺失降级。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-norm",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§14.1，第2870—2879行",
+      "claim_support": [
+        "事实与规范及C12职责。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-roles",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§2.2，第239—264行",
+      "claim_support": [
+        "命题角色与现实行动桥接。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-strong",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§13.5，第2752—2768行",
+      "claim_support": [
+        "强判断按实际用途触发。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-permission",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§14.6，第2940—2953行",
+      "claim_support": [
+        "原子授权、复合程序与O1—O4。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-state",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§14.7，第2954—2967行",
+      "claim_support": [
+        "暂停、停止与独立有效安全职责。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-tool",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§13.11.2，第2846—2863行",
+      "claim_support": [
+        "任务终点与可核执行链。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-emergency",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§15.3.8，第3214—3231行",
+      "claim_support": [
+        "专业应急权限不由框架生成，框架不得延误救命。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "P-MONT",
+      "title": "Montgomery v Lanarkshire Health Board，[2015] UKSC 11",
+      "url": "https://supremecourt.uk/uploads/uksc_2013_0136_judgment_fd5635b4cd.pdf",
+      "source_type": "primary",
+      "version_or_date": "2015-03-11",
+      "locator": "2015-03-11判决，§§82—91（以判决段号定位）",
+      "claim_support": [
+        "判决区分专业判断与患者决定，说明重要风险和合理替代的告知、可理解对话及有限例外。"
+      ],
+      "limits": [
+        "本次局部阅读§§82—95及首页，未据此处理现实患者或确认现行法律全貌；判决规则不是临床结果评价，也不是框架采用证明。"
+      ],
+      "access_status": "partially_read"
+    }
+  ]
+}

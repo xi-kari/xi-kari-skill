@@ -1,0 +1,50 @@
+{
+  "sources": [
+    {
+      "id": "theory",
+      "title": "Xikari-条件结构与转化论，用户提供原文",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "现行全文第421—450行；每节精确范围见sourceRefs",
+      "claim_support": [
+        "intro-03-part：术语、合同、论证责任和原文边界；不据此认证经验事实",
+        "3.1：术语、合同、论证责任和原文边界；不据此认证经验事实"
+      ],
+      "limits": [
+        "作者理论文本，是被解释对象，不替代外部经验资料；技能5.3.1不等于理论版本。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "caib-object",
+      "title": "Columbia Accident Investigation Board Report, Volume I, Chapter 6",
+      "url": "https://govinfo.library.unt.edu/caib/news/report/pdf/vol1/chapters/chapter6.pdf",
+      "source_type": "primary",
+      "version_or_date": "2003-08；档案说明2003-09-08版仅订正排字",
+      "locator": "印刷p.171，F6.3-5—F6.3-6",
+      "claim_support": [
+        "3.1：碎片评估团队形成、共同主持及报告路径；管理者未正式咨询其进展或中期结果。"
+      ],
+      "limits": [
+        "只援引调查确认的机构与沟通关系，不代表本框架G1检验，也不能单因归责。"
+      ],
+      "access_status": "partially_read"
+    },
+    {
+      "id": "theory-sp",
+      "title": "Xikari原文5.2：九轴及不适用语义",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "5.2，第1039—1059行",
+      "claim_support": [
+        "3.1：九轴含义；自然过程J不适用与未知有别，完整登记不能等于一切轴都适用。"
+      ],
+      "limits": [
+        "跨节术语回查，不作为现实轴值的证据。"
+      ],
+      "access_status": "read"
+    }
+  ]
+}

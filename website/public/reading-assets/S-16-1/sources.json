@@ -1,0 +1,35 @@
+{
+  "sources": [
+    {
+      "id": "theory",
+      "title": "Xikari-条件结构与转化论，用户提供原文",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "现行全文第3264—3289行；每节精确范围见sourceRefs",
+      "claim_support": [
+        "intro-16-part：术语、合同、论证责任和原文边界；不据此认证经验事实",
+        "16.1：术语、合同、论证责任和原文边界；不据此认证经验事实"
+      ],
+      "limits": [
+        "作者理论文本，是被解释对象，不替代外部经验资料；技能5.3.1不等于理论版本。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "rtf2005",
+      "title": "Return to Flight Task Group Final Report",
+      "url": "https://ntrs.nasa.gov/api/citations/20050201800/downloads/20050201800.pdf",
+      "source_type": "primary",
+      "version_or_date": "July2005；评估截止2005-06-27",
+      "locator": "印刷第5页末两段（PDF7）；印刷第80页§3.11.4首两段（PDF82）",
+      "claim_support": [
+        "评估报告的建议性职责；任务组观察模拟并要求补充材料的事实"
+      ],
+      "limits": [
+        "有限页段核读，不声称全220页精读；模拟观察不证明现实安全或长期净效果。"
+      ],
+      "access_status": "partially_read"
+    }
+  ]
+}

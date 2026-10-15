@@ -1,0 +1,50 @@
+{
+  "sources": [
+    {
+      "id": "theory",
+      "title": "Xikari-条件结构与转化论，用户提供原文",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "现行全文第543—550行；每节精确范围见sourceRefs",
+      "claim_support": [
+        "3.6：术语、合同、论证责任和原文边界；不据此认证经验事实"
+      ],
+      "limits": [
+        "作者理论文本，是被解释对象，不替代外部经验资料；技能5.3.1不等于理论版本。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "snow-purpose",
+      "title": "John Snow, 地图缺口与地形用途",
+      "url": "https://www.gutenberg.org/cache/epub/72894/pg72894-images.html",
+      "source_type": "primary",
+      "version_or_date": "1855年第二版；数字转录版2024-02-07",
+      "locator": "1855第二版印刷pp.45—46，MAP 1后说明",
+      "claim_support": [
+        "3.6：原住址记录缺失导致地图遗漏；作者仍讨论地形用途，需区分任务结论上限。"
+      ],
+      "limits": [
+        "不认证作者全部空间判断；不补遗漏数，不做当前医疗建议。",
+        "与3.5.3同源，新增用途区分，不累计独立支持。"
+      ],
+      "access_status": "partially_read"
+    },
+    {
+      "id": "theory-f2",
+      "title": "Xikari原文4.18.2：F2",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "第989—992行",
+      "claim_support": [
+        "3.6：按用途选择接口不自动证明数学意义的动力或干预闭合。"
+      ],
+      "limits": [
+        "跨节形式概念回查，真实应用另需变量映射与条件。"
+      ],
+      "access_status": "read"
+    }
+  ]
+}

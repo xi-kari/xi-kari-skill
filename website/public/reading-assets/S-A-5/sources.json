@@ -1,0 +1,94 @@
+{
+  "sources": [
+    {
+      "id": "T-main",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§A.5，第3832—3897行",
+      "claim_support": [
+        "HV05全部39字段及R0—R4五路，任务与总体负担终点。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-H2",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§7.1，第1469—1485行",
+      "claim_support": [
+        "H2操作分型，不自带经验真值。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-G2",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§4.4，第610—619行",
+      "claim_support": [
+        "指定载体通道效应。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-G3",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§4.5，第620—641行",
+      "claim_support": [
+        "历史增量与当前载体传递的不同路线。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-H5",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§4.2，第586—601行",
+      "claim_support": [
+        "H5唯一载体、结果家族与持久判据。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "P-CC",
+      "title": "Cash and Counseling：Effect of Consumer Direction on Adults’ Personal Care and Well-Being in Arkansas, New Jersey and Florida",
+      "url": "https://aspe.hhs.gov/sites/default/files/migrated_legacy_files/41521/adultpcw.pdf",
+      "source_type": "primary",
+      "version_or_date": "2005-05-16",
+      "locator": "2005-05-16报告，印刷7—8页（PDF19—20），支出计划与Counseling and Fiscal Services",
+      "claim_support": [
+        "三州项目分列个人协助、支出计划、雇主协助、咨询和财政管理支持。"
+      ],
+      "limits": [
+        "本人读取既有原PDF19—20完整页；本次在线回取403，依据已保存原件核验；仅用历史设计分工，不证明支持全部落实、协调负担消失或任何G/H实例正式成立，不作当前照护或法律建议。"
+      ],
+      "access_status": "partially_read"
+    }
+  ]
+}

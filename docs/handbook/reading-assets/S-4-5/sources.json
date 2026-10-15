@@ -1,0 +1,140 @@
+{
+  "sources": [
+    {
+      "id": "T-45",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§4.5，第620—641行",
+      "claim_support": [
+        "4.5：三问题、G3a/G3b、零模型、暂停与结果边界、载体路线、正式支持与表示依赖。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-41",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§4.1，第557—585行",
+      "claim_support": [
+        "4.5：预注册、正零门、模型复杂度与数据分割纪律。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-causal",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§2.4—2.4.2，第293—314行",
+      "claim_support": [
+        "4.5：总效应、条件问题、中介控制、识别责任及局部作用组合。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-H5",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§4.2，第586—601行及§7.1第1479—1484行",
+      "claim_support": [
+        "4.5：H5留痕不自行支持后续效应、正式人类实例角色。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-domain",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§2.1.1，第225—232行",
+      "claim_support": [
+        "4.5：领域证据与正式G/H资格分开。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-F1",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§4.18.1，第985—988行",
+      "claim_support": [
+        "4.5：充分性针对所问任务，不要求恢复全部信息。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-C9",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "附录C.9，第4454—4469行，尤其4456",
+      "claim_support": [
+        "4.5：双队列原初态{0,…,30}²与961等概率状态的数学设定。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-C11",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "附录C.11，第4494—4507行",
+      "claim_support": [
+        "4.5：四种输入的最小MSE、原始权重、两条轨迹及投影遗漏的支持上限。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "R-apollo-history",
+      "title": "NASA, Report of Apollo13 Review Board",
+      "url": "https://ntrs.nasa.gov/api/citations/20170000913/downloads/20170000913.pdf?attachment=true",
+      "source_type": "primary",
+      "version_or_date": "1970-06-15调查报告，208页PDF",
+      "locator": "章5，印刷5-9—5-11：飞行前导线损伤；5-6：起火判断的most probably；5-8：遥测细节限制。PDF175—177、172、174页",
+      "claim_support": [
+        "4.5案例：地面特殊排空长时间加热、开关很可能焊闭、后续试验与绝缘损伤/短路危险的历史重建；报告保留事故细节不确定性。"
+      ],
+      "limits": [
+        "核相关调查段落，不重新实验；概率重建不改写为逐点直接目击。",
+        "不证明故障前完整状态已知，不构成控制当前表示后的G3实例，不据此分配个人责任。"
+      ],
+      "access_status": "partially_read"
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "sources": [
+    {
+      "id": "theory",
+      "title": "Xikari-条件结构与转化论，用户提供原文",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "现行全文第4821—4836行；每节精确范围见sourceRefs",
+      "claim_support": [
+        "D.19：术语、合同、论证责任和原文边界；不据此认证经验事实"
+      ],
+      "limits": [
+        "作者理论文本，是被解释对象，不替代外部经验资料；技能5.3.1不等于理论版本。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "nara-constitution",
+      "title": "The Constitution of the United States: A Transcription",
+      "url": "https://www.archives.gov/founding-docs/constitution-transcript",
+      "source_type": "primary",
+      "version_or_date": "原文1787；页面Last reviewed2026-09-08",
+      "locator": "Note原件转录说明；Article I Sections1、5、7；页面末reviewed日期",
+      "claim_support": [
+        "原转录中的立法权、法定人数与复议安排分项存在"
+      ],
+      "limits": [
+        "只核指定原件转录，未核全修正判例和实施，不从文本存在推整体正当或私人一致同意。"
+      ],
+      "access_status": "partially_read"
+    }
+  ]
+}

@@ -1,0 +1,79 @@
+{
+  "sources": [
+    {
+      "id": "theory",
+      "title": "Xikari-条件结构与转化论，用户提供原文",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "现行全文第1384—1397行；每节精确范围见sourceRefs",
+      "claim_support": [
+        "6.7：术语、合同、论证责任和原文边界；不据此认证经验事实"
+      ],
+      "limits": [
+        "作者理论文本，是被解释对象，不替代外部经验资料；技能5.3.1不等于理论版本。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "nist-phase-cell",
+      "title": "NIST：Triple-Point Cell装置说明",
+      "url": "https://www.nist.gov/video/triple-point-cell",
+      "source_type": "primary",
+      "version_or_date": "2016-12-21",
+      "locator": "正文单段及Uploaded On日期",
+      "claim_support": [
+        "6.7：NIST说明密闭玻璃池中的水及其固、液、气三相平衡；2016-12-21发布。"
+      ],
+      "limits": [
+        "仅核网页文字说明，不引用视频帧或测量数值；候选对象合同为本讲条件分析，并非NIST采用Xikari框架。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "theory-d0d1",
+      "title": "Xikari3.1—3.2：对象与状态词",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "第425—461行",
+      "claim_support": [
+        "6.7：K为同一性判据，同对象状态变化与K失效分开；演化不内含成熟或价值。"
+      ],
+      "limits": [
+        "声明候选不证明对象经验有效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "theory-history",
+      "title": "Xikari4.5：当前载体与额外历史",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "第620—640行",
+      "claim_support": [
+        "6.7：载体持续与表示之外增量分开，不可删已知当前状态制造增量。"
+      ],
+      "limits": [
+        "预测增量不自动是历史因果。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "theory-g4",
+      "title": "Xikari4.6：尺度闭合与转换",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "第642—648行",
+      "claim_support": [
+        "6.7：进一步作正式对象转换主张时，须有相应映射与预选G4实例条件。"
+      ],
+      "limits": [
+        "相位名或K文字变化不自动认证转换。"
+      ],
+      "access_status": "read"
+    }
+  ]
+}

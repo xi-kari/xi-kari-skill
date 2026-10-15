@@ -1,0 +1,49 @@
+{
+  "sources": [
+    {
+      "id": "theory",
+      "title": "Xikari-条件结构与转化论，用户提供原文",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "现行全文第3458—3471行；每节精确范围见sourceRefs",
+      "claim_support": [
+        "16.14：术语、合同、论证责任和原文边界；不据此认证经验事实"
+      ],
+      "limits": [
+        "作者理论文本，是被解释对象，不替代外部经验资料；技能5.3.1不等于理论版本。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "theory-hv11",
+      "title": "Xikari附录A.11 HV11条件支持路由",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "A.11第4228—4293行，尤其第4251行R0/R1/R2",
+      "claim_support": [
+        "R2的G2-instance、CAUSAL、E4附加要求；受强制行动也可能有可识别效应；效果不补R1自愿性"
+      ],
+      "limits": [
+        "理论合同不替代现实因果证据。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "sen1977",
+      "title": "Rational Fools: A Critique of the Behavioral Foundations of Economic Theory",
+      "url": "https://www.ibiblio.org/philecon/General%20Information_files/rationalfools.pdf",
+      "source_type": "primary",
+      "version_or_date": "1977",
+      "locator": "印刷pp326—327，PDF第11—12页原刊图像",
+      "claim_support": [
+        "一致选择不单独解决自利问题；sympathy/commitment区分；选择符合福利最优不必以此为理由"
+      ],
+      "limits": [
+        "只核这两页，不声称全文通读或实证验证；不转存原刊到交付ZIP。"
+      ],
+      "access_status": "partially_read"
+    }
+  ]
+}

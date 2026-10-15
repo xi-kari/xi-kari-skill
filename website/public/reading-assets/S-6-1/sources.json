@@ -1,0 +1,80 @@
+{
+  "sources": [
+    {
+      "id": "theory",
+      "title": "Xikari-条件结构与转化论，用户提供原文",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "现行全文第1294—1301行；每节精确范围见sourceRefs",
+      "claim_support": [
+        "intro-06-part：术语、合同、论证责任和原文边界；不据此认证经验事实",
+        "6.1：术语、合同、论证责任和原文边界；不据此认证经验事实"
+      ],
+      "limits": [
+        "作者理论文本，是被解释对象，不替代外部经验资料；技能5.3.1不等于理论版本。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "nasa114-operation",
+      "title": "NASA STS-114：影像评估与填隙条移除",
+      "url": "https://www.nasa.gov/mission/sts-114/",
+      "source_type": "primary",
+      "version_or_date": "任务2005-07-26—08-09；网页2025-05-01更新",
+      "locator": "Mission Highlights，gap fillers叙述与EVA No.3段",
+      "claim_support": [
+        "6.1：影像发现突出填隙条，任务管理者评估行动，2005年8月3日Robinson实际拔除。"
+      ],
+      "limits": [
+        "机构任务记录覆盖这次操作；不证明全部改进长期净益或正式G实例。"
+      ],
+      "access_status": "partially_read"
+    },
+    {
+      "id": "theory-d0",
+      "title": "Xikari3.1：对象接口与K",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "第425—448行",
+      "claim_support": [
+        "导语及6.1：完整对象声明含B/X/R/I/T/SP/K；K仅为同一性判据。"
+      ],
+      "limits": [
+        "定义不预证对象有效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "theory-history",
+      "title": "Xikari4.5：历史形成、载体与条件增量",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "第620—640行",
+      "claim_support": [
+        "6.1：三条历史问题分开，当前载体充分可无额外历史增量；不可遗漏已知当前状态。"
+      ],
+      "limits": [
+        "形式模型不替现实路线取证。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "theory-scale",
+      "title": "Xikari3.4与4.8.5：跨尺度与证据责任",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "第473—494行；第698—700行",
+      "claim_support": [
+        "6.1：跨尺度需对象/变量/任务的D3/E5映射，不由名称或局部结果替代。"
+      ],
+      "limits": [
+        "这里只说明责任，不认证真实尺度迁移。"
+      ],
+      "access_status": "read"
+    }
+  ]
+}

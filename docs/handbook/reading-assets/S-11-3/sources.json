@@ -1,0 +1,66 @@
+{
+  "sources": [
+    {
+      "id": "theory",
+      "title": "Xikari-条件结构与转化论，用户提供原文",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "现行全文第2245—2276行；每节精确范围见sourceRefs",
+      "claim_support": [
+        "11.3：术语、合同、论证责任和原文边界；不据此认证经验事实",
+        "11.3.1：术语、合同、论证责任和原文边界；不据此认证经验事实",
+        "11.3.2：术语、合同、论证责任和原文边界；不据此认证经验事实"
+      ],
+      "limits": [
+        "作者理论文本，是被解释对象，不替代外部经验资料；技能5.3.1不等于理论版本。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "history",
+      "title": "现行原文当前载体与额外历史增量",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "§4.5第620—640行",
+      "claim_support": [
+        "11.3：h不自动获得历史增量真值，当前载体与G3分路"
+      ],
+      "limits": [
+        "符号位置不代现实识别。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "choice",
+      "title": "现行原文充分答案与可行选择",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "§12.10.1—12.10.2第2601—2612行",
+      "claim_support": [
+        "11.3.1—11.3.2：问题同答与行动可行分开，共享资源影响联合可行性"
+      ],
+      "limits": [
+        "识别需要不产生观测或执行许可。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "snow",
+      "title": "Snow1855死亡时间与登记时间说明",
+      "url": "https://www.gutenberg.org/cache/epub/72894/pg72894-images.html",
+      "source_type": "primary",
+      "version_or_date": "1855年第二版；数字转录版2024-02-07",
+      "locator": "印刷pp.40—41，Broad Street爆发及下一周登记的说明",
+      "claim_support": [
+        "11.3.2：一些9月最初两日死亡直到下一周才登记，说明事件与记录时钟不同"
+      ],
+      "limits": [
+        "未取得逐条模型进入时点，死亡日不等感染日；不据此估传播参数。"
+      ],
+      "access_status": "partially_read"
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "sources": [
+    {
+      "id": "T-main",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§14.7，第2954—2967行",
+      "claim_support": [
+        "七状态、交集、申诉反报复到期、四纠错终点。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-end",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§13.11.2，第2846—2863行",
+      "claim_support": [
+        "停止、在途终止和后果补救分开。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "P-SEC",
+      "title": "SEC Knight命令：实施、认证与后续审查分层",
+      "url": "https://www.sec.gov/files/litigation/admin/2013/34-70694.pdf",
+      "source_type": "primary",
+      "version_or_date": "2013-10-16",
+      "locator": "2013-10-16，PDF1和16，¶51G—I。",
+      "claim_support": [
+        "命令分别要求实施并通知、顾问书面认证、随后审查与报告。"
+      ],
+      "limits": [
+        "仅命令要求，未核实际完成；不把它等同Xikari状态机、已获补救或当前金融操作建议。"
+      ],
+      "access_status": "partially_read"
+    }
+  ]
+}

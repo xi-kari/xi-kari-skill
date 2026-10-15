@@ -1,0 +1,49 @@
+{
+  "sources": [
+    {
+      "id": "theory",
+      "title": "Xikari-条件结构与转化论，用户提供原文",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "现行全文第4705—4720行；每节精确范围见sourceRefs",
+      "claim_support": [
+        "D.12：术语、合同、论证责任和原文边界；不据此认证经验事实"
+      ],
+      "limits": [
+        "作者理论文本，是被解释对象，不替代外部经验资料；技能5.3.1不等于理论版本。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "localcontexts-labels",
+      "title": "TK Labels",
+      "url": "https://localcontexts.org/labels/traditional-knowledge-labels/",
+      "source_type": "primary",
+      "version_or_date": "页面未标发布日期",
+      "locator": "导语第2—3段；三分类说明；Permission Labels行53—54",
+      "claim_support": [
+        "来源、访问协议、许可分列；其他用途需直接接洽相关文化权威"
+      ],
+      "limits": [
+        "只证实设计和规则说明，不证明实际授权或所有社区实施成效。"
+      ],
+      "access_status": "partially_read"
+    },
+    {
+      "id": "localcontexts-community",
+      "title": "TK Community Use Only",
+      "url": "https://localcontexts.org/label/tk-community-use-only/",
+      "source_type": "primary",
+      "version_or_date": "页面未标发布日期",
+      "locator": "Why use this Label两段；Template Text两段；How to use首段（行9—17）",
+      "claim_support": [
+        "通常社区内部流通条件及标签由社区选择定制"
+      ],
+      "limits": [
+        "未使用任何限制材料，不判断特定授权或实施效果。"
+      ],
+      "access_status": "partially_read"
+    }
+  ]
+}

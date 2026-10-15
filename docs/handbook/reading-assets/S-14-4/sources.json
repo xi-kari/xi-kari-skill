@@ -1,0 +1,64 @@
+{
+  "sources": [
+    {
+      "id": "T-main",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§14.4，第2912—2927行",
+      "claim_support": [
+        "选项身份、唯一不行动、九轴分配、原则实例和有效期。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-types",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§14.2，第2880—2891行",
+      "claim_support": [
+        "SEL三类方案边界。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-J",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§14.6，第2940—2953行",
+      "claim_support": [
+        "selected_action与原子授权匹配。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "P-CC",
+      "title": "Cash and Counseling成人评估：津贴取得窗口与分组",
+      "url": "https://aspe.hhs.gov/sites/default/files/migrated_legacy_files/41521/adultpcw.pdf",
+      "source_type": "primary",
+      "version_or_date": "2005-05-16",
+      "locator": "2005-05-16；印刷20—21页表5及解释（PDF32—33），印刷12—14页方法（PDF24—26）。",
+      "claim_support": [
+        "表5按州及年龄组报告津贴使用；佛罗里达老年组在九个月随访时居社区的处理组受访者中，39%最近取得津贴，最近指当月或前月；表注老年分界FL60岁、AR/NJ65岁。"
+      ],
+      "limits": [
+        "实施取得描述不是所有分配人群的ITT分母，也非纯选择权因果效应、当前政策或适用任何人的规范决定。"
+      ],
+      "access_status": "partially_read"
+    }
+  ]
+}

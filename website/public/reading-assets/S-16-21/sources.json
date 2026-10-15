@@ -1,0 +1,34 @@
+{
+  "sources": [
+    {
+      "id": "theory",
+      "title": "Xikari-条件结构与转化论，用户提供原文",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "现行全文第3524—3531行；每节精确范围见sourceRefs",
+      "claim_support": [
+        "16.21：术语、合同、论证责任和原文边界；不据此认证经验事实"
+      ],
+      "limits": [
+        "作者理论文本，是被解释对象，不替代外部经验资料；技能5.3.1不等于理论版本。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "python2-sunset",
+      "title": "Sunsetting Python 2",
+      "url": "https://www.python.org/doc/sunset-python-2/",
+      "source_type": "primary",
+      "version_or_date": "2020退出公告现行说明；2026-10-14读取",
+      "locator": "首段；Why are you doing this?第2—5段；What happens now两段；I wrote code in Python 2…下一段",
+      "claim_support": [
+        "2020-01-01终止支持；4月2.7.18不改变该日期；提供迁移指南入口"
+      ],
+      "limits": [
+        "只证明公开政策与历史日期，未核全部迁移效果或七项交接条件。"
+      ],
+      "access_status": "partially_read"
+    }
+  ]
+}

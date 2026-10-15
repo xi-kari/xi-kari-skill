@@ -1,0 +1,66 @@
+## A.9　HV09 结构负荷（完整接口卡）
+
+A. 身份、命题与适用范围
+
+| 字段 | 登记内容 |
+| --- | --- |
+| 接口 ID（id） | HV09 |
+| 限定 ID（qualified_id） | human_variable:HV09 |
+| 名称（name） | 结构负荷 |
+| 主张类型（claim_type） | H |
+| 合同角色（contract_role） | human_variable_interface |
+| 命题（proposition） | 人类结构负荷必须把任务、协调损耗、维护要求、容量、恢复余量和成本承担位置共同登记。 |
+| 适用范围（scope） | 持续运转、维护、照护或高压条件下的人类结构 |
+| 暂停条件（pause_condition） | 只用熵、脆弱或韧性隐喻而无任务、容量和恢复机制 |
+
+B. 正式依赖与结论边界
+
+| 字段 | 登记内容 |
+| --- | --- |
+| 推理依赖（inferential_requires） | 无（空集合） |
+| 协议依赖（protocol_requires） | 1. EVIDENCE<br>2. SOURCE |
+| 限定／特化（specializes） | 无（空集合） |
+| 适用对象引用（applies_to） | 无（空集合） |
+| 条件支持路由（conditional_support_routes） | 1. route_id=HV09-R0-instant-task-capacity；<br>claim_level=descriptive_classification；<br>when=同一窗口、位置与类型映射下的任务或协调要求、容量、恢复余量及其分布可观察。；<br>additional_inferential_requires=无（空集合）；<br>additional_protocol_requires=无（空集合）；<br>allowed_conclusion=登记瞬时任务—容量关系、余量、积压、局部缺口与恢复状态。；<br>result_ceiling=只到同窗描述；瞬时峰值或缺口不自动成为过载机制、累积损伤或崩溃。<br>2. route_id=HV09-R1-overload-mechanism；<br>claim_level=mechanism_explanation；<br>when=CM-LOAD的适用条件完整，且符合资格的G2-instance显示负荷、补给、减载或恢复通道对预选结果有超过阈值效应。；<br>additional_inferential_requires=G2-instance、CM-LOAD；<br>additional_protocol_requires=CAUSAL、E4；<br>allowed_conclusion=登记指定位置、类型、窗口和通道内的过载或恢复机制候选。；<br>result_ceiling=不得普遍化为熵、韧性或所有位置必然崩溃，也不直接生成减载或牺牲义务。<br>3. route_id=HV09-R2-cumulative-overload；<br>claim_level=intertemporal_explanation；<br>when=过载机制已有G2-instance与CM-LOAD支持，且G3-instance显示历史负荷对后续容量、错误或恢复具有条件增量。；<br>additional_inferential_requires=G2-instance、CM-LOAD、G3-instance；<br>additional_protocol_requires=CAUSAL、E4；<br>allowed_conclusion=登记预注册载体、窗口和结果内、当前状态之外的历史增量型累积损伤或迟恢复候选。；<br>result_ceiling=不推出不可逆、必然崩溃、责任归属或具名主体承担义务。<br>4. route_id=HV09-R3-carried-cumulative-overload；<br>claim_level=intertemporal_explanation；<br>when=CM-LOAD-carried-cumulative的条件完整，符合资格的G2-instance覆盖指定负荷、补给或恢复通道及所声明跨窗结果，并按§4.5核实当前损伤或容量载体、跨窗累积或恢复及区分性因果材料。；<br>additional_inferential_requires=G2-instance、CM-LOAD；<br>additional_protocol_requires=CAUSAL、E4；<br>allowed_conclusion=登记指定载体、窗口与结果内的载体传递型累积损伤或迟恢复候选。；<br>result_ceiling=不登记G3历史增量，不从单次过载或持续相关推出损伤机制，不推出不可逆、必然崩溃、责任或牺牲义务。 |
+| 允许推论（allowed_inference） | 1. 候选过载、余量不足、维护缺口与恢复差异 |
+| 禁止跳跃（prohibited_leap） | 1. 承接者应继续承担<br>2. 高负荷证明奉献<br>3. 过载主体等于失稳机制 |
+
+C. 九轴尺度与对象合同
+
+| 字段 | 登记内容 |
+| --- | --- |
+| 九轴尺度画像（scale_profile） | SP=<A,X,T,O,C,R,I,N,J>；A=聚合层次：单项任务负荷、承接个案、岗位或群体总体、负荷容量分布及聚合规则；X=空间范围：工作或照护现场、组织边界、数字劳动空间与跨域外包范围；T=时间跨度：瞬时峰值、持续积压、恢复时滞、跨期与代际窗口；O=组织层级：承接角色、团队、组织、制度至治理生态；C=因果层次：任务事件、任务—容量互动机制、中观瓶颈结构、制度分配与系统条件；R=观察分辨率：原始任务工时记录、负荷序列、承接个案、容量分布、时延错误指标与摘要，并登记压缩损失；I=影响范围：直接承接者、服务依赖者、间接替代者、二阶外溢、跨域与代际成本；N=网络拓扑范围：任务依赖、关键瓶颈、替代节点、恢复路径与跨域外包网络；J=管辖与授权范围：任务分配、资源调整、停止、绩效使用与补救分别登记授权；保留负荷容量分布 |
+| 有效对象（effective_object） | 给定窗口内任务和协调要求相对可用容量与恢复余量的结构关系 |
+| 跨尺度保持项（scale_invariants） | 1. 负荷、容量、恢复与成本位置 |
+| 升格必补项（required_scale_additions） | 1. 负荷分布<br>2. 聚合遮蔽<br>3. 责任继承<br>4. 代际影响 |
+| 随尺度改变项（changing_semantics） | 1. 瓶颈、容量和恢复方式可随层级改变 |
+| 不适用对象（non_applicable_objects） | 1. 无持续非平衡、维护或人类承接要求的过程 |
+| 禁止升格（forbidden_elevation） | 1. 平均负荷掩盖局部过载 |
+
+D. 状态、证据与变量流
+
+| 字段 | 登记内容 |
+| --- | --- |
+| 状态集合（state） | 1. 低负荷<br>2. 可承受<br>3. 临界<br>4. 过载<br>5. 恢复 |
+| 可观测项（observables） | 1. 单位时间任务量、积压、时延和错误率<br>2. 人员资源容量、隐性劳动与替代可用性<br>3. 停止、缺席、退出和恢复曲线<br>4. 平均负荷与关键局部承接位置的分布差异 |
+| 证据要求（evidence） | 1. 任务量<br>2. 时延与错误<br>3. 人员与资源<br>4. 恢复记录<br>5. 退出和缺席<br>6. 按目标区分执行、同时活动、管理、待命和机会成本，说明重叠、单位及跨位置转移，不直接加成统一负担 |
+| 输入依赖与接口内容（input_dependencies） | 1. 承接层<br>2. 动力—承接链<br>3. 条件势场<br>4. R0登记同类型、同时间窗、同承担位置的任务量、容量、积压及恢复，不以G2成立为描述前提。<br>5. R1的通道效应调用G2与CM-LOAD；R3的载体型累积依§4.5核当前状态、形成与跨窗作用；R2的额外历史条件增量另检G3。H5留痕不替代后续效应或G3检验。<br>6. 各路线未获正式机制支持，不取消独立领域证据已经支持的一般伤害、持续负担或历史因果；结论按自己的依据分别登记。 |
+| 输出效应与变量流（output_effects） | 1. 状态更新<br>2. 失稳行为<br>3. 维护和修复需求 |
+| 时间窗与时滞（time_window_and_lag） | 区分即时峰值、持续积压、恢复时滞与代际成本 |
+| 不确定性（uncertainty） | 记录隐性劳动、外包成本和保护性缺席 |
+| 局部排除区（local_exclusion_zone） | 非正式劳动、家庭照护、外包和低可见承接位置 |
+| 受影响位置（affected_positions） | 1. 承接者<br>2. 依赖服务者<br>3. 替代者<br>4. 成本外溢位置 |
+
+E. 承接、责任、规范、上限与纠错
+
+| 字段 | 登记内容 |
+| --- | --- |
+| 承接载体（carrier） | 1. 人员<br>2. 岗位<br>3. 程序<br>4. 设施<br>5. 预算 |
+| 责任主体（responsible_subject） | 1. 任务分配者<br>2. 资源配置者<br>3. 授权者<br>4. 监督者<br>5. 补救责任者 |
+| 规范地位（normative_status） | 高效率或高承载不构成正当性 |
+| 判断上限（judgment_ceiling） | R0描述同窗任务、容量与恢复；R1依G2与CM-LOAD形成限定通道解释；R3依§4.5形成当前载体传递的累积损伤或迟恢复判断；R2另有G3时才判断当前表示之外的历史增量。不以持续相关、一时过载或总体平均替代相应证据。 |
+| 行动上限（action_ceiling） | 本变量只生成负荷、容量、恢复、局部过载与减载补资源需求描述，不授权任务削减、资源投入、绩效处置或强迫承担；任何现实调整须另过C12、运行时显式N前提、J授权与O程序 |
+| 反例（counterexamples） | 1. 总体平均容量充足但少数关键承接位置持续过载<br>2. 只用熵或韧性隐喻却无法识别任务、容量和恢复通道 |
+| 申诉（appeal） | 依appeal_and_rollback_rule，承接者可经安全可达、反报复通道报告隐性劳动、过载和恢复需求，并触发与原负荷判断、绩效或任务决策链独立的复核 |
+| 回滚（rollback） | 依appeal_and_rollback_rule，获准回滚时，由指定责任人在规定时限内撤销错误负荷判断及绩效或责任效力，实际恢复任务、资源与记录状态，保留版本与完成验证 |
+

@@ -1,0 +1,64 @@
+{
+  "sources": [
+    {
+      "id": "T-main",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§13.5，第2752—2768行",
+      "claim_support": [
+        "用途触发、SJ八项逐项要求及失败/独立L2边界。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-seven",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§13.3，第2702—2719行",
+      "claim_support": [
+        "IG6绑定完整SJ及七闸输出上限。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-level",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§13.6，第2769—2778行",
+      "claim_support": [
+        "紧急不删除对象、保护与停止条件。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "P-SEC",
+      "title": "SEC：Knight Capital Americas LLC，Release 70694",
+      "url": "https://www.sec.gov/files/litigation/admin/2013/34-70694.pdf",
+      "source_type": "primary",
+      "version_or_date": "2013-10-16",
+      "locator": "2013-10-16，第1页；第14—17页¶51A—M，尤B、H、I、J、K。",
+      "claim_support": [
+        "命令列独立顾问取阅记录和人员、实施认证、后续复核、解聘限制和后续关系限制等要求。"
+      ],
+      "limits": [
+        "记载的是该历史命令要求，不证明各项已实际完成；此材料不覆盖本框架全部八项，不用于当前法律或个人处置建议。"
+      ],
+      "access_status": "partially_read"
+    }
+  ]
+}

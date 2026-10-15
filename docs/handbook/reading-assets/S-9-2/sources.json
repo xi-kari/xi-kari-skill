@@ -1,0 +1,278 @@
+{
+  "sources": [
+    {
+      "id": "T-parent",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§9.2，第1890—1893行",
+      "claim_support": [
+        "三时间带是更新约束，不是人格类别。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-slow",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§9.2.1，第1894—1903行",
+      "claim_support": [
+        "慢变量的持续、跨情境、形成机会、复合倾向与可退役边界。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-mid",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§9.2.2，第1904—1909行",
+      "claim_support": [
+        "中变量清单、阶段变更、个人与圈层双向接口。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-fast",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§9.2.3，第1910—1914行",
+      "claim_support": [
+        "即时状态绑定事件，持久后果须通道，不能倒推本质。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-table",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§9.2.3表，第1916—1920行",
+      "claim_support": [
+        "三带的速度、证据、允许更新及误用逐行解释。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-91",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§9.1，第1873—1888行",
+      "claim_support": [
+        "角色、意愿、能力与来源分别记录。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-93",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§9.3，第1922—1940行",
+      "claim_support": [
+        "人格假设和临床诊断的边界。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-role",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§9.4，第1942—1950行",
+      "claim_support": [
+        "个人/情境/交互及均值、排序、波动和反应轮廓的区分。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-two",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§9.5，第1952—1966行",
+      "claim_support": [
+        "两向通道和反馈逐项核验。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-evidence",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§9.6，第1968—1981行",
+      "claim_support": [
+        "来源相依、候选与观察区分、后见与版本。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-97",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§9.7，第1989—1991行",
+      "claim_support": [
+        "行为归属、控制、责难和补救须分别依据。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-snapshot",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§9.9，第1999—2013行",
+      "claim_support": [
+        "观察时点、资料时点、选择性更新与无新证据时的状态。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-stop",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§9.11，第2023—2027行",
+      "claim_support": [
+        "行动者描述不生成诊断或处置权。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-cause",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§2.4，第293—298行",
+      "claim_support": [
+        "因果通道、时序及区分性证据责任。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-feedback",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§6.2，第1302—1311行",
+      "claim_support": [
+        "反馈返回与后续改变，不强制持久历史留痕。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-history",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§4.5，第620—640行",
+      "claim_support": [
+        "历史形成、当前载体与注册表示之外的G3增量分开。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "P-FL",
+      "title": "Toward a Structure- and Process-Integrated View of Personality: Traits as Density Distributions of States",
+      "url": "https://simine.com/407/readings/Fleeson_2001.pdf",
+      "source_type": "primary",
+      "version_or_date": "William Fleeson，JPSP2001，80(6):1011—1027；DOI10.1037/0022-3514.80.6.1011",
+      "locator": "研究1方法1014—1015/PDF4—5；分布分析1016—1017/PDF6—7及表1注；另核研究2/3相关方法与总讨论1019—1023。",
+      "claim_support": [
+        "研究1计划13天每天五次回顾此前一小时；分布参数稳定性采用同窗随机分半。",
+        "短时观察与汇总统计各有对象，不能从短窗推多年持续。"
+      ],
+      "limits": [
+        "只核所列段落，不声称全17页通读或复算原始数据。",
+        "大学生自报与短观察窗不支持所有人群、终身稳定或特定心理因果。",
+        "慢变量与快变量单元复用同一论文，不计为独立复制。"
+      ],
+      "access_status": "partially_read"
+    },
+    {
+      "id": "P-CC",
+      "title": "Consumer Enrollment and Experiences in the Cash and Counseling Program",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC1955336/",
+      "source_type": "primary",
+      "version_or_date": "Schore、Foster、Phillips，HSR42(1 Pt 2):446—466，2007年2月；DOI10.1111/j.1475-6773.2006.00679.x",
+      "locator": "Who Received the Allowance and How Promptly?开头；Proportion Using a Representative to Manage the Allowance。",
+      "claim_support": [
+        "入组机会、计划与实际领取分别登记；项目代表承担特定管理协助。"
+      ],
+      "limits": [
+        "同S9-1研究复用，仅支持制度阶段与角色事实，不识别参与者中变量心理机制。",
+        "本篇处理组描述不自行给处理效应估计或当代规则建议。"
+      ],
+      "access_status": "partially_read"
+    }
+  ]
+}

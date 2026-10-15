@@ -1,0 +1,34 @@
+{
+  "sources": [
+    {
+      "id": "T-main",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§D.32，第5033—5050行",
+      "claim_support": [
+        "历史主体机制版本、边际收益、和平文书数量及八入口。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "P-FRUS",
+      "title": "U.S. Department of State, FRUS: The Paris Peace Conference, 1919, Volume XIII, Peace between the United States and Germany",
+      "url": "https://history.state.gov/historicaldocuments/frus1919Parisv13/ch3",
+      "source_type": "primary",
+      "version_or_date": "1919巴黎和会史料卷XIII所载1921事件",
+      "locator": "本章印刷20—21页，网页58—63行；联合决议原文及批准日期见18—19页/38—50行",
+      "claim_support": [
+        "1921-08-25柏林签署，11-11交换批准生效；美国方面战争状态依7-2联合决议结束，德国政府以11-11生效为转折，11-16恢复完整外交关系。"
+      ],
+      "limits": [
+        "本人读本章指定段及联合决议相关正文，未通读整卷；官方史料编纂与载录文书支持时间身份，不证明民众心理或生活已全部恢复。"
+      ],
+      "access_status": "partially_read"
+    }
+  ]
+}

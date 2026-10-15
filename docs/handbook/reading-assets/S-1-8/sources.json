@@ -1,0 +1,186 @@
+{
+  "sources": [
+    {
+      "id": "T-18",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§1.8，第153—164行",
+      "claim_support": [
+        "1.8：事件入口、双通道、异步更新、路径分叉、候选及按用途分流。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-event",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§11.2—11.3.2，第2231—2276行",
+      "claim_support": [
+        "1.8：事件类型、事件与证据更新、发生/取得/入模时间，以及延迟材料不能改写原信息集。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-snapshot",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§10.8，第2177—2182行",
+      "claim_support": [
+        "1.8：快照保留证据状态、争议与未知，不是永久真实状态。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-circles",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§10.1—10.2，第2035—2069行",
+      "claim_support": [
+        "1.8：圈层及联合对象按任务建立候选合同。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-dual",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§9.7—9.8，第1983—1998行",
+      "claim_support": [
+        "1.8：物质与体验—意义条件相称处理；技术问题不强取无关体验；拒绝披露不证明动机。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-clock",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§10.7，第2161—2176行",
+      "claim_support": [
+        "1.8：五类时钟、直接触达与自主动力分开；缺更新依据保留时间不确定性或未知。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-path",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§11.4—11.7，第2277—2361行",
+      "claim_support": [
+        "1.8：逐步传播、分叉信号、返回反馈与时间展开。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-feedback",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§6.2，第1302—1311行",
+      "claim_support": [
+        "1.8：有效反馈须有返回通道与后续改变。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-branch",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§11.7—11.8，第2349—2377行",
+      "claim_support": [
+        "1.8：不同不确定来源、变量候选、区分性检验及禁止事实化。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-identify",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§11.3.1，第2261—2268行",
+      "claim_support": [
+        "1.8：任务充分性、相容状态与有保护的关键观察。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-purpose",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§12.2，第2463—2478行；§12.8—12.11，第2561—2626行",
+      "claim_support": [
+        "1.8：结果前登记，方案比较与权限、信息性试验的独立要求。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "R-MCO",
+      "title": "NASA, Mars Climate Orbiter Mishap Investigation Board Phase I Report",
+      "url": "https://discovery.larc.nasa.gov/PDF_FILES/MCO_report_2.pdf",
+      "source_type": "primary",
+      "version_or_date": "1999-11-10，Phase I",
+      "locator": "第2节印刷页13—14；第3节印刷页15末段；第4节印刷页16；执行摘要页6—7保留去向可能性",
+      "claim_support": [
+        "1.8：失去信号在9月23日、9月29日发现单位不符及事后估计，是报告分别记载的时点和判断。",
+        "1.8：第3节将MPL观察限定为截至10月22日，不反映后续动作。"
+      ],
+      "limits": [
+        "只阅读并核对所引相关页，非全部报告或原始遥测审计。",
+        "不将事后判断写成事前能力，不据报告推断个人态度、MPL最终结果或本框架有效性。"
+      ],
+      "access_status": "partially_read"
+    }
+  ]
+}

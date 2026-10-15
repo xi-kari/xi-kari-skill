@@ -1,0 +1,34 @@
+{
+  "sources": [
+    {
+      "id": "theory",
+      "title": "Xikari-条件结构与转化论，用户提供原文",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "现行全文第4789—4804行；每节精确范围见sourceRefs",
+      "claim_support": [
+        "D.17：术语、合同、论证责任和原文边界；不据此认证经验事实"
+      ],
+      "limits": [
+        "作者理论文本，是被解释对象，不替代外部经验资料；技能5.3.1不等于理论版本。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "sna2008",
+      "title": "System of National Accounts2008 — Chapter6",
+      "url": "https://unstats.un.org/unsd/nationalaccount/docs/sna2008.pdf",
+      "source_type": "primary",
+      "version_or_date": "2008版本",
+      "locator": "印刷pp110—111，§6.128—6.132，尤其6.130与6.131；PDF168—169",
+      "claim_support": [
+        "非市场产出定义、特定免费服务成本估值及象征性收费处理"
+      ],
+      "limits": [
+        "固定2008版非最新性声明；不涵盖所有无酬活动，不认证现实实施可及性或质量。"
+      ],
+      "access_status": "partially_read"
+    }
+  ]
+}

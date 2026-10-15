@@ -1,0 +1,34 @@
+{
+  "sources": [
+    {
+      "id": "theory",
+      "title": "Xikari-条件结构与转化论，用户提供原文",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "现行全文第3400—3407行；每节精确范围见sourceRefs",
+      "claim_support": [
+        "16.8：术语、合同、论证责任和原文边界；不据此认证经验事实"
+      ],
+      "limits": [
+        "作者理论文本，是被解释对象，不替代外部经验资料；技能5.3.1不等于理论版本。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "epa-vw2015",
+      "title": "EPA, California Notify Volkswagen of Clean Air Act Violations",
+      "url": "https://www.epa.gov/archive/epa/newsreleases/epa-california-notify-volkswagen-clean-air-act-violations-carmaker-allegedly-used.html",
+      "source_type": "primary",
+      "version_or_date": "2015-09-18",
+      "locator": "2015-09-18首段、As described in the NOV段、EPA and CARB uncovered段",
+      "claim_support": [
+        "当日发布违规通知；测试识别软件与常规运行差异的官方记述；外部研究引出进一步调查"
+      ],
+      "limits": [
+        "新闻稿是当时监管机构发布，不替代完整证据卷宗或最终司法认定；不作十信号现实评分。"
+      ],
+      "access_status": "partially_read"
+    }
+  ]
+}

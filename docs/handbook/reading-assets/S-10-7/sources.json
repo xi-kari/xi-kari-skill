@@ -1,0 +1,65 @@
+{
+  "sources": [
+    {
+      "id": "T-main",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§10.7，第2161—2176行",
+      "claim_support": [
+        "五类时钟表、外部/内生更新、过期观测及金融异步。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-finance",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§10.6.2，第2153—2160行",
+      "claim_support": [
+        "现金、估值、额度与偿付区分。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-snapshot",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§10.8，第2177—2182行",
+      "claim_support": [
+        "快照时间及值的证据状态。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "P-CC",
+      "title": "Carlson等：Effect of Consumer Direction on Adults’ Personal Care and Well-Being in Arkansas, New Jersey and Florida",
+      "url": "https://aspe.hhs.gov/sites/default/files/migrated_legacy_files/41521/adultpcw.pdf",
+      "source_type": "primary",
+      "version_or_date": "2005-05-16",
+      "locator": "2005-05-16，印刷12—14、21、48页；PDF24—26、33、60。",
+      "claim_support": [
+        "九个月后访问中，服务使用题回顾最近两周，设备及改造题回顾入组后九个月；部分干预组访问时未实际领取津贴。",
+        "原报告明确九个月随访不能确定长期结果持续或变化。"
+      ],
+      "limits": [
+        "观测窗口差异不等于已经测得全部五类内在时钟；没有逐人实时轨迹或长期跟踪。"
+      ],
+      "access_status": "partially_read"
+    }
+  ]
+}

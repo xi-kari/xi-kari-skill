@@ -1,0 +1,95 @@
+{
+  "sources": [
+    {
+      "id": "theory",
+      "title": "Xikari-条件结构与转化论，用户提供原文",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "现行全文第1637—1665行；每节精确范围见sourceRefs",
+      "claim_support": [
+        "8.2：术语、合同、论证责任和原文边界；不据此认证经验事实",
+        "8.2.1：术语、合同、论证责任和原文边界；不据此认证经验事实"
+      ],
+      "limits": [
+        "作者理论文本，是被解释对象，不替代外部经验资料；技能5.3.1不等于理论版本。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "D0",
+      "title": "现行原文对象合同与同一性",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "§3.1第425—448行",
+      "claim_support": [
+        "8.2：K只是同一性判据，与完整合同及实际状态变化区分"
+      ],
+      "limits": [
+        "教学K约定不是现实集体身份的充分测量方案。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "SP",
+      "title": "现行原文九轴状态",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "§5.2第1039—1059行",
+      "claim_support": [
+        "8.2：逐轴适用性、未知与不可相互替代，观察扩大不扩大J"
+      ],
+      "limits": [
+        "不把字段填写当事实认证。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "S2",
+      "title": "现行原文S2原型卡",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "§8.3.3，第1702—1718行，S2-O1及证伪行",
+      "claim_support": [
+        "8.2.1教学片段：S2-O1进入/退出和接口变化；中心单方标签分化的证伪阻断"
+      ],
+      "limits": [
+        "demo_log为教学占位，不是真实证据，也不是完整运行记录。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "modes",
+      "title": "现行原文混合与并行路径",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "§8.4第1787—1810行，mixed、parallel行",
+      "claim_support": [
+        "8.2：多原型正面支持和对应位置，而非缺失即混合"
+      ],
+      "limits": [
+        "案例不满足材料时保持未知。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "phase",
+      "title": "现行原文原型与相位机制界线",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "§7.3.10第1586—1589行；§8.2.1第1662—1664行",
+      "claim_support": [
+        "8.2.1：U/H/G/C只是合同链接；单窗原型描述不统一硬需CM-PHASE，机制另加相应条件"
+      ],
+      "limits": [
+        "不省略各具体原型本身的时间要求。"
+      ],
+      "access_status": "read"
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "sources": [
+    {
+      "id": "theory",
+      "title": "Xikari-条件结构与转化论，用户提供原文",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "现行全文第4577—4592行；每节精确范围见sourceRefs",
+      "claim_support": [
+        "D.04：术语、合同、论证责任和原文边界；不据此认证经验事实"
+      ],
+      "limits": [
+        "作者理论文本，是被解释对象，不替代外部经验资料；技能5.3.1不等于理论版本。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "apollo13-lioh",
+      "title": "CSD-A-1066 Final Report – Apollo 13 LiOH Canister Test",
+      "url": "https://ntrs.nasa.gov/api/citations/19720021432/downloads/19720021432.pdf",
+      "source_type": "primary",
+      "version_or_date": "CSD-A-1066；记述1970-04-14及04-16试验，NTRS归档号19720021432",
+      "locator": "印刷pp3—5；Objective、Discussion首段与p4第二阶段段、Conclusions；PDF第6—8页已目视原扫描",
+      "claim_support": [
+        "改装需可工作、现有材料、易于传达及及时评估；无人舱模拟；试验确定更换间隔以减少遥测耗电"
+      ],
+      "limits": [
+        "只核三页报告正文，不重做试验、不使用附录曲线或未核全文数值作结论。"
+      ],
+      "access_status": "partially_read"
+    }
+  ]
+}

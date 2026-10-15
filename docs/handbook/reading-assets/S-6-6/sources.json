@@ -1,0 +1,64 @@
+{
+  "sources": [
+    {
+      "id": "theory",
+      "title": "Xikari-条件结构与转化论，用户提供原文",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "现行全文第1368—1383行；每节精确范围见sourceRefs",
+      "claim_support": [
+        "6.6：术语、合同、论证责任和原文边界；不据此认证经验事实"
+      ],
+      "limits": [
+        "作者理论文本，是被解释对象，不替代外部经验资料；技能5.3.1不等于理论版本。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "gao-restoration",
+      "title": "GAO-19-296：波多黎各恢复口径与临时供电",
+      "url": "https://www.gao.gov/assets/gao-19-296.pdf",
+      "source_type": "primary",
+      "version_or_date": "2019-04-18",
+      "locator": "印刷pp.6–7，Status of electricity restoration及Figure 1后段",
+      "claim_support": [
+        "6.6：2018年8月安全可接电客户的恢复口径不等全部灾前客户；2018-12-11 USACE支持7台发电机服务Vieques/Culebra微电网。"
+      ],
+      "limits": [
+        "PREPA估计由GAO转述且明示局限；本例不使用源图曲线、不推居民全方面恢复或欺骗意图。"
+      ],
+      "access_status": "partially_read"
+    },
+    {
+      "id": "theory-history",
+      "title": "Xikari4.5：载体跨窗与历史增量",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "第620—640行",
+      "claim_support": [
+        "6.6：当前损伤/容量载体与表示之外历史增量分开，后者另需G3。"
+      ],
+      "limits": [
+        "构造方程不证明现实损伤机制。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "theory-types",
+      "title": "Xikari4.4与4.11.2：通道逐维和同型量",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "第610—619行；第730—743行",
+      "claim_support": [
+        "6.6：G2只及指定通道、所测维度；跨类型比较须单位、核算与转换映射。"
+      ],
+      "limits": [
+        "不能由形式加减推统一成本或授权。"
+      ],
+      "access_status": "read"
+    }
+  ]
+}

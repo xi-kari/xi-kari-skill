@@ -1,0 +1,139 @@
+{
+  "sources": [
+    {
+      "id": "T-17",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§1.7，第147—152行",
+      "claim_support": [
+        "1.7：六项保护、三种非等价及解释信心不扩权。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-norm",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "第十四部分，第2864—3019行",
+      "claim_support": [
+        "1.7：规范理由与保护安排须具体，不能由存续或收益代证。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-human",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "第七部分，第1461—1626行",
+      "claim_support": [
+        "1.7：人的主体、意义与责任不能被完全替换为技术变量。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-feedback",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§6.2—6.4，第1302—1351行；§16.2，第3310—3312行",
+      "claim_support": [
+        "1.7：意见收到、反馈、制度写回与学习分开。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-intervene",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§1.4.4，第121—128行",
+      "claim_support": [
+        "1.7：等待代价、可逆性、实际用途与补救的独立条件。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-cost",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§1.5.2，第135—140行",
+      "claim_support": [
+        "1.7：程序隐私与表达成本。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-boundary",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§1.9，第165—170行；§1.10，第171—182行",
+      "claim_support": [
+        "1.7：未知、残差与有据局部理解不被流畅叙事覆盖。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-choice",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§12.8，第2561—2566行",
+      "claim_support": [
+        "1.7：预测或解释能力不生成现实授权。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "R-PNAS",
+      "title": "PNAS, Editorial Expression of Concern: Experimental evidence of massivescale emotional contagion through social networks",
+      "url": "https://www.pnas.org/doi/10.1073/pnas.1412469111",
+      "source_type": "primary",
+      "version_or_date": "在线2014-07-03；PNAS111(29):10779，期刊日期2014-07-22；DOI10.1073/pnas.1412469111",
+      "locator": "正文第二至末段；关切及规则适用的限定在第三至末段",
+      "claim_support": [
+        "1.7：期刊公开提出知情同意和退出机会的伦理关切，措辞为数据收集可能未完全符合原则，同时区分当时规则适用问题。"
+      ],
+      "limits": [
+        "这份编辑说明不是效应量复核、违法判决或所有参与者伤害认定；未据此提供现行法律建议。"
+      ],
+      "access_status": "read"
+    }
+  ]
+}

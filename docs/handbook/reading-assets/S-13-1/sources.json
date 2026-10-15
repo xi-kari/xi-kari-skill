@@ -1,0 +1,94 @@
+{
+  "sources": [
+    {
+      "id": "T-intro",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§intro-13-part，第2671—2680行",
+      "claim_support": [
+        "工具层责任、两级结构、授权隔离及低影响简化。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-main",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§13.1，第2681—2695行",
+      "claim_support": [
+        "IT1—IT4要求、失败上限及依赖/全局/独立链规则。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-seven",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§13.3，第2702—2719行",
+      "claim_support": [
+        "七闸唯一主流程。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-expand",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§13.4，第2720—2751行",
+      "claim_support": [
+        "五闸十三步为展开层。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-record",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§13.9，第2802—2813行",
+      "claim_support": [
+        "行动要求非执行命令，authorization_effect恒none。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "P-CC",
+      "title": "Carlson等：Effect of Consumer Direction on Adults’ Personal Care and Well-Being in Arkansas, New Jersey and Florida",
+      "url": "https://aspe.hhs.gov/sites/default/files/migrated_legacy_files/41521/adultpcw.pdf",
+      "source_type": "primary",
+      "version_or_date": "2005-05-16",
+      "locator": "2005-05-16，印刷12—14页及48页；PDF24—26、60。",
+      "claim_support": [
+        "原研究将随机获得项目机会与实际领取区分；以调查记录构造端点，并明确代理排除、自报和短期限制。"
+      ],
+      "limits": [
+        "研究设计不等于四次转换在现实被逐项运行；本题只以其测量和推断边界解释IT1—IT3，不据此作个体服务决定。"
+      ],
+      "access_status": "partially_read"
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "sources": [
+    {
+      "id": "theory",
+      "title": "Xikari-条件结构与转化论，用户提供原文",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "现行全文第401—406行；每节精确范围见sourceRefs",
+      "claim_support": [
+        "2.11：术语、合同、论证责任和原文边界；不据此认证经验事实"
+      ],
+      "limits": [
+        "作者理论文本，是被解释对象，不替代外部经验资料；技能5.3.1不等于理论版本。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "fleeson-state",
+      "title": "Fleeson, Toward a Structure- and Process-Integrated View of Personality: Traits as Density Distributions of States",
+      "url": "https://simine.com/407/readings/Fleeson_2001.pdf",
+      "source_type": "primary",
+      "version_or_date": "2001-06，DOI10.1037/0022-3514.80.6.1011",
+      "locator": "JPSP80(6):1011—1027；摘要、三项研究方法、Table4注和General Discussion",
+      "claim_support": [
+        "2.11：学生经验抽样，约2—3周多次行为自报；个体内变化与聚合参数稳定并存。",
+        "2.11：相关稳定性以同一窗口随机拆半比较，不能直接解释为长期不变。"
+      ],
+      "limits": [
+        "已读所用摘要、方法与讨论相关段，未复算原始数据或宣称全文研究复现。",
+        "不作临床诊断，不用于识别或评分现实读者。"
+      ],
+      "access_status": "partially_read"
+    }
+  ]
+}

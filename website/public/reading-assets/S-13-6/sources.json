@@ -1,0 +1,79 @@
+{
+  "sources": [
+    {
+      "id": "T-main",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§13.6，第2769—2778行",
+      "claim_support": [
+        "三档适用/上限、降级触发与紧急边界。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-SJ",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§13.5，第2752—2768行",
+      "claim_support": [
+        "强判断按用途而非语气和公开一刀切。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-seven",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§13.3，第2702—2719行",
+      "claim_support": [
+        "用途变更重跑与IG6责任。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-record",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§13.9，第2802—2813行",
+      "claim_support": [
+        "要求与执行、授权分离。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "P-SEC",
+      "title": "SEC：Knight Capital Americas LLC，Release 70694",
+      "url": "https://www.sec.gov/files/litigation/admin/2013/34-70694.pdf",
+      "source_type": "primary",
+      "version_or_date": "2013-10-16",
+      "locator": "2013-10-16，第1页及第8页¶27。",
+      "claim_support": [
+        "命令记Knight在现场查错时系统继续发送订单，一次撤代码响应扩大问题。"
+      ],
+      "limits": [
+        "监管和解命令中的历史认定；不等于所有紧急响应都失败，也不证明某个Xikari档位能预防损害。"
+      ],
+      "access_status": "partially_read"
+    }
+  ]
+}

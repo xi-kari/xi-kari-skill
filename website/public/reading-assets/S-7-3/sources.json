@@ -1,0 +1,405 @@
+{
+  "sources": [
+    {
+      "id": "theory",
+      "title": "Xikari-条件结构与转化论，用户提供原文",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "现行全文第1524—1595行；每节精确范围见sourceRefs",
+      "claim_support": [
+        "7.3：术语、合同、论证责任和原文边界；不据此认证经验事实",
+        "7.3.1：术语、合同、论证责任和原文边界；不据此认证经验事实",
+        "7.3.2：术语、合同、论证责任和原文边界；不据此认证经验事实",
+        "7.3.3：术语、合同、论证责任和原文边界；不据此认证经验事实",
+        "7.3.4：术语、合同、论证责任和原文边界；不据此认证经验事实",
+        "7.3.5：术语、合同、论证责任和原文边界；不据此认证经验事实",
+        "7.3.6：术语、合同、论证责任和原文边界；不据此认证经验事实",
+        "7.3.7：术语、合同、论证责任和原文边界；不据此认证经验事实",
+        "7.3.8：术语、合同、论证责任和原文边界；不据此认证经验事实",
+        "7.3.9：术语、合同、论证责任和原文边界；不据此认证经验事实",
+        "7.3.10：术语、合同、论证责任和原文边界；不据此认证经验事实",
+        "7.3.11：术语、合同、论证责任和原文边界；不据此认证经验事实"
+      ],
+      "limits": [
+        "作者理论文本，是被解释对象，不替代外部经验资料；技能5.3.1不等于理论版本。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "A1",
+      "title": "现行原文附录A1：HV01完整接口卡",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "第3568—3633行",
+      "claim_support": [
+        "7.3.1：共同前提、协议门、specializes及各条件支持路线、判断与行动上限"
+      ],
+      "limits": [
+        "接口卡是作者规范，不替代现实实例支持。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "A2",
+      "title": "现行原文附录A2：HV02完整接口卡",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "第3634—3699行",
+      "claim_support": [
+        "7.3.2：共同前提、协议门、specializes及各条件支持路线、判断与行动上限"
+      ],
+      "limits": [
+        "接口卡是作者规范，不替代现实实例支持。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "A3",
+      "title": "现行原文附录A3：HV03完整接口卡",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "第3700—3765行",
+      "claim_support": [
+        "7.3.3：共同前提、协议门、specializes及各条件支持路线、判断与行动上限"
+      ],
+      "limits": [
+        "接口卡是作者规范，不替代现实实例支持。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "A4",
+      "title": "现行原文附录A4：HV04完整接口卡",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "第3766—3831行",
+      "claim_support": [
+        "7.3.4：共同前提、协议门、specializes及各条件支持路线、判断与行动上限"
+      ],
+      "limits": [
+        "接口卡是作者规范，不替代现实实例支持。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "A5",
+      "title": "现行原文附录A5：HV05完整接口卡",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "第3832—3897行",
+      "claim_support": [
+        "7.3.5：共同前提、协议门、specializes及各条件支持路线、判断与行动上限"
+      ],
+      "limits": [
+        "接口卡是作者规范，不替代现实实例支持。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "A6",
+      "title": "现行原文附录A6：HV06完整接口卡",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "第3898—3963行",
+      "claim_support": [
+        "7.3.6：共同前提、协议门、specializes及各条件支持路线、判断与行动上限"
+      ],
+      "limits": [
+        "接口卡是作者规范，不替代现实实例支持。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "A7",
+      "title": "现行原文附录A7：HV07完整接口卡",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "第3964—4029行",
+      "claim_support": [
+        "7.3.7：共同前提、协议门、specializes及各条件支持路线、判断与行动上限"
+      ],
+      "limits": [
+        "接口卡是作者规范，不替代现实实例支持。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "A8",
+      "title": "现行原文附录A8：HV08完整接口卡",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "第4030—4095行",
+      "claim_support": [
+        "7.3.8：共同前提、协议门、specializes及各条件支持路线、判断与行动上限"
+      ],
+      "limits": [
+        "接口卡是作者规范，不替代现实实例支持。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "A9",
+      "title": "现行原文附录A9：HV09完整接口卡",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "第4096—4161行",
+      "claim_support": [
+        "7.3.9：共同前提、协议门、specializes及各条件支持路线、判断与行动上限"
+      ],
+      "limits": [
+        "接口卡是作者规范，不替代现实实例支持。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "A10",
+      "title": "现行原文附录A10：HV10完整接口卡",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "第4162—4227行",
+      "claim_support": [
+        "7.3.10：共同前提、协议门、specializes及各条件支持路线、判断与行动上限"
+      ],
+      "limits": [
+        "接口卡是作者规范，不替代现实实例支持。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "A11",
+      "title": "现行原文附录A11：HV11完整接口卡",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "第4228—4293行",
+      "claim_support": [
+        "7.3.11：共同前提、协议门、specializes及各条件支持路线、判断与行动上限"
+      ],
+      "limits": [
+        "接口卡是作者规范，不替代现实实例支持。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "interface",
+      "title": "现行原文附录A接口说明",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "第3560—3567行；结合§7.3第1524—1530行",
+      "claim_support": [
+        "7.3：39字段分组、四类依赖和路由含义；各组计数为本讲整理"
+      ],
+      "limits": [
+        "五组为阅读组织，不是新增证据类别。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "D0",
+      "title": "现行原文D0对象合同",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "§3.1，第425—448行，尤其429与447行",
+      "claim_support": [
+        "7.3.1：D0候选声明与完整对象合同；K为同一性判据"
+      ],
+      "limits": [
+        "对象合同不因形式完整而证明现实对象成立。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "routes",
+      "title": "现行原文G1—G3、H实例及载体解释",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "§4.2第586—600行；G1/G2第602—619行；§4.5第620—640行；§5.2第1039—1059行",
+      "claim_support": [
+        "7.3.1—7.3.11：有限实例与方法门区分；载体型作用与额外历史增量分开；九轴剖面不是单一分辨率"
+      ],
+      "limits": [
+        "跨节条件需按具体主张使用，不为所有低档描述统一加高档前提。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "chain",
+      "title": "现行原文反馈与级联反例",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "§11.6，第2331—2348行，尤其2345—2347行",
+      "claim_support": [
+        "7.3.6：两等权子群的平均边效应不能无条件相乘；有限总效应独立保留；本讲M=aX、Y=bM为显式展开"
+      ],
+      "limits": [
+        "形式反例只否定无条件拼接，不是现实机制估计。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "C3",
+      "title": "现行原文反馈与学习分支",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "§4.11.3 C3，第744—758行；§6.3第1320—1337行",
+      "claim_support": [
+        "7.3.7：反馈、载体学习与额外历史增量学习的分别条件"
+      ],
+      "limits": [
+        "一次返回不证明多轮学习，载体路线不硬要求额外G3残差。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "phase",
+      "title": "现行原文相位原型与X0",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "§8.2—8.5.2，第1637—1838行",
+      "claim_support": [
+        "7.3.10：原型描述具体条件、非线性路径与X0独立转换，不按序号授予行动资格"
+      ],
+      "limits": [
+        "本题不为任何真实集体授予完整原型或转换完成状态。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "GOV14",
+      "title": "现行原文承担与行动边界",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "GOV14，第3458—3471行",
+      "claim_support": [
+        "7.3.11：自愿、成本与后果分开；规范评价和措施权限另核"
+      ],
+      "limits": [
+        "不是个人人格或爱的测量标准。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "nasa",
+      "title": "NASA：STS-114",
+      "url": "https://www.nasa.gov/mission/sts-114/",
+      "source_type": "primary",
+      "version_or_date": "页面更新2025-05-01；任务2005年",
+      "locator": "Crew栏，七人任务名单",
+      "claim_support": [
+        "7.3.1：官方页面列STS-114七位机组成员，提供具体任务人员身份线索"
+      ],
+      "limits": [
+        "名单不提供分组与匹配N0的预测比较，不证明共同意愿。"
+      ],
+      "access_status": "partially_read"
+    },
+    {
+      "id": "cash",
+      "title": "Carlson等：Effects of Cash and Counseling on Personal Care and Well-Being",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/17244293/",
+      "source_type": "primary",
+      "version_or_date": "2007年2月；HSR42(1Pt2):467—487；DOI 10.1111/j.1475-6773.2006.00673.x",
+      "locator": "PubMed原作者Abstract：Study design、Data collection、Principal findings",
+      "claim_support": [
+        "7.3.2：三州志愿者随机分组；九个月电话访谈；佛州老年组实际津贴领取少且效果较小"
+      ],
+      "limits": [
+        "仅核原作者摘要，全文方法未独立复核；项目效果不是纯选择自由的单因果效应，未领取原因不能合一。"
+      ],
+      "access_status": "partially_read"
+    },
+    {
+      "id": "liberman",
+      "title": "Liberman、Samuels、Ross：The Name of the Game",
+      "url": "https://www.researchgate.net/publication/8355247_The_Name_of_the_Game_Predictive_Power_of_Reputations_versus_Situational_Labels_in_Determining_Prisoner%27s_Dilemma_Game_Moves",
+      "source_type": "primary",
+      "version_or_date": "2004年9月；PSPB30(9):1175—1185；DOI 10.1177/0146167204264004",
+      "locator": "Study 1，Method与Results，印刷pp.1176—1177",
+      "claim_support": [
+        "7.3.3：48名经提名的斯坦福男本科生；七轮同收益矩阵囚徒困境；Wall Street/Community名称条件及Community下合作更多"
+      ],
+      "limits": [
+        "只读核本次所用Study1方法与结果，不宣称全文全部研究已核；选择性样本，不认定共同信念或追授H1资格。"
+      ],
+      "access_status": "partially_read"
+    },
+    {
+      "id": "daminger",
+      "title": "Allison Daminger：The Cognitive Dimension of Household Labor",
+      "url": "https://journals.sagepub.com/doi/10.1177/0003122419859007",
+      "source_type": "primary",
+      "version_or_date": "2019-07-09在线；ASR84(4):609—633；DOI 10.1177/0003122419859007",
+      "locator": "出版页Abstract：访谈样本、四类认知活动及活动分布段",
+      "claim_support": [
+        "7.3.5：70次深度访谈、35对伴侣，预判需要/寻找选项/决定/监督进展四类活动；7.3.9：不同环节分布并不相同"
+      ],
+      "limits": [
+        "原论文全文受限，本次只核出版摘要；不能推算时间、个体负担或因果，也不与作者后续研究样本合并；两单元引用同源非独立复制。"
+      ],
+      "access_status": "partially_read"
+    },
+    {
+      "id": "uganda",
+      "title": "Reinikka与Svensson：The Power of Information",
+      "url": "https://documents.worldbank.org/curated/en/883011468777296898/pdf/WPS3239.pdf",
+      "source_type": "primary",
+      "version_or_date": "封面2003年12月；World Bank Policy Research Working Paper3239",
+      "locator": "WPS3239印刷pp.5—6，II节调查及中央/地区/学校记录可得性段",
+      "claim_support": [
+        "7.3.6：1996年调查250所政府小学；中央及学校详细记录、地区收到中央款项记录可得，逐校拨款记录缺失"
+      ],
+      "limits": [
+        "只据所核原段说明链端点及记录缺口；不以缺记录证明没收到，不识别个人违法，不在本讲估计信息活动因果效果。"
+      ],
+      "access_status": "partially_read"
+    },
+    {
+      "id": "maryland",
+      "title": "Maryland Department of Health：2024续保流程报告",
+      "url": "https://health.maryland.gov/mmcp/Documents/JCRs/2023/eligibilityredetprocessJCRfinal4-24.pdf",
+      "source_type": "primary",
+      "version_or_date": "报告2024年4月；函件2024-05-14",
+      "locator": "印刷p.9，Corrective action plan及实施安排段",
+      "claim_support": [
+        "7.3.7：2023-09-13提交计划、2023年11月实际用于续保、2024年2月CMS批准三个不同事件"
+      ],
+      "limits": [
+        "历史行政过程，不是当前法律或个人医疗建议；不由日期先后推违法，不证明长期学习或健康效果。"
+      ],
+      "access_status": "partially_read"
+    },
+    {
+      "id": "obermeyer",
+      "title": "Obermeyer等：Dissecting racial bias in an algorithm used to manage the health of populations",
+      "url": "https://www.ftc.gov/system/files/documents/public_events/1548288/privacycon-2020-ziad_obermeyer.pdf",
+      "source_type": "primary",
+      "version_or_date": "2019-10-25；Science366:447—453；DOI 10.1126/science.aax2342",
+      "locator": "Science366，印刷pp.447—449，费用代理与同风险分数下费用/健康需要比较段",
+      "claim_support": [
+        "7.3.8：费用作为预测目标；相同风险分数下次年费用相近但健康需要不同"
+      ],
+      "limits": [
+        "跨群体费用校准不等于个体或总体各项预测精度高；未核患者获知评分后的自我认同变化，不作反身响应证据。"
+      ],
+      "access_status": "partially_read"
+    }
+  ]
+}

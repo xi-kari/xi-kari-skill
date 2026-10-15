@@ -1,0 +1,64 @@
+{
+  "sources": [
+    {
+      "id": "theory",
+      "title": "Xikari-条件结构与转化论，用户提供原文",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "现行全文第1617—1626行；每节精确范围见sourceRefs",
+      "claim_support": [
+        "7.6：术语、合同、论证责任和原文边界；不据此认证经验事实"
+      ],
+      "limits": [
+        "作者理论文本，是被解释对象，不替代外部经验资料；技能5.3.1不等于理论版本。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "H3",
+      "title": "现行原文反馈写回及H3分类",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "§7.3.7第1564—1569行；附录A7第3964—4029行",
+      "claim_support": [
+        "7.6：正式写回按目标状态与实际执行判断，接收、版本与执行分开，程序价值不以改判次数衡量"
+      ],
+      "limits": [
+        "不把一切习惯形成叫正式写回，也不否定无新文件的日常变化。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "carrier",
+      "title": "现行原文当前载体与额外历史",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "§4.5第620—640行；§6.3第1320—1337行",
+      "claim_support": [
+        "7.6：持续作用需跨轮证据，当前载体作用与额外历史增量不同；不由时间顺序替代因果"
+      ],
+      "limits": [
+        "本题教学递推不提供现实G2/G3实例支持。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "caib",
+      "title": "Columbia Accident Investigation Board Report Volume I Chapter7",
+      "url": "https://govinfo.library.unt.edu/caib/news/report/pdf/vol1/chapters/chapter7.pdf",
+      "source_type": "primary",
+      "version_or_date": "2003年8月",
+      "locator": "印刷pp.177—178，Organizational Cause Statement、Understanding Causes及次页开头",
+      "claim_support": [
+        "7.6案例：公开安全理念与委员会调查所见不一致；正式规则之外的非正式指挥和决策过程"
+      ],
+      "limits": [
+        "官方历史调查结论，非本讲新实验；不推每位员工动机、完整因果份额或现行组织状态。"
+      ],
+      "access_status": "partially_read"
+    }
+  ]
+}

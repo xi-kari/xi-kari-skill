@@ -1,0 +1,111 @@
+{
+  "sources": [
+    {
+      "id": "T-94",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§9.4，第1942—1951行",
+      "claim_support": [
+        "六条件、竞争模型公平比较、角色激活记录、混同和稳定性四种对象。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-91",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§9.1，第1873—1888行",
+      "claim_support": [
+        "角色不代实际能力和真实意愿。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-measure",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§2.5.1，第321—328行；§9.6第1968—1981行",
+      "claim_support": [
+        "独立测量、来源和后见变量不能循环解释。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-cause",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§2.4，第293—298行",
+      "claim_support": [
+        "预测、总效应、机制与通道各需相应依据。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-G1",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§4.3，第602—609行",
+      "claim_support": [
+        "前瞻增益需相应目标、窗口、基线及比较，不能由拟合自证。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-choice",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§14.1，第2870—2878行；§14.6第2940—2952行",
+      "claim_support": [
+        "预测能力不自动决定规范选择或行动权限。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "P-ROSS",
+      "title": "Social Roles, Social Control, and Biases in Social-Perception Processes",
+      "url": "https://gwern.net/doc/psychology/1977-ross.pdf",
+      "source_type": "primary",
+      "version_or_date": "Lee D. Ross、Teresa M. Amabile、Julia L. Steinmetz；JPSP35(7):485—494，1977年7月；DOI10.1037/0022-3514.35.7.485",
+      "locator": "实验1方法486—487/PDF2—3；487脚注2复合操纵限制；489/PDF5相对知识评分。另读实验2及讨论相关段490—492，未据此扩张案例。",
+      "claim_support": [
+        "实验1抽卡分角色，自编题与配对使用前人题的条件不同。",
+        "答题者相对知识评分存在条件差异；作者指出前置准备任务的贡献不能由复合操纵单独分离。"
+      ],
+      "limits": [
+        "公开原刊扫描副本；只核相关段，未声称重算原数据或验证全部外推。",
+        "研究角色安排与主观知识评价，不是人格诊断，也不证明个人差异为零。"
+      ],
+      "access_status": "partially_read"
+    }
+  ]
+}

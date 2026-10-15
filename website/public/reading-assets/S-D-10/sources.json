@@ -1,0 +1,34 @@
+{
+  "sources": [
+    {
+      "id": "theory",
+      "title": "Xikari-条件结构与转化论，用户提供原文",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "现行全文第4673—4688行；每节精确范围见sourceRefs",
+      "claim_support": [
+        "D.10：术语、合同、论证责任和原文边界；不据此认证经验事实"
+      ],
+      "limits": [
+        "作者理论文本，是被解释对象，不替代外部经验资料；技能5.3.1不等于理论版本。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "ohchr-udhr-history",
+      "title": "Universal Declaration of Human Rights — OHCHR Europe",
+      "url": "https://europe.ohchr.org/universal-declaration-human-rights",
+      "source_type": "primary",
+      "version_or_date": "页面未标发布日期；所述历史事件1948-12-10",
+      "locator": "主标题后介绍段（行59）；The original records首段（行74）",
+      "claim_support": [
+        "不同法律文化背景代表起草及普遍保护主张；1948-12-10巴黎大会通过"
+      ],
+      "limits": [
+        "未取得原决议与会议全文，不推断当代法律效力、各地实施或具体规范冲突答案。"
+      ],
+      "access_status": "partially_read"
+    }
+  ]
+}

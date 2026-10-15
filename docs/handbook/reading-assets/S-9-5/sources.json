@@ -1,0 +1,157 @@
+{
+  "sources": [
+    {
+      "id": "T-95",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§9.5，第1952—1967行",
+      "claim_support": [
+        "两方向的起点、通道、结果、反例及反馈接续要求；互相影响仍需继续检验。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-times",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§9.2及子节，第1890—1921行",
+      "claim_support": [
+        "快中慢变量依窗口和动力判断，不把一次状态变化视为长期人格改变。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-measure",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§2.5.1，第321—328行",
+      "claim_support": [
+        "状态、选择概率与相应测量需要独立材料。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-cause",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§2.4，第293—298行",
+      "claim_support": [
+        "因果方向、共同输入与通道主张承担相应识别责任。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-composition",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§2.5.1，第321—328行；§9.5，第1958—1963行",
+      "claim_support": [
+        "定义性合成指标与其他测量对象承担不同解释责任；个人到圈层的通道与结果须分别定位。加总反例为本题人工推导。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-feedback",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§6.2，第1302—1311行",
+      "claim_support": [
+        "返回、后续改变与阻断比较；不要求持久历史留痕，不以G3为前提。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-learning",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§6.3，第1320—1337行",
+      "claim_support": [
+        "反馈介导学习的可保留更新、调用与结果比较；载体和历史分支分别取证。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-G3",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§4.5，第620—640行",
+      "claim_support": [
+        "历史形成、当前载体及当前表示之外的历史条件增量分开。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-choice",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§14.1，第2870—2878行；§14.6，第2940—2952行",
+      "claim_support": [
+        "描述或预测不直接给价值选择与行动授权。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "P-CB2015",
+      "title": "The spontaneous emergence of conventions: An experimental study of cultural evolution",
+      "url": "https://ndg.asc.upenn.edu/wp-content/uploads/2016/04/Centola-Baronchelli-2015-PNAS.pdf",
+      "source_type": "primary",
+      "version_or_date": "Damon Centola、Andrea Baronchelli；PNAS112(7):1989—1994，2015；DOI10.1073/pnas.1418838112；所读为作者实验室提供的6页Early Edition原文。",
+      "locator": "PDF第2页Experimental Design、Results；第2—3页Fig.1说明与结果段；第5页Materials and Methods。",
+      "claim_support": [
+        "网络条件和位置的随机分配，局部命名互动、反馈与匹配支付。",
+        "实验窗口内不同网络条件的局部协调与全局惯例结果。",
+        "未提供群体规模、邻居数量信息及未设置全局协调奖励。"
+      ],
+      "limits": [
+        "只用于所列实验事实与研究范围，不把局部匹配试验外推为所有圈层规律或长期人格因果。",
+        "已读主文相关设计、结果与方法；未核全部SI，未重算原始数据，不授Xikari正式实例资格。"
+      ],
+      "access_status": "partially_read"
+    }
+  ]
+}

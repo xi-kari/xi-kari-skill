@@ -1,0 +1,34 @@
+{
+  "sources": [
+    {
+      "id": "theory",
+      "title": "Xikari-条件结构与转化论，用户提供原文",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "现行全文第4753—4768行；每节精确范围见sourceRefs",
+      "claim_support": [
+        "D.15：术语、合同、论证责任和原文边界；不据此认证经验事实"
+      ],
+      "limits": [
+        "作者理论文本，是被解释对象，不替代外部经验资料；技能5.3.1不等于理论版本。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "vickrey1961",
+      "title": "Counterspeculation, Auctions, and Competitive Sealed Tenders",
+      "url": "https://cramton.umd.edu/market-design-papers/vickrey-counterspeculation-auctions-and-competitive-sealed-tenders.pdf",
+      "source_type": "primary",
+      "version_or_date": "March1961，Journal of Finance16(1)，8—37",
+      "locator": "印刷pp20—21，§III第二段至跨页首段结尾（PDF14—15页）",
+      "claim_support": [
+        "最高报价者按第二高报价付价；排除串谋条件与低报高报论证"
+      ],
+      "limits": [
+        "限单物品理论段，不是实际实验，未核全篇附录或实施，原保证不能越出假设。"
+      ],
+      "access_status": "partially_read"
+    }
+  ]
+}

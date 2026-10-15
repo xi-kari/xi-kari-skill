@@ -1,0 +1,64 @@
+{
+  "sources": [
+    {
+      "id": "theory",
+      "title": "Xikari-条件结构与转化论，用户提供原文",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "现行全文第1338—1351行；每节精确范围见sourceRefs",
+      "claim_support": [
+        "6.4：术语、合同、论证责任和原文边界；不据此认证经验事实"
+      ],
+      "limits": [
+        "作者理论文本，是被解释对象，不替代外部经验资料；技能5.3.1不等于理论版本。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "theory-h3",
+      "title": "Xikari7.1：H3制度写回分类与权限边界",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "第1467—1482行，尤其第1477、1482行",
+      "claim_support": [
+        "6.4：H3是分类规则，字段改变需有实际执行；分类不授权修改记录或规则。"
+      ],
+      "limits": [
+        "不是经验实例也不是法律效力判决。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "theory-c11",
+      "title": "Xikari4.13.4：C11制度写回",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "第885—897行",
+      "claim_support": [
+        "6.4：D2/G2与H3责任不同，受理、字段变化、执行、持续时间分开。"
+      ],
+      "limits": [
+        "具备字段不自动证明因果机制。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "theory-learning",
+      "title": "Xikari6.3：反馈介导学习两分支",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "第1320—1337行",
+      "claim_support": [
+        "6.4：可保留更新、多轮调用、任务比较与因果依据；额外历史才加G3。"
+      ],
+      "limits": [
+        "本节虚拟例不认证任何现实学习。"
+      ],
+      "access_status": "read"
+    }
+  ]
+}

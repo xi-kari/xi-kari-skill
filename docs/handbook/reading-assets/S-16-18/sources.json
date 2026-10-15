@@ -1,0 +1,34 @@
+{
+  "sources": [
+    {
+      "id": "theory",
+      "title": "Xikari-条件结构与转化论，用户提供原文",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "现行全文第3496—3501行；每节精确范围见sourceRefs",
+      "claim_support": [
+        "16.18：术语、合同、论证责任和原文边界；不据此认证经验事实"
+      ],
+      "limits": [
+        "作者理论文本，是被解释对象，不替代外部经验资料；技能5.3.1不等于理论版本。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "nature-retraction-status",
+      "title": "RETRACTED ARTICLE: Evidence of near-ambient superconductivity in a N-doped lutetium hydride",
+      "url": "https://www.nature.com/articles/s41586-023-05742-0",
+      "source_type": "primary",
+      "version_or_date": "2023公开变更记录；2026-10-14核读",
+      "locator": "标题；Change history 2023-09-01、2023-11-07",
+      "claim_support": [
+        "原页明确标撤回；保留编辑提示和撤回日期"
+      ],
+      "limits": [
+        "只核公开状态记录，未取得撤回通知全文；不采用撤回论文实证结论、不认定权力捕获或下游纠正效果。"
+      ],
+      "access_status": "partially_read"
+    }
+  ]
+}

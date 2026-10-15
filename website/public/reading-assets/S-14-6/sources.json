@@ -1,0 +1,34 @@
+{
+  "sources": [
+    {
+      "id": "T-main",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§14.6，第2940—2953行",
+      "claim_support": [
+        "原子J、O程序、进入authorized条件及复合程序/同意边界。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "P-NASA",
+      "title": "Report of Apollo 13 Review Board：设立与职责文件",
+      "url": "https://www.nasa.gov/wp-content/uploads/static/history/afj/ap13fj/pdf/report-of-a13-review-board-19700615-19700076776.pdf",
+      "source_type": "primary",
+      "version_or_date": "1970-04-17备忘录；1970-06-15报告",
+      "locator": "报告内1970-04-17设立备忘录；印刷1-1—1-3页，PDF14—16，尤其第3—6项。",
+      "claim_support": [
+        "文件列评审委员会调查、报告及建议职责，主席程序/支援安排职责，并另列ASAP独立报告及OMSF支持审查。"
+      ],
+      "limits": [
+        "历史书面分工与委托来源，不据此认证所有职责实际执行、现行法权或完整Xikari J/N/PF合同通过。"
+      ],
+      "access_status": "partially_read"
+    }
+  ]
+}

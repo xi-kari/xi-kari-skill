@@ -1,0 +1,307 @@
+{
+  "sources": [
+    {
+      "id": "T-intro",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§4.11组标题，第714—715行",
+      "claim_support": [
+        "4.11：导航身份，不另生经验命题。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-C1",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§4.11.1，第716—729行",
+      "claim_support": [
+        "4.11.1及总览：C1四字段、方法门与有限对象识别。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-C2",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§4.11.2，第730—743行",
+      "claim_support": [
+        "4.11.2及总览：C2指定承载、量与映射、五维、责任边界。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-C3",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§4.11.3，第744—758行",
+      "claim_support": [
+        "4.11.3及总览：有效反馈、载体学习、历史增量学习三分支。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-table",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§4.11.3分组证据表，第760—764行",
+      "claim_support": [
+        "4.11.1—4.11.3：C1/C2/C3最低证据、反例与失效边界逐项解释。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-D0",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§3.1，第425—449行",
+      "claim_support": [
+        "4.11.1：完整对象合同不是对象有效的证明。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-G1",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§4.3，第602—609行",
+      "claim_support": [
+        "4.11.1：G1子型、复杂度匹配N0、控制、样本外/边界/复核及零结论条件。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-G2",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§4.4，第610—619行",
+      "claim_support": [
+        "4.11.2：三预选判据、维度独立、总效应/通道和冗余补偿界限。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-contract",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§4.1，第557—585行",
+      "claim_support": [
+        "4.11.1—4.11.2：实例支持资格及外部领域材料不因格式不同而作废。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-E",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§4.8.1、第682—685行；§4.8.4、第694—697行",
+      "claim_support": [
+        "4.11.1：对象声明、竞争解释与方法门。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-measure",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§2.5.1，第321—328行",
+      "claim_support": [
+        "4.11.2：单位、类型、代理指标、测量与比较条件。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-human",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§7.2.4—7.2.5，第1502—1508行",
+      "claim_support": [
+        "4.11.2：承接载体不等于责任主体。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-D2",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§3.3，第465—471行",
+      "claim_support": [
+        "4.11.3：返回与后续变化的定义。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-feedback",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§6.2—6.2.1，第1302—1319行",
+      "claim_support": [
+        "4.11.3：有效反馈不依G3、不要求持久留痕、不保证稳定或改善。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-learning",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§6.3，第1320—1337行",
+      "claim_support": [
+        "4.11.3：更新保留、多轮调用、任务与因果证据、一般学习/正式机制、迁移和净收益分开。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-G3",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§4.5，第620—641行",
+      "claim_support": [
+        "4.11.3：载体路线与历史增量，当前表示、正式资格和因果界限。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-C12",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§4.14.1，第908—925行",
+      "claim_support": [
+        "4.11.3：描述与现实采用权限分开。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "R-cluster",
+      "title": "Eisen et al., Cluster analysis and display of genome-wide expression patterns",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC24541/",
+      "source_type": "primary",
+      "version_or_date": "PNAS 95(25):14863–14868，1998-12-08；DOI10.1073/pnas.95.25.14863",
+      "locator": "引言树表示段；RESULTS首段、Fig.3说明；DISCUSSION provisional attribution段",
+      "claim_support": [
+        "4.11.1案例：基于表达相似性的聚类用途；表达模式无序列演化式底层树；作者随机排列对照；功能归属仍有暂定限制。"
+      ],
+      "limits": [
+        "核读正文主要段落，不声称重新分析原始数据。",
+        "不回填为正式G1/C1支持，不将聚类视为天然唯一对象边界。"
+      ],
+      "access_status": "partially_read"
+    },
+    {
+      "id": "R-MCO",
+      "title": "NASA MCO Mishap Investigation Board Phase I Report",
+      "url": "https://discovery.larc.nasa.gov/PDF_FILES/MCO_report_2.pdf",
+      "source_type": "primary",
+      "version_or_date": "1999-11-10",
+      "locator": "§4印刷16页/PDF16；§5 Contributing Cause No.1印刷17页/PDF17",
+      "claim_support": [
+        "4.11.2：SM_FORCES应输出N-s却输出lbf-s，下游处理低估相应作用约4.45倍；单位接口的重要性。"
+      ],
+      "limits": [
+        "报告采用近似换算；本题仅用单位与下游解释事实，不将其单独用于全部责任判定。",
+        "与第一部分同案复用不增加独立来源。"
+      ],
+      "access_status": "partially_read"
+    },
+    {
+      "id": "R-Go",
+      "title": "Silver et al., Mastering the game of Go without human knowledge",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/29052630/",
+      "source_type": "primary",
+      "version_or_date": "Nature 550:354–359，2017-10-18；DOI10.1038/nature24270",
+      "locator": "PMID29052630原摘要第5—8句：self-play训练目标、树搜索、下一迭代及对弈结果",
+      "claim_support": [
+        "4.11.3：作者报告网络从自我对弈训练并进入下一轮搜索/自我对弈，以及对弈评价。"
+      ],
+      "limits": [
+        "本题只核原摘要，未核全部代码与消融，未认定本框架正式机制资格。",
+        "不主张人类一般学习、历史条件增量或现实社会净收益。"
+      ],
+      "access_status": "partially_read"
+    }
+  ]
+}

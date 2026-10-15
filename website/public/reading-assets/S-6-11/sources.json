@@ -1,0 +1,49 @@
+{
+  "sources": [
+    {
+      "id": "theory",
+      "title": "Xikari-条件结构与转化论，用户提供原文",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "现行全文第1426—1429行；每节精确范围见sourceRefs",
+      "claim_support": [
+        "6.11：术语、合同、论证责任和原文边界；不据此认证经验事实"
+      ],
+      "limits": [
+        "作者理论文本，是被解释对象，不替代外部经验资料；技能5.3.1不等于理论版本。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "theory-mechanisms",
+      "title": "Xikari6.2—6.8：六机制及分支",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "第1302—1411行，分别见6.2、6.3、6.5、6.6、6.7、6.8",
+      "claim_support": [
+        "6.11：六机制的不同依赖、材料和结论上限；G3只进入相应额外历史分支。"
+      ],
+      "limits": [
+        "概念解释不是外部机制支持。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "theory-four-states",
+      "title": "Xikari4.1：四态与零结论责任",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "第577—581行",
+      "claim_support": [
+        "6.11：正向未过不自动支持零，未运行、未决、反证与零结论区分。"
+      ],
+      "limits": [
+        "形式记录不能自行创造证据。"
+      ],
+      "access_status": "read"
+    }
+  ]
+}

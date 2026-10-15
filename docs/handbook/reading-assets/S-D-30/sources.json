@@ -1,0 +1,49 @@
+{
+  "sources": [
+    {
+      "id": "T-main",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§D.30，第4999—5016行",
+      "claim_support": [
+        "资源生态多尺度、权利、正义气候责任、恢复及八入口。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "P-MARSHALL",
+      "title": "Marshall, Hobbs & Cooper 2013: Stream hydrology limits recovery of riparian ecosystems after wolf reintroduction",
+      "url": "https://sites.warnercnr.colostate.edu/davidcooper/wp-content/uploads/sites/15/2017/02/MarshallHobbsCooper2013RSPB.pdf",
+      "source_type": "primary",
+      "version_or_date": "2013，Proc R Soc B280:20122977",
+      "locator": "印刷2—6页（本存档PDF3—7），§2方法、§3结果/图2、§4讨论",
+      "claim_support": [
+        "四地点围栏×模拟海狸坝操弄；十年后组合均值248cm超过2m，单围栏160、单坝174、对照117；交互预测区间跨0；坝可同时改变水与养分。"
+      ],
+      "limits": [
+        "本人读指定方法结果讨论及图注，未读补充材料或复算原始数据；不认领随机放狼处理、显著协同或完整生态全面恢复。"
+      ],
+      "access_status": "partially_read"
+    },
+    {
+      "id": "P-ICJ",
+      "title": "ICJ2025气候变化咨询意见，联合国A/79/979",
+      "url": "https://documents.un.org/api/symbol/access?l=en&s=A%2F79%2F979&t=pdf",
+      "source_type": "primary",
+      "version_or_date": "2025-07-23意见；2025-08-04联合国转送版本",
+      "locator": "2025-07-23意见，§§414—415（127—128页）、433—435（132—133页）",
+      "claim_support": [
+        "巴黎协定第8条为合作支持而非赔偿基础，但不排除一般国家责任；责任与特定损害修复赔偿因果证明分开，多因不当然免责也不能推定因果。"
+      ],
+      "limits": [
+        "本人直接读指定段与必要上下文；未通读142页，不据此认定某国对具体主体的赔偿份额；reparation不限金钱。"
+      ],
+      "access_status": "partially_read"
+    }
+  ]
+}

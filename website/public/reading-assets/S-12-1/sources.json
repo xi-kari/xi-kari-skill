@@ -1,0 +1,50 @@
+{
+  "sources": [
+    {
+      "id": "theory",
+      "title": "Xikari-条件结构与转化论，用户提供原文",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "现行全文第2446—2462行；每节精确范围见sourceRefs",
+      "claim_support": [
+        "intro-12-part：术语、合同、论证责任和原文边界；不据此认证经验事实",
+        "12.1：术语、合同、论证责任和原文边界；不据此认证经验事实"
+      ],
+      "limits": [
+        "作者理论文本，是被解释对象，不替代外部经验资料；技能5.3.1不等于理论版本。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "norm",
+      "title": "现行原文规范选择及现实采用分工",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "§1.4第107—128行；§1.7第147—152行；§4.14.1第908—925行；§14.6第2940—2953行",
+      "claim_support": [
+        "解释、规范推荐与干涉区分；保护底板；C12与原子J授权的有限范围"
+      ],
+      "limits": [
+        "属于用户理论程序规定，不替外部法律效力或实际授权。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "met2024",
+      "title": "Tropical cyclone verification northern hemisphere 2024",
+      "url": "https://www.metoffice.gov.uk/research/weather/tropical-cyclones/verification/summaries/nhem2024",
+      "source_type": "primary",
+      "version_or_date": "2024季节报告，页面未标独立发布日期",
+      "locator": "§3.3表，DPE(km)，T+24=57；口径见§1 Introduction",
+      "claim_support": [
+        "2024北大西洋T+24小时平均直接位置误差57千米"
+      ],
+      "limits": [
+        "运营机构汇总，未独立复算逐案；不代表当前预报，也不赋予现实行动权限。"
+      ],
+      "access_status": "partially_read"
+    }
+  ]
+}

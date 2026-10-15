@@ -1,0 +1,34 @@
+{
+  "sources": [
+    {
+      "id": "theory",
+      "title": "Xikari-条件结构与转化论，用户提供原文",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "现行全文第3358—3373行；每节精确范围见sourceRefs",
+      "claim_support": [
+        "16.5：术语、合同、论证责任和原文边界；不据此认证经验事实"
+      ],
+      "limits": [
+        "作者理论文本，是被解释对象，不替代外部经验资料；技能5.3.1不等于理论版本。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "iau2006",
+      "title": "IAU Resolutions B5 and B6",
+      "url": "https://iauarchive.eso.org/static/resolutions/Resolution_GA26-5-6.pdf",
+      "source_type": "primary",
+      "version_or_date": "2006",
+      "locator": "PDF第1页B5标题、引言、(1)—(2)；第2页B6正文",
+      "claim_support": [
+        "太阳系分类范围与行星条件；依定义将冥王星列为矮行星"
+      ],
+      "limits": [
+        "已核两页文本；不重做天文测量，不声称此例证明治理五强度有效。"
+      ],
+      "access_status": "partially_read"
+    }
+  ]
+}

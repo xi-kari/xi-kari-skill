@@ -1,0 +1,64 @@
+{
+  "sources": [
+    {
+      "id": "theory",
+      "title": "Xikari-条件结构与转化论，用户提供原文",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "现行全文第1177—1220行；每节精确范围见sourceRefs",
+      "claim_support": [
+        "5.7：术语、合同、论证责任和原文边界；不据此认证经验事实"
+      ],
+      "limits": [
+        "作者理论文本，是被解释对象，不替代外部经验资料；技能5.3.1不等于理论版本。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "theory-c12",
+      "title": "Xikari原文4.14.1：C12十组件与O程序",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "第908—924行",
+      "claim_support": [
+        "5.7：C12十组件、O1冻结描述/O2显式N/O3授权方案/O4受限执行纠正；N1单独不生成正向方案。"
+      ],
+      "limits": [
+        "规范桥接程序不代替价值选择、经验效果或真实授权。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "theory-axis",
+      "title": "Xikari原文5.2—5.4：轴比较与状态",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "第1039—1100行",
+      "claim_support": [
+        "5.7：九轴差异、未知/不可比、变换分类、单算子支路模式与四态零门。"
+      ],
+      "limits": [
+        "接口字段不证明现实比较器正确。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "theory-composition",
+      "title": "Xikari附录C.7：同一最终查询接续",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "第4432—4446行",
+      "claim_support": [
+        "5.7：各段不同局部任务成功不保证同一最终查询保持；二元位置与总和反例。"
+      ],
+      "limits": [
+        "形式表示保持与联合因果、资源可行各自判断。"
+      ],
+      "access_status": "read"
+    }
+  ]
+}

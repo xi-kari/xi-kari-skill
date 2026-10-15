@@ -1,0 +1,95 @@
+{
+  "sources": [
+    {
+      "id": "theory",
+      "title": "Xikari-条件结构与转化论，用户提供原文",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "现行全文第1627—1636行；每节精确范围见sourceRefs",
+      "claim_support": [
+        "intro-08-part：术语、合同、论证责任和原文边界；不据此认证经验事实",
+        "8.1：术语、合同、论证责任和原文边界；不据此认证经验事实"
+      ],
+      "limits": [
+        "作者理论文本，是被解释对象，不替代外部经验资料；技能5.3.1不等于理论版本。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "roadmap",
+      "title": "现行原文第八部分全部节的职责",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "§8.1—8.8，第1629—1868行",
+      "claim_support": [
+        "分部导语：本部分阅读路线与各节职责；原导语本身仅标题"
+      ],
+      "limits": [
+        "目录组织不是现实集体的时间规律，不作为经验支持。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "HV10",
+      "title": "现行原文HV10适用与接口记录",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "§7.3.10第1586—1589行；附录A10第4162—4227行",
+      "claim_support": [
+        "8.1：形成期不要求四组件先成熟；接口评估可含缺失；原型与相位机制区分"
+      ],
+      "limits": [
+        "条件检查不为真实对象赋原型。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "modes",
+      "title": "现行原文分类模式及非线性路径",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "§8.2第1639—1652行；§8.4第1787—1810行，mixed与parallel两行",
+      "claim_support": [
+        "8.1：parallel对应可稳定映射的不同子系统；mixed同对象尺度窗口中多种必要特征共同出现；unknown不冒充混合"
+      ],
+      "limits": [
+        "教学构造假定条件给定，现实仍须逐项证据。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "limits",
+      "title": "现行原文原型的有限用途",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "§8.7—8.8，第1849—1868行",
+      "claim_support": [
+        "分部导语及8.1：不穷尽、不直接套人格；分类可靠性与使用增益需实际比较；允许跳过原型"
+      ],
+      "limits": [
+        "未报告任何未经实施的准确率、预测或读者测试。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "C12J",
+      "title": "现行原文规范桥接与J原子授权",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "§4.14.1第908—924行；§5.2第1055行",
+      "claim_support": [
+        "8.1：描述分类不自动产生干预权限，显式规范、方案比较、J和O程序另核"
+      ],
+      "limits": [
+        "框架程序不替代现实授权，也不构成法律意见。"
+      ],
+      "access_status": "read"
+    }
+  ]
+}

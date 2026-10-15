@@ -1,0 +1,55 @@
+{
+  "sources": [
+    {
+      "id": "theory",
+      "title": "Xikari-条件结构与转化论，用户提供原文",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "现行全文第205—238行；每节精确范围见sourceRefs",
+      "claim_support": [
+        "intro-02-part：术语、合同、论证责任和原文边界；不据此认证经验事实",
+        "2.1：术语、合同、论证责任和原文边界；不据此认证经验事实",
+        "2.1.1：术语、合同、论证责任和原文边界；不据此认证经验事实",
+        "2.1.2：术语、合同、论证责任和原文边界；不据此认证经验事实"
+      ],
+      "limits": [
+        "作者理论文本，是被解释对象，不替代外部经验资料；技能5.3.1不等于理论版本。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "theory-f1",
+      "title": "Xikari 条件形式命题与九轴定义",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "§4.18—§4.19：981—1028行；F1精确定义985—988行；§5.2九轴1039—1059行",
+      "claim_support": [
+        "2.1.2：目标恢复的同表示恒定条件及静态恢复不自动动力闭合。",
+        "导语教学例：SP为九轴尺度剖面，非单一观察分辨率。"
+      ],
+      "limits": [
+        "模型内条件命题和定义不提供外部经验支持。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "snow-context",
+      "title": "John Snow, On the Mode of Communication of Cholera",
+      "url": "https://www.gutenberg.org/cache/epub/72894/pg72894-images.html",
+      "source_type": "primary",
+      "version_or_date": "1855年第二版；数字转录版2024-02-07",
+      "locator": "1855年第2版印刷页39—41、51—52；Gutenberg文本The Cholera near Golden Square和The Pump-well in Broad Street",
+      "claim_support": [
+        "2.1.1：Snow记述死亡登记与饮水调查、9月7日面谈及次日移除泵柄。",
+        "2.1.1：原作承认停用前发病下降，无法确定停用时井水仍有致病作用。"
+      ],
+      "limits": [
+        "只读并使用相关原作段落；未复核登记簿与个体数据。",
+        "调查记述不是现代随机干预，也不是本框架结果前G合同。"
+      ],
+      "access_status": "partially_read"
+    }
+  ]
+}

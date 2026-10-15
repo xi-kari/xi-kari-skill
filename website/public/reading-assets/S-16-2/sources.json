@@ -1,0 +1,34 @@
+{
+  "sources": [
+    {
+      "id": "theory",
+      "title": "Xikari-条件结构与转化论，用户提供原文",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "现行全文第3290—3313行；每节精确范围见sourceRefs",
+      "claim_support": [
+        "16.2：术语、合同、论证责任和原文边界；不据此认证经验事实"
+      ],
+      "limits": [
+        "作者理论文本，是被解释对象，不替代外部经验资料；技能5.3.1不等于理论版本。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "rfc7282",
+      "title": "On Consensus and Humming in the IETF",
+      "url": "https://www.rfc-editor.org/rfc/rfc7282.html",
+      "source_type": "primary",
+      "version_or_date": "June 2014",
+      "locator": "摘要、Status of This Memo；§3印刷pp7—9",
+      "claim_support": [
+        "2014年发布的信息类规范说明；不改变程序；异议须处理但不必全采纳；不采纳须说明并可申诉"
+      ],
+      "limits": [
+        "本讲只核相关页段，不声称全文研究或验证实际组织效果。"
+      ],
+      "access_status": "partially_read"
+    }
+  ]
+}

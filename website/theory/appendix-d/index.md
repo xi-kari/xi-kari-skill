@@ -11,3 +11,9 @@ title: "附录D　领域解释与应用图谱"
 本图谱承接32个领域的既有研究。每节先保留领域问题，再连接正文中适用的表示、证据、规范和行动边界。各领域不承担互相验证的责任；多个研究引用同一原作、数据或案例时，仍是一条相互关联的证据链。
 
 </div>
+
+<SectionLesson section="intro-20-appendix-d" />
+
+<div v-pre class="theory-source">
+
+</div>

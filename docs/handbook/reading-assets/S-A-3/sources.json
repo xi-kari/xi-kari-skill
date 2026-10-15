@@ -1,0 +1,49 @@
+{
+  "sources": [
+    {
+      "id": "T-main",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§A.3，第3700—3765行",
+      "claim_support": [
+        "HV03全部39字段、R0/R1与异质表达保护。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-H1-contract",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§4.2，第586—601行",
+      "claim_support": [
+        "H1唯一预选结果家族、正向与零结论门。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "P-ADA",
+      "title": "美国国家档案馆：Statement By The President，July 26, 1990",
+      "url": "https://www.archives.gov/research/americans-with-disabilities/transcriptions/naid-6037493-statement-by-the-president-americans-with-disabilities-act-of-1990.html",
+      "source_type": "primary",
+      "version_or_date": "1990-07-26",
+      "locator": "原声明首段及最后两正文段，网页行27、41—42",
+      "claim_support": [
+        "1990年签署声明公开诉诸自由平等、行政支持与执行承诺。"
+      ],
+      "limits": [
+        "本人读完整声明转录；本题只据表达本身，不证明公众真实同意、承诺落实或意义表达的因果效果，不作现行法律意见。"
+      ],
+      "access_status": "partially_read"
+    }
+  ]
+}

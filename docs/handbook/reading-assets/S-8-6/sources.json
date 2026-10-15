@@ -1,0 +1,79 @@
+{
+  "sources": [
+    {
+      "id": "theory",
+      "title": "Xikari-条件结构与转化论，用户提供原文",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "现行全文第1839—1848行；每节精确范围见sourceRefs",
+      "claim_support": [
+        "8.6：术语、合同、论证责任和原文边界；不据此认证经验事实"
+      ],
+      "limits": [
+        "作者理论文本，是被解释对象，不替代外部经验资料；技能5.3.1不等于理论版本。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "warnings",
+      "title": "现行原文预警评价、时钟与响应边界",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "§12.6第2547—2554行；§12.5相关第2524行；附录D.31第5017—5031行",
+      "claim_support": [
+        "8.6：预警与反向信号、响应制度、标签与避免损害、末端保护时延"
+      ],
+      "limits": [
+        "预测与因果保护效果分别判断。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "interfaces",
+      "title": "现行原文H接口与当前载体/历史增量",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "§4.2第586—600行；§4.5第620—640行；§8.4第1787—1810行",
+      "claim_support": [
+        "8.6：H2/H3分类不代经验实例；当前载体作用与G3增量分路；pseudo_steady是候选路径"
+      ],
+      "limits": [
+        "不得由H分类或成簇线索补齐因果证据。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "scheffer",
+      "title": "Scheffer等：Early-warning signals for critical transitions",
+      "url": "https://pdodds.w3.uvm.edu/files/papers/others/2009/scheffer2009a.pdf",
+      "source_type": "primary",
+      "version_or_date": "2009-09-03，doi:10.1038/nature08227",
+      "locator": "Nature 461:53—59；本讲用印刷pp.53—55 Theory与Box3，pp.57—58 Outlook；完整主文pp.53—58已读",
+      "claim_support": [
+        "8.6：特定模型下恢复、自相关与方差关联；外部突变、扰动变化与有限观测带来的漏警误警限制；本文构造参考其AR(1)条件形式后独立推导"
+      ],
+      "limits": [
+        "论文为原作者综述与理论讨论；未独立核其中每项引文研究，未以生态或生理实例验证组织原型。"
+      ],
+      "access_status": "partially_read"
+    },
+    {
+      "id": "caib",
+      "title": "CAIB Report Volume I第7章",
+      "url": "https://govinfo.library.unt.edu/caib/news/report/pdf/vol1/chapters/chapter7.pdf",
+      "source_type": "primary",
+      "version_or_date": "2003年8月",
+      "locator": "印刷第189页，Lessons Learned Information System段及Conclusions",
+      "claim_support": [
+        "8.6：数据库可辅助危害识别，相关人员报告临时按需使用限制效用"
+      ],
+      "limits": [
+        "调查观察，不证明无人使用或某单项改进的事故避免效果；不构成S原型认证。"
+      ],
+      "access_status": "partially_read"
+    }
+  ]
+}

@@ -1,0 +1,65 @@
+{
+  "sources": [
+    {
+      "id": "theory",
+      "title": "Xikari-条件结构与转化论，用户提供原文",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "现行全文第2213—2230行；每节精确范围见sourceRefs",
+      "claim_support": [
+        "intro-11-part：术语、合同、论证责任和原文边界；不据此认证经验事实",
+        "11.1：术语、合同、论证责任和原文边界；不据此认证经验事实"
+      ],
+      "limits": [
+        "作者理论文本，是被解释对象，不替代外部经验资料；技能5.3.1不等于理论版本。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "events",
+      "title": "现行原文事件身份、更新与停止",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "§11.2—11.3.2第2231—2276行；§11.10第2414—2419行",
+      "claim_support": [
+        "导语与11.1：五类事件身份、u与e边界、迟到资料、局部依赖暂停"
+      ],
+      "limits": [
+        "真实权限和事实独立核，字段结构不认证内容。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "forecast",
+      "title": "现行原文条件前瞻与使用评价",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "§12.1—12.4第2450—2517行",
+      "claim_support": [
+        "导语与11.1：条件路径不等已证预测能力；概率、研究优先级与分析推荐身份不同"
+      ],
+      "limits": [
+        "未进行真实前瞻评估。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "snow",
+      "title": "Snow1855原著Broad Street时间记录",
+      "url": "https://www.gutenberg.org/cache/epub/72894/pg72894-images.html",
+      "source_type": "primary",
+      "version_or_date": "1855年第二版；数字转录版2024-02-07",
+      "locator": "印刷pp.51—52，表I后讨论与“The pump-well in Broad Street, Golden Square”",
+      "claim_support": [
+        "11.1：9月8日拆柄、此前起病已下降、人口迁出限制及原作者保留的不确定"
+      ],
+      "limits": [
+        "不将后来死亡者资料当全感染者曲线，不识别拆柄独立增量，不把缺口当零效果；原书是事后叙述。"
+      ],
+      "access_status": "partially_read"
+    }
+  ]
+}

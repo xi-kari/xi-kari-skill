@@ -1,0 +1,126 @@
+{
+  "sources": [
+    {
+      "id": "T-93",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§9.3，第1922—1941行",
+      "claim_support": [
+        "有条件慢变量假设、六身份、完整九行假设卡和专业诊断/用途界限。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-role",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§9.4，第1942—1951行",
+      "claim_support": [
+        "个人、情境与交互的公平比较，预测不代因果或干预优先。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-upgrade",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§9.6，第1968—1981行",
+      "claim_support": [
+        "来源依赖、后见、退役与新版本不能覆盖旧失败。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-privacy",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§9.8，第1993—1997行",
+      "claim_support": [
+        "目的限定和拒绝披露边界。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-stop",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§9.11，第2023—2027行",
+      "claim_support": [
+        "专业评估也不等于人的本体定义，标签不生成处置权。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-prof",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§16.13，第3448—3456行",
+      "claim_support": [
+        "专业知识和证照不产生全生活决定权；创伤结构候选不代临床诊断。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-NJ",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§14.2第2880—2890行；§14.6第2940—2952行",
+      "claim_support": [
+        "规范与适用权限独立判断，预测不能签发授权。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "P-BFI",
+      "title": "The next Big Five Inventory (BFI-2): Developing and assessing a hierarchical model with 15 facets to enhance bandwidth, fidelity, and predictive power",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/27055049/",
+      "source_type": "primary",
+      "version_or_date": "Christopher J. Soto与Oliver P. John；2017年7月JPSP113(1):117—143；在线2016-04-07；DOI10.1037/pspp0000096；摘要含已更正版本说明",
+      "locator": "PubMed原作者摘要中以“Three studies…”开头的研究1/2/3设计段，以及摘要前的Correction Notice。",
+      "claim_support": [
+        "三项研究区分模型/条目开发、量表构建与两个验证样本的评估。",
+        "研究3准则包括自我报告及同伴报告。"
+      ],
+      "limits": [
+        "只读原作者摘要及更正书目信息，未核完整量表或逐项效果。",
+        "不据此作个体诊断、真实测评或跨用途授权。"
+      ],
+      "access_status": "partially_read"
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "sources": [
+    {
+      "id": "T-main",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§D.31，第5017—5032行",
+      "claim_support": [
+        "风险证据预警时钟、学习、医学边界、退出恢复与十一入口。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "P-ICS",
+      "title": "Maryland Active Assailant Incident Interdisciplinary Work Group: ICS Field Operations Guide for Active Assailant Incidents",
+      "url": "https://aaiwg.maryland.gov/wp-content/uploads/sites/35/2021/02/AAIWG-ICS_Field_Operations_Guide-April-2023.pdf",
+      "source_type": "primary",
+      "version_or_date": "2023-04",
+      "locator": "2023年4月，第2页适用范围，第35页Transfer of Command、Briefing Checklist、Agency Closeout",
+      "claim_support": [
+        "指挥交接需简报资源后勤文档；撤收需移交未完成事项和长期影响或恢复需求。"
+      ],
+      "limits": [
+        "本人读指定页，不声称通读83页；指南限active assailant事件，属于规定性安排而非某次事件生活已恢复的实证。"
+      ],
+      "access_status": "partially_read"
+    }
+  ]
+}

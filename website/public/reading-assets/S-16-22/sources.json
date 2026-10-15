@@ -1,0 +1,49 @@
+{
+  "sources": [
+    {
+      "id": "theory",
+      "title": "Xikari-条件结构与转化论，用户提供原文",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "现行全文第3532—3537行；每节精确范围见sourceRefs",
+      "claim_support": [
+        "16.22：术语、合同、论证责任和原文边界；不据此认证经验事实"
+      ],
+      "limits": [
+        "作者理论文本，是被解释对象，不替代外部经验资料；技能5.3.1不等于理论版本。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "sklearn-leakage",
+      "title": "Common pitfalls and recommended practices",
+      "url": "https://scikit-learn.org/stable/common_pitfalls.html#data-leakage",
+      "source_type": "primary",
+      "version_or_date": "页面标1.9.1；2026-10-14读取",
+      "locator": "§12.2 Data leakage前三段",
+      "claim_support": [
+        "预测时不可获得的信息混入模型会导致过于乐观的性能评价"
+      ],
+      "limits": [
+        "仅方法定义和警告；未执行文档模拟，不引用模拟结果作真实观测。"
+      ],
+      "access_status": "partially_read"
+    },
+    {
+      "id": "sklearn-baseline",
+      "title": "Metrics and scoring: Dummy estimators",
+      "url": "https://scikit-learn.org/stable/modules/model_evaluation.html#dummy-estimators",
+      "source_type": "primary",
+      "version_or_date": "页面标1.9.1；2026-10-14读取",
+      "locator": "§3.4.8开头、DummyClassifier策略列表与忽略输入说明",
+      "claim_support": [
+        "官方文档提供简单分类策略以比较估计器表现"
+      ],
+      "limits": [
+        "不证明本框架相对基线的实测表现，不将文档演示当作真实世界实证。"
+      ],
+      "access_status": "partially_read"
+    }
+  ]
+}

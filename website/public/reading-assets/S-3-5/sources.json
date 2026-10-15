@@ -1,0 +1,151 @@
+{
+  "sources": [
+    {
+      "id": "theory",
+      "title": "Xikari-条件结构与转化论，用户提供原文",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "现行全文第495—542行；每节精确范围见sourceRefs",
+      "claim_support": [
+        "3.5：术语、合同、论证责任和原文边界；不据此认证经验事实",
+        "3.5.1：术语、合同、论证责任和原文边界；不据此认证经验事实",
+        "3.5.2：术语、合同、论证责任和原文边界；不据此认证经验事实",
+        "3.5.3：术语、合同、论证责任和原文边界；不据此认证经验事实",
+        "3.5.4：术语、合同、论证责任和原文边界；不据此认证经验事实",
+        "3.5.5：术语、合同、论证责任和原文边界；不据此认证经验事实",
+        "3.5.6：术语、合同、论证责任和原文边界；不据此认证经验事实",
+        "3.5.7：术语、合同、论证责任和原文边界；不据此认证经验事实",
+        "3.5.8：术语、合同、论证责任和原文边界；不据此认证经验事实",
+        "3.5.9：术语、合同、论证责任和原文边界；不据此认证经验事实",
+        "3.5.10：术语、合同、论证责任和原文边界；不据此认证经验事实",
+        "3.5.11：术语、合同、论证责任和原文边界；不据此认证经验事实"
+      ],
+      "limits": [
+        "作者理论文本，是被解释对象，不替代外部经验资料；技能5.3.1不等于理论版本。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "theory-syntax",
+      "title": "Xikari原文第三部分导语与3.6",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "第421—424、543—548行",
+      "claim_support": [
+        "3.5父标题：原语作为非唯一、非完备接口及按用途组合；缺失状态分别登记。"
+      ],
+      "limits": [
+        "阅读导航的跨节依据，不给父标题增加未经证明的命题。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "theory-history",
+      "title": "Xikari原文4.5：历史形成、当前载体与G3",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "第620—640行",
+      "claim_support": [
+        "3.5.7、3.5.10、3.5.11：当前载体传递与额外历史增量两路独立；前者可成立而G3无增量，正式机制资格另需相应通道实例。"
+      ],
+      "limits": [
+        "形式/方法责任回查，不认证教学构造的现实效应；不能互相补证或结果后换路线。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "theory-learning",
+      "title": "Xikari原文6.3：反馈介导学习两分支",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "第1320—1337行",
+      "claim_support": [
+        "3.5.7：载体保留或更新、多轮调用、任务结果；只有CM-LEARNING-history额外需要G3。"
+      ],
+      "limits": [
+        "学习事实保留领域证据资格；本讲未做真实读者试验。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "snow-boundary",
+      "title": "John Snow, On the Mode of Communication of Cholera",
+      "url": "https://www.gutenberg.org/cache/epub/72894/pg72894-images.html",
+      "source_type": "primary",
+      "version_or_date": "1855年第二版；数字转录版2024-02-07",
+      "locator": "1855第二版，印刷p.44，Hampstead女士段",
+      "claim_support": [
+        "3.5.2：女士久未到Broad Street，泵水由每日运水车送到住所；住所距离不能代替输入关系。"
+      ],
+      "limits": [
+        "作者报告的家属叙述，cart不限定马车；单例不当完整因果或现代医疗依据。"
+      ],
+      "access_status": "partially_read"
+    },
+    {
+      "id": "snow-observation",
+      "title": "John Snow, 地图覆盖限制说明",
+      "url": "https://www.gutenberg.org/cache/epub/72894/pg72894-images.html",
+      "source_type": "primary",
+      "version_or_date": "1855年第二版；数字转录版2024-02-07",
+      "locator": "印刷pp.45—46，MAP 1后的地址缺失说明",
+      "claim_support": [
+        "3.5.3：迁出后死亡者原地址缺记或无法取得，造成地图覆盖遗漏。"
+      ],
+      "limits": [
+        "不补造遗漏数量，不否定已定位记录；与其他Snow案例同源，不累计独立支持。"
+      ],
+      "access_status": "partially_read"
+    },
+    {
+      "id": "caib-channel",
+      "title": "CAIB Volume I, Chapter 6，请求路径",
+      "url": "https://govinfo.library.unt.edu/caib/news/report/pdf/vol1/chapters/chapter6.pdf",
+      "source_type": "primary",
+      "version_or_date": "2003-08；2003-09-08排字修订",
+      "locator": "印刷p.171，F6.3-8",
+      "claim_support": [
+        "3.5.6：图像请求经Johnson工程部门而非通常任务渠道；委员会认为紧迫性被弱化。"
+      ],
+      "limits": [
+        "事故调查的路径与影响分析，无本讲独立实验或性能全维估计。"
+      ],
+      "access_status": "partially_read"
+    },
+    {
+      "id": "caib-environment",
+      "title": "CAIB Volume I, Chapter 7，外部要求与项目运作",
+      "url": "https://govinfo.library.unt.edu/caib/news/report/pdf/vol1/chapters/chapter7.pdf",
+      "source_type": "primary",
+      "version_or_date": "2003-08；2003-09-08排字修订",
+      "locator": "印刷p.190，Shuttle Program Shortcomings，external factors段",
+      "claim_support": [
+        "3.5.8：外部要求经日程、预算、人员与工作负荷等制度位置进入项目过程。"
+      ],
+      "limits": [
+        "委员会的组织因果分析，不是单一因素控制实验；不作整体环境决定论。"
+      ],
+      "access_status": "partially_read"
+    },
+    {
+      "id": "caib-memory",
+      "title": "CAIB Volume I, Chapter 7，Lessons Learned Information System",
+      "url": "https://govinfo.library.unt.edu/caib/news/report/pdf/vol1/chapters/chapter7.pdf",
+      "source_type": "primary",
+      "version_or_date": "2003-08；2003-09-08排字修订",
+      "locator": "印刷p.189，Dysfunctional Databases下相应条目",
+      "claim_support": [
+        "3.5.10：经验数据库可帮助风险识别，但相关人员仅临时使用，限制效用。"
+      ],
+      "limits": [
+        "临时使用不等于从未使用；未提供G3条件增量或净效应估计。",
+        "同报告复用不同观察点，不累计独立支持。"
+      ],
+      "access_status": "partially_read"
+    }
+  ]
+}

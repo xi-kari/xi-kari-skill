@@ -1,0 +1,94 @@
+{
+  "sources": [
+    {
+      "id": "T-main",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§10.8，第2177—2182行",
+      "claim_support": [
+        "冻结起点、字段、逐值状态、冲突合并及内部差异。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-clock",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§10.7，第2161—2176行",
+      "claim_support": [
+        "观测时效及异步更新。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-joint",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§10.2，第2051—2069行",
+      "claim_support": [
+        "联合状态字段责任。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-entry",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§10.1，第2035—2050行",
+      "claim_support": [
+        "对象准入与增益资格区分。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-missing",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§5.8，第1221—1228行",
+      "claim_support": [
+        "四种缺失状态不能当作不存在，机器校验不替实质判断。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "P-CC",
+      "title": "Carlson等：Effect of Consumer Direction on Adults’ Personal Care and Well-Being in Arkansas, New Jersey and Florida",
+      "url": "https://aspe.hhs.gov/sites/default/files/migrated_legacy_files/41521/adultpcw.pdf",
+      "source_type": "primary",
+      "version_or_date": "2005-05-16",
+      "locator": "2005-05-16，印刷13页表3及脚注14、20页表5注a，PDF25、32。",
+      "claim_support": [
+        "该报告三个州的老年样本界定不同：Arkansas/New Jersey为65岁及以上，Florida为60岁及以上；部分意见题并非向所有代理答题人提问。"
+      ],
+      "limits": [
+        "研究口径差异不构成数据错误；此处未做跨州合并估计，也不把代理回答等同本人体验。"
+      ],
+      "access_status": "partially_read"
+    }
+  ]
+}

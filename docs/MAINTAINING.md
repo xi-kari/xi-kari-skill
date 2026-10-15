@@ -81,8 +81,17 @@ New case research belongs outside the repository until its content is ready to
 be used. Do not publish private research inventories or prompt handoffs with
 the static site.
 
+The handbook has its own VitePress theme in `website/.vitepress/theme/`
+(layout, book index, outline, lesson modules, teaching models, page-turn and
+theme transitions); its design is recorded in `.impeccable/surfaces/handbook.md`.
+The display face is Zhuque Fangsong (SIL OFL 1.1), cut into unicode-range WOFF2
+slices by `python website/scripts/build_fonts.py --font <ZhuqueFangsong-Regular.ttf>`
+(needs `fonttools` and `brotli`); rerun it only when lessons bring in many rare
+characters. The slices and `styles/fonts.css` are committed.
+
 Section explanations live in `website/content/section-lessons.json`, keyed by
-the stable reading unit. The generator recreates `reading-units.json` from the
+the stable reading unit. `website/LESSONS.md` lists every field and the module it
+draws; the build attaches each page's lessons to that page only. The generator recreates `reading-units.json` from the
 canonical source and accepts all 412 numbered and unnumbered units. Each
 explanation follows its own original text; a parent section's introduction
 precedes the original child sections. Merge reviewed `sections.json` results

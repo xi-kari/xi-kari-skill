@@ -1,0 +1,64 @@
+{
+  "sources": [
+    {
+      "id": "T-main",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§A.2，第3634—3699行",
+      "claim_support": [
+        "HV02全部39字段，R0描述/R1通道效果与上限。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-HV01",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§A.1，第3568—3633行",
+      "claim_support": [
+        "候选引用可传下游且保留状态。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-G2",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§4.4，第610—619行",
+      "claim_support": [
+        "G2指定通道效应与有限性。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "P-OECD",
+      "title": "OECD：Transport Bridging Divides，第2章",
+      "url": "https://www.oecd.org/en/publications/transport-bridging-divides_55ae1fd8-en/full-report/component-5.html",
+      "source_type": "primary",
+      "version_or_date": "2020年报告；2026-10-14读取",
+      "locator": "Measuring access to opportunities，三指标定义，网页行3869—3877",
+      "claim_support": [
+        "站点存在与机会可达不同，距离与给定时间/方式的可达指标分别定义。"
+      ],
+      "limits": [
+        "本人局部读该栏目；不证明某边界改变的因果效应，也不测每个使用者的语言、费用、身体或安全门槛。"
+      ],
+      "access_status": "partially_read"
+    }
+  ]
+}

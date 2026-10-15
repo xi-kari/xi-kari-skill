@@ -1,0 +1,80 @@
+{
+  "sources": [
+    {
+      "id": "theory",
+      "title": "Xikari-条件结构与转化论，用户提供原文",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "现行全文第1302—1319行；每节精确范围见sourceRefs",
+      "claim_support": [
+        "6.2：术语、合同、论证责任和原文边界；不据此认证经验事实",
+        "6.2.1：术语、合同、论证责任和原文边界；不据此认证经验事实"
+      ],
+      "limits": [
+        "作者理论文本，是被解释对象，不替代外部经验资料；技能5.3.1不等于理论版本。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "maryland-renewal",
+      "title": "Maryland FY24 Quarter 4 Medicaid Redetermination报告",
+      "url": "https://health.maryland.gov/mmcp/Documents/JCRs/2023/eligibilityredetprocessJCRfinal4-24.pdf",
+      "source_type": "primary",
+      "version_or_date": "报告April 2024；提交封信2024-05-14",
+      "locator": "印刷pp.8–9（PDF第12–13页），Medicaid Mitigation of Ex Parte Renewals",
+      "claim_support": [
+        "6.2：2023年8月个人续保要求的澄清、州系统调整、新流程2023年11月开始实际使用。"
+      ],
+      "limits": [
+        "行政报告未提供此处所需完整G2合同或独立通道阻断识别；不延伸当前资格或长期健康结果。"
+      ],
+      "access_status": "partially_read"
+    },
+    {
+      "id": "theory-d2",
+      "title": "Xikari3.3：D2有效反馈",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "第462—471行",
+      "claim_support": [
+        "6.2：返回、接收、后续字段与无返回比较；一次作用、稳定和目标改善分开。"
+      ],
+      "limits": [
+        "定义不是现实反馈的经验凭证。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "theory-g2",
+      "title": "Xikari4.4：G2指定通道",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "第610—619行；四态责任见第577—581行",
+      "claim_support": [
+        "6.2：G2预选主张、通道维度分别测量；正向未过不等于零作用支持。"
+      ],
+      "limits": [
+        "保留既有领域证据身份，不追授正式资格。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "theory-c10",
+      "title": "Xikari附录C.10：固定时延反馈严格稳定条件",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "第4470—4493行",
+      "claim_support": [
+        "6.2.1：特征多项式、小正增益稳定、单位圆边界与向外交叉证明；四种延迟临界值。"
+      ],
+      "limits": [
+        "只约束公开固定线性模型，不提供现实参数处方。"
+      ],
+      "access_status": "read"
+    }
+  ]
+}

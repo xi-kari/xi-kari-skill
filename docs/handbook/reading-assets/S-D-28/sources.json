@@ -1,0 +1,49 @@
+{
+  "sources": [
+    {
+      "id": "T-main",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§D.28，第4967—4982行",
+      "claim_support": [
+        "技术部署标准、AI证据五环、数据权限、替代及八入口。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "P-SEC",
+      "title": "SEC: In the Matter of Knight Capital Americas LLC，Release 70694",
+      "url": "https://www.sec.gov/litigation/admin/2013/34-70694.pdf",
+      "source_type": "primary",
+      "version_or_date": "2013-10-16",
+      "locator": "2013-10-16，§II及§III第15—22段",
+      "claim_support": [
+        "2012部署涉及八服务器之一未更新、缺第二人复核；97封邮件未设计为告警且开市前未被采取行动。"
+      ],
+      "limits": [
+        "本人读原PDF指定段与命令身份；为和解行政命令所载认定，除管辖等例外被申请人未承认或否认，不写成刑事定罪。"
+      ],
+      "access_status": "partially_read"
+    },
+    {
+      "id": "P-MOF",
+      "title": "财政部：企业数据资源相关会计处理暂行规定",
+      "url": "https://www.mof.gov.cn/jrttts/202308/P020230822648189970789.pdf",
+      "source_type": "primary",
+      "version_or_date": "2023发布文本；附则写2024-01-01施行",
+      "locator": "2023附件，印刷1—4页，第一部分与第二部分第2、3、7项",
+      "claim_support": [
+        "适用范围包括合法拥有或控制且预期有经济利益但未满足资产确认条件的数据；第7项规定出售未确认为资产的数据收入；第2项关注权利限制。"
+      ],
+      "limits": [
+        "本人直接读PDF指定部分；仅解释该文本范围，不作现行企业会计操作意见，不将会计处理当任意使用或交易许可。"
+      ],
+      "access_status": "partially_read"
+    }
+  ]
+}

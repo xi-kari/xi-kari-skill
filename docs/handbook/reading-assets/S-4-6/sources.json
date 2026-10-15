@@ -1,0 +1,155 @@
+{
+  "sources": [
+    {
+      "id": "T-46",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§4.6，第642—655行",
+      "claim_support": [
+        "4.6：G4两子型八判据、正/零模型与冻结、对称兴趣、目标操作范围、组成概率例。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-461",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§4.6.1，第656—665行",
+      "claim_support": [
+        "4.6.1：精确闭合充要条件、多步/多操作/随机条件、近似误差界及经验资格；4.6：组成增补只修复一步的边界。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-D3",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§3.4，第473—485行",
+      "claim_support": [
+        "4.6与4.6.1：尺度映射、任务、静态/动力/干预分别判断。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-E5",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§4.8.5，第698—701行",
+      "claim_support": [
+        "4.6：E5不依赖G4正向成立，G4须通过E5；尺度扩大不自动扩授权。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-41",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§4.1，第557—585行",
+      "claim_support": [
+        "4.6：冻结、支持资格与零门纪律。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-domain",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§2.1.1，第225—232行",
+      "claim_support": [
+        "4.6：领域研究保留身份，不补造正式实例。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-C8",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "附录C.8，第4442—4452行",
+      "claim_support": [
+        "4.6.1：确定性证明、操作可实施性、随机逐块核与三角不等式误差递推。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-C9",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "附录C.9，第4454—4469行",
+      "claim_support": [
+        "4.6.1：队列分布、对称服务与指定表示的闭合边界。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-form",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§2.1.2，第233—238行",
+      "claim_support": [
+        "4.6.1：形式、穷举与现实映射的证据身份。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "R-ring",
+      "title": "Sugiyama et al., Traffic jams without bottlenecks—experimental evidence for the physical mechanism of the formation of a jam",
+      "url": "https://ir.library.osaka-u.ac.jp/repo/ouka/all/93262/NewJPhys_10_033001.pdf",
+      "source_type": "primary",
+      "version_or_date": "New Journal of Physics10:033001，2008-03-04，DOI10.1088/1367-2630/10/3/033001；OUKA原刊版",
+      "locator": "印刷页4：230米/22辆设置；页5图3及描述：初期与3分钟后；页6图4：车辆轨迹；PDF第6—8页",
+      "claim_support": [
+        "4.6案例：固定环道车辆设置中出现停车—前行波；本题有限推断把总体密度统计与局部目标充分性分开。"
+      ],
+      "limits": [
+        "原论文全文已读，未重新提取视频或拟合动力模型。",
+        "未核现行G4合同全套条件，不推广全部道路，不把作者较广物理解释照搬为本题普遍结论。"
+      ],
+      "access_status": "read"
+    }
+  ]
+}

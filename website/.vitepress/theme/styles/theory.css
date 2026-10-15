@@ -1,0 +1,108 @@
+/* The original text: title block, part titles, hanging section numbers. */
+
+/* ───────────── title block (图签) ───────────── */
+.xk-tb {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto auto 76px;
+  margin: 0 auto 44px;
+  max-width: calc(var(--xk-text) * 38);
+  font-size: 13px;
+  border: 1.5px solid var(--xk-ink);
+  background: var(--xk-sheet);
+}
+.xk-tb > * { padding: 9px 14px 10px; border-left: 1px solid var(--xk-rule-2); min-width: 0; }
+.xk-tb > :first-child { border-left: 0; }
+.xk-tb__label { display: block; font-size: 11px; line-height: 1.4; color: var(--xk-ink-3); letter-spacing: .08em; }
+.xk-tb__value { display: block; margin-top: 3px; font-size: 14px; line-height: 1.45; color: var(--xk-ink); }
+.xk-tb__nowrap { white-space: nowrap; }
+.xk-tb__no .xk-tb__value {
+  font-family: var(--xk-font-fang);
+  font-size: 30px;
+  line-height: 1;
+  margin-top: 5px;
+  color: var(--xk-blue);
+  font-variant-numeric: tabular-nums;
+  view-transition-name: xk-sheet-no;
+}
+.xk-tb__no { min-width: 86px; }
+.xk-tb__sigil { display: grid; place-items: center; padding: 6px; }
+.xk-tb__sigil svg { width: 60px; height: 60px; }
+
+.xk-sigil__edge { fill: none; stroke: var(--xk-ink); stroke-width: 1.4; stroke-linecap: round; }
+.xk-sigil__bound { fill: none; stroke: var(--xk-blue); stroke-width: 1.1; stroke-dasharray: 3 3; }
+.xk-sigil__node { fill: var(--xk-sheet); stroke: var(--xk-ink); stroke-width: 1.4; }
+.xk-sigil__node.is-key { fill: var(--xk-marker); }
+.xk-sigil__draw { stroke-dasharray: var(--len) var(--len); stroke-dashoffset: 0; }
+.xk-sigil.is-drawing .xk-sigil__draw { animation: xk-draw 900ms var(--xk-ease) both; animation-delay: calc(var(--i) * 70ms + 120ms); }
+.xk-sigil.is-drawing .xk-sigil__node { animation: xk-pop 420ms var(--xk-ease) both; animation-delay: calc(var(--i) * 60ms + 80ms); transform-box: fill-box; transform-origin: center; }
+
+/* ───────────── part titles and the book's title page ───────────── */
+.xk-prose.is-theory h1 { font-size: 2.45em; margin-bottom: .7em; }
+.xk-prose .xk-part {
+  display: block;
+  margin-bottom: .35em;
+  font-family: var(--xk-font-sans);
+  font-size: .38em;
+  line-height: 1.4;
+  letter-spacing: .32em;
+  color: var(--xk-blue);
+}
+.xk-prose .xk-part__gap { font-size: 0; }
+.xk-prose.is-theory h1 + p { font-size: 1.05em; color: var(--xk-ink-2); }
+
+.xk-prose.is-theory h1#book { font-size: 2.7em; letter-spacing: .04em; margin: .2em 0 .5em; }
+.xk-prose.is-theory h1#book + p { font-family: var(--xk-font-fang); font-size: 1.3em; color: var(--xk-ink); margin-bottom: .25em; }
+.xk-prose.is-theory h1#book + p + p { font-family: var(--xk-font-fang); font-size: 1.15em; letter-spacing: .4em; color: var(--xk-ink-2); margin-bottom: .2em; }
+.xk-prose.is-theory h1#book + p + p + p { font-size: .9em; color: var(--xk-ink-3); margin-bottom: 2.6em; }
+
+/* the contents list on the opening page */
+.xk-prose.is-theory #contents ~ p:has(> a:only-child) { margin: 0; }
+.xk-prose.is-theory #contents ~ p:has(> a:only-child) > a {
+  display: block;
+  padding: .5em .2em;
+  border-bottom: 1px solid var(--xk-rule);
+  font-family: var(--xk-font-fang);
+  font-size: 1.12em;
+  color: var(--xk-ink);
+  text-decoration: none;
+  transition: background-color var(--xk-quick), padding var(--xk-panel) var(--xk-ease);
+}
+.xk-prose.is-theory #contents ~ p:has(> a:only-child) > a:hover { background: var(--xk-sheet-2); padding-left: .6em; color: var(--xk-blue); }
+.xk-prose.is-theory #contents + p:has(> a:only-child) > a { border-top: 1.5px solid var(--xk-ink); }
+
+/* ───────────── section numbers hang in the margin ───────────── */
+.xk-prose .xk-num__gap { font-size: 0; }
+.xk-prose .xk-num__n {
+  font-family: var(--xk-font-sans);
+  font-size: 15px;
+  letter-spacing: .02em;
+  color: var(--xk-blue);
+  font-variant-numeric: tabular-nums;
+}
+.xk-prose h1 .xk-num__n { font-size: .42em; margin-right: .6em; vertical-align: .35em; }
+@media (min-width: 761px) {
+  .xk-prose :is(h2, h3, h4) .xk-num {
+    display: inline-block;
+    width: 0;
+    white-space: nowrap;
+    direction: rtl;
+  }
+  .xk-prose :is(h2, h3, h4) .xk-num__n {
+    display: inline-block;
+    direction: ltr;
+    unicode-bidi: isolate;
+    margin-right: 18px;
+  }
+  .xk-prose h3 .xk-num__n { font-size: 14px; }
+  .xk-prose h4 .xk-num__n { font-size: 13px; }
+}
+@media (max-width: 760px) {
+  .xk-prose :is(h2, h3, h4) .xk-num__n { font-size: .6em; margin-right: .55em; vertical-align: .14em; }
+  .xk-tb { grid-template-columns: auto minmax(0, 1fr) auto; }
+  .xk-tb__sigil, .xk-tb__lessons { display: none; }
+  .xk-tb > * { padding: 8px 10px 9px; }
+  .xk-tb__no { min-width: 0; }
+  .xk-tb__no .xk-tb__value { font-size: 24px; }
+  .xk-prose.is-theory h1 { font-size: 2em; }
+  .xk-prose.is-theory h1#book { font-size: 2.1em; }
+}

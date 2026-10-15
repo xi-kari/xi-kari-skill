@@ -1,0 +1,170 @@
+{
+  "sources": [
+    {
+      "id": "T-110",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§1.10，第171—182行",
+      "claim_support": [
+        "1.10：具体差异、三条理解路径、普通概念与专名、微小修复及完整分析责任。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-position",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§9.7，第1983—1992行；§7.3.9，第1580—1585行",
+      "claim_support": [
+        "1.10：物质/意义与承担位置、负担口径不能由总量替代。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-practice",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§7.6，第1617—1626行",
+      "claim_support": [
+        "1.10：实践、成文规则与实际工作规则分开，多机制竞争而不从标签推因果。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-carry",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§7.3.5，第1552—1557行",
+      "claim_support": [
+        "1.10：执行事务与识别、排程、提醒、查验、待命等管理劳动不同。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-learning",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§6.3，第1320—1337行",
+      "claim_support": [
+        "1.10：反馈介导学习合同、一般学习、支持与独立迁移及净收益各自判定。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-HV03",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§7.3.3，第1540—1547行",
+      "claim_support": [
+        "1.10：意义材料与有效锚点分流，不能由窄合同取消普通意义。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-HV11",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§7.3.11，第1590—1595行",
+      "claim_support": [
+        "1.10：有限承担安排不是爱、人格或价值的总定义。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-repair",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§2.8，第363—380行；§6.10，第1420—1427行",
+      "claim_support": [
+        "1.10：正式修复结果前K*/F*目标、历史原样和价值/权限的区别。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-identify",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§11.3.1，第2261—2268行",
+      "claim_support": [
+        "1.10：可回答部分可先保留，未识别部分不能用叙述补齐。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-purpose",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§1.4，第107—128行",
+      "claim_support": [
+        "1.10：解释与前瞻、规范选择、干预各有责任。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "R-Keller",
+      "title": "Helen Keller, The Story of My Life",
+      "url": "https://www.gutenberg.org/files/2397/2397-h/2397-h.htm",
+      "source_type": "primary",
+      "version_or_date": "1903年著作；所读电子文本标Special Edition，含补充章节；前言日期1903-02-01",
+      "locator": "Part I, Chapter IV，well-house段及随后三段；Chapter I开头两段关于回忆限制",
+      "claim_support": [
+        "1.10：Keller在回忆中描述水与手指拼写的联系及学习、情感体验；这是个人叙述材料。"
+      ],
+      "limits": [
+        "只读所引章节及前言相关部分，不将后见回忆冒充即时独立观察。",
+        "该叙述不单独识别全部机制、认证Xikari接口或代表其他人的经历。"
+      ],
+      "access_status": "partially_read"
+    }
+  ]
+}

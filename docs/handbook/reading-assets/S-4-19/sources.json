@@ -1,0 +1,141 @@
+{
+  "sources": [
+    {
+      "id": "T-419",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§4.19，第1005—1028行",
+      "claim_support": [
+        "有限确定模型、F6等价及最粗证明、期限反例、全有限串闭合、同步算法、终止界、单调性和近似边界。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-F1",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§4.18.1第985—988行；附录C.6第4414—4430行",
+      "claim_support": [
+        "纤维常值任务恢复，误差规则须另定。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-F2",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§4.18.2第989—992行；附录C.8第4442—4448行",
+      "claim_support": [
+        "逐动作闭合及有限步组合。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-F5",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§4.18.5第1001—1004行；附录C.8第4450—4452行",
+      "claim_support": [
+        "近似动态误差须额外假设、区域和期限。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-formal",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§2.1.2第233—237行",
+      "claim_support": [
+        "完整模型计算不替现实识别、预算或权限。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-C12",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§4.14.1第908—924行；§14.8第2968—3000行",
+      "claim_support": [
+        "目标、保护与允许动作的规范和权限责任。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-eval",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§4.17.4第975—980行",
+      "claim_support": [
+        "方法净价值与使用成本另需比较。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "P-Moore",
+      "title": "Gedanken-Experiments on Sequential Machines",
+      "url": "https://www.cs.cmu.edu/~cdm/resources/Moore1956-gedanken-experiments.pdf",
+      "source_type": "primary",
+      "version_or_date": "Edward F. Moore，1956，Automata Studies",
+      "locator": "印刷129、143、145—146；含封面PDF2、16、18—19。第143、145、146页已按原扫描页读核；相关定理条件另见印刷142。",
+      "claim_support": [
+        "原文明确为概念性而非物理实验报告。",
+        "以不可区分状态等价类构造约化机器，按有限长度递归精化。"
+      ],
+      "limits": [
+        "只核所列相关段，不声称通读27页全文。不同机器类别最优性不自动转移到F6。"
+      ],
+      "access_status": "partially_read"
+    },
+    {
+      "id": "P-RB",
+      "title": "SMDP Homomorphisms: An Algebraic Approach to Abstraction in Semi-Markov Decision Processes",
+      "url": "https://www.ijcai.org/Proceedings/03/Papers/145.pdf",
+      "source_type": "primary",
+      "version_or_date": "Balaraman Ravindran与Andrew G. Barto，IJCAI2003，1011—1016",
+      "locator": "印刷1011—1013/PDF1—3；§3定义与说明在1012/PDF2，原页已查看。",
+      "claim_support": [
+        "同态含状态映射、依状态动作重编码以及转移概率和回报保持。",
+        "状态数减少不必减少描述参数。"
+      ],
+      "limits": [
+        "只核相关页，不移植策略最优、最小状态动作对或复杂度结论，也不支持本框架现实效益。"
+      ],
+      "access_status": "partially_read"
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "sources": [
+    {
+      "id": "theory",
+      "title": "Xikari-条件结构与转化论，用户提供原文",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "现行全文第2436—2445行；每节精确范围见sourceRefs",
+      "claim_support": [
+        "11.13：术语、合同、论证责任和原文边界；不据此认证经验事实"
+      ],
+      "limits": [
+        "作者理论文本，是被解释对象，不替代外部经验资料；技能5.3.1不等于理论版本。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "aws2017",
+      "title": "Summary of the Amazon S3 Service Disruption in the Northern Virginia (US-EAST-1) Region",
+      "url": "https://aws.amazon.com/message/41926/",
+      "source_type": "primary",
+      "version_or_date": "2017年事件复盘",
+      "locator": "正文第9段，We are making several changes…",
+      "claim_support": [
+        "运营方报告已修改容量移除工具及最低容量保护检查"
+      ],
+      "limits": [
+        "没有取得工具代码、独立审计或长期因果效果，报告中的未来计划不记作完成。"
+      ],
+      "access_status": "read"
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "sources": [
+    {
+      "id": "theory",
+      "title": "Xikari-条件结构与转化论，用户提供原文",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "现行全文第2491—2498行；每节精确范围见sourceRefs",
+      "claim_support": [
+        "12.3：术语、合同、论证责任和原文边界；不据此认证经验事实"
+      ],
+      "limits": [
+        "作者理论文本，是被解释对象，不替代外部经验资料；技能5.3.1不等于理论版本。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "met2024",
+      "title": "Tropical cyclone verification northern hemisphere 2024",
+      "url": "https://www.metoffice.gov.uk/research/weather/tropical-cyclones/verification/summaries/nhem2024",
+      "source_type": "primary",
+      "version_or_date": "2024季节报告",
+      "locator": "§3.3表Track skill(%)，T+24=68",
+      "claim_support": [
+        "2024北大西洋24小时相对技能报告值为68%"
+      ],
+      "limits": [
+        "不是发生概率或命中率；未独立复算逐案误差，不从舍入数反推精确基线。"
+      ],
+      "access_status": "partially_read"
+    },
+    {
+      "id": "metdefinitions",
+      "title": "Tropical cyclone forecast verification - measures of error",
+      "url": "https://www.metoffice.gov.uk/research/weather/tropical-cyclones/verification/summaries/appendix",
+      "source_type": "primary",
+      "version_or_date": "页面无独立日期；2026-10-14读取",
+      "locator": "术语列表Track skill；Sign conventions中Track skill positive…",
+      "claim_support": [
+        "Track skill以CLIPER为位置比较基线；正值表示模型误差低于CLIPER"
+      ],
+      "limits": [
+        "只解释此业务指标，不把百分比当概率，也不外推当前服务表现。"
+      ],
+      "access_status": "read"
+    }
+  ]
+}

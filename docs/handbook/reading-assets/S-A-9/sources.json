@@ -1,0 +1,64 @@
+{
+  "sources": [
+    {
+      "id": "T-main",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§A.9，第4096—4161行",
+      "claim_support": [
+        "HV09完整39字段四路和证据单位。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-load",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§6.6，第1368—1383行",
+      "claim_support": [
+        "CM-LOAD瞬时、载体累积、历史增量分支与非必然损伤。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-history",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§4.5，第620—641行",
+      "claim_support": [
+        "当前载体与当前表示外历史条件增量。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "P-CASH",
+      "title": "Cash and Counseling: Improving the Lives of Medicaid Beneficiaries Who Need Personal Care or Home- and Community-Based Services",
+      "url": "https://aspe.hhs.gov/sites/default/files/migrated_legacy_files/41521/adultpcw.pdf",
+      "source_type": "primary",
+      "version_or_date": "2005-05-16",
+      "locator": "印刷页7—8，PDF第19—20页",
+      "claim_support": [
+        "美国Arkansas、New Jersey和Florida项目设计中，支出计划、顾问支持和财政服务分担不同管理任务。"
+      ],
+      "limits": [
+        "本人读既有原PDF指定两页；当前官网取回403。项目设计不证明总负担减少、所有参与者实际获得支持或正式G2实例。"
+      ],
+      "access_status": "partially_read"
+    }
+  ]
+}

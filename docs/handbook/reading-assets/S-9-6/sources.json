@@ -1,0 +1,156 @@
+{
+  "sources": [
+    {
+      "id": "T-96",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§9.6，第1968—1982行",
+      "claim_support": [
+        "六种状态各自可做之事、升级条件和保留项；多来源依赖、后见变量及版本保留。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-91",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§9.1，第1873—1889行",
+      "claim_support": [
+        "未知类型、来源与用途；名字和身份不能填满状态。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-93",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§9.3，第1922—1941行",
+      "claim_support": [
+        "人格假设与观察记录分开，假设有条件且不得用于越界诊断或处罚。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-times",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§9.2.1，第1894—1903行",
+      "claim_support": [
+        "持续性与跨情境覆盖承担不同证据责任。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-measure",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§2.5.1，第321—328行",
+      "claim_support": [
+        "直接记录、合成指标、潜在属性与代理不同；测量及误差需与用途相称。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-evidence",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§2.5，第315—320行",
+      "claim_support": [
+        "材料、观察、证据、判断与授权不自动等价；缺席和沉默不默认为否定。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-privacy",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§9.8，第1993—1998行",
+      "claim_support": [
+        "隐私、允许用途与拒绝披露的边界。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-G1",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§4.3，第602—609行",
+      "claim_support": [
+        "前瞻评价依目标、窗口、相称基线和独立评价，不由事后拟合替代。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-snapshot",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§9.9，第1999—2014行",
+      "claim_support": [
+        "观察截止、信息取得与变量更新范围分别登记，不把旧值当当前真值。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "P-VAZIRE",
+      "title": "Who Knows What About a Person? The Self–Other Knowledge Asymmetry (SOKA) Model",
+      "url": "https://www.simine.com/docs/Vazire_JPSP_2010.pdf",
+      "source_type": "primary",
+      "version_or_date": "Simine Vazire；JPSP98(2):281—300，2010年2月；DOI10.1037/a0017908；作者网站原刊PDF。",
+      "locator": "Method/Participants与Procedure，印刷287—288/PDF7—8；Limitations，印刷294—295/PDF14—15，尤其295页方法和情境重叠讨论。",
+      "claim_support": [
+        "165名大学生、自评/朋友/陌生人评价与实验室行为准则的研究安排。",
+        "作者明确保留陌生人初次互动评价与之后小组行为准则的情境相似限制。"
+      ],
+      "limits": [
+        "只核相关设计与限制，不评价全部量表或重算数据，不据此声称某来源普遍优越。",
+        "大学生实验室结果与具体个人、其他年龄文化或临床诊断不等价；不认证本框架状态升级制度有效。"
+      ],
+      "access_status": "partially_read"
+    }
+  ]
+}

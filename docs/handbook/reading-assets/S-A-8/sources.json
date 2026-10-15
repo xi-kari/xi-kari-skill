@@ -1,0 +1,64 @@
+{
+  "sources": [
+    {
+      "id": "T-main",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§A.8，第4030—4095行",
+      "claim_support": [
+        "HV08全部39字段四路，预选H4与反身持续边界。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-H4",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§4.2，第586—601行",
+      "claim_support": [
+        "H4唯一结果家族及合格实例规则。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-history",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§4.5，第620—641行",
+      "claim_support": [
+        "当前载体跨窗与历史增量区分。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "P-GUESS",
+      "title": "Guess等：How do social media feed algorithms affect attitudes and behavior in an election campaign?",
+      "url": "https://www.networkscienceinstitute.org/publications/how-do-social-media-feed-algorithms-affect-attitudes-and-behavior-in-an-election-campaign",
+      "source_type": "primary",
+      "version_or_date": "2023-07-27",
+      "locator": "作者机构NetSI出版页摘要，网页行13—15；Science381:398—404",
+      "claim_support": [
+        "2020年研究中逆时序信息流改变平台使用与内容接触，三个月内若干态度指标未显著变化。"
+      ],
+      "limits": [
+        "本人仅读作者机构摘要，原刊全文403；不报告未读估计/方法细节，不声称本框架H4认证，不将短期未显著外推为永久零效果。"
+      ],
+      "access_status": "partially_read"
+    }
+  ]
+}

@@ -12,9 +12,12 @@ MiniSearch — MIT
 https://github.com/lucaong/minisearch
 License: licenses/MiniSearch-MIT.txt
 
-Inter fonts bundled by VitePress — SIL Open Font License 1.1
-https://github.com/rsms/inter
-License: licenses/Inter-OFL.txt
+Zhuque Fangsong 0.212 (朱雀仿宋), subset into WOFF2 slices — SIL Open Font License 1.1
+Copyright (c) 2023, Zhejiang JadeFoci Technology Co. LTD
+https://github.com/TrionesType/zhuque
+License: licenses/ZhuqueFangsong-OFL.txt
+
+Interface icons from VitePress's default theme (Lucide, ISC) are included with VitePress.
 
 The explanatory diagrams in images/ are authored for this handbook.
 Their factual and conceptual sources are identified on the corresponding pages.

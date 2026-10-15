@@ -1,0 +1,337 @@
+{
+  "sources": [
+    {
+      "id": "T-intro",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§4.12标题，第766—767行",
+      "claim_support": [
+        "4.12：导航范围与四独立子节。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-C4",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§4.12.1，第768—781行",
+      "claim_support": [
+        "4.12.1：历史/载体/G3分支、K*/F*与修复窗口条件和禁止跳跃。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-C5",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§4.12.2，第782—797行",
+      "claim_support": [
+        "4.12.2：三个负荷分支、同型同窗位置、累积恢复及义务边界。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-C6",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§4.12.3，第798—811行",
+      "claim_support": [
+        "4.12.3：预选子型判据、尺度冻结、正零两门与有限结论。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-C7",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§4.12.4，第812—824、833行",
+      "claim_support": [
+        "4.12.4：跨界/尺度/闭合/外部性区别及机制、核算和责任边界。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-table",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§4.12.4分组证据表，第826—831行",
+      "claim_support": [
+        "4.12.1—4.12.4：逐项最低证据、关键反例与失效边界。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-D1",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§3.2，第451—463行",
+      "claim_support": [
+        "4.12.1：演化分类不自行证明历史原因。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-G3",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§4.5，第620—641行",
+      "claim_support": [
+        "4.12.1—4.12.2：形成、当前载体、历史增量及资格范围。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-repair",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§6.10，第1420—1425行",
+      "claim_support": [
+        "4.12.1：K*/F*、时点可达性与代价、修复不等于倒回过去。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-load",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§6.6，第1368—1383行",
+      "claim_support": [
+        "4.12.1—4.12.2：容量分布、恢复范围/支持/内部余量、有限功能与全部恢复分开。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-C2",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§4.11.2，第730—743行",
+      "claim_support": [
+        "4.12.2：同型量、映射、单位与逐维限制。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-human",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§7.3.5，第1552—1557行",
+      "claim_support": [
+        "4.12.2：能力不产生无限承接义务；高负担不单独证明恶意。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-D3",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§3.4—3.4.1，第473—495行",
+      "claim_support": [
+        "4.12.3—4.12.4：尺度映射与保留/改变/丢失及误差。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-SP",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§5.2，第1039—1064行",
+      "claim_support": [
+        "4.12.3—4.12.4：九轴完整登记与J轴不随其他尺度自动扩大。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-G4",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§4.6，第642—655行",
+      "claim_support": [
+        "4.12.3：八判据、正/零门、充分性相对任务及操作。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-formal",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§4.6.1，第656—665行",
+      "claim_support": [
+        "4.12.3：确定性纤维条件和模型证明不授经验资格。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-causal",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§2.4—2.4.1，第293—306行",
+      "claim_support": [
+        "4.12.1、4.12.4：相称因果识别与比较对象。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-E4",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§4.8.4，第694—697行",
+      "claim_support": [
+        "4.12.4：未分清竞争解释时结合风险、可逆性、义务与权限判断行动。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-C12",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§4.14.1，第908—925行",
+      "claim_support": [
+        "4.12.1—4.12.4：规范、责任与行动权限不由描述直接生成。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "R-Apollo",
+      "title": "NASA, Report of Apollo13 Review Board",
+      "url": "https://ntrs.nasa.gov/api/citations/20170000913/downloads/20170000913.pdf?attachment=true",
+      "source_type": "primary",
+      "version_or_date": "1970-06-15",
+      "locator": "C4案例：第46项Findings(c)—(e)/Determination，印刷5-34/PDF200；C5案例：印刷4-48/PDF155末段",
+      "claim_support": [
+        "4.12.1：使用CM LiOH罐适配LM空气系统、机组改装及其后分压结果，说明特定功能可由改变接口承接。",
+        "4.12.2：事故后消耗品余量紧张、降电力减少热与水需求、资源状况改善。"
+      ],
+      "limits": [
+        "两点来自同一报告，不算两份独立验证；不凭历史成功确定通用修复窗口或所有系统可获救。",
+        "未据此回填G/C正式实例；不把功能改装等同原登月目标恢复。"
+      ],
+      "access_status": "partially_read"
+    },
+    {
+      "id": "R-Ring",
+      "title": "Sugiyama et al., Traffic jams without bottlenecks",
+      "url": "https://ir.library.osaka-u.ac.jp/repo/ouka/all/93262/NewJPhys_10_033001.pdf",
+      "source_type": "primary",
+      "version_or_date": "2008-03-04，New Journal of Physics10:033001；DOI10.1088/1367-2630/10/3/033001",
+      "locator": "印刷4—6页，实验设置及Fig2—4；PDF6—8",
+      "claim_support": [
+        "4.12.3：230米22车环道初始均匀近似行驶，随后出现停车—行进波；全局密度与局部目标的区别为本讲解推断。"
+      ],
+      "limits": [
+        "与§4.6同研究，不算独立复制；不主张形式G4资格或所有交通模型不闭合。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "R-TfL",
+      "title": "TfL, Central London Congestion Charging: Impacts Monitoring, Second Annual Report",
+      "url": "https://content.tfl.gov.uk/impacts-monitoring-report-2.pdf",
+      "source_type": "primary",
+      "version_or_date": "April2004",
+      "locator": "Overview印刷1—2/PDF5—6；§2.5印刷14—15/PDF18—19；§3.7/Table3.5印刷31—32/PDF35—36",
+      "claim_support": [
+        "4.12.4：收费区内拥堵下降；环路总车公里增加但总体拥堵无相应恶化，报告保留管理改善/施工结束背景及局部差异。"
+      ],
+      "limits": [
+        "仅核所引历史监测段落，未重做因果估计；不能归因全部变化于收费。",
+        "不等于每处每种后果无伤害，不给当前政策建议或正式G/C实例资格。"
+      ],
+      "access_status": "partially_read"
+    }
+  ]
+}

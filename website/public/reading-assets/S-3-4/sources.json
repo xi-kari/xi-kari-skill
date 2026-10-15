@@ -1,0 +1,52 @@
+{
+  "sources": [
+    {
+      "id": "theory",
+      "title": "Xikari-条件结构与转化论，用户提供原文",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "现行全文第473—494行；每节精确范围见sourceRefs",
+      "claim_support": [
+        "3.4：术语、合同、论证责任和原文边界；不据此认证经验事实",
+        "3.4.1：术语、合同、论证责任和原文边界；不据此认证经验事实"
+      ],
+      "limits": [
+        "作者理论文本，是被解释对象，不替代外部经验资料；技能5.3.1不等于理论版本。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "theory-f",
+      "title": "Xikari原文4.18：F1—F4",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "4.18.1—4.18.4，第985—1000行",
+      "claim_support": [
+        "3.4：任务恢复、动力/允许干预闭合、共同可行动作须分开。",
+        "3.4.1：连续转换按共同最终目标判断保持。"
+      ],
+      "limits": [
+        "形式命题须遵守其数学假设；不直接证明现实映射成功。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "caib-translation",
+      "title": "Columbia Accident Investigation Board Report, Volume I, Chapter 7",
+      "url": "https://govinfo.library.unt.edu/caib/news/report/pdf/vol1/chapters/chapter7.pdf",
+      "source_type": "primary",
+      "version_or_date": "2003-08；档案2003-09-08排字修订",
+      "locator": "印刷p.191，Engineering by Viewgraphs正文前四段",
+      "claim_support": [
+        "3.4.1：简报标题中的保守指模型选择，非损伤保证；超出校准资料的限定位于底部。"
+      ],
+      "limits": [
+        "仅使用该页正文调查分析，未重作读者实验或推断幻灯片为事故唯一原因。",
+        "与前题同属一份调查，不累计为独立事故证据。"
+      ],
+      "access_status": "partially_read"
+    }
+  ]
+}

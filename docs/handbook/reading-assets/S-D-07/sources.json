@@ -1,0 +1,34 @@
+{
+  "sources": [
+    {
+      "id": "theory",
+      "title": "Xikari-条件结构与转化论，用户提供原文",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "现行全文第4625—4640行；每节精确范围见sourceRefs",
+      "claim_support": [
+        "D.07：术语、合同、论证责任和原文边界；不据此认证经验事实"
+      ],
+      "limits": [
+        "作者理论文本，是被解释对象，不替代外部经验资料；技能5.3.1不等于理论版本。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "tversky-kahneman1981",
+      "title": "The Framing of Decisions and the Psychology of Choice",
+      "url": "https://web.stanford.edu/~jlmcc/Presentations/tversky_kahneman_1981.pdf",
+      "source_type": "primary",
+      "version_or_date": "Science211，453—458，1981-01-30",
+      "locator": "印刷p453，课堂问卷说明、Problem1[N=152]与Problem2[N=155]及紧接讨论",
+      "claim_support": [
+        "两个不同表述题的样本数与确定选项比例，假想问题与研究汇总的区分"
+      ],
+      "limits": [
+        "非现实公共卫生事件；不证明个体内反转或单一机制；只核此页，未开展复现。"
+      ],
+      "access_status": "partially_read"
+    }
+  ]
+}

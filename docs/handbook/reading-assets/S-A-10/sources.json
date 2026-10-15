@@ -1,0 +1,94 @@
+{
+  "sources": [
+    {
+      "id": "T-main",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§A.10，第4162—4227行",
+      "claim_support": [
+        "HV10完整39字段六路。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-state",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§8.2—8.3，第1637—1786行",
+      "claim_support": [
+        "原型对象合同、缺失状态、混合证据与逐项条件。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-phase",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§6.7，第1384—1397行",
+      "claim_support": [
+        "相位模式、触发和两条持续路线。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-exit",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§8.5—8.5.2，第1811—1838行",
+      "claim_support": [
+        "X0独立入口七完成面及未知边界。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-history",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§4.5，第620—641行",
+      "claim_support": [
+        "载体持续与历史条件增量区别。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "P-RETIRE",
+      "title": "GOV.UK Service Manual: Retiring your service",
+      "url": "https://www.gov.uk/service-manual/agile-delivery/retiring-your-service",
+      "source_type": "primary",
+      "version_or_date": "2016发布；2025-08-26更新",
+      "locator": "网页正文Keeping users informed、Helping users、Managing data等段，网页行72—165",
+      "claim_support": [
+        "服务退役指南要求告知使用者、处理持续需要和替代支持、转向新服务，并依法处理数据。"
+      ],
+      "limits": [
+        "已读指南正文；它是设计指导，不证明任一实际服务已完成退役，也不自动构成本理论X0资格。"
+      ],
+      "access_status": "partially_read"
+    }
+  ]
+}

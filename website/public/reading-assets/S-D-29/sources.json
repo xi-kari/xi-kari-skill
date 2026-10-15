@@ -1,0 +1,49 @@
+{
+  "sources": [
+    {
+      "id": "T-main",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§D.29，第4983—4998行",
+      "claim_support": [
+        "空间多边界、可达、住房权利、乡村、更新灾后及八入口。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "P-WUP",
+      "title": "UN DESA: World Urbanization Prospects 2025 Methodology",
+      "url": "https://population.un.org/wup/assets/Publications/undesa_pd_2025_wup2025_methodological_report.pdf",
+      "source_type": "primary",
+      "version_or_date": "2025-12方法报告",
+      "locator": "印刷34—35页（PDF44—45页），MTUC条目及Shanghai/Lagos例",
+      "claim_support": [
+        "以2025编号追踪，上海过去九中心赋同ID，拉各斯2050模型连接的中心保持分号，编号不等几何边界固定。"
+      ],
+      "limits": [
+        "本人直接读指定两页MTUC正文，不声称通读60页或复算栅格；2050是投影情景，不是已发生事实。"
+      ],
+      "access_status": "partially_read"
+    },
+    {
+      "id": "P-ROY",
+      "title": "Ananya Roy: Urban Informality: Toward an Epistemology of Planning",
+      "url": "https://www.wiego.org/wp-content/uploads/2019/09/Urban-Informality-Roy.pdf",
+      "source_type": "primary",
+      "version_or_date": "2005，JAPA71(2)",
+      "locator": "2005，印刷148—149页（PDF2—3页）",
+      "claim_support": [
+        "原文批评非正规等同贫穷，说明合法产权与违反土地使用规则可以并存及国家分类权力。"
+      ],
+      "limits": [
+        "本人完整读指定两页，未核全文引用的每个经验研究；为作者理论论述，不是某住户权利判决，更不产生驱逐处分权限。"
+      ],
+      "access_status": "partially_read"
+    }
+  ]
+}

@@ -1,0 +1,95 @@
+{
+  "sources": [
+    {
+      "id": "T-42",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§4.2，第586—601行；三家族表592—596行、结果与限制598—600行",
+      "claim_support": [
+        "4.2：合同身份、三类登记分类、H5单一载体和持久判据、结果门与其他H职责。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-41",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§4.1，第557—585行",
+      "claim_support": [
+        "4.2：同构两段合同、缺失编码、冻结版本、模式资格、四态和替代研究设计。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-Hroles",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "第七部分导语及§7.1，第1461—1485行",
+      "claim_support": [
+        "4.2：H1—H6职责、H5所需事件/基线/留痕量及禁止读心、分类代证和行动越界。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-G3",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§4.5，第620—641行",
+      "claim_support": [
+        "4.2：当前载体作用、历史形成与当前表示之外历史增量分开。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-interfaces",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§7.3，第1524—1530行及§7.3.3、§7.3.8，第1540—1547、1570—1579行",
+      "claim_support": [
+        "4.2：变量接口不自带经验真值，条件路由与分类限定有不同证据职责。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "R-fine",
+      "title": "Gneezy & Rustichini, A Fine is a Price",
+      "url": "https://www.ius.uzh.ch/dam/jcr:ed3f9a0b-ab68-4cf6-a18c-a480b33c9456/Gneezy%2520et%2520al%2520A%2520Fine%2520is%2520a%2520Price.pdf",
+      "source_type": "primary",
+      "version_or_date": "Journal of Legal Studies29(1),2000年1月，页1—17，DOI10.1086/468061",
+      "locator": "印刷页3—5：研究时间、组别及事件计数；页8：作者报告结果；页10：多种可能解释的引入；PDF页4—6、9、11",
+      "claim_support": [
+        "4.2案例：1998年海法研究报告10机构中6罚款4对照；迟接事件次数与心理解释层次不同；报告次数增加及撤去后持续。"
+      ],
+      "limits": [
+        "本题阅读相关原文段落，未完整审计统计附录或重算数据。",
+        "仅使用报告的设计与结果层级，不确认每人的动机、现行H资格、指定H5载体或G3增量；不作普遍政策建议。"
+      ],
+      "access_status": "partially_read"
+    }
+  ]
+}

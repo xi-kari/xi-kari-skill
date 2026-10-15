@@ -1,0 +1,64 @@
+{
+  "sources": [
+    {
+      "id": "theory",
+      "title": "Xikari-条件结构与转化论，用户提供原文",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "现行全文第1849—1860行；每节精确范围见sourceRefs",
+      "claim_support": [
+        "8.7：术语、合同、论证责任和原文边界；不据此认证经验事实"
+      ],
+      "limits": [
+        "作者理论文本，是被解释对象，不替代外部经验资料；技能5.3.1不等于理论版本。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "contracts",
+      "title": "现行原文适用域与状态最小合同",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "§8.1第1629—1636行；§8.2—8.2.1第1637—1665行",
+      "claim_support": [
+        "8.7：原型适用对象、完整检查、mixed/parallel/unknown及缺失不互代"
+      ],
+      "limits": [
+        "原文是定义与责任来源，不证明分类实际可靠。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "history",
+      "title": "现行原文当前载体与额外历史责任",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "§4.5第620—640行",
+      "claim_support": [
+        "8.7：当前载体作用与G3额外历史增量不能互代"
+      ],
+      "limits": [
+        "不由失败叙事产生支持。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "X0",
+      "title": "现行原文独立X0及个人死亡边界",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "§8.5第1811—1838行；附录D.09第4665行",
+      "claim_support": [
+        "8.7：X0不是第八阶段，无最低S条件；组织退出不套个人死亡/哀伤"
+      ],
+      "limits": [
+        "不授权现实退出或替人决定。"
+      ],
+      "access_status": "read"
+    }
+  ]
+}

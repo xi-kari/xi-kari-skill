@@ -1,0 +1,34 @@
+{
+  "sources": [
+    {
+      "id": "T-main",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§D.27，第4951—4966行",
+      "claim_support": [
+        "审美任务、功能命题、叙事层、遗产权利延续与九入口。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "P-SI",
+      "title": "Smithsonian Magazine: The Smithsonian Returns a Trove of Benin Bronzes to Nigeria",
+      "url": "https://www.smithsonianmag.com/smithsonian-institution/benin-bronzes-going-back-to-nigeria-180980917/",
+      "source_type": "primary",
+      "version_or_date": "2022-10-11",
+      "locator": "2022-10-11，首图说明及正文第二段（网页9—12行）",
+      "claim_support": [
+        "Smithsonian的29件作品所有权转给尼日利亚，20件将返还、9件以借展方式留馆。"
+      ],
+      "limits": [
+        "本人直接读机构自有刊物报告正文；不是完整合同核查，不能将将来返还计划写成20件已在当天到达，也不推全部解释权或生活关系已恢复。"
+      ],
+      "access_status": "partially_read"
+    }
+  ]
+}

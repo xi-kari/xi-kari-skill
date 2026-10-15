@@ -1,0 +1,34 @@
+{
+  "sources": [
+    {
+      "id": "T-main",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§D.26，第4935—4950行",
+      "claim_support": [
+        "网络阈值、语义认同、来源支持、平台版本反馈及十二入口。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "P-GUESS",
+      "title": "Guess et al. 2023: How do social media feed algorithms affect attitudes and behavior in an election campaign? 作者机构摘要",
+      "url": "https://www.networkscienceinstitute.org/publications/how-do-social-media-feed-algorithms-affect-attitudes-and-behavior-in-an-election-campaign",
+      "source_type": "primary",
+      "version_or_date": "2023论文；2020研究窗口",
+      "locator": "NetSI原作者机构页面Abstract（正文13—15行）",
+      "claim_support": [
+        "2020美国选举期间，对同意参与用户改为逆时间序信息流，使用及曝光改变；三个月窗口内报告所考察政治态度没有显著变化。"
+      ],
+      "limits": [
+        "本人读机构所刊原作者摘要；Science全文取回403，未读完整方法或效应量/功效，不将非显著解释为永久零效应。"
+      ],
+      "access_status": "partially_read"
+    }
+  ]
+}

@@ -1,0 +1,80 @@
+{
+  "sources": [
+    {
+      "id": "T-43",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§4.3，第602—609行",
+      "claim_support": [
+        "4.3：G1命题、两子型及判据、N0控制、最低支持、暂停与结论上限。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-D0",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§3.1，第425—449行",
+      "claim_support": [
+        "4.3：对象字段与K；候选声明、可靠对象事实和分组增益非等价。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-41",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§4.1，第557—585行",
+      "claim_support": [
+        "4.3：冻结、抽样与外推、正式实例支持资格、零门与探索边界。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-roles",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§2.2，第239—264行",
+      "claim_support": [
+        "4.3：经验、形式、规范和行动职责不能互相代替。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "R-lime",
+      "title": "Ribeiro, Singh & Guestrin, Why Should I Trust You? Explaining the Predictions of Any Classifier",
+      "url": "https://arxiv.org/pdf/1602.04938v3",
+      "source_type": "primary",
+      "version_or_date": "arXiv1602.04938v3，2016-08-09；KDD2016，DOI10.1145/2939672.2939778",
+      "locator": "§6.4第一、二段，PDF第8页；Figure11图注，第9页",
+      "claim_support": [
+        "4.3案例：作者有意构造与雪背景纠缠的狼/哈士奇分类实验，并在另取图片上观察其背景依赖。"
+      ],
+      "limits": [
+        "仅核相关段落和图注，不复算实验、不评价全部LIME效用。",
+        "不是部署事故，也不是本框架G1完整实例；不证明类别不存在或解释图足以验证因果。"
+      ],
+      "access_status": "partially_read"
+    }
+  ]
+}

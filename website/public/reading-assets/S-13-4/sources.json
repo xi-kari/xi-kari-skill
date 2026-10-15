@@ -1,0 +1,79 @@
+{
+  "sources": [
+    {
+      "id": "T-main",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§13.4，第2720—2751行",
+      "claim_support": [
+        "FG1—FG5映射、DS01—DS13产物与各项边界。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-seven",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§13.3，第2702—2719行",
+      "claim_support": [
+        "七闸唯一主流程。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-HV10",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§7.3.10，第1586—1589行",
+      "claim_support": [
+        "S0—S6适用范围，不是成熟度。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-causal",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§2.4，第293—298行",
+      "claim_support": [
+        "机制候选与因果证据合同。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "P-SEC",
+      "title": "SEC：Knight Capital Americas LLC，Release 70694",
+      "url": "https://www.sec.gov/files/litigation/admin/2013/34-70694.pdf",
+      "source_type": "primary",
+      "version_or_date": "2013-10-16",
+      "locator": "2013-10-16，第1页；第6—7页¶15—19；第8页¶25—27。",
+      "claim_support": [
+        "SEC命令分别描述部署遗漏、订单传递、监测限制与事故响应；撤下七台服务器新代码使问题扩大。"
+      ],
+      "limits": [
+        "为和解行政命令监管认定，不是本题独立事故重建；不将技术系统套入人类S0—S6，不据执行位置自行归责。"
+      ],
+      "access_status": "partially_read"
+    }
+  ]
+}

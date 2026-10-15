@@ -1,0 +1,79 @@
+{
+  "sources": [
+    {
+      "id": "theory",
+      "title": "Xikari-条件结构与转化论，用户提供原文",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "现行全文第1596—1603行；每节精确范围见sourceRefs",
+      "claim_support": [
+        "7.4：术语、合同、论证责任和原文边界；不据此认证经验事实"
+      ],
+      "limits": [
+        "作者理论文本，是被解释对象，不替代外部经验资料；技能5.3.1不等于理论版本。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "SP",
+      "title": "现行原文九轴状态",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "§5.2，第1039—1059行",
+      "claim_support": [
+        "7.4：九轴逐轴比较、关系与不适用状态；J原子元组禁止笛卡尔积"
+      ],
+      "limits": [
+        "形式比较不认证领域事实或授权有效性。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "C12",
+      "title": "现行原文规范桥接有效性门",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "§4.14.1，第908—924行",
+      "claim_support": [
+        "7.4：C12、显式N、保护底板、J及O1—O4；N1不单独生成正向方案；分析推荐与现实采用区分"
+      ],
+      "limits": [
+        "这是作者框架的程序要求，不是现行法律意见或自带的处置权。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "appeal",
+      "title": "现行原文各HV共同申诉回滚规则落实",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "§7.4第1600—1602行；附录A各卡E区，例如A1第3631—3632、A7第4027—4028、A11第4291—4292行",
+      "claim_support": [
+        "7.4：安全反报复通道、独立复核、获准后具体状态恢复及完成验证"
+      ],
+      "limits": [
+        "接口只生成需求，本讲未实施现实渠道或回滚。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "maryland",
+      "title": "Maryland Department of Health：FY24 Quarter4续保报告",
+      "url": "https://health.maryland.gov/mmcp/Documents/JCRs/2023/eligibilityredetprocessJCRfinal4-24.pdf",
+      "source_type": "primary",
+      "version_or_date": "报告2024年4月；函件2024-05-14",
+      "locator": "印刷p.9，第2项及5153 children子项",
+      "claim_support": [
+        "7.4案例：5153名儿童恢复保障；相关2023年5—8月对象、19岁以下、从退保日恢复12个月的口径"
+      ],
+      "limits": [
+        "是历史行政报告，不证明所有实际损害已恢复、全程序独立或当前个案资格。"
+      ],
+      "access_status": "partially_read"
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "sources": [
+    {
+      "id": "theory",
+      "title": "Xikari-条件结构与转化论，用户提供原文",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "现行全文第407—412行；每节精确范围见sourceRefs",
+      "claim_support": [
+        "2.12：术语、合同、论证责任和原文边界；不据此认证经验事实"
+      ],
+      "limits": [
+        "作者理论文本，是被解释对象，不替代外部经验资料；技能5.3.1不等于理论版本。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "obermeyer-simulation",
+      "title": "Obermeyer et al. 2019，反事实模拟段",
+      "url": "https://www.ftc.gov/system/files/documents/public_events/1548288/privacycon-2020-ziad_obermeyer.pdf",
+      "source_type": "primary",
+      "version_or_date": "2019-10-25，Science366:447—453",
+      "locator": "印刷p.449，Fig.1B前段及图注；PDF第3页",
+      "claim_support": [
+        "2.12：在97百分位阈值的反事实重排下，自动识别者黑人占比17.7%到46.5%；原文明示simulated。"
+      ],
+      "limits": [
+        "文本数值、分母与模拟身份已核；未获取个体资料复算。",
+        "不把模拟选入构成变化当作真实实施成效、健康收益或通过本框架的前瞻实例。"
+      ],
+      "access_status": "partially_read"
+    }
+  ]
+}

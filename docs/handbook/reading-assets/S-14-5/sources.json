@@ -1,0 +1,49 @@
+{
+  "sources": [
+    {
+      "id": "T-main",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§14.5，第2928—2939行",
+      "claim_support": [
+        "六选择/六治理、异议处理及内外授权边界。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-J",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§14.6，第2940—2953行",
+      "claim_support": [
+        "公共职权与私人委任/同意分别有效。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "P-BEL",
+      "title": "The Belmont Report：信息、理解、自愿",
+      "url": "https://www.hhs.gov/ohrp/regulations-and-policy/belmont-report/read-the-belmont-report/index.html",
+      "source_type": "primary",
+      "version_or_date": "1979-04-18",
+      "locator": "1979-04-18，Part C.1 Informed Consent，Comprehension及Voluntariness小标题。",
+      "claim_support": [
+        "报告讨论信息呈现、考虑时间和提问机会对理解的关系，并指出同意的自愿性要求及强制/不当影响风险。"
+      ],
+      "limits": [
+        "历史伦理文本，只支持其要求内容；不是具体人自愿与否的鉴定，也不替代现行法律和公共治理授权。"
+      ],
+      "access_status": "partially_read"
+    }
+  ]
+}
