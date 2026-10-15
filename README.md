@@ -38,10 +38,10 @@
 
 宿主需要能读取包内的完整 Markdown、保持或恢复长任务上下文，并输出足够完整的答案；联网检索、Python 和多智能体协作都使用宿主已有的能力。
 
-1. **下载。** 从 Release 取得安装包 [`xi-kari-skill-5.4.0-windows.zip`](https://github.com/xi-kari/xi-kari-skill/releases/download/v5.4.0/xi-kari-skill-5.4.0-windows.zip)。同一页面附有逐文件清单 `install-manifest.json` 和 `SHA256SUMS`，可以用来核对下载：
+1. **下载。** 打开[最新正式 Release](https://github.com/xi-kari/xi-kari-skill/releases/latest)，取得附件中的 Windows 安装包（`xi-kari-skill-<版本号>-windows.zip`）。同一页面附有逐文件清单 `install-manifest.json` 和 `SHA256SUMS`；运行下面的命令，将下载文件的哈希与该版本的 `SHA256SUMS` 对照：
 
    ```powershell
-   Get-FileHash .\xi-kari-skill-5.4.0-windows.zip -Algorithm SHA256
+   Get-FileHash -Path .\xi-kari-skill-*-windows.zip -Algorithm SHA256
    ```
 
    请使用 Release 安装包。仓库页面的 “Code → Download ZIP” 包含测试、网站和开发文件，不是给技能目录用的。
@@ -120,7 +120,9 @@ XK 编号是工作顺序，不是打卡清单：不要求每个阶段生成文�
   <img alt="三种生成页面的截图：离线阅读页（xi-kari-answer.html）、条件模型页（condition-results.html）与方案比较表（comparison-table.html）。" src=".github/readme/outputs-light.png" width="100%">
 </picture>
 
-<sub>截图由随包工具实际生成：阅读页以原文第一部分为示例内容；条件模型页与方案比较表来自随包的“明确虚构”教学示例，其中的数值不是现实事实。</sub>
+<sub>截图由当前源码中的工具实际生成：阅读页以原文第一部分为示例内容；条件模型页与方案比较表来自随包的“明确虚构”教学示例，其中的数值不是现实事实。</sub>
+
+**版本范围：**截图和下列阅读页功能描述对应当前源码。`v5.4.0` 安装包尚不包含这套页面设计、系统主题跟随、脚注悬停预览和选段旁的浮动追问按钮；安装包的可用功能请以对应的 [Release 说明](https://github.com/xi-kari/xi-kari-skill/releases/latest)为准。
 
 - **完整成果稿 `xi-kari-answer.md`。** 初次完整交付或要求合稿时形成：中心判断在前，随后是材料评价、结构关系、机制比较、案例与反例、路径、反方回应、裁决与方案。
 - **离线阅读页。** 由完整稿生成的单个 HTML 文件，不联网：章节目录随阅读位置标出当前章节，有全文搜索、字号调节和打印版式；夜间模式默认跟随系统，也可以手动切换；脚注可以悬停预览，也可以回跳。选中一段正文，旁边会出现“追问选段”，把选段连同位置整理成一条追问，由你复制回对话。有公式时内嵌随包的 KaTeX 排版。
@@ -168,6 +170,7 @@ python "$skillRoot/scripts/comparison.py" "$taskRoot/compare.json" --output "$ta
 - **[原文精读站](https://xi-kari.github.io/xi-kari-skill/handbook/)**：沿原文顺序阅读，每一节之后接着看讲解、图示和有出处的案例；可以搜索概念、案例与原文，也可以[下载](https://xi-kari.github.io/xi-kari-skill/handbook/downloads.html)完整原文的 Markdown 与 Word 阅读版。
 - **[概念例解](https://xi-kari.github.io/xi-kari-skill/handbook/concepts/)**：从一个问题进入一项区别，例如“收到意见，就算形成反馈了吗？”“每个方案都可行，能一起实施吗？”
 - **[真实案例](https://xi-kari.github.io/xi-kari-skill/handbook/cases/)**：火星气候轨道器的单位接口，丰田安灯的响应流程。
+- **[历史实测案例](https://github.com/xi-kari/xi-kari-skill/discussions?discussions_q=)**：Discussions 保留了基于 Xikari 8.3 的历史分析，供参考与讨论，不代表当前《Xikari-条件结构与转化论》及现行 Skill 的分析表现。
 - **[术语索引](https://xi-kari.github.io/xi-kari-skill/handbook/theory/appendix-b.html)**：附录 B 的编号体系与术语总表。
 - **权威文本**：[`source/Xikari-条件结构与转化论.md`](source/Xikari-条件结构与转化论.md)，身份（SHA-256）记录在 [`source/source-manifest.json`](source/source-manifest.json)。原文优先于技能的工程指引，也优先于模型对同名术语的既有理解。
 - **[项目主页](https://xi-kari.github.io/xi-kari-skill/)**：项目介绍、使用方式与研究进度。
