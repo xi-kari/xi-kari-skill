@@ -1,0 +1,244 @@
+{
+  "sources": [
+    {
+      "id": "T-main",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§15.2，第3040—3049行",
+      "claim_support": [
+        "五类型共同语义、共同门、事件日志及哈希边界。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-0",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§15.2.1，第3050—3061行",
+      "claim_support": [
+        "T0进入、动作边界、证据保护、停止回滚及转级。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-1",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§15.2.2，第3062—3071行",
+      "claim_support": [
+        "T1进入、动作边界、证据保护、停止回滚及转级。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-2",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§15.2.3，第3072—3083行",
+      "claim_support": [
+        "T2进入、动作边界、证据保护、停止回滚及转级。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-3",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§15.2.4，第3084—3093行",
+      "claim_support": [
+        "T3进入、动作边界、证据保护、停止回滚及转级。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-4",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§15.2.5，第3094—3111行",
+      "claim_support": [
+        "T4进入、动作边界、证据保护、停止回滚及转级。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-chain",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§15.1，第3026—3039行",
+      "claim_support": [
+        "四任务责任链。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-permission",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§14.6，第2940—2953行",
+      "claim_support": [
+        "J原子授权与O1—O4。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-protection",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§14.8，第2968—3001行",
+      "claim_support": [
+        "保护层PF-1至PF-10。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-state",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§14.7，第2954—2967行",
+      "claim_support": [
+        "执行状态及独立安全职责。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-care",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§14.9，第3002—3009行",
+      "claim_support": [
+        "执行、安排核验、待命及费用不同。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "P-ASRS",
+      "title": "NASA ASRS：Confidentiality and Incentives to Report",
+      "url": "https://asrs.arc.nasa.gov/overview/confidentiality.html",
+      "source_type": "primary",
+      "version_or_date": "2026-10-14所读页面；未标发布日期",
+      "locator": "正文三段（网页行30—32）",
+      "claim_support": [
+        "自愿提交、入库前去标识及有条件的不处罚安排。"
+      ],
+      "limits": [
+        "读取此页面正文，未审计实际身份安全、组织报复或净事故效果；不是无条件免罚承诺。"
+      ],
+      "access_status": "partially_read"
+    },
+    {
+      "id": "P-ASRS-C",
+      "title": "NASA ASRS：Caveats",
+      "url": "https://asrs.arc.nasa.gov/overview/caveats.html",
+      "source_type": "primary",
+      "version_or_date": "2026-10-14所读页面；未标发布日期",
+      "locator": "正文第1—4项（网页行29—32）",
+      "claim_support": [
+        "保密与纪律豁免的例外；避免分析人员持续受雇于FAA或航空公司等利益冲突安排。"
+      ],
+      "limits": [
+        "仅据网页说明制度边界，未核每一实际报告；不提供现行航空法律意见。"
+      ],
+      "access_status": "partially_read"
+    },
+    {
+      "id": "P-PHONE",
+      "title": "DSIT：New measures to better protect vulnerable customers agreed with Telecoms firms",
+      "url": "https://www.gov.uk/government/news/new-measures-to-better-protect-vulnerable-customers-agreed-with-telecoms-firms",
+      "source_type": "primary",
+      "version_or_date": "2023-12-18",
+      "locator": "2023-12-18公告，严重事件与暂缓强制转换段、Other commitments agreed include第1—2项（网页行68—82）",
+      "claim_support": [
+        "英国电信迁移中的风险公告、保护条件未成立时不强制迁移的约定及核实telecare可用的承诺。"
+      ],
+      "limits": [
+        "公告证明当时公布的事件与承诺，不证明每户执行、事故减少或T1/T2全部条件满足；不把旧迁移时间表作当前计划。"
+      ],
+      "access_status": "partially_read"
+    },
+    {
+      "id": "P-LEGACY",
+      "title": "GDS/CDDO：Managing legacy technology",
+      "url": "https://www.gov.uk/guidance/managing-legacy-technology",
+      "source_type": "primary",
+      "version_or_date": "2019-02-21发布，2026-10-14读取",
+      "locator": "2019-02-21页面，原则1、3、4（网页行138—188）",
+      "claim_support": [
+        "持续改进、文档更新、基础设施复审及团队能力维护的制度要求。"
+      ],
+      "limits": [
+        "局部读取至原则4，不把指南推荐的好处作为已测结果；无特定机构实施或费用数据。"
+      ],
+      "access_status": "partially_read"
+    },
+    {
+      "id": "P-RETIRE",
+      "title": "GOV.UK Service Manual：Retiring your service",
+      "url": "https://www.gov.uk/service-manual/agile-delivery/retiring-your-service",
+      "source_type": "primary",
+      "version_or_date": "2016-08-04发布；页面更新2025-08-26",
+      "locator": "Consider user needs；Telling your users；Protecting information（网页行72—165）",
+      "claim_support": [
+        "服务退役须考虑需求承接、非数字用户告知和数据保护。"
+      ],
+      "limits": [
+        "已读该页面相关完整栏目；属于服务设计指南，不是某次退役成功或个人安全退出的经验评价。"
+      ],
+      "access_status": "partially_read"
+    }
+  ]
+}

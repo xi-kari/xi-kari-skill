@@ -1,0 +1,50 @@
+{
+  "sources": [
+    {
+      "id": "theory",
+      "title": "Xikari-条件结构与转化论，用户提供原文",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "现行全文第463—472行；每节精确范围见sourceRefs",
+      "claim_support": [
+        "3.3：术语、合同、论证责任和原文边界；不据此认证经验事实"
+      ],
+      "limits": [
+        "作者理论文本，是被解释对象，不替代外部经验资料；技能5.3.1不等于理论版本。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "theory-learning",
+      "title": "Xikari原文6.3：反馈介导学习两分支",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "6.3，第1320—1337行",
+      "claim_support": [
+        "3.3：载体学习与当前表示之外的历史增量分支分别取证；当前载体充分时G3增量可消失而学习仍成立。"
+      ],
+      "limits": [
+        "跨节定义回查，不认证现实学习效果。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "caib-feedback",
+      "title": "CAIB Report Volume I, Chapter 6：沟通与图像请求",
+      "url": "https://govinfo.library.unt.edu/caib/news/report/pdf/vol1/chapters/chapter6.pdf",
+      "source_type": "primary",
+      "version_or_date": "2003-08；档案2003-09-08排字修订",
+      "locator": "印刷pp.171—172，F6.3-5—9、13、24—29",
+      "claim_support": [
+        "3.3：团队与图像请求存在；三项请求独立发起；分析假设与不确定性未在相关管理会议完整呈报。"
+      ],
+      "limits": [
+        "调查不提供本文所需的单条通道随机效应估计；不证明单一请求即可避免事故。",
+        "与3.1复用同一调查，新增四位置区分，不累计独立支持。"
+      ],
+      "access_status": "partially_read"
+    }
+  ]
+}

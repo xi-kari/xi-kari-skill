@@ -1,0 +1,34 @@
+{
+  "sources": [
+    {
+      "id": "theory",
+      "title": "Xikari-条件结构与转化论，用户提供原文",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "现行全文第4657—4672行；每节精确范围见sourceRefs",
+      "claim_support": [
+        "D.09：术语、合同、论证责任和原文边界；不据此认证经验事实"
+      ],
+      "limits": [
+        "作者理论文本，是被解释对象，不替代外部经验资料；技能5.3.1不等于理论版本。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "daminger-project",
+      "title": "Research — The Cognitive Dimension of Household Labor",
+      "url": "https://allison-daminger.squarespace.com/research",
+      "source_type": "primary",
+      "version_or_date": "访问时页面，未标发布日期",
+      "locator": "项目同名标题后第一段（行11—12），相邻第二段及2019/2020论文链接只作导航",
+      "claim_support": [
+        "本人将预见需要、识别选项、决定和跟进列入认知劳动研究对象"
+      ],
+      "limits": [
+        "项目介绍，不是全文或原始访谈；不据此推断个人案例、2019样本量或普遍效果。"
+      ],
+      "access_status": "partially_read"
+    }
+  ]
+}

@@ -1,0 +1,64 @@
+{
+  "sources": [
+    {
+      "id": "T-main",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§A.11，第4228—4317行",
+      "claim_support": [
+        "HV11全部39字段三路，末尾九轴解释及十一变量输出表。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-gov",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§16.14，第3458—3471行",
+      "claim_support": [
+        "GOV-14开放性承担伦理命名的规范边界。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "P-ASRS",
+      "title": "NASA ASRS: Confidentiality and Incentives to Report",
+      "url": "https://asrs.arc.nasa.gov/overview/confidentiality.html",
+      "source_type": "primary",
+      "version_or_date": "访问时网页版本",
+      "locator": "正文自愿提交、保密去标识与受限制激励，网页行30—32",
+      "claim_support": [
+        "ASRS说明自愿报告的保密去标识安排及受限制的激励。"
+      ],
+      "limits": [
+        "已读网页正文；网站制度说明不证明每名报告者都可真实拒绝，不构成无限豁免或本框架R1/R2认证。"
+      ],
+      "access_status": "partially_read"
+    },
+    {
+      "id": "P-ASRS-C",
+      "title": "NASA ASRS: Caveats",
+      "url": "https://asrs.arc.nasa.gov/overview/caveats.html",
+      "source_type": "primary",
+      "version_or_date": "访问时网页版本",
+      "locator": "正文首条及处罚限制说明，网页行29—31",
+      "claim_support": [
+        "保密与处罚豁免不覆盖事故或犯罪活动报告，收到时实名转交相应机构；处罚豁免有其他限制。"
+      ],
+      "limits": [
+        "已读指定正文；本题不作当前法律建议，不把有限制度保护说成绝对保密。"
+      ],
+      "access_status": "partially_read"
+    }
+  ]
+}

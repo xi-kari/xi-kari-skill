@@ -1,0 +1,64 @@
+{
+  "sources": [
+    {
+      "id": "T-main",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§10.10，第2189—2194行",
+      "claim_support": [
+        "复杂度五问、简单基线、增益降级及责任描述例外。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-entry",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§10.1，第2035—2050行",
+      "claim_support": [
+        "独立对象事实与分组增益分开。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-snapshot",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§10.8，第2177—2182行",
+      "claim_support": [
+        "内部差异不可由均值代替。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "P-NASA",
+      "title": "Report of Apollo 13 Review Board",
+      "url": "https://www.nasa.gov/wp-content/uploads/static/history/afj/ap13fj/pdf/report-of-a13-review-board-19700615-19700076776.pdf",
+      "source_type": "primary",
+      "version_or_date": "1970年6月",
+      "locator": "1970年6月，第1章委员会任务规定，印刷1-1—1-3，PDF14—16；第2章小组职责，印刷2-19，PDF50。",
+      "claim_support": [
+        "原报告分别规定委员会调查/报告职责，并列第一小组的任务。"
+      ],
+      "limits": [
+        "文书支持所列任务及组织记录，不证明该划分提高了样本外预测，也不能自动证明职责每项均已履行。"
+      ],
+      "access_status": "partially_read"
+    }
+  ]
+}

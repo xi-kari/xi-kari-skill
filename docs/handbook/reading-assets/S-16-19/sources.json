@@ -1,0 +1,34 @@
+{
+  "sources": [
+    {
+      "id": "theory",
+      "title": "Xikari-条件结构与转化论，用户提供原文",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "现行全文第3502—3513行；每节精确范围见sourceRefs",
+      "claim_support": [
+        "16.19：术语、合同、论证责任和原文边界；不据此认证经验事实"
+      ],
+      "limits": [
+        "作者理论文本，是被解释对象，不替代外部经验资料；技能5.3.1不等于理论版本。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "python-sys",
+      "title": "Python sys—System-specific parameters and functions",
+      "url": "https://docs.python.org/3/library/sys.html",
+      "source_type": "primary",
+      "version_or_date": "2026-10-14核读",
+      "locator": "sys.implementation version段；sys.version；sys.version_info",
+      "claim_support": [
+        "实现版本与语言版本意义不同；版本字符串含构建信息；组件版本结构"
+      ],
+      "limits": [
+        "仅文档事实，不检查用户环境或验证部署；不是Xikari版本语法规范。"
+      ],
+      "access_status": "partially_read"
+    }
+  ]
+}

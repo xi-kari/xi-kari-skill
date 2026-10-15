@@ -1,0 +1,94 @@
+{
+  "sources": [
+    {
+      "id": "T-main",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§14.2，第2880—2891行",
+      "claim_support": [
+        "SEL三类定义、责任与硬边界。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-options",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§14.4，第2912—2927行",
+      "claim_support": [
+        "system_variant与external_action身份。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-governance",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§14.5，第2928—2939行",
+      "claim_support": [
+        "真实参与、实质异议和内部authorized。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-J",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§14.6，第2940—2953行",
+      "claim_support": [
+        "授权法律规范分别核验。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "P-SIM",
+      "title": "Mansoury等：Feedback Loop and Bias Amplification in Recommender Systems",
+      "url": "https://arxiv.org/abs/2007.13019",
+      "source_type": "primary",
+      "version_or_date": "arXiv v1 2020-07-25",
+      "locator": "arXiv:2007.13019v1，2020-07-25；PDF2 §2，PDF3 §4.1—4.3.2，PDF4 §5。",
+      "claim_support": [
+        "论文用离线模拟把推荐后的模拟选择写回用户档案，考察连续轮次，明确表征变化不等于内在偏好变化。"
+      ],
+      "limits": [
+        "真实发表的模拟研究，非真实平台干预；不证明现实用户自主同意、算法具意图或治理正当性，不采用文中概略公式作普遍定理。"
+      ],
+      "access_status": "partially_read"
+    },
+    {
+      "id": "P-BEL",
+      "title": "The Belmont Report：知情同意",
+      "url": "https://www.hhs.gov/ohrp/regulations-and-policy/belmont-report/read-the-belmont-report/index.html",
+      "source_type": "primary",
+      "version_or_date": "1979-04-18",
+      "locator": "1979-04-18，Part C.1 Informed Consent，Information、Comprehension、Voluntariness。",
+      "claim_support": [
+        "报告将同意分信息、理解、自愿三个要素，讨论强制和不当影响。"
+      ],
+      "limits": [
+        "历史研究伦理规范文本，不是现实参与者已自愿的证明，不替代现行法律或个案能力判断。"
+      ],
+      "access_status": "partially_read"
+    }
+  ]
+}

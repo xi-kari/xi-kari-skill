@@ -1,0 +1,97 @@
+{
+  "sources": [
+    {
+      "id": "theory",
+      "title": "Xikari-条件结构与转化论，用户提供原文",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "现行全文第1235—1285行；每节精确范围见sourceRefs",
+      "claim_support": [
+        "5.10：术语、合同、论证责任和原文边界；不据此认证经验事实",
+        "5.10.1：术语、合同、论证责任和原文边界；不据此认证经验事实",
+        "5.10.2：术语、合同、论证责任和原文边界；不据此认证经验事实",
+        "5.10.3：术语、合同、论证责任和原文边界；不据此认证经验事实"
+      ],
+      "limits": [
+        "作者理论文本，是被解释对象，不替代外部经验资料；技能5.3.1不等于理论版本。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "snow-bridge",
+      "title": "Snow：跨地理边界的送水接口",
+      "url": "https://www.gutenberg.org/cache/epub/72894/pg72894-images.html",
+      "source_type": "primary",
+      "version_or_date": "1855年第二版；数字转录版2024-02-07",
+      "locator": "印刷p.44，Hampstead妇人与每日cart送水段",
+      "claim_support": [
+        "5.10：妇人多月未到Broad Street但日常由车送来泵水；居住地点边界不排除物质接触接口。"
+      ],
+      "limits": [
+        "原作者据家属叙述；不称马车、不补代表权，不据该段量化因果效应。"
+      ],
+      "access_status": "partially_read"
+    },
+    {
+      "id": "caib-expression",
+      "title": "CAIB第7章：简报标题与底部警告",
+      "url": "https://govinfo.library.unt.edu/caib/news/report/pdf/vol1/chapters/chapter7.pdf",
+      "source_type": "primary",
+      "version_or_date": "2003年8月；政府档案版",
+      "locator": "印刷p.191，Engineering by Viewgraphs正文",
+      "claim_support": [
+        "5.10.2：标题conservatism指测试模型选择而非损伤安全保证；重要超测试范围警告在底部；表达优先级和含义需要核查。"
+      ],
+      "limits": [
+        "不还原全部执行者内部表示，不单因果归于一页简报，不把此例说成所有压缩必然有损。"
+      ],
+      "access_status": "partially_read"
+    },
+    {
+      "id": "theory-identity",
+      "title": "Xikari原文5.7：K映射与正式转换条件",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "第1199—1215行",
+      "claim_support": [
+        "5.10：K失效不能改名沿用身份；正式converted_object仍需相应模式和受支持G4b，局部失败不足时保留未决。"
+      ],
+      "limits": [
+        "未给任何历史对象追授转换实例。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "theory-f",
+      "title": "Xikari原文4.18及附录C.6—C.8",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "第985—1000行；第4414—4458行",
+      "claim_support": [
+        "5.10.1—3：任务恢复与接续、表示不足和独立规则错误、固定动力下同原像更新一致的闭合条件。"
+      ],
+      "limits": [
+        "有限构造不等现实对象满足前提，不提供正式G4资格。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "theory-g4",
+      "title": "Xikari原文4.6：尺度闭合与转换问题",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "第642—660行",
+      "claim_support": [
+        "5.10.3：正式经验闭合/对象/干预转换主张进入对应G4实例和门；不以静态描述或形式模型替代。"
+      ],
+      "limits": [
+        "这里只回指合同范围，不断言真实实例已通过。"
+      ],
+      "access_status": "read"
+    }
+  ]
+}

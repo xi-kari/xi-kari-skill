@@ -1,0 +1,176 @@
+{
+  "sources": [
+    {
+      "id": "theory",
+      "title": "Xikari-条件结构与转化论，用户提供原文",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "现行全文第1666—1786行；每节精确范围见sourceRefs",
+      "claim_support": [
+        "8.3：术语、合同、论证责任和原文边界；不据此认证经验事实",
+        "8.3.1：术语、合同、论证责任和原文边界；不据此认证经验事实",
+        "8.3.2：术语、合同、论证责任和原文边界；不据此认证经验事实",
+        "8.3.3：术语、合同、论证责任和原文边界；不据此认证经验事实",
+        "8.3.4：术语、合同、论证责任和原文边界；不据此认证经验事实",
+        "8.3.5：术语、合同、论证责任和原文边界；不据此认证经验事实",
+        "8.3.6：术语、合同、论证责任和原文边界；不据此认证经验事实",
+        "8.3.7：术语、合同、论证责任和原文边界；不据此认证经验事实"
+      ],
+      "limits": [
+        "作者理论文本，是被解释对象，不替代外部经验资料；技能5.3.1不等于理论版本。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "runtime",
+      "title": "现行原文原型最小合同与运行时记录",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "§8.2—8.2.1，第1637—1665行",
+      "claim_support": [
+        "8.3及七子节：K与尺度窗口、逐项入口观察反例证伪、证伪阻断、非授权边界；原型不统一硬需CM-PHASE"
+      ],
+      "limits": [
+        "卡和记录可复核不等于实际分类可靠性已经检验。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "paths",
+      "title": "现行原文非线性路径与原型边界",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "§8.4第1787—1810行；§8.7—8.8第1849—1868行",
+      "claim_support": [
+        "各卡：多种退出路径、非线性与未知保留；分类不等人格与价值，不穷尽全部状态"
+      ],
+      "limits": [
+        "本文未认证任何真实集体的完整S原型。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "history",
+      "title": "现行原文当前载体、留痕与额外历史增量",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "§4.2第586—600行；§4.5第620—640行；§7.3.5第1552—1557行",
+      "claim_support": [
+        "七卡证据升级：H5有限留痕、当前载体的未来作用、G3当前表示之外增量分开；H实例唯一预选结果"
+      ],
+      "limits": [
+        "不是把高级实例前提施加于每一条独立事实记录。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "scaleaction",
+      "title": "现行原文尺度迁移及规范桥接",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "§3.4第473—494行；§4.14.1第908—924行；§5.2第1039—1059行；§7.4第1596—1603行",
+      "claim_support": [
+        "七卡：跨尺度不自动升J、机制不授权行动、成本与规范分开；K为同一性判据"
+      ],
+      "limits": [
+        "所有纸面计算和网络操作不授权真实组织干预。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "gowers-start",
+      "title": "Timothy Gowers：Is massively collaborative mathematics possible?",
+      "url": "https://gowers.wordpress.com/2009/01/27/is-massively-collaborative-mathematics-possible/",
+      "source_type": "primary",
+      "version_or_date": "2009-01-27",
+      "locator": "2009-01-27正文：提出单问题公开协作、后续安排与末尾暂行规则",
+      "claim_support": [
+        "8.3.1：发起者公开提议、邀请未成熟想法并给暂行讨论规则"
+      ],
+      "limits": [
+        "正文已读，未将全部评论当对象调查；不由后续成功倒填初期，未判完整S0或计算成功概率。"
+      ],
+      "access_status": "partially_read"
+    },
+    {
+      "id": "gowers-procedure",
+      "title": "Timothy Gowers：Questions of procedure",
+      "url": "https://gowers.wordpress.com/2009/02/01/questions-of-procedure/",
+      "source_type": "primary",
+      "version_or_date": "正文2009-02-01；所用评论2009-02-02",
+      "locator": "2009-02-01正文开头及规则；Gowers署名2009-02-02 17:41评论，讨论增多、子问题与Jason Dyer整理段",
+      "claim_support": [
+        "8.3.1—8.3.2：依据回应修订规则和线程安排；8.3.3：发起者记录讨论量增加、子问题出现及Dyer尝试分类评论"
+      ],
+      "limits": [
+        "原作者过程记录，不证明持续核心依赖、全部参与成本、退出安全或完整S1/S2；三个单元共享同源，不计独立复制。"
+      ],
+      "access_status": "partially_read"
+    },
+    {
+      "id": "gao-constraints",
+      "title": "GAO-19-296：2017 Hurricane Season",
+      "url": "https://www.gao.gov/assets/gao-19-296.pdf",
+      "source_type": "primary",
+      "version_or_date": "2019-04-18",
+      "locator": "印刷pp.18—19，Logistical challenges、Availability of materials",
+      "claim_support": [
+        "8.3.4：港口机场失电影响修复材料运入，多地恢复增加材料需求"
+      ],
+      "limits": [
+        "约束并存不独立证明相互强化、全部机制或完整S3；报告依据访谈与文件，非本讲新实验。"
+      ],
+      "access_status": "partially_read"
+    },
+    {
+      "id": "gao-recovery",
+      "title": "GAO-19-296恢复口径与临时发电",
+      "url": "https://www.gao.gov/assets/gao-19-296.pdf",
+      "source_type": "primary",
+      "version_or_date": "2019-04-18",
+      "locator": "印刷pp.6—7，恢复客户口径及Vieques/Culebra临时发电说明；p.1亦说明非全部灾前客户",
+      "claim_support": [
+        "8.3.6：恢复率限能够安全恢复供电的客户；部分岛屿临时发电供给"
+      ],
+      "limits": [
+        "不是无持续投入、长期自主或完整S5证据；与上一条同一报告，保留来源依赖。"
+      ],
+      "access_status": "partially_read"
+    },
+    {
+      "id": "maryland",
+      "title": "Maryland Department of Health：FY24 Quarter4续保报告",
+      "url": "https://health.maryland.gov/mmcp/Documents/JCRs/2023/eligibilityredetprocessJCRfinal4-24.pdf",
+      "source_type": "primary",
+      "version_or_date": "报告2024年4月；函件2024-05-14",
+      "locator": "印刷p.9，第5项及末段更新流程开始使用说明",
+      "claim_support": [
+        "8.3.5：更新后的自动续保系统流程从2023年11月开始使用"
+      ],
+      "limits": [
+        "历史过程资料，未覆盖全部过渡成本、K与完整S4；不作当前法律或个体健康建议。"
+      ],
+      "access_status": "partially_read"
+    },
+    {
+      "id": "nasa",
+      "title": "NASA：STS-114任务记录",
+      "url": "https://www.nasa.gov/mission/sts-114/",
+      "source_type": "primary",
+      "version_or_date": "任务2005年；页面更新2025-05-01",
+      "locator": "Mission Highlights，EVA No.2条目",
+      "claim_support": [
+        "8.3.7：2005年8月1日更换故障CMG No.1，随后有四个工作陀螺的功能恢复记录"
+      ],
+      "limits": [
+        "技术功能恢复不证明整个人类集体的自治、继任或完整S6。"
+      ],
+      "access_status": "partially_read"
+    }
+  ]
+}

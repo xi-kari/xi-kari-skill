@@ -1,0 +1,64 @@
+{
+  "sources": [
+    {
+      "id": "theory",
+      "title": "Xikari-条件结构与转化论，用户提供原文",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "现行全文第1286—1293行；每节精确范围见sourceRefs",
+      "claim_support": [
+        "5.11：术语、合同、论证责任和原文边界；不据此认证经验事实"
+      ],
+      "limits": [
+        "作者理论文本，是被解释对象，不替代外部经验资料；技能5.3.1不等于理论版本。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "theory-d0",
+      "title": "Xikari原文3.1：完整对象接口与K同一性判据",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "第425—448行，尤其429与447行",
+      "claim_support": [
+        "5.11：完整候选对象为B/X/R/I/T/SP/K组成；K仅为同一性判据，不是整个对象合同。"
+      ],
+      "limits": [
+        "定义接口不预证对象有效，不提供现实身份或授权。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "caib-multiple-relations",
+      "title": "CAIB第6章：团队汇报与图像请求路径",
+      "url": "https://govinfo.library.unt.edu/caib/news/report/pdf/vol1/chapters/chapter6.pdf",
+      "source_type": "primary",
+      "version_or_date": "2003年8月；政府档案版",
+      "locator": "印刷p.171，F6.3-6—8",
+      "claim_support": [
+        "5.11：DAT经MER向MMT汇报，图像请求则经Johnson工程部门路径；不同关系不能由单一树图代替。"
+      ],
+      "limits": [
+        "只覆盖所述关系，不重构全部NASA网络，不据层级推授权或单一事故原因。"
+      ],
+      "access_status": "partially_read"
+    },
+    {
+      "id": "theory-feedback",
+      "title": "Xikari原文3.3与5.6：返回和更新边界",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "第463—472行；第1163—1176行",
+      "claim_support": [
+        "5.11：新增返回通道不等于有效反馈已成立，还须后续状态更新；不从关系登记追授机制。"
+      ],
+      "limits": [
+        "教学新增边不是实际反馈测试。"
+      ],
+      "access_status": "read"
+    }
+  ]
+}

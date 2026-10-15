@@ -1,0 +1,154 @@
+{
+  "sources": [
+    {
+      "id": "T-intro",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§intro-14-part，第2864—2869行",
+      "claim_support": [
+        "规范选择与解释分开，独立合同。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-main",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§14.1，第2870—2879行",
+      "claim_support": [
+        "事实/应当、O1—O4与C12不代选价值。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-types",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§14.2，第2880—2891行",
+      "claim_support": [
+        "三类选择边界。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-N",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§14.3，第2892—2911行",
+      "claim_support": [
+        "N运行时登记及N1否决门。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-options",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§14.4，第2912—2927行",
+      "claim_support": [
+        "方案、不行动、显式最小伤害和比例性。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-J",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§14.6，第2940—2953行",
+      "claim_support": [
+        "有限权限和O程序。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-PF",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§14.8，第2968—3001行",
+      "claim_support": [
+        "十项底板。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-C12",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§4.14.1，第908—925行",
+      "claim_support": [
+        "C12十项、待审推荐与实际采用分开。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "P-BEL",
+      "title": "The Belmont Report：人体研究伦理原则报告",
+      "url": "https://www.hhs.gov/ohrp/regulations-and-policy/belmont-report/read-the-belmont-report/index.html",
+      "source_type": "primary",
+      "version_or_date": "1979-04-18；HHS官方文本2026-10-14读取",
+      "locator": "1979-04-18，Part B开头及Respect for Persons、Beneficence、Justice三节。",
+      "claim_support": [
+        "报告公开列尊重人格、行善、公正为伦理原则，并讨论自主保护和负担/收益分配。"
+      ],
+      "limits": [
+        "历史规范文本，不是实验效果证据，也不当作现行医疗法律意见、Xikari全部原则的等价物或任何现实研究的授权。"
+      ],
+      "access_status": "partially_read"
+    },
+    {
+      "id": "P-CC",
+      "title": "Effect of Consumer Direction on Adults’ Personal Care and Well-Being in Arkansas, New Jersey and Florida",
+      "url": "https://aspe.hhs.gov/sites/default/files/migrated_legacy_files/41521/adultpcw.pdf",
+      "source_type": "primary",
+      "version_or_date": "2005-05-16",
+      "locator": "2005-05-16，印刷7—8页（PDF19—20）服务模式；印刷12—14页（PDF24—26）随机分配/九个月随访/代理；印刷45—48页（PDF57—60）结果与限制。",
+      "claim_support": [
+        "研究比较获得现金与咨询组合机会的随机分组，观察九个月照护、未满足需求及满意度等结果，并报告代理与外推限制。"
+      ],
+      "limits": [
+        "不是纯选择权单因素效应、个人适用性或现行服务政策；研究结果本身不提供具体处置权限。"
+      ],
+      "access_status": "partially_read"
+    }
+  ]
+}

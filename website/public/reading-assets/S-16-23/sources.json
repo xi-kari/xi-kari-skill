@@ -1,0 +1,34 @@
+{
+  "sources": [
+    {
+      "id": "theory",
+      "title": "Xikari-条件结构与转化论，用户提供原文",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "现行全文第3538—3545行；每节精确范围见sourceRefs",
+      "claim_support": [
+        "16.23：术语、合同、论证责任和原文边界；不据此认证经验事实"
+      ],
+      "limits": [
+        "作者理论文本，是被解释对象，不替代外部经验资料；技能5.3.1不等于理论版本。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "nist-human-oversight",
+      "title": "AI RMF Playbook: Govern",
+      "url": "https://airc.nist.gov/airmf-resources/playbook/govern/",
+      "source_type": "primary",
+      "version_or_date": "2026-10-14读取的官方Playbook文本",
+      "locator": "GOVERN 3.2标题句、About两项、Suggested Actions、Transparency and Documentation末项；GOVERN 2.3标题句",
+      "claim_support": [
+        "指南区分人机角色和监督责任；提出能力培训资源检查；组织领导承担AI风险决策责任"
+      ],
+      "limits": [
+        "只核指南要求而非实施成效；页面告知AI RMF1.0正在更新；不作现行法律合规结论。"
+      ],
+      "access_status": "partially_read"
+    }
+  ]
+}

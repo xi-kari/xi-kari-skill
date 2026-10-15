@@ -1,0 +1,96 @@
+{
+  "sources": [
+    {
+      "id": "theory",
+      "title": "Xikari-条件结构与转化论，用户提供原文",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "现行全文第1811—1838行；每节精确范围见sourceRefs",
+      "claim_support": [
+        "8.5：术语、合同、论证责任和原文边界；不据此认证经验事实",
+        "8.5.1：术语、合同、论证责任和原文边界；不据此认证经验事实",
+        "8.5.2：术语、合同、论证责任和原文边界；不据此认证经验事实"
+      ],
+      "limits": [
+        "作者理论文本，是被解释对象，不替代外部经验资料；技能5.3.1不等于理论版本。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "identity",
+      "title": "现行原文对象、规范与行动边界",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "§3.1第425—448行；§4.14.1第908—924行；§2.2第239—264行",
+      "claim_support": [
+        "8.5—8.5.2：K是同一性判据；描述、规范、授权与操作条件分别承担责任"
+      ],
+      "limits": [
+        "不因分类产生现实处置许可。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "route",
+      "title": "现行原文HV10-R4及判断、行动上限",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "附录A.10第4185行R4；第4222—4223行；附录D.09相关边界第4665行",
+      "claim_support": [
+        "8.5：独立X0路由不要求最低S或CM-PHASE；E4与非授权边界；组织退场不套个人死亡或哀伤"
+      ],
+      "limits": [
+        "解释路由条件，不给案例授予框架资格。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "paths",
+      "title": "现行原文相近路径",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "§8.4第1787—1810行",
+      "claim_support": [
+        "8.5.2：功能转移、接管、强制重写、崩解与X0分别检查"
+      ],
+      "limits": [
+        "X0未完成不自动推出其他路径成立。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "attic-process",
+      "title": "Apache Attic现行公布退出流程",
+      "url": "https://attic.apache.org/process.html",
+      "source_type": "primary",
+      "version_or_date": "当前网页，读取2026-10-14；页面无独立修订日期",
+      "locator": "Moving a PMC to the Attic：第1节公共讨论/参与/表决；第2节董事会批准后工作",
+      "claim_support": [
+        "8.5.1：当前公布流程区分讨论、决议与后续移交工作"
+      ],
+      "limits": [
+        "未核任何具体项目实际履行全部程序；不把当前页面当2011年有效版本。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "attic-jakarta",
+      "title": "Apache Attic：Jakarta退休档案",
+      "url": "https://attic.apache.org/projects/jakarta.html",
+      "source_type": "primary",
+      "version_or_date": "当前官方档案，记述2011年12月事件；读取2026-10-14",
+      "locator": "Apache Jakarta正文退休日期与Read-only Resource表",
+      "claim_support": [
+        "8.5.2：2011年12月退休及只读资源索引登记"
+      ],
+      "limits": [
+        "未逐链接核资源完整或安全，未核全部责任；不认证完整X0。"
+      ],
+      "access_status": "read"
+    }
+  ]
+}

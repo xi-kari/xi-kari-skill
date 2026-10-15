@@ -1,0 +1,49 @@
+{
+  "sources": [
+    {
+      "id": "theory",
+      "title": "Xikari-条件结构与转化论，用户提供原文",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "现行全文第1065—1084行；每节精确范围见sourceRefs",
+      "claim_support": [
+        "5.3：术语、合同、论证责任和原文边界；不据此认证经验事实"
+      ],
+      "limits": [
+        "作者理论文本，是被解释对象，不替代外部经验资料；技能5.3.1不等于理论版本。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "theory-axis",
+      "title": "Xikari原文5.2：规范化等价类与可组合见证",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "第1039—1064行",
+      "claim_support": [
+        "5.3：积偏序以各轴规范化偏序与语义可组合性为前提；双方J不适用不产生权限。"
+      ],
+      "limits": [
+        "数学证明有此前提，不认证实际轴状态或授权有效性。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "theory-result-states",
+      "title": "Xikari原文5.4：算子结果四态",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "第1085—1100行",
+      "claim_support": [
+        "5.3：transformation_class与算子supported等结果状态不同。"
+      ],
+      "limits": [
+        "跨节区分，不用方向分类替代分支证据。"
+      ],
+      "access_status": "read"
+    }
+  ]
+}

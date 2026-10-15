@@ -1,0 +1,126 @@
+{
+  "sources": [
+    {
+      "id": "T-98",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§9.8，第1993—1998行",
+      "claim_support": [
+        "资料可见性、敏感性、用途及拒绝披露边界；沉默原因仅为可能，不以人格填缺。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-91",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§9.1，第1873—1889行",
+      "claim_support": [
+        "不可观察、无来源、拒绝和冲突分别登记未知。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-96",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§9.6，第1968—1982行",
+      "claim_support": [
+        "未知保留不获取理由；新观察须合法合适。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-evidence",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§2.5，第315—320行",
+      "claim_support": [
+        "缺席不默认否定；材料、判断与行动授权分别取证。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-J",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§14.6，第2940—2952行",
+      "claim_support": [
+        "具体动作、对象、范围和期限的权限，不由观察能力扩张。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-output",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§16.9，第3412—3414行",
+      "claim_support": [
+        "缺失仅限制实际依赖它的结论，局部事实或条件建议可分别成立。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-protect",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§16.12，第3440—3446行",
+      "claim_support": [
+        "不要求冒险证明处境，允许低暴露、分阶段表达及必要支持。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "P-PNAS2014",
+      "title": "Editorial Expression of Concern: Experimental evidence of massivescale emotional contagion through social networks",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4115552/",
+      "source_type": "primary",
+      "version_or_date": "Inder M. Verma署名；在线2014-07-03；PNAS111(29):10779，期刊日期2014-07-22；DOI10.1073/pnas.1412469111。",
+      "locator": "完整短通知；正文“Questions have been raised”段至最后关切段，含同意主张转述及当时规则适用说明。",
+      "claim_support": [
+        "期刊针对该研究公开讨论知情同意与退出机会。",
+        "通知转述作者对平台政策的主张，并以可能未完全符合原则表达关切，同时保留当时规则背景。"
+      ],
+      "limits": [
+        "已实际读PMC完整短通知；不是重算研究、违法裁判或全体伤害认定。",
+        "2014年历史说明，不提供当下法律规则或平台政策结论。"
+      ],
+      "access_status": "read"
+    }
+  ]
+}

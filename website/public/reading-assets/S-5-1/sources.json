@@ -1,0 +1,66 @@
+{
+  "sources": [
+    {
+      "id": "theory",
+      "title": "Xikari-条件结构与转化论，用户提供原文",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "现行全文第1029—1038行；每节精确范围见sourceRefs",
+      "claim_support": [
+        "intro-05-part：术语、合同、论证责任和原文边界；不据此认证经验事实",
+        "5.1：术语、合同、论证责任和原文边界；不据此认证经验事实"
+      ],
+      "limits": [
+        "作者理论文本，是被解释对象，不替代外部经验资料；技能5.3.1不等于理论版本。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "theory-dependencies",
+      "title": "Xikari原文2.3：四类依赖",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "第265—277行",
+      "claim_support": [
+        "5.1：四类关系的具体责任；只有inferential_requires进入推理无环图。"
+      ],
+      "limits": [
+        "方法门不是额外经验原因，领域和规范关系不反向证明事实。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "theory-scale-class",
+      "title": "Xikari原文5.2—5.4：九轴、分类与分支",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "第1039—1100行",
+      "claim_support": [
+        "导语：九轴实际集合、混合/未知/不可比及升格边界。",
+        "5.1：纯描述模式可对G专用字段注明不适用，不编造root-instance。"
+      ],
+      "limits": [
+        "跨节解释，教学字段不是现实比较见证。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "theory-three-transformations",
+      "title": "Xikari原文5.10—5.10.1：三类变换",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "第1235—1258行",
+      "claim_support": [
+        "第五部分导语：尺度变换、圈层关系变换及表示/表述转义分别承担保持、改变与损失责任，可同时发生而须分别记录。"
+      ],
+      "limits": [
+        "跨节概念说明，不把多过程命名当作经验通过。"
+      ],
+      "access_status": "read"
+    }
+  ]
+}

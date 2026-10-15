@@ -1,0 +1,49 @@
+{
+  "sources": [
+    {
+      "id": "theory",
+      "title": "Xikari-条件结构与转化论，用户提供原文",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "现行全文第4561—4576行；每节精确范围见sourceRefs",
+      "claim_support": [
+        "D.03：术语、合同、论证责任和原文边界；不据此认证经验事实"
+      ],
+      "limits": [
+        "作者理论文本，是被解释对象，不替代外部经验资料；技能5.3.1不等于理论版本。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "theory-chain",
+      "title": "Xikari整链形式反例",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "§2.4.2第307—313行，尤其第311行两类函数",
+      "claim_support": [
+        "两段平均效应各1/2但整链0的条件反例"
+      ],
+      "limits": [
+        "数学例不估计真实世界效应。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "snow-formation",
+      "title": "On the Mode of Communication of Cholera",
+      "url": "https://www.gutenberg.org/cache/epub/72894/pg72894-images.html",
+      "source_type": "primary",
+      "version_or_date": "1855第二版；Gutenberg2024-02-07转录",
+      "locator": "1855第二版印刷pp77—80：移送后追查发病地址、供水账单/化学核验、四周未查明来源段",
+      "claim_support": [
+        "原著记述住址核对、供水分类和未查明来源的材料形成过程"
+      ],
+      "limits": [
+        "只核指定段，不宣称重做调查或识别所有因果机制；原著转录而非原始账单全体。"
+      ],
+      "access_status": "partially_read"
+    }
+  ]
+}

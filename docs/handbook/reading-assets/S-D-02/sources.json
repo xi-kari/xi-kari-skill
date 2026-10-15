@@ -1,0 +1,64 @@
+{
+  "sources": [
+    {
+      "id": "theory",
+      "title": "Xikari-条件结构与转化论，用户提供原文",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "现行全文第4545—4560行；每节精确范围见sourceRefs",
+      "claim_support": [
+        "D.02：术语、合同、论证责任和原文边界；不据此认证经验事实"
+      ],
+      "limits": [
+        "作者理论文本，是被解释对象，不替代外部经验资料；技能5.3.1不等于理论版本。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "oha-core",
+      "title": "OHA Core Principles",
+      "url": "https://oralhistory.org/oha-core-principles/",
+      "source_type": "primary",
+      "version_or_date": "2018原则体系；2026-10-14读取",
+      "locator": "编号3、7、8、9",
+      "claim_support": [
+        "记忆受个人社会语境影响；需关注权力、安全与公开许可"
+      ],
+      "limits": [
+        "只核方法规范，不认证具体访谈事实或实施效果。"
+      ],
+      "access_status": "partially_read"
+    },
+    {
+      "id": "oha-ethics",
+      "title": "OHA Statement on Ethics",
+      "url": "https://oralhistory.org/oha-statement-on-ethics/",
+      "source_type": "primary",
+      "version_or_date": "2018原则体系；2026-10-14读取",
+      "locator": "Using Oral Sources末两段",
+      "claim_support": [
+        "应忠实尊重话语及语境；可据准确引用证据提出不同结论"
+      ],
+      "limits": [
+        "不赋予任一叙述真值特权，也不认证实际研究质量。"
+      ],
+      "access_status": "partially_read"
+    },
+    {
+      "id": "oha-adoption",
+      "title": "OHA Principles and Best Practices",
+      "url": "https://oralhistory.org/principles-and-best-practices-revised-2018/",
+      "source_type": "primary",
+      "version_or_date": "2018-10",
+      "locator": "标题下Adopted October2018及文件列表",
+      "claim_support": [
+        "该原则体系于2018年10月采纳"
+      ],
+      "limits": [
+        "仅版本日期，不推断历史思想采用关系。"
+      ],
+      "access_status": "partially_read"
+    }
+  ]
+}

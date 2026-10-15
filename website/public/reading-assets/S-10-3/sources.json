@@ -1,0 +1,371 @@
+{
+  "sources": [
+    {
+      "id": "T-10.3",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§10.3，第2070—2073行",
+      "claim_support": [
+        "六类关系回答不同问题，可以叠加，不能强迫六选一。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "P-10.3",
+      "title": "Report of Apollo 13 Review Board",
+      "url": "https://www.nasa.gov/wp-content/uploads/static/history/afj/ap13fj/pdf/report-of-a13-review-board-19700615-19700076776.pdf",
+      "source_type": "primary",
+      "version_or_date": "1970年6月；报告内含1970年4月设立文件",
+      "locator": "第2章第3部分，印刷2-17—2-18页，PDF48—49。",
+      "claim_support": [
+        "1970年调查报告同时列出委员会的专门小组与跨组织协作。它提供关系分栏的材料，不能把整张图概括成一个统一上下级关系。"
+      ],
+      "limits": [
+        "仅核对指定原文与组织图，不声称全报告已经通读；未重算事故数据。",
+        "事实描述不取得G-instance正式支持，也不证明本书教学效果。"
+      ],
+      "access_status": "partially_read"
+    },
+    {
+      "id": "T-10.3.1",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§10.3.1，第2074—2077行",
+      "claim_support": [
+        "平行表示没有当前所声明的包含关系，不表示没有联系。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "P-10.3.1",
+      "title": "Report of Apollo 13 Review Board",
+      "url": "https://www.nasa.gov/wp-content/uploads/static/history/afj/ap13fj/pdf/report-of-a13-review-board-19700615-19700076776.pdf",
+      "source_type": "primary",
+      "version_or_date": "1970年6月；报告内含1970年4月设立文件",
+      "locator": "印刷2-1及2-17—2-18页，PDF32、48—49。",
+      "claim_support": [
+        "报告把四个专门小组列为委员会下的不同任务单元。按所列组织安排可描述其任务上的并列；不能据此断言成员或工作完全独立。"
+      ],
+      "limits": [
+        "仅核对指定原文与组织图，不声称全报告已经通读；未重算事故数据。",
+        "事实描述不取得G-instance正式支持，也不证明本书教学效果。"
+      ],
+      "access_status": "partially_read"
+    },
+    {
+      "id": "T-10.3.2",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§10.3.2，第2078—2081行",
+      "claim_support": [
+        "嵌套要说清到底包含成员、角色、会计、管辖还是空间。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "P-10.3.2",
+      "title": "Report of Apollo 13 Review Board",
+      "url": "https://www.nasa.gov/wp-content/uploads/static/history/afj/ap13fj/pdf/report-of-a13-review-board-19700615-19700076776.pdf",
+      "source_type": "primary",
+      "version_or_date": "1970年6月；报告内含1970年4月设立文件",
+      "locator": "印刷2-17—2-18页，PDF48—49；成员原任职信息见2-19—2-20页/PDF50—51。",
+      "claim_support": [
+        "委员会报告的组织图将四个调查小组置于该次调查组织内。这支持工作组织的包含，不表示小组所有成员原任职机构也被委员会吞并。"
+      ],
+      "limits": [
+        "仅核对指定原文与组织图，不声称全报告已经通读；未重算事故数据。",
+        "事实描述不取得G-instance正式支持，也不证明本书教学效果。"
+      ],
+      "access_status": "partially_read"
+    },
+    {
+      "id": "T-10.3.3",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§10.3.3，第2082—2085行",
+      "claim_support": [
+        "重叠保留具体共享项，比例不能告诉我们谁在承担什么。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "P-10.3.3",
+      "title": "Report of Apollo 13 Review Board",
+      "url": "https://www.nasa.gov/wp-content/uploads/static/history/afj/ap13fj/pdf/report-of-a13-review-board-19700615-19700076776.pdf",
+      "source_type": "primary",
+      "version_or_date": "1970年6月；报告内含1970年4月设立文件",
+      "locator": "印刷2-20页，PDF51，Panel 1 Membership末项。",
+      "claim_support": [
+        "Neil Armstrong在名册中被列为委员会成员及Panel 1监看者，且有MSC任职信息。同一人的多重岗位有据；此处不推定他代表所有MSC人员。"
+      ],
+      "limits": [
+        "仅核对指定原文与组织图，不声称全报告已经通读；未重算事故数据。",
+        "事实描述不取得G-instance正式支持，也不证明本书教学效果。"
+      ],
+      "access_status": "partially_read"
+    },
+    {
+      "id": "T-10.3.4",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§10.3.4，第2086—2089行",
+      "claim_support": [
+        "桥接需要可识别接口，传得过去也不等于有权代表。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "P-10.3.4",
+      "title": "Report of Apollo 13 Review Board",
+      "url": "https://www.nasa.gov/wp-content/uploads/static/history/afj/ap13fj/pdf/report-of-a13-review-board-19700615-19700076776.pdf",
+      "source_type": "primary",
+      "version_or_date": "1970年6月；报告内含1970年4月设立文件",
+      "locator": "印刷2-1页末段，PDF32；2-2页/PDF33的日常会议与数据要求。",
+      "claim_support": [
+        "报告称调查组与委员会的协调经MSF技术支持官员及小组主席与调查人员的持续工作联系进行。这是具名协调接口的历史记录。"
+      ],
+      "limits": [
+        "仅核对指定原文与组织图，不声称全报告已经通读；未重算事故数据。",
+        "事实描述不取得G-instance正式支持，也不证明本书教学效果。"
+      ],
+      "access_status": "partially_read"
+    },
+    {
+      "id": "T-10.3.5",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§10.3.5，第2090—2093行",
+      "claim_support": [
+        "竞争必须出现可用集合的排他约束，目标不同还不够。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "P-10.3.5",
+      "title": "Report of Apollo 13 Review Board",
+      "url": "https://www.nasa.gov/wp-content/uploads/static/history/afj/ap13fj/pdf/report-of-a13-review-board-19700615-19700076776.pdf",
+      "source_type": "primary",
+      "version_or_date": "1970年6月；报告内含1970年4月设立文件",
+      "locator": "印刷2-2页第2段，PDF33。",
+      "claim_support": [
+        "报告记载执行会议确定测试、分析等工作优先次序。该记录并未单独证明具体小组间的资源排他竞争。"
+      ],
+      "limits": [
+        "仅核对指定原文与组织图，不声称全报告已经通读；未重算事故数据。",
+        "事实描述不取得G-instance正式支持，也不证明本书教学效果。"
+      ],
+      "access_status": "partially_read"
+    },
+    {
+      "id": "T-10.3.6",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§10.3.6，第2094—2108行",
+      "claim_support": [
+        "临时既可能是预定有限期限，也可能只是短窗支持，二者不能混写。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "P-10.3.6",
+      "title": "Report of Apollo 13 Review Board",
+      "url": "https://www.nasa.gov/wp-content/uploads/static/history/afj/ap13fj/pdf/report-of-a13-review-board-19700615-19700076776.pdf",
+      "source_type": "primary",
+      "version_or_date": "1970年6月；报告内含1970年4月设立文件",
+      "locator": "设立函第2—3项，印刷1-1—1-2页，PDF14—15；历史摘要2-1页/PDF32。",
+      "claim_support": [
+        "1970年4月17日设立文件规定调查及提交最终报告的职责。它支持任务性设立；已核页没有给出委员会实际解散日。"
+      ],
+      "limits": [
+        "仅核对指定原文与组织图，不声称全报告已经通读；未重算事故数据。",
+        "事实描述不取得G-instance正式支持，也不证明本书教学效果。"
+      ],
+      "access_status": "partially_read"
+    },
+    {
+      "id": "T-cross",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§5.10—5.11，第1235—1293行",
+      "claim_support": [
+        "三种变换分别记录，关系和维度不可混同。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-missing",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§2.9，第381—394行",
+      "claim_support": [
+        "未知、不适用、不可观察及保护性不公开分开。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-object",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§10.1，第2035—2050行",
+      "claim_support": [
+        "候选对象与分组增益不等同。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-causal",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§2.4，第293—298行",
+      "claim_support": [
+        "共同输入、通道效应与因果识别责任。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-members",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§10.5，第2117—2130行",
+      "claim_support": [
+        "成员、能力、实际传递、效果与代表权分开。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-SP",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§5.2—5.3，第1039—1084行",
+      "claim_support": [
+        "九轴比较与J轴不可由其他轴代替。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-joint",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§12.10.2，第2607—2612行及附录C.12，第4507—4522行",
+      "claim_support": [
+        "单项可行不等于联合可行。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-authority",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§14.6，第2940—2953行",
+      "claim_support": [
+        "具体事项的原子授权及合法复合程序。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-exit",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§8.5，第1811—1838行",
+      "claim_support": [
+        "退场中的功能、记忆与责任分开。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-change",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§10.9，第2183—2188行",
+      "claim_support": [
+        "边界扰动、K改变及对象转换。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    }
+  ]
+}

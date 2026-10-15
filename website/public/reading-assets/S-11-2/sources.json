@@ -1,0 +1,64 @@
+{
+  "sources": [
+    {
+      "id": "theory",
+      "title": "Xikari-条件结构与转化论，用户提供原文",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "现行全文第2231—2244行；每节精确范围见sourceRefs",
+      "claim_support": [
+        "11.2：术语、合同、论证责任和原文边界；不据此认证经验事实"
+      ],
+      "limits": [
+        "作者理论文本，是被解释对象，不替代外部经验资料；技能5.3.1不等于理论版本。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "time",
+      "title": "现行原文事件来源、三时间与去重",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "§11.3.2第2269—2276行",
+      "claim_support": [
+        "11.2：发生/观察/进入模型时点分开、迟到更正、同源事件去重的回指"
+      ],
+      "limits": [
+        "不能仅因相似描述便合并事件。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "authorization",
+      "title": "现行原文事实与授权行动分栏",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "第十一部分导语第2213—2216行；§11.3第2245—2260行",
+      "claim_support": [
+        "11.2：实际未授权行动仍是事件；u专指授权且发生，不用模拟补权限"
+      ],
+      "limits": [
+        "不进行现实操作或法律裁决。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "maryland",
+      "title": "Maryland Medicaid FY2024第四季度续保复核报告",
+      "url": "https://health.maryland.gov/mmcp/Documents/JCRs/2023/eligibilityredetprocessJCRfinal4-24.pdf",
+      "source_type": "primary",
+      "version_or_date": "2024年4月报告；封信2024-05-14",
+      "locator": "印刷p.9（PDF第13页），第3项与第5项后updated ex parte systems process段",
+      "claim_support": [
+        "11.2：2023-09-13提交计划、2023-11开始使用更新流程、2024-02计划批准"
+      ],
+      "limits": [
+        "依据行政事后报告；不补具体日、不推全部个体成效、不推批准前行为法律状态。"
+      ],
+      "access_status": "partially_read"
+    }
+  ]
+}

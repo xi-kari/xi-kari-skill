@@ -1,0 +1,34 @@
+{
+  "sources": [
+    {
+      "id": "theory",
+      "title": "Xikari-条件结构与转化论，用户提供原文",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "现行全文第3490—3495行；每节精确范围见sourceRefs",
+      "claim_support": [
+        "16.17：术语、合同、论证责任和原文边界；不据此认证经验事实"
+      ],
+      "limits": [
+        "作者理论文本，是被解释对象，不替代外部经验资料；技能5.3.1不等于理论版本。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "tdf2010",
+      "title": "OpenOffice.org Community announces The Document Foundation",
+      "url": "https://listarchives.documentfoundation.org/www/announce/msg00000.html",
+      "source_type": "primary",
+      "version_or_date": "2010-09-28",
+      "locator": "2010-09-28公告；正文首段、Oracle开头段、The Foundation will coordinate开头段",
+      "claim_support": [
+        "当事方公开宣布结构变化、LibreOffice名称及基金会协调开发"
+      ],
+      "limits": [
+        "只作公告与身份记录，不认证全体同意、独立性或后来产品效果。"
+      ],
+      "access_status": "partially_read"
+    }
+  ]
+}

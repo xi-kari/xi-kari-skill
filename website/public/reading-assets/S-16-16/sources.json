@@ -1,0 +1,34 @@
+{
+  "sources": [
+    {
+      "id": "theory",
+      "title": "Xikari-条件结构与转化论，用户提供原文",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "现行全文第3480—3489行；每节精确范围见sourceRefs",
+      "claim_support": [
+        "16.16：术语、合同、论证责任和原文边界；不据此认证经验事实"
+      ],
+      "limits": [
+        "作者理论文本，是被解释对象，不替代外部经验资料；技能5.3.1不等于理论版本。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "w3c-coga",
+      "title": "Making Content Usable for People with Cognitive and Learning Disabilities",
+      "url": "https://www.w3.org/TR/coga-usable/",
+      "source_type": "primary",
+      "version_or_date": "页面标2021-04-29；2026-10-14核读",
+      "locator": "标题、Abstract末段、Status；§4.8.1.2及4.8.1.4",
+      "claim_support": [
+        "Working Group Note补充指导身份；人工帮助需可找、少步骤并避免复杂菜单"
+      ],
+      "limits": [
+        "核指定小节，非全文研究或用户效果验证；不代WCAG认证。"
+      ],
+      "access_status": "partially_read"
+    }
+  ]
+}

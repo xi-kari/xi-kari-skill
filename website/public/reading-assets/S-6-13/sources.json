@@ -1,0 +1,95 @@
+{
+  "sources": [
+    {
+      "id": "theory",
+      "title": "Xikari-条件结构与转化论，用户提供原文",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "现行全文第1447—1460行；每节精确范围见sourceRefs",
+      "claim_support": [
+        "6.13：术语、合同、论证责任和原文边界；不据此认证经验事实"
+      ],
+      "limits": [
+        "作者理论文本，是被解释对象，不替代外部经验资料；技能5.3.1不等于理论版本。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "centola-2010",
+      "title": "Damon Centola: The Spread of Behavior in an Online Social Network Experiment",
+      "url": "https://ndg.asc.upenn.edu/wp-content/uploads/2016/04/Centola-2010-Science.pdf",
+      "source_type": "primary",
+      "version_or_date": "2010-09-03，DOI 10.1126/science.1185231",
+      "locator": "Science 329(5996),1194—1197；方法pp1194—1195，结果p1196，设计限制pp1196—1197",
+      "claim_support": [
+        "6.13真实案例：随机网络条件、保持度数、论坛注册指标、每个已注册邻居各触发信号；聚类条件传播更广更快。",
+        "6.13支持边界：匿名且无直接联系，现实高成本行为的推广在原文中属于预期或待进一步研究。"
+      ],
+      "limits": [
+        "只核主文，不声称已核补充材料或原始数据；不将登记行为当健康结局，不追授正式G实例或普遍阈值。"
+      ],
+      "access_status": "partially_read"
+    },
+    {
+      "id": "gao-recovery",
+      "title": "GAO-19-296: 2017 Hurricane Season—Federal Support for Electricity Grid Restoration in the U.S. Virgin Islands and Puerto Rico",
+      "url": "https://www.gao.gov/assets/gao-19-296.pdf",
+      "source_type": "primary",
+      "version_or_date": "2019-04-18",
+      "locator": "印刷pp18—19；PDF第22—23页，物流挑战与材料可用性两小节",
+      "claim_support": [
+        "6.13真实案例：文件和访谈所记录的港口/机场断电导致材料运输受阻，以及多地修复的材料需求与供应限制。"
+      ],
+      "limits": [
+        "这些材料支持恢复约束，不单独识别所有初始故障的传导网络；本讲未重建个别设施的完整因果链。"
+      ],
+      "access_status": "partially_read"
+    },
+    {
+      "id": "theory-object",
+      "title": "Xikari3.1：D0对象合同与K身份判据",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "第425—448行，特别429、447行",
+      "claim_support": [
+        "6.13：完整对象合同与其中的同一性判据K不同，两个对象的身份与适用范围须分别检查。"
+      ],
+      "limits": [
+        "定义不替代现实对象识别。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "theory-coevolution",
+      "title": "Xikari6.9—6.10：共演化与身份转换",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "第1412—1425行",
+      "claim_support": [
+        "6.13：双向作用、共同外因、返回未起作用及吸收/修复边界。"
+      ],
+      "limits": [
+        "并行变化不是自动双向因果。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "theory-conversion",
+      "title": "Xikari4.6：G4转换登记",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "第642—650行",
+      "claim_support": [
+        "6.13：描述性变化与正式转换资格不能混同。"
+      ],
+      "limits": [
+        "本讲未提交现实G4实例。"
+      ],
+      "access_status": "read"
+    }
+  ]
+}

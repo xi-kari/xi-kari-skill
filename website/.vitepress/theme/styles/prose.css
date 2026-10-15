@@ -1,0 +1,270 @@
+/* Markdown content shared by every reading page. */
+.xk-prose {
+  font-family: var(--xk-font-body);
+  font-size: var(--xk-text);
+  line-height: var(--xk-leading);
+  color: var(--xk-ink);
+  max-width: var(--xk-measure);
+  margin: 0 auto;
+  line-break: strict;
+  overflow-wrap: break-word;
+  font-synthesis: none;
+}
+.xk-prose > div > * + * { margin-top: 0; }
+
+.xk-prose p { margin: 0 0 1.05em; text-align: justify; text-justify: inter-character; hanging-punctuation: allow-end; }
+.xk-prose p:last-child { margin-bottom: 0; }
+
+.xk-prose h1, .xk-prose h2, .xk-prose h3 {
+  position: relative;
+  font-family: var(--xk-font-fang);
+  font-weight: 400;
+  color: var(--xk-ink);
+  text-wrap: balance;
+  overflow-wrap: anywhere;
+}
+.xk-prose h1 { font-size: 2.35em; line-height: 1.32; letter-spacing: .03em; margin: 0 0 .8em; }
+.xk-prose h2 {
+  font-size: 1.65em;
+  line-height: 1.45;
+  letter-spacing: .02em;
+  margin: 2.4em 0 .75em;
+  padding-top: 1.05em;
+}
+.xk-prose h2::before {
+  /* a dimension line: end ticks and a short blue lead */
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 9px;
+  background:
+    linear-gradient(var(--xk-blue), var(--xk-blue)) 0 4px / 56px 1.5px no-repeat,
+    linear-gradient(var(--xk-rule-2), var(--xk-rule-2)) 0 4px / 100% 1px no-repeat,
+    linear-gradient(var(--xk-rule-2), var(--xk-rule-2)) 0 0 / 1px 9px no-repeat,
+    linear-gradient(var(--xk-rule-2), var(--xk-rule-2)) 100% 0 / 1px 9px no-repeat;
+}
+.xk-prose h3 { font-size: 1.3em; line-height: 1.5; margin: 2em 0 .6em; }
+.xk-prose h4, .xk-prose h5, .xk-prose h6 { font-size: 1em; line-height: 1.7; font-weight: 600; margin: 1.6em 0 .5em; }
+.xk-prose h1:first-child, .xk-prose h2:first-child { margin-top: 0; }
+
+.xk-prose .header-anchor {
+  margin-left: .35em;
+  font-family: var(--xk-font-sans);
+  font-size: .62em;
+  color: var(--xk-ink-3);
+  opacity: 0;
+  text-decoration: none;
+  vertical-align: .2em;
+  transition: opacity var(--xk-quick), color var(--xk-quick);
+}
+.xk-prose .header-anchor::before { content: "#"; }
+.xk-prose :is(h1, h2, h3, h4):hover .header-anchor, .xk-prose .header-anchor:focus-visible { opacity: 1; }
+.xk-prose .header-anchor:hover { color: var(--xk-blue); }
+
+.xk-prose a:not(.header-anchor) {
+  color: var(--xk-blue);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-decoration-color: color-mix(in srgb, var(--xk-blue) 40%, transparent);
+  text-underline-offset: .28em;
+  transition: text-decoration-color var(--xk-quick), background-color var(--xk-quick);
+}
+.xk-prose a:not(.header-anchor):hover { text-decoration-color: currentColor; text-decoration-thickness: 2px; }
+
+.xk-prose strong { font-weight: 600; }
+.xk-prose em { font-style: normal; font-family: var(--xk-font-fang); font-size: 1.04em; }
+.xk-prose mark { background: linear-gradient(transparent 52%, var(--xk-marker-soft) 52%); color: inherit; }
+
+.xk-prose ul, .xk-prose ol { margin: 0 0 1.05em; padding-left: 1.6em; }
+.xk-prose li + li { margin-top: .35em; }
+.xk-prose ul { list-style: none; }
+.xk-prose ul > li { position: relative; }
+.xk-prose ul > li::before {
+  content: "";
+  position: absolute;
+  left: -1.05em;
+  top: calc(var(--xk-leading) * .5em - 3px);
+  width: 6px;
+  height: 6px;
+  border: 1.5px solid var(--xk-blue);
+  transform: rotate(45deg);
+}
+.xk-prose ol > li::marker { color: var(--xk-blue); font-variant-numeric: tabular-nums; font-size: .92em; }
+
+.xk-prose blockquote {
+  margin: 1.4em 0;
+  padding: .2em 0 .2em 1.2em;
+  border-left: 3px solid var(--xk-blue);
+  color: var(--xk-ink-2);
+}
+.xk-prose blockquote p { text-align: left; }
+
+.xk-prose hr {
+  height: 9px;
+  margin: 2.4em auto;
+  width: 120px;
+  border: 0;
+  background:
+    linear-gradient(var(--xk-rule-2), var(--xk-rule-2)) 0 4px / 100% 1px no-repeat,
+    linear-gradient(var(--xk-rule-2), var(--xk-rule-2)) 0 0 / 1px 9px no-repeat,
+    linear-gradient(var(--xk-rule-2), var(--xk-rule-2)) 100% 0 / 1px 9px no-repeat;
+}
+
+.xk-prose :not(pre) > code {
+  font-family: var(--xk-font-code);
+  font-size: .86em;
+  padding: .12em .38em;
+  border-radius: 4px;
+  background: var(--xk-sheet-2);
+  border: 1px solid var(--xk-rule);
+  overflow-wrap: anywhere;
+}
+.xk-prose div[class*="language-"] {
+  position: relative;
+  margin: 1.4em 0;
+  border: 1px solid var(--xk-rule);
+  border-radius: 8px;
+  background: var(--xk-sheet-2);
+  overflow: hidden;
+}
+.xk-prose div[class*="language-"] > span.lang {
+  position: absolute;
+  top: 6px;
+  right: 44px;
+  font-size: 11px;
+  color: var(--xk-ink-3);
+}
+.xk-prose div[class*="language-"] > button.copy {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  z-index: 2;
+  width: 30px;
+  height: 30px;
+  border-radius: 6px;
+  border: 1px solid var(--xk-rule);
+  background: var(--xk-sheet) center / 15px no-repeat;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236a788c' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='8' y='8' width='12' height='12' rx='2'/%3E%3Cpath d='M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2'/%3E%3C/svg%3E");
+  opacity: 0;
+  transition: opacity var(--xk-quick);
+}
+.xk-prose div[class*="language-"]:hover > button.copy, .xk-prose div[class*="language-"] > button.copy:focus-visible { opacity: 1; }
+.xk-prose div[class*="language-"] > button.copy.copied {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231f4a8a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m5 12 5 5L20 7'/%3E%3C/svg%3E");
+  opacity: 1;
+}
+.xk-prose pre {
+  margin: 0;
+  padding: 16px 18px;
+  overflow-x: auto;
+  font-family: var(--xk-font-code);
+  font-size: 13.5px;
+  line-height: 1.75;
+  white-space: pre;
+  tab-size: 2;
+}
+.xk-prose pre code { font: inherit; background: none; border: 0; padding: 0; }
+.xk-prose .shiki span { color: var(--shiki-light); }
+.dark .xk-prose .shiki span { color: var(--shiki-dark); }
+
+/* tables: booktabs, with their own horizontal scroll */
+.xk-table {
+  position: relative;
+  margin: 1.6em 0;
+  overflow-x: auto;
+  border-top: 1.5px solid var(--xk-ink);
+  border-bottom: 1.5px solid var(--xk-ink);
+  scrollbar-width: thin;
+  scrollbar-color: var(--xk-rule-2) transparent;
+  background:
+    linear-gradient(to right, var(--xk-sheet) 30%, transparent) left center / 40px 100% no-repeat local,
+    linear-gradient(to left, var(--xk-sheet) 30%, transparent) right center / 40px 100% no-repeat local,
+    radial-gradient(farthest-side at 0 50%, rgba(19, 35, 63, .16), transparent) left center / 12px 100% no-repeat scroll,
+    radial-gradient(farthest-side at 100% 50%, rgba(19, 35, 63, .16), transparent) right center / 12px 100% no-repeat scroll;
+}
+.xk-table table { width: 100%; font-size: .88em; line-height: 1.75; }
+.xk-table th, .xk-table td { padding: .7em .9em; text-align: left; vertical-align: top; min-width: 7em; }
+.xk-table th { font-weight: 600; color: var(--xk-ink); border-bottom: 1px solid var(--xk-ink); white-space: nowrap; }
+.xk-table td { border-top: 1px solid var(--xk-rule); }
+.xk-table tr:first-child td { border-top: 0; }
+.xk-table td:first-child, .xk-table th:first-child { padding-left: .2em; }
+.xk-table tbody tr { transition: background-color var(--xk-quick); }
+.xk-table tbody tr:hover { background: color-mix(in srgb, var(--xk-blue-wash) 55%, transparent); }
+
+/* figures used by the concept and case pages */
+.xk-prose .concept-figure, .xk-plate {
+  position: relative;
+  margin: 2em 0;
+  padding: 14px;
+  background: var(--xk-sheet);
+  border: 1px solid var(--xk-rule);
+}
+.xk-prose .concept-figure::before, .xk-plate::before {
+  /* crop marks at the four corners */
+  content: "";
+  position: absolute;
+  inset: -7px;
+  pointer-events: none;
+  background:
+    linear-gradient(var(--xk-ink-3), var(--xk-ink-3)) 0 6px / 12px 1px no-repeat,
+    linear-gradient(var(--xk-ink-3), var(--xk-ink-3)) 6px 0 / 1px 12px no-repeat,
+    linear-gradient(var(--xk-ink-3), var(--xk-ink-3)) 100% 6px / 12px 1px no-repeat,
+    linear-gradient(var(--xk-ink-3), var(--xk-ink-3)) calc(100% - 6px) 0 / 1px 12px no-repeat,
+    linear-gradient(var(--xk-ink-3), var(--xk-ink-3)) 0 calc(100% - 6px) / 12px 1px no-repeat,
+    linear-gradient(var(--xk-ink-3), var(--xk-ink-3)) 6px 100% / 1px 12px no-repeat,
+    linear-gradient(var(--xk-ink-3), var(--xk-ink-3)) 100% calc(100% - 6px) / 12px 1px no-repeat,
+    linear-gradient(var(--xk-ink-3), var(--xk-ink-3)) calc(100% - 6px) 100% / 1px 12px no-repeat;
+}
+.xk-prose .concept-figure img, .xk-plate img {
+  display: block;
+  width: 100%;
+  cursor: zoom-in;
+  border-radius: 2px;
+  transition: opacity var(--xk-quick);
+}
+.dark .xk-prose .concept-figure img, .dark .xk-plate img { filter: brightness(.94); }
+.xk-prose .concept-figure figcaption, .xk-plate figcaption {
+  margin-top: 12px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: var(--xk-ink-2);
+  text-align: left;
+}
+
+/* the illustrated index on /concepts/ */
+.xk-prose .concept-directory { margin: 1.8em 0 2.4em; border-top: 1.5px solid var(--xk-ink); }
+.xk-prose .concept-directory p { margin: 0; text-align: left; }
+.xk-prose .concept-directory a {
+  display: grid;
+  grid-template-columns: 8.5em minmax(0, 1fr);
+  gap: 4px 20px;
+  align-items: baseline;
+  padding: 16px 4px;
+  border-bottom: 1px solid var(--xk-rule);
+  color: var(--xk-ink) !important;
+  text-decoration: none !important;
+  transition: background-color var(--xk-quick);
+}
+.xk-prose .concept-directory a:hover { background: var(--xk-sheet-2); }
+.xk-prose .concept-directory a strong { font-weight: 600; font-size: .92em; color: var(--xk-blue); }
+.xk-prose .concept-directory a span { font-family: var(--xk-font-fang); font-size: 1.12em; line-height: 1.5; }
+
+.xk-prose .source-note { font-size: .85em; color: var(--xk-ink-2); }
+
+.xk-prose .custom-block {
+  margin: 1.4em 0;
+  padding: 14px 18px;
+  border-left: 3px solid var(--xk-blue);
+  background: var(--xk-sheet-2);
+}
+.xk-prose .custom-block-title { font-weight: 600; margin-bottom: .3em; }
+
+@media (max-width: 760px) {
+  .xk-prose h1 { font-size: 1.95em; }
+  .xk-prose h2 { font-size: 1.45em; }
+  .xk-prose h3 { font-size: 1.2em; }
+  .xk-prose p { text-align: left; }
+  .xk-prose .concept-directory a { grid-template-columns: 1fr; }
+}

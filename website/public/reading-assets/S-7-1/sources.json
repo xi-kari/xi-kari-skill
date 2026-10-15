@@ -1,0 +1,110 @@
+{
+  "sources": [
+    {
+      "id": "theory",
+      "title": "Xikari-条件结构与转化论，用户提供原文",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "现行全文第1461—1485行；每节精确范围见sourceRefs",
+      "claim_support": [
+        "intro-07-part：术语、合同、论证责任和原文边界；不据此认证经验事实",
+        "7.1：术语、合同、论证责任和原文边界；不据此认证经验事实"
+      ],
+      "limits": [
+        "作者理论文本，是被解释对象，不替代外部经验资料；技能5.3.1不等于理论版本。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "theory-h-contract",
+      "title": "Xikari4.2：人类经验实例合同",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "第586—600行；四态及支持资格另见第577—583行",
+      "claim_support": [
+        "7.1：H1/H4/H5唯一子型与判据、H5五家族与原子、四态、偏离及零结论门。"
+      ],
+      "limits": [
+        "形式合同不代替外部证据。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "theory-carrier",
+      "title": "Xikari4.5：当前载体与额外历史增量",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "第620—640行",
+      "claim_support": [
+        "7.1：留痕、载体后效与表示外历史增量的区别。"
+      ],
+      "limits": [
+        "本讲没有提交现实路径实例。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "theory-object",
+      "title": "Xikari3.1：完整对象合同",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "第425—448行，尤其429、447行",
+      "claim_support": [
+        "导语：D0与K身份判据的区别。"
+      ],
+      "limits": [
+        "对象登记不自动证明经验主张。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "theory-action",
+      "title": "Xikari4.14.1：C12规范桥接有效性门",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "第908—924行",
+      "claim_support": [
+        "7.1：运行时显式N、保护底板、J及O1—O4；供审议分析与现实采用分别成立。"
+      ],
+      "limits": [
+        "本讲不实施现实处置。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "theory-human-boundaries",
+      "title": "Xikari7.3接口与HV08/HV11边界",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "第1524—1531行、1570—1579行、1590—1595行",
+      "claim_support": [
+        "导语：字段不作为普通求助与服务前置资格；7.1：公开服从不直接证明认同，开放性承担不穷尽关切、哀悼或拒绝的价值。"
+      ],
+      "limits": [
+        "接口不自动认证经验或规范判断。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "cash-2007",
+      "title": "Effects of Cash and Counseling on personal care and well-being",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/17244293/",
+      "source_type": "primary",
+      "version_or_date": "2007-02，Health Services Research42(1 Pt2):467—487",
+      "locator": "原作者摘要Study setting、Data sources、Methods、Principal findings；DOI10.1111/j.1475-6773.2006.00673.x",
+      "claim_support": [
+        "7.1真实案例：三州自愿参与随机比较、九个月电话访谈、结果与佛州老年组实际津贴取得限制。"
+      ],
+      "limits": [
+        "仅摘要已核；全文入口受限，未独立复核详细方法或原始数据；不作为个人医疗/资格建议或正式H实例。"
+      ],
+      "access_status": "partially_read"
+    }
+  ]
+}

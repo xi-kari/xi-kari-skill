@@ -1,0 +1,64 @@
+{
+  "sources": [
+    {
+      "id": "theory",
+      "title": "Xikari-条件结构与转化论，用户提供原文",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "现行全文第1229—1234行；每节精确范围见sourceRefs",
+      "claim_support": [
+        "5.9：术语、合同、论证责任和原文边界；不据此认证经验事实"
+      ],
+      "limits": [
+        "作者理论文本，是被解释对象，不替代外部经验资料；技能5.3.1不等于理论版本。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "obermeyer-target",
+      "title": "Obermeyer等：费用标签与健康目标的对应检查",
+      "url": "https://www.ftc.gov/system/files/documents/public_events/1548288/privacycon-2020-ziad_obermeyer.pdf",
+      "source_type": "primary",
+      "version_or_date": "2019-10-25",
+      "locator": "Science 366 pp.449—450；Mechanism of bias及相邻健康差异正文",
+      "claim_support": [
+        "5.9：算法预测费用；相同风险分数下跨群体后续费用大致相近，但健康负担不同；需要健康指标检验健康目标。"
+      ],
+      "limits": [
+        "跨群体校准不等总体/个体预测精度；历史研究范围，不作个人医疗建议或正式框架认证。"
+      ],
+      "access_status": "partially_read"
+    },
+    {
+      "id": "theory-results",
+      "title": "Xikari原文5.4：状态与零门",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "第1085—1100行",
+      "claim_support": [
+        "5.9：所选分支是否运行、正向门及独立零规则/三门分别决定结果；纯描述可supported。"
+      ],
+      "limits": [
+        "教学状态示例不制造现实实例。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "theory-provenance",
+      "title": "Xikari原文4.17.2：材料身份与支持范围",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "第967—970行",
+      "claim_support": [
+        "5.9：同一资料再处理不成为新独立观察；形式推导与现实对象满足前提分开。"
+      ],
+      "limits": [
+        "按具体任务判断材料用途，不把独立支持一律改写成统计独立要求。"
+      ],
+      "access_status": "read"
+    }
+  ]
+}

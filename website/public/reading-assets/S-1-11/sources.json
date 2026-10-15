@@ -1,0 +1,171 @@
+{
+  "sources": [
+    {
+      "id": "T-111",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§1.11，第183—192行",
+      "claim_support": [
+        "1.11：连接类型、断点对应修订、正面局部结论及语法/形式/经验/规范/工程分工。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-F1",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§4.18—4.18.4，第981—1000行",
+      "claim_support": [
+        "1.11：F1任务恢复条件与F2/F4接续限制，存在性不保证计算或采用。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-chain",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§11.6，第2331—2348行",
+      "claim_support": [
+        "1.11：两等权子群反例、共同响应条件及有界总效应保留。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-joint",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§12.10.1—12.10.2，第2601—2612行",
+      "claim_support": [
+        "1.11：可识别与可行不同，共享容量与期限下联合实施。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-purpose",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§1.4.4，第121—128行",
+      "claim_support": [
+        "1.11：分析推荐、实际行动与授权分开。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-time",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§12.6，第2547—2554行",
+      "claim_support": [
+        "1.11：发现到起效的串联时延与终端保护。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-missing",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§2.9，第381—392行",
+      "claim_support": [
+        "1.11：逐命题限定，不让无关缺口撤销独立结论。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-learning",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§6.3，第1320—1337行",
+      "claim_support": [
+        "1.11：支持下完成、独立迁移与生活结果各自判定。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-baseline",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§12.3，第2491—2498行",
+      "claim_support": [
+        "1.11：足够的简单方法与复杂表示成本。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-identify",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§11.3.1，第2261—2268行",
+      "claim_support": [
+        "1.11：当前任务充分性和有判别力的最小观察。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "R-BCI",
+      "title": "Willett et al., A high-performance speech neuroprosthesis",
+      "url": "https://www.nature.com/articles/s41586-023-06377-x",
+      "source_type": "primary",
+      "version_or_date": "2023-08-23在线发表；Nature620:1031—1036；DOI10.1038/s41586-023-06377-x",
+      "locator": "Decoding attempted speech：After training段、评价段与Fig.2；Discussion：proof of concept及additional participants相关段",
+      "claim_support": [
+        "1.11：一名参与者在设备与解码器辅助下进行实时文本解码评价，评价句子未重复训练句子。",
+        "1.11：作者明确当时尚非完整临床可用系统，需要更多参与者验证。"
+      ],
+      "limits": [
+        "只核相关正文与图注，未复算数据或实施研究。",
+        "历史研究不证明当前临床状态、无辅助功能恢复或该框架有效，也不构成个人医疗建议。"
+      ],
+      "access_status": "partially_read"
+    }
+  ]
+}

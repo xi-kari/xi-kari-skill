@@ -1,0 +1,34 @@
+{
+  "sources": [
+    {
+      "id": "theory",
+      "title": "Xikari-条件结构与转化论，用户提供原文",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "现行全文第2547—2554行；每节精确范围见sourceRefs",
+      "claim_support": [
+        "12.6：术语、合同、论证责任和原文边界；不据此认证经验事实"
+      ],
+      "limits": [
+        "作者理论文本，是被解释对象，不替代外部经验资料；技能5.3.1不等于理论版本。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "wmo2023",
+      "title": "Overview of the Early Warnings for All: Executive Action Plan 2023–2027",
+      "url": "https://wmo.int/resources/wmo-bulletin/wmo-bulletin-vol-72-1-2023/overview-of-early-warnings-all-executive-action-plan-2023-2027",
+      "source_type": "primary",
+      "version_or_date": "2023-05-05；网页标示更新2026-09-30",
+      "locator": "开篇首段与四支柱列表；Year One—2023传播及响应能力两小节",
+      "claim_support": [
+        "官方计划将监测预报、传播沟通、准备与响应能力作为不同支柱"
+      ],
+      "limits": [
+        "是计划设计，不是目标兑现或保护因果效果证据；未采用网页灾情数字和年度指标。"
+      ],
+      "access_status": "partially_read"
+    }
+  ]
+}

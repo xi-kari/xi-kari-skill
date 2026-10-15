@@ -1,0 +1,64 @@
+{
+  "sources": [
+    {
+      "id": "theory",
+      "title": "Xikari-条件结构与转化论，用户提供原文",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "现行全文第1352—1367行；每节精确范围见sourceRefs",
+      "claim_support": [
+        "6.5：术语、合同、论证责任和原文边界；不据此认证经验事实"
+      ],
+      "limits": [
+        "作者理论文本，是被解释对象，不替代外部经验资料；技能5.3.1不等于理论版本。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "nasa-cmg",
+      "title": "NASA STS-114：CMG替换与工作状态",
+      "url": "https://www.nasa.gov/mission/sts-114/",
+      "source_type": "primary",
+      "version_or_date": "任务2005-07-26—08-09；网页2025-05-01更新",
+      "locator": "Mission Highlights，EVA No.2（2005-08-01）及EVA No.1后CMG说明",
+      "claim_support": [
+        "6.5：失效CMG-1被移除，新CMG由载荷舱移出安装；当时记录四台可工作。"
+      ],
+      "limits": [
+        "一次任务记录不证明长期可靠性、独立冗余或完整G2反事实。"
+      ],
+      "access_status": "partially_read"
+    },
+    {
+      "id": "theory-d0d1",
+      "title": "Xikari3.1—3.2：对象合同与状态",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "第425—461行",
+      "claim_support": [
+        "6.5：K为同一性判据，功能F与对象持续身份分开，解体/修复不自动有规范方向。"
+      ],
+      "limits": [
+        "定义与事实支持及规范判断各自承担责任。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "theory-carried",
+      "title": "Xikari4.5：当前载体与历史增量",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "第620—640行",
+      "claim_support": [
+        "6.5：当前磨损/能力可承接历史，只有额外条件增量主张另需G3。"
+      ],
+      "limits": [
+        "不由历史叙述代替载体因果识别。"
+      ],
+      "access_status": "read"
+    }
+  ]
+}

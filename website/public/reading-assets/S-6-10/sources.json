@@ -1,0 +1,94 @@
+{
+  "sources": [
+    {
+      "id": "theory",
+      "title": "Xikari-条件结构与转化论，用户提供原文",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "现行全文第1420—1425行；每节精确范围见sourceRefs",
+      "claim_support": [
+        "6.10：术语、合同、论证责任和原文边界；不据此认证经验事实"
+      ],
+      "limits": [
+        "作者理论文本，是被解释对象，不替代外部经验资料；技能5.3.1不等于理论版本。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "gao-alternative",
+      "title": "GAO-19-296：两岛替代供电配置",
+      "url": "https://www.gao.gov/assets/gao-19-296.pdf",
+      "source_type": "primary",
+      "version_or_date": "2019-04-18",
+      "locator": "印刷p.7，Figure 1后临时发电机段",
+      "claim_support": [
+        "6.10：2018-12-11七台发电机支持Vieques/Culebra微电网，两岛此前通过海底输电线接主网。"
+      ],
+      "limits": [
+        "替代配置事实不自动给原K保持、全面连续供电或治理授权。"
+      ],
+      "access_status": "partially_read"
+    },
+    {
+      "id": "theory-d1",
+      "title": "Xikari3.2：解体、修复定义",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "第450—461行",
+      "claim_support": [
+        "6.10：原K失效与目标K*/F*，状态词不自带价值或授权。"
+      ],
+      "limits": [
+        "数学目标达到不替现实对象取证。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "theory-history",
+      "title": "Xikari4.5：当前历史载体",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "第620—640行",
+      "claim_support": [
+        "6.10：历史形成的当前限制与额外历史残差分开。"
+      ],
+      "limits": [
+        "只有额外增量才另需G3。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "theory-conversion",
+      "title": "Xikari4.6与5.7：正式转换责任",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "第642—650行；第1190—1220行",
+      "claim_support": [
+        "6.10：进一步正式声称对象转换时，须相应映射、保持/损失与G4条件。"
+      ],
+      "limits": [
+        "K失效不自动证明另一对象及正式转换。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "theory-action",
+      "title": "XikariC12与14.6：规范、授权和程序",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "第908—924行；第2940—2953行",
+      "claim_support": [
+        "6.10：可达性、供审议比较与现实采用分开；N、J、O1—O4承担不同责任。"
+      ],
+      "limits": [
+        "讲解不实施任何现实改造。"
+      ],
+      "access_status": "read"
+    }
+  ]
+}

@@ -1,0 +1,79 @@
+{
+  "sources": [
+    {
+      "id": "theory",
+      "title": "Xikari-条件结构与转化论，用户提供原文",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "现行全文第1861—1868行；每节精确范围见sourceRefs",
+      "claim_support": [
+        "8.8：术语、合同、论证责任和原文边界；不据此认证经验事实"
+      ],
+      "limits": [
+        "作者理论文本，是被解释对象，不替代外部经验资料；技能5.3.1不等于理论版本。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "actor",
+      "title": "现行原文行动者记录与三时间带",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "第九部分导语及§9.1—9.2.3，第1869—1920行",
+      "claim_support": [
+        "8.8：A*字段、慢中快更新、情境差异与隐私未知"
+      ],
+      "limits": [
+        "三时间带不是三类人格，个体记录不证明集体原型。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "multi",
+      "title": "现行原文多圈层联合合同及六类关系",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "§10.1—10.4，第2034—2116行，尤其10.2 MC*及10.3六类关系",
+      "claim_support": [
+        "8.8：各圈层K与成员映射分别保留；六类非互斥关系；无通道不虚构直接影响"
+      ],
+      "limits": [
+        "圈层范围不限意向性集体，S原型另需其自身适用域。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "prototype",
+      "title": "现行原文mixed/parallel与原型收益边界",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "§8.2第1637—1665行；§8.7第1849—1860行；§3.1第425—448行",
+      "claim_support": [
+        "8.8：正式mixed/parallel条件、K身份、允许跳过无增益原型"
+      ],
+      "limits": [
+        "跨剖面差异不直接合并成正式mixed，也不平均编号。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "fleeson",
+      "title": "Fleeson：Traits as Density Distributions of States",
+      "url": "https://simine.com/407/readings/Fleeson_2001.pdf",
+      "source_type": "primary",
+      "version_or_date": "2001，doi:10.1037//0022-3514.80.6.1011",
+      "locator": "JPSP 80(6):1011—1027；本讲事实定位pp.1014—1015 Study 1 Method及Materials",
+      "claim_support": [
+        "8.8：研究1为46学生、13天每日5次前一小时行为感受记录的观测安排"
+      ],
+      "limits": [
+        "安排次数不等每人实际完成次数；不外推现实个人、群体阶段或集体机制。"
+      ],
+      "access_status": "partially_read"
+    }
+  ]
+}

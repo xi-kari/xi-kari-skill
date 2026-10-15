@@ -1,0 +1,49 @@
+{
+  "sources": [
+    {
+      "id": "theory",
+      "title": "Xikari-条件结构与转化论，用户提供原文",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "现行全文第3472—3479行；每节精确范围见sourceRefs",
+      "claim_support": [
+        "16.15：术语、合同、论证责任和原文边界；不据此认证经验事实"
+      ],
+      "limits": [
+        "作者理论文本，是被解释对象，不替代外部经验资料；技能5.3.1不等于理论版本。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "shannon-reprint",
+      "title": "A Mathematical Theory of Communication—reprinted with corrections",
+      "url": "https://home.csulb.edu/~cwallis/382/readings/482/shannon.mathematical.theory.communication.1948.pdf",
+      "source_type": "primary",
+      "version_or_date": "原刊1948；保存件标经修正重印",
+      "locator": "PDF第1页顶部版本说明；Introduction第2段",
+      "claim_support": [
+        "经修正重印身份；再现消息的工程问题及其语义限域"
+      ],
+      "limits": [
+        "仅核所列部分，不全文研究或重证定理；不将限域推广为语义全局无关。"
+      ],
+      "access_status": "partially_read"
+    },
+    {
+      "id": "bell-shannon",
+      "title": "Bell Labs: A Mathematical Theory of Communication",
+      "url": "https://www.nokia.com/bell-labs/publications-and-media/publications/a-mathematical-theory-of-communication/",
+      "source_type": "primary",
+      "version_or_date": "页面标1948-07-01",
+      "locator": "标题日期及引言第3段",
+      "claim_support": [
+        "官方页面标1948-07-01并保存对应工程问题原段"
+      ],
+      "limits": [
+        "仅校核历史日期与相应原段，不以该页面替全部论文。"
+      ],
+      "access_status": "partially_read"
+    }
+  ]
+}

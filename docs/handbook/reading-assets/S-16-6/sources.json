@@ -1,0 +1,49 @@
+{
+  "sources": [
+    {
+      "id": "theory",
+      "title": "Xikari-条件结构与转化论，用户提供原文",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "现行全文第3374—3389行；每节精确范围见sourceRefs",
+      "claim_support": [
+        "16.6：术语、合同、论证责任和原文边界；不据此认证经验事实"
+      ],
+      "limits": [
+        "作者理论文本，是被解释对象，不替代外部经验资料；技能5.3.1不等于理论版本。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "asrs-confidentiality",
+      "title": "Confidentiality and Incentives to Report",
+      "url": "https://asrs.arc.nasa.gov/overview/confidentiality.html",
+      "source_type": "primary",
+      "version_or_date": "网页未标日期；2026-10-14访问",
+      "locator": "正文第1—2段",
+      "claim_support": [
+        "自愿报告；入库前去姓名、概括或删除日期时间等可能识别信息"
+      ],
+      "limits": [
+        "只核机制说明，不把官网自述零泄露当独立安全审计，不提供豁免建议。"
+      ],
+      "access_status": "partially_read"
+    },
+    {
+      "id": "asrs-caveats",
+      "title": "ASRS Caveats",
+      "url": "https://asrs.arc.nasa.gov/overview/caveats.html",
+      "source_type": "primary",
+      "version_or_date": "网页未标日期；2026-10-14访问",
+      "locator": "正文首条",
+      "claim_support": [
+        "官方保密说明存在事故或犯罪活动报告例外"
+      ],
+      "limits": [
+        "仅用于防止绝对保密误读，不判断任何真实报告法律资格。"
+      ],
+      "access_status": "partially_read"
+    }
+  ]
+}

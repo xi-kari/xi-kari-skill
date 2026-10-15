@@ -1,0 +1,49 @@
+{
+  "sources": [
+    {
+      "id": "theory",
+      "title": "Xikari-条件结构与转化论，用户提供原文",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "现行全文第4805—4820行；每节精确范围见sourceRefs",
+      "claim_support": [
+        "D.18：术语、合同、论证责任和原文边界；不据此认证经验事实"
+      ],
+      "limits": [
+        "作者理论文本，是被解释对象，不替代外部经验资料；技能5.3.1不等于理论版本。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "fed-dsr-archive",
+      "title": "Household Debt Service and Financial Obligations Ratios — archived publication",
+      "url": "https://www.federalreserve.gov/releases/housedebt/default.htm",
+      "source_type": "primary",
+      "version_or_date": "页面Last update2024-09-06",
+      "locator": "Changes to Debt Service Ratio publication行6—7；页尾2024-09-06",
+      "claim_support": [
+        "2024:Q2发布起换方法、旧系列归档不再更新"
+      ],
+      "limits": [
+        "不引历史表数值或现行负担趋势，不把发布变化当实际现金变化。"
+      ],
+      "access_status": "partially_read"
+    },
+    {
+      "id": "ringo2024",
+      "title": "Introducing a Credit Bureau-Based Measure of U.S. Household Debt Service",
+      "url": "https://www.federalreserve.gov/econres/notes/feds-notes/introducing-a-credit-bureau-based-measure-of-u-s-household-debt-service-20240904.html",
+      "source_type": "primary",
+      "version_or_date": "2024-09-04",
+      "locator": "Estimating首段行16；Comparison前四段行24—27；文末观点说明行60",
+      "claim_support": [
+        "信用报告scheduled付款及新旧概念差异，按揭托管项可能纳入"
+      ],
+      "limits": [
+        "未核微观数据、未重估图表；scheduled不等实际支付，工作人员分析非投资建议。"
+      ],
+      "access_status": "partially_read"
+    }
+  ]
+}

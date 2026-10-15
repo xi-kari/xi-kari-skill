@@ -1,0 +1,64 @@
+{
+  "sources": [
+    {
+      "id": "theory",
+      "title": "Xikari-条件结构与转化论，用户提供原文",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "现行全文第1412—1419行；每节精确范围见sourceRefs",
+      "claim_support": [
+        "6.9：术语、合同、论证责任和原文边界；不据此认证经验事实"
+      ],
+      "limits": [
+        "作者理论文本，是被解释对象，不替代外部经验资料；技能5.3.1不等于理论版本。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "buckling2002",
+      "title": "Buckling与Rainey：细菌和噬菌体的对抗共演化",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC1690980/",
+      "source_type": "primary",
+      "version_or_date": "2002-05-07；DOI 10.1098/rspb.2001.1945",
+      "locator": "Abstract第二、三段（公开全文页中摘要部分）",
+      "claim_support": [
+        "6.9：原作者报告宿主抗性与寄生者感染能力相互适应，重复群落出现路径分化。"
+      ],
+      "limits": [
+        "只核公开摘要；全文PDF未取得，具体实验方法、数据和通道识别未在此复核。"
+      ],
+      "access_status": "partially_read"
+    },
+    {
+      "id": "theory-d0",
+      "title": "Xikari3.1：完整对象合同",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "第425—448行",
+      "claim_support": [
+        "6.9：双方分别登记D0，K仅是同一性判据，SP/T不是可随意合并的时空标签。"
+      ],
+      "limits": [
+        "两个候选合同不证明双方或双向通道已有效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "theory-history",
+      "title": "Xikari4.5：跨轮载体与额外历史",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "第620—640行",
+      "claim_support": [
+        "6.9：双方载体分别取证，额外历史增量才追加各自G3。"
+      ],
+      "limits": [
+        "不能由一个方向支持替代另一个方向。"
+      ],
+      "access_status": "read"
+    }
+  ]
+}

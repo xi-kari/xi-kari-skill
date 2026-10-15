@@ -1,0 +1,34 @@
+{
+  "sources": [
+    {
+      "id": "theory",
+      "title": "Xikari-条件结构与转化论，用户提供原文",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "现行全文第4609—4624行；每节精确范围见sourceRefs",
+      "claim_support": [
+        "D.06：术语、合同、论证责任和原文边界；不据此认证经验事实"
+      ],
+      "limits": [
+        "作者理论文本，是被解释对象，不替代外部经验资料；技能5.3.1不等于理论版本。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "darley-batson1973",
+      "title": "From Jerusalem to Jericho: A Study of Situational and Dispositional Variables in Helping Behavior",
+      "url": "https://sparq.stanford.edu/sites/g/files/sbiybj19021/files/media/file/darley_batson_1973_-_from_jerusalem_to_jericho.pdf",
+      "source_type": "primary",
+      "version_or_date": "JPSP27(1),100—108，1973；研究实施1970-12-14—16",
+      "locator": "pp102—105：Subjects；Scheduling及脚注3；Variable2:Hurry；Overall Helping Behavior",
+      "claim_support": [
+        "原研究的样本筛选、实验日期、催促指令和限定帮助结果"
+      ],
+      "limits": [
+        "未复核原始数据、不声称全人格无效或单独时间机制成立；原稿披露随机分配差错，适用人群与情境有限。"
+      ],
+      "access_status": "partially_read"
+    }
+  ]
+}

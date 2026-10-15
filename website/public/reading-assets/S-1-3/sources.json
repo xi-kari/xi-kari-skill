@@ -1,0 +1,110 @@
+{
+  "sources": [
+    {
+      "id": "T-13",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§1.3，第99—106行",
+      "claim_support": [
+        "1.3：四类不可替代、三类材料的职责、保留领域条件、方法独立与框架资格边界。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-connection",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§1.11，第183—192行",
+      "claim_support": [
+        "1.3：不同连接缺口不能以同类材料数量互补；抽象必须保留必要区别。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-human",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "第七部分导语及§7.1，第1461—1489行",
+      "claim_support": [
+        "1.3：人类意义与经验进入分析，相关材料不自动代证其他机制。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-method",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§2.1—2.1.2，第213—238行；§2.2，第239—264行",
+      "claim_support": [
+        "1.3：对象、命题角色与不同论证的责任；独立知识地位。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-bone",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§1.12，第193—204行",
+      "claim_support": [
+        "1.3：经验问题、合同、形式命题与分析整合的不同依据。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-evaluation",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§4.17.4，第975—980行；§16.24，第3546—3553行",
+      "claim_support": [
+        "1.3：框架本身净增益须另与充分方法比较。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "R-Montgomery",
+      "title": "UK Supreme Court, Montgomery v Lanarkshire Health Board [2015] UKSC 11",
+      "url": "https://supremecourt.uk/uploads/uksc_2013_0136_judgment_fd5635b4cd.pdf",
+      "source_type": "primary",
+      "version_or_date": "2015-03-11判决；按该历史文本讨论，不作现行全法域意见",
+      "locator": "封面；第1—4段；第87—91段，印刷页28—29/PDF第29—30页",
+      "claim_support": [
+        "1.3：该判决区分风险告知、具体患者所重视的风险及可理解对话，并限定例外；专业知识与患者选择不可直接互代。"
+      ],
+      "limits": [
+        "仅阅读本题相关段落，不提供全文法律分析；不将历史风险数字用于现行临床判断。",
+        "判决论证是法律史材料，不构成本框架实际效益的实验证据。"
+      ],
+      "access_status": "partially_read"
+    }
+  ]
+}

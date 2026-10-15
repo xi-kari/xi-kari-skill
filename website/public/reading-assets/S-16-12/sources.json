@@ -1,0 +1,49 @@
+{
+  "sources": [
+    {
+      "id": "theory",
+      "title": "Xikari-条件结构与转化论，用户提供原文",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "现行全文第3440—3447行；每节精确范围见sourceRefs",
+      "claim_support": [
+        "16.12：术语、合同、论证责任和原文边界；不据此认证经验事实"
+      ],
+      "limits": [
+        "作者理论文本，是被解释对象，不替代外部经验资料；技能5.3.1不等于理论版本。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "crpd-gc1",
+      "title": "CRPD/C/GC/1 General comment No.1 (2014)",
+      "url": "https://documents.un.org/doc/undoc/gen/g14/031/20/pdf/g1403120.pdf",
+      "source_type": "primary",
+      "version_or_date": "2014-05-19发行",
+      "locator": "¶17、¶21、¶29(c)(d)(g)(h)",
+      "claim_support": [
+        "支持、意愿及沟通与更换支持保障的规范解释"
+      ],
+      "limits": [
+        "核指定段，不宣称全文研究；不是各国现行制度汇编或实证效果证明。"
+      ],
+      "access_status": "partially_read"
+    },
+    {
+      "id": "crpd-corr1",
+      "title": "CRPD/C/GC/1/Corr.1",
+      "url": "https://docstore.ohchr.org/SelfServices/FilesHandler.ashx?enc=XBJrja1NI23jjzoD%2BXg0DS7wIHEnIp93rTAvLUIgIGhNhE2likgU4AkIThrKpkkNWeW7IQ3hrAlle3kxQv83LLDoo%2BSXjSfNEtrtgzN4f%2FU%3D",
+      "source_type": "primary",
+      "version_or_date": "2018-01-26",
+      "locator": "2018-01-26全文：替换¶27",
+      "claim_support": [
+        "代决制度特征的列表以or连接而非2014原段and"
+      ],
+      "limits": [
+        "仅为第27段正式勘误，不因此推定任何现实代理违法或得到授权。"
+      ],
+      "access_status": "partially_read"
+    }
+  ]
+}

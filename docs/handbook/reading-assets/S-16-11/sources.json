@@ -1,0 +1,34 @@
+{
+  "sources": [
+    {
+      "id": "theory",
+      "title": "Xikari-条件结构与转化论，用户提供原文",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "现行全文第3434—3439行；每节精确范围见sourceRefs",
+      "claim_support": [
+        "16.11：术语、合同、论证责任和原文边界；不据此认证经验事实"
+      ],
+      "limits": [
+        "作者理论文本，是被解释对象，不替代外部经验资料；技能5.3.1不等于理论版本。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "nnedv-documentation",
+      "title": "Documentation Tips for Survivors of Technology Abuse & Stalking",
+      "url": "https://www.techsafety.org/documentationtips",
+      "source_type": "primary",
+      "version_or_date": "网页版权2025；2026-10-14访问",
+      "locator": "What might I want to document?首段；Documentation Tips引入及Think about your safety first条",
+      "claim_support": [
+        "清单不证明读者处境；不完美既有记录仍可能有用；记录可能带来升级风险应安全优先"
+      ],
+      "limits": [
+        "真实指南非效果研究；未对具体个人处境作判断，不抄用技术操作建议。"
+      ],
+      "access_status": "partially_read"
+    }
+  ]
+}

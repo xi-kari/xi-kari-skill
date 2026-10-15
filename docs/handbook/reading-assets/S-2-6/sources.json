@@ -1,0 +1,52 @@
+{
+  "sources": [
+    {
+      "id": "theory",
+      "title": "Xikari-条件结构与转化论，用户提供原文",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "现行全文第329—340行；每节精确范围见sourceRefs",
+      "claim_support": [
+        "2.6：术语、合同、论证责任和原文边界；不据此认证经验事实",
+        "2.6.1：术语、合同、论证责任和原文边界；不据此认证经验事实"
+      ],
+      "limits": [
+        "作者理论文本，是被解释对象，不替代外部经验资料；技能5.3.1不等于理论版本。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "skov-analogy",
+      "title": "Skov et al., Genetic insights into the social organization of Neanderthals",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9581778/",
+      "source_type": "primary",
+      "version_or_date": "2022-10-19，DOI10.1038/s41586-022-05283-y",
+      "locator": "Nature610:519—525；Inferring social organization中讨论Y／mtDNA共祖时间比值与多种情景的段落",
+      "claim_support": [
+        "2.6：作者明确提醒相似遗传比值不必然代表相同社会组织，形成过程有多种可能。"
+      ],
+      "limits": [
+        "已读本讲所用正文；未复算基因数据和补充模型。",
+        "仅用于说明类比的支持上限。"
+      ],
+      "access_status": "partially_read"
+    },
+    {
+      "id": "skov-kinship",
+      "title": "Skov et al. 2022，亲缘分析（同一研究）",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9581778/",
+      "source_type": "primary",
+      "version_or_date": "2022-10-19，同一论文不同支持位置",
+      "locator": "Genetic relationships，Chagyrskaya D/H段；Table1",
+      "claim_support": [
+        "2.6.1：原作以一级亲缘和不同线粒体基因组判断D与H为父女。"
+      ],
+      "limits": [
+        "与skov-analogy是同一论文，不计两项独立研究。",
+        "亲缘不自动推出统治身份；这项用途限制为本讲分析，不冒作原作者的制度结论。"
+      ],
+      "access_status": "partially_read"
+    }
+  ]
+}

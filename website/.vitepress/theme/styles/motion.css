@@ -1,0 +1,60 @@
+/* Motion answers the reader: turning a sheet, laying down or lifting a tracing,
+   flipping the set into a blueprint. The home print develops once on arrival. */
+
+@keyframes xk-fade-in { from { opacity: 0; } }
+@keyframes xk-draw { from { stroke-dashoffset: var(--len); } }
+@keyframes xk-pop { from { transform: scale(0); opacity: 0; } }
+@keyframes xk-dash { to { stroke-dashoffset: 0; } }
+@keyframes xk-ring { 0% { opacity: .9; transform: scale(1); } 100% { opacity: 0; transform: scale(2.3); } }
+@keyframes xk-exposure { to { --xk-exp: 175%; } }
+@keyframes xk-flow { to { stroke-dashoffset: -18; } }
+@keyframes xk-sheet-enter { from { opacity: 0; transform: translateX(calc(var(--xk-dir, 1) * 28px)); } }
+@keyframes xk-slide-out { to { transform: translateX(calc(var(--xk-dir, 1) * -28px)); } }
+@keyframes xk-slide-in { from { transform: translateX(calc(var(--xk-dir, 1) * 40px)); } }
+@keyframes xk-fade-out { to { opacity: 0; } }
+@keyframes xk-no-out { to { opacity: 0; transform: translateY(-70%); } }
+@keyframes xk-no-in { from { opacity: 0; transform: translateY(70%); } }
+@keyframes xk-drop-in { from { opacity: 0; transform: translateY(-6px) scale(.98); } }
+
+/* ───────────── sheet turns between pages (View Transitions API) ───────────── */
+::view-transition-old(root), ::view-transition-new(root) { animation-duration: var(--xk-turn); }
+/* the old sheet slides away as it fades (holding its ink a moment), the new one slides in as it
+   appears (quickly) — together they never leave the desk showing through */
+html.xk-turning::view-transition-old(root) {
+  animation: 250ms cubic-bezier(.55, 0, 1, .45) both xk-fade-out, 320ms var(--xk-ease) both xk-slide-out;
+}
+html.xk-turning::view-transition-new(root) {
+  animation: 250ms cubic-bezier(0, .55, .45, 1) both xk-fade-in, 440ms var(--xk-ease) both xk-slide-in;
+}
+
+/* furniture that stays put while the sheet turns */
+::view-transition-old(xk-topbar), ::view-transition-old(xk-nav), ::view-transition-old(xk-aside) { display: none; }
+::view-transition-new(xk-topbar), ::view-transition-new(xk-nav), ::view-transition-new(xk-aside) { animation: none; }
+::view-transition-group(xk-nav-marker) { animation-duration: var(--xk-turn); animation-timing-function: var(--xk-ease); }
+::view-transition-old(xk-sheet-no) { animation: xk-no-out 260ms var(--xk-ease-in) both; }
+::view-transition-new(xk-sheet-no) { animation: xk-no-in var(--xk-turn) var(--xk-ease) 60ms both; }
+::view-transition-group(xk-sheet-no) { overflow: clip; animation: none; }
+::view-transition-image-pair(xk-sheet-no) { overflow: clip; }
+
+/* theme flip: the blueprint is exposed from the switch outward */
+html.xk-theme-flip .xk-topbar, html.xk-theme-flip .xk-nav, html.xk-theme-flip .xk-aside,
+html.xk-theme-flip .xk-nav__marker, html.xk-theme-flip .xk-tb__no .xk-tb__value { view-transition-name: none; }
+html.xk-theme-flip::view-transition-old(root), html.xk-theme-flip::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
+
+/* zooming a figure */
+::view-transition-group(xk-zoom) { animation-duration: 380ms; animation-timing-function: var(--xk-ease); }
+
+/* without View Transitions the new sheet slides in on its own */
+.xk-sheet.is-entering .xk-sheet__inner { animation: xk-sheet-enter var(--xk-turn) var(--xk-ease) both; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-delay: 0s !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+    transition-delay: 0s !important;
+    scroll-behavior: auto !important;
+  }
+  ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) { animation: none !important; }
+}

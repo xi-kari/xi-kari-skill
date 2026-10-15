@@ -1,0 +1,34 @@
+{
+  "sources": [
+    {
+      "id": "theory",
+      "title": "Xikari-条件结构与转化论，用户提供原文",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "现行全文第2499—2517行；每节精确范围见sourceRefs",
+      "claim_support": [
+        "12.4：术语、合同、论证责任和原文边界；不据此认证经验事实"
+      ],
+      "limits": [
+        "作者理论文本，是被解释对象，不替代外部经验资料；技能5.3.1不等于理论版本。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "perdomo2020",
+      "title": "Performative Prediction",
+      "url": "https://proceedings.mlr.press/v119/perdomo20a/perdomo20a.pdf",
+      "source_type": "primary",
+      "version_or_date": "ICML2020，PMLR119:7599—7609",
+      "locator": "PDF第2页§1.1末段；第8页§5.2 Simulations及Figure2",
+      "claim_support": [
+        "作者说明基础真实数据、分布映射建模的半合成设置，区分实际研究设计与真实部署效果"
+      ],
+      "limits": [
+        "只读取相关方法段及理论定义，未完整复现实验或证明；不能当现实信用风险估计或授权依据。"
+      ],
+      "access_status": "partially_read"
+    }
+  ]
+}

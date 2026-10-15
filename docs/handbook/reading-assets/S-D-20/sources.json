@@ -1,0 +1,34 @@
+{
+  "sources": [
+    {
+      "id": "T-main",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§D.20，第4837—4852行",
+      "claim_support": [
+        "全部政策链、分母、自主性、教学例及十项专题入口。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "P-ROBO",
+      "title": "Royal Commission into the Robodebt Scheme: Report建议清单",
+      "url": "https://robodebt.royalcommission.gov.au/publications/report",
+      "source_type": "primary",
+      "version_or_date": "2023-07-07；页面载2023-07-11更正",
+      "locator": "2023-07-07报告页面，Chapter13，Recommendation13.1 Consultation process与13.2 Feedback processes；更正版说明2023-07-11",
+      "claim_support": [
+        "委员会要求新项目设计实施时真正听取一线人员，并建立管理层审查回应反馈的过程。"
+      ],
+      "limits": [
+        "已读官网建议段；当前直接重取超时，官方页面检索正文仍可核两条完整建议。未读990页全报告，不据建议推实施或救济效果。"
+      ],
+      "access_status": "partially_read"
+    }
+  ]
+}

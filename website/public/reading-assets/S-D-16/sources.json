@@ -1,0 +1,34 @@
+{
+  "sources": [
+    {
+      "id": "theory",
+      "title": "Xikari-条件结构与转化论，用户提供原文",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "现行全文第4769—4788行；每节精确范围见sourceRefs",
+      "claim_support": [
+        "D.16：术语、合同、论证责任和原文边界；不据此认证经验事实"
+      ],
+      "limits": [
+        "作者理论文本，是被解释对象，不替代外部经验资料；技能5.3.1不等于理论版本。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "dol-fs23",
+      "title": "Fact Sheet23: Overtime Pay Requirements of the FLSA",
+      "url": "https://www.dol.gov/agencies/whd/fact-sheets/23-flsa-overtime-pay",
+      "source_type": "primary",
+      "version_or_date": "Revised October2019；访问2026-10-14",
+      "locator": "修订日期；Requirements前两段行103—104；末尾声明行123—124",
+      "claim_support": [
+        "40小时为所述覆盖非豁免人群加班报酬阈值；该法自身16岁以上周时数说明；168小时周与不跨周平均"
+      ],
+      "limits": [
+        "仅一般官方说明，不是法规全文或个案意见；其他法域、行业、例外、实际合规未核。"
+      ],
+      "access_status": "partially_read"
+    }
+  ]
+}

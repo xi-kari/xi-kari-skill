@@ -1,0 +1,49 @@
+{
+  "sources": [
+    {
+      "id": "T-main",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§D.22，第4869—4884行",
+      "claim_support": [
+        "资源、标签、交叉性、阶段分母、遗漏、相对绝对差与八入口。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "P-CENSUS",
+      "title": "U.S. Census Bureau: Income in the United States: 2023，P60-282",
+      "url": "https://www.census.gov/library/publications/2024/demo/p60-282.html?os=win",
+      "source_type": "primary",
+      "version_or_date": "2024-09-10；2023美元口径",
+      "locator": "2024-09-10发布页Introduction及Highlights第1—4项，网页202—212行；For More Information303—310行",
+      "claim_support": [
+        "2024年发布版本报告2023实质住户收入中位数80610美元（2023美元），较2022增加4%；不同住户类别变化并不一致，正文口径为税前货币收入不含实物转移。"
+      ],
+      "limits": [
+        "本人读官方发布页指定段，未读整份PDF或微数据；这是该历史版本口径，不当2026最新收入或个人可支配额，不从组差推个人或原因。"
+      ],
+      "access_status": "partially_read"
+    },
+    {
+      "id": "P-CENSUS-GROUP",
+      "title": "U.S. Census Bureau: Median Income of Non-Hispanic White Households Increased While Asian, Black and Hispanic Median Household Income Did Not Change",
+      "url": "https://www.census.gov/library/stories/2024/09/household-income-race-hispanic.html",
+      "source_type": "primary",
+      "version_or_date": "2024-09-10正文；页面2026-07-20修改",
+      "locator": "2024-09-10正文，网页142—160行，尤其147行住户类别定义",
+      "claim_support": [
+        "文中住户类别按拥有或租住住房的某一人界定，不是对全体住户成员逐人收入的直接描述。"
+      ],
+      "limits": [
+        "本人读正文，不报告更新提示所涉SPM贫困率；群体统计不证明个人能力、品格、歧视因果或共同意志。"
+      ],
+      "access_status": "partially_read"
+    }
+  ]
+}

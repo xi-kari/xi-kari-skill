@@ -1,0 +1,64 @@
+{
+  "sources": [
+    {
+      "id": "T-main",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§13.3，第2702—2719行",
+      "claim_support": [
+        "七闸逐项、依赖失败、适用性例外、重跑及全过边界。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-SJ",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§13.5，第2752—2768行",
+      "claim_support": [
+        "强判断按用途与后果触发八件套。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-record",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§13.9，第2802—2813行",
+      "claim_support": [
+        "状态及行动上限封闭格、不自产授权。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "P-SEC",
+      "title": "SEC行政命令：In the Matter of Knight Capital Americas LLC，Release 70694",
+      "url": "https://www.sec.gov/files/litigation/admin/2013/34-70694.pdf",
+      "source_type": "primary",
+      "version_or_date": "2013-10-16",
+      "locator": "2013-10-16，第1页程序身份；第8—10页¶28—34（控制评估、文书、复核与认证）。",
+      "claim_support": [
+        "SEC命令指出初评集中于现有控制清单和预期功能，未充分考虑SMARS失灵；后续程序对评价控制还是仅确认存在有不同理解。"
+      ],
+      "limits": [
+        "为和解行政命令中的监管认定，被申请人除管辖事项外不承认或否认；不是本题独立事故重建，也不证明Xikari七闸能防止该事件。"
+      ],
+      "access_status": "partially_read"
+    }
+  ]
+}

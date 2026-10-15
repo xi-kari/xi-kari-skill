@@ -1,0 +1,52 @@
+{
+  "sources": [
+    {
+      "id": "theory",
+      "title": "Xikari-条件结构与转化论，用户提供原文",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "现行全文第315—328行；每节精确范围见sourceRefs",
+      "claim_support": [
+        "2.5：术语、合同、论证责任和原文边界；不据此认证经验事实",
+        "2.5.1：术语、合同、论证责任和原文边界；不据此认证经验事实"
+      ],
+      "limits": [
+        "作者理论文本，是被解释对象，不替代外部经验资料；技能5.3.1不等于理论版本。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "snow-missing",
+      "title": "John Snow, On the Mode of Communication of Cholera",
+      "url": "https://www.gutenberg.org/cache/epub/72894/pg72894-images.html",
+      "source_type": "primary",
+      "version_or_date": "1855年第二版；数字转录版2024-02-07",
+      "locator": "1855年第2版p.40，饮水调查段",
+      "claim_support": [
+        "2.5：六例无法取得信息与另六例报告未饮泵水被分别记录。"
+      ],
+      "limits": [
+        "这是历史访谈记录，不能视为无误的实际暴露分类。"
+      ],
+      "access_status": "partially_read"
+    },
+    {
+      "id": "obermeyer-measure",
+      "title": "Obermeyer et al., Dissecting racial bias in an algorithm used to manage the health of populations",
+      "url": "https://www.ftc.gov/system/files/documents/public_events/1548288/privacycon-2020-ziad_obermeyer.pdf",
+      "source_type": "primary",
+      "version_or_date": "2019-10-25，Science366:447—453",
+      "locator": "Science 366 (2019),447—453；pp.447—449 Data and analytic strategy、Health disparities conditional on risk score、Mechanism of bias；PDF1—3页",
+      "claim_support": [
+        "2.5.1：资料来自某大型学术医院2013—2015年。",
+        "2.5.1：算法以医疗费用为预测标签；同分数下两群体次年费用相近而健康负担有群体差异；不由此推断个体或总体预测精度。"
+      ],
+      "limits": [
+        "已读所用正文及相关图注，未取得个体数据复算。",
+        "不把群体比较转成个体诊断，不把费用准确等同健康需要准确，不外推所有模型。"
+      ],
+      "access_status": "partially_read"
+    }
+  ]
+}

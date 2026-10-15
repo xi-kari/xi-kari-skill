@@ -1,0 +1,79 @@
+{
+  "sources": [
+    {
+      "id": "theory",
+      "title": "Xikari-条件结构与转化论，用户提供原文",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "现行全文第1787—1810行；每节精确范围见sourceRefs",
+      "claim_support": [
+        "8.4：术语、合同、论证责任和原文边界；不据此认证经验事实"
+      ],
+      "limits": [
+        "作者理论文本，是被解释对象，不替代外部经验资料；技能5.3.1不等于理论版本。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "identity",
+      "title": "现行原文对象与原型最小合同",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "§3.1第425—448行；§8.2第1637—1665行",
+      "claim_support": [
+        "8.4：K与对象身份、尺度窗口、缺失、并行/混合需正面材料"
+      ],
+      "limits": [
+        "路径不因名字吻合就成立。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "X0",
+      "title": "现行原文X0独立转换及原型边界",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "§8.5—8.5.2第1811—1838行；§8.7第1849—1860行",
+      "claim_support": [
+        "8.4：崩解、功能转移、休眠与X0区别；X0非最高阶段之后的必经事件"
+      ],
+      "limits": [
+        "未据案例宣告完整X0。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "history",
+      "title": "现行原文当前载体与额外历史",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "§4.5第620—640行",
+      "claim_support": [
+        "8.4：伤害历史叙事不直接证明未来效应，载体与额外历史增量分别核"
+      ],
+      "limits": [
+        "不由形成能力正当化伤害。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "jakarta",
+      "title": "Apache Jakarta：News & Status - 2011 Oct-Dec",
+      "url": "https://jakarta.apache.org/site/news/news-2011-q4.html",
+      "source_type": "primary",
+      "version_or_date": "2011年第四季度原新闻档案",
+      "locator": "2011-10-26 JMeter becomes a top level project；2011-12-21 Jakarta Retired",
+      "claim_support": [
+        "8.4：JMeter成为独立顶级项目；Jakarta因已无子项目而退入Attic的两个历史事件"
+      ],
+      "limits": [
+        "未核全部人员、遗留责任及权限接续，不授完整路径或X0状态；不是Eclipse Jakarta EE。"
+      ],
+      "access_status": "read"
+    }
+  ]
+}

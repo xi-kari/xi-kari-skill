@@ -1,2 +1,4 @@
 * text=auto eol=lf
 *.docx binary
+website/public/reading-assets/** -text
+docs/handbook/reading-assets/** -text

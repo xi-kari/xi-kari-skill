@@ -1,0 +1,64 @@
+{
+  "sources": [
+    {
+      "id": "T-main",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§A.4，第3766—3831行",
+      "claim_support": [
+        "HV04全部39字段与生成分型/机制路由。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-types",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§7.2—7.2.3，第1486—1501行",
+      "claim_support": [
+        "强类型GC、GS、GE定义及不可混装。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-G2",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§4.4，第610—619行",
+      "claim_support": [
+        "指定通道效应与逐维有限性。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "P-KNIGHT",
+      "title": "SEC：Knight Capital Americas LLC，Release70694",
+      "url": "https://www.sec.gov/litigation/admin/2013/34-70694.pdf",
+      "source_type": "primary",
+      "version_or_date": "2013-10-16",
+      "locator": "2013-10-16命令，§II、§§15—16及19—21，印刷1、6—7页",
+      "claim_support": [
+        "部署遗漏、旧代码触发及输出控制的具体技术链条；文件属于和解命令认定。"
+      ],
+      "limits": [
+        "本人局部读命令；被申请人除管辖外未承认或否认，不据技术链赋予机器意图或自动给个人定责，也不冒充G2实例。"
+      ],
+      "access_status": "partially_read"
+    }
+  ]
+}

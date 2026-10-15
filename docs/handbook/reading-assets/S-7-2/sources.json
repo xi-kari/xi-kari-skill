@@ -1,0 +1,74 @@
+{
+  "sources": [
+    {
+      "id": "theory",
+      "title": "Xikari-条件结构与转化论，用户提供原文",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "现行全文第1486—1523行；每节精确范围见sourceRefs",
+      "claim_support": [
+        "7.2：术语、合同、论证责任和原文边界；不据此认证经验事实",
+        "7.2.1：术语、合同、论证责任和原文边界；不据此认证经验事实",
+        "7.2.2：术语、合同、论证责任和原文边界；不据此认证经验事实",
+        "7.2.3：术语、合同、论证责任和原文边界；不据此认证经验事实",
+        "7.2.4：术语、合同、论证责任和原文边界；不据此认证经验事实",
+        "7.2.5：术语、合同、论证责任和原文边界；不据此认证经验事实",
+        "7.2.6：术语、合同、论证责任和原文边界；不据此认证经验事实",
+        "7.2.7：术语、合同、论证责任和原文边界；不据此认证经验事实",
+        "7.2.8：术语、合同、论证责任和原文边界；不据此认证经验事实"
+      ],
+      "limits": [
+        "作者理论文本，是被解释对象，不替代外部经验资料；技能5.3.1不等于理论版本。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "nasa-sts114",
+      "title": "NASA STS-114官方任务记录",
+      "url": "https://www.nasa.gov/mission/sts-114/",
+      "source_type": "primary",
+      "version_or_date": "任务2005-07-26至2005-08-09；网页2025-05-01更新",
+      "locator": "Mission Highlights：影像/填隙物评估与管理方决定段；EVA No.1之后的CMG功能段、EVA No.2及EVA No.3条目；页末Page Last Updated",
+      "claim_support": [
+        "7.2.1：影像显示突出填隙物及管理评估，作为条件与实际使用线索。",
+        "7.2.2：管理方允许尝试与Robinson于2005年8月3日执行移除，两种行动位置分开。",
+        "7.2.4：2005年8月1日Noguchi和Robinson更换失效CMG-1，以及任务记录的四台工作设备状态。"
+      ],
+      "limits": [
+        "官方任务叙述不是所有因果、风险或责任的完整裁决；未由执行功能推出道德/法律责任，也不把任务状态外推为永久可靠。"
+      ],
+      "access_status": "partially_read"
+    },
+    {
+      "id": "theory-chain",
+      "title": "Xikari7.3.6：动力—承接链的整链限制",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "第1558—1563行",
+      "claim_support": [
+        "7.2.7：局部边效应不能无条件相乘，整链须同案、范围、联合响应、时序、容量与终端材料。"
+      ],
+      "limits": [
+        "不撤销合格设计独立支持的有限总效应。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "theory-action",
+      "title": "Xikari4.14.1：C12规范桥接有效性门",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "第908—924行",
+      "claim_support": [
+        "7.2.5及各类型：分析与现实处置分别负责，责任描述不产生惩罚或强制权限。"
+      ],
+      "limits": [
+        "虚构职责不是现行法律依据。"
+      ],
+      "access_status": "read"
+    }
+  ]
+}

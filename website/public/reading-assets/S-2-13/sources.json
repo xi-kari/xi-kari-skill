@@ -1,0 +1,35 @@
+{
+  "sources": [
+    {
+      "id": "theory",
+      "title": "Xikari-条件结构与转化论，用户提供原文",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "现行全文第413—420行；每节精确范围见sourceRefs",
+      "claim_support": [
+        "2.13：术语、合同、论证责任和原文边界；不据此认证经验事实"
+      ],
+      "limits": [
+        "作者理论文本，是被解释对象，不替代外部经验资料；技能5.3.1不等于理论版本。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "fleeson-test",
+      "title": "Fleeson 2001，Study2及Study3的测量解释检验",
+      "url": "https://simine.com/407/readings/Fleeson_2001.pdf",
+      "source_type": "primary",
+      "version_or_date": "2001-06，DOI10.1037/0022-3514.80.6.1011",
+      "locator": "JPSP80(6):1011—1027；pp.1019—1020统一定义；pp.1021—1022双极量尺",
+      "claim_support": [
+        "2.13：研究2用统一形容词定义应对解释差异；研究3用双极量尺检查单极尺度使用的替代解释。"
+      ],
+      "limits": [
+        "同一研究项目中的不同设计，不按文件数或举例次数增加独立支持。",
+        "只使用已读方法段；不声称所有测量偏差已排除、不对读者进行人格测试。"
+      ],
+      "access_status": "partially_read"
+    }
+  ]
+}

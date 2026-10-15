@@ -1,0 +1,260 @@
+{
+  "sources": [
+    {
+      "id": "T-title",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/FRONT/source/FRONT.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；原文自述2026年10月",
+      "locator": "完整原文第1—8行；题名、署名、主题词、月份",
+      "claim_support": [
+        "front-title：书名、署名和原文月份的逐字对应。"
+      ],
+      "limits": [
+        "只支持当前稿的文本解释和相应模型内论证；不因此支持独立现实效应或读者使用效果。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-scope",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/FRONT/source/FRONT.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；原文自述2026年10月",
+      "locator": "完整原文第9—18行；尤其第11、13、15、17行",
+      "claim_support": [
+        "front-scope：对象范围、具体连接条件、理解可以为终点、输出及证据责任、阅读分组。",
+        "front-title：有限行动的范围解释。"
+      ],
+      "limits": [
+        "只支持当前稿的文本解释和相应模型内论证；不因此支持独立现实效应或读者使用效果。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-contents",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/FRONT/source/FRONT.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；原文自述2026年10月",
+      "locator": "完整原文第19—67行；链接第21—61行；目录后承诺第64行",
+      "claim_support": [
+        "front-contents：21项原目录标题与顺序；形式、实例、实际效益分开；允许简洁方法接管。"
+      ],
+      "limits": [
+        "只支持当前稿的文本解释和相应模型内论证；不因此支持独立现实效应或读者使用效果。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-D0",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；原文自述2026年10月",
+      "locator": "§3.1，完整原文第425—447行",
+      "claim_support": [
+        "front-title：D0只声明候选对象，七字段与对象支持的区别。"
+      ],
+      "limits": [
+        "只支持当前稿的文本解释和相应模型内论证；不因此支持独立现实效应或读者使用效果。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-transform",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；原文自述2026年10月",
+      "locator": "§3.4—3.4.1，完整原文第473—495行；第五部分第1029—1293行",
+      "claim_support": [
+        "front-title/front-scope：尺度、表示、圈层关系转换不互相等价。"
+      ],
+      "limits": [
+        "只支持当前稿的文本解释和相应模型内论证；不因此支持独立现实效应或读者使用效果。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-choice",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；原文自述2026年10月",
+      "locator": "§12.8—12.15，完整原文第2561—2651行",
+      "claim_support": [
+        "front-title/front-scope：分析推荐和现实执行的责任分开。"
+      ],
+      "limits": [
+        "只支持当前稿的文本解释和相应模型内论证；不因此支持独立现实效应或读者使用效果。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-domain",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；原文自述2026年10月",
+      "locator": "第二部分导语，完整原文第205—212行",
+      "claim_support": [
+        "front-scope：广义经验世界是准入范围而非普遍结论。"
+      ],
+      "limits": [
+        "只支持当前稿的文本解释和相应模型内论证；不因此支持独立现实效应或读者使用效果。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-connection",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；原文自述2026年10月",
+      "locator": "§1.11，完整原文第183—192行",
+      "claim_support": [
+        "front-scope：不同连接断点需对应修订；复杂表示须保留必要区别。"
+      ],
+      "limits": [
+        "只支持当前稿的文本解释和相应模型内论证；不因此支持独立现实效应或读者使用效果。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-human",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；原文自述2026年10月",
+      "locator": "第七部分导语及§7.1，完整原文第1461—1489行",
+      "claim_support": [
+        "front-scope/front-contents：人类适配器不反投射自然界，U与HV不一一等价。"
+      ],
+      "limits": [
+        "只支持当前稿的文本解释和相应模型内论证；不因此支持独立现实效应或读者使用效果。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-intro",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；原文自述2026年10月",
+      "locator": "第一部分导语，完整原文第68—73行",
+      "claim_support": [
+        "front-scope：技术故障局部模型与照护工作公共服务的多圈层取舍。"
+      ],
+      "limits": [
+        "只支持当前稿的文本解释和相应模型内论证；不因此支持独立现实效应或读者使用效果。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-outputs",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；原文自述2026年10月",
+      "locator": "§1.1，完整原文第74—90行",
+      "claim_support": [
+        "front-scope：解释、推演、条件前瞻、有限选择与接续限制。"
+      ],
+      "limits": [
+        "只支持当前稿的文本解释和相应模型内论证；不因此支持独立现实效应或读者使用效果。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-route",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；原文自述2026年10月",
+      "locator": "§1.2，完整原文第91—98行",
+      "claim_support": [
+        "front-scope：另一种分段阅读路径与附录职责。"
+      ],
+      "limits": [
+        "只支持当前稿的文本解释和相应模型内论证；不因此支持独立现实效应或读者使用效果。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-prototypes",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；原文自述2026年10月",
+      "locator": "§8.1—8.2，完整原文第1629—1670行",
+      "claim_support": [
+        "front-contents：S0—S6只适用于人类意图集体，非个人成熟等级。"
+      ],
+      "limits": [
+        "只支持当前稿的文本解释和相应模型内论证；不因此支持独立现实效应或读者使用效果。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-actor",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；原文自述2026年10月",
+      "locator": "第九部分，完整原文第1869—2030行",
+      "claim_support": [
+        "front-contents：行动者慢中快变量与人格候选的边界。"
+      ],
+      "limits": [
+        "只支持当前稿的文本解释和相应模型内论证；不因此支持独立现实效应或读者使用效果。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-appendices",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；原文自述2026年10月",
+      "locator": "附录A第3562—4317行；附录B第4318—4355行；附录C第4356—4524行；附录D第4525—5050行",
+      "claim_support": [
+        "front-contents：接口卡、索引、形式论证和32领域图谱的不同用途。"
+      ],
+      "limits": [
+        "只支持当前稿的文本解释和相应模型内论证；不因此支持独立现实效应或读者使用效果。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-bone",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；原文自述2026年10月",
+      "locator": "§1.12，完整原文第193—204行",
+      "claim_support": [
+        "front-contents：G、C、F责任不同，不以编号数量累计理论强度。"
+      ],
+      "limits": [
+        "只支持当前稿的文本解释和相应模型内论证；不因此支持独立现实效应或读者使用效果。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-evaluation",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；原文自述2026年10月",
+      "locator": "§4.17.4，完整原文第975—980行；§16.24，第3546—3553行",
+      "claim_support": [
+        "front-title/front-scope/front-contents：框架效益须另与充分方法作实际比较，文件与文本变化不代证现实改善。"
+      ],
+      "limits": [
+        "只支持当前稿的文本解释和相应模型内论证；不因此支持独立现实效应或读者使用效果。"
+      ],
+      "access_status": "read"
+    }
+  ]
+}

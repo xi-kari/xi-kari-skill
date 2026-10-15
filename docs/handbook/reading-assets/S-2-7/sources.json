@@ -1,0 +1,68 @@
+{
+  "sources": [
+    {
+      "id": "theory",
+      "title": "Xikari-条件结构与转化论，用户提供原文",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "现行全文第341—362行；每节精确范围见sourceRefs",
+      "claim_support": [
+        "2.7：术语、合同、论证责任和原文边界；不据此认证经验事实",
+        "2.7.1：术语、合同、论证责任和原文边界；不据此认证经验事实",
+        "2.7.2：术语、合同、论证责任和原文边界；不据此认证经验事实"
+      ],
+      "limits": [
+        "作者理论文本，是被解释对象，不替代外部经验资料；技能5.3.1不等于理论版本。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "snow-use",
+      "title": "John Snow 1855，事件与因果限制",
+      "url": "https://www.gutenberg.org/cache/epub/72894/pg72894-images.html",
+      "source_type": "primary",
+      "version_or_date": "1855年第二版；数字转录版2024-02-07",
+      "locator": "p.40；pp.51—52",
+      "claim_support": [
+        "2.7：面谈与拆柄日期记述；停用前已下降的限制。"
+      ],
+      "limits": [
+        "日期事实不直接支持净效果。"
+      ],
+      "access_status": "partially_read"
+    },
+    {
+      "id": "snow-version",
+      "title": "John Snow作品及Gutenberg数字版书目信息",
+      "url": "https://www.gutenberg.org/cache/epub/72894/pg72894-images.html",
+      "source_type": "primary",
+      "version_or_date": "1855第二版；Gutenberg release 2024-02-07",
+      "locator": "页面首部Release date；书名页第二版和London1855",
+      "claim_support": [
+        "2.7.1：历史作品1855第二版与数字发布2024为同一作品不同载体。"
+      ],
+      "limits": [
+        "未作数字转录与印本逐字校勘；载体不构成独立调查。"
+      ],
+      "access_status": "partially_read"
+    },
+    {
+      "id": "snow-trace",
+      "title": "John Snow 1855，Table I及说明",
+      "url": "https://www.gutenberg.org/cache/epub/72894/pg72894-images.html",
+      "source_type": "primary",
+      "version_or_date": "1855年第二版；数字转录版2024-02-07",
+      "locator": "pp.49—51，Table I日期行、Date unknown行和总计；表后逐日下降描述",
+      "claim_support": [
+        "2.7.2：43个已知日期行加总571，未知日期45，总计616（加总为本讲派生）。",
+        "2.7.2：9月6日20、9月7日28，限制严格逐日单调的读法。"
+      ],
+      "limits": [
+        "原表为最终致死病例发病日与死亡日两列；本讲只算前者。",
+        "与snow-use、snow-version为同一作品不同位置，不增加独立研究数；异常不揭示成因。"
+      ],
+      "access_status": "partially_read"
+    }
+  ]
+}

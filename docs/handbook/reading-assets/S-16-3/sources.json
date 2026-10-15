@@ -1,0 +1,34 @@
+{
+  "sources": [
+    {
+      "id": "theory",
+      "title": "Xikari-条件结构与转化论，用户提供原文",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "现行全文第3314—3337行；每节精确范围见sourceRefs",
+      "claim_support": [
+        "16.3：术语、合同、论证责任和原文边界；不据此认证经验事实"
+      ],
+      "limits": [
+        "作者理论文本，是被解释对象，不替代外部经验资料；技能5.3.1不等于理论版本。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "cern-opera",
+      "title": "OPERA experiment reports anomaly in flight time of neutrinos from CERN to Gran Sasso",
+      "url": "https://home.cern/opera-experiment-reports-anomaly-in-flight-time-of-neutrinos-from-cern-to-gran-sasso/",
+      "source_type": "primary",
+      "version_or_date": "2011-09-23；更新至2012-06-08",
+      "locator": "原始发布2011-09-23第2段；2012-02-23前两段；2012-06-08前两段",
+      "claim_support": [
+        "原异常公开审查、仪器问题候选与后来四实验结果及原计时异常说明的发布记录"
+      ],
+      "limits": [
+        "只核发布及更新正文，不重算原始实验数据；研究纠错不等问题分类或领域整体被否定。"
+      ],
+      "access_status": "partially_read"
+    }
+  ]
+}

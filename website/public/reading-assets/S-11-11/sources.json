@@ -1,0 +1,34 @@
+{
+  "sources": [
+    {
+      "id": "theory",
+      "title": "Xikari-条件结构与转化论，用户提供原文",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "现行全文第2420—2429行；每节精确范围见sourceRefs",
+      "claim_support": [
+        "11.11：术语、合同、论证责任和原文边界；不据此认证经验事实"
+      ],
+      "limits": [
+        "作者理论文本，是被解释对象，不替代外部经验资料；技能5.3.1不等于理论版本。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "prior_example",
+      "title": "第十部分同一教学情境",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "§10.11第2195—2202行",
+      "claim_support": [
+        "联合对象、双通道与不同时间窗的原文设定来源；本节继续该示例"
+      ],
+      "limits": [
+        "原文未给现实公司和事件证据，不能当实证案例。"
+      ],
+      "access_status": "read"
+    }
+  ]
+}

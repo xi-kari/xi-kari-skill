@@ -1,0 +1,148 @@
+{
+  "sources": [
+    {
+      "id": "theory",
+      "title": "Xikari-条件结构与转化论，用户提供原文",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "现行全文第1101—1162行；每节精确范围见sourceRefs",
+      "claim_support": [
+        "5.5：术语、合同、论证责任和原文边界；不据此认证经验事实",
+        "5.5.1：术语、合同、论证责任和原文边界；不据此认证经验事实",
+        "5.5.2：术语、合同、论证责任和原文边界；不据此认证经验事实",
+        "5.5.3：术语、合同、论证责任和原文边界；不据此认证经验事实",
+        "5.5.4：术语、合同、论证责任和原文边界；不据此认证经验事实",
+        "5.5.5：术语、合同、论证责任和原文边界；不据此认证经验事实",
+        "5.5.6：术语、合同、论证责任和原文边界；不据此认证经验事实",
+        "5.5.7：术语、合同、论证责任和原文边界；不据此认证经验事实",
+        "5.5.8：术语、合同、论证责任和原文边界；不据此认证经验事实",
+        "5.5.9：术语、合同、论证责任和原文边界；不据此认证经验事实"
+      ],
+      "limits": [
+        "作者理论文本，是被解释对象，不替代外部经验资料；技能5.3.1不等于理论版本。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "gao-denominator",
+      "title": "GAO-19-296：恢复供电的合格客户分母",
+      "url": "https://www.gao.gov/assets/gao-19-296.pdf",
+      "source_type": "primary",
+      "version_or_date": "2019-04-18",
+      "locator": "印刷pp.6—7；Status of electricity restoration和Figure 1注",
+      "claim_support": [
+        "5.5.1：PREPA所述约11个月后全部恢复限于能够安全接电者，不等于灾前所有客户。"
+      ],
+      "limits": [
+        "GAO转述PREPA数据与口径；这里只使用明示分母限制，不估计未接电者总数、需求或处置正当性。"
+      ],
+      "access_status": "partially_read"
+    },
+    {
+      "id": "caib-paths",
+      "title": "CAIB卷I第6章：图像请求路径",
+      "url": "https://govinfo.library.unt.edu/caib/news/report/pdf/vol1/chapters/chapter6.pdf",
+      "source_type": "primary",
+      "version_or_date": "2003年8月；政府档案版",
+      "locator": "印刷p.171，F6.3-7—9",
+      "claim_support": [
+        "5.5.3：DAT请求经Johnson工程部门而非正式MER→MMT→FDO路线；报告指出紧迫性削弱和对拒绝决定理解的问题。"
+      ],
+      "limits": [
+        "历史调查结论；不将通信边认定为唯一事故原因，不补写权限。"
+      ],
+      "access_status": "partially_read"
+    },
+    {
+      "id": "snow-time",
+      "title": "Snow表I：致死病例发病日期与计数",
+      "url": "https://www.gutenberg.org/cache/epub/72894/pg72894-images.html",
+      "source_type": "primary",
+      "version_or_date": "1855年第二版；数字转录版2024-02-07",
+      "locator": "印刷p.49表I；pp.50—51编制说明",
+      "claim_support": [
+        "5.5.4：9月6/7/8日最终致死病例发病数20/28/12；本讲相加60；部分日期由病程倒推。"
+      ],
+      "limits": [
+        "不是全部感染者或这三天死亡数；不能由求和识别累积机制、G3或泵柄措施效果。"
+      ],
+      "access_status": "partially_read"
+    },
+    {
+      "id": "asap-nesc",
+      "title": "NASA ASAP2004第一季度报告：NESC组织与运行迹象",
+      "url": "https://oiir.hq.nasa.gov/asap/documents/ASAP_1st_Quarter_2004.pdf",
+      "source_type": "primary",
+      "version_or_date": "2004年2月",
+      "locator": "印刷pp.37—39，NESC讨论段",
+      "claim_support": [
+        "5.5.5：报告记章程2003年8月批准、11月启动；描述专家组、调集资源、工作与复核过程，同时保留汇报、资源及长期制度化问题。"
+      ],
+      "limits": [
+        "仅历史窗口的组织事实和当时讨论；不提供现行法律意见，不证明长期效果、保护充分或应继续。"
+      ],
+      "access_status": "partially_read"
+    },
+    {
+      "id": "snow-actions",
+      "title": "Snow：向Board of Guardians陈述与次日措施",
+      "url": "https://www.gutenberg.org/cache/epub/72894/pg72894-images.html",
+      "source_type": "primary",
+      "version_or_date": "1855年第二版；数字转录版2024-02-07",
+      "locator": "印刷p.40，9月7日晚会面段",
+      "claim_support": [
+        "5.5.7：Snow报告本人向教区Board of Guardians陈述调查，泵柄于次日拆除；该段不提供代表全体居民的完整授权。"
+      ],
+      "limits": [
+        "不以授权材料缺口证明无效或违法，也不推授J权限；仅保留作者对行动顺序的叙述。"
+      ],
+      "access_status": "partially_read"
+    },
+    {
+      "id": "skov-transfer",
+      "title": "Skov等：跨物种类比的限制与目标资料",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9581778/",
+      "source_type": "primary",
+      "version_or_date": "2022-10-19在线；Nature 610:519—525",
+      "locator": "Main：Inferring social organization，比值比较后警告段、相邻模拟比较和结论",
+      "claim_support": [
+        "5.5.9：相似Y/mtDNA比值不必意味相同社会组织；资料异质和多种过程需区分；作者另用目标遗传资料与模型比较提出女性迁移解释。"
+      ],
+      "limits": [
+        "结论受采样地域与对象限制；不外推全部尼安德特人，不支持政治统治结构，不追授本框架资格。"
+      ],
+      "access_status": "partially_read"
+    },
+    {
+      "id": "theory-status",
+      "title": "Xikari原文5.4与5.7：结果状态和原子链",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "第1085—1100行；第1177—1220行",
+      "claim_support": [
+        "5.5及九算子：单算子、唯一支路、相容模式、四状态和零门；链中各步状态与最终任务分别核。"
+      ],
+      "limits": [
+        "程序规则不代替任何真实材料或授权。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "theory-fibers",
+      "title": "Xikari附录C.6—C.7：恢复、误差与接续证明",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "第4414—4446行，C.6—C.7",
+      "claim_support": [
+        "5.5.8：原像常值双向证明；有限实数最坏误差半振幅；接续只检查实际像集；表示与执行错误分开。"
+      ],
+      "limits": [
+        "形式成立、现实满足前提和规范可用分别承担责任；构造不是现实实验。"
+      ],
+      "access_status": "read"
+    }
+  ]
+}

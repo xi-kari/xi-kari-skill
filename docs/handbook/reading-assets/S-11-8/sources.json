@@ -1,0 +1,34 @@
+{
+  "sources": [
+    {
+      "id": "theory",
+      "title": "Xikari-条件结构与转化论，用户提供原文",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "现行全文第2362—2377行；每节精确范围见sourceRefs",
+      "claim_support": [
+        "11.8：术语、合同、论证责任和原文边界；不据此认证经验事实"
+      ],
+      "limits": [
+        "作者理论文本，是被解释对象，不替代外部经验资料；技能5.3.1不等于理论版本。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "adams1846",
+      "title": "Adams：天王星运动不规则性的假设解释（原论文元数据）",
+      "url": "https://academic.oup.com/mnras/article/7/9/149/983965",
+      "source_type": "primary",
+      "version_or_date": "1846-11-13",
+      "locator": "题名、作者、1846-11-13提交脚注；MNRAS7(9):149—152；DOI10.1093/mnras/7.9.149",
+      "claim_support": [
+        "原论文明确以更远行星扰动为假设，并以质量、轨道、位置为研究对象；提交日期可核"
+      ],
+      "limits": [
+        "仅元数据已读，正文PDF未取得；不得据此断言计算质量、发现优先权或完整观测确认过程。"
+      ],
+      "access_status": "metadata_only"
+    }
+  ]
+}

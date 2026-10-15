@@ -1,0 +1,79 @@
+{
+  "sources": [
+    {
+      "id": "theory",
+      "title": "Xikari-条件结构与转化论，用户提供原文",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "现行全文第1163—1176行；每节精确范围见sourceRefs",
+      "claim_support": [
+        "5.6：术语、合同、论证责任和原文边界；不据此认证经验事实"
+      ],
+      "limits": [
+        "作者理论文本，是被解释对象，不替代外部经验资料；技能5.3.1不等于理论版本。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "theory-d0",
+      "title": "Xikari原文3.1：K是同一性判据",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "第425—448行，尤其429与447行",
+      "claim_support": [
+        "5.6：灯具构造中的K是完整对象合同的一部分，即同一性判据。"
+      ],
+      "limits": [
+        "教学判据不代表真实产品身份鉴定。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "caib-record-use",
+      "title": "CAIB第7章：经验记录系统的实际使用",
+      "url": "https://govinfo.library.unt.edu/caib/news/report/pdf/vol1/chapters/chapter7.pdf",
+      "source_type": "primary",
+      "version_or_date": "2003年8月；政府档案版",
+      "locator": "印刷p.189，Dysfunctional Databases，Lessons Learned Information System段",
+      "claim_support": [
+        "5.6：报告说该系统可辅助风险评估，但设计/任务保证人员零散使用限制其效用。"
+      ],
+      "limits": [
+        "不声称从未使用；只支持当时调查范围，不证明正式反馈学习或G3。"
+      ],
+      "access_status": "partially_read"
+    },
+    {
+      "id": "theory-carrier",
+      "title": "Xikari原文4.5：历史形成、当前载体与G3",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "第620—640行",
+      "claim_support": [
+        "5.6：载体形成/传递与当前表示外历史增量分开；正式载体机制支持另须相称G2/H材料；领域结论保留独立资格。"
+      ],
+      "limits": [
+        "不得遗漏已知当前状态制造G3；形式模型不替现实取证。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "theory-learning",
+      "title": "Xikari原文6.3：反馈介导学习两分支",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "第1320—1337行",
+      "claim_support": [
+        "5.6：carried需保留、实际调用、任务结果；history另加G3；载体充分时残余可消失而学习仍成立。"
+      ],
+      "limits": [
+        "一般学习、机制识别、迁移与净收益分别判断；无真实学习实验。"
+      ],
+      "access_status": "read"
+    }
+  ]
+}

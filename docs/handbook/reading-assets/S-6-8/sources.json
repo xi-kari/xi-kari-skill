@@ -1,0 +1,64 @@
+{
+  "sources": [
+    {
+      "id": "theory",
+      "title": "Xikari-条件结构与转化论，用户提供原文",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "现行全文第1398—1411行；每节精确范围见sourceRefs",
+      "claim_support": [
+        "6.8：术语、合同、论证责任和原文边界；不据此认证经验事实"
+      ],
+      "limits": [
+        "作者理论文本，是被解释对象，不替代外部经验资料；技能5.3.1不等于理论版本。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "blount2008",
+      "title": "Blount等：长期实验群体中的历史偶然性与创新",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC2430337/",
+      "source_type": "primary",
+      "version_or_date": "2008-06-04在线；2008-06-10刊期；DOI 10.1073/pnas.0803151105",
+      "locator": "Results：Frequency-Dependent Selection Maintains Ecological Diversity前两段；Methods：Test for Frequency-Dependent Interaction",
+      "claim_support": [
+        "6.8：Cit−/Cit+不同起始比例后的多轮共存，作者解释为负频率依赖筛选维持多样性。"
+      ],
+      "limits": [
+        "仅引用该研究的生态结果段，不声称本文已复现原实验或读过补充实验数据；不追授正式框架实例。"
+      ],
+      "access_status": "partially_read"
+    },
+    {
+      "id": "theory-d1",
+      "title": "Xikari3.2：D1状态词",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "第450—461行",
+      "claim_support": [
+        "6.8：演化定义不蕴含筛选、方向或价值。"
+      ],
+      "limits": [
+        "独立机制须自身操作化与证据。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "theory-c8",
+      "title": "Xikari4.13.1：C8筛选",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "第837—853行",
+      "claim_support": [
+        "6.8：差异、保留、下一轮、重复、竞争解释与条件分支分开。"
+      ],
+      "limits": [
+        "有限模式不生成主体选择和规范授权。"
+      ],
+      "access_status": "read"
+    }
+  ]
+}

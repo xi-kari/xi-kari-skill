@@ -1,0 +1,64 @@
+{
+  "sources": [
+    {
+      "id": "T-main",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§13.8，第2794—2801行",
+      "claim_support": [
+        "AI可用范围、禁止项、披露、保护状态、分工及复核资源。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-tools",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§13.7，第2779—2793行",
+      "claim_support": [
+        "日志与正文分离可定位，形式检查边界。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-missing",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§5.8，第1221—1228行",
+      "claim_support": [
+        "四缺失状态不能解释为不存在。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "P-NIST",
+      "title": "NIST AI 600-1：Artificial Intelligence Risk Management Framework: Generative Artificial Intelligence Profile",
+      "url": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.600-1.pdf",
+      "source_type": "primary",
+      "version_or_date": "NIST AI600-1，2024",
+      "locator": "2024版；印刷1页Introduction、6页§2.2、18页GOVERN3.2、35页MS-2.9-002、45页MG-4.1-007及MG-4.3-001—002；PDF5、10、22、39、49。",
+      "claim_support": [
+        "文件将其定位为AI RMF伴随资源并提供建议行动；列生成失实风险、角色分工、文档、反馈救济与监测升级要求。"
+      ],
+      "limits": [
+        "此处仅比较该版治理建议，不证明建议已实施或有效，也不将2024文档等同现行强制法律或某产品性能认证。"
+      ],
+      "access_status": "partially_read"
+    }
+  ]
+}

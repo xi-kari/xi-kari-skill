@@ -1,0 +1,79 @@
+{
+  "sources": [
+    {
+      "id": "theory",
+      "title": "Xikari-条件结构与转化论，用户提供原文",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "现行全文第1604—1616行；每节精确范围见sourceRefs",
+      "claim_support": [
+        "7.5：术语、合同、论证责任和原文边界；不据此认证经验事实"
+      ],
+      "limits": [
+        "作者理论文本，是被解释对象，不替代外部经验资料；技能5.3.1不等于理论版本。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "actors",
+      "title": "现行原文行动者状态接口",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "第九部分导语及§9.1—9.2.3，第1869—1914行",
+      "claim_support": [
+        "7.5：慢中快相对观察窗、慢变量持续性及跨情境要求、中变量互构、多重角色与快状态边界"
+      ],
+      "limits": [
+        "不是用一个人格标签填满个体状态或给予诊断。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "D0",
+      "title": "现行原文对象合同与同一性判据",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "§3.1第425—448行",
+      "claim_support": [
+        "7.5：行动者与圈层对象合同分开；K为同一性判据"
+      ],
+      "limits": [
+        "身份连续不意味着所有状态不变。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "phase",
+      "title": "现行原文集体原型不等于人格",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "§8.8，第1861—1868行",
+      "claim_support": [
+        "7.5：S0—S6只描述人类意向性集体，不能把成员或个人能力套成集体相位"
+      ],
+      "limits": [
+        "没有对任何真实对象作正式原型分类。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "centola",
+      "title": "Damon Centola：The Spread of Behavior in an Online Social Network Experiment",
+      "url": "https://ndg.asc.upenn.edu/wp-content/uploads/2016/04/Centola-2010-Science.pdf",
+      "source_type": "primary",
+      "version_or_date": "2010-09-03；Science329:1194—1197；DOI10.1126/science.1185231",
+      "locator": "印刷pp.1194—1195，参与者匿名网络、随机配置、固定拓扑和注册触发消息段；主文范围pp.1194—1197",
+      "claim_support": [
+        "7.5案例：随机分配固定拓扑，参与者不能改变连接；注册健康论坛时向邻居发送邀请信号"
+      ],
+      "limits": [
+        "行为是论坛注册，不是健康结局；本例不声称拓扑被参与者重构；主文已核，补充材料及原始数据未独立核验。"
+      ],
+      "access_status": "partially_read"
+    }
+  ]
+}

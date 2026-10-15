@@ -1,0 +1,34 @@
+{
+  "sources": [
+    {
+      "id": "theory",
+      "title": "Xikari-条件结构与转化论，用户提供原文",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "现行全文第3546—3553行；每节精确范围见sourceRefs",
+      "claim_support": [
+        "16.24：术语、合同、论证责任和原文边界；不据此认证经验事实"
+      ],
+      "limits": [
+        "作者理论文本，是被解释对象，不替代外部经验资料；技能5.3.1不等于理论版本。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "mlperf-comparison",
+      "title": "MLPerf Inference: Datacenter",
+      "url": "https://mlcommons.org/benchmarks/inference-datacenter/",
+      "source_type": "primary",
+      "version_or_date": "2026-10-14读取的官方网页",
+      "locator": "Benchmarks首段；Divisions两项；Results中Published results are sometimes modified…段",
+      "claim_support": [
+        "数据集质量目标界定基准；Closed与Open允许模型变化的条件不同；发布结果有变更记录"
+      ],
+      "limits": [
+        "仅制度说明，无具体结果验证；不覆盖全部读者成本、披露劳动或维护劳动。"
+      ],
+      "access_status": "partially_read"
+    }
+  ]
+}

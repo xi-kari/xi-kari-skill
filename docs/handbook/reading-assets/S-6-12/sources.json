@@ -1,0 +1,49 @@
+{
+  "sources": [
+    {
+      "id": "theory",
+      "title": "Xikari-条件结构与转化论，用户提供原文",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "现行全文第1430—1446行；每节精确范围见sourceRefs",
+      "claim_support": [
+        "6.12：术语、合同、论证责任和原文边界；不据此认证经验事实"
+      ],
+      "limits": [
+        "作者理论文本，是被解释对象，不替代外部经验资料；技能5.3.1不等于理论版本。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "maryland-clocks",
+      "title": "Maryland FY24 Quarter 4：不同事件时点",
+      "url": "https://health.maryland.gov/mmcp/Documents/JCRs/2023/eligibilityredetprocessJCRfinal4-24.pdf",
+      "source_type": "primary",
+      "version_or_date": "报告April 2024；提交封信2024-05-14",
+      "locator": "印刷p.9，第3项缓解方案与最后流程使用段",
+      "claim_support": [
+        "6.12：2023-09-13提交方案、2023-11开始使用更新流程、2024-02方案获批。"
+      ],
+      "limits": [
+        "日期不自行证明所有行为授权/违法或长期健康结果，审批对象是该缓解方案。"
+      ],
+      "access_status": "partially_read"
+    },
+    {
+      "id": "theory-writeback",
+      "title": "Xikari6.4与7.1：执行写回及H3边界",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "第1338—1351行；第1469—1482行",
+      "claim_support": [
+        "6.12：受理、字段、执行、持续分开；分类不授权现实行动。"
+      ],
+      "limits": [
+        "事实发生与规范状态不能互相代替。"
+      ],
+      "access_status": "read"
+    }
+  ]
+}

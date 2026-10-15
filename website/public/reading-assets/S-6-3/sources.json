@@ -1,0 +1,64 @@
+{
+  "sources": [
+    {
+      "id": "theory",
+      "title": "Xikari-条件结构与转化论，用户提供原文",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "现行全文第1320—1337行；每节精确范围见sourceRefs",
+      "claim_support": [
+        "6.3：术语、合同、论证责任和原文边界；不据此认证经验事实"
+      ],
+      "limits": [
+        "作者理论文本，是被解释对象，不替代外部经验资料；技能5.3.1不等于理论版本。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "maryland-use",
+      "title": "Maryland FY24 Quarter 4报告：已使用与持续计划",
+      "url": "https://health.maryland.gov/mmcp/Documents/JCRs/2023/eligibilityredetprocessJCRfinal4-24.pdf",
+      "source_type": "primary",
+      "version_or_date": "报告April 2024；提交封信2024-05-14",
+      "locator": "印刷p.9，Medicaid Mitigation of Ex Parte Renewals末段",
+      "claim_support": [
+        "6.3：新流程自2023年11月实际使用，随后句子是未来继续使用安排。"
+      ],
+      "limits": [
+        "开始使用和计划不单独证明长期保留调用、因果学习或健康净益。"
+      ],
+      "access_status": "partially_read"
+    },
+    {
+      "id": "theory-history",
+      "title": "Xikari4.5：当前载体与历史增量",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "第620—640行",
+      "claim_support": [
+        "6.3：形成、当前传递、额外历史增量分开；不能删除已知当前状态制造残差。"
+      ],
+      "limits": [
+        "数学充分性不能替现实载体测量。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "theory-feedback",
+      "title": "Xikari6.2：有效反馈",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "第1302—1311行",
+      "claim_support": [
+        "6.3：基本依赖是有作用的返回，不要求持久历史或G3。"
+      ],
+      "limits": [
+        "基础反馈不自动构成学习。"
+      ],
+      "access_status": "read"
+    }
+  ]
+}

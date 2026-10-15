@@ -1,0 +1,126 @@
+{
+  "sources": [
+    {
+      "id": "T-97",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§9.7，第1983—1992行",
+      "claim_support": [
+        "两类条件、相关性与跨通道责任；身份五维；受约束行动、同意及责难补救分别取证。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-evidence",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§2.5，第315—320行",
+      "claim_support": [
+        "材料与事实、判断及行动授权不同，来源及冲突影响相应结论。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-measure",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§2.5.1，第321—328行",
+      "claim_support": [
+        "数量、潜在属性和体验目标的测量责任与可比性。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-privacy",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§9.8，第1993—1998行",
+      "claim_support": [
+        "用途、隐私与拒绝披露的边界。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-cause",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§2.4，第293—298行",
+      "claim_support": [
+        "跨通道机制、时序与识别，连贯故事不充分。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-J",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§14.6，第2940—2952行",
+      "claim_support": [
+        "现实权限来源及原子范围；本人同意、公共职权与私人委任分别判断。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-protect",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§16.12，第3440—3446行",
+      "claim_support": [
+        "不退出不等于同意；代理事项、本人表达、意愿不确定和支持接续分开。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "P-CC2005",
+      "title": "Effect of Consumer Direction on Adults’ Personal Care and Well-Being in Arkansas, New Jersey and Florida",
+      "url": "https://www.policyarchive.org/download/21350",
+      "source_type": "primary",
+      "version_or_date": "Barbara Lepidus Carlson、Stacy Dale、Leslie Foster、Randall Brown、Barbara Phillips、Jennifer Schore；Mathematica Policy Research；最终报告内页2005-05-16。",
+      "locator": "印刷12—14页/PDF25—27：Data and Methods、Outcome Measures及13页脚注14；附录A，A-1/PDF65。公开原报告副本，采用内页题名，非托管页误标标题。",
+      "claim_support": [
+        "随机分配后9个月随访中服务种类数量与满意、未满足需要、生活质量分别测量。",
+        "部分体验问题对兼为受雇照护者的代理受访者不问，并讨论代理使用与偏差。"
+      ],
+      "limits": [
+        "仅核所列方法与代理段，没有把项目所有效应、机制和长期安全重新认证。",
+        "本节不采用医疗结论或当前制度规则；不把代理报告视为本人直接体验或同意。"
+      ],
+      "access_status": "partially_read"
+    }
+  ]
+}

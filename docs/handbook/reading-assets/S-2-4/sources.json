@@ -1,0 +1,54 @@
+{
+  "sources": [
+    {
+      "id": "theory",
+      "title": "Xikari-条件结构与转化论，用户提供原文",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "现行全文第293—314行；每节精确范围见sourceRefs",
+      "claim_support": [
+        "2.4：术语、合同、论证责任和原文边界；不据此认证经验事实",
+        "2.4.1：术语、合同、论证责任和原文边界；不据此认证经验事实",
+        "2.4.2：术语、合同、论证责任和原文边界；不据此认证经验事实"
+      ],
+      "limits": [
+        "作者理论文本，是被解释对象，不替代外部经验资料；技能5.3.1不等于理论版本。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "snow-table",
+      "title": "John Snow, On the Mode of Communication of Cholera",
+      "url": "https://www.gutenberg.org/cache/epub/72894/pg72894-images.html",
+      "source_type": "primary",
+      "version_or_date": "1855年第二版；数字转录版2024-02-07",
+      "locator": "1855年第2版，印刷页40、49表I、50—52",
+      "claim_support": [
+        "2.4：9月1日致死病例发病数143、9月7日28；9月8日移除泵柄。",
+        "2.4：作者区分发病时点和死亡时点，并说明迁出与移柄前下降。"
+      ],
+      "limits": [
+        "致死病例不等全部病例；发病时点有估算和未知。",
+        "只核相关原作段落与表，不构成净干预效果重估。"
+      ],
+      "access_status": "partially_read"
+    },
+    {
+      "id": "oregon-abstract",
+      "title": "Finkelstein et al., The Oregon Health Insurance Experiment: Evidence from the First Year",
+      "url": "https://www.nber.org/papers/w17190",
+      "source_type": "primary",
+      "version_or_date": "2011-07，DOI 10.3386/w17190",
+      "locator": "NBER Working Paper 17190，官方摘要前两句；检索返回官方正文",
+      "claim_support": [
+        "2.4.1：2008年Oregon抽签给未参保低收入成年人申请Medicaid的机会。"
+      ],
+      "limits": [
+        "当前直接网页和PDF打开返回403；仅据官方检索返回摘要，不声称全文已读。",
+        "仅支持设计事实，不认证本讲教学公式在该研究中的全部识别条件或具体健康结果。"
+      ],
+      "access_status": "partially_read"
+    }
+  ]
+}

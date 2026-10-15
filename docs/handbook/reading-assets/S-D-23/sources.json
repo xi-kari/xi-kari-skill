@@ -1,0 +1,34 @@
+{
+  "sources": [
+    {
+      "id": "T-main",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§D.23，第4885—4900行",
+      "claim_support": [
+        "家庭多边界、照护计量、自主依赖、安全退出、支持权限与八入口。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "P-CASH",
+      "title": "Cash and Counseling: Effects on Personal Care and Well-Being",
+      "url": "https://aspe.hhs.gov/sites/default/files/migrated_legacy_files/41521/adultpcw.pdf",
+      "source_type": "primary",
+      "version_or_date": "2005-05-16",
+      "locator": "2005-05-16报告，PDF第19—20页（印刷7—8页），项目服务安排",
+      "claim_support": [
+        "Arkansas、New Jersey、Florida项目的支出计划、雇主角色及咨询和财政支持安排。"
+      ],
+      "limits": [
+        "本人完整读既有原PDF指定两页；当前官网重取403，未因此推断全文不可核。这里只引用制度安排，不据此宣称所有参与者实际自主或照护负担已减少。"
+      ],
+      "access_status": "partially_read"
+    }
+  ]
+}

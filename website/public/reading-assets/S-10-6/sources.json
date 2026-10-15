@@ -1,0 +1,126 @@
+{
+  "sources": [
+    {
+      "id": "T-main",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§10.6，第2131—2144行",
+      "claim_support": [
+        "M与Ψ内容、三种跨通道桥、相称与窄任务边界。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-resource",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§10.6.1，第2145—2152行",
+      "claim_support": [
+        "资源转化、规则序列、多重位置及敏感分类边界。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-finance",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§10.6.2，第2153—2160行",
+      "claim_support": [
+        "财务计量、条件放大、五种传导与四种恢复结果。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-feedback",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§3.3，第463—472行",
+      "claim_support": [
+        "返回必须改变后续状态才成立有效反馈。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-simple",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§10.10，第2189—2194行",
+      "claim_support": [
+        "复杂度应由任务需要支持。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-floor",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§1.7，第147—152行",
+      "claim_support": [
+        "不能表达或披露不自动解释为同意或无损失。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "P-CC",
+      "title": "Carlson等：Effect of Consumer Direction on Adults’ Personal Care and Well-Being in Arkansas, New Jersey and Florida",
+      "url": "https://aspe.hhs.gov/sites/default/files/migrated_legacy_files/41521/adultpcw.pdf",
+      "source_type": "primary",
+      "version_or_date": "2005-05-16",
+      "locator": "2005-05-16原报告；印刷7—8、12—14、21、45—48页，PDF19—20、24—26、33、57—60。",
+      "claim_support": [
+        "三州项目以津贴、支出计划、咨询与财务支持组成；随机分组后九个月调查同时区分服务使用、满意及生活质量。",
+        "报告以获得项目机会为比较；佛罗里达仍住社区的老年干预组应答者近期领取津贴为39%。",
+        "部分满意度题排除受薪照护代理人，限制段明确提示差异排除偏差和短期/自报限制。"
+      ],
+      "limits": [
+        "不是纯粹选择权或现金单成分实验；不能识别M与Ψ中介闭环；三州自愿加入者及九个月窗口不代表所有人或当前政策。"
+      ],
+      "access_status": "partially_read"
+    },
+    {
+      "id": "P-FED",
+      "title": "Ben S. Bernanke: The Financial Accelerator and the Credit Channel",
+      "url": "https://www.federalreserve.gov/newsevents/speech/bernanke20070615a.htm",
+      "source_type": "primary",
+      "version_or_date": "2007-06-15",
+      "locator": "2007-06-15演讲，The External Finance Premium and the Financial Accelerator节第2—6段；Monetary Policy and the Credit Channel节关于替代贷款来源的段落。",
+      "claim_support": [
+        "研究者讲述外部融资溢价与借款人财务状况联系，同时明确现金流可能代理投资回报的识别困难及替代融资的削弱作用。"
+      ],
+      "limits": [
+        "这是研究者的历史演讲与机制说明，不是本题重估的历史因果效应，也不是2026年的市场判断或投资建议。"
+      ],
+      "access_status": "partially_read"
+    }
+  ]
+}

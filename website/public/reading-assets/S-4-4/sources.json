@@ -1,0 +1,95 @@
+{
+  "sources": [
+    {
+      "id": "T-44",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§4.4，第610—619行",
+      "claim_support": [
+        "4.4：G2两子型/三判据、逐维测量、类型转换、竞争解释、正零规则、总效应/通道边界和结论上限。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-41",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§4.1，第557—585行",
+      "claim_support": [
+        "4.4：冻结纪律、正式资格及相应零结论三门。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-domain",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§2.1.1，第225—232行",
+      "claim_support": [
+        "4.4：领域既有因果研究与正式实例资格分开，不补造事前合同。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-chain",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§11.6，第2331—2348行",
+      "claim_support": [
+        "4.4：通道与级联需要时间、同案对应与共同条件，局部不能无条件拼成整链。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-CVRS",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§7.2.4—7.2.5，第1502—1508行",
+      "claim_support": [
+        "4.4：CV承接载体与RS责任主体分别取证。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "R-fine-mechanisms",
+      "title": "Gneezy & Rustichini, A Fine is a Price",
+      "url": "https://www.ius.uzh.ch/dam/jcr:ed3f9a0b-ab68-4cf6-a18c-a480b33c9456/Gneezy%2520et%2520al%2520A%2520Fine%2520is%2520a%2520Price.pdf",
+      "source_type": "primary",
+      "version_or_date": "2000年1月；Journal of Legal Studies29(1):1—17；DOI10.1086/468061",
+      "locator": "§IV印刷页10—14；§V开头印刷页15，PDF第16页，作者说明不能排除提出的两种解释",
+      "claim_support": [
+        "4.4案例：论文在报告行为结果的同时保留竞争解释，明确说现有数据/理论尚不能排除两种解释。"
+      ],
+      "limits": [
+        "只核相关讨论与结果段，未重算总效应；不补造现行G2资格，也不验证任一心理机制。",
+        "本节应用是对证据职责的有限解释，不是对所有罚款和政策的一般结论。"
+      ],
+      "access_status": "partially_read"
+    }
+  ]
+}

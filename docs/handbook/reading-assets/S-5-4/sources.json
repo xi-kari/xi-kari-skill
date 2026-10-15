@@ -1,0 +1,49 @@
+{
+  "sources": [
+    {
+      "id": "theory",
+      "title": "Xikari-条件结构与转化论，用户提供原文",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "现行全文第1085—1100行；每节精确范围见sourceRefs",
+      "claim_support": [
+        "5.4：术语、合同、论证责任和原文边界；不据此认证经验事实"
+      ],
+      "limits": [
+        "作者理论文本，是被解释对象，不替代外部经验资料；技能5.3.1不等于理论版本。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "theory-m02",
+      "title": "Xikari原文5.5.2：M02四分支",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "第1111—1122行",
+      "claim_support": [
+        "5.4：描述性嵌套与跨层因果分支分开，描述可以成立而因果尚未检验。"
+      ],
+      "limits": [
+        "教学状态示意不等于实际分支获支持。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "theory-chain",
+      "title": "Xikari原文5.7：链级评价",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "第1217—1220行",
+      "claim_support": [
+        "5.4：有序原子记录链不能让前步支持自动传递，任务一致性和资源联合可行性另查。"
+      ],
+      "limits": [
+        "本节只说明程序责任，不声称实际链已完成。"
+      ],
+      "access_status": "read"
+    }
+  ]
+}

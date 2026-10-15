@@ -1,0 +1,26 @@
+@media print {
+  :root, .dark {
+    --xk-table: #fff; --xk-sheet: #fff; --xk-sheet-2: #f3f3f3;
+    --xk-ink: #111; --xk-ink-2: #333; --xk-ink-3: #555;
+    --xk-rule: #bbb; --xk-rule-2: #888; --xk-blue: #1f4a8a;
+    --xk-vellum: #fff; --xk-vellum-grid: transparent; --xk-vellum-edge: #999;
+  }
+  html, body { background: #fff; }
+  .xk-topbar, .xk-nav, .xk-aside, .xk-pager, .xk-footer, .xk-skip, .xk-scrim,
+  .xk-lesson__peek, .xk-tb__sigil, .header-anchor, .xk-lightbox { display: none !important; }
+  .xk-desk { display: block; max-width: none; }
+  .xk-sheet { padding: 0; box-shadow: none; min-height: 0; }
+  .xk-sheet::before, .xk-sheet::after { display: none; }
+  .xk-prose { max-width: none; font-size: 11pt; line-height: 1.75; }
+  .xk-prose :is(h2, h3) { break-after: avoid; }
+  .xk-prose :is(h2, h3, h4) .xk-num { width: auto; direction: ltr; display: inline; }
+  .xk-prose :is(h2, h3, h4) .xk-num__n { margin-right: .5em; }
+  .xk-lesson { margin: 1.4em 0; }
+  .xk-lesson__fold { grid-template-rows: 1fr !important; opacity: 1 !important; }
+  .xk-lesson__sheet { box-shadow: none; transform: none !important; border: 1px solid #999; }
+  .xk-lesson__sheet::before, .xk-lesson__sheet::after { display: none; }
+  .xk-table { overflow: visible; background: none; }
+  .xk-table table { font-size: 9pt; }
+  .xk-plate, .xk-model, .xk-case, .xk-scenario, .xk-limit, .concept-figure { break-inside: avoid; }
+  .xk-prose a[href^="http"]::after { content: " (" attr(href) ")"; font-size: .8em; color: #555; overflow-wrap: anywhere; }
+}

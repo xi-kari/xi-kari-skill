@@ -49,3 +49,9 @@ Xia, Kevin Muyuan, and Elias Bareinboim. 2025. “Causal Abstraction Inference u
 Moore, Edward F. 1956. “Gedanken-Experiments on Sequential Machines.” In Automata Studies, edited by Claude E. Shannon and John McCarthy, 129–153. Princeton University Press。相关位置为143及145—146页的等价类与递归精化讨论。[原文保存件](https://www.cs.cmu.edu/~cdm/resources/Moore1956-gedanken-experiments.pdf)。
 
 </div>
+
+<SectionLesson section="references" />
+
+<div v-pre class="theory-source">
+
+</div>

@@ -1,0 +1,51 @@
+{
+  "sources": [
+    {
+      "id": "theory",
+      "title": "Xikari-条件结构与转化论，用户提供原文",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "现行全文第2463—2490行；每节精确范围见sourceRefs",
+      "claim_support": [
+        "12.2：术语、合同、论证责任和原文边界；不据此认证经验事实",
+        "12.2.1：术语、合同、论证责任和原文边界；不据此认证经验事实",
+        "12.2.2：术语、合同、论证责任和原文边界；不据此认证经验事实"
+      ],
+      "limits": [
+        "作者理论文本，是被解释对象，不替代外部经验资料；技能5.3.1不等于理论版本。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "met2024",
+      "title": "Tropical cyclone verification northern hemisphere 2024",
+      "url": "https://www.metoffice.gov.uk/research/weather/tropical-cyclones/verification/summaries/nhem2024",
+      "source_type": "primary",
+      "version_or_date": "2024季节报告",
+      "locator": "§3.3表，Possibly verified行T+24=125、T+168=15",
+      "claim_support": [
+        "12.2.1：不同提前量有不同可验证预报数，展示时间与观测边界"
+      ],
+      "limits": [
+        "不是独立风暴数；未取得逐案资料，不估因果效应或当前准确率。"
+      ],
+      "access_status": "partially_read"
+    },
+    {
+      "id": "metdefinitions",
+      "title": "Tropical cyclone forecast verification - measures of error",
+      "url": "https://www.metoffice.gov.uk/research/weather/tropical-cyclones/verification/summaries/appendix",
+      "source_type": "primary",
+      "version_or_date": "页面未标日期；2026-10-14读取",
+      "locator": "术语列表 Possibly verified 与 Detection rate 两项",
+      "claim_support": [
+        "Possibly verified是有验证观测的预报数量，与检测率分开"
+      ],
+      "limits": [
+        "业务术语只在该报告口径下使用，不直接等同所有分类任务分母。"
+      ],
+      "access_status": "read"
+    }
+  ]
+}

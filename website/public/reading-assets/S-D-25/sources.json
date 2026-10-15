@@ -1,0 +1,34 @@
+{
+  "sources": [
+    {
+      "id": "T-main",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§D.25，第4917—4934行",
+      "claim_support": [
+        "教育各结果、个人复核、普通学习、知识生产边界及八入口。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "P-OSR",
+      "title": "Office for Statistics Regulation: Ensuring statistical models command public confidence",
+      "url": "https://osr.statisticsauthority.gov.uk/wp-content/uploads/2021/03/Ensuring_statistical_models_command_public_confidence.pdf",
+      "source_type": "primary",
+      "version_or_date": "2021-03-02",
+      "locator": "2021-03-02报告，页36—37§3.2.2.3；50—52§3.3.3.3；57—58§3.4.2.3，页序与印刷一致",
+      "claim_support": [
+        "2020成绩模型使用历史校级成绩；聚合平等检查不等个体复核；存在若干质量检查但发布前个人人工复核有限；即使快速申诉，大学名额决定已基于初始成绩作出。"
+      ],
+      "limits": [
+        "本人完整读指定7页，未声称通读76页；不称毫无人工检查，不推全部纠错失败或任何具体不可逆损失数量。"
+      ],
+      "access_status": "partially_read"
+    }
+  ]
+}

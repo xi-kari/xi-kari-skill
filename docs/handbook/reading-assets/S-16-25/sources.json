@@ -1,0 +1,34 @@
+{
+  "sources": [
+    {
+      "id": "theory",
+      "title": "Xikari-条件结构与转化论，用户提供原文",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "现行全文第3554—3561行；每节精确范围见sourceRefs",
+      "claim_support": [
+        "16.25：术语、合同、论证责任和原文边界；不据此认证经验事实"
+      ],
+      "limits": [
+        "作者理论文本，是被解释对象，不替代外部经验资料；技能5.3.1不等于理论版本。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "nist-context-risk",
+      "title": "AI RMF Playbook: GOVERN1.3",
+      "url": "https://airc.nist.gov/airmf-resources/playbook/govern/",
+      "source_type": "primary",
+      "version_or_date": "2026-10-14读取的官方网页",
+      "locator": "GOVERN1.3 About前三段；Suggested Actions五项，尤其末项",
+      "claim_support": [
+        "资源有限、风险尺度需组织治理；风险容忍度及风险等级可随生命周期变化"
+      ],
+      "limits": [
+        "指南不提供本任务的真实阈值，不证明实施成效；页面说明AI RMF1.0正在更新。"
+      ],
+      "access_status": "partially_read"
+    }
+  ]
+}

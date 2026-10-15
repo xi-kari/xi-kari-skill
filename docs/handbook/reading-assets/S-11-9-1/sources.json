@@ -1,0 +1,37 @@
+{
+  "sources": [
+    {
+      "id": "theory",
+      "title": "Xikari-条件结构与转化论，用户提供原文",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "现行全文第2390—2413行；每节精确范围见sourceRefs",
+      "claim_support": [
+        "11.9.1：术语、合同、论证责任和原文边界；不据此认证经验事实",
+        "11.9.2：术语、合同、论证责任和原文边界；不据此认证经验事实",
+        "11.9.3：术语、合同、论证责任和原文边界；不据此认证经验事实",
+        "11.9.4：术语、合同、论证责任和原文边界；不据此认证经验事实"
+      ],
+      "limits": [
+        "作者理论文本，是被解释对象，不替代外部经验资料；技能5.3.1不等于理论版本。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "formal",
+      "title": "现行原文：任务充分性、动态界面及有限外推",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "§11.3.1第2261—2268行；§11.7第2349—2361行；§11.9第2378—2389行",
+      "claim_support": [
+        "再入不创造新现实观察，条件分支保留未知；时间展开与对象同一性；接口充分性绑定当前任务"
+      ],
+      "limits": [
+        "本题构造的有限推导不替现实校准或执行权限。"
+      ],
+      "access_status": "read"
+    }
+  ]
+}

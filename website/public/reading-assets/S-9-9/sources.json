@@ -1,0 +1,141 @@
+{
+  "sources": [
+    {
+      "id": "T-99",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§9.9，第1999—2014行",
+      "claim_support": [
+        "七区段与输出上限；双时点、按通道更新、自主动力、历史值和当前未知。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-91",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§9.1，第1873—1889行",
+      "claim_support": [
+        "A*的候选身份、来源和未知，不能由名字填满状态。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-roles",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§9.4，第1942—1951行",
+      "claim_support": [
+        "角色激活、来源、认同、冲突、成本和退出分开。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-times",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§9.2及子节，第1890—1921行",
+      "claim_support": [
+        "慢中快随窗口、动力与覆盖判断，不等于固定更新周期。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-status",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§9.6，第1968—1982行",
+      "claim_support": [
+        "观察与假设、后见变量、版本和退役分别登记。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-channels",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§9.7，第1983—1992行",
+      "claim_support": [
+        "物质与体验的任务相关性及跨通道证据。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-privacy",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§9.8，第1993—1998行",
+      "claim_support": [
+        "用途不自动扩张，拒绝保留为知识边界。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "T-evidence",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§2.5，第315—320行；§16.9，第3412—3414行",
+      "claim_support": [
+        "来源到判断须支持关系，过程和表格完整不自行证明现实效果。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "P-F2001",
+      "title": "Toward a Structure- and Process-Integrated View of Personality: Traits as Density Distributions of States",
+      "url": "https://simine.com/407/readings/Fleeson_2001.pdf",
+      "source_type": "primary",
+      "version_or_date": "William Fleeson；JPSP80(6):1011—1027，2001；DOI10.1037/0022-3514.80.6.1011；公开原刊PDF副本。",
+      "locator": "Study1 Method/Procedure，印刷1014/PDF4；Materials印刷1015/PDF5。重点为46名学生、13天五次、指定前一小时、迟交仍描述原时段、完成时间记录与排除。",
+      "claim_support": [
+        "研究1的计划经验采样设计与所描述时间窗口。",
+        "实际填写时间和目标描述时段区分，时间信息用于质量排除。"
+      ],
+      "limits": [
+        "没有把计划报告次数当成全数完成；未复算原始数据或推论长期人格。",
+        "历史研究设计不是当前隐蔽采集或现实测评许可；不把设备时间戳视为自述真实性证明。"
+      ],
+      "access_status": "partially_read"
+    }
+  ]
+}

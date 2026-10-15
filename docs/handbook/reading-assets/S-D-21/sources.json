@@ -1,0 +1,34 @@
+{
+  "sources": [
+    {
+      "id": "T-main",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§D.21，第4853—4868行",
+      "claim_support": [
+        "法律各层、权限、责任、窗口信息和补救终点与八入口。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "P-FCA",
+      "title": "Prygodicz v Commonwealth of Australia (No 2) [2021] FCA 634",
+      "url": "https://www.judgments.fedcourt.gov.au/judgments/Judgments/fca/single/2021/2021fca0634",
+      "source_type": "primary",
+      "version_or_date": "2021-06-11",
+      "locator": "2021-06-11，理由[2]、[5]、[65]及命令Annexure C第1(a)—(d)项",
+      "claim_support": [
+        "判决记载收入平均过程与变动收入问题；附录C列明仅依赖较长时期ATO数据、缺恒定双周收入或其他支持证据等条件下债务决定无效。"
+      ],
+      "limits": [
+        "本人直接读指定段及附录，不声称通读全部判决；只用于该历史案件，非当前个案法律意见，也不把判决等同每人实际获得完整补救。"
+      ],
+      "access_status": "partially_read"
+    }
+  ]
+}

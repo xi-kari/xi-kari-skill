@@ -1,0 +1,34 @@
+{
+  "sources": [
+    {
+      "id": "theory",
+      "title": "Xikari-条件结构与转化论，用户提供原文",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "现行全文第3448—3457行；每节精确范围见sourceRefs",
+      "claim_support": [
+        "16.13：术语、合同、论证责任和原文边界；不据此认证经验事实"
+      ],
+      "limits": [
+        "作者理论文本，是被解释对象，不替代外部经验资料；技能5.3.1不等于理论版本。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "uk-trauma2022",
+      "title": "Working definition of trauma-informed practice",
+      "url": "https://www.gov.uk/government/publications/working-definition-of-trauma-informed-practice/working-definition-of-trauma-informed-practice",
+      "source_type": "primary",
+      "version_or_date": "2022-11-02",
+      "locator": "2022-11-02发布日期；Prevent re-traumatisation第2段；相关四原则小节",
+      "claim_support": [
+        "服务设计与专门治疗责任区分；安全信任选择协作原则"
+      ],
+      "limits": [
+        "指导文本非个案实验；不由此验证框架历史类型或治疗效果。"
+      ],
+      "access_status": "partially_read"
+    }
+  ]
+}

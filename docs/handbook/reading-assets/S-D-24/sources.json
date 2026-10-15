@@ -1,0 +1,49 @@
+{
+  "sources": [
+    {
+      "id": "T-main",
+      "title": "Xikari著《Xikari-条件结构与转化论》",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68；文本自述2026年10月",
+      "locator": "§D.24，第4901—4916行",
+      "claim_support": [
+        "人口流量识别、迁移选择、继任、规范边界、转折和八入口。"
+      ],
+      "limits": [
+        "支持当前稿的文本含义与明确限定的推理；不自行证明经验普遍性、实施效果或读者学习成效。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "P-UN",
+      "title": "UN Population Division: World Population Prospects 2024 Interim Update",
+      "url": "https://population.un.org/wpp/assets/Files/WPP2024_Release-Note-rev1.pdf",
+      "source_type": "primary",
+      "version_or_date": "2026-01-19，WPP2024 rev.1",
+      "locator": "2026-01-19，页1§2四项说明及§3文件清单；页2rev.1标记",
+      "claim_support": [
+        "多哥普查数重复作净漏报调整导致更正；仅指定国家年份和中方案数量更新，其他情景、地点及全球区域汇总不更新。"
+      ],
+      "limits": [
+        "本人完整读两页发布说明；未逐项比对数据ZIP，不把说明当所有文件或所有情景同步修订的证据。"
+      ],
+      "access_status": "partially_read"
+    },
+    {
+      "id": "P-ILO",
+      "title": "ILO: What is forced labour?",
+      "url": "https://www.ilo.org/topics-and-sectors/forced-labour-modern-slavery-and-trafficking-persons/what-forced-labour",
+      "source_type": "primary",
+      "version_or_date": "2026-10-14访问",
+      "locator": "The international legal definition of forced labour，定义及三要素第3项（网页54—63行），例外限定74—80行",
+      "claim_support": [
+        "自愿包括自由知情接受工作及离开的自由；不能以一次签约替代全过程条件核验。"
+      ],
+      "limits": [
+        "本人读定义及上下文；“曾签约不足”是据定义作的限缩推论，不是网页原句。未判具体合同或个案，强迫劳动还须其他要素及适用规则。"
+      ],
+      "access_status": "partially_read"
+    }
+  ]
+}

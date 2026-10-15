@@ -1,0 +1,34 @@
+{
+  "sources": [
+    {
+      "id": "theory",
+      "title": "Xikari-条件结构与转化论，用户提供原文",
+      "url": "/reading-assets/theory.md",
+      "source_type": "theory_source",
+      "version_or_date": "manuscript-20261013-df579dbdbb68",
+      "locator": "现行全文第3514—3523行；每节精确范围见sourceRefs",
+      "claim_support": [
+        "16.20：术语、合同、论证责任和原文边界；不据此认证经验事实"
+      ],
+      "limits": [
+        "作者理论文本，是被解释对象，不替代外部经验资料；技能5.3.1不等于理论版本。"
+      ],
+      "access_status": "read"
+    },
+    {
+      "id": "nature-peer-review",
+      "title": "Peer Review | Nature",
+      "url": "https://www.nature.com/nature/editorial-policies/peer-review",
+      "source_type": "primary",
+      "version_or_date": "2026-10-14读取的官方网页",
+      "locator": "The review process前四段及选项；Editorial decisions are not a matter…段；Writing the review问题列表末两项；Anonymity首段",
+      "claim_support": [
+        "公开政策规定编辑结合评审意见决定而非简单投票；要求声明评估能力边界；通常保护评审者身份"
+      ],
+      "limits": [
+        "规范文本不等于实施效果，不证明覆盖Xikari六类评审或九项门禁。"
+      ],
+      "access_status": "partially_read"
+    }
+  ]
+}
