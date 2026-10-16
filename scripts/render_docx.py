@@ -143,7 +143,9 @@ def parse_blocks(lines: list[str]) -> list[dict]:
             continue
         fence = _FENCE.match(line)
         if fence:
-            closing = re.compile(r'^ {0,3}' + re.escape(fence.group(1)[0]) + r'{3,}\s*$')
+            opening = i
+            closing = re.compile(r'^ {0,3}' + re.escape(fence.group(1)[0])
+                                 + '{' + str(len(fence.group(1))) + r',}\s*$')
             info = fence.group(2)
             body, i = [], i + 1
             while i < total and not closing.match(lines[i]):
@@ -151,7 +153,7 @@ def parse_blocks(lines: list[str]) -> list[dict]:
                 i += 1
             i += 1
             if info.lower() in ('mermaid',):
-                blocks.append({'kind': 'unsupported', 'text': f'```{info}\n' + '\n'.join(body),
+                blocks.append({'kind': 'unsupported', 'text': '\n'.join(lines[opening:i]),
                                'note': f'围栏代码块语言 {info} 未支持，保留原文'})
             else:
                 blocks.append({'kind': 'code', 'lines': body})
@@ -465,9 +467,8 @@ def build_document(source: str, title: str | None, source_path: Path | None) -> 
         elif kind == 'unsupported':
             unsupported.append(block['note'])
             for line in block['text'].split('\n'):
-                if line:
-                    body.append(_paragraph_xml([{'text': line, 'bold': False, 'italic': False,
-                                                 'code': False, 'sup': False}], style='Code'))
+                body.append(_paragraph_xml([{'text': line, 'bold': False, 'italic': False,
+                                             'code': False, 'sup': False}], style='Code'))
 
     if numbers:
         ordered = sorted(numbers.items(), key=lambda item: item[1])

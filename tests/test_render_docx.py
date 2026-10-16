@@ -222,6 +222,87 @@ class RenderDocxTests(unittest.TestCase):
         self.assertIn('<tag> & 值 ≤ 上限', all_text(output))
         self.assertIn('Code', [paragraph_style(p) for p in root_of(output).iter(W + 'p')])
 
+    def test_code_fences_preserve_shorter_delimiters(self):
+        for marker in ('`', '~'):
+            for length in (4, 6):
+                with self.subTest(marker=marker, length=length):
+                    fence = marker * length
+                    body = ['<tag> & 值', marker * (length - 1), '# 仍在代码中',
+                            '', '- 保留列表标记']
+                    text = '\n'.join([fence + 'text', *body, fence, '闭合后的正文']) + '\n'
+                    output, _ = self.render(text, out=f'short-{ord(marker)}-{length}.docx')
+                    paragraphs = [(paragraph_text(p), paragraph_style(p))
+                                  for p in root_of(output).iter(W + 'p')]
+                    self.assertEqual(paragraphs, [(line, 'Code') for line in body]
+                                     + [('闭合后的正文', None)])
+
+    def test_code_fences_close_with_equal_or_longer_delimiters(self):
+        for marker in ('`', '~'):
+            for length in (3, 4, 6):
+                for extra in (0, 2):
+                    with self.subTest(marker=marker, length=length, extra=extra):
+                        text = '\n'.join([marker * length + 'text', '# 代码标题',
+                                          marker * (length + extra),
+                                          '# 正文标题', '', '闭合后的正文']) + '\n'
+                        output, _ = self.render(text, out=f'close-{ord(marker)}-{length}-{extra}.docx')
+                        paragraphs = [(paragraph_text(p), paragraph_style(p))
+                                      for p in root_of(output).iter(W + 'p')]
+                        self.assertEqual(paragraphs, [('# 代码标题', 'Code'),
+                                                     ('正文标题', 'Heading1'),
+                                                     ('闭合后的正文', None)])
+
+    def test_code_fences_ignore_other_delimiters(self):
+        for marker, other in (('`', '~'), ('~', '`')):
+            with self.subTest(marker=marker):
+                fence = marker * 4
+                body = ['第一行', other * 4, other * 6, '# 仍在代码中']
+                text = '\n'.join([fence, *body, fence, '闭合后的正文']) + '\n'
+                output, _ = self.render(text, out=f'other-{ord(marker)}.docx')
+                paragraphs = [(paragraph_text(p), paragraph_style(p))
+                              for p in root_of(output).iter(W + 'p')]
+                self.assertEqual(paragraphs, [(line, 'Code') for line in body]
+                                 + [('闭合后的正文', None)])
+
+    def test_code_fences_ignore_delimiters_with_trailing_content(self):
+        for marker in ('`', '~'):
+            with self.subTest(marker=marker):
+                fence = marker * 4
+                body = [fence + 'text', marker * 6 + ' trailing content',
+                        '# 仍在代码中']
+                text = '\n'.join([fence, *body, fence, '闭合后的正文']) + '\n'
+                output, _ = self.render(text, out=f'content-{ord(marker)}.docx')
+                paragraphs = [(paragraph_text(p), paragraph_style(p))
+                              for p in root_of(output).iter(W + 'p')]
+                self.assertEqual(paragraphs, [(line, 'Code') for line in body]
+                                 + [('闭合后的正文', None)])
+
+    def test_unclosed_code_fences_preserve_all_body_lines(self):
+        for marker in ('`', '~'):
+            with self.subTest(marker=marker):
+                body = ['第一行', marker * 3, '# 保留标题标记', '',
+                        '- 保留列表标记', '<tag> & 最后一行']
+                text = '\n'.join([marker * 4 + 'text', *body])
+                output, _ = self.render(text, out=f'unclosed-{ord(marker)}.docx')
+                paragraphs = [(paragraph_text(p), paragraph_style(p))
+                              for p in root_of(output).iter(W + 'p')]
+                self.assertEqual(paragraphs, [(line, 'Code') for line in body])
+
+    def test_unsupported_mermaid_preserves_original_block(self):
+        for marker in ('`', '~'):
+            with self.subTest(marker=marker):
+                opening = '  ' + marker * 4 + 'mermaid'
+                closing = ' ' + marker * 5 + '  '
+                code = [opening, 'graph TD', '', '    A --> B', '   ', closing]
+                text = '\n'.join([*code, '闭合后的正文']) + '\n'
+                output, _ = self.render(text, out=f'mermaid-{ord(marker)}.docx')
+                paragraphs = [(paragraph_text(p), paragraph_style(p))
+                              for p in root_of(output).iter(W + 'p')]
+                self.assertEqual(paragraphs[:len(code) + 1],
+                                 [(line, 'Code') for line in code] + [('闭合后的正文', None)])
+                self.assertIn(('未支持语法说明', 'Heading1'), paragraphs)
+                self.assertTrue(any('围栏代码块语言 mermaid 未支持，保留原文' in text
+                                    and style == 'FootnoteText' for text, style in paragraphs))
+
     def test_all_text_readback(self):
         text = ('# 第一章 结构\n\n'
                 '中文段落 Alpha beta gamma.\n\n'
