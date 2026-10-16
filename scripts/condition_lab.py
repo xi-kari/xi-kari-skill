@@ -155,14 +155,18 @@ class Formula:
                 return absent or known(not decisive)
             if isinstance(node, ast.BinOp):
                 values = [evaluate(node.left), evaluate(node.right)]
+                absent = failure(values)
+                if absent and absent.state == "error":
+                    return absent
                 if isinstance(node.op, (ast.Div, ast.FloorDiv, ast.Mod)) and values[1].state == "known" and number(values[1].value) and values[1].value == 0:
                     return Value("error", reason="不可计算: ZeroDivisionError")
-                absent = failure(values)
+                if any(value.state == "known" and not number(value.value) for value in values):
+                    return Value("error", reason="算术只接受数字，布尔量不作0/1处理。")
+                if isinstance(node.op, ast.Pow) and values[1].state == "known" and abs(values[1].value) > 12:
+                    return Value("error", reason="幂指数绝对值上限为12。")
                 if absent:
                     return absent
                 left, right = (v.value for v in values)
-                if not number(left) or not number(right):
-                    return Value("error", reason="算术只接受数字，布尔量不作0/1处理。")
                 try:
                     if isinstance(node.op, ast.Add): result = left + right
                     elif isinstance(node.op, ast.Sub): result = left - right
@@ -170,10 +174,7 @@ class Formula:
                     elif isinstance(node.op, ast.Div): result = left / right
                     elif isinstance(node.op, ast.FloorDiv): result = left // right
                     elif isinstance(node.op, ast.Mod): result = left % right
-                    elif isinstance(node.op, ast.Pow):
-                        if abs(right) > 12:
-                            return Value("error", reason="幂指数绝对值上限为12。")
-                        result = left ** right
+                    elif isinstance(node.op, ast.Pow): result = left ** right
                     else: return Value("error", reason="不支持的运算。")
                     if not number(result):
                         return Value("error", reason="结果不是实数。")
@@ -187,6 +188,8 @@ class Formula:
                     return absent
                 answers = []
                 for left_value, op, right_value in zip(values, node.ops, values[1:]):
+                    if not isinstance(op, (ast.Eq, ast.NotEq)) and any(value.state == "known" and not number(value.value) for value in (left_value, right_value)):
+                        return Value("error", reason="比较需要同类数字；布尔量仅可作==或!=比较。")
                     if left_value.state == "unknown" or right_value.state == "unknown":
                         continue
                     left, right = left_value.value, right_value.value
@@ -206,11 +209,13 @@ class Formula:
             if isinstance(node, ast.Call):
                 values = [evaluate(child) for child in node.args]
                 absent = failure(values)
+                if absent and absent.state == "error":
+                    return absent
+                if any(value.state == "known" and not number(value.value) for value in values):
+                    return Value("error", reason="min/max/abs只接受数字。")
                 if absent:
                     return absent
                 numbers = [value.value for value in values]
-                if not all(number(v) for v in numbers):
-                    return Value("error", reason="min/max/abs只接受数字。")
                 function = {"min": min, "max": max, "abs": abs}[node.func.id]
                 return known(function(numbers[0]) if node.func.id == "abs" else function(numbers))
             return Value("error", reason="公式节点不可计算。")

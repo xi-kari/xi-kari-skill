@@ -136,6 +136,167 @@ class ConditionLabTests(unittest.TestCase):
         self.assertEqual(lab.Formula("missing or True", {"missing"}).evaluate(values).value, True)
         self.assertEqual(lab.Formula("True or (1 / 0 > 0)", set()).evaluate({}).state, "error")
 
+    def test_model_arithmetic_known_boolean_errors_are_not_hidden_by_unknown(self):
+        for operator in ("+", "-", "*", "/", "//", "%", "**"):
+            for boolean in (False, True):
+                for left, right in (("selected", "capacity"), ("capacity", "selected")):
+                    formula = f"{left} {operator} {right}"
+                    with self.subTest(formula=formula, boolean=boolean):
+                        model = minimal()
+                        model["inputs"]["capacity"].update(value=None, basis="unknown")
+                        model["inputs"]["selected"]["value"] = boolean
+                        model["derived"][0]["formula"] = formula
+                        case = lab.evaluate_model(model)["cases"][0]
+                        self.assertEqual(case["derived"][0]["state"], "error")
+                        self.assertIsNone(case["derived"][0]["value"])
+                        self.assertTrue(case["derived"][0]["reason"])
+                        self.assertEqual(case["constraints"][0]["state"], "error")
+                        self.assertEqual(case["state"], "calculation_error")
+
+    def test_model_exponent_bounds_are_checked_with_unknown_base(self):
+        for exponent in ("13", "-13", "selected + 9", "-(selected + 9)"):
+            with self.subTest(exponent=exponent):
+                model = minimal()
+                model["inputs"]["capacity"].update(value=None, basis="unknown")
+                model["derived"][0]["formula"] = f"capacity ** ({exponent})"
+                case = lab.evaluate_model(model)["cases"][0]
+                self.assertEqual(case["derived"][0]["state"], "error")
+                self.assertIn("12", case["derived"][0]["reason"])
+                self.assertEqual(case["constraints"][0]["state"], "error")
+                self.assertEqual(case["state"], "calculation_error")
+
+    def test_model_min_max_known_boolean_errors_are_not_hidden_by_unknown(self):
+        for function in ("min", "max"):
+            for boolean in (False, True):
+                for arguments in ("selected, capacity", "capacity, selected", "1, capacity, selected", "selected, 1, capacity"):
+                    formula = f"{function}({arguments})"
+                    with self.subTest(formula=formula, boolean=boolean):
+                        model = minimal()
+                        model["inputs"]["capacity"].update(value=None, basis="unknown")
+                        model["inputs"]["selected"]["value"] = boolean
+                        model["derived"][0]["formula"] = formula
+                        case = lab.evaluate_model(model)["cases"][0]
+                        self.assertEqual(case["derived"][0]["state"], "error")
+                        self.assertIsNone(case["derived"][0]["value"])
+                        self.assertEqual(case["constraints"][0]["state"], "error")
+                        self.assertEqual(case["state"], "calculation_error")
+
+    def test_model_relational_known_boolean_errors_are_not_hidden_by_unknown(self):
+        for operator in ("<", "<=", ">", ">="):
+            for boolean in (False, True):
+                for left, right in (("selected", "capacity"), ("capacity", "selected")):
+                    formula = f"{left} {operator} {right}"
+                    with self.subTest(formula=formula, boolean=boolean):
+                        model = minimal()
+                        model["inputs"]["capacity"].update(value=None, basis="unknown")
+                        model["inputs"]["selected"]["value"] = boolean
+                        model["derived"] = []
+                        model["constraints"][0]["formula"] = formula
+                        case = lab.evaluate_model(model)["cases"][0]
+                        self.assertEqual(case["constraints"][0]["state"], "error")
+                        self.assertIsNone(case["constraints"][0]["value"])
+                        self.assertEqual(case["state"], "calculation_error")
+
+    def test_model_numeric_operations_preserve_unknown_without_known_errors(self):
+        formulas = [f"{left} {operator} {right}" for operator in ("+", "-", "*", "/", "//", "%", "**")
+                    for left, right in (("capacity", "2"), ("2", "capacity"))]
+        formulas += ["capacity ** 12", "capacity ** -12", "13 ** capacity", "(-13) ** capacity",
+                     "min(1, capacity)", "min(capacity, 1)", "max(1, capacity)", "max(capacity, 1)"]
+        for formula in formulas:
+            with self.subTest(formula=formula):
+                model = minimal()
+                model["inputs"]["capacity"].update(value=None, basis="unknown")
+                model["derived"][0]["formula"] = formula
+                case = lab.evaluate_model(model)["cases"][0]
+                self.assertEqual(case["derived"][0]["state"], "unknown")
+                self.assertIsNone(case["derived"][0]["value"])
+                self.assertEqual(case["constraints"][0]["state"], "unknown")
+                self.assertEqual(case["state"], "undetermined")
+
+    def test_model_boolean_unknowns_preserve_decisive_values_and_equality(self):
+        cases = [(f"{left} {operator} {right}", "unknown", None, "undetermined")
+                 for operator in ("==", "!=") for boolean in ("False", "True")
+                 for left, right in ((boolean, "capacity"), ("capacity", boolean))]
+        cases += [
+            ("capacity and False", "violated", False, "violates_model_constraints"),
+            ("False and capacity", "violated", False, "violates_model_constraints"),
+            ("capacity or True", "satisfied", True, "satisfies_model_constraints"),
+            ("True or capacity", "satisfied", True, "satisfies_model_constraints"),
+            ("capacity and True", "unknown", None, "undetermined"),
+            ("True and capacity", "unknown", None, "undetermined"),
+            ("capacity or False", "unknown", None, "undetermined"),
+            ("False or capacity", "unknown", None, "undetermined"),
+        ]
+        for formula, state, value, overall in cases:
+            with self.subTest(formula=formula):
+                model = minimal()
+                model["inputs"]["capacity"].update(value=None, basis="unknown")
+                model["derived"] = []
+                model["constraints"][0]["formula"] = formula
+                case = lab.evaluate_model(model)["cases"][0]
+                self.assertEqual((case["constraints"][0]["state"], case["constraints"][0]["value"]), (state, value))
+                self.assertEqual(case["state"], overall)
+
+    def test_model_comparison_chains_prioritize_known_errors_over_false_or_unknown(self):
+        cases = [
+            ("10 <= 5 <= capacity < True", "error", "calculation_error"),
+            ("True < capacity <= 10 <= 5", "error", "calculation_error"),
+            ("True == capacity < False", "error", "calculation_error"),
+            ("capacity < True == True", "error", "calculation_error"),
+            ("True == capacity < 2", "unknown", "undetermined"),
+            ("False != capacity < 2", "unknown", "undetermined"),
+            ("10 <= 5 <= capacity == True", "violated", "violates_model_constraints"),
+        ]
+        for formula, state, overall in cases:
+            with self.subTest(formula=formula):
+                model = minimal()
+                model["inputs"]["capacity"].update(value=None, basis="unknown")
+                model["derived"] = []
+                model["constraints"][0]["formula"] = formula
+                case = lab.evaluate_model(model)["cases"][0]
+                self.assertEqual(case["constraints"][0]["state"], state)
+                self.assertEqual(case["state"], overall)
+
+    def test_cli_json_and_csv_preserve_known_errors_unknowns_and_boolean_decisions(self):
+        cases = [
+            ("derived", "True + capacity", "error", None, "calculation_error"),
+            ("derived", "capacity ** -13", "error", None, "calculation_error"),
+            ("derived", "max(capacity, False)", "error", None, "calculation_error"),
+            ("derived", "2 + capacity", "unknown", None, "undetermined"),
+            ("derived", "capacity ** 12", "unknown", None, "undetermined"),
+            ("constraint", "capacity < True", "error", None, "calculation_error"),
+            ("constraint", "10 <= 5 <= capacity < True", "error", None, "calculation_error"),
+            ("constraint", "True == capacity", "unknown", None, "undetermined"),
+            ("constraint", "capacity != False", "unknown", None, "undetermined"),
+            ("constraint", "capacity and False", "violated", False, "violates_model_constraints"),
+            ("constraint", "capacity or True", "satisfied", True, "satisfies_model_constraints"),
+        ]
+        for index, (kind, formula, state, value, overall) in enumerate(cases):
+            with self.subTest(kind=kind, formula=formula):
+                model = minimal()
+                model["inputs"]["capacity"].update(value=None, basis="unknown")
+                if kind == "derived":
+                    model["derived"][0]["formula"] = formula
+                else:
+                    model["derived"] = []
+                    model["constraints"][0]["formula"] = formula
+                self.source.write_text(json.dumps(model), encoding="utf-8")
+                output = self.output / str(index)
+                process = subprocess.run([sys.executable, str(SCRIPT), str(self.source), "--output", str(output)], capture_output=True, encoding="utf-8")
+                self.assertEqual(process.returncode, 0, process.stderr)
+                result = json.loads((output / lab.OUTPUTS["json"]).read_text(encoding="utf-8"))
+                case = result["cases"][0]
+                item = case["derived" if kind == "derived" else "constraints"][0]
+                rows = list(csv.DictReader(io.StringIO((output / lab.OUTPUTS["csv"]).read_text(encoding="utf-8"))))
+                exported = next(row for row in rows if row["kind"] == kind)
+                csv_value = "" if value is None else str(value).lower()
+                with self.subTest(format="json"):
+                    self.assertEqual((item["state"], item["value"]), (state, value))
+                    self.assertEqual(case["state"], overall)
+                with self.subTest(format="csv"):
+                    self.assertEqual((exported["state"], exported["value"]), (state, csv_value))
+                    self.assertEqual({row["case_state"] for row in rows}, {overall})
+
     def test_comparison_chains_match_conjunctions_with_unknowns_and_errors(self):
         values = {"missing": lab.Value("unknown", reason="未知")}
         cases = [
