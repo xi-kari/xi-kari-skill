@@ -83,6 +83,8 @@ def split_cells(line: str) -> list[str]:
     while i < len(value):
         char = value[i]
         if char == '\\' and i + 1 < len(value):
+            if value[i + 1] not in '|`':
+                current.append(char)
             current.append(value[i + 1])
             i += 2
             continue

@@ -51,6 +51,7 @@ python scripts/study_design.py --design assets/examples/study-design-example.jso
 ```powershell
 node tests/test_reader_interaction.cjs "$PWD/tests/dom/node_modules/jsdom"
 node tests/test_reader_navigation.cjs "$PWD/tests/dom/node_modules/playwright-core"
+node tests/test_reader_search.cjs "$PWD/tests/dom/node_modules/playwright-core"
 $xikariConditionOutput = Join-Path ([System.IO.Path]::GetTempPath()) ('xikari-condition-' + [guid]::NewGuid().ToString('N'))
 python scripts/condition_lab.py assets/examples/condition-university.json --output $xikariConditionOutput
 node tests/test_condition_interaction.cjs "$PWD/tests/dom/node_modules/jsdom" "$xikariConditionOutput/condition-results.html"

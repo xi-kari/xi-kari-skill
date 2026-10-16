@@ -131,6 +131,46 @@ class RenderDocxTests(unittest.TestCase):
         for cell in ('列甲', '列乙', '列丙', '一', '二', '三'):
             self.assertIn(cell, joined)
 
+    def test_table_preserves_backslashes(self):
+        cases = (
+            ('windows_path', r'D:\data\notes.csv', r'D:\data\notes.csv'),
+            ('code_path', r'`D:\data\notes.csv`', r'D:\data\notes.csv'),
+            ('unc_path', r'\\server\share\notes.csv', r'\\server\share\notes.csv'),
+            ('code_unc_path', r'`\\server\share\notes.csv`', r'\\server\share\notes.csv'),
+            ('math', r'\alpha + \beta', r'\alpha + \beta'),
+            ('escaped_pipe', r'a\|b', 'a|b'),
+            ('code_escaped_pipe', r'`a\|b`', 'a|b'),
+        )
+        for name, source, expected in cases:
+            with self.subTest(name=name):
+                text = f'| 内容 | 核对 |\n| --- | --- |\n| {source} | 保留 |\n'
+                output, _ = self.render(text, out=f'{name}.docx')
+                tables = list(root_of(output).iter(W + 'tbl'))
+                self.assertEqual(len(tables), 1)
+                rows = list(tables[0].iter(W + 'tr'))
+                cells = list(rows[1].iter(W + 'tc'))
+                self.assertEqual(len(cells), 2)
+                values = [''.join(t.text or '' for t in cell.iter(W + 't')) for cell in cells]
+                self.assertEqual(values, [expected, '保留'])
+
+    def test_table_escaped_backticks_and_backslash_parity(self):
+        cases = (
+            ('escaped_backtick', r'| a \` literal | second |', ['a ` literal', 'second']),
+            ('two_backslashes', r'| slash\\| second |', [r'slash\\', 'second']),
+            ('three_backslashes', r'| slash\\\| literal | second |', [r'slash\\| literal', 'second']),
+            ('four_backslashes', r'| slash\\\\| second |', [r'slash\\\\', 'second']),
+        )
+        for name, row, expected in cases:
+            with self.subTest(name=name):
+                text = '| 内容 | 核对 |\n| --- | --- |\n' + row + '\n'
+                output, _ = self.render(text, out=f'{name}.docx')
+                tables = list(root_of(output).iter(W + 'tbl'))
+                self.assertEqual(len(tables), 1)
+                rows = list(tables[0].iter(W + 'tr'))
+                cells = list(rows[1].iter(W + 'tc'))
+                values = [''.join(t.text or '' for t in cell.iter(W + 't')) for cell in cells]
+                self.assertEqual(values, expected)
+
     def test_nested_lists(self):
         text = '1. 外层甲\n2. 外层乙\n    - 内层甲\n    - 内层乙\n'
         output, _ = self.render(text)

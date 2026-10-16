@@ -290,19 +290,40 @@
     searchControl.classList.toggle('has-query', Boolean(query));
     if (!query) { status.textContent = ''; return; }
     const walker = document.createTreeWalker(article, NodeFilter.SHOW_TEXT | NodeFilter.SHOW_ELEMENT);
-    const nodes = []; let text = '', node;
+    const nodes = [], runs = []; let offset = 0, node, run;
     while ((node = walker.nextNode())) {
       const math = node.nodeType === Node.ELEMENT_NODE && node.matches('.reader-math');
       if (!math && (node.nodeType !== Node.TEXT_NODE || node.parentElement.closest('.reader-math'))) continue;
       const value = math ? node.dataset.mathSource : node.data;
-      nodes.push({ node, math, start: text.length, end: text.length + value.length });
-      text += value;
+      const block = math && node.dataset.display === 'true' ? node : node.parentElement.closest('p, h1, h2, h3, h4, h5, h6, li, pre, td, th, figcaption') || article;
+      if (!run || run.block !== block) {
+        run = { block, text: '', starts: [], ends: [], space: false };
+        runs.push(run);
+      }
+      nodes.push({ node, math, start: offset, end: offset + value.length });
+      const collapse = !math && !node.parentElement.closest('pre');
+      for (let i = 0; i < value.length; i++) {
+        let character = value[i];
+        const space = collapse && /[\t\n\f\r ]/.test(character);
+        if (space && run.space) {
+          run.ends[run.ends.length - 1] = offset + i + 1;
+          continue;
+        }
+        if (space) character = ' ';
+        run.text += character;
+        run.starts.push(offset + i); run.ends.push(offset + i + 1);
+        run.space = space;
+      }
+      offset += value.length;
     }
     const pattern = new RegExp(query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'giu');
-    let hit;
-    while ((hit = pattern.exec(text)) !== null) {
-      matches.push({ start: hit.index, end: hit.index + hit[0].length });
-    }
+    runs.forEach(item => {
+      pattern.lastIndex = 0;
+      let hit;
+      while ((hit = pattern.exec(item.text)) !== null) {
+        matches.push({ start: item.starts[hit.index], end: item.ends[hit.index + hit[0].length - 1] });
+      }
+    });
     if (!matches.length) { status.textContent = '没有匹配'; return; }
     let first = 0;
     nodes.forEach(entry => {
