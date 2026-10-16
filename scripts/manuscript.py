@@ -7,6 +7,7 @@ from collections import deque
 from dataclasses import dataclass
 import difflib
 import hashlib
+import io
 import json
 from pathlib import Path
 import sys
@@ -43,6 +44,10 @@ def write_new(path: Path, data: bytes) -> None:
 def read_text(path: Path) -> str:
     # Decode bytes directly: TextIO newline conversion would destroy CRLF.
     return path.read_bytes().decode("utf-8")
+
+
+def physical_lines(text: str) -> list[str]:
+    return list(io.StringIO(text, newline=""))
 
 
 def snapshot(root: Path, files: list[str], output: Path) -> dict:
@@ -110,7 +115,7 @@ def compare(current: Path, candidate: Path, output: Path) -> dict:
     check_new_file(output)
     left, right = read_text(current), read_text(candidate)
     lines = difflib.unified_diff(
-        left.splitlines(keepends=True), right.splitlines(keepends=True),
+        physical_lines(left), physical_lines(right),
         fromfile=str(current), tofile=str(candidate), lineterm="\n",
     )
     chunks = []
@@ -161,9 +166,9 @@ def merge_text(base: str, current: str, candidate: str) -> tuple[str | None, lis
         return candidate, []
     if candidate == base:
         return current, []
-    original = base.splitlines(keepends=True)
-    current_edits = edits(original, current.splitlines(keepends=True))
-    candidate_edits = edits(original, candidate.splitlines(keepends=True))
+    original = physical_lines(base)
+    current_edits = edits(original, physical_lines(current))
+    candidate_edits = edits(original, physical_lines(candidate))
     conflicts = []
     for left in current_edits:
         for right in candidate_edits:

@@ -93,6 +93,63 @@ class TextMergeTests(unittest.TestCase):
         self.assertEqual(merged.encode("utf-8"), "\ufeff标题\r\n甲改\r\n乙\r\n丙改".encode("utf-8"))
         self.assertEqual(conflicts, [])
 
+    def test_independent_changes_within_one_physical_line_conflict(self):
+        for separator in ("\v", "\f", "\x1c", "\x1d", "\x1e", "\x85", "\u2028", "\u2029"):
+            for ending in ("\n", "\r\n", "\r", ""):
+                with self.subTest(separator=separator, ending=ending):
+                    prefix = "\ufeffheading\r\n"
+                    original = f"left{separator}middle{separator}right{ending}"
+                    user = original.replace("left", "USER")
+                    model = original.replace("right", "MODEL")
+                    merged, conflicts = manuscript.merge_text(prefix + original, prefix + user, prefix + model)
+                    self.assertIsNone(merged)
+                    self.assertEqual(len(conflicts), 1)
+                    conflict = conflicts[0]
+                    self.assertEqual((conflict["base_start_line"], conflict["base_end_line_exclusive"]), (2, 3))
+                    self.assertEqual(conflict["base_text"], original)
+                    self.assertEqual(conflict["current_edit"], {"base_start_line": 2, "base_end_line_exclusive": 3, "replacement": user})
+                    self.assertEqual(conflict["candidate_edit"], {"base_start_line": 2, "base_end_line_exclusive": 3, "replacement": model})
+
+    def test_later_conflicts_use_physical_lines_after_inline_separators_and_blank_line(self):
+        for separator in ("\v", "\f", "\x1c", "\x1d", "\x1e", "\x85", "\u2028", "\u2029"):
+            for newline in ("\n", "\r\n", "\r"):
+                with self.subTest(separator=separator, newline=newline):
+                    prefix = f"\ufeffintro{separator}same line\r\n\r\n"
+                    original = "target" + newline
+                    user = "USER" + newline
+                    model = "MODEL" + newline
+                    merged, conflicts = manuscript.merge_text(prefix + original + "tail", prefix + user + "tail", prefix + model + "tail")
+                    self.assertIsNone(merged)
+                    self.assertEqual(len(conflicts), 1)
+                    conflict = conflicts[0]
+                    self.assertEqual((conflict["base_start_line"], conflict["base_end_line_exclusive"]), (3, 4))
+                    self.assertEqual(conflict["base_text"], original)
+                    self.assertEqual(conflict["current_edit"], {"base_start_line": 3, "base_end_line_exclusive": 4, "replacement": user})
+                    self.assertEqual(conflict["candidate_edit"], {"base_start_line": 3, "base_end_line_exclusive": 4, "replacement": model})
+
+    def test_nonoverlapping_physical_line_edits_preserve_all_text_bytes(self):
+        for separator in ("\v", "\f", "\x1c", "\x1d", "\x1e", "\x85", "\u2028", "\u2029"):
+            for ending in ("\n", "\r\n", "\r", ""):
+                with self.subTest(separator=separator, ending=ending):
+                    base = f"\ufefffirst{separator}body\r\nmiddle\runchanged\nlast{separator}body{ending}"
+                    current = base.replace("first", "FIRST")
+                    candidate = base.replace("last", "LAST")
+                    expected = base.replace("first", "FIRST").replace("last", "LAST")
+                    merged, conflicts = manuscript.merge_text(base, current, candidate)
+                    self.assertEqual(conflicts, [])
+                    self.assertEqual(merged.encode("utf-8"), expected.encode("utf-8"))
+
+    def test_identical_and_unchanged_versions_preserve_inline_characters_and_endings(self):
+        for separator in ("\v", "\f", "\x1c", "\x1d", "\x1e", "\x85", "\u2028", "\u2029"):
+            for ending in ("\n", "\r\n", "\r", ""):
+                with self.subTest(separator=separator, ending=ending):
+                    base = f"\ufefforiginal{separator}text\r\nlast{ending}"
+                    changed = base.replace("original", "changed")
+                    for current, candidate in ((changed, changed), (base, changed), (changed, base)):
+                        merged, conflicts = manuscript.merge_text(base, current, candidate)
+                        self.assertEqual(conflicts, [])
+                        self.assertEqual(merged.encode("utf-8"), changed.encode("utf-8"))
+
 
 class TemporaryFiles(unittest.TestCase):
     def setUp(self):
@@ -190,6 +247,89 @@ class FileTests(TemporaryFiles):
         self.assertEqual(value.count("\\ No newline at end of file"), 2)
         with self.assertRaises(ValueError):
             manuscript.compare(current, candidate, output)
+
+    def test_compare_uses_physical_hunks_and_only_marks_missing_physical_terminators(self):
+        for separator_index, separator in enumerate(("\v", "\f", "\x1c", "\x1d", "\x1e", "\x85", "\u2028", "\u2029")):
+            for ending_index, ending in enumerate(("\n", "\r\n", "\r", "", separator)):
+                with self.subTest(separator=separator, ending=ending):
+                    left = f"\ufeffleft{separator}middle{separator}tail{ending}"
+                    right = left.replace("left", "RIGHT")
+                    current = self.file("current.md", left)
+                    candidate = self.file("candidate.md", right)
+                    before = [current.read_bytes(), candidate.read_bytes()]
+                    output = self.root / f"comparison-{separator_index}-{ending_index}.diff"
+                    result = manuscript.compare(current, candidate, output)
+                    diff = output.read_bytes()
+                    self.assertTrue(result["different"])
+                    self.assertEqual([current.read_bytes(), candidate.read_bytes()], before)
+                    with self.subTest(check="physical_hunk"):
+                        self.assertIn(b"@@ -1 +1 @@\n", diff)
+                    with self.subTest(check="missing_terminator"):
+                        self.assertEqual(diff.count(b"\\ No newline at end of file"), 0 if ending in ("\n", "\r\n", "\r") else 2)
+                    with self.subTest(check="literal_content"):
+                        self.assertIn(("-" + left).encode("utf-8"), diff)
+                        self.assertIn(("+" + right).encode("utf-8"), diff)
+
+    def test_cli_inline_edits_conflict_without_writing_manuscript(self):
+        base_text = "\ufeffheading\r\nleft\u2028middle\u2028right\r"
+        base = self.file("base.md", base_text)
+        current = self.file("current.md", base_text.replace("left", "USER"))
+        candidate = self.file("candidate.md", base_text.replace("right", "MODEL"))
+        inputs = (base, current, candidate)
+        before = [path.read_bytes() for path in inputs]
+        output = self.root / "merged.md"
+        report = self.root / "conflicts.json"
+        result = subprocess.run(
+            [sys.executable, str(SCRIPT), "merge", "--base", str(base), "--current", str(current),
+             "--candidate", str(candidate), "--output", str(output), "--conflicts", str(report)],
+            capture_output=True, encoding="utf-8",
+        )
+        self.assertEqual([path.read_bytes() for path in inputs], before)
+        self.assertEqual(result.returncode, 2, result.stderr or result.stdout)
+        self.assertFalse(output.exists())
+        status = json.loads(result.stdout)
+        saved = json.loads(report.read_text(encoding="utf-8"))
+        self.assertEqual(status["status"], "conflict")
+        self.assertFalse(saved["merged_output_written"])
+        self.assertEqual(status["conflicts"], saved["conflicts"])
+        self.assertEqual((saved["conflicts"][0]["base_start_line"], saved["conflicts"][0]["base_end_line_exclusive"]), (2, 3))
+
+    def test_cli_compare_reports_physical_line_counts_and_real_missing_final_newline(self):
+        left = "\ufeffheading\vinside\r\nseparator\r旧\u2029尾"
+        right = "\ufeffheading\vinside\r\nseparator\r新\u2029尾"
+        current, candidate = self.file("current.md", left), self.file("candidate.md", right)
+        before = [current.read_bytes(), candidate.read_bytes()]
+        output = self.root / "physical.diff"
+        result = subprocess.run(
+            [sys.executable, str(SCRIPT), "compare", "--current", str(current), "--candidate", str(candidate), "--output", str(output)],
+            capture_output=True, encoding="utf-8",
+        )
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertTrue(json.loads(result.stdout)["different"])
+        self.assertEqual([current.read_bytes(), candidate.read_bytes()], before)
+        diff = output.read_bytes()
+        self.assertIn(b"@@ -1,3 +1,3 @@\n", diff)
+        self.assertIn(" \ufeffheading\vinside\r\n separator\r".encode("utf-8"), diff)
+        self.assertIn("-旧\u2029尾\n\\ No newline at end of file\n".encode("utf-8"), diff)
+        self.assertIn("+新\u2029尾\n\\ No newline at end of file\n".encode("utf-8"), diff)
+        self.assertEqual(diff.count(b"\\ No newline at end of file"), 2)
+
+    def test_cli_nonoverlapping_physical_lines_preserve_bom_and_mixed_ending_bytes(self):
+        text = "\ufefffirst\fbody\r\nmiddle\runchanged\nlast\u2028body"
+        base = self.file("base.md", text)
+        current = self.file("current.md", text.replace("first", "FIRST"))
+        candidate = self.file("candidate.md", text.replace("last", "LAST"))
+        inputs = (base, current, candidate)
+        before = [path.read_bytes() for path in inputs]
+        output = self.root / "merged.md"
+        result = subprocess.run(
+            [sys.executable, str(SCRIPT), "merge", "--base", str(base), "--current", str(current),
+             "--candidate", str(candidate), "--output", str(output)], capture_output=True, encoding="utf-8",
+        )
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual(json.loads(result.stdout)["status"], "merged")
+        self.assertEqual(output.read_bytes(), text.replace("first", "FIRST").replace("last", "LAST").encode("utf-8"))
+        self.assertEqual([path.read_bytes() for path in inputs], before)
 
     def test_invalid_utf8_fails_without_output(self):
         inputs = list(self.trio())
