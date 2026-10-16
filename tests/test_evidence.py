@@ -58,6 +58,25 @@ class EvidenceTests(unittest.TestCase):
         self.assertNotIn("不选中的私密材料", self.catalog.read_text(encoding="utf-8"))
         self.assertEqual(path.read_bytes(), raw)
 
+    def test_catalog_with_utf8_bom_remains_readable_and_can_append_clips(self):
+        path = self.material(content="第一行\n第二行\n")
+        original = path.read_bytes()
+        self.add(path)
+        self.command("clip", "--id", "source", "--clip-id", "first", "--at", "L1", "--support", "Synthetic snapshot")
+        saved = self.command("show", "--clip", "first")["clip"]
+        before = b"\xef\xbb\xbf" + self.catalog.read_bytes()
+        self.catalog.write_bytes(before)
+        self.assertEqual(len(self.command("list")["sources"]), 1)
+        self.assertEqual(self.command("show", "--clip", "first")["clip"], saved)
+        found = self.command("search", "第二行")
+        self.assertTrue(found["complete"])
+        self.assertEqual(found["matches"][0]["locator"], "L2")
+        self.assertEqual(self.catalog.read_bytes(), before)
+        self.command("clip", "--id", "source", "--clip-id", "second", "--at", "L2", "--support", "Synthetic snapshot")
+        self.assertEqual(self.command("show", "--clip", "first")["clip"], saved)
+        self.assertEqual(self.command("show", "--clip", "second")["clip"]["source_extracts"][0]["text"], "第二行")
+        self.assertEqual(path.read_bytes(), original)
+
     def test_text_extraction_preserves_empty_lines_bom_and_whitespace(self):
         cases = [
             ("", []), ("\ufeff", []), ("text", ["text"]),

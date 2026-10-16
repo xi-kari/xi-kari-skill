@@ -187,7 +187,7 @@ def load_catalog(path, allow_missing=False):
             return {"format": FORMAT, "sources": {}, "clips": {}}
         raise MaterialError(f"材料目录不存在: {path}")
     try:
-        catalog = json.loads(path.read_text(encoding="utf-8"))
+        catalog = json.loads(path.read_text(encoding="utf-8-sig"))
         if not isinstance(catalog, dict) or catalog.get("format") != FORMAT:
             raise ValueError("不是Xikari材料目录，不能覆盖")
         if not isinstance(catalog.get("sources"), dict) or not isinstance(catalog.get("clips"), dict):

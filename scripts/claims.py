@@ -19,6 +19,7 @@ import tempfile
 sys.dont_write_bytecode = True
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 try:
+    from evidence import MaterialError, load_catalog as load_material_catalog
     from xikari_paths import require_external_output
 finally:
     sys.path.pop(0)
@@ -197,13 +198,11 @@ def add_claim(ledger_path: Path, record_path: Path) -> dict:
 
 
 def load_catalog_clips(path_text: str) -> dict:
-    catalog = read_json(Path(path_text))
-    if not isinstance(catalog, dict) or catalog.get('format') != 'xikari-materials-1':
-        raise ClaimError(f'不是可识别的材料目录：{path_text}')
-    clips = catalog.get('clips')
-    if not isinstance(clips, dict):
-        raise ClaimError(f'材料目录缺少 clips：{path_text}')
-    return clips
+    try:
+        catalog = load_material_catalog(Path(path_text))
+    except (MaterialError, TypeError) as exc:
+        raise ClaimError(f'材料目录结构无效：{exc}') from exc
+    return catalog['clips']
 
 
 def check_ledger(ledger: dict, section_keys) -> dict:
