@@ -33,6 +33,10 @@ MAX_IMAGE_BYTES = 20 * 1024 * 1024
 EMU_PER_PIXEL = 9525
 MAX_IMAGE_EMU = 6 * 914400
 DEFAULT_PIXELS = (480, 320)
+PAGE_WIDTH_TWIPS = 12240
+PAGE_HEIGHT_TWIPS = 15840
+PAGE_MARGIN_TWIPS = 1440
+TEXT_WIDTH_TWIPS = PAGE_WIDTH_TWIPS - 2 * PAGE_MARGIN_TWIPS
 IMAGE_MIMES = {
     '.png': ('png', 'image/png'),
     '.jpeg': ('jpeg', 'image/jpeg'),
@@ -291,21 +295,26 @@ def _paragraph_xml(runs: list[dict], style: str | None = None, indent: int | Non
 def _table_xml(rows: list[list[str]], width: int = 3000,
                numbers: dict[str, int] | None = None) -> str:
     numbers = numbers or {}
-    grid = ''.join(f'<w:gridCol w:w="{width}"/>' for _ in range(len(rows[0])))
+    columns = len(rows[0])
+    table_width = min(width * columns, TEXT_WIDTH_TWIPS)
+    cell_width, remainder = divmod(table_width, columns)
+    widths = [cell_width + (index < remainder) for index in range(columns)]
+    grid = ''.join(f'<w:gridCol w:w="{value}"/>' for value in widths)
     body = []
     for index, row in enumerate(rows):
         header = index == 0
         cells = []
-        for cell in row:
+        for column, cell in enumerate(row):
             runs = parse_inline(cell, numbers)
             if header:
                 runs = [dict(run, bold=True) for run in runs]
             if not runs:
                 runs = [{'text': '', 'bold': False, 'italic': False, 'code': False, 'sup': False}]
-            cells.append(f'<w:tc><w:tcPr><w:tcW w:w="{width}" w:type="dxa"/></w:tcPr>'
+            cells.append(f'<w:tc><w:tcPr><w:tcW w:w="{widths[column]}" w:type="dxa"/></w:tcPr>'
                          + _paragraph_xml(runs, style='TableHeader' if header else None) + '</w:tc>')
         body.append(f'<w:tr>{"".join(cells)}</w:tr>')
-    return ('<w:tbl><w:tblPr><w:tblStyle w:val="TableGrid"/><w:tblW w:w="0" w:type="auto"/></w:tblPr>'
+    return ('<w:tbl><w:tblPr><w:tblStyle w:val="TableGrid"/>'
+            f'<w:tblW w:w="{table_width}" w:type="dxa"/><w:tblLayout w:type="fixed"/></w:tblPr>'
             f'<w:tblGrid>{grid}</w:tblGrid>{"".join(body)}</w:tbl>')
 
 
@@ -484,7 +493,12 @@ def build_document(source: str, title: str | None, source_path: Path | None) -> 
                 'xmlns:wp="http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing" '
                 'xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" '
                 'xmlns:pic="http://schemas.openxmlformats.org/drawingml/2006/picture">'
-                f'<w:body>{"".join(body)}</w:body></w:document>')
+                f'<w:body>{"".join(body)}'
+                f'<w:sectPr><w:pgSz w:w="{PAGE_WIDTH_TWIPS}" w:h="{PAGE_HEIGHT_TWIPS}"/>'
+                f'<w:pgMar w:top="{PAGE_MARGIN_TWIPS}" w:right="{PAGE_MARGIN_TWIPS}" '
+                f'w:bottom="{PAGE_MARGIN_TWIPS}" w:left="{PAGE_MARGIN_TWIPS}" '
+                'w:header="720" w:footer="720" w:gutter="0"/></w:sectPr>'
+                '</w:body></w:document>')
 
     extensions = sorted({IMAGE_MIMES['.' + name.rsplit('.', 1)[1]][0] for name, _ in media})
     defaults = ''.join(
@@ -507,6 +521,8 @@ def build_document(source: str, title: str | None, source_path: Path | None) -> 
 
     document_rels = ('<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'
                      '<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">'
+                     '<Relationship Id="rIdStyles" Type="http://schemas.openxmlformats.org/officeDocument/2006/'
+                     'relationships/styles" Target="styles.xml"/>'
                      f'{"".join(relationships)}</Relationships>')
 
     parts: dict[str, bytes] = {

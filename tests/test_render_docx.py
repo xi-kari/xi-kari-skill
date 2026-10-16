@@ -186,6 +186,36 @@ class RenderDocxTests(unittest.TestCase):
         for item in ('外层甲', '外层乙', '内层甲', '内层乙'):
             self.assertIn(item, joined)
 
+    def test_page_geometry_is_explicit(self):
+        output, _ = self.render('# 页面\n\n正文。\n')
+        body = root_of(output).find(W + 'body')
+        section = body.find(W + 'sectPr')
+        self.assertIsNotNone(section)
+        self.assertEqual(list(body)[-1], section)
+        size, margins = section.find(W + 'pgSz'), section.find(W + 'pgMar')
+        self.assertEqual((size.get(W + 'w'), size.get(W + 'h')), ('12240', '15840'))
+        self.assertEqual([margins.get(W + side) for side in ('top', 'right', 'bottom', 'left')], ['1440'] * 4)
+
+    def test_table_columns_fit_the_printable_page(self):
+        for columns in (2, 4, 6, 7):
+            with self.subTest(columns=columns):
+                header = [f'列{index}' for index in range(columns)]
+                values = [f'值{index}' for index in range(columns)]
+                text = '\n'.join('| ' + ' | '.join(row) + ' |' for row in (header, ['---'] * columns, values))
+                output, _ = self.render(text, out=f'table-{columns}.docx')
+                table = next(root_of(output).iter(W + 'tbl'))
+                grid = [int(item.get(W + 'w')) for item in table.find(W + 'tblGrid')]
+                self.assertEqual(len(grid), columns)
+                self.assertTrue(all(width > 0 for width in grid))
+                self.assertLessEqual(sum(grid), 9360, 'Table columns must fit inside the Letter page margins.')
+                width = table.find(W + 'tblPr').find(W + 'tblW')
+                self.assertEqual(width.get(W + 'type'), 'dxa')
+                self.assertEqual(int(width.get(W + 'w')), sum(grid))
+                for row in table.findall(W + 'tr'):
+                    cells = row.findall(W + 'tc')
+                    self.assertEqual([int(cell.find(W + 'tcPr').find(W + 'tcW').get(W + 'w')) for cell in cells], grid)
+                self.assertEqual([''.join(cell.itertext()) for cell in table.findall(W + 'tr')[1].findall(W + 'tc')], values)
+
     def test_code_block(self):
         text = '```\n<tag> & 值 ≤ 上限\n```\n'
         output, _ = self.render(text)
@@ -211,6 +241,36 @@ class RenderDocxTests(unittest.TestCase):
                 self.assertTrue(archive.read(part))
             styles = archive.read('word/styles.xml').decode('utf-8')
         ET.fromstring(styles)
+
+    def test_styles_are_reachable_with_images_and_table_references(self):
+        image = self.work / 'pixel.png'
+        image.write_bytes(make_png())
+        output, _ = self.render(
+            '# 标题\n\n正文。\n\n```text\n代码\n```\n\n'
+            '| 左列 | 右列 |\n| --- | --- |\n| 左值 | 右值 |\n\n'
+            '![图像](pixel.png)\n'
+        )
+        namespace = '{http://schemas.openxmlformats.org/package/2006/relationships}'
+        relationship_type = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/'
+        with zipfile.ZipFile(output) as archive:
+            relationships = list(ET.fromstring(archive.read('word/_rels/document.xml.rels')))
+            self.assertTrue(all(item.tag == namespace + 'Relationship' for item in relationships))
+            identifiers = [item.get('Id') for item in relationships]
+            self.assertEqual(len(identifiers), len(set(identifiers)))
+            style_links = [item for item in relationships if item.get('Type') == relationship_type + 'styles']
+            self.assertEqual(len(style_links), 1, 'The main document must link its styles part.')
+            style_link = style_links[0]
+            self.assertNotEqual(style_link.get('TargetMode'), 'External')
+            styles = ET.fromstring(archive.read('word/' + style_link.get('Target')))
+            style_ids = {item.get(W + 'styleId') for item in styles.findall(W + 'style')}
+            document = ET.fromstring(archive.read('word/document.xml'))
+            referenced = {item.get(W + 'val') for tag in ('pStyle', 'tblStyle') for item in document.iter(W + tag)}
+            self.assertTrue({'Heading1', 'Code', 'TableGrid', 'TableHeader'} <= referenced)
+            self.assertTrue(referenced <= style_ids)
+            image_links = [item for item in relationships if item.get('Type') == relationship_type + 'image']
+            self.assertEqual(len(image_links), 1)
+            self.assertNotEqual(style_link.get('Id'), image_links[0].get('Id'))
+            self.assertIn('word/' + image_links[0].get('Target'), archive.namelist())
 
     def test_reject_install_dir(self):
         target = module()
