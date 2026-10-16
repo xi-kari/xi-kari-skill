@@ -1,6 +1,12 @@
 "use strict";
 (() => {
-  const data = JSON.parse(document.getElementById("condition-data").textContent);
+  const data = JSON.parse(document.getElementById("condition-data").textContent.replace(
+    /"(?:[^"\\]|\\.)*"|-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?/g,
+    token => {
+      if (token[0] === '"') return token;
+      return /[.eE]/.test(token) || !Number.isSafeInteger(Number(token)) ? JSON.stringify(token) : token;
+    }
+  ));
   const stateNames = {
     known: "已计算", unknown: "未知", error: "计算错误", satisfied: "满足", violated: "不满足",
     satisfies_model_constraints: "满足所列模型约束", violates_model_constraints: "不满足所列模型约束",
@@ -18,6 +24,7 @@
   const basisNames = { observed: "作者声明的观察值", assumed: "假设或方案设定", unknown: "未知" };
   const roleNames = { condition: "外部条件", decision: "可选决策" };
   const inputs = data.model.inputs;
+  const exploreAxes = Object.entries(data.model.explore || {});
   const valueText = value => value === null ? "未知" : typeof value === "boolean" ? (value ? "是" : "否") : String(value);
   const withUnit = (key, value) => `${valueText(value)}${inputs[key].unit && value !== null && typeof value !== "boolean" ? " " + inputs[key].unit : ""}`;
 
@@ -85,9 +92,8 @@
     update();
     document.querySelector('#overview button[aria-pressed="true"]')?.focus({ preventScroll: true });
   }
-  function caseFor(scenarioId, explore, planId) {
-    return data.cases.find(item => item.scenario === scenarioId && item.plan === planId &&
-      Object.entries(explore).every(([key, value]) => Object.is(item.explore[key], value)));
+  function caseFor(scenarioId, exploreIndex, planId) {
+    return data.cases.find(item => item.scenario === scenarioId && item.plan === planId && item.explore_index === exploreIndex);
   }
 
   function update() {
@@ -156,10 +162,13 @@
     }
     data.sensitivity.forEach(item => {
       const unit = inputs[item.condition].unit;
-      const steps = item.values.map(value => {
-        const explore = { ...current.explore, [item.condition]: value };
-        const entry = caseFor(current.scenario, explore, current.plan);
-        const step = el("li", `sens-step${Object.is(current.explore[item.condition], value) ? " is-current" : ""}`,
+      const axis = exploreAxes.findIndex(([key]) => key === item.condition);
+      const stride = exploreAxes.slice(axis + 1).reduce((size, [, values]) => size * values.length, 1);
+      const currentPosition = Math.floor(current.explore_index / stride) % item.values.length;
+      const steps = item.values.map((value, position) => {
+        const targetIndex = current.explore_index + (position - currentPosition) * stride;
+        const entry = caseFor(current.scenario, targetIndex, current.plan);
+        const step = el("li", `sens-step${position === currentPosition ? " is-current" : ""}`,
           el("span", "sens-value", withUnit(item.condition, value)), entry ? state(entry.state) : el("span", "note", "未计算"));
         return step;
       });

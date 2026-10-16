@@ -51,6 +51,8 @@ jobs:
           python scripts/condition_lab.py assets/examples/condition-university.json --output "$env:RUNNER_TEMP/xikari-condition"
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           node tests/test_condition_interaction.cjs "$PWD/tests/dom/node_modules/jsdom" "$env:RUNNER_TEMP/xikari-condition/condition-results.html"
+      - name: Test condition number precision in Chrome
+        run: node tests/test_condition_precision.cjs "$PWD/tests/dom/node_modules/playwright-core"
       - name: Test project page interaction
         run: node tests/test_project_page_interaction.cjs "$PWD/tests/dom/node_modules/jsdom"
       - name: Build handbook

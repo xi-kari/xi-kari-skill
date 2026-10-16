@@ -58,7 +58,7 @@ body { font-size: 15px; line-height: 1.7; overflow-x: clip; }
 .current-state.is-err { --state: var(--err); }
 .current-state .state { font-size: 16.5px; }
 .current-state .state-plan { display: block; margin-top: 6px; font-size: 13.5px; font-weight: 600; color: var(--ink-strong); }
-.current-state .state-caveat { display: block; margin-top: 4px; font-size: 12.5px; line-height: 1.6; color: var(--muted); }
+.current-state .state-caveat { display: block; margin-top: 4px; font-size: 12.5px; line-height: 1.6; color: var(--muted); overflow-wrap: anywhere; }
 .state-legend { display: grid; gap: 6px; margin: 18px 0 0; padding-top: 16px; border-top: 1px solid var(--line); }
 .state-legend div { display: grid; grid-template-columns: 7.2em 1fr; align-items: baseline; gap: 8px; }
 .state-legend dt .state { font-size: 12.5px; }
@@ -128,9 +128,9 @@ button.cell[aria-pressed="true"] { border-color: var(--cell); box-shadow: 0 0 0 
 .sens-summary { margin: 6px 0 0; font-size: 13.5px; color: var(--ink); }
 .sens-strip-label { margin: 12px 0 6px; font-size: 12px; font-weight: 600; color: var(--muted); }
 .sens-strip { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; list-style: none; }
-.sens-step { display: grid; gap: 4px; min-width: 8em; padding: 8px 12px 9px; border-radius: 10px; border: 1px solid var(--line); background: var(--page); }
+.sens-step { display: grid; gap: 4px; min-width: 8em; max-width: 100%; padding: 8px 12px 9px; border-radius: 10px; border: 1px solid var(--line); background: var(--page); }
 .sens-step.is-current { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
-.sens-value { font-weight: 650; color: var(--ink-strong); font-variant-numeric: tabular-nums; }
+.sens-value { font-weight: 650; color: var(--ink-strong); font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
 .sens-step .state { font-size: 12.5px; }
 
 .lab-limits { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
@@ -143,7 +143,7 @@ button.cell[aria-pressed="true"] { border-color: var(--cell); box-shadow: 0 0 0 
 .definition:first-child { border-top: 0; padding-top: 0; }
 .definition-kind { display: block; font-size: 12px; font-weight: 600; color: var(--muted); }
 .definition-label { font-weight: 700; color: var(--ink-strong); }
-.definition-body { margin: 0; color: var(--ink); }
+.definition-body { min-width: 0; margin: 0; color: var(--ink); overflow-wrap: anywhere; }
 .definition-overrides { display: block; margin-top: 4px; font-family: var(--mono); font-size: 12px; color: var(--muted); }
 
 .lab-footer { margin-top: 34px; padding-top: 22px; border-top: 1px solid var(--line); font-size: 13px; line-height: 1.8; color: var(--muted); }
