@@ -58,6 +58,116 @@ class EvidenceTests(unittest.TestCase):
         self.assertNotIn("不选中的私密材料", self.catalog.read_text(encoding="utf-8"))
         self.assertEqual(path.read_bytes(), raw)
 
+    def test_text_extraction_preserves_empty_lines_bom_and_whitespace(self):
+        cases = [
+            ("", []), ("\ufeff", []), ("text", ["text"]),
+            (" \t ", [" \t "]), ("\ufeff \ttext \t", [" \ttext \t"]),
+            ("a\ufeffb", ["a\ufeffb"]),
+            ("\n", [""]), ("\r", [""]), ("\r\n", [""]),
+            ("\n\n", ["", ""]), ("\r\r", ["", ""]), ("\r\n\r\n", ["", ""]),
+            ("a\n", ["a"]), ("a\r", ["a"]), ("a\r\n", ["a"]),
+            ("\n \t\r\nlast\r", ["", " \t", "last"]),
+            ("a\r\nb\rc\n\n", ["a", "b", "c", ""]),
+            ("a\n\rb", ["a", "", "b"]),
+        ]
+        for kind in ("txt", "md"):
+            for text, expected in cases:
+                with self.subTest(kind=kind, text=text):
+                    units, _ = evidence.extract(text.encode("utf-8"), kind)
+                    self.assertEqual(units, [{"locator": f"L{i}", "text": line, "location": {"line": i}}
+                                             for i, line in enumerate(expected, 1)])
+
+    def test_text_inline_separators_are_not_physical_line_endings(self):
+        for kind in ("txt", "md"):
+            for separator in ("\v", "\f", "\x1c", "\x1d", "\x1e", "\x85", "\u2028", "\u2029"):
+                for newline in ("\n", "\r\n", "\r"):
+                    for terminated in (False, True):
+                        with self.subTest(kind=kind, separator=separator, newline=newline, terminated=terminated):
+                            expected = [f"{separator}needle{separator}middle{separator}", "", f"\t tail{separator} "]
+                            text = "\ufeff" + newline.join(expected) + (newline if terminated else "")
+                            units, _ = evidence.extract(text.encode("utf-8"), kind)
+                            self.assertEqual(units, [{"locator": f"L{i}", "text": line, "location": {"line": i}}
+                                                     for i, line in enumerate(expected, 1)])
+                with self.subTest(kind=kind, separator_only=separator):
+                    units, _ = evidence.extract(separator.encode("utf-8"), kind)
+                    self.assertEqual(units, [{"locator": "L1", "text": separator, "location": {"line": 1}}])
+
+    def test_text_cli_physical_locations_survive_search_show_and_clip(self):
+        inline = "\v\f\x1c\x1d\x1e\x85\u2028\u2029"
+        expected = [f"  needle first{inline} tail\t", "", "needle second\ufeffinside", "needle last  "]
+        raw = ("\ufeff" + expected[0] + "\r\n\r" + expected[2] + "\n" + expected[3] + "\r\n").encode("utf-8")
+        for kind in ("txt", "md"):
+            with self.subTest(kind=kind):
+                self.catalog = self.root / f"{kind}-catalog.json"
+                path = self.root / f"physical.{kind}"
+                path.write_bytes(raw)
+                added = self.cli_command("add", path, "--id", "physical")
+                before = self.catalog.read_bytes()
+                found = self.cli_command("search", "needle", "--id", "physical")
+                shown = self.cli_command("show", "--id", "physical", "--at", "L1:L4")
+                self.assertEqual(self.catalog.read_bytes(), before)
+                self.cli_command("clip", "--id", "physical", "--clip-id", "selected", "--at", "L1:L3", "--support", "Synthetic physical lines")
+                after_clip = self.catalog.read_bytes()
+                saved = self.cli_command("show", "--clip", "selected")
+                self.assertEqual(self.catalog.read_bytes(), after_clip)
+                self.assertEqual(path.read_bytes(), raw)
+                expected_units = [{"locator": f"L{i}", "text": line, "location": {"line": i}} for i, line in enumerate(expected, 1)]
+                self.assertEqual(shown["source_extracts"], expected_units)
+                self.assertEqual([(u["locator"], u["text"]) for u in found["matches"]], [("L1", expected[0]), ("L3", expected[2]), ("L4", expected[3])])
+                self.assertTrue(found["complete"])
+                self.assertEqual(found["skipped_sources"], [])
+                self.assertEqual(found["total_matches"], 3)
+                self.assertEqual(added["source"]["unit_count"], 4)
+                self.assertEqual(added["source"]["extraction"], "evidence.py/2")
+                self.assertEqual(saved["clip"]["source_extracts"], expected_units[:3])
+                self.assertEqual(saved["status"]["state"], "current")
+
+    def test_text_old_extraction_requires_new_identity_and_preserves_old_snapshot(self):
+        for kind in ("txt", "md"):
+            for previous_extraction in ("evidence.py/1", None):
+                with self.subTest(kind=kind, extraction=previous_extraction):
+                    self.catalog = self.root / f"{kind}-{previous_extraction is None}.json"
+                    path = self.material(f"previous.{kind}", "needle before\vneedle after\nneedle next\n")
+                    raw = path.read_bytes()
+                    self.add(path, "old")
+                    self.command("clip", "--id", "old", "--clip-id", "saved", "--at", "L1", "--support", "Synthetic old snapshot")
+                    catalog = json.loads(self.catalog.read_text(encoding="utf-8"))
+                    catalog["sources"]["old"]["unit_count"] = 3
+                    if previous_extraction is None:
+                        catalog["sources"]["old"].pop("extraction")
+                    else:
+                        catalog["sources"]["old"]["extraction"] = previous_extraction
+                    catalog["clips"]["saved"]["source_extracts"] = [{"locator": "L2", "text": "needle after", "location": {"line": 2}}]
+                    self.catalog.write_text(json.dumps(catalog, ensure_ascii=False), encoding="utf-8")
+                    before = self.catalog.read_bytes()
+                    for arguments in [
+                        ("show", "--id", "old", "--at", "L2"),
+                        ("clip", "--id", "old", "--clip-id", "blocked", "--at", "L2", "--support", "Must not capture"),
+                    ]:
+                        with self.subTest(operation=arguments[0]):
+                            with self.assertRaisesRegex(evidence.MaterialError, "提取.*新ID.*--supersedes old"):
+                                self.command(*arguments)
+                    found = self.command("search", "needle", "--id", "old")
+                    with self.subTest(operation="search"):
+                        self.assertFalse(found["complete"])
+                        self.assertEqual(found["total_matches"], 0)
+                        self.assertEqual([s["source_id"] for s in found["skipped_sources"]], ["old"])
+                    saved = self.command("show", "--clip", "saved")
+                    self.assertEqual(saved["clip"], catalog["clips"]["saved"])
+                    self.assertEqual(saved["status"]["state"], "current")
+                    with self.subTest(operation="read_only"):
+                        self.assertEqual(self.catalog.read_bytes(), before)
+                    added = self.add(path, "new", "--supersedes", "old")
+                    shown = self.command("show", "--id", "new", "--at", "L1:L2")
+                    current = json.loads(self.catalog.read_text(encoding="utf-8"))
+                    self.assertEqual(current["sources"]["old"], catalog["sources"]["old"])
+                    self.assertEqual(current["clips"]["saved"], catalog["clips"]["saved"])
+                    self.assertEqual(path.read_bytes(), raw)
+                    self.assertEqual(added["source"]["supersedes"], "old")
+                    self.assertEqual(added["source"]["extraction"], "evidence.py/2")
+                    self.assertEqual(added["source"]["unit_count"], 2)
+                    self.assertEqual([(u["locator"], u["text"]) for u in shown["source_extracts"]], [("L1", "needle before\vneedle after"), ("L2", "needle next")])
+
     def test_csv_multiline_cells_preserve_record_and_physical_lines(self):
         path = self.material("table.csv", 'name,notes,value\r\nAlice,"first\r\nsecond, quoted ""word""",42\r\nBob,ok,7\r\n')
         self.add(path)
@@ -287,20 +397,49 @@ class EvidenceTests(unittest.TestCase):
         self.assertEqual(self.catalog.read_bytes(), catalog_before)
         self.assertEqual(path.read_bytes(), raw)
 
-    def test_non_docx_extraction_version_remains_compatible(self):
-        for name, locator in (("plain.txt", "L1"), ("table.csv", "R1C1")):
+    def test_text_and_csv_registration_use_their_format_extraction_versions(self):
+        for name, locator, version in (("plain.txt", "L1", "evidence.py/2"), ("markdown.md", "L1", "evidence.py/2"), ("table.csv", "R1C1", "evidence.py/1")):
             with self.subTest(name=name):
                 path = self.material(name, "needle original\n")
                 raw = path.read_bytes()
                 source_id = path.stem
                 added = self.cli_command("add", path, "--id", source_id)
-                self.assertEqual(added["source"]["extraction"], "evidence.py/1")
+                self.assertEqual(added["source"]["extraction"], version)
                 found = self.cli_command("search", "needle", "--id", source_id)
                 self.assertTrue(found["complete"])
                 self.assertEqual(found["total_matches"], 1)
                 shown = self.cli_command("show", "--id", source_id, "--at", locator)
                 self.assertEqual(shown["source_extracts"][0]["text"], "needle original")
                 self.assertEqual(path.read_bytes(), raw)
+
+    def test_csv_and_pdf_live_extraction_remains_compatible_without_version(self):
+        page = mock.Mock()
+        page.extract_text.return_value = "needle original"
+        reader = mock.Mock(is_encrypted=False, pages=[page])
+        with mock.patch.dict(sys.modules, {"pypdf": mock.Mock(PdfReader=mock.Mock(return_value=reader))}):
+            for kind, locator in (("csv", "R1C1"), ("pdf", "PDF1")):
+                for remove_version in (False, True):
+                    with self.subTest(kind=kind, remove_version=remove_version):
+                        self.catalog = self.root / f"compatible-{kind}-{remove_version}.json"
+                        path = self.material(f"compatible.{kind}", "needle original\n")
+                        raw = path.read_bytes()
+                        added = self.add(path)
+                        self.assertEqual(added["source"]["extraction"], "evidence.py/1")
+                        if remove_version:
+                            catalog = json.loads(self.catalog.read_text(encoding="utf-8"))
+                            catalog["sources"]["source"].pop("extraction")
+                            self.catalog.write_text(json.dumps(catalog), encoding="utf-8")
+                        before = self.catalog.read_bytes()
+                        found = self.command("search", "needle", "--id", "source")
+                        shown = self.command("show", "--id", "source", "--at", locator)
+                        self.assertTrue(found["complete"])
+                        self.assertEqual(found["total_matches"], 1)
+                        self.assertEqual(found["skipped_sources"], [])
+                        self.assertEqual(shown["source_extracts"][0]["text"], "needle original")
+                        self.assertEqual(self.catalog.read_bytes(), before)
+                        self.command("clip", "--id", "source", "--clip-id", "saved", "--at", locator, "--support", "Synthetic compatible format")
+                        self.assertEqual(self.command("show", "--clip", "saved")["clip"]["source_extracts"], shown["source_extracts"])
+                        self.assertEqual(path.read_bytes(), raw)
 
     def test_source_changed_old_clip_retained_and_new_identity_registered(self):
         path = self.material(content="原来的判断\n")

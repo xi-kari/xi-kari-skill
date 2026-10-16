@@ -26,7 +26,10 @@ finally:
 
 
 FORMAT = "xikari-materials-1"
-DOCX_EXTRACTION = "evidence.py/2"
+EXTRACTION_VERSIONS = {
+    "txt": "evidence.py/2", "md": "evidence.py/2", "docx": "evidence.py/2",
+    "csv": "evidence.py/1", "pdf": "evidence.py/1",
+}
 ID = re.compile(r"[A-Za-z0-9][A-Za-z0-9._-]{0,79}\Z")
 W = "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}"
 
@@ -130,8 +133,8 @@ def docx_units(data):
 def extract(data, kind, delimiter=","):
     if kind in {"txt", "md"}:
         text = decode(data)
-        result = [unit(f"L{i}", line, line=i) for i, line in enumerate(text.splitlines(), 1)]
-        return result, ["L是此UTF-8文件的物理行号；宿主转换文本的行号不能冒充原网页段落或原PDF页码。"]
+        result = [unit(f"L{i}", line.removesuffix("\n"), line=i) for i, line in enumerate(io.StringIO(text, newline=None), 1)]
+        return result, ["L按此UTF-8文件的LF、CRLF或CR换行计数，行内其他字符保留；宿主转换文本的行号不能冒充原网页段落或原PDF页码。"]
     if kind == "csv":
         if len(delimiter) != 1 or delimiter in "\r\n\x00":
             raise MaterialError("CSV分隔符须为单个非换行字符。")
@@ -229,8 +232,8 @@ def live_units(source):
     data = read_bytes(source["path"])
     if identity(data) != source["sha256"]:
         raise MaterialError(f"材料 {source['id']} 的内容已变化，旧定位不能用于当前文件。以新ID add，并用--supersedes {source['id']}登记新版本；旧片段仍可show --clip查看。")
-    if source["kind"] == "docx" and source.get("extraction") != DOCX_EXTRACTION:
-        raise MaterialError(f"材料 {source['id']} 的DOCX提取版本与当前工具不一致或未登记，旧定位不能用于当前提取方式。以新ID add，并用--supersedes {source['id']}登记新版本；旧片段仍可show --clip查看。")
+    if source["kind"] in {"txt", "md", "docx"} and source.get("extraction") != EXTRACTION_VERSIONS[source["kind"]]:
+        raise MaterialError(f"材料 {source['id']} 的{source['kind'].upper()}提取版本与当前工具不一致或未登记，旧定位不能用于当前提取方式。以新ID add，并用--supersedes {source['id']}登记新版本；旧片段仍可show --clip查看。")
     return extract(data, source["kind"], source.get("delimiter", ","))
 
 
@@ -326,7 +329,7 @@ def add(catalog, args):
         "source_date": args.source_date, "origin": args.origin,
         "locator_note": args.locator_note, "registered_at": now(),
         "supersedes": args.supersedes, "unit_count": len(units),
-        "extraction": DOCX_EXTRACTION if kind == "docx" else "evidence.py/1", "extraction_limits": warnings,
+        "extraction": EXTRACTION_VERSIONS[kind], "extraction_limits": warnings,
     }
     if kind == "csv":
         source["delimiter"] = delimiter
