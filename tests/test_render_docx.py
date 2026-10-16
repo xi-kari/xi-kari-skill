@@ -1,6 +1,7 @@
 """render_docx 的规格测试：纯标准库把 Markdown 渲染成 Word .docx。"""
 
 import importlib.util
+import json
 from pathlib import Path
 import socket
 import struct
@@ -15,6 +16,8 @@ import zlib
 ROOT = Path(__file__).resolve().parents[1]
 SCRIPT = ROOT / 'scripts' / 'render_docx.py'
 W = '{http://schemas.openxmlformats.org/wordprocessingml/2006/main}'
+CP = '{http://schemas.openxmlformats.org/package/2006/metadata/core-properties}'
+DC = '{http://purl.org/dc/elements/1.1/}'
 
 REQUIRED_PARTS = [
     '[Content_Types].xml',
@@ -96,6 +99,130 @@ class RenderDocxTests(unittest.TestCase):
         output = self.work / out
         target.write_docx(output, parts, None)
         return output, source
+
+    def core_properties(self, output):
+        with zipfile.ZipFile(output) as archive:
+            self.assertIn('docProps/core.xml', archive.namelist())
+            properties = ET.fromstring(archive.read('docProps/core.xml'))
+        self.assertEqual(properties.tag, CP + 'coreProperties')
+        return properties
+
+    def core_title(self, output):
+        titles = self.core_properties(output).findall(DC + 'title')
+        self.assertEqual(len(titles), 1)
+        return titles[0].text or ''
+
+    def test_explicit_title_in_standard_core_properties(self):
+        title = '中文标题 <结构> & "条件"与\'转化\''
+        output, _ = self.render('# 正文标题\n\n正文内容。\n', title=title)
+        self.assertEqual(self.core_title(output), title)
+
+    def test_title_core_properties_are_reachable_from_package(self):
+        output, _ = self.render('# 标题\n\n正文。\n')
+        relationship_ns = '{http://schemas.openxmlformats.org/package/2006/relationships}'
+        core_type = 'http://schemas.openxmlformats.org/package/2006/relationships/metadata/core-properties'
+        content_ns = '{http://schemas.openxmlformats.org/package/2006/content-types}'
+        with zipfile.ZipFile(output) as archive:
+            relationships = ET.fromstring(archive.read('_rels/.rels'))
+            self.assertEqual(relationships.tag, relationship_ns + 'Relationships')
+            identifiers = [item.get('Id') for item in relationships]
+            self.assertEqual(len(identifiers), len(set(identifiers)))
+            links = [item for item in relationships.findall(relationship_ns + 'Relationship')
+                     if item.get('Type') == core_type]
+            self.assertEqual(len(links), 1)
+            self.assertNotEqual(links[0].get('TargetMode'), 'External')
+            part = links[0].get('Target', '').lstrip('/')
+            self.assertIn(part, archive.namelist())
+            properties = ET.fromstring(archive.read(part))
+            self.assertEqual(properties.tag, CP + 'coreProperties')
+            self.assertEqual(properties.findtext(DC + 'title'), '标题')
+            content_types = ET.fromstring(archive.read('[Content_Types].xml'))
+            overrides = [item for item in content_types.findall(content_ns + 'Override')
+                         if item.get('PartName') == '/' + part]
+            self.assertEqual(len(overrides), 1)
+            self.assertEqual(overrides[0].get('ContentType'),
+                             'application/vnd.openxmlformats-package.core-properties+xml')
+
+    def test_title_does_not_change_body_styles_or_media(self):
+        (self.work / 'pixel.png').write_bytes(make_png())
+        text = ('# 正文标题\n\n段落 **粗体** 与 *斜体*。\n\n'
+                '| 甲 | 乙 |\n| --- | --- |\n| 一 | 二 |\n\n'
+                '![示例](pixel.png)\n')
+        original, _ = self.render(text, out='original.docx')
+        titled, _ = self.render(text, title='独立的元数据标题', out='titled.docx')
+        with zipfile.ZipFile(original) as first, zipfile.ZipFile(titled) as second:
+            word_parts = {name: first.read(name) for name in first.namelist()
+                          if name.startswith('word/')}
+            self.assertIn('word/document.xml', word_parts)
+            self.assertIn('word/styles.xml', word_parts)
+            self.assertTrue(any(name.startswith('word/media/') for name in word_parts))
+            self.assertEqual(word_parts, {name: second.read(name) for name in second.namelist()
+                                         if name.startswith('word/')})
+        self.assertEqual(self.core_title(original), '正文标题')
+        self.assertEqual(self.core_title(titled), '独立的元数据标题')
+
+    def test_default_title_uses_first_actual_h1(self):
+        for marker, other in (('`', '~'), ('~', '`')):
+            with self.subTest(marker=marker):
+                text = '\n'.join([marker * 4 + 'text', '# 代码中的假标题',
+                                  marker * 3, other * 4, '# 仍在代码中',
+                                  marker * 5, '## 二级标题', '# 第一个实际标题',
+                                  '', '# 后面的一级标题']) + '\n'
+                output, _ = self.render(text, out=f'heading-{ord(marker)}.docx')
+                self.assertEqual(self.core_title(output), '第一个实际标题')
+
+    def test_default_title_without_h1_uses_filename_stem(self):
+        cases = ('## 只有二级标题\n\n正文。\n',
+                 '```text\n# 只有代码中的标题\n```\n\n正文。\n',
+                 '~~~~text\n# 未闭合代码中的标题\n')
+        for index, text in enumerate(cases):
+            with self.subTest(index=index):
+                output, _ = self.render(text, name='中文文件名.v2.md', out=f'fallback-{index}.docx')
+                self.assertEqual(self.core_title(output), '中文文件名.v2')
+
+    def test_cli_title_matches_core_properties(self):
+        cases = (
+            ('# 正文标题\n', '命令行标题 <甲> & "乙"', '命令行标题 <甲> & "乙"'),
+            ('```text\n# 假标题\n```\n\n# 实际标题\n', None, '实际标题'),
+            ('## 二级标题\n\n正文。\n', None, '命令行来源'),
+        )
+        for index, (text, explicit, expected) in enumerate(cases):
+            with self.subTest(index=index):
+                source = self.work / '命令行来源.md'
+                source.write_text(text, encoding='utf-8')
+                output = self.work / f'cli-{index}.docx'
+                command = [sys.executable, str(SCRIPT), str(source), '--output', str(output)]
+                if explicit is not None:
+                    command.extend(['--title', explicit])
+                result = subprocess.run(command, capture_output=True, text=True, encoding='utf-8')
+                self.assertEqual(result.returncode, 0, result.stderr)
+                self.assertEqual(result.stderr, '')
+                summary = json.loads(result.stdout)
+                self.assertEqual(summary['title'], expected)
+                self.assertEqual(summary['title'], self.core_title(output))
+
+    def test_title_metadata_is_deterministic_without_timestamps(self):
+        text = '# 正文标题\n\n正文。\n'
+        first, _ = self.render(text, name='first.md', title='固定标题', out='first.docx')
+        second, _ = self.render(text, name='second.md', title='固定标题', out='second.docx')
+        self.assertEqual(first.read_bytes(), second.read_bytes())
+        properties = self.core_properties(first)
+        dcterms = '{http://purl.org/dc/terms/}'
+        for tag in (dcterms + 'created', dcterms + 'modified', CP + 'lastPrinted'):
+            self.assertIsNone(properties.find(tag))
+        with zipfile.ZipFile(first) as archive:
+            self.assertTrue(all(item.date_time == (1980, 1, 1, 0, 0, 0)
+                                for item in archive.infolist()))
+
+    def test_title_normalizes_xml_controls_and_line_endings_consistently(self):
+        source = self.work / 'source.md'
+        source.write_text('# 正文标题\n\n正文。\n', encoding='utf-8')
+        output = self.work / 'normalized.docx'
+        title = '中文\x00标题\x0b <结构>\r\n第二行\r第三行\t末尾'
+        expected = '中文 标题  <结构>\n第二行\n第三行\t末尾'
+        summary = module().render_document(source, output, title)
+        self.assertEqual(summary['title'], expected)
+        self.assertEqual(self.core_title(output), expected)
 
     def test_xml_escaping(self):
         text = '# 标题 <b> & 引号"\n\n段落 <script> 与 & 符号\n'

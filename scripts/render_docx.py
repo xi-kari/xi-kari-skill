@@ -501,6 +501,12 @@ def build_document(source: str, title: str | None, source_path: Path | None) -> 
                 'w:header="720" w:footer="720" w:gutter="0"/></w:sectPr>'
                 '</w:body></w:document>')
 
+    core_properties = ('<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'
+                       '<cp:coreProperties xmlns:cp="http://schemas.openxmlformats.org/package/2006/metadata/core-properties" '
+                       'xmlns:dc="http://purl.org/dc/elements/1.1/">'
+                       f'<dc:title>{escape_text(resolve_title(source, title, source_path))}</dc:title>'
+                       '</cp:coreProperties>')
+
     extensions = sorted({IMAGE_MIMES['.' + name.rsplit('.', 1)[1]][0] for name, _ in media})
     defaults = ''.join(
         f'<Default Extension="{escape_text(ext)}" ContentType="{escape_text(mime)}"/>'
@@ -510,6 +516,7 @@ def build_document(source: str, title: str | None, source_path: Path | None) -> 
                      '<Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/>'
                      '<Default Extension="xml" ContentType="application/xml"/>'
                      f'{defaults}'
+                     '<Override PartName="/docProps/core.xml" ContentType="application/vnd.openxmlformats-package.core-properties+xml"/>'
                      '<Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/>'
                      '<Override PartName="/word/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.styles+xml"/>'
                      '</Types>')
@@ -518,6 +525,8 @@ def build_document(source: str, title: str | None, source_path: Path | None) -> 
                     '<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">'
                     '<Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/'
                     'relationships/officeDocument" Target="word/document.xml"/>'
+                    '<Relationship Id="rIdCoreProperties" Type="http://schemas.openxmlformats.org/package/2006/'
+                    'relationships/metadata/core-properties" Target="docProps/core.xml"/>'
                     '</Relationships>')
 
     document_rels = ('<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'
@@ -529,6 +538,7 @@ def build_document(source: str, title: str | None, source_path: Path | None) -> 
     parts: dict[str, bytes] = {
         '[Content_Types].xml': content_types.encode('utf-8'),
         '_rels/.rels': package_rels.encode('utf-8'),
+        'docProps/core.xml': core_properties.encode('utf-8'),
         'word/document.xml': document.encode('utf-8'),
         'word/_rels/document.xml.rels': document_rels.encode('utf-8'),
         'word/styles.xml': STYLES.encode('utf-8'),
@@ -604,7 +614,7 @@ def write_docx(output: Path, parts: dict[str, bytes], expected: bytes | None) ->
 
 def PARTS_ORDER(parts: dict[str, bytes]) -> list[str]:
     """固定部件顺序，保证同输入字节相同。"""
-    preferred = ['[Content_Types].xml', '_rels/.rels', 'word/document.xml',
+    preferred = ['[Content_Types].xml', '_rels/.rels', 'docProps/core.xml', 'word/document.xml',
                  'word/_rels/document.xml.rels', 'word/styles.xml']
     ordered = [name for name in preferred if name in parts]
     ordered += sorted(name for name in parts if name not in preferred)
@@ -613,14 +623,12 @@ def PARTS_ORDER(parts: dict[str, bytes]) -> list[str]:
 
 def resolve_title(source: str, title: str | None, source_path: Path | None) -> str:
     """标题只作元数据：显式 --title 优先，否则取首个一级标题，再无则取文件名主干。"""
-    if title:
-        return title
-    match = re.search(r'^ {0,3}#\s+(.*?)\s*$', source, re.MULTILINE)
-    if match:
-        return match.group(1)
-    if source_path is not None:
-        return Path(source_path).stem
-    return '文档'
+    if not title:
+        lines = source.replace('\r\n', '\n').replace('\r', '\n').split('\n')
+        title = next((block['text'] for block in parse_blocks(lines)
+                      if block['kind'] == 'heading' and block['level'] == 1),
+                     Path(source_path).stem if source_path is not None else '文档')
+    return _CONTROL.sub(' ', title).replace('\r\n', '\n').replace('\r', '\n')
 
 
 def render_document(input_path: Path, output: Path, title: str | None = None) -> dict:
@@ -629,11 +637,12 @@ def render_document(input_path: Path, output: Path, title: str | None = None) ->
     if _same_path(input_path, output):
         raise DocxError('输入与输出不能是同一个文件')
     text, raw = read_markdown(input_path)
+    title = resolve_title(text, title, input_path)
     parts, unsupported = build_document(text, title, input_path)
     write_docx(output, parts, None)
     return {'output': str(output.resolve()), 'source_bytes': len(raw),
             'docx_bytes': output.stat().st_size, 'renderer': 'python-standard-library',
-            'offline': True, 'title': resolve_title(text, title, input_path), 'unsupported': unsupported}
+            'offline': True, 'title': title, 'unsupported': unsupported}
 
 
 def main(argv: list[str] | None = None) -> int:

@@ -13,7 +13,7 @@ python "$skillRoot/scripts/render_docx.py" "$taskRoot/xi-kari-answer.md" --outpu
 python "$skillRoot/scripts/render_docx.py" "$taskRoot/xi-kari-answer.md" --output "$taskRoot/交付稿.docx" --title '算法治理的民主悖论'
 ```
 
-`--title` 只设置文档标题，不改动正文。输入与输出不能是同一个文件。
+`--title` 设置文档属性中的标题，不替换正文标题或改动正文。未指定时采用正文中第一个一级标题，忽略代码块中的标题标记；没有一级标题时采用输入文件名（不含扩展名）。命令输出的 `title` 与文件属性一致。输入与输出不能是同一个文件。
 
 ## 支持的语法
 
