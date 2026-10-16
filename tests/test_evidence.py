@@ -28,6 +28,14 @@ class EvidenceTests(unittest.TestCase):
         args = evidence.parser().parse_args(["--catalog", str(self.catalog), *map(str, arguments)])
         return evidence.run(args)
 
+    def cli_command(self, *arguments, expected_exit=0):
+        result = subprocess.run(
+            [sys.executable, str(SCRIPT), "--catalog", str(self.catalog), *map(str, arguments)],
+            capture_output=True, encoding="utf-8",
+        )
+        self.assertEqual(result.returncode, expected_exit, result.stderr or result.stdout)
+        return json.loads(result.stdout if expected_exit == 0 else result.stderr)
+
     def material(self, name="source.md", content="第一行\n第二行\n第三行\n"):
         path = self.root / name
         path.write_text(content, encoding="utf-8", newline="")
@@ -98,6 +106,201 @@ class EvidenceTests(unittest.TestCase):
                 self.assertFalse(self.catalog.exists())
                 self.assertFalse(self.catalog.parent.exists())
                 self.assertEqual(path.read_bytes(), data)
+
+    def test_docx_cli_reads_wrapped_rows_cells_and_nested_tables_in_order(self):
+        path = self.root / "controls.docx"
+        xml = '''<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:body>
+          <w:p><w:r><w:t>needle intro</w:t></w:r></w:p>
+          <w:tbl>
+            <w:tr><w:tc><w:p><w:r><w:t>needle before</w:t></w:r></w:p></w:tc></w:tr>
+            <w:sdt><w:sdtPr><w:alias w:val="needle metadata"/></w:sdtPr><w:sdtContent><w:tr>
+              <w:tc>
+                <w:p><w:r><w:t>needle row</w:t></w:r></w:p>
+                <w:tbl><w:sdt><w:sdtContent><w:tr><w:sdt><w:sdtContent><w:tc>
+                  <w:p><w:r><w:t>needle nested</w:t></w:r></w:p>
+                </w:tc></w:sdtContent></w:sdt></w:tr></w:sdtContent></w:sdt></w:tbl>
+                <w:p><w:r><w:t>needle after nested</w:t></w:r>
+                  <w:del><w:r><w:t>needle deleted</w:t></w:r></w:del>
+                  <w:r><w:drawing><w:txbxContent><w:p><w:r><w:t>needle textbox</w:t></w:r></w:p></w:txbxContent></w:drawing></w:r>
+                </w:p>
+              </w:tc>
+              <w:sdt><w:sdtContent><w:tc><w:p><w:r><w:t>needle cell</w:t></w:r></w:p></w:tc></w:sdtContent></w:sdt>
+            </w:tr></w:sdtContent></w:sdt>
+            <w:tr><w:tc><w:p><w:r><w:t>needle after</w:t></w:r></w:p></w:tc></w:tr>
+          </w:tbl>
+        </w:body></w:document>'''
+        with zipfile.ZipFile(path, "w") as archive:
+            archive.writestr("word/document.xml", xml)
+        raw = path.read_bytes()
+        added = self.cli_command("add", path, "--id", "controls")
+        catalog_before = self.catalog.read_bytes()
+        found = self.cli_command("search", "needle", "--id", "controls")
+        shown = self.cli_command("show", "--id", "controls", "--at", "P1", "--at", "T1")
+        nested = self.cli_command("show", "--id", "controls", "--at", "T1R2C1T1")
+        expected = [
+            ("P1", "needle intro"),
+            ("T1R1C1P1", "needle before"),
+            ("T1R2C1P1", "needle row"),
+            ("T1R2C1T1R1C1P1", "needle nested"),
+            ("T1R2C1P2", "needle after nested"),
+            ("T1R2C2P1", "needle cell"),
+            ("T1R3C1P1", "needle after"),
+        ]
+        self.assertEqual(path.read_bytes(), raw)
+        self.assertEqual(self.catalog.read_bytes(), catalog_before)
+        self.assertEqual(added["source"]["unit_count"], len(expected))
+        self.assertTrue(found["complete"])
+        self.assertEqual(found["skipped_sources"], [])
+        self.assertEqual(found["total_matches"], len(expected))
+        self.assertEqual([(u["locator"], u["text"]) for u in found["matches"]], expected)
+        self.assertEqual([(u["locator"], u["text"]) for u in shown["source_extracts"]], expected)
+        self.assertEqual([u["location"]["document_order"] for u in shown["source_extracts"]], list(range(1, 8)))
+        self.assertEqual([(u["locator"], u["text"]) for u in nested["source_extracts"]], [expected[3]])
+
+    def test_docx_cli_excludes_move_origin_and_preserves_destination(self):
+        path = self.root / "moved.docx"
+        xml = '''<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:body>
+          <w:p>
+            <w:moveFromRangeStart w:id="1" w:name="move1"/>
+            <w:moveFrom w:id="2" w:author="Synthetic"><w:r><w:t>needle moved text</w:t></w:r></w:moveFrom>
+            <w:moveFromRangeEnd w:id="1"/>
+          </w:p>
+          <w:p>
+            <w:moveToRangeStart w:id="3" w:name="move1"/>
+            <w:moveTo w:id="4" w:author="Synthetic"><w:r><w:t>needle moved text</w:t></w:r></w:moveTo>
+            <w:moveToRangeEnd w:id="3"/>
+          </w:p>
+        </w:body></w:document>'''
+        with zipfile.ZipFile(path, "w") as archive:
+            archive.writestr("word/document.xml", xml)
+        raw = path.read_bytes()
+        self.cli_command("add", path, "--id", "moved")
+        found = self.cli_command("search", "needle", "--id", "moved")
+        shown = self.cli_command("show", "--id", "moved", "--at", "P1", "--at", "P2")
+        self.cli_command("clip", "--id", "moved", "--clip-id", "destination", "--at", "P2", "--support", "Synthetic destination only")
+        saved = self.cli_command("show", "--clip", "destination")
+        self.assertEqual(path.read_bytes(), raw)
+        self.assertTrue(found["complete"])
+        self.assertEqual(found["total_matches"], 1)
+        self.assertEqual([u["locator"] for u in found["matches"]], ["P2"])
+        self.assertEqual([(u["locator"], u["text"]) for u in shown["source_extracts"]], [("P1", ""), ("P2", "needle moved text")])
+        self.assertEqual(saved["clip"]["source_extracts"], [shown["source_extracts"][1]])
+        self.assertEqual(saved["status"]["state"], "current")
+
+    def test_docx_cli_requires_new_registration_for_old_extraction_version(self):
+        path = self.root / "previous.docx"
+        xml = '''<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:body>
+          <w:p><w:r><w:t>needle original</w:t></w:r></w:p>
+        </w:body></w:document>'''
+        with zipfile.ZipFile(path, "w") as archive:
+            archive.writestr("word/document.xml", xml)
+        raw = path.read_bytes()
+        for index, previous_extraction in enumerate(("evidence.py/1", None)):
+            with self.subTest(extraction=previous_extraction):
+                self.catalog = self.root / f"catalog-{index}.json"
+                self.cli_command("add", path, "--id", "old")
+                self.cli_command("clip", "--id", "old", "--clip-id", "saved", "--at", "P1", "--support", "Synthetic snapshot")
+                catalog = json.loads(self.catalog.read_text(encoding="utf-8"))
+                if previous_extraction is None:
+                    catalog["sources"]["old"].pop("extraction")
+                else:
+                    catalog["sources"]["old"]["extraction"] = previous_extraction
+                self.catalog.write_text(json.dumps(catalog, ensure_ascii=False), encoding="utf-8")
+                before = self.catalog.read_bytes()
+                for arguments in [
+                    ("show", "--id", "old", "--at", "P1"),
+                    ("clip", "--id", "old", "--clip-id", "new-clip", "--at", "P1", "--support", "Must not capture"),
+                ]:
+                    rejected = self.cli_command(*arguments, expected_exit=2)
+                    self.assertIn("提取", rejected["error"])
+                    self.assertIn("新ID", rejected["error"])
+                    self.assertIn("--supersedes old", rejected["error"])
+                found = self.cli_command("search", "needle", "--id", "old")
+                self.assertFalse(found["complete"])
+                self.assertEqual(found["total_matches"], 0)
+                self.assertEqual([s["source_id"] for s in found["skipped_sources"]], ["old"])
+                saved = self.cli_command("show", "--clip", "saved")
+                self.assertEqual(saved["clip"], catalog["clips"]["saved"])
+                self.assertEqual(saved["status"]["state"], "current")
+                self.assertEqual(self.catalog.read_bytes(), before)
+                added = self.cli_command("add", path, "--id", "new", "--supersedes", "old")
+                self.assertEqual(added["source"]["extraction"], "evidence.py/2")
+                shown = self.cli_command("show", "--id", "new", "--at", "P1")
+                self.assertEqual(shown["source_extracts"][0]["text"], "needle original")
+                current = json.loads(self.catalog.read_text(encoding="utf-8"))
+                self.assertEqual(current["sources"]["old"], catalog["sources"]["old"])
+                self.assertEqual(current["clips"]["saved"], catalog["clips"]["saved"])
+                self.assertEqual(path.read_bytes(), raw)
+
+    def test_docx_cli_skips_deleted_cells_without_renumbering_storage_locators(self):
+        path = self.root / "cell-revisions.docx"
+        xml = '''<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:body>
+          <w:tbl><w:tr>
+            <w:tc><w:p><w:r><w:t>needle first</w:t></w:r></w:p></w:tc>
+            <w:tc><w:tcPr><w:cellDel w:id="1" w:author="Synthetic"/></w:tcPr>
+              <w:p><w:r><w:t>needle deleted cell</w:t></w:r></w:p>
+              <w:tbl><w:tr><w:tc><w:p><w:r><w:t>needle deleted nested</w:t></w:r></w:p></w:tc></w:tr></w:tbl>
+              <w:p/>
+            </w:tc>
+            <w:tc><w:tcPr><w:cellIns w:id="2" w:author="Synthetic"/></w:tcPr>
+              <w:p><w:r><w:t>needle inserted</w:t></w:r></w:p>
+              <w:tbl><w:tr><w:tc><w:p><w:r><w:t>needle retained nested</w:t></w:r></w:p></w:tc></w:tr></w:tbl>
+              <w:p/>
+            </w:tc>
+            <w:sdt><w:sdtContent><w:tc><w:tcPr><w:cellDel w:id="3" w:author="Synthetic"/></w:tcPr>
+              <w:p><w:r><w:t>needle wrapped deleted</w:t></w:r></w:p>
+              <w:tbl><w:tr><w:tc><w:p><w:r><w:t>needle wrapped deleted nested</w:t></w:r></w:p></w:tc></w:tr></w:tbl>
+              <w:p/>
+            </w:tc></w:sdtContent></w:sdt>
+            <w:tc><w:p><w:r><w:t>needle last</w:t></w:r></w:p></w:tc>
+            <w:tc><w:tcPr><w:tcPrChange w:id="5" w:author="Synthetic"><w:tcPr>
+              <w:cellDel w:id="6" w:author="Synthetic"/>
+            </w:tcPr></w:tcPrChange></w:tcPr><w:p><w:r><w:t>needle current history</w:t></w:r></w:p></w:tc>
+          </w:tr><w:tr><w:trPr><w:del w:id="4" w:author="Synthetic"/></w:trPr>
+            <w:tc><w:p><w:r><w:t>needle row content</w:t></w:r></w:p></w:tc>
+          </w:tr></w:tbl>
+        </w:body></w:document>'''
+        with zipfile.ZipFile(path, "w") as archive:
+            archive.writestr("word/document.xml", xml)
+        raw = path.read_bytes()
+        added = self.cli_command("add", path, "--id", "cells")
+        catalog_before = self.catalog.read_bytes()
+        found = self.cli_command("search", "needle", "--id", "cells")
+        shown = self.cli_command("show", "--id", "cells", "--at", "T1")
+        expected = [
+            ("T1R1C1P1", "needle first"),
+            ("T1R1C3P1", "needle inserted"),
+            ("T1R1C3T1R1C1P1", "needle retained nested"),
+            ("T1R1C5P1", "needle last"),
+            ("T1R1C6P1", "needle current history"),
+            ("T1R2C1P1", "needle row content"),
+        ]
+        self.assertEqual(found["total_matches"], len(expected))
+        self.assertTrue(found["complete"])
+        self.assertEqual([(u["locator"], u["text"]) for u in found["matches"]], expected)
+        self.assertEqual([(u["locator"], u["text"]) for u in shown["source_extracts"] if u["text"]], expected)
+        self.assertEqual(added["source"]["unit_count"], len(expected) + 1)
+        self.assertIn("不重建全部结构修订", " ".join(shown["extraction_limits"]))
+        for locator in ("T1R1C2", "T1R1C2T1", "T1R1C4", "T1R1C4T1"):
+            rejected = self.cli_command("show", "--id", "cells", "--at", locator, expected_exit=2)
+            self.assertIn("定位不存在", rejected["error"])
+        self.assertEqual(self.catalog.read_bytes(), catalog_before)
+        self.assertEqual(path.read_bytes(), raw)
+
+    def test_non_docx_extraction_version_remains_compatible(self):
+        for name, locator in (("plain.txt", "L1"), ("table.csv", "R1C1")):
+            with self.subTest(name=name):
+                path = self.material(name, "needle original\n")
+                raw = path.read_bytes()
+                source_id = path.stem
+                added = self.cli_command("add", path, "--id", source_id)
+                self.assertEqual(added["source"]["extraction"], "evidence.py/1")
+                found = self.cli_command("search", "needle", "--id", source_id)
+                self.assertTrue(found["complete"])
+                self.assertEqual(found["total_matches"], 1)
+                shown = self.cli_command("show", "--id", source_id, "--at", locator)
+                self.assertEqual(shown["source_extracts"][0]["text"], "needle original")
+                self.assertEqual(path.read_bytes(), raw)
 
     def test_source_changed_old_clip_retained_and_new_identity_registered(self):
         path = self.material(content="原来的判断\n")

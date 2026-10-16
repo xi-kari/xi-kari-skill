@@ -26,6 +26,7 @@ finally:
 
 
 FORMAT = "xikari-materials-1"
+DOCX_EXTRACTION = "evidence.py/2"
 ID = re.compile(r"[A-Za-z0-9][A-Za-z0-9._-]{0,79}\Z")
 W = "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}"
 
@@ -71,7 +72,7 @@ def unit(locator, text, **location):
 
 def paragraph_text(element):
     def walk(node):
-        if node.tag in {W + "del", W + "txbxContent", W + "drawing", W + "pict"}:
+        if node.tag in {W + "del", W + "moveFrom", W + "txbxContent", W + "drawing", W + "pict"}:
             return ""
         if node.tag == W + "t":
             return node.text or ""
@@ -115,11 +116,15 @@ def docx_units(data):
             elif child.tag == W + "tbl":
                 table += 1
                 table_id = f"{prefix}T{table}"
-                for row_no, row in enumerate(child.findall(W + "tr"), 1):
-                    for cell_no, cell in enumerate(row.findall(W + "tc"), 1):
+                rows = (row for row in children(child) if row.tag == W + "tr")
+                for row_no, row in enumerate(rows, 1):
+                    cells = (cell for cell in children(row) if cell.tag == W + "tc")
+                    for cell_no, cell in enumerate(cells, 1):
+                        if cell.find(W + "tcPr/" + W + "cellDel") is not None:
+                            continue
                         blocks(cell, f"{table_id}R{row_no}C{cell_no}")
     blocks(body)
-    return result, ["DOCX定位按正文XML顺序，不是排版页码；表格C是存储单元格序号，合并单元格可能不等于视觉列。仅提取正文段落和表格，排除删除修订；页眉页脚、脚注尾注、文本框、图片、批注及外部嵌入对象需回源查看。"]
+    return result, ["DOCX定位按正文XML顺序，不是排版页码；表格C是存储单元格序号，合并单元格可能不等于视觉列。仅提取正文段落和表格，忽略删除文字、移动来源文字及当前标记删除的单元格；不重建全部结构修订。页眉页脚、脚注尾注、文本框、图片、批注及外部嵌入对象需回源查看。"]
 
 
 def extract(data, kind, delimiter=","):
@@ -224,6 +229,8 @@ def live_units(source):
     data = read_bytes(source["path"])
     if identity(data) != source["sha256"]:
         raise MaterialError(f"材料 {source['id']} 的内容已变化，旧定位不能用于当前文件。以新ID add，并用--supersedes {source['id']}登记新版本；旧片段仍可show --clip查看。")
+    if source["kind"] == "docx" and source.get("extraction") != DOCX_EXTRACTION:
+        raise MaterialError(f"材料 {source['id']} 的DOCX提取版本与当前工具不一致或未登记，旧定位不能用于当前提取方式。以新ID add，并用--supersedes {source['id']}登记新版本；旧片段仍可show --clip查看。")
     return extract(data, source["kind"], source.get("delimiter", ","))
 
 
@@ -319,7 +326,7 @@ def add(catalog, args):
         "source_date": args.source_date, "origin": args.origin,
         "locator_note": args.locator_note, "registered_at": now(),
         "supersedes": args.supersedes, "unit_count": len(units),
-        "extraction": "evidence.py/1", "extraction_limits": warnings,
+        "extraction": DOCX_EXTRACTION if kind == "docx" else "evidence.py/1", "extraction_limits": warnings,
     }
     if kind == "csv":
         source["delimiter"] = delimiter

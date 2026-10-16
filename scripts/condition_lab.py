@@ -183,10 +183,12 @@ class Formula:
             if isinstance(node, ast.Compare):
                 values = [evaluate(node.left)] + [evaluate(child) for child in node.comparators]
                 absent = failure(values)
-                if absent:
+                if absent and absent.state == "error":
                     return absent
                 answers = []
                 for left_value, op, right_value in zip(values, node.ops, values[1:]):
+                    if left_value.state == "unknown" or right_value.state == "unknown":
+                        continue
                     left, right = left_value.value, right_value.value
                     valid = number(left) and number(right)
                     valid |= type(left) is bool and type(right) is bool and isinstance(op, (ast.Eq, ast.NotEq))
@@ -198,7 +200,9 @@ class Formula:
                     elif isinstance(op, ast.LtE): answers.append(left <= right)
                     elif isinstance(op, ast.Gt): answers.append(left > right)
                     elif isinstance(op, ast.GtE): answers.append(left >= right)
-                return known(all(answers))
+                if not all(answers):
+                    return known(False)
+                return absent or known(True)
             if isinstance(node, ast.Call):
                 values = [evaluate(child) for child in node.args]
                 absent = failure(values)

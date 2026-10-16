@@ -136,6 +136,64 @@ class ConditionLabTests(unittest.TestCase):
         self.assertEqual(lab.Formula("missing or True", {"missing"}).evaluate(values).value, True)
         self.assertEqual(lab.Formula("True or (1 / 0 > 0)", set()).evaluate({}).state, "error")
 
+    def test_comparison_chains_match_conjunctions_with_unknowns_and_errors(self):
+        values = {"missing": lab.Value("unknown", reason="未知")}
+        cases = [
+            ("10 <= 5 <= missing", "(10 <= 5) and (5 <= missing)", "known", False),
+            ("missing <= 10 <= 5", "(missing <= 10) and (10 <= 5)", "known", False),
+            ("10 <= 5 <= missing <= 20", "(10 <= 5) and (5 <= missing) and (missing <= 20)", "known", False),
+            ("missing <= missing <= missing", "(missing <= missing) and (missing <= missing)", "unknown", None),
+            ("1 <= 2 <= missing", "(1 <= 2) and (2 <= missing)", "unknown", None),
+            ("1 <= 2 <= 3", "(1 <= 2) and (2 <= 3)", "known", True),
+            ("False == True == missing", "(False == True) and (True == missing)", "known", False),
+            ("True == True == missing", "(True == True) and (True == missing)", "unknown", None),
+            ("10 <= 5 <= missing <= (1 / 0)", "(10 <= 5) and (5 <= missing) and (missing <= (1 / 0))", "error", None),
+            ("10 <= 5 <= missing <= False < True", "(10 <= 5) and (5 <= missing) and (missing <= False) and (False < True)", "error", None),
+            ("missing < 1 == True", "(missing < 1) and (1 == True)", "error", None),
+        ]
+        for chain, conjunction, state, expected in cases:
+            with self.subTest(chain=chain):
+                actual = lab.Formula(chain, {"missing"}).evaluate(values)
+                expanded = lab.Formula(conjunction, {"missing"}).evaluate(values)
+                self.assertEqual((actual.state, actual.value), (state, expected))
+                self.assertEqual((actual.state, actual.value), (expanded.state, expanded.value))
+
+    def test_comparison_chain_model_state_preserves_false_unknown_and_error(self):
+        model = minimal()
+        model["inputs"]["capacity"].update(value=None, basis="unknown")
+        model["derived"] = []
+        cases = [
+            ("10 <= 5 <= capacity", "violated", "violates_model_constraints"),
+            ("capacity <= 10 <= 5", "violated", "violates_model_constraints"),
+            ("1 <= 2 <= capacity", "unknown", "undetermined"),
+            ("1 <= 2 <= 3", "satisfied", "satisfies_model_constraints"),
+            ("10 <= 5 <= capacity <= (1 / 0)", "error", "calculation_error"),
+            ("10 <= 5 <= capacity <= 1 == True", "error", "calculation_error"),
+        ]
+        for formula, constraint_state, case_state in cases:
+            with self.subTest(formula=formula):
+                model["constraints"][0]["formula"] = formula
+                actual = lab.evaluate_model(model)["cases"][0]
+                self.assertEqual(actual["constraints"][0]["state"], constraint_state)
+                self.assertEqual(actual["state"], case_state)
+
+    def test_cli_comparison_chain_json_and_csv_preserve_known_violation(self):
+        model = minimal()
+        model["inputs"]["capacity"].update(value=None, basis="unknown")
+        model["derived"] = []
+        model["constraints"][0]["formula"] = "10 <= 5 <= capacity"
+        self.source.write_text(json.dumps(model), encoding="utf-8")
+        process = subprocess.run([sys.executable, str(SCRIPT), str(self.source), "--output", str(self.output)], capture_output=True, encoding="utf-8")
+        self.assertEqual(process.returncode, 0, process.stderr)
+        result = json.loads((self.output / lab.OUTPUTS["json"]).read_text(encoding="utf-8"))
+        case = result["cases"][0]
+        self.assertEqual(case["state"], "violates_model_constraints")
+        self.assertEqual((case["constraints"][0]["state"], case["constraints"][0]["value"]), ("violated", False))
+        rows = list(csv.DictReader(io.StringIO((self.output / lab.OUTPUTS["csv"]).read_text(encoding="utf-8"))))
+        self.assertEqual({row["case_state"] for row in rows}, {"violates_model_constraints"})
+        constraint = next(row for row in rows if row["kind"] == "constraint")
+        self.assertEqual((constraint["state"], constraint["value"]), ("violated", "false"))
+
     def test_formulas_support_ordered_derived_values_and_limited_math(self):
         model = minimal()
         model["derived"].append({"id": "scaled", "label": "计算", "formula": "min(remaining, 5) + max(2, 3) + abs(-2) + 8 // 3 + 8 % 3 + 2 ** 3", "unit": "小时"})
