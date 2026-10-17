@@ -1,6 +1,6 @@
 # 安装与宿主适配
 
-下载Release中的 **`xi-kari-skill-5.5.0-windows.zip`**。解压后只得到一个`xi-kari-skill`文件夹，将整个文件夹放入宿主的技能目录，使最终位置为`<技能目录>/xi-kari-skill/SKILL.md`。
+下载Release中的 **`xi-kari-skill-5.5.1-windows.zip`**。解压后只得到一个`xi-kari-skill`文件夹，将整个文件夹放入宿主的技能目录，使最终位置为`<技能目录>/xi-kari-skill/SKILL.md`。
 
 请使用Release安装包。GitHub的“Code → Download ZIP”和仓库克隆包含测试、网页及开发文件，不是供技能目录使用的安装包。
 
