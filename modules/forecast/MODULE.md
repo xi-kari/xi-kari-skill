@@ -78,6 +78,8 @@ F10 不把未请求选择的任务扩成行动计划。F12 是结果到来后的
 
 `decision_threshold` 指本次现实决策阈值，与技能开发评测的合入阈值不同。后者尚待确定，不能在查看评测结果后补设标准，也不能据建议阈值宣告过关。若连续实际使用另需自动能力降级，可事前在 `calibration_plan.degradation_policy` 指定指标、每月最小样本数与连续月数；没有预定门槛时工具保持能力未证实，不能从结果反推一条有利标准。
 
+F8 使用已有注册表时读取 `report` 的 `degradation_decisions`。逐项匹配理论、技能、宿主模型、阶次、表达类型、证据类型和评价合同；匹配组为 `scenario_only` 时，该复杂模型只保留情景表达，或采用具有独立依据的简单基线重新登记。不能仅凭报告顶层摘要把其他对象或版本一并降级，也不能因一次新预测而自动恢复已降级能力。注册表尚无可比结果时保留未证实状态；现有证据已经显示校准或分配错误时，仍按 §16.22 处理，不等待凑足自动阈值。
+
 结果输入含 `forecast_id`、`resolved_at`、`outcome_source`、`observed`、`status`、`path_match`、`model_updates`。`observed` 保存数值或空的 `value`、含时区时间或空的 `event_time`，可附 `details` 文字。状态仅用 `supported`、`not_supported`、`undetermined`、`target_invalid`、`not_evaluable`，后三者须写 `reason`。数值标签缺失保持空，不填零；`scores` 与 `baseline_scores` 由工具按冻结表达及指标计算，不接受预制成绩。
 
 当前工具的计算指标是 `brier`、`log_loss`、`interval_coverage`、`window_coverage`，只计算预登记且输入适用的部分。排序与方向可以登记，但当前保留文字结果、不生成伪分数；需要其外部评价时先确定对应判据和独立评价实现。

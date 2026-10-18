@@ -360,6 +360,9 @@ class ForecastTests(unittest.TestCase):
         report = self.target.report_registry(self.target.load_registry(self.registry))
         self.assertEqual(report['capability'], 'scenario_only')
         self.assertEqual(report['degradation_decisions'][0]['basis'], '16.22')
+        self.assertEqual(report['degradation_decisions'][0]['theory_sha256'], sample()['theory_sha256'])
+        self.assertEqual(report['degradation_decisions'][0]['expression_type'], 'probability')
+        self.assertEqual(report['capability_scope'], 'matching_degradation_decisions_only')
 
     def test_missing_month_and_small_samples_do_not_invent_persistence(self):
         for index, month in enumerate([2, 4]):

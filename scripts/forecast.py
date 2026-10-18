@@ -574,6 +574,7 @@ def degradation(groups):
             consecutive = (consecutive + 1 if contiguous else 1) if all_not_better else 0
             if consecutive >= policy['consecutive_months']:
                 decisions.append({'order': group['order'], 'skill_version': group['skill_version'], 'host_model': group['host_model'],
+                                  'theory_sha256': group['theory_sha256'], 'expression_type': group['expression_type'],
                                   'evidence_kind': group['evidence_kind'], 'capability': 'scenario_only', 'basis': '16.22',
                                   'evaluation_contract': group['evaluation_contract'],
                                   'policy': policy, 'reason': '预登记的连续月份内未优于简单基线；前瞻能力声明降级。'})
@@ -630,6 +631,7 @@ def report_registry(registry):
     policies = [record['calibration_plan'].get('degradation_policy') for record in registry['forecasts']]
     threshold_status = 'pending' if not any(policies) else 'preregistered' if all(policies) else 'partial'
     return {'format': FORMAT, 'orders': orders, 'groups': groups, 'capability': 'scenario_only' if decisions else 'unverified',
+            'capability_scope': 'matching_degradation_decisions_only',
             'capability_evidence_records': sum(record['evidence_kind'] in {'live', 'backtest'} and record['id'] in latest
                                                and latest[record['id']]['status'] in {'supported', 'not_supported'} for record in registry['forecasts']),
             'degradation_threshold': threshold_status, 'degradation_decisions': decisions,
