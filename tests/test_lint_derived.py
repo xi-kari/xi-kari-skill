@@ -20,6 +20,8 @@ class DerivedTests(unittest.TestCase):
         self.root = Path(self.temp.name)
         (self.root / 'source').mkdir()
         (self.root / 'modules/example').mkdir(parents=True)
+        (self.root / 'references').mkdir()
+        (self.root / 'references/reading-core.json').write_text(json.dumps({'reading': ['front']}))
         self.source = '# Book\n\n<a id="part_1"></a>\n# Part\n## 1.1 First\nbody\n### 1.1.1 Child\nchild\n## 1.2 Second\nother\n'
         self.install_source(self.source)
         self.write_module(['1.1'], 'Read §1.1.')
@@ -93,7 +95,7 @@ class DerivedTests(unittest.TestCase):
 
     def test_reference_frontmatter_errors_are_not_ignored(self):
         path = self.root / 'references/method.md'
-        path.parent.mkdir()
+        path.parent.mkdir(exist_ok=True)
         path.write_text('---\n{invalid}\n---\n# Method\n', encoding='utf-8')
         self.assertIn('references/method.md: frontmatter must be a JSON object (a YAML subset)',
                       lint.check(self.root)['errors'])
@@ -101,7 +103,7 @@ class DerivedTests(unittest.TestCase):
     def test_plain_guides_do_not_count_as_derived_resources(self):
         (self.root / 'modules/example/MODULE.md').unlink()
         path = self.root / 'references/guide.md'
-        path.parent.mkdir()
+        path.parent.mkdir(exist_ok=True)
         path.write_text('# Plain guide\n', encoding='utf-8')
         result = lint.check(self.root)
         self.assertEqual(result['resource_count'], 0)
@@ -112,12 +114,13 @@ class DerivedTests(unittest.TestCase):
             target = Path(outside) / 'external.md'
             target.write_text('---\n{}\n---\n', encoding='utf-8')
             link = self.root / 'references/external.md'
-            link.parent.mkdir()
+            link.parent.mkdir(exist_ok=True)
             try:
                 link.symlink_to(target)
             except OSError as exc:
                 if os.name != 'nt':
                     self.skipTest(f'symlinks unavailable: {exc}')
+                (link.parent / 'reading-core.json').unlink()
                 link.parent.rmdir()
                 junction = subprocess.run(['cmd', '/c', 'mklink', '/J', str(link.parent), outside],
                                           capture_output=True)
@@ -129,6 +132,36 @@ class DerivedTests(unittest.TestCase):
     def test_unknown_range_endpoint_is_rejected(self):
         self.write_module(['1.1'], 'Read §1.1—1.99.')
         self.assertIn('unknown source anchor 1.99', '\n'.join(lint.check(self.root)['errors']))
+
+    def test_reading_core_anchor_mutation_and_recovery(self):
+        path = self.root / 'references/reading-core.json'
+        original = path.read_bytes()
+        self.assertTrue(lint.check(self.root)['ok'])
+        path.write_text(json.dumps({'reading': ['9.99']}))
+        self.assertIn('references/reading-core.json: unknown source anchor 9.99',
+                      lint.check(self.root)['errors'])
+        path.write_bytes(original)
+        self.assertTrue(lint.check(self.root)['ok'])
+
+    def test_reading_core_is_required_and_validated(self):
+        path = self.root / 'references/reading-core.json'
+        for value in (None, [], {}, {'reading': []}, {'reading': [1]}):
+            with self.subTest(value=value):
+                path.write_text(json.dumps(value))
+                self.assertFalse(lint.check(self.root)['ok'])
+        path.unlink()
+        self.assertIn('cannot read reading core', '\n'.join(lint.check(self.root)['errors']))
+
+    def test_package_core_and_dynamics_include_contract_definitions(self):
+        manifest = json.loads((ROOT / 'source/source-manifest.json').read_text(encoding='utf-8-sig'))
+        units = lint.source_units((ROOT / 'source' / manifest['source_file']).read_text(encoding='utf-8-sig'))
+        errors = []
+        core = lint.reading_core(ROOT, units, errors)
+        self.assertEqual(errors, [])
+        self.assertTrue({'4.1', '4.2', '4.3', '4.4', '4.5', '4.6', '4.8'}.issubset(core))
+        for module in ('dynamics', 'forecast'):
+            meta = lint.metadata((ROOT / f'modules/{module}/MODULE.md').read_text(encoding='utf-8-sig'))
+            self.assertTrue({'4.18', '4.19'}.issubset(meta['reading']), module)
 
     def test_body_anchor_followed_by_sentence_period_is_checked(self):
         self.write_module(['1.1'], 'Read §9.99.')

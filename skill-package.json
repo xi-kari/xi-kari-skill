@@ -12,6 +12,7 @@
     "skill-package.json",
     "agents/openai.yaml",
     "references/full-source-study.md",
+    "references/reading-core.json",
     "references/continuation.md",
     "references/collaboration.md",
     "references/forward-workflow.md",

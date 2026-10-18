@@ -57,6 +57,28 @@ def references(text: str) -> set[str]:
     return result
 
 
+def reading_core(root: Path, units: dict[str, str], errors: list[str]) -> list[str]:
+    name = 'references/reading-core.json'
+    path = root / name
+    if not path.resolve().is_relative_to(root):
+        errors.append(f'{name}: reading core escapes package')
+        return []
+    try:
+        value = json.loads(path.read_text(encoding='utf-8-sig'))
+    except (OSError, ValueError) as exc:
+        errors.append(f'{name}: cannot read reading core: {exc}')
+        return []
+    anchors = value.get('reading') if isinstance(value, dict) else None
+    if (not isinstance(anchors, list) or not anchors
+            or any(not isinstance(anchor, str) or not anchor for anchor in anchors)):
+        errors.append(f'{name}: reading must contain explicit section/part identifiers')
+        return []
+    for anchor in sorted(set(anchors)):
+        if anchor not in units:
+            errors.append(f'{name}: unknown source anchor {anchor}')
+    return anchors
+
+
 def check(root: Path, previous_source: Path | None = None) -> dict:
     root = root.resolve()
     errors, affected, resources = [], [], []
@@ -71,6 +93,7 @@ def check(root: Path, previous_source: Path | None = None) -> dict:
     if manifest.get('bytes', len(raw)) != len(raw):
         errors.append('source byte count differs from source manifest')
     units = source_units(raw.decode('utf-8-sig'))
+    reading_core(root, units, errors)
     old = source_units(previous_source.read_text(encoding='utf-8-sig')) if previous_source else None
     cards = {}
     paths = (sorted((root / 'modules').glob('*/MODULE.md'))
