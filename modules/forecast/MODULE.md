@@ -62,7 +62,7 @@ F10 不把未请求选择的任务扩成行动计划。F12 是结果到来后的
   "input_cutoff": "<输入截止>",
   "baseline_time": "<基线时点>",
   "scope": {"object": "<对象>", "circles": ["<圈层或不适用理由>"], "affected_positions": ["<位置>"]},
-  "baselines": [{"id": "baseline-1", "type": "state_continuation", "expression": {"type": "direction", "value": "<方向>", "basis": "<独立依据>"}}],
+  "baselines": [{"id": "baseline-1", "type": "recent_state", "expression": {"type": "direction", "value": "<方向>", "basis": "<独立依据>"}}],
   "mechanisms": [{"rule_id": "CM-LOAD", "anchors": ["6.6"]}],
   "paths": [{"id": "path-1", "parent": null, "order": 1, "conditions": ["<条件>"], "description": "<状态路径>", "early_signals": ["<先行变化>"], "reverse_signals": ["<反向变化>"], "stop_conditions": ["<停止条件>"]}],
   "expression": {"type": "direction", "value": "<有依据的方向>", "basis": "<识别依据>"},
@@ -74,7 +74,9 @@ F10 不把未请求选择的任务扩成行动计划。F12 是结果到来后的
 }
 ```
 
-`evidence_kind` 取 `live`、`backtest`、`teaching` 或 `synthetic`；按实际来源选择，教学和合成记录不计经验能力。数值区间表达使用 `type: interval`、`lower`、`upper`、`unit`、`basis`，不用 `value`；排序使用字符串列表 `value`，方向使用字符串，`none` 使用 `value: null`。概率置信区间不能当成数值目标区间与二元标签计算覆盖。
+`evidence_kind` 取 `live`、`backtest`、`teaching` 或 `synthetic`；按实际来源选择，教学和合成记录不计经验能力。数值区间表达使用 `type: interval`、`lower`、`upper`、`unit`、`basis` 和 `nominal_coverage`，不用 `value`；事件时间用 `time_window`，将预测的 `start`、`end` 放在共同评价窗内；排序使用字符串列表 `value`，方向使用字符串，`none` 使用 `value: null`。概率置信区间不能当成数值目标区间与二元标签计算覆盖。方向或排序需要计分时，模型和各基线须另给相同的互斥 `options`，结果在 `observed.category` 中记录实际类别。
+
+每条新能力评测登记至少采用两种不同类型的适配基线，先冻结规则再形成预测；如最近状态加历史频率或趋势。同目标、资料截止与评分规则保持一致，预测缺少支持时允许与基线相同。工具继续读取旧单基线登记，不能据此将旧流程测试算作符合新评测协议。二、三阶仍须比较规定的三类递归基线，并给出记录级父前瞻与父路径。
 
 `decision_threshold` 指本次现实决策阈值，与技能开发评测的合入阈值不同。后者尚待确定，不能在查看评测结果后补设标准，也不能据建议阈值宣告过关。若连续实际使用另需自动能力降级，可事前在 `calibration_plan.degradation_policy` 指定指标、每月最小样本数与连续月数；没有预定门槛时工具保持能力未证实，不能从结果反推一条有利标准。
 
@@ -82,7 +84,7 @@ F8 使用已有注册表时读取 `report` 的 `degradation_decisions`。逐项�
 
 结果输入含 `forecast_id`、`resolved_at`、`outcome_source`、`observed`、`status`、`path_match`、`model_updates`。`observed` 保存数值或空的 `value`、含时区时间或空的 `event_time`，可附 `details` 文字。状态仅用 `supported`、`not_supported`、`undetermined`、`target_invalid`、`not_evaluable`，后三者须写 `reason`。数值标签缺失保持空，不填零；`scores` 与 `baseline_scores` 由工具按冻结表达及指标计算，不接受预制成绩。
 
-当前工具的计算指标是 `brier`、`log_loss`、`interval_coverage`、`window_coverage`，只计算预登记且输入适用的部分。排序与方向可以登记，但当前保留文字结果、不生成伪分数；需要其外部评价时先确定对应判据和独立评价实现。
+工具按预登记和表达适用性计算 `brier`、`log_loss`、`interval_score`、`interval_coverage`、`window_coverage`、`direction_hit`、`rank_top_hit`。数值区间评分越低越好，覆盖率只作校准；时间窗另报长度，数值区间另报宽度。方向与排序在类别、指标和结果齐全时计分，旧未登记相应合同的文字表达保持未计分。`disagreement` 给出模型与全部可比基线预测都不同的登记占比，`pooled_on_disagreement` 单列分歧题的逐基线配对成绩；有分歧不表示优于基线，未知与不可比项另列。
 
 ## 工具
 
@@ -95,9 +97,10 @@ python scripts/forecast.py --registry <外部目录/forecasts.json> show <前瞻
 python scripts/forecast.py --registry <外部目录/forecasts.json> resolve --record <外部目录/outcome.json>
 python scripts/forecast.py --registry <外部目录/forecasts.json> report
 python scripts/forecast.py --registry <外部目录/forecasts.json> check
+python scripts/forecast.py --registry <外部目录/forecasts.json> check --expect-head <资料包README所存链头>
 ```
 
-`check` 检查记录结构与一致性，不认证分析正确；`report` 只报告已登记和已取得的结果，不从教学例取得现实能力。完整跨阶评价分别报告，不合成总命中率。适用时用 `claims.py` 引用前瞻 ID，用 `condition_lab.py` 计算明确模型。
+每次登记或结算后执行 `check`，将打印的当前链头、注册表路径和时间保存到资料包 README，旧链头继续保留。审查时以对应版本的 `--expect-head` 核对；仅靠注册表内部链不能发现自洽删除末尾记录。`check` 检查记录结构与一致性，不认证分析正确；`report` 只报告已登记和已取得的结果，不从教学例取得现实能力。完整跨阶评价分别报告，不合成总命中率。适用时用 `claims.py` 引用前瞻 ID，用 `condition_lab.py` 计算明确模型。
 
 ## 停止与能力边界
 

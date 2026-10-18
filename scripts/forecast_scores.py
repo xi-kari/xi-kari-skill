@@ -1,8 +1,10 @@
-"""Expression validation and interval scoring used by forecast.py."""
+"""Expression validation, comparison and interval scoring used by forecast.py."""
 
 from __future__ import annotations
 
 from datetime import datetime, timezone
+from collections import defaultdict
+import json
 import math
 
 
@@ -166,3 +168,87 @@ def score(expr, observed, window, metrics):
             offset = (event - start).total_seconds() / 86400
             _store_finite(scores, 'interval_score', _interval_score(0, length, offset, nominal))
     return scores, notes
+
+
+def prediction_signature(expr):
+    """Separate the comparable prediction domain from its frozen forecast value."""
+    kind = expr.get('type')
+    if kind == 'probability':
+        value = _number(expr.get('value'), 'expression.value')
+        if not 0 <= value <= 1:
+            raise ValueError('概率表达须在0与1之间')
+        return (kind,), value
+    if kind in {'direction', 'rank'}:
+        options = expr.get('options')
+        if (not isinstance(options, list) or len(options) < 2
+                or any(not isinstance(item, str) or not item.strip() for item in options)
+                or len(set(options)) != len(options)):
+            raise ValueError('类别或排序缺少可比较的互斥options')
+        values = expr.get('value')
+        if kind == 'direction':
+            values = [values]
+        if (not isinstance(values, list) or not values
+                or any(not isinstance(item, str) or item not in options for item in values)
+                or len(set(values)) != len(values)):
+            raise ValueError('预测值不属于登记的类别空间')
+        return (kind, tuple(sorted(options))), tuple(values)
+    if kind == 'interval':
+        nominal = _nominal(expr, required=True)
+        unit = _text(expr.get('unit'), 'expression.unit')
+        lower = _number(expr.get('lower'), 'expression.lower')
+        upper = _number(expr.get('upper'), 'expression.upper')
+        if lower > upper or expr.get('quantity', 'numeric') != 'numeric':
+            raise ValueError('数值区间不可比较')
+        return (kind, unit, nominal), (lower, upper)
+    if kind == 'time_window':
+        start, end = _window({'start': expr.get('start'), 'end': expr.get('end')}, 'expression')
+        return (kind, _nominal(expr)), (start, end)
+    raise ValueError('未知或未提供可比较的预测表达')
+
+
+def prediction_disagreement(record, baseline_selector):
+    """Return None with a reason unless every registered baseline is comparable."""
+    baselines = record.get('baselines', [])
+    if not baselines:
+        return None, '未登记基线'
+    comparable = baseline_selector(record)
+    if len(comparable) != len(baselines):
+        return None, '存在未知或重复的基线类型，无法与全部基线比较'
+    try:
+        domain, value = prediction_signature(record['expression'])
+        signatures = [prediction_signature(baseline['expression']) for baseline in baselines]
+    except (ValueError, TypeError, KeyError) as error:
+        return None, str(error)
+    if any(other_domain != domain for other_domain, _ in signatures):
+        return None, '模型与基线的表达类型、类别空间、单位或名义覆盖率不一致'
+    return all(other_value != value for _, other_value in signatures), None
+
+
+def disagreement_summary(records, baseline_selector):
+    """Describe registered disagreement independently of whether outcomes exist."""
+    rows, grouped = [], defaultdict(list)
+    names = ('order', 'evidence_kind', 'expression_type', 'theory_sha256', 'skill_version', 'host_model')
+    for record in records:
+        different, reason = prediction_disagreement(record, baseline_selector)
+        row = (record['id'], different, reason)
+        rows.append(row)
+        policy = record['calibration_plan'].get('degradation_policy')
+        key = (record['order'], record['evidence_kind'], record['expression']['type'], record['theory_sha256'],
+               record['skill_version'], record['host_model'], json.dumps(policy, sort_keys=True))
+        grouped[key].append(row)
+
+    def summarize(items):
+        eligible = sum(different is not None for _, different, _ in items)
+        ids = sorted(identifier for identifier, different, _ in items if different is True)
+        excluded = sorted(({'forecast_id': identifier, 'reason': reason}
+                           for identifier, different, reason in items if different is None),
+                          key=lambda row: row['forecast_id'])
+        return {'registered': len(items), 'eligible_records': eligible, 'disagreement_records': len(ids),
+                'rate': len(ids) / eligible if eligible else None, 'forecast_ids': ids,
+                'excluded_records': len(excluded), 'excluded': excluded}
+
+    summary = summarize(rows)
+    summary['definition'] = 'model_prediction_differs_from_every_registered_comparable_baseline'
+    summary['by_group'] = [dict(zip(names, key[:6]), degradation_policy=json.loads(key[6]), **summarize(items))
+                           for key, items in sorted(grouped.items())]
+    return summary

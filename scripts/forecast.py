@@ -965,9 +965,16 @@ def report_registry(registry):
         group.pop('_pairs')
     pooled = pooled_groups(registry, latest)
     decisions = degradation(pooled)
+    disagreement = forecast_scores.disagreement_summary(registry['forecasts'], comparable_baselines)
+    disagreement_ids = set(disagreement['forecast_ids'])
+    disagreement_groups = pooled_groups(
+        {'forecasts': [record for record in registry['forecasts'] if record['id'] in disagreement_ids]}, latest)
+    for group in disagreement_groups:
+        group['forecast_ids'] = sorted(record['id'] for record, _ in group.pop('_pairs'))
     policies = [record['calibration_plan'].get('degradation_policy') for record in registry['forecasts']]
     threshold_status = 'pending' if not any(policies) else 'preregistered' if all(policies) else 'partial'
     return {'format': FORMAT, 'orders': orders, 'by_contract': groups, 'groups': groups, 'pooled': pooled, 'capability': 'scenario_only' if decisions else 'unverified',
+            'disagreement': disagreement, 'pooled_on_disagreement': disagreement_groups,
             'pooled_by_parent_match': pooled_parent_groups(registry, latest),
             'capability_scope': 'matching_degradation_decisions_only',
             'status_revisions': status_revisions(registry),
