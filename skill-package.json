@@ -1,7 +1,7 @@
 {
   "name": "xi-kari-skill",
   "display_name": "Xikari Skill",
-  "version": "5.5.1",
+  "version": "5.6.0.dev1",
   "author": "Xikari",
   "theory_title": "Xikari-条件结构与转化论",
   "platform": "Windows",
@@ -15,6 +15,8 @@
     "references/continuation.md",
     "references/collaboration.md",
     "references/forward-workflow.md",
+    "references/task-routes.md",
+    "references/forecasting.md",
     "references/reasoning-capabilities.md",
     "references/critique-and-invention.md",
     "references/complete-answer.md",
