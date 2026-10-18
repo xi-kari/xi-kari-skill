@@ -58,5 +58,29 @@ class StateRuleCardTests(unittest.TestCase):
                 self.assertEqual(lint.metadata(text)['status'], 'draft')
 
 
+class GeneralRuleCardTests(unittest.TestCase):
+    def test_maintenance_signal_precedes_domain_examples(self):
+        text = (ROOT / 'rules/mechanism/CM-MAINTENANCE.md').read_text(encoding='utf-8-sig')
+        generic, separator, example = section(text, '早期信号').partition('例：')
+        self.assertTrue(separator, 'specific maintenance signals must be introduced as examples')
+        for term in ('K/F', '维护窗', '磨损', '补给', '通道', '原对象之外'):
+            self.assertIn(term, generic)
+        for term in ('备件', '工单', '维修队列', '外包人员'):
+            self.assertNotIn(term, generic)
+            self.assertIn(term, example)
+        self.assertTrue(example.endswith('〔派生，待确认〕'))
+
+    def test_early_signal_precedes_resignation_example(self):
+        text = (ROOT / 'rules/signal/SIG-EARLY-REVERSE.md').read_text(encoding='utf-8-sig')
+        generic, separator, example = section(text, '早期信号').partition('例：')
+        self.assertTrue(separator, 'the resignation scenario must be introduced as an example')
+        for term in ('路径机制', '结果前登记', '可观察变化', '时间先后', '目标结果'):
+            self.assertIn(term, generic)
+        for term in ('离职', '工时', '外部机会', '申诉'):
+            self.assertNotIn(term, generic)
+            self.assertIn(term, example)
+        self.assertTrue(example.endswith('〔派生，待确认〕'))
+
+
 if __name__ == '__main__':
     unittest.main()
