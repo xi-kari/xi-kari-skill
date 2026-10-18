@@ -894,6 +894,17 @@ def degradation(groups):
     return decisions
 
 
+def status_revisions(registry):
+    histories = defaultdict(list)
+    for result in registry['resolutions']:
+        states = histories[result['forecast_id']]
+        if not states or states[-1]['status'] != result['status']:
+            states.append({'status': result['status'], 'resolved_at': result['resolved_at']})
+    changed = {identifier: histories[identifier] for identifier in sorted(histories)
+               if len(histories[identifier]) > 1}
+    return {'count': len(changed), 'forecast_ids': list(changed), 'state_history': changed}
+
+
 def report_registry(registry):
     latest = {result['forecast_id']: result for result in registry['resolutions']}
     orders, grouped = {}, defaultdict(list)
@@ -953,6 +964,7 @@ def report_registry(registry):
     return {'format': FORMAT, 'orders': orders, 'by_contract': groups, 'groups': groups, 'pooled': pooled, 'capability': 'scenario_only' if decisions else 'unverified',
             'pooled_by_parent_match': pooled_parent_groups(registry, latest),
             'capability_scope': 'matching_degradation_decisions_only',
+            'status_revisions': status_revisions(registry),
             'capability_evidence_records': sum(record['evidence_kind'] in {'live', 'backtest'} and record['id'] in latest
                                                and latest[record['id']]['status'] in {'supported', 'not_supported'} for record in registry['forecasts']),
             'degradation_threshold': threshold_status, 'degradation_decisions': decisions,
