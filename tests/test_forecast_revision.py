@@ -74,6 +74,39 @@ class ForecastRevisionTests(unittest.TestCase):
             self.assertEqual(saved['scores']['direction_hit'],model)
             self.assertEqual([x['direction_hit'] for x in saved['baseline_scores'].values()],baselines)
 
+    def test_different_targets_pool_paired_baselines_and_degrade(self):
+        for i in range(4):
+            record=sample(identifier=f'pool-{i}')
+            record['evidence_kind']='backtest'
+            record['target']=f'不同目标{i}'
+            record['expression']['value']=0.9
+            record['baselines'][0].update(id=f'baseline-{i}',type='recent_state')
+            record['baselines'][0]['expression']['value']=0.5
+            record['calibration_plan']['degradation_policy']={'metric':'brier','minimum_per_period':4,'consecutive_months':1}
+            self.register(record);self.resolve(outcome(record['id']))
+        report=self.tool.report_registry(self.tool.load_registry(self.registry))
+        self.assertEqual(len(report['by_contract']),4)
+        self.assertEqual(len(report['pooled']),1)
+        comparison=report['pooled'][0]['baseline_comparisons'][0]
+        score=comparison['metrics']['brier']
+        self.assertEqual(score['n'],4)
+        self.assertAlmostEqual(score['model_mean'],0.81)
+        self.assertAlmostEqual(score['baseline_mean'],0.25)
+        self.assertEqual((score['better'],score['worse'],score['tied']),(0,4,0))
+        self.assertEqual(report['pooled'][0]['calibration_bins'][0]['n'],4)
+        self.assertEqual(report['capability'],'scenario_only')
+        self.assertEqual(report['degradation_decisions'][0]['baseline_type'],'recent_state')
+
+    def test_new_duplicate_baseline_type_rejected_and_unknown_type_excluded(self):
+        record=sample();record['baselines'].append(copy.deepcopy(record['baselines'][0]))
+        record['baselines'][1]['id']='second'
+        with self.assertRaises(ValueError):self.register(record)
+        record=sample();record['baselines'][0]['type']='custom_unknown'
+        self.register(record);self.resolve(outcome())
+        pooled=self.tool.report_registry(self.tool.load_registry(self.registry))['pooled'][0]
+        self.assertEqual(pooled['baseline_comparisons'],[])
+        self.assertEqual(pooled['excluded_baseline_types'],['custom_unknown'])
+
 
 if __name__ == '__main__':
     unittest.main()

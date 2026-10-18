@@ -35,6 +35,8 @@ FORMAT = 'xikari-forecasts-1'
 STATUSES = {'supported', 'not_supported', 'undetermined', 'target_invalid', 'not_evaluable'}
 EVIDENCE_KINDS = {'live', 'backtest', 'teaching', 'synthetic'}
 EXPRESSION_TYPES = {'probability', 'interval', 'rank', 'direction', 'none'}
+BASELINE_TYPES = {'recent_state', 'trend', 'historical_frequency', 'actor_only', 'primary_circle_only', 'domain_model'}
+RECURSIVE_BASELINE_TYPES = {'state_continuation', 'direct_long_term', 'shallower_continuation'}
 ID = re.compile(r'[A-Za-z0-9][A-Za-z0-9._-]{0,95}\Z')
 REQUIRED = {
     'id', 'created_at', 'theory_sha256', 'skill_version', 'host_model', 'evidence_kind', 'order',
@@ -210,7 +212,10 @@ def validate_forecast(record, *, new=False):
         if key in baseline_ids:
             fail('baseline.id重复')
         baseline_ids.add(key)
-        baseline_types.add(text(entry.get('type'), 'baseline.type'))
+        baseline_type = text(entry.get('type'), 'baseline.type')
+        if strict and baseline_type in baseline_types:
+            fail('同一前瞻内baseline.type不能重复')
+        baseline_types.add(baseline_type)
         expression(entry.get('expression'), 'baseline.expression')
         if entry['expression']['type'] != record['expression']['type']:
             fail('基线与前瞻须采用相同表达类型以保留同目标比较')
@@ -564,49 +569,121 @@ def evaluation_contract(record):
             'lead_seconds': (start - instant(record['input_cutoff'], 'input_cutoff')).total_seconds()}
 
 
+def comparable_baselines(forecast):
+    allowed = BASELINE_TYPES | (RECURSIVE_BASELINE_TYPES if forecast['order'] > 1 else set())
+    counts = Counter(entry['type'] for entry in forecast['baselines'])
+    return {entry['type']: entry['id'] for entry in forecast['baselines']
+            if entry['type'] in allowed and counts[entry['type']] == 1}
+
+
+def arithmetic_mean(values):
+    if any(math.isinf(value) for value in values):
+        return math.inf
+    return sum(value / len(values) for value in values)
+
+
+def paired_metric_summary(rows, metric):
+    values = [(loss_value(own, metric), loss_value(other, metric)) for own, other in rows]
+    values = [(a, b) for a, b in values if a is not None and b is not None]
+    if not values:
+        return None
+    lower_better = metric in {'brier', 'log_loss', 'interval_score'}
+    better = sum((a < b if lower_better else a > b) for a, b in values)
+    worse = sum((a > b if lower_better else a < b) for a, b in values)
+    own, other = arithmetic_mean([a for a, _ in values]), arithmetic_mean([b for _, b in values])
+    differences = [a - b for a, b in values]
+    finite_difference = all(math.isfinite(value) for value in differences)
+    return {'n': len(values), 'model_mean': own if math.isfinite(own) else None,
+            'baseline_mean': other if math.isfinite(other) else None,
+            'model_infinite': math.isinf(own), 'baseline_infinite': math.isinf(other),
+            'mean_difference': arithmetic_mean(differences) if finite_difference else None,
+            'difference_definition': 'model_minus_baseline', 'nonfinite_difference_pairs': sum(not math.isfinite(d) for d in differences),
+            'better': better, 'worse': worse, 'tied': len(values) - better - worse}
+
+
+def add_calibration(group, pairs):
+    binary = [(forecast['expression']['value'], result['observed']['value']) for forecast, result in pairs
+              if forecast['expression']['type'] == 'probability' and result['status'] in {'supported', 'not_supported'}]
+    if not binary:
+        return
+    bins = defaultdict(list)
+    for probability, label in binary:
+        bins[min(int(probability * 10), 9)].append((probability, label))
+    prevalence = sum(label for _, label in binary) / len(binary)
+    group['calibration_bins'] = [{'lower': index / 10, 'upper': (index + 1) / 10, 'n': len(rows),
+                                  'mean_probability': sum(p for p, _ in rows) / len(rows),
+                                  'observed_frequency': sum(y for _, y in rows) / len(rows)}
+                                 for index, rows in sorted(bins.items())]
+    group['resolution'] = sum(len(rows) * (sum(y for _, y in rows) / len(rows) - prevalence) ** 2
+                              for rows in bins.values()) / len(binary)
+
+
+def pooled_groups(registry, latest):
+    grouped = defaultdict(list)
+    names = ['order', 'evidence_kind', 'expression_type', 'theory_sha256', 'skill_version', 'host_model']
+    for record in registry['forecasts']:
+        if record['id'] not in latest:
+            continue
+        key = (record['order'], record['evidence_kind'], record['expression']['type'], record['theory_sha256'],
+               record['skill_version'], record['host_model'], canonical(record['calibration_plan'].get('degradation_policy')))
+        grouped[key].append((record, latest[record['id']]))
+    result = []
+    for key, pairs in sorted(grouped.items()):
+        group = dict(zip(names, key[:6]))
+        group.update(resolved=len(pairs), metrics=mean_scores([outcome['scores'] for _, outcome in pairs]),
+                     degradation_policy=pairs[0][0]['calibration_plan'].get('degradation_policy'), _pairs=pairs)
+        methods = set().union(*(comparable_baselines(forecast) for forecast, _ in pairs))
+        group['excluded_baseline_types'] = sorted({baseline['type'] for forecast, _ in pairs for baseline in forecast['baselines']
+                                                   if baseline['type'] not in comparable_baselines(forecast)})
+        comparisons = []
+        for method in sorted(methods):
+            rows = [(outcome['scores'], outcome['baseline_scores'][comparable_baselines(forecast)[method]])
+                    for forecast, outcome in pairs if method in comparable_baselines(forecast)
+                    and comparable_baselines(forecast)[method] in outcome['baseline_scores']]
+            metrics = {}
+            for metric in ['brier', 'log_loss', 'interval_coverage', 'window_coverage', 'direction_hit']:
+                value = paired_metric_summary(rows, metric)
+                if value is not None:
+                    metrics[metric] = value
+            comparisons.append({'baseline_type': method, 'paired_records': len(rows), 'metrics': metrics})
+        group['baseline_comparisons'] = comparisons
+        add_calibration(group, pairs)
+        result.append(group)
+    return result
+
+
 def degradation(groups):
     decisions = []
     for group in groups:
         pairs = group.pop('_pairs')
-        policies = {canonical(forecast['calibration_plan'].get('degradation_policy')) for forecast, _ in pairs}
-        if len(policies) != 1 or not pairs or group['evidence_kind'] not in {'live', 'backtest'}:
+        policy = group['degradation_policy']
+        if policy is None or group['evidence_kind'] not in {'live', 'backtest'}:
             continue
-        policy = pairs[0][0]['calibration_plan'].get('degradation_policy')
-        if policy is None:
-            continue
-        periods = defaultdict(list)
-        for forecast, result in pairs:
-            if result['status'] not in {'supported', 'not_supported'}:
-                continue
-            date = instant(result['resolved_at'], 'resolved_at')
-            periods[date.year * 12 + date.month].append((forecast, result))
-        months = sorted(periods)
-        consecutive = 0
-        for position, month in enumerate(months):
-            rows = periods[month]
-            comparable = len(rows) >= policy['minimum_per_period']
-            all_not_better = comparable
-            for _, result in rows:
+        methods = set().union(*(comparable_baselines(forecast) for forecast, _ in pairs))
+        for method in sorted(methods):
+            periods = defaultdict(list)
+            for forecast, result in pairs:
+                mapping = comparable_baselines(forecast)
+                if method not in mapping or result['status'] not in {'supported', 'not_supported'}:
+                    continue
                 own = loss_value(result['scores'], policy['metric'])
-                baselines = [loss_value(scores, policy['metric']) for scores in result['baseline_scores'].values()]
-                if own is None or not baselines or any(value is None for value in baselines):
-                    all_not_better = False
+                baseline = loss_value(result['baseline_scores'][mapping[method]], policy['metric'])
+                if own is None or baseline is None:
+                    continue
+                at = instant(result['resolved_at'], 'resolved_at')
+                periods[at.year * 12 + at.month].append((own, baseline))
+            consecutive, previous = 0, None
+            for month, rows in sorted(periods.items()):
+                underperforming = (len(rows) >= policy['minimum_per_period'] and
+                                   arithmetic_mean([a for a, _ in rows]) >= arithmetic_mean([b for _, b in rows]))
+                consecutive = (consecutive + 1 if previous == month - 1 else 1) if underperforming else 0
+                previous = month
+                if consecutive >= policy['consecutive_months']:
+                    decisions.append({key: group[key] for key in ['order', 'skill_version', 'host_model', 'theory_sha256',
+                                                                  'expression_type', 'evidence_kind']} |
+                                     {'capability': 'scenario_only', 'basis': '16.22', 'baseline_type': method,
+                                      'policy': policy, 'reason': '同一汇总组及基线类型在预登记的连续月份内未优于简单基线；仅相应前瞻能力声明降级。'})
                     break
-            if all_not_better:
-                own_mean = sum(loss_value(result['scores'], policy['metric']) for _, result in rows) / len(rows)
-                common_methods = set.intersection(*(baseline_methods(forecast) for forecast, _ in rows))
-                baseline_means = [sum(loss_value(result['baseline_scores'][key], policy['metric']) for _, result in rows) / len(rows)
-                                  for key, _ in common_methods]
-                all_not_better = bool(baseline_means) and own_mean >= min(baseline_means)
-            contiguous = position > 0 and month == months[position - 1] + 1
-            consecutive = (consecutive + 1 if contiguous else 1) if all_not_better else 0
-            if consecutive >= policy['consecutive_months']:
-                decisions.append({'order': group['order'], 'skill_version': group['skill_version'], 'host_model': group['host_model'],
-                                  'theory_sha256': group['theory_sha256'], 'expression_type': group['expression_type'],
-                                  'evidence_kind': group['evidence_kind'], 'capability': 'scenario_only', 'basis': '16.22',
-                                  'evaluation_contract': group['evaluation_contract'],
-                                  'policy': policy, 'reason': '预登记的连续月份内未优于简单基线；前瞻能力声明降级。'})
-                break
     return decisions
 
 
@@ -655,10 +732,13 @@ def report_registry(registry):
                                          for index, rows in sorted(bins.items())]
             group['resolution'] = sum(len(rows) * (sum(y for _, y in rows) / len(rows) - prevalence) ** 2 for rows in bins.values()) / len(binary)
         groups.append(group)
-    decisions = degradation(groups)
+    for group in groups:
+        group.pop('_pairs')
+    pooled = pooled_groups(registry, latest)
+    decisions = degradation(pooled)
     policies = [record['calibration_plan'].get('degradation_policy') for record in registry['forecasts']]
     threshold_status = 'pending' if not any(policies) else 'preregistered' if all(policies) else 'partial'
-    return {'format': FORMAT, 'orders': orders, 'groups': groups, 'capability': 'scenario_only' if decisions else 'unverified',
+    return {'format': FORMAT, 'orders': orders, 'by_contract': groups, 'groups': groups, 'pooled': pooled, 'capability': 'scenario_only' if decisions else 'unverified',
             'capability_scope': 'matching_degradation_decisions_only',
             'capability_evidence_records': sum(record['evidence_kind'] in {'live', 'backtest'} and record['id'] in latest
                                                and latest[record['id']]['status'] in {'supported', 'not_supported'} for record in registry['forecasts']),

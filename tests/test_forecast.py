@@ -31,7 +31,7 @@ def sample(order=1, identifier='forecast-1'):
         'window': {'start': '2026-01-02T00:00:00Z', 'end': '2026-02-01T00:00:00Z'},
         'input_cutoff': '2026-01-01T00:00:00Z', 'baseline_time': '2025-12-31T00:00:00Z',
         'scope': {'object': '虚构队列', 'circles': ['工作组'], 'affected_positions': ['等待者']},
-        'baselines': [{'id': 'state', 'type': 'state_continuation',
+        'baselines': [{'id': 'state', 'type': 'state_continuation' if order > 1 else 'recent_state',
                        'expression': {'type': 'probability', 'value': 0.2, 'basis': '仅用于手算测试的固定参数。'}}],
         'mechanisms': [{'rule_id': 'CM-LOAD', 'anchors': ['6.6']}],
         'paths': [{'id': 'path-1', 'parent': None, 'order': order, 'conditions': ['到达持续'],
