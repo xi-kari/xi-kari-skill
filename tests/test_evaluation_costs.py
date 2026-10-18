@@ -111,9 +111,87 @@ class CostExtractionTests(unittest.TestCase):
         self.assertFalse(result['completed'])
         self.assertIsNone(result['wall_seconds'])
 
-    def test_subagent_activity_is_visible(self):
+    def test_unknown_agent_activity_remains_visible_without_claiming_child(self):
         rows = sample() + [event('item_completed', item={'type': 'SubAgentActivity', 'agent_thread_id': 'child-1'})]
-        self.assertEqual(module().extract_costs(rows)['child_session_ids'], ['child-1'])
+        result = module().extract_costs(rows)
+        self.assertEqual(result['child_session_ids'], [])
+        self.assertEqual(result['unresolved_agent_session_ids'], ['child-1'])
+
+    def test_message_to_confirmed_parent_is_not_a_spawned_child(self):
+        rows = sample()
+        rows[0]['payload'].update({
+            'session_id': 'parent-1', 'parent_thread_id': 'parent-1',
+            'source': {'subagent': {'thread_spawn': {'parent_thread_id': 'parent-1'}}},
+        })
+        rows.extend([
+            {'type': 'response_item', 'payload': {'type': 'function_call', 'namespace': 'collaboration',
+                                                'name': 'send_message', 'call_id': 'parent-message'}},
+            event('item_completed', item={'type': 'SubAgentActivity', 'kind': 'interacted',
+                                         'id': 'parent-message', 'agent_thread_id': 'parent-1'}),
+        ])
+        result = module().extract_costs(rows)
+        self.assertEqual(result['session_id'], 'session-1')
+        self.assertEqual(result['parent_session_id'], 'parent-1')
+        self.assertEqual(result['parent_activity_session_ids'], ['parent-1'])
+        self.assertEqual(result['child_session_ids'], [])
+        self.assertEqual(result['unresolved_agent_session_ids'], [])
+
+    def test_nested_parent_metadata_is_sufficient(self):
+        rows = sample()
+        rows[0]['payload']['source'] = {'subagent': {'thread_spawn': {'parent_thread_id': 'parent-1'}}}
+        rows.append(event('item_completed', item={'type': 'SubAgentActivity', 'kind': 'interacted',
+                                                  'agent_thread_id': 'parent-1'}))
+        self.assertEqual(module().extract_costs(rows)['child_session_ids'], [])
+        self.assertEqual(module().extract_costs(rows)['unresolved_agent_session_ids'], [])
+
+    def test_inherited_session_id_is_not_parent_evidence(self):
+        rows = sample()
+        rows[0]['payload']['session_id'] = 'possible-parent'
+        rows.append(event('item_completed', item={'type': 'SubAgentActivity', 'kind': 'interacted',
+                                                  'agent_thread_id': 'possible-parent'}))
+        result = module().extract_costs(rows)
+        self.assertIsNone(result['parent_session_id'])
+        self.assertEqual(result['unresolved_agent_session_ids'], ['possible-parent'])
+
+    def test_spawn_call_link_preserves_a_real_child(self):
+        rows = sample()
+        rows[0]['payload']['parent_thread_id'] = 'parent-1'
+        rows.extend([
+            {'type': 'response_item', 'payload': {'type': 'function_call', 'namespace': 'collaboration',
+                                                'name': 'spawn_agent', 'call_id': 'spawn-child'}},
+            event('item_completed', item={'type': 'SubAgentActivity', 'kind': 'started',
+                                         'id': 'spawn-child', 'agent_thread_id': 'child-1'}),
+            event('item_completed', item={'type': 'SubAgentActivity', 'kind': 'interacted',
+                                         'id': 'parent-message', 'agent_thread_id': 'parent-1'}),
+        ])
+        result = module().extract_costs(rows)
+        self.assertEqual(result['child_session_ids'], ['child-1'])
+        self.assertEqual(result['unresolved_agent_session_ids'], [])
+        self.assertEqual(result['parent_activity_session_ids'], ['parent-1'])
+
+    def test_conflicting_parent_metadata_does_not_suppress_activity(self):
+        rows = sample()
+        rows[0]['payload']['parent_thread_id'] = 'parent-1'
+        rows[0]['payload']['source'] = {'subagent': {'thread_spawn': {'parent_thread_id': 'parent-2'}}}
+        rows.append(event('item_completed', item={'type': 'SubAgentActivity', 'kind': 'interacted',
+                                                  'agent_thread_id': 'parent-1'}))
+        result = module().extract_costs(rows)
+        self.assertIsNone(result['parent_session_id'])
+        self.assertEqual(result['unresolved_agent_session_ids'], ['parent-1'])
+
+    def test_parent_spawn_conflict_remains_unresolved(self):
+        rows = sample()
+        rows[0]['payload']['parent_thread_id'] = 'parent-1'
+        rows.extend([
+            {'type': 'response_item', 'payload': {'type': 'function_call', 'namespace': 'collaboration',
+                                                'name': 'spawn_agent', 'call_id': 'conflict'}},
+            event('item_completed', item={'type': 'SubAgentActivity', 'kind': 'started',
+                                         'id': 'conflict', 'agent_thread_id': 'parent-1'}),
+        ])
+        result = module().extract_costs(rows)
+        self.assertEqual(result['child_session_ids'], [])
+        self.assertEqual(result['parent_activity_session_ids'], [])
+        self.assertEqual(result['unresolved_agent_session_ids'], ['parent-1'])
 
     def test_effort_is_not_guessed_from_model(self):
         rows = sample()
@@ -169,6 +247,13 @@ class PairedCostsTests(unittest.TestCase):
         exclusions = module().compare_pairs([first, second])[0]['exclusions']
         self.assertIn('cost_measurements', exclusions)
         self.assertIn('subagents', exclusions)
+
+    def test_unresolved_agent_relationship_is_excluded_without_labeling_spawn(self):
+        first, second = run_row(), run_row('layered')
+        first['cost']['unresolved_agent_session_ids'] = ['unknown-1']
+        exclusions = module().compare_pairs([first, second])[0]['exclusions']
+        self.assertIn('unresolved_agent_activity', exclusions)
+        self.assertNotIn('subagents', exclusions)
 
     def test_quality_needs_frozen_predeclared_threshold(self):
         left, right = run_row(), run_row('layered')

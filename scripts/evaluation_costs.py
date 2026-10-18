@@ -23,13 +23,26 @@ def _one(values):
 def extract_costs(rows):
     """Use the final cumulative counters once; missing measurements stay null."""
     sessions, hosts, contexts, starts, completions = [], [], [], {}, {}
-    last, snapshots, child_ids = {}, [], set()
+    last, snapshots, activities = {}, [], []
+    parent_ids, spawn_call_ids = set(), set()
     previous = {}
     for row in rows:
         payload = row.get('payload', {})
         if row.get('type') == 'session_meta':
             sessions.append(payload.get('id') or payload.get('session_id'))
             hosts.append(payload.get('cli_version'))
+            if payload.get('parent_thread_id'):
+                parent_ids.add(payload['parent_thread_id'])
+            source = payload.get('source')
+            if isinstance(source, dict):
+                parent = source.get('subagent', {}).get('thread_spawn', {}).get('parent_thread_id')
+                if parent:
+                    parent_ids.add(parent)
+        elif row.get('type') == 'response_item' and payload.get('type') == 'function_call':
+            is_spawn = (payload.get('name') == 'spawn_agent' and payload.get('namespace') == 'collaboration'
+                        or payload.get('name') == 'collaboration.spawn_agent')
+            if is_spawn and payload.get('call_id'):
+                spawn_call_ids.add(payload['call_id'])
         elif row.get('type') == 'turn_context':
             contexts.append(payload)
         elif row.get('type') == 'event_msg':
@@ -41,7 +54,7 @@ def extract_costs(rows):
             elif kind == 'item_completed':
                 item = payload.get('item', {})
                 if item.get('type') == 'SubAgentActivity' and item.get('agent_thread_id'):
-                    child_ids.add(item['agent_thread_id'])
+                    activities.append(item)
             elif kind == 'token_count':
                 usage = (payload.get('info') or {}).get('total_token_usage')
                 if not isinstance(usage, dict):
@@ -65,6 +78,12 @@ def extract_costs(rows):
                     snapshots.append(signature)
     if len(set(sessions)) > 1:
         raise ValueError('multiple session IDs in one log')
+    parent_id = _one(parent_ids)
+    agent_ids = {item['agent_thread_id'] for item in activities}
+    spawned_ids = {item['agent_thread_id'] for item in activities if item.get('id') in spawn_call_ids}
+    child_ids = spawned_ids - {parent_id}
+    parent_activity_ids = {parent_id} & agent_ids if parent_id not in spawned_ids else set()
+    unresolved_ids = agent_ids - child_ids - parent_activity_ids
     turn_ids = set(starts) | {ctx['turn_id'] for ctx in contexts if ctx.get('turn_id')}
     completed = bool(turn_ids) and turn_ids <= set(completions)
     durations = [completions[turn_id].get('duration_ms') for turn_id in turn_ids] if completed else []
@@ -82,7 +101,10 @@ def extract_costs(rows):
         'usage_update_count': len(snapshots) if last else None,
         'usage_update_count_basis': 'distinct_nonzero_cumulative_usage_updates',
         'wall_seconds': wall_seconds, 'completed': completed,
+        'parent_session_id': parent_id,
+        'parent_activity_session_ids': sorted(parent_activity_ids),
         'child_session_ids': sorted(child_ids),
+        'unresolved_agent_session_ids': sorted(unresolved_ids),
     }
 
 
@@ -138,6 +160,8 @@ def compare_pairs(runs, quality=None, threshold_confirmed=False):
             item['exclusions'].append('completed')
         if first.get('child_session_ids') or second.get('child_session_ids'):
             item['exclusions'].append('subagents')
+        if first.get('unresolved_agent_session_ids') or second.get('unresolved_agent_session_ids'):
+            item['exclusions'].append('unresolved_agent_activity')
         if full.get('reading_verified') is not True or layered.get('reading_verified') is not True:
             item['exclusions'].append('reading_verified')
         if any(cost.get(field) is None for cost in (first, second) for field in COST_FIELDS):
