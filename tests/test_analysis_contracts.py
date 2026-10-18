@@ -16,6 +16,11 @@ class AnalysisContractTests(unittest.TestCase):
                 for term in ('同一对象', '同一窗口', '互斥', '外溢', '触发条件', '早期信号', '反向信号', '下一份材料'):
                     self.assertIn(term, text)
 
+    def test_lost_workload_is_distinct_from_available_capacity(self):
+        text = self.read('modules/dynamics/MODULE.md')
+        for term in ('p/(1−p)', '相对原工作量', '实际可用容量另查'):
+            self.assertIn(term, text)
+
     def test_institution_checklist_covers_operation_and_remedy(self):
         text = self.read('references/decision.md')
         checklist = text.split('## 制度与流程草案核对表\n', 1)[1].split('\n## ', 1)[0]
