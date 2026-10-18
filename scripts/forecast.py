@@ -25,6 +25,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 try:
     from xikari_paths import require_external_output
     import read_source
+    import forecast_scores
 finally:
     sys.path.pop(0)
 
@@ -34,7 +35,7 @@ MANIFEST = ROOT / 'source' / 'source-manifest.json'
 FORMAT = 'xikari-forecasts-1'
 STATUSES = {'supported', 'not_supported', 'undetermined', 'target_invalid', 'not_evaluable'}
 EVIDENCE_KINDS = {'live', 'backtest', 'teaching', 'synthetic'}
-EXPRESSION_TYPES = {'probability', 'interval', 'rank', 'direction', 'none'}
+EXPRESSION_TYPES = {'probability', 'interval', 'time_window', 'rank', 'direction', 'none'}
 BASELINE_TYPES = {'recent_state', 'trend', 'historical_frequency', 'actor_only', 'primary_circle_only', 'domain_model'}
 RECURSIVE_BASELINE_TYPES = {'state_continuation', 'direct_long_term', 'shallower_continuation'}
 ID = re.compile(r'[A-Za-z0-9][A-Za-z0-9._-]{0,95}\Z')
@@ -141,7 +142,7 @@ def window(value, name):
 
 def expression(value, name):
     if not isinstance(value, dict) or not isinstance(value.get('type'), str) or value['type'] not in EXPRESSION_TYPES:
-        fail(f'{name}.type须为probability、interval、rank、direction或none')
+        fail(f'{name}.type须为probability、interval、time_window、rank、direction或none')
     text(value.get('basis'), name + '.basis')
     kind = value['type']
     if kind == 'probability':
@@ -161,6 +162,8 @@ def expression(value, name):
             fail(f'{name}排序中有重复项')
     elif kind == 'direction':
         text(value.get('value'), name + '.value')
+    elif kind == 'time_window':
+        window({'start': value.get('start'), 'end': value.get('end')}, name)
     elif value.get('value') is not None:
         fail(f'{name}的none表达只能使用null值')
 
@@ -202,6 +205,8 @@ def validate_forecast(record, *, new=False):
     for name in ['circles', 'affected_positions']:
         string_list(scope.get(name), 'scope.' + name)
     expression(record['expression'], 'expression')
+    if record['expression']['type'] == 'time_window':
+        forecast_scores.validate_expression(record['expression'], record['window'])
     if not isinstance(record['baselines'], list) or not record['baselines']:
         fail('至少登记一个简单基线')
     baseline_ids, baseline_types = set(), set()
@@ -217,6 +222,8 @@ def validate_forecast(record, *, new=False):
             fail('同一前瞻内baseline.type不能重复')
         baseline_types.add(baseline_type)
         expression(entry.get('expression'), 'baseline.expression')
+        if entry['expression']['type'] == 'time_window':
+            forecast_scores.validate_expression(entry['expression'], record['window'])
         if entry['expression']['type'] != record['expression']['type']:
             fail('基线与前瞻须采用相同表达类型以保留同目标比较')
         if record['expression']['type'] == 'interval' and entry['expression']['unit'] != record['expression']['unit']:
@@ -351,9 +358,14 @@ def validate_resolution(record, forecast):
             fail('概率评分需要完整二元标签0或1，缺失标签不能填零')
         if forecast['expression']['type'] == 'interval':
             number(observed['value'], 'observed.value')
+        if forecast['expression']['type'] == 'time_window':
+            number(observed['value'], 'observed.value')
+            forecast_scores.score(forecast['expression'], observed, forecast['window'], forecast['calibration_plan']['metrics'])
 
 
 def score_expression(expr, observed, prediction_window, metrics, scoring_version=2):
+    if expr['type'] == 'time_window':
+        return forecast_scores.score(expr, observed, prediction_window, metrics)
     scores, notes = {}, []
     for metric in metrics:
         if metric not in ({'brier', 'log_loss', 'interval_coverage', 'window_coverage'} | ({'direction_hit'} if scoring_version >= 2 else set())):
@@ -374,10 +386,12 @@ def score_expression(expr, observed, prediction_window, metrics, scoring_version
         scores['direction_hit'] = int(expr['value'] == observed['category'])
     else:
         notes.append(f'{kind}未实现相应数值评分；保留结果语义，不换算概率或命中率')
-    if observed['event_time'] is not None and 'window_coverage' in metrics:
+    if scoring_version == 1 and observed['event_time'] is not None and 'window_coverage' in metrics:
         event = instant(observed['event_time'], 'event_time')
         start, end = window(prediction_window, 'prediction_window')
         scores['window_coverage'] = int(start <= event <= end)
+    elif scoring_version >= 2 and 'window_coverage' in metrics:
+        notes.append('window_coverage仅适用于time_window表达，不把共同评价窗当预测区间')
     return scores, notes
 
 
@@ -542,7 +556,7 @@ def resolve_forecast(registry_path, record_path):
 
 def mean_scores(values):
     result = {}
-    for metric in ['brier', 'log_loss', 'interval_coverage', 'window_coverage', 'direction_hit']:
+    for metric in ['brier', 'log_loss', 'interval_coverage', 'window_coverage', 'window_length_days', 'interval_score', 'direction_hit']:
         numbers = [entry[metric] for entry in values if metric in entry and entry[metric] is not None]
         infinite = metric == 'log_loss' and any(entry.get('log_loss_infinite') for entry in values)
         count = len(numbers) + (sum(bool(entry.get('log_loss_infinite')) for entry in values) if metric == 'log_loss' else 0)
@@ -716,6 +730,8 @@ def report_registry(registry):
             other = mean_scores([result['baseline_scores'][baseline_id] for _, result in eligible])
             gains = {}
             for metric in own.keys() & other.keys():
+                if metric in {'interval_coverage', 'window_coverage', 'window_length_days'}:
+                    continue
                 model_mean, baseline_mean = own[metric]['mean'], other[metric]['mean']
                 gains[metric] = (baseline_mean - model_mean if metric in {'brier', 'log_loss'} else model_mean - baseline_mean) if model_mean is not None and baseline_mean is not None else None
             comparisons.append({'baseline_id': baseline_id, 'baseline_type': baseline_type, 'paired_records': len(eligible), 'model': own, 'baseline': other, 'gain': gains})

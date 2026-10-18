@@ -154,6 +154,7 @@
     "cases/forecast-public-resignation/outcome-3.json",
     "cases/forecast-public-resignation.md",
     "scripts/forecast.py",
+    "scripts/forecast_scores.py",
     "agents/reviewer.md"
   ]
 }

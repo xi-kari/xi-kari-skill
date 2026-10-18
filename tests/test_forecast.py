@@ -214,7 +214,7 @@ class ForecastTests(unittest.TestCase):
         result['observed'] = {'value': 2, 'event_time': record['window']['start']}
         saved = self.resolve(result)
         self.assertEqual(saved['scores']['interval_coverage'], 1)
-        self.assertEqual(saved['scores']['window_coverage'], 1)
+        self.assertNotIn('window_coverage', saved['scores'])
         self.assertEqual(saved['baseline_scores']['state']['interval_coverage'], 0)
 
     def test_rank_direction_and_none_do_not_fabricate_scores(self):

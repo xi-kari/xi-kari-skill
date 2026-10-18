@@ -3,6 +3,8 @@ import json
 from pathlib import Path
 import tempfile
 import unittest
+from unittest import mock
+from datetime import datetime, timezone
 
 from test_forecast import ROOT, module, sample, outcome
 
@@ -106,6 +108,34 @@ class ForecastRevisionTests(unittest.TestCase):
         pooled=self.tool.report_registry(self.tool.load_registry(self.registry))['pooled'][0]
         self.assertEqual(pooled['baseline_comparisons'],[])
         self.assertEqual(pooled['excluded_baseline_types'],['custom_unknown'])
+
+    def test_time_window_registry_distinguishes_interval_lengths(self):
+        record=sample()
+        record['window']={'start':'2026-10-01T00:00:00Z','end':'2026-12-31T00:00:00Z'}
+        record['expression']={'type':'time_window','start':'2026-11-01T00:00:00Z','end':'2026-11-15T00:00:00Z','basis':'构造测试'}
+        record['baselines'][0]['expression']=dict(record['expression'],**record['window'])
+        record['calibration_plan']['metrics']=['window_coverage']
+        result=outcome(status='supported');result['resolved_at']='2027-01-01T00:00:00Z'
+        result['observed']={'value':1,'event_time':'2026-11-05T00:00:00Z'}
+        with mock.patch.object(self.tool,'utcnow',return_value=datetime(2027,1,2,tzinfo=timezone.utc)):
+            self.register(record);saved=self.resolve(result)
+            self.assertEqual(saved['scores'],{'window_length_days':14,'window_coverage':1})
+            self.assertEqual(saved['baseline_scores']['state'],{'window_length_days':91,'window_coverage':1})
+            self.tool.load_registry(self.registry)
+
+    def test_frozen_v1_window_scores_still_load(self):
+        forecast=self.register(sample())
+        forecast.pop('validation_version')
+        forecast['record_sha256']=self.tool.digest(forecast)
+        result=outcome();result['observed']['event_time']='2026-01-15T00:00:00Z'
+        result['scores'],result['baseline_scores'],result['scoring_notes']=self.tool.computed_result(result,forecast)
+        result['appended_at']=self.tool.timestamp();result['record_sha256']=self.tool.digest(result)
+        registry={'format':self.tool.FORMAT,'schema_version':1,'forecasts':[forecast],'resolutions':[result]}
+        self.write('registry.json',registry)
+        before=self.registry.read_bytes()
+        loaded=self.tool.load_registry(self.registry)
+        self.assertEqual(loaded['resolutions'][0]['scores']['window_coverage'],1)
+        self.assertEqual(self.registry.read_bytes(),before)
 
 
 if __name__ == '__main__':
