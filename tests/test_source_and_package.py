@@ -7,6 +7,7 @@ import sys
 import tempfile
 import unittest
 import zipfile
+import re
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -23,6 +24,17 @@ builder = load('build_install_package')
 
 
 class SourceAndPackageTests(unittest.TestCase):
+    def test_release_metadata_and_shipped_teaching_versions_agree(self):
+        metadata = json.loads((ROOT / 'skill-package.json').read_text(encoding='utf-8'))
+        project = (ROOT / 'pyproject.toml').read_text(encoding='utf-8')
+        version = re.search(r'(?m)^version\s*=\s*"([^"]+)"', project).group(1)
+        self.assertEqual(metadata['version'], version)
+        for order in (1, 2, 3):
+            record = json.loads((ROOT / f'cases/forecast-public-resignation/order-{order}.json').read_text(encoding='utf-8'))
+            self.assertEqual(record['skill_version'], version)
+        expected = f'xi-kari-skill-{version}-windows.zip'
+        self.assertIn(expected, (ROOT / 'docs/INSTALL.md').read_text(encoding='utf-8'))
+
     def test_complete_section_includes_children_but_not_sibling(self):
         lines = ['# Book', '## 1.1 Parent', 'text', '### 1.1.1 Child', 'body', '## 1.2 Next', 'other']
         sections, _ = reader.build_index(lines)
