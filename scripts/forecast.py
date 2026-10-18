@@ -26,6 +26,7 @@ try:
     from xikari_paths import require_external_output
     import read_source
     import forecast_scores
+    import forecast_chain
 finally:
     sys.path.pop(0)
 
@@ -416,8 +417,9 @@ def load_registry(path):
     if not Path(path).exists():
         return {'format': FORMAT, 'schema_version': 1, 'forecasts': [], 'resolutions': []}
     registry = read_json(path)
-    if not isinstance(registry, dict) or registry.get('format') != FORMAT or type(registry.get('schema_version')) is not int or registry['schema_version'] != 1 or not isinstance(registry.get('forecasts'), list) or not isinstance(registry.get('resolutions'), list):
+    if not isinstance(registry, dict) or registry.get('format') != FORMAT or type(registry.get('schema_version')) is not int or registry['schema_version'] not in {1, 2} or not isinstance(registry.get('forecasts'), list) or not isinstance(registry.get('resolutions'), list):
         fail('目标不是可识别的前瞻注册表，不会覆盖')
+    forecast_chain.validate(registry)
     forecasts, resolved_times = {}, {}
     for record in registry['forecasts']:
         validate_forecast(record)
@@ -503,7 +505,7 @@ def save_registry(path, registry, expected):
             lock.unlink(missing_ok=True)
 
 
-def register_forecast(registry_path, record_path):
+def register_forecast(registry_path, record_path, *, include_chain_head=False):
     registry_path = Path(registry_path)
     require_external_output(registry_path, __file__)
     if registry_path.resolve() == Path(record_path).resolve():
@@ -532,12 +534,14 @@ def register_forecast(registry_path, record_path):
             and instant(record['window']['start'], 'window.start') < instant(record['registered_at'], 'registered_at')):
         fail(f'live前瞻window.start不得早于实际registered_at={record["registered_at"]}；请把window.start设在该登记时间或之后')
     record['record_sha256'] = digest(record)
+    forecast_chain.upgrade(registry)
     registry['forecasts'].append(record)
+    chain_head = forecast_chain.append_entry(registry, 'forecast', record)
     save_registry(registry_path, registry, expected)
-    return record
+    return {**record, 'chain_head': chain_head} if include_chain_head else record
 
 
-def resolve_forecast(registry_path, record_path):
+def resolve_forecast(registry_path, record_path, *, include_chain_head=False):
     registry_path = Path(registry_path)
     require_external_output(registry_path, __file__)
     if registry_path.resolve() == Path(record_path).resolve():
@@ -558,9 +562,11 @@ def resolve_forecast(registry_path, record_path):
     record['scores'], record['baseline_scores'], record['scoring_notes'] = computed_result(record, forecast)
     record['appended_at'] = timestamp()
     record['record_sha256'] = digest(record)
+    forecast_chain.upgrade(registry)
     registry['resolutions'].append(record)
+    chain_head = forecast_chain.append_entry(registry, 'resolution', record)
     save_registry(registry_path, registry, expected)
-    return record
+    return {**record, 'chain_head': chain_head} if include_chain_head else record
 
 
 def mean_scores(values):
@@ -773,13 +779,15 @@ def report_registry(registry):
                             '分配误差、因果响应效果和外部评测未在本工具中自动识别。', '未预登记持续退化阈值时保留pending，不自行设定合入阈值。']}
 
 
-def check_registry(registry):
+def check_registry(registry, expect_head=None):
     current = current_theory()
+    chain_head = forecast_chain.validate(registry, expect_head)
     warnings = []
     for record in registry['forecasts']:
         if record['theory_sha256'] != current:
             warnings.append(f'{record["id"]}: 绑定旧理论版本，保留历史登记，不改写为当前版本')
     return {'ok': True, 'forecasts': len(registry['forecasts']), 'resolution_records': len(registry['resolutions']),
+            'schema_version': registry['schema_version'], 'chain_head': chain_head, 'legacy_prefix': registry.get('legacy_prefix'),
             'capability': 'unverified',
             'errors': [], 'warnings': warnings,
             'scope': '结构、引用身份和冻结内容检查；不认证来源、事前知识状态、判定正确性或预测能力。'}
@@ -794,15 +802,16 @@ def main():
     commands = parser.add_subparsers(dest='command', required=True)
     for command in ['register', 'resolve']:
         commands.add_parser(command).add_argument('--record', required=True, type=Path)
-    for command in ['list', 'report', 'check']:
+    for command in ['list', 'report']:
         commands.add_parser(command)
+    commands.add_parser('check').add_argument('--expect-head', help='注册表外保存的SHA-256链头')
     commands.add_parser('show').add_argument('id')
     args = parser.parse_args()
     try:
         if args.command == 'register':
-            result = register_forecast(args.registry, args.record)
+            result = register_forecast(args.registry, args.record, include_chain_head=True)
         elif args.command == 'resolve':
-            result = resolve_forecast(args.registry, args.record)
+            result = resolve_forecast(args.registry, args.record, include_chain_head=True)
         else:
             if not args.registry.exists():
                 fail('注册表不存在')
@@ -819,7 +828,7 @@ def main():
             elif args.command == 'report':
                 result = report_registry(registry)
             else:
-                result = check_registry(registry)
+                result = check_registry(registry, args.expect_head)
         print(json.dumps(result, ensure_ascii=False, indent=2, allow_nan=False))
         return 0
     except (OSError, UnicodeError, ValueError, TypeError, KeyError) as error:

@@ -5,6 +5,8 @@ import tempfile
 import unittest
 from unittest import mock
 from datetime import datetime, timezone
+import subprocess
+import sys
 
 from test_forecast import ROOT, module, sample, outcome
 
@@ -136,6 +138,30 @@ class ForecastRevisionTests(unittest.TestCase):
         loaded=self.tool.load_registry(self.registry)
         self.assertEqual(loaded['resolutions'][0]['scores']['window_coverage'],1)
         self.assertEqual(self.registry.read_bytes(),before)
+
+    def test_registry_chain_migration_and_external_head_cli(self):
+        saved=self.register(sample())
+        legacy={'format':self.tool.FORMAT,'schema_version':1,'forecasts':[saved],'resolutions':[]}
+        self.write('registry.json',legacy)
+        before=self.registry.read_bytes()
+        self.assertIsNone(self.tool.check_registry(self.tool.load_registry(self.registry))['chain_head'])
+        self.assertEqual(self.registry.read_bytes(),before)
+        result=self.tool.resolve_forecast(self.registry,self.write('result.json',outcome()),include_chain_head=True)
+        registry=self.tool.load_registry(self.registry)
+        self.assertEqual(registry['schema_version'],2)
+        self.assertEqual(registry['legacy_prefix'],1)
+        self.assertEqual(registry['forecasts'],[saved])
+        head=result['chain_head']
+        self.assertEqual(self.tool.check_registry(registry,head)['chain_head'],head)
+        command=[sys.executable,str(ROOT/'scripts/forecast.py'),'--registry',str(self.registry),'check','--expect-head',head]
+        self.assertEqual(subprocess.run(command,capture_output=True).returncode,0)
+        broken=copy.deepcopy(registry);broken['resolutions']=[]
+        self.write('registry.json',broken)
+        with self.assertRaises(ValueError):self.tool.load_registry(self.registry)
+        broken['chain'].pop()
+        self.write('registry.json',broken)
+        self.tool.load_registry(self.registry)
+        self.assertNotEqual(subprocess.run(command,capture_output=True).returncode,0)
 
 
 if __name__ == '__main__':

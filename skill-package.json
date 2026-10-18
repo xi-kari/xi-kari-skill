@@ -155,6 +155,7 @@
     "cases/forecast-public-resignation.md",
     "scripts/forecast.py",
     "scripts/forecast_scores.py",
+    "scripts/forecast_chain.py",
     "agents/reviewer.md"
   ]
 }
