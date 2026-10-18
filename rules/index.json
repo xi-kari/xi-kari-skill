@@ -933,7 +933,8 @@
       "anchors": [
         "6.12",
         "10.7",
-        "12.6"
+        "12.6",
+        "12.10.2"
       ],
       "theory_sha256": "18a7cc167faa3eda68a04b21313f833be6583abf1a2a47523a246a5f8a7eaee6",
       "status": "draft",
