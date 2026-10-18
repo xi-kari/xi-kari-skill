@@ -488,9 +488,10 @@ class ForecastTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             self.target.validate_forecast(record)
 
-    def test_live_can_start_mid_window_but_cannot_score_a_prior_event(self):
+    def test_live_window_starts_after_registration_and_rejects_prior_event(self):
         record = sample()
         record['evidence_kind'] = 'live'
+        record['window']['start'] = '2026-01-16T00:00:00Z'
         with mock.patch.object(self.target, 'utcnow', return_value=datetime(2026, 1, 15, tzinfo=timezone.utc)):
             self.register(record)
         result = outcome(status='supported')

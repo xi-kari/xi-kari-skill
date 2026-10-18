@@ -313,7 +313,7 @@ def current_theory():
     return actual
 
 
-def validate_resolution(record, forecast):
+def validate_resolution(record, forecast, *, new=False):
     if not isinstance(record, dict) or not RESOLUTION_FIELDS <= set(record):
         fail('结果缺少forecast_id、resolved_at、outcome_source、observed、status、path_match或model_updates')
     if record['forecast_id'] != forecast['id']:
@@ -342,6 +342,11 @@ def validate_resolution(record, forecast):
     category = observed.get('category')
     if category is not None and (not categorical or category not in forecast['expression']['options']):
         fail('observed.category须取自预登记options')
+    if (forecast['evidence_kind'] == 'live'
+            and (new or record.get('scoring_version', 1) >= 2)
+            and (observed['value'] is not None or category is not None)
+            and observed['event_time'] is None):
+        fail('live结果带value或category时必须填写observed.event_time（事件发生或测量完成的时间）')
     if observed['event_time'] is not None:
         occurred = instant(observed['event_time'], 'observed.event_time')
         if occurred > resolved:
@@ -425,6 +430,9 @@ def load_registry(path):
             fail('registered_at时序无效')
         if record['evidence_kind'] == 'live' and registered >= instant(record['window']['end'], 'window.end'):
             fail('live登记晚于预测窗口')
+        if (record['evidence_kind'] == 'live' and record.get('validation_version', 1) >= 2
+                and instant(record['window']['start'], 'window.start') < registered):
+            fail(f'live前瞻window.start不得早于实际registered_at={record["registered_at"]}；请把window.start设在该登记时间或之后')
         if record.get('supersedes') and record['supersedes'] not in forecasts:
             fail('supersedes未引用已存在的前瞻')
         forecasts[record['id']] = record
@@ -520,8 +528,9 @@ def register_forecast(registry_path, record_path):
         fail('supersedes所指旧前瞻不存在')
     record['registered_at'] = timestamp()
     record['validation_version'] = 2
-    if record['evidence_kind'] == 'live' and instant(record['registered_at'], 'registered_at') >= instant(record['window']['end'], 'window.end'):
-        fail('live前瞻不能事后补登记已到期窗口；历史演示须声明teaching或backtest')
+    if (record['evidence_kind'] == 'live'
+            and instant(record['window']['start'], 'window.start') < instant(record['registered_at'], 'registered_at')):
+        fail(f'live前瞻window.start不得早于实际registered_at={record["registered_at"]}；请把window.start设在该登记时间或之后')
     record['record_sha256'] = digest(record)
     registry['forecasts'].append(record)
     save_registry(registry_path, registry, expected)
@@ -541,7 +550,7 @@ def resolve_forecast(registry_path, record_path):
     forecast = next((item for item in registry['forecasts'] if item['id'] == record['forecast_id']), None)
     if forecast is None:
         fail('forecast_id不存在')
-    validate_resolution(record, forecast)
+    validate_resolution(record, forecast, new=True)
     previous = [item for item in registry['resolutions'] if item['forecast_id'] == record['forecast_id']]
     if previous and instant(record['resolved_at'], 'resolved_at') <= instant(previous[-1]['resolved_at'], 'resolved_at'):
         fail('相同或更早的resolved_at不能重复追加')
