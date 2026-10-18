@@ -77,6 +77,14 @@ class PresentationContractTests(unittest.TestCase):
         for term in ('一到两段', '边界只写一次', '把边界写成一串否定句', '有确定答案的题写成长篇', '回到开头修改'):
             self.assertIn(term, text)
 
+    def test_infeasible_choice_and_repeated_limits_have_concrete_editing_rules(self):
+        compose = self.read('modules/compose/MODULE.md')
+        self.assertIn('硬约束已足以判定不可行的选择题', compose)
+        self.assertIn('合并到第二段', compose)
+        communication = self.read('references/communication.md')
+        for term in ('逐句检查', '同一限制', '正面的条件', '必要的禁止条款', '换成近义否定词'):
+            self.assertIn(term, communication)
+
 
 if __name__ == '__main__':
     unittest.main()
