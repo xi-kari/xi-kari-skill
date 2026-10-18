@@ -6,6 +6,7 @@
   "host_model": "teaching-scenario-no-live-model",
   "evidence_kind": "teaching",
   "order": 2,
+  "parent": {"forecast_id": "TEACH-RESIGN-O1", "path_id": "P1-load"},
   "question": "公开离职后，原团队的负荷、后续退出和制度接续如何变化？",
   "target": "截至 2024-11-30，冻结的 20 人队列有至少 4 人发生自愿离职。",
   "resolution_rule": "仅按本教学例的完整虚构结果包，由教学核对者按冻结口径判定；标签完整且同一目标时判支持或未支持，来源冲突且仍可补证为未决，K 或目标转换为目标失效，标签永久缺失或窗口不可比为无法评价。supported 指观察与登记方向相容，不等于目标事件必然为 1。",

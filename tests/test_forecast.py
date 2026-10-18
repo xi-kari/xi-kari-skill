@@ -238,6 +238,7 @@ class ForecastTests(unittest.TestCase):
                     self.target.validate_forecast(record)
                 for kind in ['direct_long_term', 'shallower_continuation']:
                     record['baselines'].append({'id': kind, 'type': kind, 'expression': copy.deepcopy(record['expression'])})
+                record['parent'] = {'forecast_id': f'forecast-{order - 1}', 'path_id': 'path-1'}
             self.register(record)
             self.resolve(outcome(f'forecast-{order}'))
         report = self.target.report_registry(self.target.load_registry(self.registry))

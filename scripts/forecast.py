@@ -177,7 +177,7 @@ def validate_forecast(record, *, new=False):
     missing = REQUIRED - set(record)
     if missing:
         fail('前瞻缺少字段：' + ', '.join(sorted(missing)))
-    unknown = set(record) - REQUIRED - {'supersedes', 'registered_at', 'record_sha256', 'validation_version'}
+    unknown = set(record) - REQUIRED - {'supersedes', 'registered_at', 'record_sha256', 'validation_version', 'parent'}
     if unknown:
         fail('不支持的前瞻字段：' + ', '.join(sorted(unknown)))
     canonical(record)
@@ -193,6 +193,14 @@ def validate_forecast(record, *, new=False):
         fail('evidence_kind须为live、backtest、teaching或synthetic')
     if type(record['order']) is not int or record['order'] not in {1, 2, 3}:
         fail('order须为整数1、2或3；各阶分开登记')
+    if strict and record['order'] > 1 and 'parent' not in record:
+        fail('新登记的二、三阶前瞻须声明parent.forecast_id和parent.path_id')
+    if 'parent' in record:
+        parent = record['parent']
+        if not isinstance(parent, dict) or set(parent) != {'forecast_id', 'path_id'}:
+            fail('parent须含forecast_id和path_id，不能为null或附加其他字段')
+        identifier(parent['forecast_id'], 'parent.forecast_id')
+        identifier(parent['path_id'], 'parent.path_id')
     created = instant(record['created_at'], 'created_at')
     cutoff = instant(record['input_cutoff'], 'input_cutoff')
     baseline = instant(record['baseline_time'], 'baseline_time')
@@ -312,6 +320,22 @@ def validate_forecast(record, *, new=False):
         string_list(record[name], name)
     if 'supersedes' in record:
         identifier(record['supersedes'], 'supersedes')
+
+
+def validate_parent(record, forecasts):
+    if 'parent' not in record:
+        return
+    parent = forecasts.get(record['parent']['forecast_id'])
+    if parent is None:
+        fail('parent.forecast_id须引用已存在的父前瞻')
+    if parent['order'] != record['order'] - 1:
+        fail('parent前瞻阶次须恰好低一阶')
+    if record['parent']['path_id'] not in {path['id'] for path in parent['paths']}:
+        fail('parent.path_id不存在于父前瞻')
+    if parent['theory_sha256'] != record['theory_sha256']:
+        fail('parent与子前瞻的theory_sha256必须相同')
+    if instant(record['input_cutoff'], 'input_cutoff') < instant(parent['input_cutoff'], 'parent.input_cutoff'):
+        fail('子前瞻input_cutoff不得早于parent.input_cutoff')
 
 
 def current_theory():
@@ -454,6 +478,7 @@ def load_registry(path):
             fail(f'live前瞻window.start不得早于实际registered_at={record["registered_at"]}；请把window.start设在该登记时间或之后')
         if record.get('supersedes') and record['supersedes'] not in forecasts:
             fail('supersedes未引用已存在的前瞻')
+        validate_parent(record, forecasts)
         forecasts[record['id']] = record
     last_append = None
     for record in registry['resolutions']:
@@ -545,6 +570,7 @@ def register_forecast(registry_path, record_path, *, include_chain_head=False):
         fail('前瞻id已冻结；改目标、期限或范围必须用新id及supersedes')
     if 'supersedes' in record and record['supersedes'] not in existing:
         fail('supersedes所指旧前瞻不存在')
+    validate_parent(record, {entry['id']: entry for entry in registry['forecasts']})
     record['registered_at'] = timestamp()
     record['validation_version'] = 2
     if (record['evidence_kind'] == 'live'
@@ -808,6 +834,31 @@ def pooled_groups(registry, latest):
     return result
 
 
+def parent_path_match(record, latest):
+    if 'parent' not in record:
+        return 'unknown_legacy'
+    parent = record['parent']
+    outcome = latest.get(parent['forecast_id'])
+    if outcome is None or outcome['status'] not in {'supported', 'not_supported'}:
+        return 'unresolved'
+    return 'matched' if parent['path_id'] in outcome['path_match'] else 'not_matched'
+
+
+def pooled_parent_groups(registry, latest):
+    subsets = defaultdict(list)
+    for record in registry['forecasts']:
+        if record['order'] > 1:
+            subsets[parent_path_match(record, latest)].append(record)
+    result = []
+    for match, forecasts in sorted(subsets.items()):
+        for group in pooled_groups({'forecasts': forecasts}, latest):
+            pairs = group.pop('_pairs')
+            group['parent_match'] = match
+            group['forecast_ids'] = sorted(record['id'] for record, _ in pairs)
+            result.append(group)
+    return result
+
+
 def degradation(groups):
     decisions = []
     for group in groups:
@@ -900,6 +951,7 @@ def report_registry(registry):
     policies = [record['calibration_plan'].get('degradation_policy') for record in registry['forecasts']]
     threshold_status = 'pending' if not any(policies) else 'preregistered' if all(policies) else 'partial'
     return {'format': FORMAT, 'orders': orders, 'by_contract': groups, 'groups': groups, 'pooled': pooled, 'capability': 'scenario_only' if decisions else 'unverified',
+            'pooled_by_parent_match': pooled_parent_groups(registry, latest),
             'capability_scope': 'matching_degradation_decisions_only',
             'capability_evidence_records': sum(record['evidence_kind'] in {'live', 'backtest'} and record['id'] in latest
                                                and latest[record['id']]['status'] in {'supported', 'not_supported'} for record in registry['forecasts']),
