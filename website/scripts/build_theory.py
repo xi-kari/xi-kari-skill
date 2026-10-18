@@ -1,4 +1,4 @@
-"""Create the handbook's theory pages from the unchanged canonical manuscript."""
+"""Create the handbook's theory pages from the selected canonical manuscript."""
 
 from __future__ import annotations
 
@@ -13,8 +13,8 @@ import re
 WEBSITE = Path(__file__).resolve().parents[1]
 REPO = WEBSITE.parent
 TITLE = "Xikari-条件结构与转化论"
-SOURCE_SHA256 = "df579dbdbb68442b1781b066606c267761f0a1673fbd034ce93eeeb41641439f"
-DOCX_SHA256 = "92a02c9118f6d2bd768d9db8a62ad6eeda8f13d44ae8f71e907f22b7a248f49e"
+SOURCE_SHA256 = "18a7cc167faa3eda68a04b21313f833be6583abf1a2a47523a246a5f8a7eaee6"
+DOCX_SHA256 = "878189fe49000577c2715a9ffb006f0e43a6bc03f6a5ca4ec599cb5607a97e59"
 PART = re.compile(r'^<a id="part_(\d+)"></a>\s*$')
 HEADING = re.compile(r"^(#{1,6})\s+(.+?)\s*$")
 SECTION = re.compile(r"^((?:\d+|[A-D])(?:\.\d+)+)(?=\s|\u3000|[^\w.]|$)")
@@ -269,7 +269,7 @@ def build(website: Path = WEBSITE, source: Path | None = None, docx: Path | None
     (download_dir / f"{TITLE}.md").write_bytes(data)
     if docx.resolve() != existing_docx.resolve():
         existing_docx.write_bytes(docx_data)
-    manifest = {"title": TITLE, "author": "Xikari", "source_date": "2026-10-13",
+    manifest = {"title": TITLE, "author": "Xikari", "source_date": "2026-10-17",
                 "source_sha256": SOURCE_SHA256, "source_bytes": len(data),
                 "source_lines": len(lines), "docx_sha256": DOCX_SHA256,
                 "parts": {f"part_{number}": route + f"#part_{number}" for number, route in sorted(part_routes.items())},

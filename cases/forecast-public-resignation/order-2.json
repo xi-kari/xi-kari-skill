@@ -1,0 +1,161 @@
+{
+  "id": "TEACH-RESIGN-O2",
+  "created_at": "2024-09-01T12:00:00Z",
+  "theory_sha256": "18a7cc167faa3eda68a04b21313f833be6583abf1a2a47523a246a5f8a7eaee6",
+  "skill_version": "6.0.0.dev1",
+  "host_model": "teaching-scenario-no-live-model",
+  "evidence_kind": "teaching",
+  "order": 2,
+  "question": "公开离职后，原团队的负荷、后续退出和制度接续如何变化？",
+  "target": "截至 2024-11-30，冻结的 20 人队列有至少 4 人发生自愿离职。",
+  "resolution_rule": "仅按本教学例的完整虚构结果包，由教学核对者按冻结口径判定；标签完整且同一目标时判支持或未支持，来源冲突且仍可补证为未决，K 或目标转换为目标失效，标签永久缺失或窗口不可比为无法评价。supported 指观察与登记方向相容，不等于目标事件必然为 1。",
+  "window": {
+    "start": "2024-09-01T12:00:01Z",
+    "end": "2024-11-30T23:59:59Z"
+  },
+  "input_cutoff": "2024-09-01T10:00:00Z",
+  "baseline_time": "2024-08-25T10:00:00Z",
+  "scope": {
+    "object": "虚构团队 TEAM-A，冻结原 20 人队列；K=共同项目交付、明确排班与可追踪职责接口",
+    "circles": [
+      "项目团队",
+      "公司管理层",
+      "职业社群",
+      "家庭照护",
+      "平台公众"
+    ],
+    "affected_positions": [
+      "原 20 名员工",
+      "离职员工及照护依赖者",
+      "交接承担者",
+      "试点参与者与未覆盖者"
+    ]
+  },
+  "baselines": [
+    {
+      "id": "O2-B1",
+      "type": "state_continuation",
+      "expression": {
+        "type": "direction",
+        "value": "未达 4 人",
+        "basis": "历史同长窗口 1/20，不推算真实概率。"
+      }
+    },
+    {
+      "id": "O2-B2",
+      "type": "direct_long_term",
+      "expression": {
+        "type": "direction",
+        "value": "未达 4 人",
+        "basis": "不用递归，直接按历史与同类各 1/20 作远期方向。"
+      }
+    },
+    {
+      "id": "O2-B3",
+      "type": "shallower_continuation",
+      "expression": {
+        "type": "direction",
+        "value": "达到至少 4 人",
+        "basis": "继承一阶高工时持续，再以简单延续形成达到阈值方向；这是独立待检假设。"
+      }
+    }
+  ],
+  "mechanisms": [
+    {
+      "rule_id": "CM-LOAD",
+      "anchors": [
+        "6.6"
+      ]
+    },
+    {
+      "rule_id": "CAS-MEMBER",
+      "anchors": [
+        "11.6"
+      ]
+    },
+    {
+      "rule_id": "CLOCK-BRIDGE",
+      "anchors": [
+        "6.12",
+        "10.7"
+      ]
+    }
+  ],
+  "paths": [
+    {
+      "id": "P2-exits",
+      "parent": null,
+      "order": 2,
+      "conditions": [
+        "负荷持续且可核验的外部岗位仍开放",
+        "原队列范围与自愿离职口径不变"
+      ],
+      "description": "达到至少 4 人的条件方向",
+      "early_signals": [
+        "外部实际面试或录用通知增加",
+        "申诉没有实际写回"
+      ],
+      "reverse_signals": [
+        "实际减载与申诉试点执行",
+        "外部机会撤回或无法完成接续"
+      ],
+      "stop_conditions": [
+        "对象 K 无法接续",
+        "关键输入失真",
+        "超出本阶教学目标与期限"
+      ]
+    },
+    {
+      "id": "P2-exits-alternative",
+      "parent": null,
+      "order": 2,
+      "conditions": [
+        "相应反向信号获得独立执行记录"
+      ],
+      "description": "实际减载、机会变化或制度桥接使本阶主要方向不成立",
+      "early_signals": [
+        "实际减载与申诉试点执行",
+        "外部机会撤回或无法完成接续"
+      ],
+      "reverse_signals": [
+        "外部实际面试或录用通知增加",
+        "申诉没有实际写回"
+      ],
+      "stop_conditions": [
+        "替代路径超出对象或权限范围"
+      ]
+    }
+  ],
+  "expression": {
+    "type": "direction",
+    "value": "达到至少 4 人的条件方向",
+    "basis": "教学设定中持续负荷、离职机会的实质桥接与信任下降共同支持检查连续退出；无经验校准，阈值预测仍可能失败。"
+  },
+  "calibration_plan": {
+    "metrics": [
+      "qualitative_path_match"
+    ],
+    "description": "教学方向判断按阶分别核对；不计算 Brier、对数损失、概率校准或真实能力增益。真实评价需独立盲测与持续登记。"
+  },
+  "decision_threshold": {
+    "applicable": false,
+    "reason": "仅教学前瞻及供审议的方案比较，不把该登记用作自动干预阈值。"
+  },
+  "pause_conditions": [
+    "输入来源失真",
+    "K 变化未核清",
+    "保护底板被突破",
+    "方向比较缺少最低依据"
+  ],
+  "retire_conditions": [
+    "目标无法再判定",
+    "持续外部评价不优于适配简单基线",
+    "原机制超出适用域"
+  ],
+  "evidence_refs": [
+    "TEACH-IN-01",
+    "TEACH-IN-02",
+    "TEACH-IN-03",
+    "TEACH-IN-04"
+  ]
+}

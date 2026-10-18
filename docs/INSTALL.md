@@ -1,6 +1,6 @@
 # 安装与宿主适配
 
-下载Release中的 **`xi-kari-skill-5.5.1-windows.zip`**。解压后只得到一个`xi-kari-skill`文件夹，将整个文件夹放入宿主的技能目录，使最终位置为`<技能目录>/xi-kari-skill/SKILL.md`。
+本开发版的安装包为 **`xi-kari-skill-6.0.0.dev2-windows.zip`**。正式发布版从 Release 取得；开发包以实际交付文件为准。解压后只得到一个`xi-kari-skill`文件夹，将整个文件夹放入宿主的技能目录，使最终位置为`<技能目录>/xi-kari-skill/SKILL.md`。
 
 请使用Release安装包。GitHub的“Code → Download ZIP”和仓库克隆包含测试、网页及开发文件，不是供技能目录使用的安装包。
 
@@ -25,3 +25,9 @@
 
 技能目录是只读资源；结果、材料目录、模型输出、案例库及快照写到安装目录外的任务位置。脚本从自身位置寻找随包资源，不要求固定盘符或从安装目录启动。首次接入与可复制命令见[宿主接入与干净工作目录](../references/host-setup.md)。
 
+
+## 阅读模式与前瞻记录
+
+默认完整阅读；在请求中明确指定 `layered` 可进行分层阅读实验。能力等效与合入阈值尚待评价，不能把实验入口当成结论。理论评估仍须全读。没有旧完整正序兼容路线。
+
+前瞻登记放在安装外的用户任务目录。先保存输入 JSON，再运行 `python scripts/forecast.py --registry <任务目录>/forecasts.json register --record <输入.json>`；到期以 `resolve --record <结果.json>` 追加。`report` 读取当前注册表，不自动调度到期任务，也不改写冻结记录。

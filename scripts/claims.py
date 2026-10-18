@@ -38,8 +38,17 @@ class ClaimError(ValueError):
 
 
 def read_json(path: Path):
+    def unique_pairs(items):
+        result = {}
+        for key, value in items:
+            if key in result:
+                raise ClaimError(f'JSON含重复字段：{key}')
+            result[key] = value
+        return result
     try:
-        return json.loads(Path(path).read_text(encoding='utf-8-sig'))
+        result = json.loads(Path(path).read_text(encoding='utf-8-sig'), object_pairs_hook=unique_pairs)
+        json.dumps(result, allow_nan=False)
+        return result
     except OSError as exc:
         raise ClaimError(f'无法读取 {path}: {exc}') from exc
     except json.JSONDecodeError as exc:
@@ -65,6 +74,10 @@ def text_list(item, field, where, required=False):
 def validate_claim(case) -> None:
     if not isinstance(case, dict):
         raise ClaimError('主张必须是JSON对象')
+    try:
+        json.dumps(case, allow_nan=False)
+    except (ValueError, TypeError) as error:
+        raise ClaimError('主张不得含NaN、Infinity或非JSON数据') from error
     for key in ('id', 'statement'):
         if not isinstance(case.get(key), str) or not case[key].strip():
             raise ClaimError(f'主张缺少 {key}')
@@ -72,13 +85,16 @@ def validate_claim(case) -> None:
         raise ClaimError('id仅使用字母、数字、点、下划线和连字符，不超过96字符')
     if len(case['statement']) > 8000:
         raise ClaimError('statement不超过8000字符')
-    if case.get('kind') not in KINDS:
+    if not isinstance(case.get('kind'), str) or case['kind'] not in KINDS:
         raise ClaimError('kind须为fact、structure、mechanism、forward、value或interpretation')
-    if case.get('status') not in STATUSES:
+    if not isinstance(case.get('status'), str) or case['status'] not in STATUSES:
         raise ClaimError('status须为proposed、supported、contested、refuted、withdrawn或unknown')
     where = f'主张 {case["id"]}'
     for field in ('reasons', 'change_conditions', 'conditions', 'open_questions'):
         text_list(case, field, where)
+    for field in ('evidence', 'theory', 'counterclaims'):
+        if not isinstance(case.get(field, []), list):
+            raise ClaimError(f'{where}.{field}须为列表')
     direction_of = []
     for entry in case.get('evidence', []):
         if not isinstance(entry, dict):
@@ -87,7 +103,7 @@ def validate_claim(case) -> None:
             raise ClaimError(f'{where}.evidence 每项须指出 catalog')
         if not isinstance(entry.get('clip'), str) or not entry['clip'].strip():
             raise ClaimError(f'{where}.evidence 每项须指出 clip')
-        if entry.get('direction') not in DIRECTIONS:
+        if not isinstance(entry.get('direction'), str) or entry['direction'] not in DIRECTIONS:
             raise ClaimError(f'{where}.evidence 每项须声明 direction 为 supports、undercuts 或 context')
         direction_of.append(entry['direction'])
     for entry in case.get('theory', []):
@@ -101,17 +117,29 @@ def validate_claim(case) -> None:
             raise ClaimError(f'{where}: status=contested 须列出仍然成立的竞争主张 counterclaims')
     if case.get('status') == 'withdrawn':
         text_of(case, 'withdraw_reason', where, required=True)
+    if 'forecast_ref' in case:
+        reference = case['forecast_ref']
+        if case.get('kind') != 'forward':
+            raise ClaimError(f'{where}: forecast_ref只用于kind=forward')
+        if not isinstance(reference, dict) or set(reference) != {'registry', 'id'}:
+            raise ClaimError(f'{where}: forecast_ref须含registry和id')
+        text_of(reference, 'registry', where + '.forecast_ref', required=True)
+        if not isinstance(reference['id'], str) or not ID.fullmatch(reference['id']):
+            raise ClaimError(f'{where}: forecast_ref.id不是有效前瞻标识')
     for entry in case.get('counterclaims', []):
         if not isinstance(entry, dict) or not isinstance(entry.get('statement'), str) or not entry['statement'].strip():
             raise ClaimError(f'{where}.counterclaims 每项须给出 statement')
     if case.get('kind') == 'forward':
         registration = case.get('registration')
-        if not isinstance(registration, dict):
+        if not isinstance(registration, dict) and 'forecast_ref' not in case:
             raise ClaimError(f'{where}: 前瞻主张须在结果之前登记 registration（window、baseline、criteria）')
-        for field in ('window', 'baseline', 'criteria'):
-            if not isinstance(registration.get(field), str) or not registration[field].strip():
-                raise ClaimError(f'{where}.registration 缺少 {field}')
-        if case.get('status') == 'supported' and not case.get('outcome'):
+        if registration is not None:
+            if not isinstance(registration, dict):
+                raise ClaimError(f'{where}.registration须为对象')
+            for field in ('window', 'baseline', 'criteria'):
+                if not isinstance(registration.get(field), str) or not registration[field].strip():
+                    raise ClaimError(f'{where}.registration 缺少 {field}')
+        if case.get('status') == 'supported' and not case.get('outcome') and 'forecast_ref' not in case:
             raise ClaimError(f'{where}: 前瞻主张在取得结果之前不能标为 supported；先登记 outcome')
     if case.get('load_bearing'):
         text_list(case, 'change_conditions', where, required=True)
@@ -123,7 +151,7 @@ def load_ledger(path: Path) -> dict:
     if not Path(path).exists():
         return {'schema_version': 1, 'format': FORMAT, 'claims': []}
     ledger = read_json(path)
-    if not isinstance(ledger, dict) or ledger.get('schema_version') != 1 or not isinstance(ledger.get('claims'), list):
+    if not isinstance(ledger, dict) or type(ledger.get('schema_version')) is not int or ledger['schema_version'] != 1 or not isinstance(ledger.get('claims'), list):
         raise ClaimError('目标不是可识别的主张台账，不会覆盖')
     seen = set()
     for case in ledger['claims']:
@@ -143,7 +171,7 @@ def save_ledger(path: Path, ledger: dict, expected: bytes | None) -> None:
     require_external_output(lock, __file__)
     path.parent.mkdir(parents=True, exist_ok=True)
     ledger.setdefault('format', FORMAT)
-    payload = (json.dumps(ledger, ensure_ascii=False, indent=2) + '\n').encode('utf-8')
+    payload = (json.dumps(ledger, ensure_ascii=False, indent=2, allow_nan=False) + '\n').encode('utf-8')
     temporary = None
     owns_lock = False
     try:
@@ -184,6 +212,9 @@ def add_claim(ledger_path: Path, record_path: Path) -> dict:
     ledger = load_ledger(ledger_path)
     case = read_json(record_path)
     validate_claim(case)
+    if 'forecast_ref' in case:
+        case['forecast_ref'] = {**case['forecast_ref'], 'registry': str(Path(case['forecast_ref']['registry']).resolve())}
+        resolve_forecast_reference(case)
     existing = {entry['id'] for entry in ledger['claims']}
     if case['id'] in existing:
         raise ClaimError('主张标识已存在；修订时用新标识及 supersedes 保留原记录')
@@ -195,6 +226,27 @@ def add_claim(ledger_path: Path, record_path: Path) -> dict:
     ledger['claims'].append(case)
     save_ledger(ledger_path, ledger, expected)
     return case
+
+
+def resolve_forecast_reference(case: dict) -> dict:
+    """Resolve a frozen forecast without treating its existence as evidence."""
+    import importlib.util
+    path = Path(__file__).resolve().with_name('forecast.py')
+    spec = importlib.util.spec_from_file_location('xikari_linked_forecast', path)
+    forecast = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(forecast)
+    reference = case['forecast_ref']
+    registry_path = Path(reference['registry'])
+    if not registry_path.exists():
+        raise ClaimError(f'前瞻注册表不存在：{registry_path}（{reference["id"]}）')
+    registry = forecast.load_registry(registry_path)
+    linked = next((record for record in registry['forecasts'] if record['id'] == reference['id']), None)
+    if linked is None:
+        raise ClaimError(f'前瞻id不存在：{reference["id"]}')
+    results = [record for record in registry['resolutions'] if record['forecast_id'] == reference['id']]
+    if case.get('status') == 'supported' and (not results or results[-1]['status'] != 'supported'):
+        raise ClaimError(f'前瞻{reference["id"]}尚无supported到期结果，不能把关联主张标为supported')
+    return linked
 
 
 def load_catalog_clips(path_text: str) -> dict:
@@ -209,9 +261,19 @@ def check_ledger(ledger: dict, section_keys) -> dict:
     """Report resolvable references and declared-structure gaps. Never scores support."""
     sections = set(section_keys)
     errors, warnings = [], []
+    forecast_references = []
     catalogs: dict = {}
     for case in ledger.get('claims', []):
         identifier = case.get('id', '<未命名>')
+        if 'forecast_ref' in case:
+            try:
+                validate_claim(case)
+                linked = resolve_forecast_reference(case)
+                forecast_references.append({'claim_id': identifier, 'forecast_id': linked['id'],
+                                            'evidence_kind': linked['evidence_kind'],
+                                            'empirical_support': False if linked['evidence_kind'] in {'teaching', 'synthetic'} else None})
+            except (OSError, ValueError, TypeError, KeyError) as exc:
+                errors.append(f'{identifier}: 前瞻引用无法解析：{exc}')
         for entry in case.get('theory', []):
             section = entry.get('section')
             if section and section not in sections:
@@ -241,6 +303,7 @@ def check_ledger(ledger: dict, section_keys) -> dict:
     return {
         'ok': not errors, 'claims': len(ledger.get('claims', [])),
         'errors': errors, 'warnings': warnings,
+        'forecast_references': forecast_references,
         'scope': '仅核对引用是否可解析及已声明结构是否齐全；不判断依据是否充分、来源是否可信或分析是否完成。',
     }
 
