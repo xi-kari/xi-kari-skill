@@ -28,6 +28,13 @@ class AnalysisContractTests(unittest.TestCase):
         for path in ('modules/choice/MODULE.md', 'modules/compose/MODULE.md'):
             self.assertIn('制度与流程草案核对表', self.read(path))
 
+    def test_contract_branches_on_numeric_ambiguity_before_recommendation(self):
+        text = self.read('modules/contract/MODULE.md')
+        for term in ('动笔前', '计时口径', '预算或窗口的起算点', '能力是上限还是实际完成量',
+                     '总量是否包含复核', '每种读法都算出结果', '先检查有没有任何方案可行', '结论依赖哪种读法'):
+            self.assertIn(term, text)
+        self.assertLess(text.index('动笔前'), text.index('4. 对未来请求'))
+
 
 if __name__ == '__main__':
     unittest.main()
