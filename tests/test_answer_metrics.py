@@ -62,7 +62,7 @@ class PresentationContractTests(unittest.TestCase):
 
     def test_plain_language_scope_and_theory_exception(self):
         text = self.read('references/communication.md')
-        for term in ('S0—S6', 'X0', 'IT', 'IG', 'DF', 'CM-', '规则卡编号', '路由', '模块', '写回', '良性退场', '记忆', 'R1', 'R7', '首次出现'):
+        for term in ('S0—S6', 'X0', 'IT', 'IG', 'DF', 'CM-', '规则卡编号', '路由', '模块', '写回', '回写', '良性退场', '记忆', 'R1', 'R7', '首次出现'):
             self.assertIn(term, text)
         self.assertIn('扫描正文中的代号和自造词', self.read('modules/compose/MODULE.md'))
 
