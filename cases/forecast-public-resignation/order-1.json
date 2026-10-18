@@ -2,7 +2,7 @@
   "id": "TEACH-RESIGN-O1",
   "created_at": "2024-09-01T12:00:00Z",
   "theory_sha256": "18a7cc167faa3eda68a04b21313f833be6583abf1a2a47523a246a5f8a7eaee6",
-  "skill_version": "6.0.0.dev1",
+  "skill_version": "6.0.0-rc.1",
   "host_model": "teaching-scenario-no-live-model",
   "evidence_kind": "teaching",
   "order": 1,
@@ -38,7 +38,11 @@
       "expression": {
         "type": "direction",
         "value": "高于 48 小时",
-        "basis": "延续冻结时 52 小时；教学状态延续。"
+        "basis": "延续冻结时 52 小时；教学状态延续。",
+        "options": [
+          "高于 48 小时",
+          "不高于 48 小时"
+        ]
       }
     },
     {
@@ -47,7 +51,11 @@
       "expression": {
         "type": "direction",
         "value": "高于 48 小时",
-        "basis": "按输入材料连续高工时趋势；教学趋势延续。"
+        "basis": "按输入材料连续高工时趋势；教学趋势延续。",
+        "options": [
+          "高于 48 小时",
+          "不高于 48 小时"
+        ]
       }
     }
   ],
@@ -117,14 +125,18 @@
   ],
   "expression": {
     "type": "direction",
-    "value": "高工时持续",
-    "basis": "教学设定中 52 小时基线、排班未变且两周内无已执行资源调整；仅支持条件方向，不提供概率。"
+    "value": "高于 48 小时",
+    "basis": "教学设定中 52 小时基线、排班未变且两周内无已执行资源调整；仅支持条件方向，不提供概率。",
+    "options": [
+      "高于 48 小时",
+      "不高于 48 小时"
+    ]
   },
   "calibration_plan": {
     "metrics": [
-      "qualitative_path_match"
+      "direction_hit"
     ],
-    "description": "教学方向判断按阶分别核对；不计算 Brier、对数损失、概率校准或真实能力增益。真实评价需独立盲测与持续登记。"
+    "description": "按预登记互斥类别核对教学方向与各基线；不生成概率或真实能力证据。"
   },
   "decision_threshold": {
     "applicable": false,

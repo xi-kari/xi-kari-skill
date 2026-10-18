@@ -5,7 +5,8 @@
   "observed": {
     "value": 1,
     "event_time": null,
-    "details": "2024-09-15T18:00:00Z 核对：两周完整工时记录平均 51 小时；观察标签为 1。"
+    "details": "2024-09-15T18:00:00Z 核对：两周完整工时记录平均 51 小时；观察标签为 1。",
+    "category": "高于 48 小时"
   },
   "status": "supported",
   "path_match": [

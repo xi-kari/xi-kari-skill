@@ -163,16 +163,19 @@ def expression(value, name):
         fail(f'{name}的none表达只能使用null值')
 
 
-def validate_forecast(record):
+def validate_forecast(record, *, new=False):
     if not isinstance(record, dict):
         fail('前瞻须为JSON对象')
     missing = REQUIRED - set(record)
     if missing:
         fail('前瞻缺少字段：' + ', '.join(sorted(missing)))
-    unknown = set(record) - REQUIRED - {'supersedes', 'registered_at', 'record_sha256'}
+    unknown = set(record) - REQUIRED - {'supersedes', 'registered_at', 'record_sha256', 'validation_version'}
     if unknown:
         fail('不支持的前瞻字段：' + ', '.join(sorted(unknown)))
     canonical(record)
+    if type(record.get('validation_version', 1)) is not int or record.get('validation_version', 1) not in {1, 2}:
+        fail('不支持的validation_version')
+    strict = new or record.get('validation_version', 1) >= 2
     identifier(record['id'], 'id')
     for name in ['question', 'target', 'resolution_rule', 'skill_version', 'host_model']:
         text(record[name], name)
@@ -257,6 +260,15 @@ def validate_forecast(record):
         fail('calibration_plan须为对象')
     string_list(calibration.get('metrics'), 'calibration_plan.metrics')
     text(calibration.get('description'), 'calibration_plan.description')
+    if strict and 'direction_hit' in calibration['metrics']:
+        if record['expression']['type'] != 'direction':
+            fail('direction_hit仅用于direction表达')
+        options = string_list(record['expression'].get('options'), 'expression.options')
+        if len(options) < 2 or len(options) != len(set(options)):
+            fail('options须含至少两个互斥且不重复的结果类别')
+        for expr in [record['expression']] + [b['expression'] for b in record['baselines']]:
+            if expr.get('options') != options or expr['value'] not in options:
+                fail('模型与基线须使用相同options，value须属于其中一个类别')
     policy = calibration.get('degradation_policy')
     if policy is not None:
         if not isinstance(policy, dict) or not isinstance(policy.get('metric'), str) or policy['metric'] not in {'brier', 'log_loss'}:
@@ -308,12 +320,16 @@ def validate_resolution(record, forecast):
         fail('path_match含重复或未冻结的路径')
     string_list(record['model_updates'], 'model_updates', nonempty=False)
     observed = record['observed']
-    if not isinstance(observed, dict) or not {'value', 'event_time'} <= set(observed) or set(observed) - {'value', 'event_time', 'details'}:
+    if not isinstance(observed, dict) or not {'value', 'event_time'} <= set(observed) or set(observed) - {'value', 'event_time', 'details', 'category'}:
         fail('observed须含value和event_time；未知时分别填null')
     if 'details' in observed:
         text(observed['details'], 'observed.details')
     if observed['value'] is not None:
         number(observed['value'], 'observed.value')
+    categorical = forecast.get('validation_version', 1) >= 2 and 'direction_hit' in forecast['calibration_plan']['metrics']
+    category = observed.get('category')
+    if category is not None and (not categorical or category not in forecast['expression']['options']):
+        fail('observed.category须取自预登记options')
     if observed['event_time'] is not None:
         occurred = instant(observed['event_time'], 'observed.event_time')
         if occurred > resolved:
@@ -321,16 +337,21 @@ def validate_resolution(record, forecast):
         if forecast['evidence_kind'] == 'live' and occurred <= instant(forecast['registered_at'], 'registered_at'):
             fail('live结果不得在实际registered_at之前发生；不能倒填预测命中')
     if record['status'] in {'supported', 'not_supported'}:
+        if categorical:
+            if category is None:
+                fail('direction_hit的已判定结果须含observed.category')
+            if (record['status'] == 'supported') != (category == forecast['expression']['value']):
+                fail('status与observed.category及冻结方向不一致')
         if forecast['expression']['type'] == 'probability' and (type(observed['value']) not in {int, float} or observed['value'] not in {0, 1}):
             fail('概率评分需要完整二元标签0或1，缺失标签不能填零')
         if forecast['expression']['type'] == 'interval':
             number(observed['value'], 'observed.value')
 
 
-def score_expression(expr, observed, prediction_window, metrics):
+def score_expression(expr, observed, prediction_window, metrics, scoring_version=2):
     scores, notes = {}, []
     for metric in metrics:
-        if metric not in {'brier', 'log_loss', 'interval_coverage', 'window_coverage'}:
+        if metric not in ({'brier', 'log_loss', 'interval_coverage', 'window_coverage'} | ({'direction_hit'} if scoring_version >= 2 else set())):
             notes.append(f'尚未实现预登记指标{metric}，不伪造评分')
     kind, value = expr['type'], observed['value']
     if kind == 'probability':
@@ -344,6 +365,8 @@ def score_expression(expr, observed, prediction_window, metrics):
     elif kind == 'interval':
         if 'interval_coverage' in metrics:
             scores['interval_coverage'] = int(expr['lower'] <= value <= expr['upper'])
+    elif kind == 'direction' and scoring_version >= 2 and 'direction_hit' in metrics and expr.get('options'):
+        scores['direction_hit'] = int(expr['value'] == observed['category'])
     else:
         notes.append(f'{kind}未实现相应数值评分；保留结果语义，不换算概率或命中率')
     if observed['event_time'] is not None and 'window_coverage' in metrics:
@@ -357,10 +380,11 @@ def computed_result(record, forecast):
     if record['status'] not in {'supported', 'not_supported'}:
         return {}, {}, ['未决、目标失效和无法评价不计为命中或失败；缺失标签不填零']
     metrics = forecast['calibration_plan']['metrics']
-    scores, notes = score_expression(forecast['expression'], record['observed'], forecast['window'], metrics)
+    scoring_version = record.get('scoring_version', 1)
+    scores, notes = score_expression(forecast['expression'], record['observed'], forecast['window'], metrics, scoring_version)
     baseline_scores = {}
     for baseline in forecast['baselines']:
-        baseline_scores[baseline['id']], _ = score_expression(baseline['expression'], record['observed'], baseline.get('window', forecast['window']), metrics)
+        baseline_scores[baseline['id']], _ = score_expression(baseline['expression'], record['observed'], baseline.get('window', forecast['window']), metrics, scoring_version)
     return scores, baseline_scores, notes
 
 
@@ -389,10 +413,12 @@ def load_registry(path):
     for record in registry['resolutions']:
         if not isinstance(record, dict) or record.get('forecast_id') not in forecasts:
             fail('结果引用的前瞻不存在')
-        allowed = RESOLUTION_FIELDS | {'reason', 'scores', 'baseline_scores', 'scoring_notes', 'appended_at', 'record_sha256'}
+        allowed = RESOLUTION_FIELDS | {'reason', 'scores', 'baseline_scores', 'scoring_notes', 'scoring_version', 'appended_at', 'record_sha256'}
         if set(record) - allowed:
             fail('结果记录含不支持的字段')
         forecast = forecasts[record['forecast_id']]
+        if type(record.get('scoring_version', 1)) is not int or record.get('scoring_version', 1) not in {1, 2}:
+            fail('不支持的scoring_version')
         validate_resolution(record, forecast)
         if record.get('record_sha256') != digest(record):
             fail('结果记录内容发生改变；应追加新回写')
@@ -458,9 +484,9 @@ def register_forecast(registry_path, record_path):
     expected = registry_path.read_bytes() if registry_path.exists() else None
     registry = load_registry(registry_path)
     record = read_json(record_path)
-    validate_forecast(record)
-    if {'registered_at', 'record_sha256'} & set(record):
-        fail('registered_at与record_sha256由工具生成，不能自行填入')
+    validate_forecast(record, new=True)
+    if {'registered_at', 'record_sha256', 'validation_version'} & set(record):
+        fail('registered_at、record_sha256与validation_version由工具生成，不能自行填入')
     if record['theory_sha256'] != current_theory():
         fail('新登记的theory_sha256与当前manifest不一致')
     sections, _ = read_source.build_index(SOURCE.read_text(encoding='utf-8-sig').splitlines())
@@ -474,6 +500,7 @@ def register_forecast(registry_path, record_path):
     if 'supersedes' in record and record['supersedes'] not in existing:
         fail('supersedes所指旧前瞻不存在')
     record['registered_at'] = timestamp()
+    record['validation_version'] = 2
     if record['evidence_kind'] == 'live' and instant(record['registered_at'], 'registered_at') >= instant(record['window']['end'], 'window.end'):
         fail('live前瞻不能事后补登记已到期窗口；历史演示须声明teaching或backtest')
     record['record_sha256'] = digest(record)
@@ -499,6 +526,7 @@ def resolve_forecast(registry_path, record_path):
     previous = [item for item in registry['resolutions'] if item['forecast_id'] == record['forecast_id']]
     if previous and instant(record['resolved_at'], 'resolved_at') <= instant(previous[-1]['resolved_at'], 'resolved_at'):
         fail('相同或更早的resolved_at不能重复追加')
+    record['scoring_version'] = 2
     record['scores'], record['baseline_scores'], record['scoring_notes'] = computed_result(record, forecast)
     record['appended_at'] = timestamp()
     record['record_sha256'] = digest(record)
@@ -509,7 +537,7 @@ def resolve_forecast(registry_path, record_path):
 
 def mean_scores(values):
     result = {}
-    for metric in ['brier', 'log_loss', 'interval_coverage', 'window_coverage']:
+    for metric in ['brier', 'log_loss', 'interval_coverage', 'window_coverage', 'direction_hit']:
         numbers = [entry[metric] for entry in values if metric in entry and entry[metric] is not None]
         infinite = metric == 'log_loss' and any(entry.get('log_loss_infinite') for entry in values)
         count = len(numbers) + (sum(bool(entry.get('log_loss_infinite')) for entry in values) if metric == 'log_loss' else 0)

@@ -5,7 +5,8 @@
   "observed": {
     "value": 0,
     "event_time": null,
-    "details": "2024-11-30T18:00:00Z 核对：原队列自愿离职 3 人，未达到 4 人；不得用 3 大于历史 1 改写原阈值。"
+    "details": "2024-11-30T18:00:00Z 核对：原队列自愿离职 3 人，未达到 4 人；不得用 3 大于历史 1 改写原阈值。",
+    "category": "未达 4 人"
   },
   "status": "not_supported",
   "path_match": [

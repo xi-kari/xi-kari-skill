@@ -2,7 +2,7 @@
   "id": "TEACH-RESIGN-O3",
   "created_at": "2024-09-01T12:00:00Z",
   "theory_sha256": "18a7cc167faa3eda68a04b21313f833be6583abf1a2a47523a246a5f8a7eaee6",
-  "skill_version": "6.0.0.dev1",
+  "skill_version": "6.0.0-rc.1",
   "host_model": "teaching-scenario-no-live-model",
   "evidence_kind": "teaching",
   "order": 3,
@@ -38,7 +38,11 @@
       "expression": {
         "type": "direction",
         "value": "未完成全部条件",
-        "basis": "冻结时无已执行制度化规则，延续原状态。"
+        "basis": "冻结时无已执行制度化规则，延续原状态。",
+        "options": [
+          "完成全部条件",
+          "未完成全部条件"
+        ]
       }
     },
     {
@@ -47,7 +51,11 @@
       "expression": {
         "type": "direction",
         "value": "未完成全部条件",
-        "basis": "直接使用制度历史周期与当前执行状态，无新增实施证据。"
+        "basis": "直接使用制度历史周期与当前执行状态，无新增实施证据。",
+        "options": [
+          "完成全部条件",
+          "未完成全部条件"
+        ]
       }
     },
     {
@@ -56,7 +64,11 @@
       "expression": {
         "type": "direction",
         "value": "未完成全部条件",
-        "basis": "承接二阶局部适应，简单延续为局部而未完成全覆盖。"
+        "basis": "承接二阶局部适应，简单延续为局部而未完成全覆盖。",
+        "options": [
+          "完成全部条件",
+          "未完成全部条件"
+        ]
       }
     }
   ],
@@ -128,14 +140,18 @@
   ],
   "expression": {
     "type": "direction",
-    "value": "未完成全部制度化条件",
-    "basis": "教学输入只有公关回应及未执行试点计划；组织决定到制度执行桥未闭合，较深阶判断限定为未完成全部条件。"
+    "value": "未完成全部条件",
+    "basis": "教学输入只有公关回应及未执行试点计划；组织决定到制度执行桥未闭合，较深阶判断限定为未完成全部条件。",
+    "options": [
+      "完成全部条件",
+      "未完成全部条件"
+    ]
   },
   "calibration_plan": {
     "metrics": [
-      "qualitative_path_match"
+      "direction_hit"
     ],
-    "description": "教学方向判断按阶分别核对；不计算 Brier、对数损失、概率校准或真实能力增益。真实评价需独立盲测与持续登记。"
+    "description": "按预登记互斥类别核对教学方向与各基线；不生成概率或真实能力证据。"
   },
   "decision_threshold": {
     "applicable": false,
