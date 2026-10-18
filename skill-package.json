@@ -109,6 +109,7 @@
     "rules/cascade/CAS-MEANING.md",
     "rules/cascade/CAS-MEMBER.md",
     "rules/cascade/CAS-PLATFORM.md",
+    "rules/cascade/CAS-FAILURE.md",
     "rules/cascade/CAS-RESOURCE.md",
     "rules/clock/CLOCK-BRIDGE.md",
     "rules/index.json",

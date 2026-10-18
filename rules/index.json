@@ -927,6 +927,34 @@
       "file": "rules/cascade/CAS-PLATFORM.md"
     },
     {
+      "id": "CAS-FAILURE",
+      "type": "cascade",
+      "title": "技术故障传导、恢复依赖与共同暴露",
+      "anchors": [
+        "6.13",
+        "6.5",
+        "4.4"
+      ],
+      "theory_sha256": "18a7cc167faa3eda68a04b21313f833be6583abf1a2a47523a246a5f8a7eaee6",
+      "status": "draft",
+      "applies_to": [
+        "technical_system",
+        "mixed"
+      ],
+      "triggers": [
+        "故障传导",
+        "恢复依赖",
+        "并发失效",
+        "共因暴露"
+      ],
+      "competes_with": [
+        "CM-LOAD",
+        "CM-MAINTENANCE",
+        "SIG-PROPAGATION"
+      ],
+      "file": "rules/cascade/CAS-FAILURE.md"
+    },
+    {
       "id": "CLOCK-BRIDGE",
       "type": "clock",
       "title": "跨时钟变化的接续",

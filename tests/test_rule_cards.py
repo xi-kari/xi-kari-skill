@@ -1,4 +1,6 @@
+import hashlib
 import importlib.util
+import json
 from pathlib import Path
 import re
 import unittest
@@ -80,6 +82,64 @@ class GeneralRuleCardTests(unittest.TestCase):
             self.assertNotIn(term, generic)
             self.assertIn(term, example)
         self.assertTrue(example.endswith('〔派生，待确认〕'))
+
+
+class FailureCascadeCardTests(unittest.TestCase):
+    def setUp(self):
+        self.path = ROOT / 'rules/cascade/CAS-FAILURE.md'
+        self.assertTrue(self.path.is_file(), 'technical failure cascade card is missing')
+        self.text = self.path.read_text(encoding='utf-8-sig')
+        self.meta = lint.metadata(self.text)
+
+    def test_failure_card_contract_and_source_binding(self):
+        manifest = json.loads((ROOT / 'source/source-manifest.json').read_text(encoding='utf-8-sig'))
+        source = (ROOT / 'source' / manifest['source_file']).read_bytes()
+        self.assertEqual(self.meta['id'], 'CAS-FAILURE')
+        self.assertEqual(self.meta['type'], 'cascade')
+        self.assertEqual(self.meta['status'], 'draft')
+        self.assertEqual(set(self.meta['applies_to']), {'technical_system', 'mixed'})
+        self.assertIn('6.13', self.meta['anchors'])
+        self.assertEqual(self.meta['theory_sha256'], manifest['sha256'])
+        self.assertEqual(self.meta['theory_sha256'], hashlib.sha256(source).hexdigest())
+        units = lint.source_units(source.decode('utf-8-sig'))
+        for anchor in self.meta['anchors']:
+            self.assertIn(anchor, units)
+
+    def test_failure_card_has_eight_derived_sections(self):
+        headings = ['适用对象', '触发观察', '生成的路径', '时钟与时延',
+                    '早期信号', '反向信号', '竞争解释', '不能推出的结论']
+        self.assertEqual(re.findall(r'^## (.+)$', self.text, re.M), headings)
+        self.assertNotIn('〔原文', self.text)
+        self.assertNotIn('〔作者确认〕', self.text)
+        for heading in headings:
+            with self.subTest(section=heading):
+                statements = [line for line in section(self.text, heading).splitlines() if line.strip()]
+                self.assertTrue(statements)
+                self.assertTrue(all(line.startswith('- ') and line.endswith('〔派生，待确认〕')
+                                    for line in statements))
+
+    def test_failure_card_separates_three_explanations(self):
+        paths = section(self.text, '生成的路径').splitlines()
+        cases = {line[2:].split('：', 1)[0]: line for line in paths if line.startswith('- ')}
+        self.assertEqual(set(cases), {'单点逐跳', '恢复受阻', '共因并发'})
+        for term in ('逐跳', '传导通道', '时间顺序'):
+            self.assertIn(term, cases['单点逐跳'])
+        for term in ('多个故障共同阻碍恢复', '恢复依赖', '不把'):
+            self.assertIn(term, cases['恢复受阻'])
+        for term in ('共同外因同时损坏多处', '暴露', '不因同步'):
+            self.assertIn(term, cases['共因并发'])
+        limits = section(self.text, '不能推出的结论')
+        for term in ('不能把同时失效视为逐跳传导', '不能互换', '状态变量或阈值'):
+            self.assertIn(term, limits)
+
+    def test_failure_card_index_matches_header_and_competitors_exist(self):
+        index = json.loads((ROOT / 'rules/index.json').read_text(encoding='utf-8-sig'))
+        matches = [row for row in index['rules'] if row['id'] == 'CAS-FAILURE']
+        self.assertEqual(matches, [dict(self.meta, file='rules/cascade/CAS-FAILURE.md')])
+        ids = {row['id'] for row in index['rules']}
+        self.assertTrue(self.meta['competes_with'])
+        self.assertNotIn('CAS-FAILURE', self.meta['competes_with'])
+        self.assertTrue(set(self.meta['competes_with']).issubset(ids))
 
 
 if __name__ == '__main__':
