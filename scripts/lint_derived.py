@@ -17,6 +17,8 @@ sys.path.pop(0)
 ROOT = Path(__file__).resolve().parents[1]
 ANCHOR = re.compile(r"§\s*((?:\d+|[A-D])(?:\.\d+)+)(?!\d|\.\d)")
 RANGE = re.compile(r"§\s*((?:\d+|[A-D])(?:\.\d+)+)\s*[—–-]\s*§?\s*((?:\d+|[A-D])(?:\.\d+)+)")
+SECTION_ID = re.compile(r"(?<![\w.])((?:\d+|[A-D])(?:\.\d+)+)(?!\d|\.\d)")
+QUOTE_TOKEN = re.compile(r'「([^「」]*)」|〔([^〕]*)〕|\n[ \t]*\n')
 CARD_TYPES = {'mechanism', 'path', 'state-transition', 'cascade', 'clock', 'signal'}
 STATUSES = {'draft', 'author-confirmed', 'retired'}
 
@@ -79,9 +81,29 @@ def reading_core(root: Path, units: dict[str, str], errors: list[str]) -> list[s
     return anchors
 
 
+def original_quotes(text: str) -> list[dict]:
+    quotes, pending = [], []
+    for token in QUOTE_TOKEN.finditer(text):
+        if token.group(1) is not None:
+            pending.append({'text': token.group(1), 'line': text.count('\n', 0, token.start()) + 1})
+            continue
+        if token.group(2) is not None:
+            citation = token.group(2).strip()
+            if re.match(r'^原文\s*§', citation):
+                anchors = sorted(set(SECTION_ID.findall(citation)))
+                quotes.extend(dict(quote, anchors=anchors) for quote in pending)
+        pending = []
+    return quotes
+
+
+def compact_whitespace(text: str) -> str:
+    return re.sub(r'\s+', '', text)
+
+
 def check(root: Path, previous_source: Path | None = None) -> dict:
     root = root.resolve()
     errors, affected, resources = [], [], []
+    quote_count = 0
     manifest = json.loads((root / 'source/source-manifest.json').read_text(encoding='utf-8-sig'))
     source = root / 'source' / manifest['source_file']
     if not source.resolve().is_relative_to(root / 'source'):
@@ -93,6 +115,7 @@ def check(root: Path, previous_source: Path | None = None) -> dict:
     if manifest.get('bytes', len(raw)) != len(raw):
         errors.append('source byte count differs from source manifest')
     units = source_units(raw.decode('utf-8-sig'))
+    compact_units = {anchor: compact_whitespace(text) for anchor, text in units.items()}
     reading_core(root, units, errors)
     old = source_units(previous_source.read_text(encoding='utf-8-sig')) if previous_source else None
     cards = {}
@@ -128,6 +151,19 @@ def check(root: Path, previous_source: Path | None = None) -> dict:
             else:
                 anchors.extend(value)
         used = set(anchors) | references(text)
+        declared = {anchor for field in ('anchors', 'reading')
+                    for anchor in (meta.get(field) if isinstance(meta.get(field), list) else [])
+                    if isinstance(anchor, str)}
+        for quote in original_quotes(text):
+            quote_count += 1
+            where = f"{name}:{quote['line']}"
+            used.update(quote['anchors'])
+            for anchor in quote['anchors']:
+                if anchor not in declared:
+                    errors.append(f'{where}: original quote anchor {anchor} is not declared in anchors or reading')
+            value = compact_whitespace(quote['text'])
+            if not value or not any(value in compact_units.get(anchor, '') for anchor in quote['anchors']):
+                errors.append(f"{where}: original quote does not match cited source section(s) {', '.join(quote['anchors'])}: 「{quote['text']}」")
         for anchor in sorted(used):
             if anchor not in units:
                 errors.append(f'{name}: unknown source anchor {anchor}')
@@ -196,9 +232,9 @@ def check(root: Path, previous_source: Path | None = None) -> dict:
     if skill.exists() and len(skill.read_text(encoding='utf-8-sig').splitlines()) > 500:
         errors.append('SKILL.md exceeds 500 lines')
     return {'ok': not errors, 'theory_sha256': actual, 'resource_count': len(resources),
-            'rule_count': len(cards), 'errors': errors, 'affected': affected,
+            'rule_count': len(cards), 'quote_count': quote_count, 'errors': errors, 'affected': affected,
             'comparison': 'provided' if old is not None else 'not_requested',
-            'scope': 'source bindings and structure only; no semantic or capability certification'}
+            'scope': 'source bindings, literal quotations and structure only; no semantic or capability certification'}
 
 
 def main() -> int:

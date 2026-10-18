@@ -3,6 +3,7 @@ import importlib.util
 import json
 import os
 from pathlib import Path
+import shutil
 import subprocess
 import tempfile
 import unittest
@@ -151,6 +152,89 @@ class DerivedTests(unittest.TestCase):
                 self.assertFalse(lint.check(self.root)['ok'])
         path.unlink()
         self.assertIn('cannot read reading core', '\n'.join(lint.check(self.root)['errors']))
+
+    def test_original_quote_character_mutation_and_recovery(self):
+        self.write_module(['1.1'], '核查「body」。〔原文 §1.1〕')
+        self.assertTrue(lint.check(self.root)['ok'])
+        self.write_module(['1.1'], '核查「b0dy」。〔原文 §1.1〕')
+        result = lint.check(self.root)
+        self.assertFalse(result['ok'])
+        self.assertIn('original quote does not match cited source', '\n'.join(result['errors']))
+        self.write_module(['1.1'], '核查「body」。〔原文 §1.1〕')
+        self.assertTrue(lint.check(self.root)['ok'])
+
+    def test_original_quotes_normalize_only_whitespace(self):
+        self.write_module(['1.1'], '核查「b o\n\nd\ty\u3000」。〔原文 §1.1〕')
+        result = lint.check(self.root)
+        self.assertTrue(result['ok'], result['errors'])
+        self.assertEqual(result['quote_count'], 1)
+        self.write_module(['1.1'], '核查「BODY」。〔原文 §1.1〕')
+        self.assertFalse(lint.check(self.root)['ok'])
+        self.write_module(['1.1'], '核查「 \n\t 」。〔原文 §1.1〕')
+        self.assertFalse(lint.check(self.root)['ok'])
+
+    def test_quote_checks_cited_section_and_exact_declaration(self):
+        for reading, body, error in [
+            (['1.1'], '「other」。〔原文 §1.1〕', 'does not match cited source'),
+            (['1.1'], '「other」。〔原文 §1.2〕', 'anchor 1.2 is not declared'),
+            (['part:1'], '「body」。〔原文 §1.1〕', 'anchor 1.1 is not declared'),
+        ]:
+            with self.subTest(reading=reading, body=body):
+                self.write_module(reading, body)
+                self.assertIn(error, '\n'.join(lint.check(self.root)['errors']))
+
+    def test_multiple_quotes_and_cited_sections(self):
+        self.write_module(['1.1', '1.2'], '「body」与「other」，分见〔原文 §1.1、1.2〕')
+        result = lint.check(self.root)
+        self.assertTrue(result['ok'], result['errors'])
+        self.assertEqual(result['quote_count'], 2)
+        self.write_module(['1.1'], '「body」与「other」，分见〔原文 §1.1、1.2〕')
+        self.assertIn('anchor 1.2 is not declared', '\n'.join(lint.check(self.root)['errors']))
+
+    def test_quote_citations_do_not_cross_source_labels_or_paragraphs(self):
+        self.write_module(['1.1'], '「自由改写」。〔派生，待确认〕\n「body」。〔原文 §1.1〕\n\n'
+                          '「另一个段落」\n\n说明〔原文 §1.1〕\n\n「未标原文的引号」')
+        result = lint.check(self.root)
+        self.assertTrue(result['ok'], result['errors'])
+        self.assertEqual(result['quote_count'], 1)
+
+    def test_quotes_in_modules_cards_cases_and_header_guides(self):
+        for relative, meta in [
+            ('modules/example/MODULE.md', {'id': 'module', 'reading': ['1.1']}),
+            ('rules/state/example.md', {'id': 'card', 'anchors': ['1.1'], 'type': 'path',
+                                        'status': 'draft', 'applies_to': [], 'triggers': [], 'competes_with': []}),
+            ('cases/example.md', {'id': 'case', 'anchors': ['1.1']}),
+            ('references/example.md', {'id': 'guide', 'reading': ['1.1']}),
+            ('agents/example.md', {'id': 'agent', 'anchors': ['1.1']}),
+        ]:
+            self.write_derived(relative, dict(meta, theory_sha256=self.sha), '「b0dy」。〔原文 §1.1〕')
+        errors = '\n'.join(lint.check(self.root)['errors'])
+        for relative in ('modules/example/MODULE.md', 'rules/state/example.md', 'cases/example.md',
+                         'references/example.md', 'agents/example.md'):
+            self.assertIn(f'{relative}:4: original quote does not match', errors)
+
+    def test_package_quotes_and_real_card_mutation_recovery(self):
+        package = self.root / 'package'
+        for relative in ('source', 'modules', 'rules', 'cases', 'references', 'agents'):
+            shutil.copytree(ROOT / relative, package / relative)
+        baseline = lint.check(package)
+        self.assertTrue(baseline['ok'], baseline['errors'])
+        self.assertGreater(baseline['quote_count'], 0)
+        declared_quotes = sum(len(lint.original_quotes(path.read_text(encoding='utf-8-sig')))
+                              for path in (package / 'rules').glob('*/*.md'))
+        self.assertGreaterEqual(baseline['quote_count'], declared_quotes)
+        path = package / 'rules/state/S0.md'
+        original = path.read_bytes()
+        quote = lint.original_quotes(path.read_text(encoding='utf-8-sig'))[0]['text']
+        path.write_text(path.read_text(encoding='utf-8-sig').replace(quote, '错' + quote[1:], 1), encoding='utf-8')
+        changed = lint.check(package)
+        self.assertFalse(changed['ok'])
+        self.assertIn('rules/state/S0.md', '\n'.join(changed['errors']))
+        self.assertIn('original quote does not match', '\n'.join(changed['errors']))
+        path.write_bytes(original)
+        restored = lint.check(package)
+        self.assertTrue(restored['ok'], restored['errors'])
+        self.assertEqual(restored['quote_count'], baseline['quote_count'])
 
     def test_package_core_and_dynamics_include_contract_definitions(self):
         manifest = json.loads((ROOT / 'source/source-manifest.json').read_text(encoding='utf-8-sig'))
