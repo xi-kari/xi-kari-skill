@@ -282,6 +282,88 @@ class ClaimLedgerTests(unittest.TestCase):
             self.assertEqual(path.read_bytes(), current)
             self.assertEqual(lock.read_bytes(), b'another writer owns this')
 
+    def test_forward_reference_can_replace_inline_registration(self):
+        module().validate_claim({**MINIMAL, 'kind': 'forward',
+                                 'forecast_ref': {'registry': 'C:/task/forecasts.json', 'id': 'forecast-1'}})
+
+    def test_forecast_reference_is_only_for_forward_and_is_well_formed(self):
+        for reference in [None, {}, {'id': 'x'}, {'registry': 'x', 'id': '../x'}]:
+            with self.subTest(reference=reference), self.assertRaises(ValueError):
+                module().validate_claim({**MINIMAL, 'kind': 'forward', 'forecast_ref': reference})
+        with self.assertRaises(ValueError):
+            module().validate_claim({**MINIMAL, 'forecast_ref': {'registry': 'x', 'id': 'forecast-1'}})
+
+    def test_check_reports_missing_forecast_registry(self):
+        record = {**MINIMAL, 'kind': 'forward', 'forecast_ref': {'registry': 'missing/forecasts.json', 'id': 'forecast-1'}}
+        result = module().check_ledger({'claims': [record]}, set())
+        self.assertFalse(result['ok'])
+        self.assertTrue(any('forecast-1' in error for error in result['errors']))
+
+    def test_forecast_link_resolves_and_supported_requires_actual_result(self):
+        from test_forecast import module as forecast_module, sample, outcome
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            registry = root / 'forecasts.json'
+            forecast_module().register_forecast(registry, self.write(root / 'forecast.json', sample()))
+            record = {**MINIMAL, 'kind': 'forward', 'forecast_ref': {'registry': str(registry), 'id': 'forecast-1'}}
+            saved = module().add_claim(root / 'claims.json', self.write(root / 'claim.json', record))
+            self.assertEqual(saved['forecast_ref']['id'], 'forecast-1')
+            self.assertTrue(module().check_ledger({'claims': [record]}, set())['ok'])
+            supported = {**record, 'id': 'supported', 'status': 'supported', 'theory': [{'section': '12.2'}]}
+            with self.assertRaises(ValueError):
+                module().add_claim(root / 'claims.json', self.write(root / 'claim.json', supported))
+            result = outcome(status='supported')
+            result['observed']['value'] = 1
+            forecast_module().resolve_forecast(registry, self.write(root / 'outcome.json', result))
+            module().add_claim(root / 'claims.json', self.write(root / 'claim.json', supported))
+
+    def test_forward_link_to_unknown_id_refused_without_ledger_write(self):
+        from test_forecast import module as forecast_module, sample
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            registry = root / 'forecasts.json'
+            forecast_module().register_forecast(registry, self.write(root / 'forecast.json', sample()))
+            record = {**MINIMAL, 'kind': 'forward', 'forecast_ref': {'registry': str(registry), 'id': 'absent'}}
+            with self.assertRaises(ValueError):
+                module().add_claim(root / 'claims.json', self.write(root / 'claim.json', record))
+            self.assertFalse((root / 'claims.json').exists())
+
+    def test_json_duplicates_and_nonfinite_values_are_rejected(self):
+        with tempfile.TemporaryDirectory() as directory:
+            record = Path(directory) / 'claim.json'
+            for payload in ['{"id":"a","id":"b"}', '{"weight":NaN}', '{"weight":1e400}']:
+                record.write_text(payload, encoding='utf-8')
+                with self.subTest(payload=payload), self.assertRaises(ValueError):
+                    module().read_json(record)
+
+    def test_collection_fields_must_be_lists(self):
+        for field in ['evidence', 'theory', 'counterclaims']:
+            for value in [None, {}, '']:
+                with self.subTest(field=field, value=value), self.assertRaises(ValueError):
+                    module().validate_claim({**MINIMAL, field: value})
+
+    def test_ledger_schema_version_is_not_boolean(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = self.write(Path(directory) / 'claims.json', {'schema_version': True, 'claims': []})
+            with self.assertRaises(ValueError):
+                module().load_ledger(path)
+
+    def test_forecast_reference_report_identifies_teaching_without_promoting_it(self):
+        from test_forecast import module as forecast_module, sample, outcome
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            registry = root / 'forecasts.json'
+            record = sample()
+            record['evidence_kind'] = 'teaching'
+            forecast_module().register_forecast(registry, self.write(root / 'forecast.json', record))
+            forecast_module().resolve_forecast(registry, self.write(root / 'outcome.json', outcome(status='supported')))
+            claim = {**MINIMAL, 'kind': 'forward', 'status': 'supported', 'theory': [{'section': '12.2'}],
+                     'forecast_ref': {'registry': str(registry), 'id': record['id']}}
+            checked = module().check_ledger({'claims': [claim]}, {'12.2'})
+            self.assertTrue(checked['ok'])
+            self.assertEqual(checked['forecast_references'][0]['evidence_kind'], 'teaching')
+            self.assertFalse(checked['forecast_references'][0]['empirical_support'])
+
 
 if __name__ == '__main__':
     unittest.main()

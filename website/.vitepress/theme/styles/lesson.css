@@ -20,7 +20,7 @@
 .xk-lesson-materials { margin-top: 28px; border-top: 1px solid var(--xk-vellum-edge); }
 .xk-lesson-materials > summary { padding: 16px 0; color: var(--xk-blue); cursor: pointer; font-family: var(--xk-font-fang); font-size: 1.08em; }
 .xk-lesson-materials__body { padding-top: 6px; }
-.xk-original-refs { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 12px; color: var(--xk-ink-3); }
+.xk-original-refs { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 12px; color: var(--xk-ink-3); overflow-wrap: anywhere; }
 .xk-reading-downloads { display: flex; flex-wrap: wrap; gap: 10px 22px; margin: 14px 0 18px; font-size: 13px; }
 .xk-reading-downloads a { color: var(--xk-blue); text-decoration: underline; text-underline-offset: 4px; }
 .xk-materials-note { color: var(--xk-ink-3); font-size: 12px; }

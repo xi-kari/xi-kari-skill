@@ -186,10 +186,10 @@ class HandbookSourceTests(unittest.TestCase):
         self.assertEqual(stored["source_sha256"], hashlib.sha256(self.raw).hexdigest())
         self.assertEqual(stored["source_lines"], len(self.lines))
         self.assertEqual(stored["units"], units)
-        self.assertEqual(len(units), 412)
-        self.assertEqual(sum(unit["section_id"] is not None for unit in units), 388)
-        self.assertEqual(sum(unit["heading_level"] == 3 for unit in units), 140)
-        self.assertEqual(len({unit["lesson_key"] for unit in units}), 412)
+        self.assertEqual(len(units), 415)
+        self.assertEqual(sum(unit["section_id"] is not None for unit in units), 391)
+        self.assertEqual(sum(unit["heading_level"] == 3 for unit in units), 142)
+        self.assertEqual(len({unit["lesson_key"] for unit in units}), 415)
         covered = Counter()
         for unit in units:
             start, end = unit["source_start_line"], unit["source_end_line"]
@@ -198,7 +198,7 @@ class HandbookSourceTests(unittest.TestCase):
         self.assertEqual(set(covered), set(range(1, len(self.lines) + 1)))
         self.assertTrue(all(count == 1 for count in covered.values()))
 
-    def test_all_412_numbered_and_unnumbered_lessons_render_in_original_order(self):
+    def test_all_numbered_and_unnumbered_lessons_render_in_original_order(self):
         units = builder.reading_units(self.lines, self.pages)
         keys = [unit["lesson_key"] for unit in units]
         with tempfile.TemporaryDirectory(prefix="xikari-all-reading-units-") as directory:

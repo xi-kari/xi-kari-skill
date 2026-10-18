@@ -1,0 +1,1049 @@
+{
+  "theory_sha256": "18a7cc167faa3eda68a04b21313f833be6583abf1a2a47523a246a5f8a7eaee6",
+  "rules": [
+    {
+      "id": "CM-FEEDBACK",
+      "type": "mechanism",
+      "title": "返回是否改变后续过程",
+      "anchors": [
+        "6.2",
+        "6.2.1",
+        "6.11"
+      ],
+      "theory_sha256": "18a7cc167faa3eda68a04b21313f833be6583abf1a2a47523a246a5f8a7eaee6",
+      "status": "draft",
+      "applies_to": [
+        "human_collective",
+        "actor",
+        "technical_system",
+        "natural_process",
+        "mixed"
+      ],
+      "triggers": [
+        "返回信号",
+        "申诉回应",
+        "纠偏",
+        "通道阻断"
+      ],
+      "competes_with": [
+        "CM-LEARNING",
+        "CM-MAINTENANCE",
+        "SIG-PROPAGATION"
+      ],
+      "file": "rules/mechanism/CM-FEEDBACK.md"
+    },
+    {
+      "id": "CM-LEARNING",
+      "type": "mechanism",
+      "title": "更新是否保留并用于下一任务",
+      "anchors": [
+        "6.3",
+        "6.4",
+        "6.11"
+      ],
+      "theory_sha256": "18a7cc167faa3eda68a04b21313f833be6583abf1a2a47523a246a5f8a7eaee6",
+      "status": "draft",
+      "applies_to": [
+        "human_collective",
+        "actor",
+        "technical_system",
+        "natural_process",
+        "mixed"
+      ],
+      "triggers": [
+        "规则更新",
+        "任务迁移",
+        "重复调用",
+        "记忆保留"
+      ],
+      "competes_with": [
+        "CM-FEEDBACK",
+        "CM-SELECTION",
+        "CM-MAINTENANCE"
+      ],
+      "file": "rules/mechanism/CM-LEARNING.md"
+    },
+    {
+      "id": "CM-MAINTENANCE",
+      "type": "mechanism",
+      "title": "维护是否改变既定功能的保持",
+      "anchors": [
+        "6.5",
+        "6.10",
+        "6.11"
+      ],
+      "theory_sha256": "18a7cc167faa3eda68a04b21313f833be6583abf1a2a47523a246a5f8a7eaee6",
+      "status": "draft",
+      "applies_to": [
+        "human_collective",
+        "actor",
+        "technical_system",
+        "natural_process",
+        "mixed"
+      ],
+      "triggers": [
+        "维护积压",
+        "备件替换",
+        "故障恢复",
+        "隐性照护"
+      ],
+      "competes_with": [
+        "CM-LOAD",
+        "CM-LEARNING",
+        "PATH-functional_transfer"
+      ],
+      "file": "rules/mechanism/CM-MAINTENANCE.md"
+    },
+    {
+      "id": "CM-LOAD",
+      "type": "mechanism",
+      "title": "同型需求、容量与恢复缺口",
+      "anchors": [
+        "6.6",
+        "6.11"
+      ],
+      "theory_sha256": "18a7cc167faa3eda68a04b21313f833be6583abf1a2a47523a246a5f8a7eaee6",
+      "status": "draft",
+      "applies_to": [
+        "human_collective",
+        "actor",
+        "technical_system",
+        "natural_process",
+        "mixed"
+      ],
+      "triggers": [
+        "积压",
+        "等待增长",
+        "容量缺口",
+        "恢复迟滞"
+      ],
+      "competes_with": [
+        "CM-MAINTENANCE",
+        "CM-PHASE",
+        "PATH-pseudo_steady"
+      ],
+      "file": "rules/mechanism/CM-LOAD.md"
+    },
+    {
+      "id": "CM-PHASE",
+      "type": "mechanism",
+      "title": "区间变化、触发与持续分支",
+      "anchors": [
+        "6.7",
+        "6.11",
+        "8.2.1"
+      ],
+      "theory_sha256": "18a7cc167faa3eda68a04b21313f833be6583abf1a2a47523a246a5f8a7eaee6",
+      "status": "draft",
+      "applies_to": [
+        "human_collective",
+        "actor",
+        "technical_system",
+        "natural_process",
+        "mixed"
+      ],
+      "triggers": [
+        "阈值变化",
+        "双区间",
+        "突变",
+        "迟滞"
+      ],
+      "competes_with": [
+        "CM-LOAD",
+        "PATH-jump",
+        "PATH-collapse"
+      ],
+      "file": "rules/mechanism/CM-PHASE.md"
+    },
+    {
+      "id": "CM-SELECTION",
+      "type": "mechanism",
+      "title": "变异是否经差异保留进入下一轮",
+      "anchors": [
+        "6.8",
+        "6.11"
+      ],
+      "theory_sha256": "18a7cc167faa3eda68a04b21313f833be6583abf1a2a47523a246a5f8a7eaee6",
+      "status": "draft",
+      "applies_to": [
+        "human_collective",
+        "actor",
+        "technical_system",
+        "natural_process",
+        "mixed"
+      ],
+      "triggers": [
+        "差异存续",
+        "再生产",
+        "方案留存",
+        "多轮变异"
+      ],
+      "competes_with": [
+        "CM-LEARNING",
+        "CM-MAINTENANCE",
+        "PATH-takeover"
+      ],
+      "file": "rules/mechanism/CM-SELECTION.md"
+    },
+    {
+      "id": "PATH-mixed",
+      "type": "path",
+      "title": "同一对象内的混合构型",
+      "anchors": [
+        "8.4",
+        "8.2",
+        "11.7"
+      ],
+      "theory_sha256": "18a7cc167faa3eda68a04b21313f833be6583abf1a2a47523a246a5f8a7eaee6",
+      "status": "draft",
+      "applies_to": [
+        "human_collective"
+      ],
+      "triggers": [
+        "多原型同现",
+        "同窗混合"
+      ],
+      "competes_with": [
+        "PATH-parallel",
+        "S3"
+      ],
+      "file": "rules/path/PATH-mixed.md"
+    },
+    {
+      "id": "PATH-parallel",
+      "type": "path",
+      "title": "不同位置的并行状态",
+      "anchors": [
+        "8.4",
+        "8.2",
+        "11.7"
+      ],
+      "theory_sha256": "18a7cc167faa3eda68a04b21313f833be6583abf1a2a47523a246a5f8a7eaee6",
+      "status": "draft",
+      "applies_to": [
+        "human_collective"
+      ],
+      "triggers": [
+        "中心边缘分化",
+        "地域差异"
+      ],
+      "competes_with": [
+        "PATH-mixed",
+        "PATH-split"
+      ],
+      "file": "rules/path/PATH-parallel.md"
+    },
+    {
+      "id": "PATH-jump",
+      "type": "path",
+      "title": "非相邻配置的观察跳跃",
+      "anchors": [
+        "8.4",
+        "8.2",
+        "11.7"
+      ],
+      "theory_sha256": "18a7cc167faa3eda68a04b21313f833be6583abf1a2a47523a246a5f8a7eaee6",
+      "status": "draft",
+      "applies_to": [
+        "human_collective"
+      ],
+      "triggers": [
+        "非相邻转换",
+        "中间窗缺失"
+      ],
+      "competes_with": [
+        "CM-PHASE",
+        "PATH-paradigm_replacement",
+        "PATH-regression"
+      ],
+      "file": "rules/path/PATH-jump.md"
+    },
+    {
+      "id": "PATH-regression",
+      "type": "path",
+      "title": "相对自身基线的功能回退",
+      "anchors": [
+        "8.4",
+        "8.2",
+        "11.7"
+      ],
+      "theory_sha256": "18a7cc167faa3eda68a04b21313f833be6583abf1a2a47523a246a5f8a7eaee6",
+      "status": "draft",
+      "applies_to": [
+        "human_collective"
+      ],
+      "triggers": [
+        "恢复变慢",
+        "功能退化"
+      ],
+      "competes_with": [
+        "CM-LOAD",
+        "X0",
+        "PATH-functional_transfer"
+      ],
+      "file": "rules/path/PATH-regression.md"
+    },
+    {
+      "id": "PATH-split",
+      "type": "path",
+      "title": "对象分裂与新合同",
+      "anchors": [
+        "8.4",
+        "8.2",
+        "11.7"
+      ],
+      "theory_sha256": "18a7cc167faa3eda68a04b21313f833be6583abf1a2a47523a246a5f8a7eaee6",
+      "status": "draft",
+      "applies_to": [
+        "human_collective"
+      ],
+      "triggers": [
+        "组织分裂",
+        "独立边界形成"
+      ],
+      "competes_with": [
+        "PATH-parallel",
+        "PATH-merge",
+        "PATH-collapse"
+      ],
+      "file": "rules/path/PATH-split.md"
+    },
+    {
+      "id": "PATH-merge",
+      "type": "path",
+      "title": "合并与吸收的边界",
+      "anchors": [
+        "8.4",
+        "8.2",
+        "11.7"
+      ],
+      "theory_sha256": "18a7cc167faa3eda68a04b21313f833be6583abf1a2a47523a246a5f8a7eaee6",
+      "status": "draft",
+      "applies_to": [
+        "human_collective"
+      ],
+      "triggers": [
+        "统一接口",
+        "对象吸收"
+      ],
+      "competes_with": [
+        "PATH-takeover",
+        "PATH-parallel",
+        "PATH-functional_transfer"
+      ],
+      "file": "rules/path/PATH-merge.md"
+    },
+    {
+      "id": "PATH-dormancy",
+      "type": "path",
+      "title": "活动降低与可再激活载体",
+      "anchors": [
+        "8.4",
+        "8.2",
+        "11.7"
+      ],
+      "theory_sha256": "18a7cc167faa3eda68a04b21313f833be6583abf1a2a47523a246a5f8a7eaee6",
+      "status": "draft",
+      "applies_to": [
+        "human_collective"
+      ],
+      "triggers": [
+        "活动降低",
+        "能力保存"
+      ],
+      "competes_with": [
+        "PATH-collapse",
+        "X0",
+        "PATH-pseudo_steady"
+      ],
+      "file": "rules/path/PATH-dormancy.md"
+    },
+    {
+      "id": "PATH-takeover",
+      "type": "path",
+      "title": "外部控制关键接口",
+      "anchors": [
+        "8.4",
+        "8.2",
+        "11.7"
+      ],
+      "theory_sha256": "18a7cc167faa3eda68a04b21313f833be6583abf1a2a47523a246a5f8a7eaee6",
+      "status": "draft",
+      "applies_to": [
+        "human_collective"
+      ],
+      "triggers": [
+        "控制权转移",
+        "关键接口锁定"
+      ],
+      "competes_with": [
+        "PATH-merge",
+        "PATH-forced_rewrite",
+        "CAS-INSTITUTION"
+      ],
+      "file": "rules/path/PATH-takeover.md"
+    },
+    {
+      "id": "PATH-functional_transfer",
+      "type": "path",
+      "title": "核心功能转移与连续性",
+      "anchors": [
+        "8.4",
+        "8.2",
+        "11.7"
+      ],
+      "theory_sha256": "18a7cc167faa3eda68a04b21313f833be6583abf1a2a47523a246a5f8a7eaee6",
+      "status": "draft",
+      "applies_to": [
+        "human_collective"
+      ],
+      "triggers": [
+        "核心功能外移",
+        "服务移交"
+      ],
+      "competes_with": [
+        "X0",
+        "PATH-paradigm_replacement",
+        "PATH-collapse"
+      ],
+      "file": "rules/path/PATH-functional_transfer.md"
+    },
+    {
+      "id": "PATH-paradigm_replacement",
+      "type": "path",
+      "title": "不同合同绕过旧对象",
+      "anchors": [
+        "8.4",
+        "8.2",
+        "11.7"
+      ],
+      "theory_sha256": "18a7cc167faa3eda68a04b21313f833be6583abf1a2a47523a246a5f8a7eaee6",
+      "status": "draft",
+      "applies_to": [
+        "human_collective"
+      ],
+      "triggers": [
+        "新接口替代",
+        "旧系统被绕过"
+      ],
+      "competes_with": [
+        "PATH-functional_transfer",
+        "CM-PHASE",
+        "PATH-merge"
+      ],
+      "file": "rules/path/PATH-paradigm_replacement.md"
+    },
+    {
+      "id": "PATH-trauma_built_development",
+      "type": "path",
+      "title": "伤害条件下形成的结构",
+      "anchors": [
+        "8.4",
+        "8.2",
+        "11.7"
+      ],
+      "theory_sha256": "18a7cc167faa3eda68a04b21313f833be6583abf1a2a47523a246a5f8a7eaee6",
+      "status": "draft",
+      "applies_to": [
+        "human_collective"
+      ],
+      "triggers": [
+        "威胁塑形",
+        "创伤记忆",
+        "防御规则"
+      ],
+      "competes_with": [
+        "CM-LEARNING",
+        "PATH-forced_rewrite",
+        "CM-SELECTION"
+      ],
+      "file": "rules/path/PATH-trauma_built_development.md"
+    },
+    {
+      "id": "PATH-pseudo_steady",
+      "type": "path",
+      "title": "表面稳定与实际耗竭",
+      "anchors": [
+        "8.4",
+        "8.2",
+        "11.7"
+      ],
+      "theory_sha256": "18a7cc167faa3eda68a04b21313f833be6583abf1a2a47523a246a5f8a7eaee6",
+      "status": "draft",
+      "applies_to": [
+        "human_collective"
+      ],
+      "triggers": [
+        "指标稳定",
+        "沉默增多",
+        "账外劳动",
+        "未来债务"
+      ],
+      "competes_with": [
+        "S5",
+        "S6",
+        "CM-LOAD"
+      ],
+      "file": "rules/path/PATH-pseudo_steady.md"
+    },
+    {
+      "id": "PATH-forced_rewrite",
+      "type": "path",
+      "title": "缺少保护的权力重写",
+      "anchors": [
+        "8.4",
+        "8.2",
+        "11.7"
+      ],
+      "theory_sha256": "18a7cc167faa3eda68a04b21313f833be6583abf1a2a47523a246a5f8a7eaee6",
+      "status": "draft",
+      "applies_to": [
+        "human_collective"
+      ],
+      "triggers": [
+        "记忆删除",
+        "退出受阻",
+        "单方改写身份"
+      ],
+      "competes_with": [
+        "S4",
+        "PATH-takeover",
+        "PATH-merge"
+      ],
+      "file": "rules/path/PATH-forced_rewrite.md"
+    },
+    {
+      "id": "PATH-external_carrier_migration",
+      "type": "path",
+      "title": "向可承接系统迁移",
+      "anchors": [
+        "8.4",
+        "8.2",
+        "11.7"
+      ],
+      "theory_sha256": "18a7cc167faa3eda68a04b21313f833be6583abf1a2a47523a246a5f8a7eaee6",
+      "status": "draft",
+      "applies_to": [
+        "human_collective"
+      ],
+      "triggers": [
+        "修复封闭",
+        "外部承接",
+        "安全转移"
+      ],
+      "competes_with": [
+        "PATH-functional_transfer",
+        "PATH-dormancy",
+        "X0"
+      ],
+      "file": "rules/path/PATH-external_carrier_migration.md"
+    },
+    {
+      "id": "PATH-collapse",
+      "type": "path",
+      "title": "原合同的非计划断裂",
+      "anchors": [
+        "8.4",
+        "8.2",
+        "11.7"
+      ],
+      "theory_sha256": "18a7cc167faa3eda68a04b21313f833be6583abf1a2a47523a246a5f8a7eaee6",
+      "status": "draft",
+      "applies_to": [
+        "human_collective"
+      ],
+      "triggers": [
+        "K失效",
+        "承接断裂",
+        "边界崩解"
+      ],
+      "competes_with": [
+        "X0",
+        "PATH-dormancy",
+        "PATH-split",
+        "PATH-functional_transfer"
+      ],
+      "file": "rules/path/PATH-collapse.md"
+    },
+    {
+      "id": "S0",
+      "type": "state-transition",
+      "title": "锚点凝聚的候选出口",
+      "anchors": [
+        "8.1",
+        "8.2",
+        "8.2.1",
+        "8.3.1",
+        "8.4"
+      ],
+      "theory_sha256": "18a7cc167faa3eda68a04b21313f833be6583abf1a2a47523a246a5f8a7eaee6",
+      "status": "draft",
+      "applies_to": [
+        "human_collective"
+      ],
+      "triggers": [
+        "候选集体",
+        "初始聚集"
+      ],
+      "competes_with": [
+        "S1",
+        "PATH-dormancy",
+        "PATH-merge"
+      ],
+      "file": "rules/state/S0.md"
+    },
+    {
+      "id": "S1",
+      "type": "state-transition",
+      "title": "生成核心依赖的候选出口",
+      "anchors": [
+        "8.1",
+        "8.2",
+        "8.2.1",
+        "8.3.2",
+        "8.4"
+      ],
+      "theory_sha256": "18a7cc167faa3eda68a04b21313f833be6583abf1a2a47523a246a5f8a7eaee6",
+      "status": "draft",
+      "applies_to": [
+        "human_collective"
+      ],
+      "triggers": [
+        "核心依赖",
+        "初步规则"
+      ],
+      "competes_with": [
+        "S0",
+        "S2",
+        "PATH-takeover"
+      ],
+      "file": "rules/state/S1.md"
+    },
+    {
+      "id": "S2",
+      "type": "state-transition",
+      "title": "扩展与承接分化的候选出口",
+      "anchors": [
+        "8.1",
+        "8.2",
+        "8.2.1",
+        "8.3.3",
+        "8.4"
+      ],
+      "theory_sha256": "18a7cc167faa3eda68a04b21313f833be6583abf1a2a47523a246a5f8a7eaee6",
+      "status": "draft",
+      "applies_to": [
+        "human_collective"
+      ],
+      "triggers": [
+        "边界扩展",
+        "新增承接者"
+      ],
+      "competes_with": [
+        "S1",
+        "S3",
+        "PATH-split",
+        "PATH-jump"
+      ],
+      "file": "rules/state/S2.md"
+    },
+    {
+      "id": "S3",
+      "type": "state-transition",
+      "title": "连通约束的候选出口",
+      "anchors": [
+        "8.1",
+        "8.2",
+        "8.2.1",
+        "8.3.4",
+        "8.4"
+      ],
+      "theory_sha256": "18a7cc167faa3eda68a04b21313f833be6583abf1a2a47523a246a5f8a7eaee6",
+      "status": "draft",
+      "applies_to": [
+        "human_collective"
+      ],
+      "triggers": [
+        "连通瓶颈",
+        "隐性返工",
+        "修复不写回"
+      ],
+      "competes_with": [
+        "S4",
+        "PATH-pseudo_steady",
+        "CM-LOAD"
+      ],
+      "file": "rules/state/S3.md"
+    },
+    {
+      "id": "S4",
+      "type": "state-transition",
+      "title": "实际重构的开放出口",
+      "anchors": [
+        "8.1",
+        "8.2",
+        "8.2.1",
+        "8.3.5",
+        "8.4"
+      ],
+      "theory_sha256": "18a7cc167faa3eda68a04b21313f833be6583abf1a2a47523a246a5f8a7eaee6",
+      "status": "draft",
+      "applies_to": [
+        "human_collective"
+      ],
+      "triggers": [
+        "权限重构",
+        "新旧并存",
+        "转换成本"
+      ],
+      "competes_with": [
+        "S5",
+        "PATH-forced_rewrite",
+        "PATH-pseudo_steady",
+        "PATH-collapse"
+      ],
+      "file": "rules/state/S4.md"
+    },
+    {
+      "id": "S5",
+      "type": "state-transition",
+      "title": "高效协调的候选出口",
+      "anchors": [
+        "8.1",
+        "8.2",
+        "8.2.1",
+        "8.3.6",
+        "8.4"
+      ],
+      "theory_sha256": "18a7cc167faa3eda68a04b21313f833be6583abf1a2a47523a246a5f8a7eaee6",
+      "status": "draft",
+      "applies_to": [
+        "human_collective"
+      ],
+      "triggers": [
+        "弹性扩展",
+        "有效替代通道"
+      ],
+      "competes_with": [
+        "S6",
+        "PATH-pseudo_steady",
+        "PATH-regression",
+        "X0"
+      ],
+      "file": "rules/state/S5.md"
+    },
+    {
+      "id": "S6",
+      "type": "state-transition",
+      "title": "自适应平衡的退出条件",
+      "anchors": [
+        "8.1",
+        "8.2",
+        "8.2.1",
+        "8.3.7",
+        "8.4"
+      ],
+      "theory_sha256": "18a7cc167faa3eda68a04b21313f833be6583abf1a2a47523a246a5f8a7eaee6",
+      "status": "draft",
+      "applies_to": [
+        "human_collective"
+      ],
+      "triggers": [
+        "分布式承接",
+        "继任接续",
+        "跨扰动恢复"
+      ],
+      "competes_with": [
+        "S5",
+        "PATH-pseudo_steady",
+        "PATH-regression",
+        "X0"
+      ],
+      "file": "rules/state/S6.md"
+    },
+    {
+      "id": "X0",
+      "type": "state-transition",
+      "title": "有序退场的入口与完成",
+      "anchors": [
+        "8.5",
+        "8.5.1",
+        "8.5.2"
+      ],
+      "theory_sha256": "18a7cc167faa3eda68a04b21313f833be6583abf1a2a47523a246a5f8a7eaee6",
+      "status": "draft",
+      "applies_to": [
+        "human_collective"
+      ],
+      "triggers": [
+        "使命结束",
+        "有序退场",
+        "责任移交"
+      ],
+      "competes_with": [
+        "PATH-functional_transfer",
+        "PATH-takeover",
+        "PATH-collapse"
+      ],
+      "file": "rules/state/X0.md"
+    },
+    {
+      "id": "CAS-MEMBER",
+      "type": "cascade",
+      "title": "重叠成员的逐跳传导",
+      "anchors": [
+        "11.5",
+        "11.6",
+        "6.13"
+      ],
+      "theory_sha256": "18a7cc167faa3eda68a04b21313f833be6583abf1a2a47523a246a5f8a7eaee6",
+      "status": "draft",
+      "applies_to": [
+        "human_collective",
+        "actor",
+        "mixed"
+      ],
+      "triggers": [
+        "多重成员身份",
+        "跨圈层信息"
+      ],
+      "competes_with": [
+        "CAS-MEANING",
+        "CAS-PLATFORM",
+        "SIG-PROPAGATION"
+      ],
+      "file": "rules/cascade/CAS-MEMBER.md"
+    },
+    {
+      "id": "CAS-RESOURCE",
+      "type": "cascade",
+      "title": "共享资源的占用、释放与替代",
+      "anchors": [
+        "11.5",
+        "11.6",
+        "6.13"
+      ],
+      "theory_sha256": "18a7cc167faa3eda68a04b21313f833be6583abf1a2a47523a246a5f8a7eaee6",
+      "status": "draft",
+      "applies_to": [
+        "human_collective",
+        "actor",
+        "mixed"
+      ],
+      "triggers": [
+        "共享资源",
+        "预算重配",
+        "照护挤占"
+      ],
+      "competes_with": [
+        "CM-LOAD",
+        "CAS-MEMBER",
+        "CAS-INSTITUTION"
+      ],
+      "file": "rules/cascade/CAS-RESOURCE.md"
+    },
+    {
+      "id": "CAS-MEANING",
+      "type": "cascade",
+      "title": "解释对信任与身份的传导",
+      "anchors": [
+        "11.5",
+        "11.6",
+        "6.13"
+      ],
+      "theory_sha256": "18a7cc167faa3eda68a04b21313f833be6583abf1a2a47523a246a5f8a7eaee6",
+      "status": "draft",
+      "applies_to": [
+        "human_collective",
+        "actor",
+        "mixed"
+      ],
+      "triggers": [
+        "解释变化",
+        "信任下降",
+        "合法性感知"
+      ],
+      "competes_with": [
+        "CAS-MEMBER",
+        "CAS-PLATFORM",
+        "CM-FEEDBACK"
+      ],
+      "file": "rules/cascade/CAS-MEANING.md"
+    },
+    {
+      "id": "CAS-INSTITUTION",
+      "type": "cascade",
+      "title": "规则下行与实际写回",
+      "anchors": [
+        "11.5",
+        "11.6",
+        "6.13"
+      ],
+      "theory_sha256": "18a7cc167faa3eda68a04b21313f833be6583abf1a2a47523a246a5f8a7eaee6",
+      "status": "draft",
+      "applies_to": [
+        "human_collective",
+        "actor",
+        "mixed"
+      ],
+      "triggers": [
+        "申诉改变规则",
+        "制度下行",
+        "流程执行"
+      ],
+      "competes_with": [
+        "CM-FEEDBACK",
+        "CM-LEARNING",
+        "PATH-forced_rewrite"
+      ],
+      "file": "rules/cascade/CAS-INSTITUTION.md"
+    },
+    {
+      "id": "CAS-PLATFORM",
+      "type": "cascade",
+      "title": "推荐与可见性的传播放大",
+      "anchors": [
+        "11.5",
+        "11.6",
+        "6.13"
+      ],
+      "theory_sha256": "18a7cc167faa3eda68a04b21313f833be6583abf1a2a47523a246a5f8a7eaee6",
+      "status": "draft",
+      "applies_to": [
+        "human_collective",
+        "actor",
+        "mixed"
+      ],
+      "triggers": [
+        "平台推荐",
+        "曝光增长",
+        "公开评价"
+      ],
+      "competes_with": [
+        "CAS-MEMBER",
+        "CAS-MEANING",
+        "SIG-WARNING"
+      ],
+      "file": "rules/cascade/CAS-PLATFORM.md"
+    },
+    {
+      "id": "CLOCK-BRIDGE",
+      "type": "clock",
+      "title": "跨时钟变化的接续",
+      "anchors": [
+        "6.12",
+        "10.7",
+        "12.6",
+        "12.10.2"
+      ],
+      "theory_sha256": "18a7cc167faa3eda68a04b21313f833be6583abf1a2a47523a246a5f8a7eaee6",
+      "status": "draft",
+      "applies_to": [
+        "human_collective",
+        "actor",
+        "technical_system",
+        "natural_process",
+        "mixed"
+      ],
+      "triggers": [
+        "异步更新",
+        "组织时延",
+        "制度落实",
+        "保护窗口"
+      ],
+      "competes_with": [
+        "CAS-INSTITUTION",
+        "SIG-EARLY-REVERSE",
+        "CM-FEEDBACK"
+      ],
+      "file": "rules/clock/CLOCK-BRIDGE.md"
+    },
+    {
+      "id": "SIG-PROPAGATION",
+      "type": "signal",
+      "title": "传播七要素与响应接续",
+      "anchors": [
+        "11.5",
+        "11.6",
+        "11.7"
+      ],
+      "theory_sha256": "18a7cc167faa3eda68a04b21313f833be6583abf1a2a47523a246a5f8a7eaee6",
+      "status": "draft",
+      "applies_to": [
+        "human_collective",
+        "actor",
+        "technical_system",
+        "natural_process",
+        "mixed"
+      ],
+      "triggers": [
+        "信号到达",
+        "容量饱和",
+        "传播损耗",
+        "通道改变"
+      ],
+      "competes_with": [
+        "CM-FEEDBACK",
+        "CAS-MEMBER",
+        "CAS-RESOURCE"
+      ],
+      "file": "rules/signal/SIG-PROPAGATION.md"
+    },
+    {
+      "id": "SIG-WARNING",
+      "type": "signal",
+      "title": "预警、依赖线索与承接",
+      "anchors": [
+        "8.6",
+        "12.6"
+      ],
+      "theory_sha256": "18a7cc167faa3eda68a04b21313f833be6583abf1a2a47523a246a5f8a7eaee6",
+      "status": "draft",
+      "applies_to": [
+        "human_collective"
+      ],
+      "triggers": [
+        "恢复变慢",
+        "波动放大",
+        "局部闪烁",
+        "继任中断"
+      ],
+      "competes_with": [
+        "PATH-pseudo_steady",
+        "S6",
+        "SIG-EARLY-REVERSE"
+      ],
+      "file": "rules/signal/SIG-WARNING.md"
+    },
+    {
+      "id": "SIG-EARLY-REVERSE",
+      "type": "signal",
+      "title": "事前信号与复核触发",
+      "anchors": [
+        "12.6",
+        "12.7"
+      ],
+      "theory_sha256": "18a7cc167faa3eda68a04b21313f833be6583abf1a2a47523a246a5f8a7eaee6",
+      "status": "draft",
+      "applies_to": [
+        "human_collective",
+        "actor",
+        "technical_system",
+        "natural_process",
+        "mixed"
+      ],
+      "triggers": [
+        "反向信号",
+        "触发复核",
+        "否决条件",
+        "信号先后"
+      ],
+      "competes_with": [
+        "SIG-WARNING",
+        "CLOCK-BRIDGE",
+        "SIG-PROPAGATION"
+      ],
+      "file": "rules/signal/SIG-EARLY-REVERSE.md"
+    }
+  ]
+}
