@@ -40,6 +40,12 @@ class AnalysisContractTests(unittest.TestCase):
             self.assertIn(term, text)
         self.assertLess(text.index('动笔前'), text.index('4. 对未来请求'))
 
+    def test_queue_ambiguity_has_both_operation_orders(self):
+        text = self.read('modules/contract/MODULE.md')
+        for term in ('未明确日内顺序', '先到件后处理', '先处理后到件',
+                     'max(0, Q + A − C)', 'max(0, Q − C) + A', '首日是否有可处理任务'):
+            self.assertIn(term, text)
+
 
 if __name__ == '__main__':
     unittest.main()
