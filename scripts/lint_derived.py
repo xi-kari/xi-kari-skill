@@ -11,7 +11,7 @@ import sys
 
 sys.dont_write_bytecode = True
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from read_source import build_index
+from read_source import build_index, merge_ranges
 sys.path.pop(0)
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -21,22 +21,47 @@ SECTION_ID = re.compile(r"(?<![\w.])((?:\d+|[A-D])(?:\.\d+)+)(?!\d|\.\d)")
 QUOTE_TOKEN = re.compile(r'「([^「」]*)」|〔([^〕]*)〕|\n[ \t]*\n')
 CARD_TYPES = {'mechanism', 'path', 'state-transition', 'cascade', 'clock', 'signal'}
 STATUSES = {'draft', 'author-confirmed', 'retired'}
+DEPENDENCY_DEFINITIONS = {
+    **{f'D{i}': f'3.{i + 1}' for i in range(4)},
+    **{f'G{i}': f'4.{i + 2}' for i in range(1, 5)},
+    **{f'E{i}': '4.8' for i in range(1, 6)},
+    **{f'F{i}': '4.18' for i in range(1, 6)},
+    'F6': '4.19',
+    **{f'H{i}': '7.1' for i in range(1, 7)},
+    **{f'N{i}': '14.3' for i in range(1, 6)},
+    **{f'T{i}': '15.2' for i in range(5)},
+    'IT': '13.1', 'IG': '13.3', 'SJ': '13.5', 'DF': '13.10',
+    'J': '14.6', 'O': '14.6', 'PF': '14.8',
+}
+for _prefix, _count in (('IT', 4), ('IG', 7), ('SJ', 8), ('DF', 9), ('O', 4), ('PF', 10)):
+    for _number in range(1, _count + 1):
+        DEPENDENCY_DEFINITIONS[f'{_prefix}{_number}'] = DEPENDENCY_DEFINITIONS[_prefix]
+        if _prefix == 'PF':
+            DEPENDENCY_DEFINITIONS[f'PF-{_number}'] = DEPENDENCY_DEFINITIONS[_prefix]
+DEPENDENCY_TOKEN = re.compile(r'(?<![A-Za-z0-9_])(?:'
+                              + '|'.join(sorted(map(re.escape, DEPENDENCY_DEFINITIONS), key=len, reverse=True))
+                              + r')(?![A-Za-z0-9_])')
+DEPENDENCY_RANGE = re.compile(r'(?<![A-Za-z0-9_])(IT|IG|SJ|DF|PF-?|D|G|E|F|H|N|T|O)(\d+)'
+                              r'\s*[—–-]\s*(?:\1)?(\d+)(?![A-Za-z0-9_])')
 
 
 def digest(data: bytes) -> str:
     return hashlib.sha256(data).hexdigest()
 
 
+def source_ranges(lines: list[str]) -> dict[str, tuple[int, int]]:
+    sections, parts = build_index(lines)
+    ranges = {key: (row['start'], row['end']) for key, row in sections.items()}
+    ranges.update({f'part:{key}': (row['start'], row['end']) for key, row in parts.items()})
+    ranges['front'] = (0, min((row['start'] for row in parts.values()), default=0))
+    ranges['all'] = (0, len(lines))
+    return ranges
+
+
 def source_units(text: str) -> dict[str, str]:
     lines = text.replace('\r\n', '\n').splitlines()
-    sections, parts = build_index(lines)
-    units = {key: '\n'.join(lines[row['start']:row['end']]).strip()
-             for key, row in sections.items()}
-    units.update({f'part:{key}': '\n'.join(lines[row['start']:row['end']]).strip()
-                  for key, row in parts.items()})
-    units['front'] = '\n'.join(lines[:min((row['start'] for row in parts.values()), default=0)]).strip()
-    units['all'] = '\n'.join(lines).strip()
-    return units
+    return {key: '\n'.join(lines[start:end]).strip()
+            for key, (start, end) in source_ranges(lines).items()}
 
 
 def metadata(text: str) -> dict:
@@ -100,9 +125,53 @@ def compact_whitespace(text: str) -> str:
     return re.sub(r'\s+', '', text)
 
 
+def dependency_codes(text: str) -> set[str]:
+    codes = set()
+    for token in DEPENDENCY_TOKEN.finditer(text):
+        code = token.group()
+        before, after = text[max(0, token.start() - 40):token.start()], text[token.end():token.end() + 40]
+        if code == 'J':
+            if (re.search(r'(?<![A-Za-z0-9_])(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][+-]?\d+)?\s*$', before)
+                    or re.match(r'\s*[/·⋅]\s*(?:s|K|mol|kg)\b', after)
+                    or re.search(r'(?:单位|焦耳|能量)\s*(?:为|是|以|用)?\s*$', before)):
+                continue
+        if code == 'O':
+            if (re.match(r'\s*[（(₀-₉]', after)
+                    or re.search(r'(?:scale_axis:|(?:ker|rank|det|tr)\(\s*)$', before)
+                    or re.search(r'(?:算子|矩阵|函数)\s*(?:为|是)?\s*$', before)):
+                continue
+        if code in {'J', 'O'} and re.match(r'\.\s+[A-Z][a-z]', after):
+            continue
+        codes.add(code)
+    for match in DEPENDENCY_RANGE.finditer(text):
+        prefix, first, last = match.groups()
+        first, last = int(first), int(last)
+        if 0 <= last - first <= 10:
+            codes.update(f'{prefix}{number}' for number in range(first, last + 1)
+                         if f'{prefix}{number}' in DEPENDENCY_DEFINITIONS)
+    return codes
+
+
+def reading_dependencies(name: str, reading: list[str], lines: list[str],
+                         ranges: dict[str, tuple[int, int]]) -> list[dict]:
+    covered = merge_ranges([ranges[anchor] for anchor in reading if anchor in ranges])
+    codes = set()
+    for start, end in covered:
+        codes.update(dependency_codes('\n'.join(lines[start:end])))
+    missing = {}
+    for code in sorted(codes):
+        definition = DEPENDENCY_DEFINITIONS[code]
+        target = ranges.get(definition)
+        if target is None or not any(start <= target[0] and end >= target[1] for start, end in covered):
+            missing.setdefault(definition, []).append(code)
+    return [{'file': name, 'codes': codes, 'definition': definition}
+            for definition, codes in sorted(missing.items())]
+
+
 def check(root: Path, previous_source: Path | None = None) -> dict:
     root = root.resolve()
     errors, affected, resources = [], [], []
+    warnings = []
     quote_count = 0
     manifest = json.loads((root / 'source/source-manifest.json').read_text(encoding='utf-8-sig'))
     source = root / 'source' / manifest['source_file']
@@ -115,8 +184,10 @@ def check(root: Path, previous_source: Path | None = None) -> dict:
     if manifest.get('bytes', len(raw)) != len(raw):
         errors.append('source byte count differs from source manifest')
     units = source_units(raw.decode('utf-8-sig'))
+    lines = raw.decode('utf-8-sig').splitlines()
+    ranges = source_ranges(lines)
     compact_units = {anchor: compact_whitespace(text) for anchor, text in units.items()}
-    reading_core(root, units, errors)
+    core = reading_core(root, units, errors)
     old = source_units(previous_source.read_text(encoding='utf-8-sig')) if previous_source else None
     cards = {}
     paths = (sorted((root / 'modules').glob('*/MODULE.md'))
@@ -173,6 +244,8 @@ def check(root: Path, previous_source: Path | None = None) -> dict:
             errors.append(f'{name}: missing id')
         if is_module and len(text.splitlines()) > 300:
             errors.append(f'{name}: module exceeds 300 lines')
+        if is_module:
+            warnings.extend(reading_dependencies(name, core + anchors, lines, ranges))
         if is_card:
             if meta.get('type') not in CARD_TYPES:
                 errors.append(f'{name}: invalid rule type')
@@ -232,9 +305,11 @@ def check(root: Path, previous_source: Path | None = None) -> dict:
     if skill.exists() and len(skill.read_text(encoding='utf-8-sig').splitlines()) > 500:
         errors.append('SKILL.md exceeds 500 lines')
     return {'ok': not errors, 'theory_sha256': actual, 'resource_count': len(resources),
-            'rule_count': len(cards), 'quote_count': quote_count, 'errors': errors, 'affected': affected,
+            'rule_count': len(cards), 'quote_count': quote_count, 'errors': errors,
+            'warnings': warnings, 'affected': affected,
             'comparison': 'provided' if old is not None else 'not_requested',
-            'scope': 'source bindings, literal quotations and structure only; no semantic or capability certification'}
+            'scope': 'source bindings, literal quotations, structure and lexical reading-dependency warnings only; '
+                     'no semantic or capability certification'}
 
 
 def main() -> int:
@@ -256,6 +331,8 @@ def main() -> int:
     else:
         for error in result.get('errors', []):
             print(error)
+        for warning in result.get('warnings', []):
+            print(f"WARNING {warning['file']}: {', '.join(warning['codes'])} definition §{warning['definition']} is outside declared reading")
         for item in result.get('affected', []):
             print(f"REVIEW {item['file']}: {', '.join(item['changed_anchors'])}")
         print(f"{'OK' if result['ok'] else 'FAILED'}: {result.get('resource_count', 0)} derived resources")

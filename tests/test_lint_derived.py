@@ -5,6 +5,7 @@ import os
 from pathlib import Path
 import shutil
 import subprocess
+import sys
 import tempfile
 import unittest
 
@@ -242,10 +243,126 @@ class DerivedTests(unittest.TestCase):
         errors = []
         core = lint.reading_core(ROOT, units, errors)
         self.assertEqual(errors, [])
-        self.assertTrue({'4.1', '4.2', '4.3', '4.4', '4.5', '4.6', '4.8'}.issubset(core))
+        self.assertTrue({'4.1', '4.2', '4.3', '4.4', '4.5', '4.6', '4.8', '4.18', '4.19'}.issubset(core))
         for module in ('dynamics', 'forecast'):
             meta = lint.metadata((ROOT / f'modules/{module}/MODULE.md').read_text(encoding='utf-8-sig'))
             self.assertTrue({'4.18', '4.19'}.issubset(meta['reading']), module)
+
+    def dependency_source(self):
+        return ('# Book\n\n<a id="part_1"></a>\n# Part one\n'
+                '## 1.1 Read\nG2、E4、F5。\n## 1.2 Other\nplain text\n'
+                '<a id="part_4"></a>\n# Part four\n'
+                '## 4.4 Channel\nG2\n### 4.4.1 Child\nchild\n'
+                '## 4.8 Protocol\nE4\n## 4.18 Formal\nF5\n')
+
+    def test_missing_reading_dependencies_warn_without_errors_and_recover(self):
+        self.install_source(self.dependency_source())
+        self.write_module(['1.1'], '')
+        before = {str(path): path.read_bytes() for path in self.root.rglob('*') if path.is_file()}
+        result = lint.check(self.root)
+        self.assertTrue(result['ok'], result['errors'])
+        self.assertEqual({item['definition']: item['codes'] for item in result['warnings']},
+                         {'4.4': ['G2'], '4.8': ['E4'], '4.18': ['F5']})
+        self.assertEqual(before, {str(path): path.read_bytes() for path in self.root.rglob('*') if path.is_file()})
+        self.write_module(['1.1', '4.4', '4.8', '4.18'], '')
+        self.assertEqual(lint.check(self.root)['warnings'], [])
+
+    def test_reading_dependencies_scan_common_core_and_selected_ranges_only(self):
+        self.install_source(self.dependency_source())
+        self.write_module(['1.2'], '')
+        self.assertEqual(lint.check(self.root)['warnings'], [])
+        (self.root / 'references/reading-core.json').write_text(json.dumps({'reading': ['1.1']}))
+        self.assertEqual(len(lint.check(self.root)['warnings']), 3)
+
+    def test_reading_definition_coverage_uses_real_section_hierarchy(self):
+        self.install_source(self.dependency_source())
+        for reading in (['1.1', 'part:4'], ['all'], ['1.1', '4.4', '4.8', '4.18']):
+            with self.subTest(reading=reading):
+                self.write_module(reading, '')
+                self.assertEqual(lint.check(self.root)['warnings'], [])
+        self.write_module(['1.1', '4.4.1', '4.8', '4.18'], '')
+        self.assertEqual(lint.check(self.root)['warnings'], [
+            {'file': 'modules/example/MODULE.md', 'codes': ['G2'], 'definition': '4.4'}])
+
+    def test_dependency_codes_recognize_ranges_and_chinese_boundaries(self):
+        codes = lint.dependency_codes('依G2核对。G1—G4；E1-5；F1—F6；IT1—IT4；'
+                                      'IG1-IG7；SJ1—SJ8；DF1—DF9；PF-1—PF-10；J、O1—O4。')
+        for prefix, first, last in (('G', 1, 4), ('E', 1, 5), ('F', 1, 6), ('IT', 1, 4),
+                                    ('IG', 1, 7), ('SJ', 1, 8), ('DF', 1, 9), ('PF-', 1, 10), ('O', 1, 4)):
+            self.assertTrue({f'{prefix}{number}' for number in range(first, last + 1)}.issubset(codes))
+        self.assertIn('J', codes)
+
+    def test_dependency_codes_do_not_match_words_units_or_math_notation(self):
+        text = ('OBJECT JOB EDIT IGNORE JSON; prefix_G2 G20 D30 E50 F60 H60 N50 T40 IT40 IG70 SJ80 DF90; '
+                '10 J, 1.5e3 J, 2 kJ, J/s, J·K, 能量为 J, 单位 J; '
+                'O(n), O（k²）, ker(O), rank(O), det(O), tr(O), scale_axis:O, O₂; '
+                '观察算子为O，矩阵 O，函数 O。J. Smith and O. Jones.')
+        self.assertEqual(lint.dependency_codes(text), set())
+        self.assertEqual(lint.dependency_codes('J 轴授权、O 程序'), {'J', 'O'})
+
+    def test_all_dependency_definition_mappings(self):
+        expected = {'D0': '3.1', 'D1': '3.2', 'D2': '3.3', 'D3': '3.4',
+                    'G1': '4.3', 'G2': '4.4', 'G3': '4.5', 'G4': '4.6',
+                    'IT': '13.1', 'IG': '13.3', 'SJ': '13.5', 'DF': '13.10',
+                    'J': '14.6', 'O': '14.6', 'PF': '14.8', 'F6': '4.19'}
+        for prefix, first, last, definition in (('E', 1, 5, '4.8'), ('F', 1, 5, '4.18'),
+                                               ('H', 1, 6, '7.1'), ('N', 1, 5, '14.3'), ('T', 0, 4, '15.2')):
+            expected.update({f'{prefix}{number}': definition for number in range(first, last + 1)})
+        for code, definition in expected.items():
+            self.assertEqual(lint.DEPENDENCY_DEFINITIONS[code], definition)
+
+    def test_f6_requires_its_actual_definition_in_4_19(self):
+        source = self.dependency_source().replace('G2、E4、F5。', 'F6。') + '## 4.19 Refinement\nF6 definition\n'
+        self.install_source(source)
+        self.write_module(['1.1', '4.18'], '')
+        self.assertEqual(lint.check(self.root)['warnings'], [
+            {'file': 'modules/example/MODULE.md', 'codes': ['F6'], 'definition': '4.19'}])
+        self.write_module(['1.1', '4.18', '4.19'], '')
+        self.assertEqual(lint.check(self.root)['warnings'], [])
+
+    def test_warning_only_cli_exits_successfully(self):
+        self.install_source(self.dependency_source())
+        self.write_module(['1.1'], '')
+        command = [sys.executable, str(ROOT / 'scripts/lint_derived.py'), '--root', str(self.root)]
+        machine = subprocess.run(command + ['--json'], capture_output=True, text=True, encoding='utf-8')
+        self.assertEqual(machine.returncode, 0, machine.stderr)
+        result = json.loads(machine.stdout)
+        self.assertTrue(result['ok'])
+        self.assertEqual(result['errors'], [])
+        self.assertEqual(len(result['warnings']), 3)
+        plain = subprocess.run(command, capture_output=True, text=True, encoding='utf-8')
+        self.assertEqual(plain.returncode, 0, plain.stderr)
+        self.assertIn('WARNING modules/example/MODULE.md', plain.stdout)
+        self.assertIn('OK: 1 derived resources', plain.stdout)
+
+    def test_package_required_contracts_have_no_reading_dependency_warnings(self):
+        result = lint.check(ROOT)
+        self.assertTrue(result['ok'], result['errors'])
+        for item in result['warnings']:
+            self.assertTrue(set(item['codes']).isdisjoint({
+                'G1', 'G2', 'G3', 'G4', 'E1', 'E2', 'E3', 'E4', 'E5',
+                'F1', 'F2', 'F3', 'F4', 'F5', 'F6'}), item)
+
+    def test_package_core_mutation_warns_m3_m6_and_recovers(self):
+        package = self.root / 'package'
+        for relative in ('source', 'modules', 'rules', 'cases', 'references', 'agents'):
+            shutil.copytree(ROOT / relative, package / relative)
+        path = package / 'references/reading-core.json'
+        original = path.read_bytes()
+        core = json.loads(original.decode('utf-8-sig'))
+        core['reading'] = [anchor for anchor in core['reading'] if anchor not in {'4.4', '4.8', '4.18', '4.19'}]
+        path.write_text(json.dumps(core), encoding='utf-8')
+        changed = lint.check(package)
+        self.assertTrue(changed['ok'], changed['errors'])
+        for name in ('mechanism', 'forecast'):
+            codes = {code for warning in changed['warnings'] if warning['file'] == f'modules/{name}/MODULE.md'
+                     for code in warning['codes']}
+            self.assertTrue({'G2', 'E4'}.issubset(codes), codes)
+        path.write_bytes(original)
+        restored = lint.check(package)
+        self.assertTrue(restored['ok'], restored['errors'])
+        self.assertFalse(any({'G2', 'E4', 'F1', 'F2', 'F3', 'F4', 'F5', 'F6'} & set(warning['codes'])
+                             for warning in restored['warnings']))
 
     def test_body_anchor_followed_by_sentence_period_is_checked(self):
         self.write_module(['1.1'], 'Read §9.99.')
