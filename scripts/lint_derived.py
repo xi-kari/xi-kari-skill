@@ -75,13 +75,18 @@ def check(root: Path, previous_source: Path | None = None) -> dict:
     cards = {}
     paths = (sorted((root / 'modules').glob('*/MODULE.md'))
              + sorted((root / 'rules').glob('*/*.md'))
-             + sorted((root / 'cases').glob('*.md')))
+             + sorted((root / 'cases').glob('*.md'))
+             + sorted((root / 'references').rglob('*.md'))
+             + sorted((root / 'agents').rglob('*.md')))
     for path in paths:
         name = path.relative_to(root).as_posix()
         if not path.resolve().is_relative_to(root):
             errors.append(f'{name}: derived resource escapes package')
             continue
         text = path.read_text(encoding='utf-8-sig')
+        optional_metadata = name.startswith(('references/', 'agents/'))
+        if optional_metadata and not re.match(r'---[ \t]*\r?\n', text):
+            continue
         try:
             meta = metadata(text)
         except ValueError as exc:
@@ -89,11 +94,16 @@ def check(root: Path, previous_source: Path | None = None) -> dict:
             continue
         is_card = name.startswith('rules/')
         is_module = name.startswith('modules/')
-        field = 'reading' if is_module else 'anchors'
-        anchors = meta.get(field)
-        if not isinstance(anchors, list) or not anchors or any(not isinstance(a, str) or not a for a in anchors):
-            errors.append(f'{name}: {field} must contain explicit section/part identifiers')
-            anchors = []
+        fields = ['reading' if is_module else 'anchors']
+        if optional_metadata:
+            fields = [field for field in ('anchors', 'reading') if field in meta] or ['anchors']
+        anchors = []
+        for field in fields:
+            value = meta.get(field)
+            if not isinstance(value, list) or not value or any(not isinstance(a, str) or not a for a in value):
+                errors.append(f'{name}: {field} must contain explicit section/part identifiers')
+            else:
+                anchors.extend(value)
         used = set(anchors) | references(text)
         for anchor in sorted(used):
             if anchor not in units:
@@ -157,7 +167,7 @@ def check(root: Path, previous_source: Path | None = None) -> dict:
             errors.append(f'rules/index.json: missing card {missing}')
     elif cards:
         errors.append('missing rules/index.json')
-    if not paths:
+    if not resources:
         errors.append('no derived resources found')
     skill = root / 'SKILL.md'
     if skill.exists() and len(skill.read_text(encoding='utf-8-sig').splitlines()) > 500:
