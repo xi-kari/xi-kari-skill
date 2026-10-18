@@ -40,7 +40,7 @@ EXPRESSION_TYPES = {'probability', 'interval', 'time_window', 'rank', 'direction
 BASELINE_TYPES = {'recent_state', 'trend', 'historical_frequency', 'actor_only', 'primary_circle_only', 'domain_model'}
 RECURSIVE_BASELINE_TYPES = {'state_continuation', 'direct_long_term', 'shallower_continuation'}
 LOSS_METRICS = {'brier', 'log_loss', 'interval_score'}
-HIT_METRICS = {'direction_hit'}
+HIT_METRICS = {'direction_hit', 'rank_top_hit'}
 ID = re.compile(r'[A-Za-z0-9][A-Za-z0-9._-]{0,95}\Z')
 REQUIRED = {
     'id', 'created_at', 'theory_sha256', 'skill_version', 'host_model', 'evidence_kind', 'order',
@@ -290,15 +290,18 @@ def validate_forecast(record, *, new=False):
         nominal = record['expression'].get('nominal_coverage')
         if nominal is None or any(entry['expression'].get('nominal_coverage') != nominal for entry in record['baselines']):
             fail('time_window的interval_score须为模型与全部基线登记相同nominal_coverage')
-    if strict and 'direction_hit' in calibration['metrics']:
-        if record['expression']['type'] != 'direction':
-            fail('direction_hit仅用于direction表达')
+    for metric, kind in [('direction_hit', 'direction'), ('rank_top_hit', 'rank')]:
+        if not strict or metric not in calibration['metrics']:
+            continue
+        if record['expression']['type'] != kind:
+            fail(f'{metric}仅用于{kind}表达')
         options = string_list(record['expression'].get('options'), 'expression.options')
         if len(options) < 2 or len(options) != len(set(options)):
             fail('options须含至少两个互斥且不重复的结果类别')
         for expr in [record['expression']] + [b['expression'] for b in record['baselines']]:
-            if expr.get('options') != options or expr['value'] not in options:
-                fail('模型与基线须使用相同options，value须属于其中一个类别')
+            values = expr['value'] if kind == 'rank' else [expr['value']]
+            if expr.get('options') != options or any(value not in options for value in values):
+                fail('模型与基线须使用相同options，value须属于预登记类别')
     policy = calibration.get('degradation_policy')
     if policy is not None:
         if not isinstance(policy, dict) or not isinstance(policy.get('metric'), str) or policy['metric'] not in {'brier', 'log_loss'}:
@@ -375,7 +378,7 @@ def validate_resolution(record, forecast, *, new=False):
         text(observed['details'], 'observed.details')
     if observed['value'] is not None:
         number(observed['value'], 'observed.value')
-    categorical = forecast.get('validation_version', 1) >= 2 and 'direction_hit' in forecast['calibration_plan']['metrics']
+    categorical = forecast.get('validation_version', 1) >= 2 and bool(HIT_METRICS & set(forecast['calibration_plan']['metrics']))
     category = observed.get('category')
     if category is not None and (not categorical or category not in forecast['expression']['options']):
         fail('observed.category须取自预登记options')
@@ -393,8 +396,9 @@ def validate_resolution(record, forecast, *, new=False):
     if record['status'] in {'supported', 'not_supported'}:
         if categorical:
             if category is None:
-                fail('direction_hit的已判定结果须含observed.category')
-            if (record['status'] == 'supported') != (category == forecast['expression']['value']):
+                fail('类别命中指标的已判定结果须含observed.category')
+            predicted = forecast['expression']['value'][0] if forecast['expression']['type'] == 'rank' else forecast['expression']['value']
+            if (record['status'] == 'supported') != (category == predicted):
                 fail('status与observed.category及冻结方向不一致')
         if forecast['expression']['type'] == 'probability' and (type(observed['value']) not in {int, float} or observed['value'] not in {0, 1}):
             fail('概率评分需要完整二元标签0或1，缺失标签不能填零')
@@ -411,7 +415,7 @@ def score_expression(expr, observed, prediction_window, metrics, scoring_version
         return forecast_scores.score(expr, observed, prediction_window, metrics)
     scores, notes = {}, []
     for metric in metrics:
-        if metric not in ({'brier', 'log_loss', 'interval_coverage', 'window_coverage'} | ({'direction_hit'} if scoring_version >= 2 else set())):
+        if metric not in ({'brier', 'log_loss', 'interval_coverage', 'window_coverage'} | (HIT_METRICS if scoring_version >= 2 else set())):
             notes.append(f'尚未实现预登记指标{metric}，不伪造评分')
     kind, value = expr['type'], observed['value']
     if kind == 'probability':
@@ -427,6 +431,8 @@ def score_expression(expr, observed, prediction_window, metrics, scoring_version
             scores['interval_coverage'] = int(expr['lower'] <= value <= expr['upper'])
     elif kind == 'direction' and scoring_version >= 2 and 'direction_hit' in metrics and expr.get('options'):
         scores['direction_hit'] = int(expr['value'] == observed['category'])
+    elif kind == 'rank' and scoring_version >= 2 and 'rank_top_hit' in metrics and expr.get('options'):
+        scores['rank_top_hit'] = int(expr['value'][0] == observed['category'])
     else:
         notes.append(f'{kind}未实现相应数值评分；保留结果语义，不换算概率或命中率')
     if scoring_version == 1 and observed['event_time'] is not None and 'window_coverage' in metrics:
@@ -616,7 +622,7 @@ def resolve_forecast(registry_path, record_path, *, include_chain_head=False):
 def mean_scores(values):
     result = {}
     for metric in ['brier', 'log_loss', 'interval_coverage', 'window_coverage', 'window_length_days',
-                   'interval_width', 'interval_score', 'direction_hit']:
+                   'interval_width', 'interval_score', 'direction_hit', 'rank_top_hit']:
         numbers = [loss_value(entry, metric) for entry in values]
         numbers = [number for number in numbers if number is not None]
         if numbers:
@@ -821,7 +827,7 @@ def pooled_groups(registry, latest):
                     and comparable_baselines(forecast)[method] in outcome['baseline_scores']]
             rows = [(own, other) for own, other, _ in views]
             metrics = {}
-            for metric in ['brier', 'log_loss', 'interval_score', 'direction_hit']:
+            for metric in ['brier', 'log_loss', 'interval_score', 'direction_hit', 'rank_top_hit']:
                 value = paired_metric_summary(rows, metric)
                 if value is not None:
                     metrics[metric] = value
