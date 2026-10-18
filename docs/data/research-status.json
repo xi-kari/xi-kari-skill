@@ -5,11 +5,11 @@
     "title": "Xikari-条件结构与转化论",
     "author": "Xikari",
     "version": null,
-    "baselineDate": "2026-10-13",
+    "baselineDate": "2026-10-17",
     "mainParts": 16,
     "appendices": 4,
     "domains": 32,
-    "sha256": "df579dbdbb68442b1781b066606c267761f0a1673fbd034ce93eeeb41641439f",
+    "sha256": "18a7cc167faa3eda68a04b21313f833be6583abf1a2a47523a246a5f8a7eaee6",
     "sourceUrl": "https://github.com/xi-kari/xi-kari-skill/blob/main/source/Xikari-条件结构与转化论.md"
   },
   "delivery": {

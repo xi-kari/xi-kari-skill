@@ -1,0 +1,19 @@
+{
+  "forecast_id": "TEACH-RESIGN-O3",
+  "resolved_at": "2024-12-01T12:00:00Z",
+  "outcome_source": "TEACH-OUT-O3：虚构结果包；非真实事件，非回测样本。",
+  "observed": {
+    "value": 0,
+    "event_time": null,
+    "details": "2024-11-30T18:00:00Z 核对：局部试点已运行，但只有一个可确认复核周期且未全体覆盖；原目标未发生，与未完成方向相容。",
+    "category": "未完成全部条件"
+  },
+  "status": "supported",
+  "path_match": [
+    "P3-local"
+  ],
+  "model_updates": [
+    "仅追加教学结果；旧目标、窗口、范围和方向保持不变。",
+    "下一轮需新冻结；不得把本例结果反馈成现实预测能力或原理论的经验证据。"
+  ]
+}

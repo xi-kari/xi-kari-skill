@@ -1,0 +1,19 @@
+{
+  "forecast_id": "TEACH-RESIGN-O2",
+  "resolved_at": "2024-12-01T12:00:00Z",
+  "outcome_source": "TEACH-OUT-O2：虚构结果包；非真实事件，非回测样本。",
+  "observed": {
+    "value": 0,
+    "event_time": null,
+    "details": "2024-11-30T18:00:00Z 核对：原队列自愿离职 3 人，未达到 4 人；不得用 3 大于历史 1 改写原阈值。",
+    "category": "未达 4 人"
+  },
+  "status": "not_supported",
+  "path_match": [
+    "P2-exits-alternative"
+  ],
+  "model_updates": [
+    "仅追加教学结果；旧目标、窗口、范围和方向保持不变。",
+    "下一轮需新冻结；不得把本例结果反馈成现实预测能力或原理论的经验证据。"
+  ]
+}

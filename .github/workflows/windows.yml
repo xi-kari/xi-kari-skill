@@ -38,6 +38,8 @@ jobs:
         run: python -m unittest discover -s tests -v
       - name: Check authoritative source
         run: python scripts/read_source.py --check
+      - name: Check derived source bindings
+        run: python scripts/lint_derived.py --check
       - name: Build installation archive
         run: python scripts/build_install_package.py --output "$env:RUNNER_TEMP/xikari-package"
       - name: Test reader interaction

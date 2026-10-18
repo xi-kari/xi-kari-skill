@@ -23,7 +23,7 @@ def selected_files(root: Path) -> tuple[dict, list[str]]:
     for name in files:
         relative = PurePosixPath(name)
         forbidden = {'.git', '.github', '.codex', '.claude', '.agents', '__pycache__', 'node_modules', 'tests', 'docs', 'deliverables', 'runs', 'memories', '.artifacts'}
-        if any(part.casefold() in forbidden for part in relative.parts) or name in {'AGENTS.md', 'README.md', 'scripts/build_install_package.py'}:
+        if any(part.casefold() in forbidden for part in relative.parts) or name in {'AGENTS.md', 'README.md', 'scripts/build_install_package.py', 'scripts/lint_derived.py'}:
             raise ValueError(f'Development or task files cannot enter the install payload: {name}')
         target = (root / name).resolve()
         if relative.is_absolute() or ".." in relative.parts or "\\" in name or ":" in name:
