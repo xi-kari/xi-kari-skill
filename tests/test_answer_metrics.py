@@ -27,6 +27,10 @@ class AnswerMetricsTests(unittest.TestCase):
         result = self.metrics.measure('S6 已完成。\n\n**方法附注：** CM-LOAD（派生草稿）。')
         self.assertEqual(result['internal_codes'], ['S6'])
 
+    def test_character_count_preserves_unannotated_body_bytes_after_decoding(self):
+        text = '\n  工作完成。\r\n'
+        self.assertEqual(self.metrics.measure(text)['characters'], len(text))
+
     def test_negative_density_follows_declared_sentence_and_word_rules(self):
         result = self.metrics.measure('不能倒填，不等于无用。只在已登记时成立！无需重复？\n\n方法附注：不得、不是。')
         self.assertEqual(result['sentences'], 3)

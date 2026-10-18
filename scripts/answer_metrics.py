@@ -12,7 +12,8 @@ NEGATIVE_WORDS = re.compile(r'不能|不得|不等于|不代表|不是|不会|�
 
 
 def answer_body(text):
-    return METHOD_NOTE.sub('', text).strip()
+    match = METHOD_NOTE.search(text)
+    return text[:match.start()].rstrip(' \t\r\n') if match else text
 
 
 def measure(text):
