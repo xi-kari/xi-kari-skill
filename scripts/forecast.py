@@ -39,6 +39,8 @@ EVIDENCE_KINDS = {'live', 'backtest', 'teaching', 'synthetic'}
 EXPRESSION_TYPES = {'probability', 'interval', 'time_window', 'rank', 'direction', 'none'}
 BASELINE_TYPES = {'recent_state', 'trend', 'historical_frequency', 'actor_only', 'primary_circle_only', 'domain_model'}
 RECURSIVE_BASELINE_TYPES = {'state_continuation', 'direct_long_term', 'shallower_continuation'}
+LOSS_METRICS = {'brier', 'log_loss', 'interval_score'}
+HIT_METRICS = {'direction_hit'}
 ID = re.compile(r'[A-Za-z0-9][A-Za-z0-9._-]{0,95}\Z')
 REQUIRED = {
     'id', 'created_at', 'theory_sha256', 'skill_version', 'host_model', 'evidence_kind', 'order',
@@ -206,8 +208,8 @@ def validate_forecast(record, *, new=False):
     for name in ['circles', 'affected_positions']:
         string_list(scope.get(name), 'scope.' + name)
     expression(record['expression'], 'expression')
-    if record['expression']['type'] == 'time_window':
-        forecast_scores.validate_expression(record['expression'], record['window'])
+    if record['expression']['type'] == 'time_window' or (strict and record['expression']['type'] == 'interval'):
+        forecast_scores.validate_expression(record['expression'], record['window'], require_nominal=strict)
     if not isinstance(record['baselines'], list) or not record['baselines']:
         fail('至少登记一个简单基线')
     baseline_ids, baseline_types = set(), set()
@@ -223,12 +225,15 @@ def validate_forecast(record, *, new=False):
             fail('同一前瞻内baseline.type不能重复')
         baseline_types.add(baseline_type)
         expression(entry.get('expression'), 'baseline.expression')
-        if entry['expression']['type'] == 'time_window':
-            forecast_scores.validate_expression(entry['expression'], record['window'])
+        if entry['expression']['type'] == 'time_window' or (strict and entry['expression']['type'] == 'interval'):
+            forecast_scores.validate_expression(entry['expression'], record['window'], require_nominal=strict)
         if entry['expression']['type'] != record['expression']['type']:
             fail('基线与前瞻须采用相同表达类型以保留同目标比较')
         if record['expression']['type'] == 'interval' and entry['expression']['unit'] != record['expression']['unit']:
             fail('基线与前瞻区间必须使用相同单位')
+        if (strict and record['expression']['type'] == 'interval'
+                and entry['expression']['nominal_coverage'] != record['expression']['nominal_coverage']):
+            fail('基线与前瞻区间必须使用相同nominal_coverage')
         if 'window' in entry and window(entry['window'], 'baseline.window') != window(record['window'], 'window'):
             fail('基线与前瞻须使用相同评价期限')
     if record['order'] > 1 and not {'state_continuation', 'direct_long_term', 'shallower_continuation'} <= baseline_types:
@@ -273,6 +278,10 @@ def validate_forecast(record, *, new=False):
         fail('calibration_plan须为对象')
     string_list(calibration.get('metrics'), 'calibration_plan.metrics')
     text(calibration.get('description'), 'calibration_plan.description')
+    if new and record['expression']['type'] == 'time_window' and 'interval_score' in calibration['metrics']:
+        nominal = record['expression'].get('nominal_coverage')
+        if nominal is None or any(entry['expression'].get('nominal_coverage') != nominal for entry in record['baselines']):
+            fail('time_window的interval_score须为模型与全部基线登记相同nominal_coverage')
     if strict and 'direction_hit' in calibration['metrics']:
         if record['expression']['type'] != 'direction':
             fail('direction_hit仅用于direction表达')
@@ -320,6 +329,9 @@ def validate_resolution(record, forecast, *, new=False):
     if record['forecast_id'] != forecast['id']:
         fail('结果未引用本条前瞻')
     canonical(record)
+    validation_version = record.get('validation_version', record.get('scoring_version', 1))
+    if type(validation_version) is not int or validation_version not in {1, 2}:
+        fail('不支持的结果validation_version')
     resolved = instant(record['resolved_at'], 'resolved_at')
     if resolved < instant(forecast['window']['end'], 'window.end') or resolved > utcnow():
         fail('到期回写须在window.end之后，resolved_at不能在未来')
@@ -344,7 +356,7 @@ def validate_resolution(record, forecast, *, new=False):
     if category is not None and (not categorical or category not in forecast['expression']['options']):
         fail('observed.category须取自预登记options')
     if (forecast['evidence_kind'] == 'live'
-            and (new or record.get('scoring_version', 1) >= 2)
+            and (new or validation_version >= 2)
             and (observed['value'] is not None or category is not None)
             and observed['event_time'] is None):
         fail('live结果带value或category时必须填写observed.event_time（事件发生或测量完成的时间）')
@@ -369,8 +381,9 @@ def validate_resolution(record, forecast, *, new=False):
             forecast_scores.score(forecast['expression'], observed, forecast['window'], forecast['calibration_plan']['metrics'])
 
 
-def score_expression(expr, observed, prediction_window, metrics, scoring_version=2):
-    if expr['type'] == 'time_window':
+def score_expression(expr, observed, prediction_window, metrics, scoring_version=2, *, legacy_interval=False):
+    if (expr['type'] == 'time_window'
+            or (expr['type'] == 'interval' and not legacy_interval and scoring_version >= 2 and 'nominal_coverage' in expr)):
         return forecast_scores.score(expr, observed, prediction_window, metrics)
     scores, notes = {}, []
     for metric in metrics:
@@ -406,10 +419,14 @@ def computed_result(record, forecast):
         return {}, {}, ['未决、目标失效和无法评价不计为命中或失败；缺失标签不填零']
     metrics = forecast['calibration_plan']['metrics']
     scoring_version = record.get('scoring_version', 1)
-    scores, notes = score_expression(forecast['expression'], record['observed'], forecast['window'], metrics, scoring_version)
+    legacy_interval = forecast['expression']['type'] == 'interval' and forecast.get('validation_version', 1) < 2
+    scores, notes = score_expression(forecast['expression'], record['observed'], forecast['window'], metrics,
+                                    scoring_version, legacy_interval=legacy_interval)
     baseline_scores = {}
     for baseline in forecast['baselines']:
-        baseline_scores[baseline['id']], _ = score_expression(baseline['expression'], record['observed'], baseline.get('window', forecast['window']), metrics, scoring_version)
+        baseline_scores[baseline['id']], _ = score_expression(baseline['expression'], record['observed'],
+                                                             baseline.get('window', forecast['window']), metrics,
+                                                             scoring_version, legacy_interval=legacy_interval)
     return scores, baseline_scores, notes
 
 
@@ -442,7 +459,7 @@ def load_registry(path):
     for record in registry['resolutions']:
         if not isinstance(record, dict) or record.get('forecast_id') not in forecasts:
             fail('结果引用的前瞻不存在')
-        allowed = RESOLUTION_FIELDS | {'reason', 'scores', 'baseline_scores', 'scoring_notes', 'scoring_version', 'appended_at', 'record_sha256'}
+        allowed = RESOLUTION_FIELDS | {'reason', 'scores', 'baseline_scores', 'scoring_notes', 'scoring_version', 'validation_version', 'appended_at', 'record_sha256'}
         if set(record) - allowed:
             fail('结果记录含不支持的字段')
         forecast = forecasts[record['forecast_id']]
@@ -558,7 +575,8 @@ def resolve_forecast(registry_path, record_path, *, include_chain_head=False):
     previous = [item for item in registry['resolutions'] if item['forecast_id'] == record['forecast_id']]
     if previous and instant(record['resolved_at'], 'resolved_at') <= instant(previous[-1]['resolved_at'], 'resolved_at'):
         fail('相同或更早的resolved_at不能重复追加')
-    record['scoring_version'] = 2
+    record['scoring_version'] = 1 if forecast.get('validation_version', 1) < 2 else 2
+    record['validation_version'] = 2
     record['scores'], record['baseline_scores'], record['scoring_notes'] = computed_result(record, forecast)
     record['appended_at'] = timestamp()
     record['record_sha256'] = digest(record)
@@ -571,19 +589,21 @@ def resolve_forecast(registry_path, record_path, *, include_chain_head=False):
 
 def mean_scores(values):
     result = {}
-    for metric in ['brier', 'log_loss', 'interval_coverage', 'window_coverage', 'window_length_days', 'interval_score', 'direction_hit']:
-        numbers = [entry[metric] for entry in values if metric in entry and entry[metric] is not None]
-        infinite = metric == 'log_loss' and any(entry.get('log_loss_infinite') for entry in values)
-        count = len(numbers) + (sum(bool(entry.get('log_loss_infinite')) for entry in values) if metric == 'log_loss' else 0)
-        if count:
-            result[metric] = {'n': count, 'mean': None if infinite else sum(numbers) / len(numbers)}
-            if metric == 'log_loss':
+    for metric in ['brier', 'log_loss', 'interval_coverage', 'window_coverage', 'window_length_days',
+                   'interval_width', 'interval_score', 'direction_hit']:
+        numbers = [loss_value(entry, metric) for entry in values]
+        numbers = [number for number in numbers if number is not None]
+        if numbers:
+            mean = arithmetic_mean(numbers)
+            infinite = not math.isfinite(mean)
+            result[metric] = {'n': len(numbers), 'mean': None if infinite else mean}
+            if infinite or any(metric + '_infinite' in entry for entry in values):
                 result[metric]['infinite'] = infinite
     return result
 
 
 def loss_value(scores, metric):
-    return math.inf if metric == 'log_loss' and scores.get('log_loss_infinite') else scores.get(metric)
+    return math.inf if scores.get(metric + '_infinite') else scores.get(metric)
 
 
 def baseline_methods(forecast):
@@ -593,7 +613,8 @@ def baseline_methods(forecast):
 def evaluation_contract(record):
     start, end = window(record['window'], 'window')
     return {'target': record['target'], 'resolution_rule': record['resolution_rule'], 'scope': record['scope'],
-            'unit': record['expression'].get('unit'), 'metrics': sorted(set(record['calibration_plan']['metrics'])),
+            'unit': record['expression'].get('unit'), 'nominal_coverage': record['expression'].get('nominal_coverage'),
+            'metrics': sorted(set(record['calibration_plan']['metrics'])),
             'window_seconds': (end - start).total_seconds(),
             'lead_seconds': (start - instant(record['input_cutoff'], 'input_cutoff')).total_seconds()}
 
@@ -608,15 +629,71 @@ def comparable_baselines(forecast):
 def arithmetic_mean(values):
     if any(math.isinf(value) for value in values):
         return math.inf
-    return sum(value / len(values) for value in values)
+    try:
+        return math.fsum(value / len(values) for value in values)
+    except OverflowError:
+        return math.inf
+
+
+def interval_ratio_summary(values):
+    counts = Counter(finite_positive=0, both_zero=0, zero=0, infinite=0, undefined=0)
+    log_ratios = []
+    better = worse = tied = undetermined = 0
+    for own, other in values:
+        if math.isinf(own) and math.isinf(other):
+            undetermined += 1
+        elif own < other:
+            better += 1
+        elif own > other:
+            worse += 1
+        else:
+            tied += 1
+        if not math.isfinite(own) or not math.isfinite(other):
+            counts['undefined'] += 1
+        elif own == 0 and other == 0:
+            counts['both_zero'] += 1
+            log_ratios.append(0.0)
+        elif own == 0:
+            counts['zero'] += 1
+        elif other == 0:
+            counts['infinite'] += 1
+        else:
+            counts['finite_positive'] += 1
+            log_ratios.append(math.log(own) - math.log(other))
+    ratio, mean_log = None, None
+    if counts['undefined'] or (counts['zero'] and counts['infinite']):
+        status = 'undefined'
+    elif counts['infinite']:
+        status = 'infinite'
+    elif counts['zero']:
+        status, ratio = 'zero', 0.0
+    else:
+        mean_log = arithmetic_mean(log_ratios)
+        try:
+            ratio = math.exp(mean_log)
+        except OverflowError:
+            status = 'overflow'
+        else:
+            status = 'finite' if ratio else 'underflow'
+            if not ratio:
+                ratio = None
+    return {'n': len(values), 'geometric_mean_ratio': ratio, 'ratio_status': status,
+            'mean_log_ratio': mean_log, 'ratio_counts': dict(counts),
+            'ratio_definition': 'model_interval_score / baseline_interval_score',
+            'both_zero_convention': 'Both scores zero use ratio 1 as a neutral pair.',
+            'better': better, 'worse': worse, 'tied': tied, 'undetermined': undetermined}
 
 
 def paired_metric_summary(rows, metric):
+    if metric not in LOSS_METRICS | HIT_METRICS:
+        return None
     values = [(loss_value(own, metric), loss_value(other, metric)) for own, other in rows]
     values = [(a, b) for a, b in values if a is not None and b is not None]
     if not values:
         return None
-    lower_better = metric in {'brier', 'log_loss', 'interval_score'}
+    if metric == 'interval_score':
+        return interval_ratio_summary(values)
+    lower_better = metric in LOSS_METRICS
     better = sum((a < b if lower_better else a > b) for a, b in values)
     worse = sum((a > b if lower_better else a < b) for a, b in values)
     own, other = arithmetic_mean([a for a, _ in values]), arithmetic_mean([b for _, b in values])
@@ -647,6 +724,50 @@ def add_calibration(group, pairs):
                               for rows in bins.values()) / len(binary)
 
 
+def add_interval_calibration(group, pairs):
+    model_bins, baseline_bins = defaultdict(list), defaultdict(lambda: defaultdict(list))
+    for forecast, result in pairs:
+        kind = forecast['expression']['type']
+        if kind not in {'interval', 'time_window'}:
+            continue
+        metric = 'interval_coverage' if kind == 'interval' else 'window_coverage'
+        nominal = forecast['expression'].get('nominal_coverage')
+        if type(nominal) in {int, float} and 0 < nominal < 1 and metric in result['scores']:
+            model_bins[nominal].append(result['scores'][metric])
+        methods = comparable_baselines(forecast)
+        for baseline in forecast['baselines']:
+            nominal = baseline['expression'].get('nominal_coverage')
+            scores = result['baseline_scores'].get(baseline['id'], {})
+            if baseline['type'] in methods and type(nominal) in {int, float} and 0 < nominal < 1 and metric in scores:
+                baseline_bins[baseline['type']][nominal].append(scores[metric])
+    if not model_bins and not baseline_bins:
+        return
+
+    def rows(bins):
+        return [{'nominal_coverage': nominal, 'n': len(values), 'observed_coverage': arithmetic_mean(values)}
+                for nominal, values in sorted(bins.items())]
+
+    group['interval_calibration'] = {
+        'purpose': 'calibration_only', 'model': rows(model_bins),
+        'baselines': [{'baseline_type': method, 'bins': rows(bins)} for method, bins in sorted(baseline_bins.items())],
+    }
+
+
+def paired_score_views(forecast, result, baseline_id):
+    own = dict(result['scores'])
+    other = dict(result['baseline_scores'][baseline_id])
+    baseline = next(item for item in forecast['baselines'] if item['id'] == baseline_id)
+    nominal = forecast['expression'].get('nominal_coverage')
+    baseline_nominal = baseline['expression'].get('nominal_coverage')
+    incomparable = []
+    if ('interval_score' in own or 'interval_score' in other) and (nominal is None or nominal != baseline_nominal):
+        incomparable.append('interval_score')
+        for scores in (own, other):
+            scores.pop('interval_score', None)
+            scores.pop('interval_score_infinite', None)
+    return own, other, incomparable
+
+
 def pooled_groups(registry, latest):
     grouped = defaultdict(list)
     names = ['order', 'evidence_kind', 'expression_type', 'theory_sha256', 'skill_version', 'host_model']
@@ -661,22 +782,28 @@ def pooled_groups(registry, latest):
         group = dict(zip(names, key[:6]))
         group.update(resolved=len(pairs), metrics=mean_scores([outcome['scores'] for _, outcome in pairs]),
                      degradation_policy=pairs[0][0]['calibration_plan'].get('degradation_policy'), _pairs=pairs)
+        if group['expression_type'] == 'interval':
+            for metric in ('interval_score', 'interval_width', 'interval_coverage'):
+                group['metrics'].pop(metric, None)
         methods = set().union(*(comparable_baselines(forecast) for forecast, _ in pairs))
         group['excluded_baseline_types'] = sorted({baseline['type'] for forecast, _ in pairs for baseline in forecast['baselines']
                                                    if baseline['type'] not in comparable_baselines(forecast)})
         comparisons = []
         for method in sorted(methods):
-            rows = [(outcome['scores'], outcome['baseline_scores'][comparable_baselines(forecast)[method]])
+            views = [paired_score_views(forecast, outcome, comparable_baselines(forecast)[method])
                     for forecast, outcome in pairs if method in comparable_baselines(forecast)
                     and comparable_baselines(forecast)[method] in outcome['baseline_scores']]
+            rows = [(own, other) for own, other, _ in views]
             metrics = {}
-            for metric in ['brier', 'log_loss', 'interval_coverage', 'window_coverage', 'direction_hit']:
+            for metric in ['brier', 'log_loss', 'interval_score', 'direction_hit']:
                 value = paired_metric_summary(rows, metric)
                 if value is not None:
                     metrics[metric] = value
-            comparisons.append({'baseline_type': method, 'paired_records': len(rows), 'metrics': metrics})
+            comparisons.append({'baseline_type': method, 'paired_records': len(rows), 'metrics': metrics,
+                                'incomparable_metrics': sorted({metric for _, _, excluded in views for metric in excluded})})
         group['baseline_comparisons'] = comparisons
         add_calibration(group, pairs)
+        add_interval_calibration(group, pairs)
         result.append(group)
     return result
 
@@ -741,15 +868,18 @@ def report_registry(registry):
         for baseline_id, baseline_type in sorted(set.union(*(baseline_methods(forecast) for forecast, _ in pairs))):
             eligible = [(forecast, result) for forecast, result in pairs
                         if (baseline_id, baseline_type) in baseline_methods(forecast) and baseline_id in result['baseline_scores']]
-            own = mean_scores([result['scores'] for _, result in eligible])
-            other = mean_scores([result['baseline_scores'][baseline_id] for _, result in eligible])
+            views = [paired_score_views(forecast, result, baseline_id) for forecast, result in eligible]
+            own = mean_scores([scores for scores, _, _ in views])
+            other = mean_scores([scores for _, scores, _ in views])
             gains = {}
             for metric in own.keys() & other.keys():
-                if metric in {'interval_coverage', 'window_coverage', 'window_length_days'}:
+                if metric not in LOSS_METRICS | HIT_METRICS:
                     continue
                 model_mean, baseline_mean = own[metric]['mean'], other[metric]['mean']
-                gains[metric] = (baseline_mean - model_mean if metric in {'brier', 'log_loss'} else model_mean - baseline_mean) if model_mean is not None and baseline_mean is not None else None
-            comparisons.append({'baseline_id': baseline_id, 'baseline_type': baseline_type, 'paired_records': len(eligible), 'model': own, 'baseline': other, 'gain': gains})
+                gain = (baseline_mean - model_mean if metric in LOSS_METRICS else model_mean - baseline_mean) if model_mean is not None and baseline_mean is not None else None
+                gains[metric] = gain if gain is not None and math.isfinite(gain) else None
+            comparisons.append({'baseline_id': baseline_id, 'baseline_type': baseline_type, 'paired_records': len(eligible), 'model': own, 'baseline': other, 'gain': gains,
+                                'incomparable_metrics': sorted({metric for _, _, excluded in views for metric in excluded})})
         group['baseline_comparisons'] = comparisons
         binary = [(forecast['expression']['value'], result['observed']['value']) for forecast, result in pairs
                   if forecast['expression']['type'] == 'probability' and result['status'] in {'supported', 'not_supported'}]
@@ -775,7 +905,7 @@ def report_registry(registry):
                                                and latest[record['id']]['status'] in {'supported', 'not_supported'} for record in registry['forecasts']),
             'degradation_threshold': threshold_status, 'degradation_decisions': decisions,
             'scope': '仅统计已登记结果；教学和合成记录不作经验支持。回测隔离、来源真实性、样本外增益与持续能力须外部复核；无自动认证或总命中率。',
-            'limitations': ['排序和方向不自动评分；区间覆盖只支持数值目标区间。', '校准分箱与分辨率是描述统计，单例不证明长期校准。',
+            'limitations': ['未预登记的排序和方向不自动评分；区间覆盖只用于校准，不衡量优于基线的增益。', '校准分箱与分辨率是描述统计，单例不证明长期校准。',
                             '分配误差、因果响应效果和外部评测未在本工具中自动识别。', '未预登记持续退化阈值时保留pending，不自行设定合入阈值。']}
 
 

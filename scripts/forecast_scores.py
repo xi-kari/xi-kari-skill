@@ -56,10 +56,20 @@ def _nominal(expr, required=False):
 
 def validate_expression(expr, evaluation_window, *, require_nominal=False):
     """Validate an expression without modifying its frozen values."""
-    if not isinstance(expr, dict) or expr.get('type') != 'time_window':
-        raise ValueError('forecast_scores只接受time_window表达')
+    if not isinstance(expr, dict) or expr.get('type') not in ('time_window', 'interval'):
+        raise ValueError('forecast_scores只接受time_window或interval表达')
     _text(expr.get('basis'), 'expression.basis')
     evaluation_start, evaluation_end = _window(evaluation_window, 'window')
+    if expr['type'] == 'interval':
+        lower = _number(expr.get('lower'), 'expression.lower')
+        upper = _number(expr.get('upper'), 'expression.upper')
+        if lower > upper:
+            raise ValueError('expression区间上下界倒置')
+        _text(expr.get('unit'), 'expression.unit')
+        if expr.get('quantity', 'numeric') != 'numeric':
+            raise ValueError('interval只支持数值目标区间')
+        _nominal(expr, required=require_nominal)
+        return
     start, end = _window({'start': expr.get('start'), 'end': expr.get('end')}, 'expression')
     if start < evaluation_start or end > evaluation_end:
         raise ValueError('expression预测时间区间须在评价窗内')
@@ -87,13 +97,33 @@ def _store_finite(scores, metric, value):
     scores[metric + '_infinite'] = infinite
 
 
+def _numeric_interval_score(expr, observed, metrics):
+    notes = [f'interval不支持预登记指标{metric}，不伪造评分'
+             for metric in metrics if metric not in {'interval_coverage', 'interval_score'}]
+    scores = {}
+    lower, upper = expr['lower'], expr['upper']
+    _store_finite(scores, 'interval_width', upper - lower)
+    value = observed.get('value')
+    if value is None:
+        notes.append('数值结果未知，不将缺失标签计为零或覆盖失败')
+        return scores, notes
+    _number(value, 'observed.value')
+    if 'interval_coverage' in metrics:
+        scores['interval_coverage'] = int(lower <= value <= upper)
+    if 'interval_score' in metrics:
+        _store_finite(scores, 'interval_score', _interval_score(lower, upper, value, expr['nominal_coverage']))
+    return scores, notes
+
+
 def score(expr, observed, window, metrics):
     """Return registered scores and explanatory notes for forecast.py."""
-    validate_expression(expr, window)
+    validate_expression(expr, window, require_nominal=True)
     if not isinstance(observed, dict):
         raise ValueError('observed须为对象')
     if not isinstance(metrics, (list, tuple, set)) or any(not isinstance(item, str) for item in metrics):
         raise ValueError('metrics须为指标名称集合')
+    if expr['type'] == 'interval':
+        return _numeric_interval_score(expr, observed, metrics)
     notes = [f'time_window不支持预登记指标{metric}，不伪造评分'
              for metric in metrics if metric not in {'window_coverage', 'interval_score'}]
     start = _instant(expr['start'], 'expression.start')

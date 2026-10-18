@@ -175,7 +175,9 @@ class ForecastLifecycleTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'event_time'):
             self.resolve(result)
         result['observed']['event_time'] = '2026-10-20T00:00:00Z'
-        self.assertEqual(self.resolve(result)['scoring_version'], 2)
+        saved = self.resolve(result)
+        self.assertEqual(saved['scoring_version'], 1)
+        self.assertEqual(saved['validation_version'], 2)
 
     def test_stored_version_two_live_window_is_revalidated(self):
         registry = self.frozen_fixture(validation_version=2, with_result=False)

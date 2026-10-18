@@ -23,6 +23,13 @@ def time_expression(**changes):
     return result
 
 
+def interval_expression(**changes):
+    result = {'type': 'interval', 'lower': 3, 'upper': 4, 'unit': 'items',
+              'nominal_coverage': 0.8, 'basis': 'Synthetic interval for arithmetic checks.'}
+    result.update(changes)
+    return result
+
+
 class TimeWindowScoringTests(unittest.TestCase):
     def test_model_and_baseline_cover_event_with_distinct_lengths(self):
         observed = {'value': 1, 'event_time': '2026-11-05T00:00:00Z'}
@@ -161,6 +168,135 @@ class TimeWindowScoringTests(unittest.TestCase):
                 evaluation_window(), ['window_coverage', 'interval_score']]
         before = copy.deepcopy(args)
         scoring.validate_expression(args[0], args[2])
+        scoring.score(*args)
+        self.assertEqual(args, before)
+
+
+class NumericIntervalScoringTests(unittest.TestCase):
+    def test_narrow_interval_beats_wide_interval_despite_missing_coverage(self):
+        observed = {'value': 5, 'event_time': None}
+        metrics = ['interval_score', 'interval_coverage']
+        model, notes = scoring.score(interval_expression(), observed, evaluation_window(), metrics)
+        baseline, _ = scoring.score(interval_expression(lower=0, upper=1000), observed,
+                                    evaluation_window(), metrics)
+        self.assertAlmostEqual(model['interval_score'], 11)
+        self.assertEqual(baseline['interval_score'], 1000)
+        self.assertLess(model['interval_score'], baseline['interval_score'])
+        self.assertEqual(model['interval_coverage'], 0)
+        self.assertEqual(baseline['interval_coverage'], 1)
+        self.assertEqual(model['interval_width'], 1)
+        self.assertEqual(notes, [])
+        self.assertFalse(any('gain' in key for key in model))
+
+    def test_inside_and_boundary_values_cost_only_width(self):
+        for value in (3, 3.5, 4):
+            with self.subTest(value=value):
+                scores, _ = scoring.score(interval_expression(), {'value': value}, evaluation_window(),
+                                          ['interval_score', 'interval_coverage'])
+                self.assertEqual(scores['interval_score'], 1)
+                self.assertFalse(scores['interval_score_infinite'])
+                self.assertEqual(scores['interval_coverage'], 1)
+
+    def test_outside_penalties_are_symmetric_and_follow_nominal_coverage(self):
+        for nominal, expected in ((0.5, 9), (0.8, 21), (0.9, 41)):
+            for value in (1, 6):
+                with self.subTest(nominal=nominal, value=value):
+                    scores, _ = scoring.score(interval_expression(nominal_coverage=nominal),
+                                              {'value': value}, evaluation_window(), ['interval_score'])
+                    self.assertAlmostEqual(scores['interval_score'], expected)
+
+    def test_degenerate_numeric_interval_is_valid_and_scores_point_hit(self):
+        expr = interval_expression(lower=4, upper=4)
+        scoring.validate_expression(expr, evaluation_window(), require_nominal=True)
+        scores, _ = scoring.score(expr, {'value': 4}, evaluation_window(), ['interval_score', 'interval_coverage'])
+        self.assertEqual(scores['interval_score'], 0)
+        self.assertEqual(scores['interval_width'], 0)
+        self.assertEqual(scores['interval_coverage'], 1)
+
+    def test_nominal_can_be_optional_for_validation_but_required_for_new_scoring(self):
+        expr = interval_expression()
+        expr.pop('nominal_coverage')
+        scoring.validate_expression(expr, evaluation_window())
+        with self.assertRaises(ValueError):
+            scoring.validate_expression(expr, evaluation_window(), require_nominal=True)
+        with self.assertRaises(ValueError):
+            scoring.score(expr, {'value': 5}, evaluation_window(), ['interval_score'])
+        scoring.validate_expression(time_expression(), evaluation_window(), require_nominal=True)
+
+    def test_interval_nominal_must_be_finite_and_strictly_between_zero_and_one(self):
+        for nominal in (None, 0, 1, -0.1, 1.1, True, '0.8', math.nan, math.inf, 10 ** 400):
+            with self.subTest(nominal=nominal), self.assertRaises(ValueError):
+                scoring.validate_expression(interval_expression(nominal_coverage=nominal), evaluation_window())
+
+    def test_interval_bounds_unit_and_quantity_are_checked(self):
+        invalid = [{'lower': 5}, {'lower': None}, {'lower': True}, {'upper': '4'}, {'lower': math.nan},
+                   {'upper': math.inf}, {'upper': 10 ** 400}, {'unit': ''}, {'unit': None},
+                   {'quantity': 'probability'}, {'basis': ''}]
+        for changes in invalid:
+            with self.subTest(changes=changes), self.assertRaises(ValueError):
+                scoring.validate_expression(interval_expression(**changes), evaluation_window())
+
+    def test_missing_observation_is_not_replaced_by_zero(self):
+        for observed in ({}, {'value': None}):
+            with self.subTest(observed=observed):
+                scores, notes = scoring.score(interval_expression(), observed, evaluation_window(),
+                                              ['interval_score', 'interval_coverage'])
+                self.assertEqual(scores, {'interval_width': 1, 'interval_width_infinite': False})
+                self.assertTrue(notes)
+
+    def test_observations_must_be_finite_numbers(self):
+        for value in (True, '5', math.nan, math.inf, -math.inf, 10 ** 400):
+            with self.subTest(value=value), self.assertRaises(ValueError):
+                scoring.score(interval_expression(), {'value': value}, evaluation_window(), ['interval_score'])
+
+    def test_only_registered_metrics_are_scored_and_window_coverage_is_not_applicable(self):
+        observed = {'value': 5, 'event_time': '2026-11-05T00:00:00Z'}
+        scores, notes = scoring.score(interval_expression(), observed, evaluation_window(), ['interval_score'])
+        self.assertIn('interval_score', scores)
+        self.assertNotIn('interval_coverage', scores)
+        self.assertEqual(notes, [])
+        scores, notes = scoring.score(interval_expression(), observed, evaluation_window(),
+                                      ['interval_coverage', 'window_coverage'])
+        self.assertIn('interval_coverage', scores)
+        self.assertNotIn('interval_score', scores)
+        self.assertNotIn('window_coverage', scores)
+        self.assertTrue(notes)
+
+    def test_finite_float_input_overflow_has_null_and_explicit_metric_flags(self):
+        for expr, value, width_overflows in (
+            (interval_expression(lower=-1e308, upper=1e308), 0, True),
+            (interval_expression(lower=0, upper=1), 1e308, False),
+            (interval_expression(lower=0, upper=1, nominal_coverage=math.nextafter(1.0, 0.0)), 1e300, False),
+        ):
+            with self.subTest(expr=expr):
+                scores, _ = scoring.score(expr, {'value': value}, evaluation_window(),
+                                          ['interval_score', 'interval_coverage'])
+                self.assertIsNone(scores['interval_score'])
+                self.assertTrue(scores['interval_score_infinite'])
+                self.assertEqual(scores['interval_width_infinite'], width_overflows)
+                self.assertEqual(scores['interval_coverage'], int(expr['lower'] <= value <= expr['upper']))
+                json.dumps(scores, allow_nan=False)
+
+    def test_large_finite_integer_width_overflow_is_json_safe(self):
+        scores, _ = scoring.score(interval_expression(lower=-(10 ** 308), upper=10 ** 308),
+                                  {'value': 0}, evaluation_window(), ['interval_score'])
+        self.assertIsNone(scores['interval_width'])
+        self.assertTrue(scores['interval_width_infinite'])
+        self.assertIsNone(scores['interval_score'])
+        self.assertTrue(scores['interval_score_infinite'])
+        json.dumps(scores, allow_nan=False)
+
+    def test_large_finite_score_is_not_misclassified_as_infinite(self):
+        scores, _ = scoring.score(interval_expression(lower=0, upper=1e307), {'value': 1e307},
+                                  evaluation_window(), ['interval_score'])
+        self.assertEqual(scores['interval_score'], 1e307)
+        self.assertFalse(scores['interval_score_infinite'])
+        json.dumps(scores, allow_nan=False)
+
+    def test_numeric_inputs_are_not_modified(self):
+        args = [interval_expression(), {'value': 5}, evaluation_window(), ['interval_score', 'interval_coverage']]
+        before = copy.deepcopy(args)
+        scoring.validate_expression(args[0], args[2], require_nominal=True)
         scoring.score(*args)
         self.assertEqual(args, before)
 

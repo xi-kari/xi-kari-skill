@@ -206,8 +206,8 @@ class ForecastTests(unittest.TestCase):
 
     def test_interval_and_window_coverage_include_exact_boundaries(self):
         record = sample()
-        record['expression'] = {'type': 'interval', 'lower': 2, 'upper': 5, 'unit': 'days', 'basis': '合成数字区间'}
-        record['baselines'][0]['expression'] = {'type': 'interval', 'lower': 0, 'upper': 1, 'unit': 'days', 'basis': '合成基线'}
+        record['expression'] = {'type': 'interval', 'nominal_coverage': 0.8, 'lower': 2, 'upper': 5, 'unit': 'days', 'basis': '合成数字区间'}
+        record['baselines'][0]['expression'] = {'type': 'interval', 'nominal_coverage': 0.8, 'lower': 0, 'upper': 1, 'unit': 'days', 'basis': '合成基线'}
         record['calibration_plan']['metrics'] = ['interval_coverage', 'window_coverage']
         self.register(record)
         result = outcome()
@@ -397,8 +397,8 @@ class ForecastTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             self.target.validate_forecast(record)
         record = sample()
-        record['expression'] = {'type': 'interval', 'lower': 0, 'upper': 1, 'unit': 'days', 'basis': 'test'}
-        record['baselines'][0]['expression'] = {'type': 'interval', 'lower': 0, 'upper': 1, 'unit': 'years', 'basis': 'test'}
+        record['expression'] = {'type': 'interval', 'nominal_coverage': 0.8, 'lower': 0, 'upper': 1, 'unit': 'days', 'basis': 'test'}
+        record['baselines'][0]['expression'] = {'type': 'interval', 'nominal_coverage': 0.8, 'lower': 0, 'upper': 1, 'unit': 'years', 'basis': 'test'}
         with self.assertRaises(ValueError):
             self.target.validate_forecast(record)
 
@@ -520,7 +520,7 @@ class ForecastTests(unittest.TestCase):
     def test_report_separates_interval_units(self):
         for unit in ['days', 'years']:
             record = sample(identifier=unit)
-            record['expression'] = {'type': 'interval', 'lower': 0, 'upper': 1, 'unit': unit, 'basis': 'synthetic'}
+            record['expression'] = {'type': 'interval', 'nominal_coverage': 0.8, 'lower': 0, 'upper': 1, 'unit': unit, 'basis': 'synthetic'}
             record['baselines'][0]['expression'] = copy.deepcopy(record['expression'])
             record['calibration_plan']['metrics'] = ['interval_coverage']
             self.register(record)
