@@ -258,7 +258,8 @@ onUnmounted(() => { alive = false; window.removeEventListener('hashchange', reve
           <details v-if="has(lesson.sources) || lesson.lecturePath" class="xk-lesson-materials">
             <summary>原文定位、引用资料与完整解读</summary>
             <div class="xk-lesson-materials__body">
-              <p v-if="has(lesson.sourceRefs)" class="xk-original-refs"><span v-for="(item, i) in lesson.sourceRefs" :key="i">{{ item.section ? `§${item.section}` : sourceRef }} · 原文第 {{ item.startLine || item.start_line }}—{{ item.endLine || item.end_line }} 行</span></p>
+              <p v-if="lesson.sourceHash" class="xk-original-refs">解读所据文本 SHA-256：{{ lesson.sourceHash }}</p>
+              <p v-if="has(lesson.sourceRefs)" class="xk-original-refs"><span v-for="(item, i) in lesson.sourceRefs" :key="i">{{ item.section ? `§${item.section}` : sourceRef }} · 解读所据文本第 {{ item.startLine || item.start_line }}—{{ item.endLine || item.end_line }} 行</span></p>
               <nav class="xk-reading-downloads" aria-label="本节阅读材料">
                 <a v-if="lesson.lecturePath" :href="link(lesson.lecturePath)" download>完整解读原稿</a>
                 <a v-if="lesson.sourceSlicePath" :href="link(lesson.sourceSlicePath)" download>原文对照</a>

@@ -1,6 +1,6 @@
 [project]
 name = "xi-kari-skill"
-version = "5.6.0.dev1"
+version = "6.0.0.dev1"
 description = "Xikari decision skill based on conditional structure and transformation"
 requires-python = ">=3.10"
 dependencies = []

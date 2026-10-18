@@ -99,7 +99,7 @@ class SourceAndPackageTests(unittest.TestCase):
     def test_development_and_runtime_files_cannot_be_added_to_payload(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
-            for name in ('tests/a.py', 'docs/index.html', 'scripts/__pycache__/a.pyc', 'runs/result.json', 'AGENTS.md', 'scripts/build_install_package.py'):
+            for name in ('tests/a.py', 'docs/index.html', 'scripts/__pycache__/a.pyc', 'runs/result.json', 'AGENTS.md', 'scripts/build_install_package.py', 'scripts/lint_derived.py'):
                 path = root / name
                 path.parent.mkdir(parents=True, exist_ok=True)
                 path.write_text('not for installation', encoding='utf-8')
