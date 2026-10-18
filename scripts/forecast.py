@@ -771,7 +771,7 @@ def check_registry(registry):
         if record['theory_sha256'] != current:
             warnings.append(f'{record["id"]}: 绑定旧理论版本，保留历史登记，不改写为当前版本')
     return {'ok': True, 'forecasts': len(registry['forecasts']), 'resolution_records': len(registry['resolutions']),
-            'registration_completeness': 1.0 if registry['forecasts'] else None, 'capability': 'unverified',
+            'capability': 'unverified',
             'errors': [], 'warnings': warnings,
             'scope': '结构、引用身份和冻结内容检查；不认证来源、事前知识状态、判定正确性或预测能力。'}
 

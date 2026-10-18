@@ -305,7 +305,7 @@ class ForecastTests(unittest.TestCase):
         self.register()
         result = self.target.check_registry(self.target.load_registry(self.registry))
         self.assertTrue(result['ok'])
-        self.assertEqual(result['registration_completeness'], 1.0)
+        self.assertNotIn('registration_completeness', result)
         self.assertEqual(result['capability'], 'unverified')
 
     def test_live_registration_cannot_backfill_expired_window(self):
