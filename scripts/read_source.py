@@ -1,4 +1,9 @@
-"""Read complete sections from the bundled Xikari manuscript."""
+"""Read complete sections from the bundled Xikari manuscript.
+
+The Chinese manuscript is the theory source. ``--lang en`` reads the bundled
+English reference edition, which shares every section and part identifier;
+``--parallel`` prints the Chinese and English text of the same sections.
+"""
 
 from __future__ import annotations
 
@@ -13,6 +18,7 @@ import sys
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE = ROOT / "source" / "Xikari-条件结构与转化论.md"
 MANIFEST = ROOT / "source" / "source-manifest.json"
+EN_MANIFEST = ROOT / "source" / "en" / "source-manifest.json"
 HEADING = re.compile(r"^(#{1,6})\s+(.+?)\s*$")
 SECTION = re.compile(r"^((?:\d+|[A-D])(?:\.\d+)+)(?=\s|\u3000|[^\w.]|$)")
 PART = re.compile(r'^<a id="part_(\d+)"></a>\s*$')
@@ -118,11 +124,78 @@ def full_text_chunks(text: str, size: int) -> list[tuple[int, int]]:
     return chunks
 
 
+def english_source() -> tuple[Path, dict]:
+    """Return the English reference edition and its manifest."""
+    manifest = json.loads(EN_MANIFEST.read_text(encoding="utf-8"))
+    path = (EN_MANIFEST.parent / manifest["source_file"]).resolve()
+    if not path.is_relative_to(EN_MANIFEST.parent.resolve()):
+        raise ValueError("English edition escapes source/en")
+    return path, manifest
+
+
+def load_edition(path: Path) -> tuple[bytes, str, list[str], dict, dict]:
+    data = path.read_bytes()
+    text = data.decode("utf-8-sig")
+    lines = text.splitlines()
+    sections, parts = build_index(lines)
+    return data, text, lines, sections, parts
+
+
+def check_english(zh_manifest: dict, zh_sections: dict, zh_parts: dict) -> dict:
+    """Compare the English edition's identity and structure with the Chinese source."""
+    if not EN_MANIFEST.exists():
+        return {"present": False, "ok": True}
+    path, manifest = english_source()
+    data, _, _, sections, parts = load_edition(path)
+    digest = hashlib.sha256(data).hexdigest()
+    result = {
+        "present": True,
+        "matches_manifest": digest == manifest.get("sha256") and len(data) == manifest.get("bytes"),
+        "translates_current_source": manifest.get("translates", {}).get("sha256") == zh_manifest.get("sha256"),
+        "same_sections": list(sections) == list(zh_sections),
+        "same_parts": sorted(parts) == sorted(zh_parts),
+        "sha256": digest,
+    }
+    result["ok"] = all(result[key] for key in ("matches_manifest", "translates_current_source", "same_sections", "same_parts"))
+    return result
+
+
+def selected_ranges(sections: dict, parts: dict, keys: list[str], numbers: list[int]) -> list[tuple[int, int]]:
+    ranges = []
+    for key in keys:
+        if key not in sections:
+            raise ValueError(f"Unknown section: {key}; use --list")
+        ranges.append((sections[key]["start"], sections[key]["end"]))
+    for number in numbers:
+        if number not in parts:
+            raise ValueError(f"Unknown part: {number}; available: {sorted(parts)}")
+        ranges.append((parts[number]["start"], parts[number]["end"]))
+    return merge_ranges(ranges)
+
+
+MESSAGES = {
+    "zh": {
+        "none": "未找到包含全部检索词的原文行；可换用原文实际用词，或改读相关完整小节。",
+        "hits": "命中 {count} 行（检索词：{terms}；显示上限 {limit}；用于学完后定位复读，不替代完整阅读）",
+        "joiner": "、",
+        "front": "书前说明或参考文献区域",
+        "line": "行{line}: {text}",
+    },
+    "en": {
+        "none": "No line contains every search term; try the edition's actual wording, or read the relevant complete section.",
+        "hits": "{count} matching line(s) (terms: {terms}; limit {limit}; for locating passages after complete study, not a substitute for it)",
+        "joiner": ", ",
+        "front": "front matter or references",
+        "line": "line {line}: {text}",
+    },
+}
+
+
 def main() -> int:
     for stream in (sys.stdout, sys.stderr):
         if hasattr(stream, "reconfigure"):
             stream.reconfigure(encoding="utf-8")
-    parser = argparse.ArgumentParser(description=__doc__)
+    parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--section", action="append", default=[], help="Exact section ID, e.g. 4.17 or C.3")
     parser.add_argument("--part", type=int, action="append", default=[], help="Part anchor number 1 through 21")
     parser.add_argument("--list", action="store_true", help="List available sections")
@@ -134,77 +207,81 @@ def main() -> int:
                         help="Locate a literal term after full-source study; repeatable, all terms must appear on a line")
     parser.add_argument("--limit", type=int, default=20, help="Maximum reported search hits")
     parser.add_argument("--context", type=int, default=0, help="Neighbouring lines reported around each search hit")
+    parser.add_argument("--lang", choices=("zh", "en"), default="zh",
+                        help="zh reads the Chinese theory source (default); en reads the English reference edition")
+    parser.add_argument("--parallel", action="store_true",
+                        help="With --section or --part, print the Chinese text and then the English text of the same range")
     args = parser.parse_args()
     try:
-        data = SOURCE.read_bytes()
-        source_text = data.decode("utf-8-sig")
-        lines = source_text.splitlines()
-        sections, parts = build_index(lines)
+        path = SOURCE if args.lang == "zh" else english_source()[0]
+        data, source_text, lines, sections, parts = load_edition(path)
         chunks = full_text_chunks(source_text, args.chunk_size)
+        text = MESSAGES[args.lang]
         if args.limit < 1:
             raise ValueError("--limit must be positive")
         if args.context < 0:
             raise ValueError("--context must not be negative")
         if any(not term.strip() for term in args.search):
             raise ValueError("Search terms must not be empty")
+        if args.parallel and not (args.section or args.part):
+            raise ValueError("--parallel needs --section or --part")
         for number in args.chunk:
             if not 1 <= number <= len(chunks):
                 raise ValueError(f"Unknown chunk: {number}; available: 1 through {len(chunks)}")
+        editions = [(path, lines, sections, parts)]
+        if args.parallel:
+            english = english_source()[0]
+            editions = [(SOURCE, *load_edition(SOURCE)[2:]), (english, *load_edition(english)[2:])]
+        planned = [(name, rows, selected_ranges(index, anchors, args.section, args.part))
+                   for name, rows, index, anchors in editions]
         if args.search:
             order = sorted(sections.items(), key=lambda item: item[1]["start"])
             hits = search_lines(lines, order, args.search, args.limit, args.context)
             if not hits:
-                print("未找到包含全部检索词的原文行；可换用原文实际用词，或改读相关完整小节。")
+                print(text["none"])
             else:
-                print(f"命中 {len(hits)} 行（检索词：{'、'.join(args.search)}；显示上限 {args.limit}；用于学完后定位复读，不替代完整阅读）")
+                print(text["hits"].format(count=len(hits), terms=text["joiner"].join(args.search), limit=args.limit))
             for hit in hits:
-                where = f"§{hit['section']}　{hit['section_title']}" if hit["section"] else "书前说明或参考文献区域"
+                where = f"§{hit['section']}　{hit['section_title']}" if hit["section"] else text["front"]
                 print(f"\n> {where}")
                 for neighbour in hit["context"]:
                     if neighbour["line"] < hit["line"]:
-                        print(f"行{neighbour['line']}: {neighbour['text']}")
-                print(f"行{hit['line']}: {hit['text']}")
+                        print(text["line"].format(line=neighbour["line"], text=neighbour["text"]))
+                print(text["line"].format(line=hit["line"], text=hit["text"]))
                 for neighbour in hit["context"]:
                     if neighbour["line"] > hit["line"]:
-                        print(f"行{neighbour['line']}: {neighbour['text']}")
+                        print(text["line"].format(line=neighbour["line"], text=neighbour["text"]))
         if args.chunks:
-            print(json.dumps({"source": SOURCE.name, "characters": len(source_text),
+            print(json.dumps({"source": path.name, "characters": len(source_text),
                               "chunk_size": args.chunk_size, "chunks": len(chunks),
                               "reading_order": f"1 through {len(chunks)}", "includes_preface_and_references": True}, ensure_ascii=False))
         for number in args.chunk:
             start, end = chunks[number - 1]
             first_line = source_text.count("\n", 0, start) + 1
             last_line = source_text.count("\n", 0, end - 1) + 1
-            print(f"\n[{SOURCE.name} · chunk {number}/{len(chunks)} · chars {start + 1}-{end} · lines {first_line}-{last_line}]\n")
+            print(f"\n[{path.name} · chunk {number}/{len(chunks)} · chars {start + 1}-{end} · lines {first_line}-{last_line}]\n")
             sys.stdout.write(source_text[start:end])
             if not source_text[start:end].endswith("\n"):
                 print()
         if args.check:
             manifest = json.loads(MANIFEST.read_text(encoding="utf-8"))
-            digest = hashlib.sha256(data).hexdigest()
-            valid = digest == manifest["sha256"] and len(data) == manifest["bytes"]
+            zh_data, _, _, zh_sections, zh_parts = load_edition(SOURCE)
+            digest = hashlib.sha256(zh_data).hexdigest()
+            valid = digest == manifest["sha256"] and len(zh_data) == manifest["bytes"]
+            english = check_english(manifest, zh_sections, zh_parts)
             print(json.dumps({"source_matches_manifest": valid, "sha256": digest,
-                              "bytes": len(data), "sections": len(sections), "parts": len(parts)}, ensure_ascii=False))
-            if not valid:
+                              "bytes": len(zh_data), "sections": len(zh_sections), "parts": len(zh_parts),
+                              "english": english}, ensure_ascii=False))
+            if not valid or not english["ok"]:
                 return 1
         if args.list:
             for key, item in sections.items():
                 print(f"{key}\t{item['start'] + 1}-{item['end']}\t{item['title']}")
-        ranges = []
-        for key in args.section:
-            if key not in sections:
-                raise ValueError(f"Unknown section: {key}; use --list")
-            item = sections[key]
-            ranges.append((item["start"], item["end"]))
-        for key in args.part:
-            if key not in parts:
-                raise ValueError(f"Unknown part: {key}; available: {sorted(parts)}")
-            item = parts[key]
-            ranges.append((item["start"], item["end"]))
-        for start, end in merge_ranges(ranges):
-            print(f"\n[{SOURCE.name} · lines {start + 1}-{end}]\n")
-            print("\n".join(lines[start:end]))
-        if not (args.check or args.list or ranges or args.chunks or args.chunk or args.search):
+        for name, rows, ranges in planned:
+            for start, end in ranges:
+                print(f"\n[{name.name} · lines {start + 1}-{end}]\n")
+                print("\n".join(rows[start:end]))
+        if not (args.check or args.list or args.section or args.part or args.chunks or args.chunk or args.search):
             parser.print_help()
         return 0
     except (OSError, ValueError, KeyError) as exc:

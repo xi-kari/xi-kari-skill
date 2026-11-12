@@ -42,6 +42,110 @@ LABEL = {'observed': '事实', 'assumed': '假设', 'unknown': '未知'}
 BOUNDARY = '本表只呈现各选项在各维度上的取值与依据身份，不判断方案价值，也不给出整体最优方案。'
 
 
+TEXT = {
+    'zh': {
+        'html_lang': 'zh-CN',
+        'basis': LABEL,
+        'boundary': BOUNDARY,
+        'unknown': '未知', 'yes': '是', 'no': '否',
+        'not_orderable_reason': 'not_orderable：此维度没有共同的比较尺度，本工具不生成排序。',
+        'holds_when': '仅在本次列出的取值与依据条件下成立',
+        'non_numeric': '非数值取值，不能参与数值排序',
+        'interpretation': '依据身份分别为事实（作者声明有来源，未经验证）、假设与未知。未知未作0、最差或最好处理；'
+                          '不可排序维度不产生排序。排序只在本次列出的取值与依据条件下成立，不代表现实中最优或可实施。',
+        'fictional': '这是明确虚构的教学比较，取值不是现实事实。',
+        'provided': '这是作者提供的比较；各单元格的来源与假设仍需分别判断。',
+        'dimension': '维度',
+        'mark': '{value}·{basis}',
+        'unit': '（{unit}）',
+        'legend_line': '标记：事实=作者声明有来源；假设=作者设定；未知=尚无可信取值。',
+        'orders_md': '## 各维度排序与不可排序说明',
+        'order_intro': '本次取值下的顺序（不代表现实最优）：',
+        'ranked_item': '{rank}. {label}：{value}（{basis}）',
+        'not_ranked_item': '- 未参与排序：{label}（{reason}）',
+        'assumptions': '明确假设',
+        'limits': '解释边界',
+        'direction': {'higher_is_better': '数值越高越好', 'lower_is_better': '数值越低越好', 'not_orderable': '无共同尺度，不排序'},
+        'unranked_reason': {'unknown': '未知，不参与排序', 'not_orderable': '无共同尺度'},
+        'order_aria': '本次取值下的顺序',
+        'holds': '本次取值下的顺序，不代表现实最优；只在列出的取值与依据条件下成立。',
+        'no_order': '没有可参与排序的取值。',
+        'not_ranked': '未参与排序：',
+        'join': '；',
+        'pair': '{label}：{value}',
+        'not_orderable_html': '此维度没有共同的比较尺度，本工具不生成排序，只列出各方案的取值。',
+        'legend_heading': '怎样读这张表',
+        'legend_note': '每一格都标出它的依据身份。三种身份用实线、虚线和点线区分，黑白打印也能分辨。',
+        'observed_dd': '作者声明有来源的事实；工具没有核验这个来源。',
+        'assumed_dd': '作者设定的假设或方案取值。',
+        'unknown_dd': '尚无可信取值。不按 0、最差或最好处理，也不进入任何排序。',
+        'table_heading': '比较表',
+        'table_note': '共 {candidates} 个方案、{dimensions} 个维度；表头下方注明每个维度的比较方向。',
+        'table_aria': '方案比较，可横向滚动',
+        'orders_heading': '各维度的顺序',
+        'orders_note': '只在有共同尺度的维度上排列本次取值；不跨维度加权，也不给出整体最优方案。',
+        'limits_aria': '假设与边界',
+        'download': '下载完整比较结果',
+        'source': '来源：{source}（作者声明，未经核验）',
+        'unit_html': '单位：{unit}',
+        'failed': '比较表生成失败：',
+    },
+    'en': {
+        'html_lang': 'en',
+        'basis': {'observed': 'Fact', 'assumed': 'Assumption', 'unknown': 'Unknown'},
+        'boundary': 'This table shows only each option\'s value on each dimension and the standing of its basis. '
+                    'It does not judge the worth of the options or name an overall best option.',
+        'unknown': 'Unknown', 'yes': 'Yes', 'no': 'No',
+        'not_orderable_reason': 'not_orderable: this dimension has no common scale of comparison, so the tool does not rank it.',
+        'holds_when': 'Holds only under the values and bases listed here',
+        'non_numeric': 'non-numeric value; cannot take part in a numeric ranking',
+        'interpretation': 'Bases are facts (the author states a source; not verified), assumptions and unknowns. Unknowns are not '
+                          'treated as zero, worst or best, and dimensions without a common scale are not ranked. Rankings hold only '
+                          'under the values and bases listed here; they do not show what is best or feasible in reality.',
+        'fictional': 'This is an explicitly fictional teaching comparison; its values are not real-world facts.',
+        'provided': 'This comparison was provided by the author; the sources and assumptions of each cell still need to be judged separately.',
+        'dimension': 'Dimension',
+        'mark': '{value} ({basis})',
+        'unit': ' ({unit})',
+        'legend_line': 'Marks: Fact = the author states a source; Assumption = set by the author; Unknown = no credible value yet.',
+        'orders_md': '## Rankings by dimension, and dimensions without one',
+        'order_intro': 'Order under these values (not the best in reality):',
+        'ranked_item': '{rank}. {label}: {value} ({basis})',
+        'not_ranked_item': '- Not ranked: {label} ({reason})',
+        'assumptions': 'Explicit assumptions',
+        'limits': 'Limits of interpretation',
+        'direction': {'higher_is_better': 'Higher is better', 'lower_is_better': 'Lower is better', 'not_orderable': 'No common scale; not ranked'},
+        'unranked_reason': {'unknown': 'unknown; not ranked', 'not_orderable': 'no common scale'},
+        'order_aria': 'Order under these values',
+        'holds': 'Order under these values. It is not the best in reality and holds only under the listed values and bases.',
+        'no_order': 'No values can be ranked.',
+        'not_ranked': 'Not ranked: ',
+        'join': '; ',
+        'pair': '{label}: {value}',
+        'not_orderable_html': 'This dimension has no common scale of comparison. The tool does not rank it and lists each option\'s value only.',
+        'legend_heading': 'How to read this table',
+        'legend_note': 'Every cell shows the standing of its basis. Solid, dashed and dotted lines tell the three apart, also in black-and-white print.',
+        'observed_dd': 'A fact for which the author states a source; the tool has not verified the source.',
+        'assumed_dd': 'An assumption or option value set by the author.',
+        'unknown_dd': 'No credible value yet. It is not treated as zero, worst or best, and it enters no ranking.',
+        'table_heading': 'Comparison table',
+        'table_note': '{candidates} option(s) and {dimensions} dimension(s); the direction of comparison is shown under each dimension.',
+        'table_aria': 'Option comparison, scrolls horizontally',
+        'orders_heading': 'Order within each dimension',
+        'orders_note': 'Values are ordered only on dimensions with a common scale; dimensions are not weighted against one another, and no overall best option is named.',
+        'limits_aria': 'Assumptions and limits',
+        'download': 'Download the complete comparison results',
+        'source': 'Source: {source} (stated by the author, not verified)',
+        'unit_html': 'Unit: {unit}',
+        'failed': 'Comparison table could not be generated: ',
+    },
+}
+
+
+def language(result: dict) -> str:
+    return result.get('language', 'zh')
+
+
 class ComparisonError(ValueError):
     """Invalid comparison data."""
 
@@ -167,16 +271,19 @@ def read_comparison(path: Path) -> dict:
         raise ComparisonError(f'比较模型不是有效JSON: {exc}') from exc
 
 
-def display(value, basis):
+def display(value, basis, lang: str = 'zh'):
     if value is None:
-        return '未知'
+        return TEXT[lang]['unknown']
     if type(value) is bool:
-        return '是' if value else '否'
+        return TEXT[lang]['yes'] if value else TEXT[lang]['no']
     return str(value)
 
 
-def build_comparison(model: dict) -> dict:
+def build_comparison(model: dict, lang: str = 'zh') -> dict:
     """Pure evaluation: no filesystem access, so results are reproducible."""
+    if lang not in TEXT:
+        raise ComparisonError(f'unsupported language: {lang}')
+    T = TEXT[lang]
     validate_comparison(model)
     dimensions = []
     cells_have_assumed = False
@@ -193,7 +300,7 @@ def build_comparison(model: dict) -> dict:
             values.append({
                 'id': candidate['id'], 'label': candidate['label'],
                 'value': cell.get('value'), 'basis': cell['basis'],
-                'display': display(cell.get('value'), cell['basis']),
+                'display': display(cell.get('value'), cell['basis'], lang),
                 'note': cell.get('note', ''), 'source': cell.get('source', ''),
             })
             if cell['basis'] == 'assumed':
@@ -202,7 +309,7 @@ def build_comparison(model: dict) -> dict:
                 cells_have_unknown = True
         entry['values'] = values
         if dimension['direction'] == 'not_orderable':
-            entry['reason'] = 'not_orderable：此维度没有共同的比较尺度，本工具不生成排序。'
+            entry['reason'] = T['not_orderable_reason']
             entry['unranked'] = [
                 {'id': item['id'], 'label': item['label'], 'reason': 'not_orderable'}
                 for item in values
@@ -215,17 +322,17 @@ def build_comparison(model: dict) -> dict:
                             reverse=dimension['direction'] == 'higher_is_better')
             entry['ranking'] = [
                 {'id': item['id'], 'label': item['label'], 'value': item['value'], 'basis': item['basis'],
-                 'rank': position, 'holds_when': '仅在本次列出的取值与依据条件下成立'}
+                 'rank': position, 'holds_when': T['holds_when']}
                 for position, item in enumerate(ranked, 1)
             ]
             entry['unranked'] = [
                 {'id': item['id'], 'label': item['label'],
-                 'reason': 'unknown' if item['basis'] == 'unknown' else '非数值取值，不能参与数值排序'}
+                 'reason': 'unknown' if item['basis'] == 'unknown' else T['non_numeric']}
                 for item in values
                 if item not in orderable
             ]
         dimensions.append(entry)
-    return {
+    result = {
         'format': TOOL, 'schema_version': 1,
         'title': model['title'], 'purpose': model['purpose'],
         'fictional': model['fictional'],
@@ -236,10 +343,12 @@ def build_comparison(model: dict) -> dict:
         'dimensions': dimensions,
         'cells_have_assumed': cells_have_assumed,
         'cells_have_unknown': cells_have_unknown,
-        'boundary': BOUNDARY,
-        'interpretation': '依据身份分别为事实（作者声明有来源，未经验证）、假设与未知。未知未作0、最差或最好处理；'
-                          '不可排序维度不产生排序。排序只在本次列出的取值与依据条件下成立，不代表现实中最优或可实施。',
+        'boundary': T['boundary'],
+        'interpretation': T['interpretation'],
     }
+    if lang != 'zh':
+        result['language'] = lang
+    return result
 
 
 def render_json(result: dict) -> str:
@@ -257,48 +366,48 @@ def render_json(result: dict) -> str:
 
 
 def render_markdown(result: dict) -> str:
+    T = TEXT[language(result)]
     lines = [MD_MARK, '', f"# {result['title']}", '', result['purpose'], '']
-    lines.append(('这是明确虚构的教学比较，取值不是现实事实。' if result['fictional']
-                  else '这是作者提供的比较；各单元格的来源与假设仍需分别判断。'))
+    lines.append(T['fictional'] if result['fictional'] else T['provided'])
     lines.append('')
     candidates = result['candidates']
-    lines.append('| 维度 | ' + ' | '.join(candidate['label'] for candidate in candidates) + ' |')
+    lines.append(f"| {T['dimension']} | " + ' | '.join(candidate['label'] for candidate in candidates) + ' |')
     lines.append('| --- | ' + ' | '.join('---' for _ in candidates) + ' |')
     for dimension in result['dimensions']:
-        unit = f"（{dimension['unit']}）" if dimension['unit'] else ''
+        unit = T['unit'].format(unit=dimension['unit']) if dimension['unit'] else ''
         cells = []
         for candidate in candidates:
             cell = next(item for item in dimension['values'] if item['id'] == candidate['id'])
-            mark = LABEL[cell['basis']]
+            mark = T['basis'][cell['basis']]
             if cell['basis'] == 'unknown':
-                cells.append(f"未知")
+                cells.append(T['unknown'])
             else:
-                cells.append(f"{cell['display']}·{mark}")
+                cells.append(T['mark'].format(value=cell['display'], basis=mark))
         lines.append(f"| {dimension['label']}{unit} | " + ' | '.join(cells) + ' |')
     lines.append('')
-    lines.append(f'标记：事实=作者声明有来源；假设=作者设定；未知=尚无可信取值。{BOUNDARY}')
+    lines.append(T['legend_line'] + ('' if language(result) == 'zh' else ' ') + T['boundary'])
     lines.append('')
-    lines.append('## 各维度排序与不可排序说明')
+    lines.append(T['orders_md'])
     lines.append('')
     for dimension in result['dimensions']:
         lines.append(f"### {dimension['label']}")
         lines.append('')
         if 'ranking' in dimension:
-            lines.append('本次取值下的顺序（不代表现实最优）：')
+            lines.append(T['order_intro'])
             lines.append('')
             for item in dimension['ranking']:
-                lines.append(f"{item['rank']}. {item['label']}：{item['value']}（{LABEL[item['basis']]}）")
+                lines.append(T['ranked_item'].format(rank=item['rank'], label=item['label'], value=item['value'], basis=T['basis'][item['basis']]))
         else:
             lines.append(dimension['reason'])
         for item in dimension['unranked']:
-            lines.append(f"- 未参与排序：{item['label']}（{UNRANKED_REASON.get(item['reason'], item['reason'])}）")
+            lines.append(T['not_ranked_item'].format(label=item['label'], reason=T['unranked_reason'].get(item['reason'], item['reason'])))
         lines.append('')
-    lines.append('## 明确假设')
+    lines.append('## ' + T['assumptions'])
     lines.append('')
     for entry in result['assumptions']:
         lines.append(f'- {entry}')
     lines.append('')
-    lines.append('## 解释边界')
+    lines.append('## ' + T['limits'])
     lines.append('')
     for entry in result['boundaries']:
         lines.append(f'- {entry}')
@@ -327,95 +436,100 @@ def comparison_css() -> str:
         raise ComparisonError(f'缺少离线展示资源: {exc}') from exc
 
 
-def title_html(title: str) -> str:
+def title_html(title: str, lang: str = 'zh') -> str:
     head, mark, tail = title.partition('：')
+    if not mark and lang != 'zh':
+        head, mark, tail = title.partition(': ')
     if mark and head.strip() and tail.strip():
         return (f'<span class="title-main">{html.escape(head)}<span class="title-colon">：</span></span>'
                 f'<span class="title-sub">{html.escape(tail)}</span>')
     return html.escape(title)
 
 
-def basis_tag(basis: str) -> str:
-    return f'<span class="basis basis-{basis}">{LABEL[basis]}</span>'
+def basis_tag(basis: str, lang: str = 'zh') -> str:
+    return f'<span class="basis basis-{basis}">{TEXT[lang]["basis"][basis]}</span>'
 
 
-def direction_tag(direction: str) -> str:
+def direction_tag(direction: str, lang: str = 'zh') -> str:
     extra = ' not-orderable' if direction == 'not_orderable' else ''
-    return f'<span class="direction{extra}">{DIRECTION[direction]}</span>'
+    return f'<span class="direction{extra}">{TEXT[lang]["direction"][direction]}</span>'
 
 
 def render_html(result: dict) -> str:
+    lang = language(result)
+    T = TEXT[lang]
     css = comparison_css()
     style_hash = base64.b64encode(hashlib.sha256(css.encode('utf-8')).digest()).decode('ascii')
     csp = f"default-src 'none'; style-src 'sha256-{style_hash}'; base-uri 'none'; form-action 'none'"
     header = ''.join(f'<th scope="col">{html.escape(item["label"])}</th>' for item in result['candidates'])
     orders = []
     for dimension in result['dimensions']:
-        unit = f"（{dimension['unit']}）" if dimension['unit'] else ''
-        head = f'<div class="order-head"><h3>{html.escape(dimension["label"] + unit)}</h3>{direction_tag(dimension["direction"])}</div>'
+        unit = T['unit'].format(unit=dimension['unit']) if dimension['unit'] else ''
+        head = f'<div class="order-head"><h3>{html.escape(dimension["label"] + unit)}</h3>{direction_tag(dimension["direction"], lang)}</div>'
         if 'ranking' in dimension:
             if dimension['ranking']:
                 ranked = ''.join(f'<li><span class="rank">{item["rank"]}</span><span class="candidate">{html.escape(item["label"])}</span>'
-                                 f'<span class="value">{html.escape(display(item["value"], item["basis"]))}</span>{basis_tag(item["basis"])}</li>'
+                                 f'<span class="value">{html.escape(display(item["value"], item["basis"], lang))}</span>{basis_tag(item["basis"], lang)}</li>'
                                  for item in dimension['ranking'])
-                body = f'<ol class="ranking" aria-label="本次取值下的顺序">{ranked}</ol><p class="holds">本次取值下的顺序，不代表现实最优；只在列出的取值与依据条件下成立。</p>'
+                body = f'<ol class="ranking" aria-label="{T["order_aria"]}">{ranked}</ol><p class="holds">{T["holds"]}</p>'
             else:
-                body = '<p class="no-order">没有可参与排序的取值。</p>'
+                body = f'<p class="no-order">{T["no_order"]}</p>'
             if dimension['unranked']:
-                names = '；'.join(f'{html.escape(item["label"])}（{html.escape(UNRANKED_REASON.get(item["reason"], item["reason"]))}）'
-                                 for item in dimension['unranked'])
-                body += f'<p class="unranked"><strong>未参与排序：</strong>{names}</p>'
+                names = T['join'].join(html.escape(item['label']) + html.escape(T['unit'].format(unit=T['unranked_reason'].get(item['reason'], item['reason'])))
+                                       for item in dimension['unranked'])
+                body += f'<p class="unranked"><strong>{T["not_ranked"]}</strong>{names}</p>'
         else:
-            values = ''.join(f'<li>{html.escape(item["label"])}：{html.escape(item["display"])} {basis_tag(item["basis"])}</li>' for item in dimension['values'])
-            body = f'<p class="no-order">此维度没有共同的比较尺度，本工具不生成排序，只列出各方案的取值。</p><ul class="plain-values">{values}</ul>'
+            values = ''.join('<li>' + html.escape(T['pair'].format(label=item['label'], value=item['display'])) + ' ' + basis_tag(item['basis'], lang) + '</li>' for item in dimension['values'])
+            body = f'<p class="no-order">{T["not_orderable_html"]}</p><ul class="plain-values">{values}</ul>'
         orders.append(f'<article class="order">{head}{body}</article>')
-    fictional = ('这是明确虚构的教学比较，取值不是现实事实。' if result['fictional']
-                 else '这是作者提供的比较；各单元格的来源与假设仍需分别判断。')
+    fictional = T['fictional'] if result['fictional'] else T['provided']
     notice_class = 'notice notice-fictional' if result['fictional'] else 'notice'
     download = base64.b64encode(render_json(result).encode('utf-8')).decode('ascii')
     return f'''<!doctype html>
-<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">{HTML_MARK}<meta http-equiv="Content-Security-Policy" content="{html.escape(csp)}"><meta name="color-scheme" content="light dark"><title>{html.escape(result['title'])}</title>
+<html lang="{T['html_lang']}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">{HTML_MARK}<meta http-equiv="Content-Security-Policy" content="{html.escape(csp)}"><meta name="color-scheme" content="light dark"><title>{html.escape(result['title'])}</title>
 <style>{css}</style></head>
 <body><main class="cmp">
-<header class="cmp-header"><h1>{title_html(result['title'])}</h1><p class="cmp-purpose">{html.escape(result['purpose'])}</p>
+<header class="cmp-header"><h1>{title_html(result['title'], lang)}</h1><p class="cmp-purpose">{html.escape(result['purpose'])}</p>
 <p class="{notice_class}">{fictional}</p></header>
-<section class="cmp-section" aria-labelledby="legend-heading"><h2 id="legend-heading">怎样读这张表</h2>
-<p class="section-note">每一格都标出它的依据身份。三种身份用实线、虚线和点线区分，黑白打印也能分辨。</p>
-<dl class="basis-legend"><div><dt>{basis_tag('observed')}</dt><dd>作者声明有来源的事实；工具没有核验这个来源。</dd></div>
-<div><dt>{basis_tag('assumed')}</dt><dd>作者设定的假设或方案取值。</dd></div>
-<div><dt>{basis_tag('unknown')}</dt><dd>尚无可信取值。不按 0、最差或最好处理，也不进入任何排序。</dd></div></dl>
-<p class="boundary">{html.escape(BOUNDARY)}</p></section>
-<section class="cmp-section" aria-labelledby="table-heading"><h2 id="table-heading">比较表</h2>
-<p class="section-note">共 {result['candidate_count']} 个方案、{result['dimension_count']} 个维度；表头下方注明每个维度的比较方向。</p>
-<div class="table-scroll" tabindex="0" role="region" aria-label="方案比较，可横向滚动"><table class="cmp-table">
-<thead><tr><th scope="col" class="corner">维度</th>{header}</tr></thead>
+<section class="cmp-section" aria-labelledby="legend-heading"><h2 id="legend-heading">{T['legend_heading']}</h2>
+<p class="section-note">{T['legend_note']}</p>
+<dl class="basis-legend"><div><dt>{basis_tag('observed', lang)}</dt><dd>{T['observed_dd']}</dd></div>
+<div><dt>{basis_tag('assumed', lang)}</dt><dd>{T['assumed_dd']}</dd></div>
+<div><dt>{basis_tag('unknown', lang)}</dt><dd>{T['unknown_dd']}</dd></div></dl>
+<p class="boundary">{html.escape(T['boundary'])}</p></section>
+<section class="cmp-section" aria-labelledby="table-heading"><h2 id="table-heading">{T['table_heading']}</h2>
+<p class="section-note">{T['table_note'].format(candidates=result['candidate_count'], dimensions=result['dimension_count'])}</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="{T['table_aria']}"><table class="cmp-table">
+<thead><tr><th scope="col" class="corner">{T['dimension']}</th>{header}</tr></thead>
 <tbody>{''.join(dimension_row(item, result) for item in result['dimensions'])}</tbody>
 </table></div></section>
-<section class="cmp-section" aria-labelledby="orders-heading"><h2 id="orders-heading">各维度的顺序</h2>
-<p class="section-note">只在有共同尺度的维度上排列本次取值；不跨维度加权，也不给出整体最优方案。</p>
+<section class="cmp-section" aria-labelledby="orders-heading"><h2 id="orders-heading">{T['orders_heading']}</h2>
+<p class="section-note">{T['orders_note']}</p>
 <div class="orders">{''.join(orders)}</div></section>
-<section class="cmp-section cmp-limits" aria-label="假设与边界"><div><h2>明确假设</h2><ul>{''.join(f'<li>{html.escape(t)}</li>' for t in result['assumptions'])}</ul></div>
-<div><h2>解释边界</h2><ul>{''.join(f'<li>{html.escape(t)}</li>' for t in result['boundaries'])}</ul></div></section>
+<section class="cmp-section cmp-limits" aria-label="{T['limits_aria']}"><div><h2>{T['assumptions']}</h2><ul>{''.join(f'<li>{html.escape(t)}</li>' for t in result['assumptions'])}</ul></div>
+<div><h2>{T['limits']}</h2><ul>{''.join(f'<li>{html.escape(t)}</li>' for t in result['boundaries'])}</ul></div></section>
 <footer class="cmp-footer"><p>{html.escape(result['interpretation'])}</p>
-<a class="download" download="comparison-results.json" href="data:application/json;charset=utf-8;base64,{download}">{DOWNLOAD_ICON}下载完整比较结果</a></footer>
+<a class="download" download="comparison-results.json" href="data:application/json;charset=utf-8;base64,{download}">{DOWNLOAD_ICON}{T['download']}</a></footer>
 </main></body></html>'''
 
 
 def dimension_row(dimension, result):
+    lang = language(result)
+    T = TEXT[lang]
     cells = []
     for candidate in result['candidates']:
         cell = next(item for item in dimension['values'] if item['id'] == candidate['id'])
-        text = '未知' if cell['basis'] == 'unknown' else cell['display']
+        text = T['unknown'] if cell['basis'] == 'unknown' else cell['display']
         kind = ' value-text' if not isinstance(cell['value'], (int, float)) or isinstance(cell['value'], bool) else ''
-        parts = [f'<span class="value{kind}">{html.escape(text)}</span>', basis_tag(cell['basis'])]
+        parts = [f'<span class="value{kind}">{html.escape(text)}</span>', basis_tag(cell['basis'], lang)]
         if cell['note']:
             parts.append(f'<span class="note">{html.escape(cell["note"])}</span>')
         if cell['basis'] == 'observed' and cell['source']:
-            parts.append(f'<span class="source">来源：{html.escape(cell["source"])}（作者声明，未经核验）</span>')
+            parts.append('<span class="source">' + html.escape(T['source'].format(source=cell['source'])) + '</span>')
         unknown = ' class="cell-unknown"' if cell['basis'] == 'unknown' else ''
         cells.append(f'<td{unknown}>' + ''.join(parts) + '</td>')
-    unit = f'<span class="dim-unit">单位：{html.escape(dimension["unit"])}</span>' if dimension['unit'] else ''
-    return (f'<tr><th scope="row"><span class="dim-label">{html.escape(dimension["label"])}</span>{unit}{direction_tag(dimension["direction"])}</th>'
+    unit = '<span class="dim-unit">' + html.escape(T['unit_html'].format(unit=dimension['unit'])) + '</span>' if dimension['unit'] else ''
+    return (f'<tr><th scope="row"><span class="dim-label">{html.escape(dimension["label"])}</span>{unit}{direction_tag(dimension["direction"], lang)}</th>'
             + ''.join(cells) + '</tr>')
 
 
@@ -524,10 +638,11 @@ def main(argv=None) -> int:
     parser.add_argument('--output', '-o', type=Path, required=True, help='安装目录之外的输出目录')
     parser.add_argument('--format', choices=['json', 'md', 'html', 'all'], default='all')
     parser.add_argument('--force', action='store_true', help='仅覆盖本工具先前生成的同名产物')
+    parser.add_argument('--lang', choices=sorted(TEXT), default='zh', help='表头、标记与说明的语言：zh（默认）或 en；不翻译模型内容')
     args = parser.parse_args(argv)
     try:
         model = read_comparison(args.model)
-        result = build_comparison(model)
+        result = build_comparison(model, args.lang)
         outputs = write_outputs(result, args.model, args.output, args.format, args.force)
         print(json.dumps({
             'outputs': outputs,
@@ -537,7 +652,7 @@ def main(argv=None) -> int:
         }, ensure_ascii=False))
         return 0
     except (OSError, UnicodeError, ComparisonError, ValueError) as error:
-        print(f'比较表生成失败：{error}', file=sys.stderr)
+        print(TEXT[args.lang]['failed'] + str(error), file=sys.stderr)
         return 2
 
 

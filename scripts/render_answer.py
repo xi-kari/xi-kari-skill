@@ -18,6 +18,7 @@ import os
 from pathlib import Path, PureWindowsPath
 import re
 import sys
+from types import SimpleNamespace
 import unicodedata
 from urllib.parse import unquote, urlsplit
 import xml.etree.ElementTree as ET
@@ -54,6 +55,144 @@ TITLE_BREAKS = ('：', '——')
 
 def escape(value: str) -> str:
     return html.escape(value, quote=True)
+
+
+LABELS = {
+    'zh': {
+        'html_lang': 'zh-CN',
+        'long_formula': '一条公式超过 10000 字符，已保留原式，未执行公式排版。',
+        'duplicate_footnote': '重复的脚注定义保留原文；引用使用首次定义。',
+        'back_aria': '返回脚注 {number} 的第 {index} 处引用',
+        'back': '返回引用 {index}',
+        'unused_footnote': '（正文未引用）',
+        'footnote_position': '脚注 ',
+        'footnotes': '脚注',
+        'image': '图像：',
+        'untitled_image': '未命名图像',
+        'image_without_alt': '有图像未提供替代文字，已用文件名标明；阅读时请结合正文。',
+        'remote_image': '远程图像未下载，离线保留说明与地址',
+        'large_image': '图像超过 20 MiB，保留说明与路径',
+        'image_format': '此图像格式暂不内嵌，保留说明与路径',
+        'svg_entity': 'SVG 含外部实体声明，未内嵌',
+        'svg_root': 'SVG 根元素无效，未内嵌',
+        'svg_active': 'SVG 含主动内容或样式块，未内嵌',
+        'svg_reference': 'SVG 含外部引用或主动属性，未内嵌',
+        'image_unreadable': '本地图像无法读取，保留说明与路径',
+        'unsafe_link': '危险链接协议已停用，链接文字与原地址仍保留。',
+        'mermaid_note': 'Mermaid 保留源码与文字说明，未加载在线绘图服务。',
+        'mermaid_caption': 'Mermaid 图示源码 · 离线保留，未渲染为图',
+        'table': '表格，可横向滚动',
+        'unsupported': '未支持的扩展语法保留为原文；可下载完整 Markdown。',
+        'math_unavailable': '公式排版资源不可用，已保留完整原式；其他阅读功能照常可用。',
+        'read_all': '阅读全文',
+        'format_notes': '阅读格式说明',
+        'skip': '跳至正文',
+        'contents': '目录',
+        'sections': '章节与条文',
+        'download': '下载 Markdown 原稿',
+        'tools': '阅读工具',
+        'open_contents': '打开目录',
+        'search': '搜索全文',
+        'previous_match': '上一处匹配',
+        'previous_title': '上一处（Shift+Enter）',
+        'next_match': '下一处匹配',
+        'next_title': '下一处（Enter）',
+        'close_search': '关闭搜索',
+        'ask_here': '追问此处',
+        'settings': '阅读设置',
+        'smaller': '减小正文字号',
+        'smaller_title': '减小字号',
+        'larger': '增大正文字号',
+        'larger_title': '增大字号',
+        'night': '夜间阅读',
+        'to_night': '切换到夜间阅读',
+        'print': '打印或存为 PDF',
+        'footer': '离线阅读版：正文完整保留，页面不联网，也不会自动发送任何内容。',
+        'to_start': '回到开篇',
+        'question_title': '围绕原文继续讨论',
+        'close_question': '收起追问',
+        'close_question_title': '收起追问（Esc）',
+        'question_help': '先在正文中选中一段文字，或在下面选择一个章节。追问只在本页生成，由你复制到对话里。',
+        'quote_label': '引用一个章节',
+        'choose_section': '选择章节或条款',
+        'quote_section': '引用此章节',
+        'question_label': '追问内容（可编辑）',
+        'question_placeholder': '选取原文后，这里会列出作品、章节位置和原文选段。',
+        'no_passage': '尚未选取原文',
+        'copy_question': '复制追问',
+        'ask_selection': '追问选段',
+        'noscript': '正文、目录、脚注和原文下载仍可使用，公式保留原式。浏览器内搜索与打印可通过 Ctrl+F、Ctrl+P 打开。',
+        'same_file': '输入与输出不能是同一个文件',
+        'failed': '阅读版生成失败：',
+    },
+    'en': {
+        'html_lang': 'en',
+        'long_formula': 'A formula longer than 10,000 characters is kept as written and was not typeset.',
+        'duplicate_footnote': 'Duplicate footnote definitions are kept as written; references use the first definition.',
+        'back_aria': 'Back to reference {index} of footnote {number}',
+        'back': 'Back to reference {index}',
+        'unused_footnote': ' (not referenced in the text)',
+        'footnote_position': 'Footnote ',
+        'footnotes': 'Footnotes',
+        'image': 'Image: ',
+        'untitled_image': 'untitled image',
+        'image_without_alt': 'An image without alternative text is labeled with its file name; read it together with the text.',
+        'remote_image': 'Remote image not downloaded; its description and address are kept offline',
+        'large_image': 'Image larger than 20 MiB; its description and path are kept',
+        'image_format': 'This image format is not embedded; its description and path are kept',
+        'svg_entity': 'The SVG declares external entities and was not embedded',
+        'svg_root': 'The SVG root element is invalid; not embedded',
+        'svg_active': 'The SVG contains active content or style blocks; not embedded',
+        'svg_reference': 'The SVG contains external references or active attributes; not embedded',
+        'image_unreadable': 'The local image could not be read; its description and path are kept',
+        'unsafe_link': 'A link with an unsafe protocol was disabled; its text and address are kept.',
+        'mermaid_note': 'Mermaid diagrams are kept as source with their descriptions; no online drawing service was loaded.',
+        'mermaid_caption': 'Mermaid diagram source · kept offline, not drawn',
+        'table': 'Table, scrolls horizontally',
+        'unsupported': 'Unsupported extended syntax is kept as written; the complete Markdown can be downloaded.',
+        'math_unavailable': 'Formula typesetting is unavailable; every formula is kept as written and the other reading features work as usual.',
+        'read_all': 'Read the full text',
+        'format_notes': 'Notes on this reading format',
+        'skip': 'Skip to the text',
+        'contents': 'Contents',
+        'sections': 'Sections and clauses',
+        'download': 'Download the Markdown original',
+        'tools': 'Reading tools',
+        'open_contents': 'Open contents',
+        'search': 'Search the text',
+        'previous_match': 'Previous match',
+        'previous_title': 'Previous (Shift+Enter)',
+        'next_match': 'Next match',
+        'next_title': 'Next (Enter)',
+        'close_search': 'Close search',
+        'ask_here': 'Ask about this',
+        'settings': 'Reading settings',
+        'smaller': 'Decrease text size',
+        'smaller_title': 'Smaller text',
+        'larger': 'Increase text size',
+        'larger_title': 'Larger text',
+        'night': 'Night reading',
+        'to_night': 'Switch to night reading',
+        'print': 'Print or save as PDF',
+        'footer': 'Offline reading edition: the full text is kept, the page makes no network connections, and it sends nothing automatically.',
+        'to_start': 'Back to the beginning',
+        'question_title': 'Continue from the text',
+        'close_question': 'Close the question panel',
+        'close_question_title': 'Close (Esc)',
+        'question_help': 'Select a passage in the text, or choose a section below. The question is composed on this page only; copy it into your conversation.',
+        'quote_label': 'Quote a section',
+        'choose_section': 'Choose a section or clause',
+        'quote_section': 'Quote this section',
+        'question_label': 'Your question (editable)',
+        'question_placeholder': 'After you select a passage, the work, its section and the quoted passage appear here.',
+        'no_passage': 'No passage selected yet',
+        'copy_question': 'Copy question',
+        'ask_selection': 'Ask about selection',
+        'noscript': 'The text, contents, footnotes and Markdown download still work, and formulas are kept as written. Use Ctrl+F to search and Ctrl+P to print.',
+        'same_file': 'Input and output must not be the same file',
+        'failed': 'Reading page could not be generated: ',
+    },
+}
 
 
 def number_heading(rendered: str, label: str = 'heading-no') -> str:
@@ -96,11 +235,19 @@ def split_title(rendered: str) -> str:
     return rendered
 
 
-def reading_stats(body: str) -> str:
+def reading_stats(body: str, lang: str = 'zh') -> str:
     """Length and reading time of the rendered text, for orientation only."""
     text = html.unescape(re.sub(r'<[^>]+>', ' ', body))
     han = len(re.findall(r'[\u3400-\u4dbf\u4e00-\u9fff\uf900-\ufaff]', text))
     words = len(re.findall(r"[A-Za-z]+(?:['’-][A-Za-z]+)*|\d+(?:[.,]\d+)*", text))
+    minutes = max(1, round(han / 400 + words / 220))
+    if lang == 'en':
+        total = words + han
+        count = f'{round(total, -2):,}' if total >= 1000 else f'{max(1, round(total, -1) or total)}'
+        hours, rest = divmod(minutes, 60)
+        unit = lambda n, word: f"{n} {word}{'' if n == 1 else 's'}"
+        duration = unit(minutes, 'minute') if minutes < 60 else unit(hours, 'hour') + (f' {unit(rest, "minute")}' if rest else '')
+        return f'About {count} words; about {duration} to read.'
     total = han + words
     if total >= 10000:
         count = f'约 {total / 10000:.1f} 万字'.replace('.0 万', ' 万')
@@ -108,7 +255,6 @@ def reading_stats(body: str) -> str:
         count = f'约 {round(total, -2):,} 字'
     else:
         count = f'约 {max(1, round(total, -1) or total)} 字'
-    minutes = max(1, round(han / 400 + words / 220))
     duration = f'{minutes} 分钟' if minutes < 60 else f'{minutes // 60} 小时' + (f' {minutes % 60} 分钟' if minutes % 60 else '')
     return f'全文{count}，读完约需 {duration}。'
 
@@ -163,7 +309,9 @@ def table_separator(line: str) -> bool:
 
 
 class MarkdownReader:
-    def __init__(self, source_path: Path):
+    def __init__(self, source_path: Path, lang: str = 'zh'):
+        self.labels = LABELS[lang]
+        self.t = SimpleNamespace(**self.labels)
         self.source_path = source_path
         self.headings: list[tuple[int, str, str]] = []
         self.fragments: dict[str, str] = {}
@@ -210,7 +358,7 @@ class MarkdownReader:
         if self.label_mode:
             return escape(raw)
         if len(tex) > 10000:
-            self.notes.add('一条公式超过 10000 字符，已保留原式，未执行公式排版。')
+            self.notes.add(self.labels['long_formula'])
             return escape(raw)
         self.has_math = True
         tag = 'div' if display else 'span'
@@ -225,7 +373,7 @@ class MarkdownReader:
         references = self.footnote_refs.setdefault(key, [])
         reference = f'fnref-{identifier}-{len(references) + 1}'
         references.append(reference)
-        return f'<sup class="footnote-ref" data-footnote-source="{escape("[^" + label + "]")}"><a id="{reference}" href="#fn-{identifier}" role="doc-noteref" aria-label="脚注 {number}">{number}</a></sup>'
+        return f'<sup class="footnote-ref" data-footnote-source="{escape("[^" + label + "]")}"><a id="{reference}" href="#fn-{identifier}" role="doc-noteref" aria-label="{self.t.footnote_position}{number}">{number}</a></sup>'
 
     def extract_footnotes(self, lines: list[str]) -> list[str]:
         remaining, i, fence = [], 0, None
@@ -246,7 +394,7 @@ class MarkdownReader:
             label, first = definition.groups()
             key = label.casefold()
             if key in self.footnotes:
-                self.notes.add('重复的脚注定义保留原文；引用使用首次定义。')
+                self.notes.add(self.labels['duplicate_footnote'])
                 remaining.append(line); i += 1; continue
             content = [first]; i += 1
             while i < len(lines):
@@ -271,23 +419,23 @@ class MarkdownReader:
         for key in order:
             identifier = hashlib.sha256(key.encode('utf-8')).hexdigest()[:16]
             references = self.footnote_refs.get(key, [])
-            back = ' '.join(f'<a class="footnote-backref" href="#{reference}" aria-label="返回脚注 {self.footnote_numbers[key]} 的第 {index} 处引用">返回引用 {index}</a>' for index, reference in enumerate(references, 1))
-            unused = f'<p class="footnote-unused">{escape("[^" + self.footnotes[key][0] + "]")}（正文未引用）</p>' if not references else ''
-            position = '脚注 [^' + self.footnotes[key][0] + ']'
+            back = ' '.join(f'<a class="footnote-backref" href="#{reference}" aria-label="{self.t.back_aria.format(number=self.footnote_numbers[key], index=index)}">{self.t.back.format(index=index)}</a>' for index, reference in enumerate(references, 1))
+            unused = f'<p class="footnote-unused">{escape("[^" + self.footnotes[key][0] + "]")}{self.t.unused_footnote}</p>' if not references else ''
+            position = self.labels['footnote_position'] + '[^' + self.footnotes[key][0] + ']'
             items.append(f'<li id="fn-{identifier}" data-section-title="{escape(position)}" tabindex="-1">{unused}{bodies[key]}<p class="footnote-returns">{back}</p></li>')
-        self.headings.append((2, 'reader-footnotes', '脚注'))
-        return '<section id="reader-footnotes" data-reader-section="2" data-section-title="脚注" class="footnotes" role="doc-endnotes" aria-label="脚注" tabindex="-1"><h2>脚注</h2><ol>' + ''.join(items) + '</ol></section>'
+        self.headings.append((2, 'reader-footnotes', self.labels['footnotes']))
+        return '<section id="reader-footnotes" data-reader-section="2" data-section-title="' + self.labels['footnotes'] + '" class="footnotes" role="doc-endnotes" aria-label="' + self.labels['footnotes'] + '" tabindex="-1"><h2>' + self.labels['footnotes'] + '</h2><ol>' + ''.join(items) + '</ol></section>'
 
     def image(self, alt: str, destination: str) -> str:
         label = re.sub(r'[*`_]', '', alt).strip()
         if not label:
-            label = '图像：' + (Path(destination).name or '未命名图像')
-            self.notes.add('有图像未提供替代文字，已用文件名标明；阅读时请结合正文。')
+            label = self.labels['image'] + (Path(destination).name or self.labels['untitled_image'])
+            self.notes.add(self.labels['image_without_alt'])
         try:
             parts = urlsplit(destination)
             windows_path = bool(re.match(r'^[A-Za-z]:[\\/]', destination))
             if (parts.scheme not in ('', 'file') and not windows_path) or destination.startswith('//'):
-                raise ValueError('远程图像未下载，离线保留说明与地址')
+                raise ValueError(self.labels['remote_image'])
             raw_path = unquote(parts.path) if parts.scheme == 'file' else unquote(destination)
             if parts.scheme == 'file' and re.match(r'^/[A-Za-z]:/', raw_path):
                 raw_path = raw_path[1:]
@@ -296,35 +444,35 @@ class MarkdownReader:
                 path = self.source_path.parent / path
             data = path.read_bytes()
             if len(data) > 20 * 1024 * 1024:
-                raise ValueError('图像超过 20 MiB，保留说明与路径')
+                raise ValueError(self.labels['large_image'])
             suffix = path.suffix.lower()
             mimes = {'.png': 'image/png', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.gif': 'image/gif', '.webp': 'image/webp', '.svg': 'image/svg+xml'}
             if suffix not in mimes:
-                raise ValueError('此图像格式暂不内嵌，保留说明与路径')
+                raise ValueError(self.labels['image_format'])
             if suffix == '.svg':
                 if re.search(br'<!DOCTYPE|<!ENTITY', data, re.I):
-                    raise ValueError('SVG 含外部实体声明，未内嵌')
+                    raise ValueError(self.labels['svg_entity'])
                 root = ET.fromstring(data)
                 if root.tag.split('}')[-1] != 'svg':
-                    raise ValueError('SVG 根元素无效，未内嵌')
+                    raise ValueError(self.labels['svg_root'])
                 for element in root.iter():
                     name = element.tag.split('}')[-1].lower()
                     if name in ('script', 'foreignobject', 'iframe', 'object', 'embed', 'audio', 'video', 'style'):
-                        raise ValueError('SVG 含主动内容或样式块，未内嵌')
+                        raise ValueError(self.labels['svg_active'])
                     for key, value in element.attrib.items():
                         key = key.split('}')[-1].lower()
                         if key.startswith('on') or (key in ('href', 'src') and not value.startswith('#')) or re.search(r'url\s*\(\s*[\"\x27]?(?!#)', value, re.I):
-                            raise ValueError('SVG 含外部引用或主动属性，未内嵌')
+                            raise ValueError(self.labels['svg_reference'])
             encoded = base64.b64encode(data).decode('ascii')
             return f'<img src="data:{mimes[suffix]};base64,{encoded}" alt="{escape(label)}" loading="lazy" decoding="async">'
         except (OSError, ValueError, ET.ParseError) as error:
-            explanation = str(error) if isinstance(error, ValueError) else '本地图像无法读取，保留说明与路径'
+            explanation = str(error) if isinstance(error, ValueError) else self.labels['image_unreadable']
             self.notes.add(explanation)
             return f'<span class="image-fallback" role="img" aria-label="{escape(label)}">{escape(label)} <span>（{escape(explanation)}：{escape(destination)}）</span></span>'
 
     def link(self, label: str, destination: str) -> str:
         if not safe_url(destination):
-            self.notes.add('危险链接协议已停用，链接文字与原地址仍保留。')
+            self.notes.add(self.labels['unsafe_link'])
             return f'<span class="disabled-link">{self.inline(label)}（{escape(destination)}）</span>'
         path_and_query, fragment_mark, fragment = destination.partition('#')
         path, query_mark, query = path_and_query.partition('?')
@@ -453,8 +601,8 @@ class MarkdownReader:
                     i += 1
                 body = '<pre><code>' + escape('\n'.join(code)) + '</code></pre>'
                 if language.casefold() == 'mermaid':
-                    self.notes.add('Mermaid 保留源码与文字说明，未加载在线绘图服务。')
-                    body = '<figure class="diagram-source"><figcaption>Mermaid 图示源码 · 离线保留，未渲染为图</figcaption>' + body + '</figure>'
+                    self.notes.add(self.labels['mermaid_note'])
+                    body = '<figure class="diagram-source"><figcaption>' + self.labels['mermaid_caption'] + '</figcaption>' + body + '</figure>'
                 elif language:
                     body = '<figure class="code-block"><figcaption>' + escape(language) + '</figcaption>' + body + '</figure>'
                 output.append(body); continue
@@ -526,7 +674,7 @@ class MarkdownReader:
                         scope = ' scope="col"' if tag == 'th' else ''
                         result.append(f'<{tag}{scope} class="align-{direction}">{self.inline(text)}</{tag}>')
                     return ''.join(result)
-                output.append('<div class="table-scroll" tabindex="0" role="region" aria-label="表格，可横向滚动"><table><thead><tr>' + cells(header, 'th') + '</tr></thead><tbody>' + ''.join('<tr>' + cells(row, 'td') + '</tr>' for row in rows) + '</tbody></table></div>'); continue
+                output.append('<div class="table-scroll" tabindex="0" role="region" aria-label="' + self.labels['table'] + '"><table><thead><tr>' + cells(header, 'th') + '</tr></thead><tbody>' + ''.join('<tr>' + cells(row, 'td') + '</tr>' for row in rows) + '</tbody></table></div>'); continue
             if line.startswith('    ') or line.startswith('\t'):
                 code = []
                 while i < len(lines) and (lines[i].startswith(('    ', '\t')) or not lines[i].strip()):
@@ -564,7 +712,7 @@ class MarkdownReader:
             if reference and not reference.group(1).startswith('^'):
                 self.references[reference.group(1).casefold()] = reference.group(2) or reference.group(3)
         if re.search(r'^\s*:::', source, re.M):
-            self.notes.add('未支持的扩展语法保留为原文；可下载完整 Markdown。')
+            self.notes.add(self.labels['unsupported'])
         body = self.blocks(lines) + self.render_footnotes()
         for old, new in self.fragments.items():
             body = body.replace('href="#' + escape(old) + '"', 'href="#' + new + '"')
@@ -612,15 +760,18 @@ ICONS = {
 }
 
 
-def render_document(source: str, *, title: str | None = None, source_path: Path | None = None, source_bytes: bytes | None = None) -> str:
+def render_document(source: str, *, title: str | None = None, source_path: Path | None = None, source_bytes: bytes | None = None, lang: str = 'zh') -> str:
+    if lang not in LABELS:
+        raise ValueError(f'unsupported language: {lang}')
+    L = LABELS[lang]
     source_path = Path(source_path or Path.cwd() / 'answer.md').resolve()
-    reader = MarkdownReader(source_path)
+    reader = MarkdownReader(source_path, lang)
     body = reader.render(source)
     title = title or next((text for level, _, text in reader.headings if level == 1), source_path.stem)
     toc = ''.join(f'<li class="toc-level-{level}"><a href="#{anchor}">{split_title(escape(text)) if level == 1 else number_heading(escape(text), "toc-no")}</a></li>'
                   for level, anchor, text in reader.headings)
     if not toc:
-        toc = '<li><a href="#document">阅读全文</a></li>'
+        toc = '<li><a href="#document">' + L['read_all'] + '</a></li>'
     css = (ASSETS / 'xikari-base.css').read_text(encoding='utf-8') + '\n' + (ASSETS / 'reader.css').read_text(encoding='utf-8')
     javascript = (ASSETS / 'reader.js').read_text(encoding='utf-8')
     scripts = [javascript]
@@ -630,13 +781,13 @@ def render_document(source: str, *, title: str | None = None, source_path: Path 
             scripts.insert(0, math_script)
             css = math_css + '\n' + css
         except (OSError, UnicodeError, ValueError):
-            reader.notes.add('公式排版资源不可用，已保留完整原式；其他阅读功能照常可用。')
+            reader.notes.add(L['math_unavailable'])
     script_hashes = ' '.join("'sha256-" + base64.b64encode(hashlib.sha256(script.encode('utf-8')).digest()).decode('ascii') + "'" for script in scripts)
     style_hash = base64.b64encode(hashlib.sha256(css.encode('utf-8')).digest()).decode('ascii')
     fallback_hash = base64.b64encode(hashlib.sha256(NOSCRIPT_CSS.encode('utf-8')).digest()).decode('ascii')
     original = base64.b64encode(source_bytes if source_bytes is not None else source.encode('utf-8')).decode('ascii')
     notes = ''.join('<li>' + escape(note) + '</li>' for note in sorted(reader.notes))
-    note_html = '<details class="render-notes"><summary>阅读格式说明</summary><ul>' + notes + '</ul></details>' if notes else ''
+    note_html = '<details class="render-notes"><summary>' + L['format_notes'] + '</summary><ul>' + notes + '</ul></details>' if notes else ''
     math_enabled = len(scripts) > 1
     style_attributes = "'unsafe-inline'" if math_enabled else "'none'"
     font_sources = 'data:' if math_enabled else "'none'"
@@ -644,51 +795,51 @@ def render_document(source: str, *, title: str | None = None, source_path: Path 
     script_html = ''.join('<script>' + script + '</script>' for script in scripts)
     section_options = ''.join(f'<option value="{anchor}">{escape(text)}</option>' for _, anchor, text in reader.headings)
     return f'''<!doctype html>
-<html lang="zh-CN" data-font="medium">
+<html lang="{L['html_lang']}" data-font="medium">
 <head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta http-equiv="Content-Security-Policy" content="{escape(csp)}">
 <meta name="color-scheme" content="light dark"><meta name="generator" content="Xikari reader"><title>{escape(title)}</title>
 <style>{css}</style><noscript><style>{NOSCRIPT_CSS}</style></noscript></head>
 <body>
-<a class="skip-link" href="#document">跳至正文</a>
+<a class="skip-link" href="#document">{L['skip']}</a>
 <div class="reader-shell">
-<aside id="contents" class="reader-sidebar" aria-label="目录">
-<nav aria-label="章节与条文"><ol>{toc}</ol></nav>
-<div class="sidebar-foot"><p class="doc-stats">{escape(reading_stats(body))}</p><a class="source-download" href="data:text/markdown;charset=utf-8;base64,{original}" download="{escape(source_path.name)}">{ICONS['download']}下载 Markdown 原稿</a></div>
+<aside id="contents" class="reader-sidebar" aria-label="{L['contents']}">
+<nav aria-label="{L['sections']}"><ol>{toc}</ol></nav>
+<div class="sidebar-foot"><p class="doc-stats">{escape(reading_stats(body, lang))}</p><a class="source-download" href="data:text/markdown;charset=utf-8;base64,{original}" download="{escape(source_path.name)}">{ICONS['download']}{L['download']}</a></div>
 </aside>
 <div class="reader-main">
-<header class="reader-toolbar" aria-label="阅读工具">
-<button id="nav-toggle" class="icon-button" type="button" aria-controls="contents" aria-expanded="false" aria-label="打开目录" title="目录">{ICONS['contents']}</button>
+<header class="reader-toolbar" aria-label="{L['tools']}">
+<button id="nav-toggle" class="icon-button" type="button" aria-controls="contents" aria-expanded="false" aria-label="{L['open_contents']}" title="{L['contents']}">{ICONS['contents']}</button>
 <p class="toolbar-heading" aria-hidden="true"><span class="toolbar-doc">{escape(title)}</span><span class="toolbar-section" id="toolbar-section">{escape(title)}</span></p>
-<div class="search-control" role="search">{ICONS['search']}<label class="visually-hidden" for="reader-search">搜索全文</label><input id="reader-search" type="search" placeholder="搜索全文" autocomplete="off" spellcheck="false" enterkeyhint="search"><kbd class="search-key" aria-hidden="true">/</kbd><span id="search-status" role="status" aria-live="polite"></span><span class="search-buttons"><button id="previous-match" class="icon-button" type="button" disabled aria-label="上一处匹配" title="上一处（Shift+Enter）">{ICONS['up']}</button><button id="next-match" class="icon-button" type="button" disabled aria-label="下一处匹配" title="下一处（Enter）">{ICONS['down']}</button></span><button id="search-close" class="icon-button" type="button" aria-label="关闭搜索">{ICONS['close']}</button></div>
+<div class="search-control" role="search">{ICONS['search']}<label class="visually-hidden" for="reader-search">{L['search']}</label><input id="reader-search" type="search" placeholder="{L['search']}" autocomplete="off" spellcheck="false" enterkeyhint="search"><kbd class="search-key" aria-hidden="true">/</kbd><span id="search-status" role="status" aria-live="polite"></span><span class="search-buttons"><button id="previous-match" class="icon-button" type="button" disabled aria-label="{L['previous_match']}" title="{L['previous_title']}">{ICONS['up']}</button><button id="next-match" class="icon-button" type="button" disabled aria-label="{L['next_match']}" title="{L['next_title']}">{ICONS['down']}</button></span><button id="search-close" class="icon-button" type="button" aria-label="{L['close_search']}">{ICONS['close']}</button></div>
 <div class="toolbar-actions">
-<button id="search-toggle" class="icon-button" type="button" aria-label="搜索全文" aria-controls="reader-search" aria-expanded="false">{ICONS['search']}</button>
-<button id="quote-question" class="primary-button" type="button" aria-controls="question-panel" aria-expanded="false">{ICONS['ask']}<span class="button-label">追问此处</span></button>
-<button id="tools-toggle" class="icon-button" type="button" aria-label="阅读设置" aria-controls="reading-controls" aria-expanded="false">{ICONS['type']}</button>
+<button id="search-toggle" class="icon-button" type="button" aria-label="{L['search']}" aria-controls="reader-search" aria-expanded="false">{ICONS['search']}</button>
+<button id="quote-question" class="primary-button" type="button" aria-controls="question-panel" aria-expanded="false">{ICONS['ask']}<span class="button-label">{L['ask_here']}</span></button>
+<button id="tools-toggle" class="icon-button" type="button" aria-label="{L['settings']}" aria-controls="reading-controls" aria-expanded="false">{ICONS['type']}</button>
 <div class="reading-controls" id="reading-controls">
-<button id="font-smaller" class="icon-button" type="button" aria-label="减小正文字号" title="减小字号"><span class="font-step" aria-hidden="true">A</span></button>
-<button id="font-larger" class="icon-button" type="button" aria-label="增大正文字号" title="增大字号"><span class="font-step" aria-hidden="true">A</span></button>
-<button id="theme-toggle" class="icon-button" type="button" aria-pressed="false" aria-label="夜间阅读" title="切换到夜间阅读">{ICONS['moon']}{ICONS['sun']}</button>
-<button id="print-reader" class="icon-button" type="button" aria-label="打印或存为 PDF" title="打印或存为 PDF">{ICONS['print']}</button>
+<button id="font-smaller" class="icon-button" type="button" aria-label="{L['smaller']}" title="{L['smaller_title']}"><span class="font-step" aria-hidden="true">A</span></button>
+<button id="font-larger" class="icon-button" type="button" aria-label="{L['larger']}" title="{L['larger_title']}"><span class="font-step" aria-hidden="true">A</span></button>
+<button id="theme-toggle" class="icon-button" type="button" aria-pressed="false" aria-label="{L['night']}" title="{L['to_night']}">{ICONS['moon']}{ICONS['sun']}</button>
+<button id="print-reader" class="icon-button" type="button" aria-label="{L['print']}" title="{L['print']}">{ICONS['print']}</button>
 </div>
 </div>
 <div class="reader-progress" role="presentation"><span id="reader-progress-bar"></span></div>
 </header>
 <main><article id="document" tabindex="-1">{body}</article>{note_html}
-<footer class="reader-footer"><p>离线阅读版：正文完整保留，页面不联网，也不会自动发送任何内容。</p><a href="#document">回到开篇</a></footer></main>
+<footer class="reader-footer"><p>{L['footer']}</p><a href="#document">{L['to_start']}</a></footer></main>
 </div>
 </div>
 <div class="nav-scrim" id="nav-scrim" hidden></div>
 <section id="question-panel" class="question-panel" aria-labelledby="question-title" hidden>
-<div class="question-heading"><h2 id="question-title">围绕原文继续讨论</h2><button id="close-question" class="icon-button" type="button" aria-label="收起追问" title="收起追问（Esc）">{ICONS['close']}</button></div>
-<p id="question-help">先在正文中选中一段文字，或在下面选择一个章节。追问只在本页生成，由你复制到对话里。</p>
-<label class="question-label" for="question-section">引用一个章节</label>
-<div class="question-section"><select id="question-section"><option value="">选择章节或条款</option>{section_options}</select><button id="quote-section" class="secondary-button" type="button" disabled>引用此章节</button></div>
-<label class="question-label" for="question-text">追问内容（可编辑）</label><textarea id="question-text" rows="8" aria-describedby="question-help" placeholder="选取原文后，这里会列出作品、章节位置和原文选段。"></textarea>
-<div class="question-actions"><span id="question-status" role="status" aria-live="polite">尚未选取原文</span><button id="copy-question" class="primary-button" type="button" disabled>复制追问</button></div>
+<div class="question-heading"><h2 id="question-title">{L['question_title']}</h2><button id="close-question" class="icon-button" type="button" aria-label="{L['close_question']}" title="{L['close_question_title']}">{ICONS['close']}</button></div>
+<p id="question-help">{L['question_help']}</p>
+<label class="question-label" for="question-section">{L['quote_label']}</label>
+<div class="question-section"><select id="question-section"><option value="">{L['choose_section']}</option>{section_options}</select><button id="quote-section" class="secondary-button" type="button" disabled>{L['quote_section']}</button></div>
+<label class="question-label" for="question-text">{L['question_label']}</label><textarea id="question-text" rows="8" aria-describedby="question-help" placeholder="{L['question_placeholder']}"></textarea>
+<div class="question-actions"><span id="question-status" role="status" aria-live="polite">{L['no_passage']}</span><button id="copy-question" class="primary-button" type="button" disabled>{L['copy_question']}</button></div>
 </section>
-<button id="selection-question" class="selection-bubble" type="button" hidden>{ICONS['ask']}追问选段</button>
-<noscript><p class="no-script">正文、目录、脚注和原文下载仍可使用，公式保留原式。浏览器内搜索与打印可通过 Ctrl+F、Ctrl+P 打开。</p></noscript>
+<button id="selection-question" class="selection-bubble" type="button" hidden>{ICONS['ask']}{L['ask_selection']}</button>
+<noscript><p class="no-script">{L['noscript']}</p></noscript>
 {script_html}
 </body></html>'''
 
@@ -701,20 +852,22 @@ def main() -> int:
     parser.add_argument('input', type=Path, help='完整 UTF-8 Markdown 文件')
     parser.add_argument('--output', '-o', type=Path, required=True, help='输出的单文件 HTML')
     parser.add_argument('--title', help='浏览器标签标题；不更改正文')
+    parser.add_argument('--lang', choices=sorted(LABELS), default='zh', help='界面语言：zh（默认）或 en；不翻译正文')
     args = parser.parse_args()
+    L = LABELS[args.lang]
     try:
         require_external_output(args.output, __file__)
         if args.input.resolve() == args.output.resolve():
-            raise ValueError('输入与输出不能是同一个文件')
+            raise ValueError(L['same_file'])
         raw = args.input.read_bytes()
         text = raw.decode('utf-8-sig')
-        document = render_document(text, title=args.title, source_path=args.input, source_bytes=raw)
+        document = render_document(text, title=args.title, source_path=args.input, source_bytes=raw, lang=args.lang)
         args.output.parent.mkdir(parents=True, exist_ok=True)
         args.output.write_text(document, encoding='utf-8', newline='\n')
         print(json.dumps({'output': str(args.output.resolve()), 'source_bytes': len(raw), 'html_bytes': args.output.stat().st_size, 'renderer': 'python-standard-library', 'offline': True}, ensure_ascii=False))
         return 0
     except (OSError, UnicodeError, ValueError) as error:
-        print(f'阅读版生成失败：{error}', file=sys.stderr)
+        print(f"{L['failed']}{error}", file=sys.stderr)
         return 2
 
 
