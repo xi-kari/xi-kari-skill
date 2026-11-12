@@ -1,6 +1,39 @@
 (() => {
   'use strict';
   const root = document.documentElement;
+  const T = (root.lang || '').toLowerCase().startsWith('en') ? {
+    mathError: 'Formula could not be typeset; kept as written',
+    askSelection: 'Ask about selection',
+    start: 'Beginning (#document)',
+    sectionRef: (title, id) => `${title} (#${id})`,
+    question: (title, location, quote) => `Work: ${title}\nSection: ${location}\n\nPassage:\n${quote}\n\nMy question:\nPlease continue from this passage, explaining the grounds, the conditions of application, and what material would change the judgment.`,
+    expanded: 'Complete formulas or footnote markers are included; edit the question, then copy it.',
+    placed: 'The passage is in place; edit the question, then copy it.',
+    copied: 'Copied; paste it into your conversation.',
+    copyBlocked: 'The browser did not allow automatic copying. The text is selected; press Ctrl+C or use the copy menu.',
+    toDay: 'Switch to day reading',
+    toNight: 'Switch to night reading',
+    closeContents: 'Close contents',
+    openContents: 'Open contents',
+    noMatch: 'No matches',
+    footnote: number => `Footnote ${number}`
+  } : {
+    mathError: '公式未能排版，保留原式',
+    askSelection: '追问选段',
+    start: '开篇（#document）',
+    sectionRef: (title, id) => `${title}（#${id}）`,
+    question: (title, location, quote) => `作品：《${title}》\n章节位置：${location}\n\n原文选段：\n${quote}\n\n我的追问：\n请围绕这段原文继续展开，说明依据、适用条件和可能改变判断的材料。`,
+    expanded: '已包含完整公式或脚注标记，可修改追问后复制。',
+    placed: '原文已放入，可修改追问后复制。',
+    copied: '已复制，可粘贴到你的对话中。',
+    copyBlocked: '浏览器未允许自动复制，文本已选中，请按 Ctrl+C 或使用复制菜单。',
+    toDay: '切换到日间阅读',
+    toNight: '切换到夜间阅读',
+    closeContents: '收起目录',
+    openContents: '打开目录',
+    noMatch: '没有匹配',
+    footnote: number => `脚注 ${number}`
+  };
   const article = document.getElementById('document');
   const toolbar = document.querySelector('.reader-toolbar');
   const sidebar = document.getElementById('contents');
@@ -42,7 +75,7 @@
       });
       if (display.querySelector('.katex-error')) {
         element.classList.add('math-error');
-        element.setAttribute('title', '公式未能排版，保留原式');
+        element.setAttribute('title', T.mathError);
       } else {
         element.append(display);
         element.querySelector('.math-source').hidden = true;
@@ -50,7 +83,7 @@
       }
     } catch (_) {
       element.classList.add('math-error');
-      element.setAttribute('title', '公式未能排版，保留原式');
+      element.setAttribute('title', T.mathError);
     }
   });
 
@@ -140,16 +173,16 @@
     const passage = passageFromRange(range);
     if (passage.quote) {
       selectedPassage = passage;
-      if (questionLabel) questionLabel.textContent = '追问选段';
+      if (questionLabel) questionLabel.textContent = T.askSelection;
       clearTimeout(bubbleTimer);
       bubbleTimer = setTimeout(placeBubble, 160);
     }
   });
   function fillQuestion(passage) {
-    const location = passage.sections.length ? passage.sections.map(section => `${section.title}（#${section.id}）`).join(' → ') : '开篇（#document）';
-    questionText.value = `作品：《${document.title}》\n章节位置：${location}\n\n原文选段：\n${passage.quote}\n\n我的追问：\n请围绕这段原文继续展开，说明依据、适用条件和可能改变判断的材料。`;
+    const location = passage.sections.length ? passage.sections.map(section => T.sectionRef(section.title, section.id)).join(' → ') : T.start;
+    questionText.value = T.question(document.title, location, passage.quote);
     copyQuestion.disabled = false;
-    questionStatus.textContent = passage.expanded ? '已包含完整公式或脚注标记，可修改追问后复制。' : '原文已放入，可修改追问后复制。';
+    questionStatus.textContent = passage.expanded ? T.expanded : T.placed;
   }
   function openQuestion() {
     hideBubble();
@@ -187,10 +220,10 @@
     try {
       if (!navigator.clipboard?.writeText) throw new Error('Clipboard unavailable');
       await navigator.clipboard.writeText(questionText.value);
-      questionStatus.textContent = '已复制，可粘贴到你的对话中。';
+      questionStatus.textContent = T.copied;
     } catch (_) {
       questionText.focus(); questionText.select();
-      questionStatus.textContent = '浏览器未允许自动复制，文本已选中，请按 Ctrl+C 或使用复制菜单。';
+      questionStatus.textContent = T.copyBlocked;
     }
   });
 
@@ -207,7 +240,7 @@
     root.dataset.theme = value === 'night' ? 'night' : 'paper';
     const night = root.dataset.theme === 'night';
     themeToggle.setAttribute('aria-pressed', String(night));
-    themeToggle.title = night ? '切换到日间阅读' : '切换到夜间阅读';
+    themeToggle.title = night ? T.toDay : T.toNight;
   }
   function font(value) {
     root.dataset.font = sizes.includes(value) ? value : 'medium';
@@ -233,7 +266,7 @@
   function nav(open) {
     document.body.classList.toggle('nav-open', open);
     navToggle.setAttribute('aria-expanded', String(open));
-    navToggle.setAttribute('aria-label', open ? '收起目录' : '打开目录');
+    navToggle.setAttribute('aria-label', open ? T.closeContents : T.openContents);
     if (scrim) scrim.hidden = !open;
   }
   function setTools(open) {
@@ -324,7 +357,7 @@
         matches.push({ start: item.starts[hit.index], end: item.ends[hit.index + hit[0].length - 1] });
       }
     });
-    if (!matches.length) { status.textContent = '没有匹配'; return; }
+    if (!matches.length) { status.textContent = T.noMatch; return; }
     let first = 0;
     nodes.forEach(entry => {
       while (first < matches.length && matches[first].end <= entry.start) first++;
@@ -381,7 +414,7 @@
     copy.querySelectorAll('.footnote-returns, .footnote-unused').forEach(item => item.remove());
     copy.querySelectorAll('[id]').forEach(item => item.removeAttribute('id'));
     const label = document.createElement('span');
-    label.className = 'preview-label'; label.textContent = `脚注 ${link.textContent.trim()}`;
+    label.className = 'preview-label'; label.textContent = T.footnote(link.textContent.trim());
     preview.replaceChildren(label, ...copy.childNodes);
     preview.hidden = false;
     try {

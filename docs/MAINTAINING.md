@@ -158,6 +158,36 @@ The full build checks page links. Before publication, also check native static
 URLs, section anchors, Chinese search, download identities, diagrams, teaching
 interactions, desktop/mobile layouts and both themes in a browser.
 
+## English reference edition
+
+`source/en/` holds the English reference edition of the manuscript and its
+manifest. The Chinese manuscript in `source/` remains the only theory authority;
+the edition serves English terminology, quotation and English readers, and the
+skill reads it only as `references/english.md` describes.
+
+The edition is generated, not edited by hand. It is built from the page-by-page
+translation, which is maintained outside this repository:
+
+```powershell
+python scripts/build_english_edition.py --from <translation directory>
+python scripts/build_english_edition.py --check
+```
+
+The translation directory holds `source-manifest.json`, the Chinese page
+snapshots, the English pages and `termbase.csv`. The build refuses a translation
+made from Chinese text other than `source/`, omits the Chinese glosses that the
+web pages place after terms, gives the definitional tuples in English while
+keeping the Chinese in translator's notes, turns links between web pages into
+in-book anchors, prefixes each page's translator's notes, and regenerates
+`references/glossary-en.md` from the termbase.
+
+`--check` only reads. It verifies the edition's bytes against its manifest, that
+the manifest translates the current Chinese source, and that every section ID,
+part anchor and paragraph block aligns with the Chinese text; CI runs it. When the
+Chinese source changes, the check fails until the affected passages of the
+translation are revised and the edition is rebuilt. Rebuilding also changes the
+English edition hash recorded in the install manifest.
+
 ## Project page verification
 
 Check the data arithmetic, unique domain/topic/pending IDs, source-domain title

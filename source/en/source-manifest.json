@@ -1,0 +1,137 @@
+{
+  "title": "Xikari: On Conditions, Structure, and Transformation",
+  "author": "Xikari",
+  "language": "en",
+  "role": "reference translation; the Chinese source governs",
+  "source_file": "Xikari-On-Conditions-Structure-and-Transformation.md",
+  "sha256": "2f85bc948a877b3bd56118f7f46f49601a95c5f37c83abb3042260e8fa2da535",
+  "bytes": 979804,
+  "translates": {
+    "source_file": "Xikari-条件结构与转化论.md",
+    "sha256": "18a7cc167faa3eda68a04b21313f833be6583abf1a2a47523a246a5f8a7eaee6"
+  },
+  "alignment": {
+    "sections": 391,
+    "parts": 21,
+    "blocks": 2060
+  },
+  "edition_notes": [
+    "Chinese glosses after English terms are omitted; see references/glossary-en.md.",
+    "Definitional tuples are given in English; the Chinese wording is kept in translator's notes.",
+    "Translator's notes are marked [^pNN-tn-…] and are not part of the author's text."
+  ],
+  "translation_pages": [
+    {
+      "slug": "00-reading-guide",
+      "sha256": "a4c25f8561967bdbf95e1df5b85661f299e971929ba5053975b3b81c678692ab"
+    },
+    {
+      "slug": "01-introduction",
+      "sha256": "92d0320d85c5630e6b862386b7072a3914a257cb324f1bdf7b2c61bf41f2df9f"
+    },
+    {
+      "slug": "02-boundaries",
+      "sha256": "c5ae8946b80d29862aef8fbe5af78867a3e7210a57bc68ce39ebdcd5dd9e26c1"
+    },
+    {
+      "slug": "03-grammar",
+      "sha256": "0ee3e188a624cd8ab63add3efb03914864b463917fd0a16107a0f513204c0203"
+    },
+    {
+      "slug": "04-conditions-i",
+      "sha256": "f3ccaa27a13e85d8890e4be64e4d476ec5255d2bc0534fe1b419ad3f1afd0cf2"
+    },
+    {
+      "slug": "05-conditions-ii",
+      "sha256": "148e0761a81c45fc6902660886ebd6b9b3c616fd30257fb5b5511a5d851bbdeb"
+    },
+    {
+      "slug": "06-scale-transformations",
+      "sha256": "46caec63b1bc21d234fb0bee0b898b50d9229f0b445bd7b63c7bae6694a84003"
+    },
+    {
+      "slug": "07-operation",
+      "sha256": "52b9c493846ef51a9e7ed9c57cba7930c0d2874620febfe65ffccc7b39e5e57d"
+    },
+    {
+      "slug": "08-human-world",
+      "sha256": "098353d9bdb1b7710098e77e65fb0d5498084313a30ea18eb01ffc1fd342122c"
+    },
+    {
+      "slug": "09-state-prototypes",
+      "sha256": "1ef3e489178adaf2cf6850bccd2517e49aef53b9d3b2ae6bc4d2fa1a6ded4e8e"
+    },
+    {
+      "slug": "10-actors",
+      "sha256": "1e09be6a31e5c5d56a1a9d2df77a370f4b7572cde1ba05db83b0108fdc693db3"
+    },
+    {
+      "slug": "11-circles",
+      "sha256": "e06ddbefd617a9e95a89c05defb244332b1e59131e99d501c3bac0aecd0ea28f"
+    },
+    {
+      "slug": "12-dynamic-inference",
+      "sha256": "369e84d66f7dedec13100d281269859b39bc6235455c8c3d1fa83c73dd26ecf2"
+    },
+    {
+      "slug": "13-foresight",
+      "sha256": "1831e22f189337ebd739a9ba8f5f81cb9ea93c32f108f4f63488901e9839d21f"
+    },
+    {
+      "slug": "14-interfaces",
+      "sha256": "5da46f3f598eb8d5d28c36150b4ab9f0fe906d2f5115005934ab8e4a0fcbb300"
+    },
+    {
+      "slug": "15-norms",
+      "sha256": "7f8340742efd8c6159c415782f1c26e288dacfa840c06a05f74507dd497efe4e"
+    },
+    {
+      "slug": "16-intervention",
+      "sha256": "f5adae12e307c411be2f8930fb4dd1b65d883aed2f4f955a821f4d4b5b92c47f"
+    },
+    {
+      "slug": "17-governance",
+      "sha256": "54bee50ae2ad49385cf49a1d156175c51ef8cfd08907b557ba6bdd83d0900f13"
+    },
+    {
+      "slug": "18-appendix-a-i",
+      "sha256": "99f22f6dee8f07eaf3a8e27d3d62192459196b9a1d6ed575441e64205eacc75a"
+    },
+    {
+      "slug": "19-appendix-a-ii",
+      "sha256": "5bac1a336b3f5537b0f92f1ae0baf83a0d33e84999ece3ab0c398d2de6c5cdb6"
+    },
+    {
+      "slug": "20-appendix-a-iii",
+      "sha256": "21120d318d24a0f15d9846f7a54fdef729acb4d9b08cd55eeabd30f4ccd3a0bf"
+    },
+    {
+      "slug": "21-appendix-b",
+      "sha256": "b50d6c2931ca6d08248ad26f9160850c95d5ca0a9781ed97688b509e8625afa9"
+    },
+    {
+      "slug": "22-appendix-c",
+      "sha256": "59e0c6344d1197667e9e7c42ac11f5e18e56a3e8900db38f66278175275d8ec8"
+    },
+    {
+      "slug": "23-appendix-d-i",
+      "sha256": "5fa66c475f11ac76ab107c94cda2896ea414441e2bad902fd6976338f581f715"
+    },
+    {
+      "slug": "24-appendix-d-ii",
+      "sha256": "61619ed5314cc19eedc31bdb780537fc9f3406751334372937d5ba4b8c629c78"
+    },
+    {
+      "slug": "25-appendix-d-iii",
+      "sha256": "9c139b7f1532887c165f0abe2ee1f75bcb3d8ce500c4c3b12d5eeb72b6f2b882"
+    },
+    {
+      "slug": "26-appendix-d-iv",
+      "sha256": "ccb71fe122a3bc0db0718b7fc6803a7f95fb91e077d79170e9aa6cd4412ab2b5"
+    },
+    {
+      "slug": "27-references",
+      "sha256": "3b7690a538cd6ace53f3c7bcb11a7d61d7f7f647b94dc73724e417d004aa3d44"
+    }
+  ]
+}
