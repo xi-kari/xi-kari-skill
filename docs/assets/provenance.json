@@ -1,18 +1,35 @@
 {
-  "wallpaper": {
-    "file": "hero-landscape.jpg",
-    "source": "https://xi-kari.com/assets/home-backgrounds/void-01.jpg",
-    "width": 5039,
-    "height": 2160,
-    "sha256": "c7c324841f669a89fbef67f585ddd07a628f08493cb51e5b8ce6a4857ae64f84",
-    "transformation": "Original bytes; display adaptation uses CSS only."
+  "outputs": {
+    "files": [
+      {
+        "file": "outputs-light.png",
+        "sha256": "07541098cfd4e265057ce3dbeff1b99720fc50006d4609b94f73ad4112561672"
+      },
+      {
+        "file": "outputs-dark.png",
+        "sha256": "594d4b5c17ff0b7ebec80a7070e34019d6f93847295587fec6e50333e8a61a18"
+      }
+    ],
+    "width": 1920,
+    "height": 870,
+    "source": ".github/readme/outputs-light.png and .github/readme/outputs-dark.png",
+    "origin": "Screenshots of pages produced by the packaged tools: the reading page from part one of the source text, the condition page and comparison table from the bundled, explicitly fictional teaching examples.",
+    "transformation": "Pixels unchanged; an origin note is embedded in each file."
   },
-  "signature": {
-    "source": "https://xi-kari.com/",
-    "implementation": "Original SVG strokes, masks, ornaments and timing from the blog signature component."
+  "socialCard": {
+    "file": "social-card.png",
+    "sha256": "68da592f2e71dfb96da5ceaf9e86df15e0ae379f47eb257bca9fb788d3dd9ecd",
+    "width": 1200,
+    "height": 630,
+    "origin": "Browser capture of this page's briefing strip and plan view in the day theme with route R2 selected.",
+    "transformation": "Scaled to 1200 by 630; an origin note is embedded in the file."
   },
-  "visuals": {
-    "source": "https://xi-kari.com/",
-    "implementation": "Blog Chinese wordmark, icon color field and three-layer tide paths."
+  "fonts": {
+    "record": "fonts/source.json",
+    "license": "fonts/OFL.txt",
+    "origin": "Subsets of Noto Sans SC and Noto Serif SC cut by website/scripts/build_page_fonts.py."
+  },
+  "drawings": {
+    "origin": "The plan view, profile view, hold, compass rose and wind rose are drawn by project.js from the route, module, part and research data published on the page."
   }
 }

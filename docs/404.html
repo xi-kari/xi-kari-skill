@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>没有找到这一页 · Xikari Skill</title>
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#fbfcfe" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0a1326" media="(prefers-color-scheme: dark)">
+<script>
+/* A missing address inside the handbook is answered by the handbook's own not-found page. */
+(function () {
+  var handbook = '/xi-kari-skill/handbook/';
+  if (location.pathname.indexOf(handbook) !== 0 || typeof fetch !== 'function') return;
+  var root = document.documentElement;
+  root.className = 'is-forwarding';
+  fetch(handbook + '404.html').then(function (response) {
+    if (!response.ok) throw new Error('unavailable');
+    return response.text();
+  }).then(function (page) {
+    document.open();
+    document.write(page);
+    document.close();
+  }).catch(function () { root.className = ''; });
+})();
+</script>
+<style>.is-forwarding body { visibility: hidden; }</style>
+<link rel="icon" href="/xi-kari-skill/assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/xi-kari-skill/assets/project.css">
+<script>try { var saved = localStorage.getItem('xi-kari-project-theme'); if (saved === 'night' || saved === 'day') document.documentElement.dataset.theme = saved; } catch (error) {}</script>
+</head>
+<body>
+<a class="skip" href="#main-content">跳到正文</a>
+
+<header class="topbar">
+  <a class="brand" href="/xi-kari-skill/"><svg class="i" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 2.6 20.1 7.3v9.4L12 21.4 3.9 16.7V7.3Z"/><circle cx="12" cy="12" r="1.6" fill="currentColor" stroke="none"/></svg><span>Xikari Skill</span></a>
+</header>
+
+<main class="lost" id="main-content">
+  <div class="lost-text">
+    <p class="lost-code display" aria-hidden="true">404</p>
+    <h1 class="display">这个地址没有页面</h1>
+    <p>链接可能写错了，或者这一页已经换了位置。从项目主页或原文精读站重新找到它。</p>
+    <p class="actions">
+      <a class="sign sign--go" href="/xi-kari-skill/">回到项目主页<svg class="i" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <a class="sign sign--plain" href="/xi-kari-skill/handbook/">读原文精读站<svg class="i" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+    </p>
+  </div>
+  <svg class="lost-hold" viewBox="0 0 420 200" aria-hidden="true" focusable="false">
+    <path class="ch-track" d="M0 156 L52 156"/>
+    <path class="ch-arrow" d="M44 151 L55 156 L44 161 Z"/>
+    <path class="ch-missed" d="M118 44 L302 44 A56 56 0 0 1 302 156 L118 156 A56 56 0 0 1 118 44 Z"/>
+    <path class="ch-arrow ch-arrow--soft" d="M204 37 L218 44 L204 51 Z"/>
+    <path class="ch-arrow ch-arrow--soft" d="M216 149 L202 156 L216 163 Z"/>
+    <text class="ch-note ch-note--ink" x="210" y="96" text-anchor="middle">复飞等待</text>
+    <text class="ch-note" x="210" y="116" text-anchor="middle">这个地址没有落地点</text>
+    <text class="ch-note ch-note--ink" x="0" y="144">复飞</text>
+  </svg>
+</main>
+
+</body>
+</html>
