@@ -42,7 +42,7 @@ python "$skillRoot/scripts/render_answer.py" --help
 python "$skillRoot/scripts/render_answer.py" "$taskRoot/xi-kari-answer.md" --output "$taskRoot/xi-kari-answer.html"
 ```
 
-生成器支持的Markdown语法和图形能力以实际实现为准；不支持的语法保留可见原文与原稿入口，不悄悄丢失。需要其他文档格式、复杂图形或交互模型时，使用宿主实际可用的相应工具，缺少能力时提供完整静态版本。
+英文成果加 `--lang en`，页面语言、目录、搜索、追问面板、脚注与阅读统计改为英文；正文照原稿，不做翻译。生成器支持的Markdown语法和图形能力以实际实现为准；不支持的语法保留可见原文与原稿入口，不悄悄丢失。需要其他文档格式、复杂图形或交互模型时，使用宿主实际可用的相应工具，缺少能力时提供完整静态版本。
 
 具体条件比较可用[条件模型](condition-lab.md)生成自包含的离散探索页面；该页面展示模型实际计算结果，完整论证与取舍仍在正文。DOCX、PDF、表格及跨设备交付按[领域与宿主接入](domain-and-host.md)处理。
 

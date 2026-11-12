@@ -23,7 +23,7 @@ def selected_files(root: Path) -> tuple[dict, list[str]]:
     for name in files:
         relative = PurePosixPath(name)
         forbidden = {'.git', '.github', '.codex', '.claude', '.agents', '__pycache__', 'node_modules', 'tests', 'docs', 'deliverables', 'runs', 'memories', '.artifacts'}
-        if any(part.casefold() in forbidden for part in relative.parts) or name in {'AGENTS.md', 'README.md', 'scripts/build_install_package.py', 'scripts/lint_derived.py'}:
+        if any(part.casefold() in forbidden for part in relative.parts) or name in {'AGENTS.md', 'README.md', 'README.en.md', 'scripts/build_install_package.py', 'scripts/lint_derived.py', 'scripts/build_english_edition.py'}:
             raise ValueError(f'Development or task files cannot enter the install payload: {name}')
         target = (root / name).resolve()
         if relative.is_absolute() or ".." in relative.parts or "\\" in name or ":" in name:
@@ -41,8 +41,20 @@ def build(root: Path, output: Path) -> dict:
     if hashlib.sha256(source).hexdigest() != source_manifest["sha256"]:
         raise ValueError("Theory source does not match its manifest")
     theory_path = 'source/' + source_manifest['source_file']
+    protected = {theory_path}
+    english_sha256 = None
+    if 'source/en/source-manifest.json' in payload:
+        english_manifest = json.loads(payload['source/en/source-manifest.json'])
+        english_path = 'source/en/' + english_manifest['source_file']
+        english = payload.get(english_path)
+        if english is None or hashlib.sha256(english).hexdigest() != english_manifest['sha256']:
+            raise ValueError('English edition does not match its manifest')
+        if english_manifest.get('translates', {}).get('sha256') != source_manifest['sha256']:
+            raise ValueError('English edition translates a different theory source')
+        protected.add(english_path)
+        english_sha256 = english_manifest['sha256']
     for name, data in payload.items():
-        if name != theory_path and (Path(name).suffix in {'.md', '.py', '.css', '.js', '.json', '.yaml', '.yml'} or Path(name).name == 'LICENSE'):
+        if name not in protected and (Path(name).suffix in {'.md', '.py', '.css', '.js', '.json', '.yaml', '.yml'} or Path(name).name == 'LICENSE'):
             payload[name] = data.decode('utf-8').replace('\r\n', '\n').encode('utf-8')
     output.mkdir(parents=True, exist_ok=True)
     archive = output / f"xi-kari-skill-{metadata['version']}-windows.zip"
@@ -58,6 +70,7 @@ def build(root: Path, output: Path) -> dict:
         "archive_root": metadata['name'],
         "bytes": len(raw), "file_count": len(payload),
         "theory_source_sha256": source_manifest["sha256"],
+        "english_edition_sha256": english_sha256,
         "files": [{"path": name, "bytes": len(data), "sha256": hashlib.sha256(data).hexdigest()}
                   for name, data in payload.items()]
     }

@@ -1,6 +1,6 @@
 ---
 name: xi-kari-skill
-description: 以Xikari著《Xikari-条件结构与转化论》为理论来源，按问题路由组合概念问答、解释、推演、条件前瞻、有限选择与制度起草；默认完整学习，显式授权时可做分层阅读实验，保留持续协作、明确判断与完整成果。用户明确点名Xikari Skill、Xi-Kari Skill、xi-kari-skill、$xi-kari-skill或/xi-kari-skill时使用，其相关续问保持接续；不由无关普通请求自动激活。
+description: 以Xikari著《Xikari-条件结构与转化论》为理论来源，按问题路由组合概念问答、解释、推演、条件前瞻、有限选择与制度起草；默认完整学习，显式授权时可做分层阅读实验，保留持续协作、明确判断与完整成果；中英文均可，英文工作使用随包对齐的英文参考译本与术语表，原文以中文为准。用户明确点名Xikari Skill、Xi-Kari Skill、xi-kari-skill、$xi-kari-skill或/xi-kari-skill时使用，其相关续问保持接续；不由无关普通请求自动激活。Works in English or Chinese with Xikari's theory On Conditions, Structure, and Transformation (the Chinese text governs; an aligned English reference edition is bundled) for concept questions, explanation, projection, conditional foresight, bounded choice and institutional drafting. Use only when the user explicitly names Xikari Skill, Xi-Kari Skill, xi-kari-skill, $xi-kari-skill or /xi-kari-skill, and for follow-ups on that task.
 ---
 
 # Xikari Skill
@@ -24,6 +24,12 @@ description: 以Xikari著《Xikari-条件结构与转化论》为理论来源，
 按 `read_source.py` 或宿主工具分段取得原文。输出截断的部分继续补读；脚本读过磁盘、散列匹配和文件存在不代表模型已读懂。不制作读取回执、学习评分、通过证书、签名终态，也不安排模型互相证明已学会。原文不可访问或所需范围未完成时，明确缺口并继续取得；不能把局部结果冒称完整覆盖。
 
 同任务接续复用已完成且仍可靠的学习，补读未读及理解不可靠的部分。新独立任务重新按当前模式学习；理论版本改变时，`full` 重新全读，`layered` 重新读取共同核心及受影响依赖，不能确定范围时全读。新作者不能继承“已学会”资格，须亲读其模式要求的原文。
+
+## 语言与英文版
+
+用户用英文提问或要求英文成果时，以英文完成全部工作，并按[英文工作](references/english.md)处理；本文件与各指南的要求不因语言改变。理论权威仍是中文原文。`source/en/` 的英文参考译本与原文共用全部小节与分部编号，用于英文术语、英文引文和英文读者阅读，不取得独立权威：两者在定义、条件、量词、许可或禁止上看似不一致时，以中文为准，据原文直接翻译，并在影响判断时说明。
+
+`full` 仍是完整学习中文原文。以英文译本代替原文阅读与 `layered` 同属未经比较的阅读条件，只用于明确授权的实验，未完成同条件 A/B 比较前不作默认。英文术语依[中英术语表](references/glossary-en.md)，一个概念一个译名；引用英文译本时注明 §，用 `read_source.py --parallel` 核对中文。阅读版与 Word 成品用 `--lang en` 生成英文界面。
 
 ## 七条问题路由
 

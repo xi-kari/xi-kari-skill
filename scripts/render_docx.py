@@ -29,6 +29,53 @@ finally:
 
 
 SUPPORTED = '标题、段落、粗体/斜体、行内代码、有序与无序列表、引用块、围栏代码块、管道表格、分隔线、脚注、本地图片'
+
+
+DOCX_LABELS = {
+    'zh': {
+        'supported': SUPPORTED,
+        'code_language': '围栏代码块语言 {info} 未支持，保留原文',
+        'container': '容器语法 ::: 未支持，保留原文',
+        'untitled_image': '未命名图像',
+        'remote_note': '远程图像未下载，正文保留说明文字：{dest}',
+        'remote_text': '图像：{label}（远程图像未下载：{dest}）',
+        'unreadable_note': '本地图像无法读取，正文保留说明文字：{dest}',
+        'unreadable_text': '图像：{label}（无法读取：{dest}）',
+        'format_note': '图像格式未支持，正文保留说明文字：{dest}',
+        'format_text': '图像：{label}（格式未支持：{dest}）',
+        'large_note': '图像超过 20 MiB，正文保留说明文字：{dest}',
+        'large_text': '图像：{label}（超过大小上限：{dest}）',
+        'footnotes': '脚注',
+        'unsupported_heading': '未支持语法说明',
+        'unsupported_text': '本工具当前支持的 Markdown 子集：{supported}。{note}',
+        'default_title': '文档',
+        'same_file': '输入与输出不能是同一个文件',
+        'failed': 'DOCX 生成失败：',
+        'language': '',
+    },
+    'en': {
+        'supported': 'headings, paragraphs, bold and italic, inline code, ordered and unordered lists, block quotes, '
+                     'fenced code blocks, pipe tables, horizontal rules, footnotes and local images',
+        'code_language': 'Fenced code language {info} is not supported; kept as written',
+        'container': 'Container syntax ::: is not supported; kept as written',
+        'untitled_image': 'untitled image',
+        'remote_note': 'Remote image not downloaded; its description is kept in the text: {dest}',
+        'remote_text': 'Image: {label} (remote image not downloaded: {dest})',
+        'unreadable_note': 'Local image could not be read; its description is kept in the text: {dest}',
+        'unreadable_text': 'Image: {label} (could not be read: {dest})',
+        'format_note': 'Image format not supported; its description is kept in the text: {dest}',
+        'format_text': 'Image: {label} (format not supported: {dest})',
+        'large_note': 'Image larger than 20 MiB; its description is kept in the text: {dest}',
+        'large_text': 'Image: {label} (exceeds the size limit: {dest})',
+        'footnotes': 'Footnotes',
+        'unsupported_heading': 'Notes on unsupported syntax',
+        'unsupported_text': 'This tool supports this Markdown subset: {supported}. {note}',
+        'default_title': 'Document',
+        'same_file': 'Input and output must not be the same file',
+        'failed': 'DOCX could not be generated: ',
+        'language': '<w:lang w:val="en-US"/>',
+    },
+}
 MAX_IMAGE_BYTES = 20 * 1024 * 1024
 EMU_PER_PIXEL = 9525
 MAX_IMAGE_EMU = 6 * 914400
@@ -127,7 +174,7 @@ def _block_start(lines: list[str], index: int) -> bool:
     return False
 
 
-def parse_blocks(lines: list[str]) -> list[dict]:
+def parse_blocks(lines: list[str], lang: str = 'zh') -> list[dict]:
     """把 Markdown 行序列解析成块列表；脚注定义单独收集为 footnote 块。"""
     blocks: list[dict] = []
     i, total = 0, len(lines)
@@ -154,12 +201,12 @@ def parse_blocks(lines: list[str]) -> list[dict]:
             i += 1
             if info.lower() in ('mermaid',):
                 blocks.append({'kind': 'unsupported', 'text': '\n'.join(lines[opening:i]),
-                               'note': f'围栏代码块语言 {info} 未支持，保留原文'})
+                               'note': DOCX_LABELS[lang]['code_language'].format(info=info)})
             else:
                 blocks.append({'kind': 'code', 'lines': body})
             continue
         if line.strip().startswith(':::'):
-            blocks.append({'kind': 'unsupported', 'text': line.strip(), 'note': '容器语法 ::: 未支持，保留原文'})
+            blocks.append({'kind': 'unsupported', 'text': line.strip(), 'note': DOCX_LABELS[lang]['container']})
             i += 1
             continue
         heading = _HEADING.match(line)
@@ -394,10 +441,11 @@ def _footnote_numbers(blocks: list[dict], definitions: dict[str, str]) -> dict[s
     return numbers
 
 
-def build_document(source: str, title: str | None, source_path: Path | None) -> tuple[dict[str, bytes], list[str]]:
+def build_document(source: str, title: str | None, source_path: Path | None, lang: str = 'zh') -> tuple[dict[str, bytes], list[str]]:
     """把 Markdown 文本渲染成 OOXML 部件；返回（部件名→字节, 未支持语法说明）。"""
+    L = DOCX_LABELS[lang]
     lines = source.replace('\r\n', '\n').replace('\r', '\n').split('\n')
-    blocks = parse_blocks(lines)
+    blocks = parse_blocks(lines, lang)
     definitions = {block['label']: block['text'] for block in blocks if block['kind'] == 'footnote'}
     numbers = _footnote_numbers(blocks, definitions)
 
@@ -431,29 +479,29 @@ def build_document(source: str, title: str | None, source_path: Path | None) -> 
             body.append(_table_xml(block['rows'], numbers=numbers))
         elif kind == 'image':
             alt, dest = block['alt'], block['dest']
-            label = alt or Path(dest).name or '未命名图像'
+            label = alt or Path(dest).name or L['untitled_image']
             if _is_remote(dest):
-                unsupported.append(f'远程图像未下载，正文保留说明文字：{dest}')
-                body.append(_paragraph_xml([{'text': f'图像：{label}（远程图像未下载：{dest}）',
+                unsupported.append(L['remote_note'].format(dest=dest))
+                body.append(_paragraph_xml([{'text': L['remote_text'].format(label=label, dest=dest),
                                              'bold': False, 'italic': False, 'code': False, 'sup': False}]))
                 continue
             path = _resolve_image(dest, source_path)
             try:
                 data = path.read_bytes()
             except OSError:
-                unsupported.append(f'本地图像无法读取，正文保留说明文字：{dest}')
-                body.append(_paragraph_xml([{'text': f'图像：{label}（无法读取：{dest}）',
+                unsupported.append(L['unreadable_note'].format(dest=dest))
+                body.append(_paragraph_xml([{'text': L['unreadable_text'].format(label=label, dest=dest),
                                              'bold': False, 'italic': False, 'code': False, 'sup': False}]))
                 continue
             suffix = path.suffix.lower()
             if suffix not in IMAGE_MIMES:
-                unsupported.append(f'图像格式未支持，正文保留说明文字：{dest}')
-                body.append(_paragraph_xml([{'text': f'图像：{label}（格式未支持：{dest}）',
+                unsupported.append(L['format_note'].format(dest=dest))
+                body.append(_paragraph_xml([{'text': L['format_text'].format(label=label, dest=dest),
                                              'bold': False, 'italic': False, 'code': False, 'sup': False}]))
                 continue
             if len(data) > MAX_IMAGE_BYTES:
-                unsupported.append(f'图像超过 20 MiB，正文保留说明文字：{dest}')
-                body.append(_paragraph_xml([{'text': f'图像：{label}（超过大小上限：{dest}）',
+                unsupported.append(L['large_note'].format(dest=dest))
+                body.append(_paragraph_xml([{'text': L['large_text'].format(label=label, dest=dest),
                                              'bold': False, 'italic': False, 'code': False, 'sup': False}]))
                 continue
             index = len(media) + 1
@@ -472,7 +520,7 @@ def build_document(source: str, title: str | None, source_path: Path | None) -> 
 
     if numbers:
         ordered = sorted(numbers.items(), key=lambda item: item[1])
-        body.append(_paragraph_xml([{'text': '脚注', 'bold': False, 'italic': False, 'code': False, 'sup': False}],
+        body.append(_paragraph_xml([{'text': L['footnotes'], 'bold': False, 'italic': False, 'code': False, 'sup': False}],
                                    style='Heading1'))
         for label, number in ordered:
             runs = [{'text': f'{number}. ', 'bold': False, 'italic': False, 'code': False, 'sup': False}]
@@ -481,10 +529,10 @@ def build_document(source: str, title: str | None, source_path: Path | None) -> 
             body.append(_paragraph_xml(runs, style='FootnoteText'))
 
     if unsupported:
-        body.append(_paragraph_xml([{'text': '未支持语法说明', 'bold': False, 'italic': False,
+        body.append(_paragraph_xml([{'text': L['unsupported_heading'], 'bold': False, 'italic': False,
                                      'code': False, 'sup': False}], style='Heading1'))
         for note in dict.fromkeys(unsupported):
-            body.append(_paragraph_xml([{'text': f'本工具当前支持的 Markdown 子集：{SUPPORTED}。{note}',
+            body.append(_paragraph_xml([{'text': L['unsupported_text'].format(supported=L['supported'], note=note),
                                          'bold': False, 'italic': False, 'code': False, 'sup': False}],
                                        style='FootnoteText'))
 
@@ -504,7 +552,7 @@ def build_document(source: str, title: str | None, source_path: Path | None) -> 
     core_properties = ('<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'
                        '<cp:coreProperties xmlns:cp="http://schemas.openxmlformats.org/package/2006/metadata/core-properties" '
                        'xmlns:dc="http://purl.org/dc/elements/1.1/">'
-                       f'<dc:title>{escape_text(resolve_title(source, title, source_path))}</dc:title>'
+                       f'<dc:title>{escape_text(resolve_title(source, title, source_path, lang))}</dc:title>'
                        '</cp:coreProperties>')
 
     extensions = sorted({IMAGE_MIMES['.' + name.rsplit('.', 1)[1]][0] for name, _ in media})
@@ -541,16 +589,16 @@ def build_document(source: str, title: str | None, source_path: Path | None) -> 
         'docProps/core.xml': core_properties.encode('utf-8'),
         'word/document.xml': document.encode('utf-8'),
         'word/_rels/document.xml.rels': document_rels.encode('utf-8'),
-        'word/styles.xml': STYLES.encode('utf-8'),
+        'word/styles.xml': STYLES.replace('<w:rPrDefault><w:rPr></w:rPr></w:rPrDefault>', '<w:rPrDefault><w:rPr>' + L['language'] + '</w:rPr></w:rPrDefault>').encode('utf-8'),
     }
     for name, data in media:
         parts[f'word/media/{name}'] = data
     return parts, list(dict.fromkeys(unsupported))
 
 
-def build_parts(source: str, title: str | None, source_path: Path | None) -> dict[str, bytes]:
+def build_parts(source: str, title: str | None, source_path: Path | None, lang: str = 'zh') -> dict[str, bytes]:
     """纯装配入口：返回 部件名→字节；不写盘。"""
-    parts, _ = build_document(source, title, source_path)
+    parts, _ = build_document(source, title, source_path, lang)
     return parts
 
 
@@ -621,24 +669,24 @@ def PARTS_ORDER(parts: dict[str, bytes]) -> list[str]:
     return ordered
 
 
-def resolve_title(source: str, title: str | None, source_path: Path | None) -> str:
+def resolve_title(source: str, title: str | None, source_path: Path | None, lang: str = 'zh') -> str:
     """标题只作元数据：显式 --title 优先，否则取首个一级标题，再无则取文件名主干。"""
     if not title:
         lines = source.replace('\r\n', '\n').replace('\r', '\n').split('\n')
         title = next((block['text'] for block in parse_blocks(lines)
                       if block['kind'] == 'heading' and block['level'] == 1),
-                     Path(source_path).stem if source_path is not None else '文档')
+                     Path(source_path).stem if source_path is not None else DOCX_LABELS[lang]['default_title'])
     return _CONTROL.sub(' ', title).replace('\r\n', '\n').replace('\r', '\n')
 
 
-def render_document(input_path: Path, output: Path, title: str | None = None) -> dict:
+def render_document(input_path: Path, output: Path, title: str | None = None, lang: str = 'zh') -> dict:
     """完整流程：读入、拒绝同路径、装配、写出。"""
     input_path, output = Path(input_path), Path(output)
     if _same_path(input_path, output):
-        raise DocxError('输入与输出不能是同一个文件')
+        raise DocxError(DOCX_LABELS[lang]['same_file'])
     text, raw = read_markdown(input_path)
-    title = resolve_title(text, title, input_path)
-    parts, unsupported = build_document(text, title, input_path)
+    title = resolve_title(text, title, input_path, lang)
+    parts, unsupported = build_document(text, title, input_path, lang)
     write_docx(output, parts, None)
     return {'output': str(output.resolve()), 'source_bytes': len(raw),
             'docx_bytes': output.stat().st_size, 'renderer': 'python-standard-library',
@@ -653,13 +701,14 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument('input', type=Path, help='完整 UTF-8 Markdown 文件')
     parser.add_argument('--output', '-o', type=Path, required=True, help='输出的 .docx 路径')
     parser.add_argument('--title', help='文档标题；不改变正文内容')
+    parser.add_argument('--lang', choices=sorted(DOCX_LABELS), default='zh', help='标签与文档语言：zh（默认）或 en；不翻译正文')
     args = parser.parse_args(argv)
     try:
-        summary = render_document(args.input, args.output, args.title)
+        summary = render_document(args.input, args.output, args.title, args.lang)
         print(json.dumps(summary, ensure_ascii=False))
         return 0
     except (OSError, UnicodeError, ValueError, TypeError, KeyError) as error:
-        print(f'DOCX 生成失败：{error}', file=sys.stderr)
+        print(f"{DOCX_LABELS[args.lang]['failed']}{error}", file=sys.stderr)
         return 2
 
 

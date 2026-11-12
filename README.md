@@ -4,6 +4,10 @@
 </picture>
 
 <p align="center">
+  <a href="README.en.md">English</a> · <b>中文</b>
+</p>
+
+<p align="center">
   <a href="https://github.com/xi-kari/xi-kari-skill/releases/latest"><b>下载安装包</b></a>
   &nbsp;·&nbsp;
   <a href="https://xi-kari.github.io/xi-kari-skill/handbook/">原文精读</a>
@@ -25,6 +29,8 @@
 **Xikari Skill** 是一个智能体技能（Agent Skill）。它以 Xikari 著《Xikari-条件结构与转化论》为理论来源，按问题组合原文问答、解释、推演、条件前瞻、有限选择、制度起草与理论评估。十个方法模块承接材料、对象、机制、路径与方案，形成有理由、可反驳的完整判断。
 
 它为需要想清楚、也需要下判断的问题而设计：一项制度为什么反复失灵，一个方案会怎样影响不同的人，几种解释里哪一种站得住，现在该维持、调整、试探还是退出。技能只在你明确点名时启用，不会接管日常对话。
+
+中英文都可以使用：用英文提问，就以英文完成全部工作。理论权威仍是中文原文；安装包另附与原文逐节对齐的英文参考译本和中英术语表，用于英文术语与引文（见[英文工作](references/english.md)）。
 
 ## 它有什么不同
 
@@ -115,7 +121,7 @@
 
 <sub>截图由当前源码中的工具实际生成：阅读页以原文第一部分为示例内容；条件模型页与方案比较表来自随包的“明确虚构”教学示例，其中的数值不是现实事实。</sub>
 
-**版本范围：**当前安装包为 `v6.0.0`；截图用于展示工具界面，各版本的功能以相应的 [Release 说明](https://github.com/xi-kari/xi-kari-skill/releases/latest)为准。
+**版本范围：**当前安装包为 `v6.1.0`；截图用于展示工具界面，各版本的功能以相应的 [Release 说明](https://github.com/xi-kari/xi-kari-skill/releases/latest)为准。
 
 - **完整成果稿 `xi-kari-answer.md`。** 初次完整交付或要求合稿时形成：中心判断在前，随后是材料评价、结构关系、机制比较、案例与反例、路径、反方回应、裁决与方案。
 - **离线阅读页。** 由完整稿生成的单个 HTML 文件，不联网：章节目录随阅读位置标出当前章节，有全文搜索、字号调节和打印版式；夜间模式默认跟随系统，也可以手动切换；脚注可以悬停预览，也可以回跳。选中一段正文，旁边会出现“追问选段”，把选段连同位置整理成一条追问，由你复制回对话。有公式时内嵌随包的 KaTeX 排版。
@@ -128,17 +134,17 @@
 
 | 工具 | 用途 | 刻意不做的事 |
 | --- | --- | --- |
-| `read_source.py` | 按块顺序读取全文、按节号复读、关键词定位 | 报告块数或核对原文身份，都不等于读过 |
+| `read_source.py` | 按块顺序读取全文、按节号复读、关键词定位；`--lang en`、`--parallel` 读取英文译本或中英对照 | 报告块数或核对原文身份，都不等于读过 |
 | `evidence.py` | 登记材料版本，保存选定片段及其支持范围 | 不联网下载，不判断材料是否可信 |
 | `claims.py` | 主张台账：依据、理由、改判条件与未决分歧 | 不打分，不判定真伪 |
-| `comparison.py` | 方案比较表，输出 JSON、Markdown 与 HTML；事实、假设、未知分别标注 | 未知不参与排序，不给整体最优 |
+| `comparison.py` | 方案比较表，输出 JSON、Markdown 与 HTML；事实、假设、未知分别标注；`--lang en` 输出英文标签 | 未知不参与排序，不给整体最优 |
 | `study_design.py` | 把未决问题变成能区分各解释的观察与采集说明 | 缺失保持缺失，不填默认值 |
 | `condition_lab.py` | 运行明确的公式与约束，导出可切换全部已计算组合的离散情景页 | 不插值，不把模型结果说成现实可行 |
 | `manuscript.py` | 稿件快照、差异、合并不重叠的修改、追踪依赖 | 不替作者判断语义是否接续 |
 | `task_state.py` | 跨轮次记录已决定、未决、需复核与已撤回 | 不把用户认可记成事实 |
 | `casebook.py` | 在你选定的目录里积累案例 | 不写入全局记忆，不推定结构相似 |
-| `render_answer.py` | 生成离线阅读页 | 不增删、不重排正文 |
-| `render_docx.py` | 导出 Word 文档 | 不下载远程图片 |
+| `render_answer.py` | 生成离线阅读页；`--lang en` 为英文界面 | 不增删、不重排正文 |
+| `render_docx.py` | 导出 Word 文档；`--lang en` 为英文标签与文档语言 | 不下载远程图片 |
 
 PowerShell 示例。`$skillRoot` 是宿主实际加载的技能目录，`$taskRoot` 是你选定的、位于技能目录之外的任务目录：
 
@@ -166,6 +172,7 @@ python "$skillRoot/scripts/comparison.py" "$taskRoot/compare.json" --output "$ta
 - **[历史实测案例](https://github.com/xi-kari/xi-kari-skill/discussions?discussions_q=)**：Discussions 保留了基于 Xikari 8.3 的历史分析，供参考与讨论，不代表当前《Xikari-条件结构与转化论》及现行 Skill 的分析表现。
 - **[术语索引](https://xi-kari.github.io/xi-kari-skill/handbook/theory/appendix-b.html)**：附录 B 的编号体系与术语总表。
 - **权威文本**：[`source/Xikari-条件结构与转化论.md`](source/Xikari-条件结构与转化论.md)，身份（SHA-256）记录在 [`source/source-manifest.json`](source/source-manifest.json)。原文优先于技能的工程指引，也优先于模型对同名术语的既有理解。
+- **英文参考译本**：[`source/en/Xikari-On-Conditions-Structure-and-Transformation.md`](source/en/Xikari-On-Conditions-Structure-and-Transformation.md)，译自上述权威文本，与它共用全部小节和分部编号，所译原文的 SHA-256 记在 [`source/en/source-manifest.json`](source/en/source-manifest.json)。译本不取得独立权威，与中文看似不一致时以中文为准；术语见[中英术语表](references/glossary-en.md)。
 - **[项目主页](https://xi-kari.github.io/xi-kari-skill/)**：项目介绍、使用方式与研究进度。
 
 ## 边界
@@ -184,6 +191,7 @@ python "$skillRoot/scripts/comparison.py" "$taskRoot/compare.json" --output "$ta
 xi-kari-skill/
 ├── SKILL.md              技能入口：阅读模式与七条问题路由
 ├── source/               理论原文与身份清单（权威文本）
+│   └── en/              英文参考译本及其身份清单
 ├── modules/             十个分析与判断模块
 ├── rules/               39 张带原文锚点的派生规则卡
 ├── cases/               教学示范及可运行登记输入
@@ -212,6 +220,7 @@ python -m pip install pypdf==6.19.0
 npm ci --prefix tests/dom --ignore-scripts --no-audit --no-fund
 python -m unittest discover -s tests -v
 python scripts/read_source.py --check
+python scripts/build_english_edition.py --check
 python scripts/build_install_package.py --output <仓库之外的目录>
 ```
 
