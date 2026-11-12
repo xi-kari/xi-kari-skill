@@ -1,7 +1,7 @@
 import { reactive, watch } from 'vue'
 
 export type TextSize = 's' | 'm' | 'l'
-export type BodyFace = 'sans' | 'fang'
+export type BodyFace = 'sans' | 'song'
 export interface ReadingPrefs { size: TextSize; body: BodyFace; sourceOnly: boolean }
 
 export const PREFS_KEY = 'xk-reading'
@@ -12,7 +12,7 @@ export const prefsHeadScript = `;(() => { try {
   const c = document.documentElement.classList
   if (p.size === 's') c.add('xk-size-s')
   if (p.size === 'l') c.add('xk-size-l')
-  if (p.body === 'fang') c.add('xk-body-fang')
+  if (p.body === 'song' || p.body === 'fang') c.add('xk-body-song')
   if (p.sourceOnly) c.add('xk-source-only')
 } catch (e) {} })()`
 
@@ -23,7 +23,7 @@ function apply() {
   const classes = document.documentElement.classList
   classes.toggle('xk-size-s', state.size === 's')
   classes.toggle('xk-size-l', state.size === 'l')
-  classes.toggle('xk-body-fang', state.body === 'fang')
+  classes.toggle('xk-body-song', state.body === 'song')
   classes.toggle('xk-source-only', state.sourceOnly)
 }
 
@@ -34,7 +34,8 @@ export function startPrefs() {
   try {
     const saved = JSON.parse(localStorage.getItem(PREFS_KEY) || '{}')
     if (saved.size === 's' || saved.size === 'm' || saved.size === 'l') state.size = saved.size
-    if (saved.body === 'sans' || saved.body === 'fang') state.body = saved.body
+    /* a reader who chose the earlier serif face keeps a serif body */
+    if (saved.body === 'song' || saved.body === 'fang') state.body = 'song'
     state.sourceOnly = saved.sourceOnly === true
   } catch {
     /* private mode or blocked storage: keep the defaults */

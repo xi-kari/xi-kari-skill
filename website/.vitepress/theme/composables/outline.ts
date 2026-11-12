@@ -1,4 +1,4 @@
-import { onMounted, onUnmounted, ref, shallowRef } from 'vue'
+import { inject, onMounted, onUnmounted, provide, ref, shallowRef, type InjectionKey, type Ref, type ShallowRef } from 'vue'
 import { getScrollOffset, onContentUpdated } from 'vitepress'
 import { useLessonIndex } from './nav'
 
@@ -64,6 +64,20 @@ export function useOutline() {
   onContentUpdated(collect)
   onMounted(collect)
   return { items, active }
+}
+
+interface Outline { items: ShallowRef<OutlineItem[]>; active: Ref<string> }
+const OUTLINE: InjectionKey<Outline> = Symbol('xk-outline')
+
+/** The layout measures the outline once; the page outline and the locator strip both read it. */
+export function provideOutline(): Outline {
+  const outline = useOutline()
+  provide(OUTLINE, outline)
+  return outline
+}
+
+export function useSharedOutline(): Outline {
+  return inject(OUTLINE) || useOutline()
 }
 
 /** How far down the current page the reader is, from 0 to 1. */

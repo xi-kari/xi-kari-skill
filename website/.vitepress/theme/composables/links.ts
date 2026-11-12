@@ -1,5 +1,8 @@
 export interface TopLink { text: string; link: string; match: (route: string) => boolean }
 
+/** The Skill's project page, one level above the handbook. Opened as a normal page load. */
+export const projectHome = '/xi-kari-skill/'
+
 /** The sections named in the top bar (and at the head of the index on narrow screens). */
 export const topLinks: TopLink[] = [
   { text: '原文', link: '/theory/', match: (r) => r.startsWith('/theory/') && r !== '/theory/appendix-b' },

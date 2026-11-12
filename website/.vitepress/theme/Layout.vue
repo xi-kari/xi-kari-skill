@@ -10,7 +10,7 @@ import XkFooter from './components/XkFooter.vue'
 import XkNotFound from './components/XkNotFound.vue'
 import XkSearch from './components/XkSearch.vue'
 import XkLightbox from './components/XkLightbox.vue'
-import { useReadingProgress } from './composables/outline'
+import { provideOutline, useReadingProgress } from './composables/outline'
 import { startPrefs } from './composables/prefs'
 
 /* the home page carries every lesson's title and lead, so it loads on its own */
@@ -27,6 +27,7 @@ const navOpen = ref(false)
 const asideOpen = ref(false)
 const searchOpen = ref(false)
 const progress = useReadingProgress()
+provideOutline()
 const drawerOpen = computed(() => navOpen.value || asideOpen.value)
 let returnFocus: HTMLElement | null = null
 let restoreFocus = true
@@ -130,7 +131,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="xk-app" :class="{ 'is-home': isHome, 'nav-open': navOpen, 'aside-open': asideOpen }">
+  <div class="xk-app" :class="{ 'is-home': isHome, 'has-locator': !isHome && !isNotFound, 'nav-open': navOpen, 'aside-open': asideOpen }">
     <a class="xk-skip" href="#xk-main" :inert="drawerOpen || undefined">跳到正文</a>
     <XkTopBar
       :inert="drawerOpen || undefined"
@@ -139,6 +140,7 @@ onUnmounted(() => {
       :aside-open="asideOpen"
       :has-nav="!isNotFound"
       :has-aside="!isHome && !isNotFound"
+      :is-theory="isTheory"
       @toggle-nav="toggleNav"
       @toggle-aside="toggleAside"
       @search="searchOpen = true"

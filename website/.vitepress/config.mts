@@ -1,10 +1,11 @@
-import { readFileSync } from 'node:fs'
-import { join } from 'node:path'
+import { readdirSync, readFileSync } from 'node:fs'
+import { join, relative } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { defineConfig } from 'vitepress'
 import type MarkdownIt from 'markdown-it'
 import theorySidebar from './theory-sidebar.json'
-import { buildLessonIndex } from './theme/composables/lessonKeys'
+import { buildLessonIndex, isLocatorNote, sourceTitle } from './theme/composables/lessonKeys'
+import { prefsHeadScript } from './theme/composables/prefs'
 import { loadLessons } from '../scripts/lesson_data.mjs'
 
 const WEBSITE = fileURLToPath(new URL('..', import.meta.url))
@@ -25,7 +26,7 @@ function lessonSearchHtml(section: string) {
   const lesson = lessons()[section]
   if (!lesson) return ''
   const escape = (value: string) => value.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
-  const fields = [lesson.lead, ...(lesson.explanation || []), ...(lesson.argumentSteps || []),
+  const fields = [lesson.lead, ...(lesson.explanation || []).filter((text: unknown) => !isLocatorNote(text)), ...(lesson.argumentSteps || []),
     ...(lesson.keyTerms || []).flatMap((item: any) => [item.term, item.text]),
     ...(lesson.sourceQuotes || []).flatMap((item: any) => [item.text, item.ref]),
     ...(lesson.distinctions || []).flatMap((item: any) => [item.leftTitle, item.leftText, item.rightTitle, item.rightText]),
@@ -35,7 +36,7 @@ function lessonSearchHtml(section: string) {
     ...(lesson.questionAnswers || []).flatMap((item: any) => [item.question, item.answer, item.basis]),
     ...(lesson.counterexamples || []).flatMap((item: any) => [item.text, item.effect]),
     lesson.applicability?.reason, ...(lesson.openQuestions || []),
-    ...(lesson.sources || []).flatMap((item: any) => [item.title, item.locator, ...(item.claim_support || []), ...(item.limits || [])]),
+    ...(lesson.sources || []).flatMap((item: any) => [sourceTitle(item), item.locator, ...(item.claim_support || []), ...(item.limits || [])]),
     lesson.summary]
   return `<h3 id="explain-${section.toLowerCase().replaceAll('.', '-')}">讲解：${escape(lesson.title)}</h3>` + fields.filter(Boolean).map(value => `<p>${escape(String(value))}</p>`).join('')
 }
@@ -87,14 +88,44 @@ function tableFrames(md: MarkdownIt) {
   md.renderer.rules.table_close = (tokens, idx, options, _env, self) => self.renderToken(tokens, idx, options) + '</div>'
 }
 
-const prefsScript = `;(() => { try {
-  const p = JSON.parse(localStorage.getItem('xk-reading') || '{}')
-  const c = document.documentElement.classList
-  if (p.size === 's') c.add('xk-size-s')
-  if (p.size === 'l') c.add('xk-size-l')
-  if (p.body === 'fang') c.add('xk-body-fang')
-  if (p.sourceOnly) c.add('xk-source-only')
-} catch (e) {} })()`
+/** The date the published text was fixed, from the same record the project page reads. */
+function baselineDate(): string {
+  try {
+    const status = JSON.parse(readFileSync(join(WEBSITE, '../docs/data/research-status.json'), 'utf8'))
+    const match = String(status?.theory?.baselineDate || '').match(/^(\d{4})-(\d{2})-(\d{2})$/)
+    return match ? `${match[1]}.${match[2]}.${match[3]}` : ''
+  } catch {
+    return ''
+  }
+}
+
+/** Chinese characters in a text: the measure of length on the title strip and the strip board. */
+function countHan(text: string): number {
+  let count = 0
+  for (const char of text) {
+    const code = char.codePointAt(0) || 0
+    if (code >= 0x3400 && code <= 0x9fff) count++
+  }
+  return count
+}
+
+/** Length of every sheet of the book in Chinese characters, keyed by route, for the strip board. */
+function sheetLengths(): Record<string, number> {
+  const lengths: Record<string, number> = {}
+  const root = join(WEBSITE, 'theory')
+  const walk = (directory: string) => {
+    for (const entry of readdirSync(directory, { withFileTypes: true })) {
+      const path = join(directory, entry.name)
+      if (entry.isDirectory()) walk(path)
+      else if (entry.name.endsWith('.md')) {
+        const route = '/theory/' + relative(root, path).replace(/\\/g, '/').replace(/(^|\/)index\.md$/, '$1').replace(/\.md$/, '')
+        lengths[route] = countHan(readFileSync(path, 'utf8'))
+      }
+    }
+  }
+  try { walk(root) } catch { /* the board simply shows no lengths */ }
+  return lengths
+}
 
 const learningSidebar = [
   { text: '开始理解', items: [
@@ -116,6 +147,11 @@ const learningSidebar = [
     { text: '火星气候轨道器', link: '/cases/mars-climate-orbiter' },
     { text: '丰田安灯系统', link: '/cases/toyota-andon' },
     { text: '民主授权的边界', link: '/cases/democratic-authorization' },
+    { text: 'GitLab：服务恢复与数据完整', link: '/cases/gitlab-recovery' },
+    { text: '弗林特饮水投诉', link: '/cases/flint-water-feedback' },
+    { text: '伦敦出租车学员', link: '/cases/london-taxi-learning' },
+    { text: '飓风伊恩与预报锥', link: '/cases/representation-hurricane-cone' },
+    { text: '大西洋慈善基金会的档案', link: '/cases/atlantic-archives-exit' },
   ] },
   { text: '继续阅读', items: [
     { text: '理论原文', link: '/theory/' },
@@ -135,12 +171,12 @@ export default defineConfig({
   scrollOffset: { selector: '.xk-topbar', padding: 20 },
   sitemap: { hostname: 'https://xi-kari.github.io/xi-kari-skill/handbook/' },
   head: [
-    ['meta', { name: 'theme-color', content: '#e7ebee', media: '(prefers-color-scheme: light)' }],
-    ['meta', { name: 'theme-color', content: '#0a1630', media: '(prefers-color-scheme: dark)' }],
+    ['meta', { name: 'theme-color', content: '#fbfcfe', media: '(prefers-color-scheme: light)' }],
+    ['meta', { name: 'theme-color', content: '#0a1326', media: '(prefers-color-scheme: dark)' }],
     ['link', { rel: 'icon', type: 'image/svg+xml', href: '/xi-kari-skill/handbook/favicon.svg' }],
     ['meta', { property: 'og:type', content: 'website' }],
     ['meta', { property: 'og:locale', content: 'zh_CN' }],
-    ['script', {}, prefsScript],
+    ['script', {}, prefsHeadScript],
   ],
   markdown: {
     config(md) {
@@ -167,6 +203,8 @@ export default defineConfig({
   },
   themeConfig: {
     opening: openingParagraph(),
+    xkBaseline: baselineDate(),
+    xkLengths: sheetLengths(),
     xkLessons: lessonIndex(),
     sidebar: {
       '/': theorySidebar,

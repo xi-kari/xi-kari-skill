@@ -1,7 +1,7 @@
 *, *::before, *::after { box-sizing: border-box; }
 
 html {
-  background: var(--xk-table);
+  background: var(--xk-sheet);
   color: var(--xk-ink);
   font-family: var(--xk-font-sans);
   font-size: 16px;
@@ -9,12 +9,15 @@ html {
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
   scroll-padding-top: calc(var(--xk-bar) + 24px);
+  scrollbar-color: var(--xk-rule-2) var(--xk-sheet);
   font-kerning: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  caret-color: var(--xk-here);
+  accent-color: var(--xk-blue);
 }
 
-body { margin: 0; min-height: 100vh; background: var(--xk-table); overflow-x: clip; }
+body { margin: 0; min-height: 100vh; background: var(--xk-sheet); overflow-x: clip; }
 
 h1, h2, h3, h4, h5, h6, p, ol, ul, dl, dd, figure, blockquote, pre { margin: 0; }
 ol, ul { padding: 0; }
@@ -26,22 +29,18 @@ a { color: inherit; text-decoration: none; }
 table { border-collapse: collapse; }
 abbr[title] { text-decoration: underline dotted; }
 
-::selection { background: var(--xk-marker-soft); color: var(--xk-ink); }
+::selection { background: var(--xk-marker); color: var(--xk-on-marker); }
 
 :focus { outline: none; }
-:focus-visible {
-  outline: 2px solid var(--xk-blue);
-  outline-offset: 3px;
-  border-radius: 2px;
-}
+:focus-visible { outline: 3px solid var(--xk-focus); outline-offset: 3px; }
 
-.xk-fang { font-family: var(--xk-font-fang); font-weight: 400; font-synthesis: none; }
+.xk-display { font-family: var(--xk-font-display); font-weight: 900; font-synthesis: none; }
 
 .xk-sr {
   position: absolute !important;
   width: 1px; height: 1px;
   padding: 0; margin: -1px;
-  overflow: hidden; clip: rect(0 0 0 0);
+  overflow: hidden; clip-path: inset(50%);
   white-space: nowrap; border: 0;
 }
 
@@ -51,16 +50,41 @@ abbr[title] { text-decoration: underline dotted; }
   top: 10px;
   left: 10px;
   padding: 10px 16px;
-  background: var(--xk-ink);
-  color: var(--xk-sheet);
+  background: var(--xk-marker);
+  color: var(--xk-on-marker);
+  border: 2px solid var(--xk-on-marker);
   font-size: 14px;
-  border-radius: 4px;
-  transform: translateY(-160%);
+  font-weight: 800;
+  transform: translateY(-180%);
   transition: transform var(--xk-quick) var(--xk-ease);
 }
 .xk-skip:focus { transform: none; }
 
-.xk-icon { width: 20px; height: 20px; flex: none; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+.xk-icon { width: 20px; height: 20px; flex: none; fill: none; stroke: currentColor; stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; }
+
+/* signs: the one way a page asks to be acted on */
+.xk-sign {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 46px;
+  padding: 6px 18px;
+  border: 2px solid var(--xk-ink);
+  border-radius: 3px;
+  font-family: var(--xk-font-display);
+  font-weight: 900;
+  font-size: 16px;
+  line-height: 1.2;
+  transition: background-color var(--xk-quick), color var(--xk-quick), transform var(--xk-quick) var(--xk-ease);
+}
+.xk-sign:active { transform: translateY(1px); }
+.xk-sign .xk-icon { transition: transform 220ms var(--xk-ease); }
+.xk-sign:hover .xk-icon { transform: translateX(3px); }
+.xk-sign--go { background: var(--xk-marker); color: var(--xk-on-marker); border-color: var(--xk-on-marker); }
+.xk-sign--go:hover { background: #ffe07a; }
+.xk-sign--plain { background: var(--xk-sheet); color: var(--xk-ink); }
+.xk-sign--plain:hover { background: var(--xk-ink); color: var(--xk-sheet); }
 
 kbd {
   font-family: var(--xk-font-sans);
@@ -68,8 +92,7 @@ kbd {
   line-height: 1;
   padding: 3px 5px;
   border: 1px solid var(--xk-rule-2);
-  border-bottom-width: 2px;
-  border-radius: 4px;
+  border-radius: 2px;
   color: var(--xk-ink-3);
   background: var(--xk-sheet);
 }

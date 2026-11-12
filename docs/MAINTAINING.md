@@ -53,7 +53,15 @@ tasks. For a status with pending work, name each current pending task.
    and installation guidance with `docs/INSTALL.md`. A release link must name
    the exact published asset. State only the operating systems and capabilities
    actually tested.
-6. Check the diff and publish through the repository's configured GitHub Pages
+6. Keep the route table and the module list identical to the routing and module
+   tables in `SKILL.md`. They are also the data the page's drawings read: each
+   route row lists its modules in order in `data-legs` (a trailing `?` marks a
+   module used only when needed, `data-supplement` names modules added when
+   necessary, `data-from` names the routes whose result it continues), and each
+   module item carries its code, its short chart label and any named handoff
+   file. The quoted sentence and the twenty part titles come from the
+   manuscript word for word.
+7. Check the diff and publish through the repository's configured GitHub Pages
    process. All visitors then receive the same published snapshot.
 
 Public files must not include machine-local paths, personal case material,
@@ -61,6 +69,42 @@ private research inventories, scheduler locations, credentials, internal thread
 IDs or private receipts. Use an aggregate public snapshot with named work and
 its meaning. Keep installation artifacts and research-run outputs outside the
 website assets.
+
+## Page fonts and images
+
+Headings, signs and plaques are set in a heavy sans and the quoted source text
+in Song. Both are subsets of Noto Sans SC and Noto Serif SC (SIL OFL 1.1) cut to
+the characters `index.html` and `404.html` set in them, so neither page makes an
+external font request. After changing text inside an element whose class list
+contains `display`, `sign`, `plaque` or `song` on either page, rebuild them:
+
+```powershell
+python website/scripts/build_page_fonts.py --sans <NotoSansSC-VF.ttf> --serif <NotoSerifSC-VF.ttf>
+python website/scripts/build_page_fonts.py --check
+```
+
+Building needs `fonttools` and `brotli`; `--check` only reads and reports
+characters the committed subsets do not cover. `assets/fonts/source.json`
+records each subset's source version, hash and covered characters, and
+`assets/fonts/OFL.txt` carries the licence.
+
+`assets/provenance.json` records every raster the page ships. The output
+screenshots are copies of `.github/readme/outputs-light.png` and
+`outputs-dark.png`; replace both places together when the tools' pages change.
+`social-card.png` is a capture of the page's own briefing strip and plan view at
+1200 by 630; retake it after the opening changes. Update the recorded hashes
+whenever a file changes. The plan view, profile view, compass rose and wind rose
+are drawn in the browser from the page's own data and need no image files.
+
+## Not-found page
+
+`404.html` at the publishing root is what the host returns for every missing
+address under the project. It shares `assets/project.css`, links back to the
+project page and the handbook, and uses root-relative `/xi-kari-skill/` URLs
+because it is served at any depth. A missing address inside
+`/xi-kari-skill/handbook/` is handed to the handbook's own not-found page
+(`handbook/404.html`, written by the handbook build) with the address kept. The
+file is written by hand; the handbook build does not touch it.
 
 ## Handbook
 
@@ -84,10 +128,21 @@ the static site.
 The handbook has its own VitePress theme in `website/.vitepress/theme/`
 (layout, book index, outline, lesson modules, teaching models, page-turn and
 theme transitions); its design is recorded in `.impeccable/surfaces/handbook.md`.
-The display face is Zhuque Fangsong (SIL OFL 1.1), cut into unicode-range WOFF2
-slices by `python website/scripts/build_fonts.py --font <ZhuqueFangsong-Regular.ttf>`
-(needs `fonttools` and `brotli`); rerun it only when lessons bring in many rare
-characters. The slices and `styles/fonts.css` are committed.
+It shares the project page's chart vocabulary: the same paper, ink, cobalt,
+magenta and sign yellow, the source text drawn as a compass rose, and every
+sheet of the book handled as a ruled strip.
+
+The display face is one Noto Sans SC subset at weight 900 (SIL OFL 1.1), built
+by `python website/scripts/build_fonts.py` (needs `fonttools` and `brotli`;
+`--font` names the variable font when it is not installed). It holds the
+characters of the theme's own strings, the book index and every first- and
+second-level heading; lesson text, body text and quotations use system fonts.
+Rerun it after headings, index titles or theme strings change, and use
+`--check` to list uncovered characters without writing. The subset,
+`fonts/source.json` and `styles/fonts.css` are committed; the licence is
+`website/public/licenses/NotoSansSC-OFL.txt`. The home page's baseline date is
+read from `docs/data/research-status.json`, the same record the project page
+uses.
 
 Section explanations live in `website/content/section-lessons.json`, keyed by
 the stable reading unit. `website/LESSONS.md` lists every field and the module it
@@ -107,13 +162,16 @@ interactions, desktop/mobile layouts and both themes in a browser.
 
 Check the data arithmetic, unique domain/topic/pending IDs, source-domain title
 alignment, release links, static fallback consistency and absence of obsolete
-editor endpoints. Preserve the original artwork and the 96-mark desktop /
-48-mark mobile icon field.
+editor endpoints. Check the route table and module list against `SKILL.md`, the
+quotation and part titles against the manuscript, font coverage and the
+recorded asset hashes; `tests/test_project_page.py` covers each of these.
 
-On the actual published page, check desktop and mobile together: light/night
-theme, reduced motion, keyboard focus, copy success and failure feedback,
-research search and empty results, expand/collapse, domain jumps, source links,
-progress labels, completion state and any current pending tasks. Simulated DOM checks can exercise
+On the actual published page, check desktop and mobile together: day/night
+theme, reduced motion, keyboard focus, the seven questions and each condition
+switch, the flown route in the wide and the narrow plan view, the host switch,
+copy success and failure feedback, research search and empty results,
+expand/collapse, domain jumps, source links, progress labels, completion state
+and any current pending tasks. Simulated DOM checks can exercise
 logic but do not replace actual layout and browser inspection. If data loading
 fails, the fallback research snapshot remains visible and the topic directory
 offers retry and a text download.

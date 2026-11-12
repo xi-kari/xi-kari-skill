@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useData } from 'vitepress'
-import XkSigil from './XkSigil.vue'
+import XkPosition from './XkPosition.vue'
 import { sheetNo, useNav } from '../composables/nav'
 
 const { frontmatter } = useData()
@@ -37,6 +37,6 @@ const length = computed(() => {
       <span class="xk-tb__label">讲解</span>
       <span class="xk-tb__value xk-tb__nowrap">{{ lessons ? `${lessons} 处` : '暂无' }}</span>
     </div>
-    <div class="xk-tb__sigil"><XkSigil :seed="`xk-${no}`" /></div>
+    <div class="xk-tb__rose"><XkPosition :no="no" /></div>
   </header>
 </template>

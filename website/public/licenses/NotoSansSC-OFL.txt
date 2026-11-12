@@ -1,5 +1,8 @@
-Copyright (c) 2023, Zhejiang JadeFoci Techonology Co. LTD 
-(https://www.jadefoci.com/)
+XK Display is a subset of Noto Sans SC at weight 900.
+Copyright 2014-2021 Adobe (http://www.adobe.com/), with Reserved Font Name 'Source'.
+
+Source: https://github.com/notofonts/noto-cjk
+The subset carries its own family name and is recorded in the theme's fonts/source.json.
 
 This Font Software is licensed under the SIL Open Font License, Version 1.1.
 This license is copied below, and is also available with a FAQ at:
