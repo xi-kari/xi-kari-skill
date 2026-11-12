@@ -20,7 +20,23 @@ description: "数据是否足够，取决于你到底要回答什么问题。"
   <figcaption>平均数保留了总量信息，却将本题所需的局部分布折叠了。</figcaption>
 </figure>
 
+## 对照真实案例：区别还在，单位没有对上
 
+平均数把(0,20)和(10,10)折成同一个10，事后怎样换算都分不开。火星气候轨道器的单位错误不属于这一类。NASA调查报告记载：接口规范要求地面软件以牛顿秒输出，实际输出是磅力秒，两者之间的换算因子是4.45；单位查明之后，导航估算改用修正后的数值重算了轨道。也就是说，不同的冲量在文件里仍是不同的数，错在实际输出没有遵守规范。[NASA第一阶段调查报告，第14、16页](https://llis.nasa.gov/llis_lib/pdf/1009464main1_0641-mr.pdf)
+
+原文[附录C.7](/theory/appendix-c#section-c-7)把表示是否充分与实际执行是否正确分开检验，本页把这个单位错误读作后一类。[阅读案例：火星气候轨道器](/cases/mars-climate-orbiter)
+
+## 真实材料：预报锥画的是中心路径，不是潮水范围
+
+美国国家飓风中心（NHC）的预报锥是一种写明了用途的表示：按2022年的定义，它表示热带气旋中心的可能路径，圆的大小使此前五年的官方预报误差有三分之二落在圆内。[NHC预报锥定义，2022年9月26日存档](https://web.archive.org/web/20220926140803/https://www.nhc.noaa.gov/aboutcone.shtml) 2022年飓风伊恩在佛罗里达州西南部登陆后，NHC的事后报告称，所有预报周期的预报锥都包含了登陆位置。同一份报告也记录，Fort Myers Beach的传感器测到高出平均高高潮位12.70英尺的水位，不到30英里外的Pirate Harbor只有4.47英尺；报告认为这类差别显示了风暴潮对风暴确切路径的敏感。[NHC伊恩飓风报告，第8—9、15—16页](https://www.nhc.noaa.gov/data/tcr/AL092022_Ian.pdf)
+
+预报锥要回答的是“中心大概去哪里”。某一段海岸的潮水会有多高是另一个问题，预报锥的定义里没有这项信息，正如平均数里没有哪一处过载的信息；NHC另发风暴潮监视、警告和峰值预报来回答它。这份材料帮助辨认一种表示是为哪个问题而做，它不是对原文形式命题的检验。
+
+[阅读伊恩飓风案例：来源、数字与适用范围](/cases/representation-hurricane-cone)
+
+Optional, same file, last item of the list under `## 接着理解` (same form as the existing orbiter entry there):
+
+- [真实案例 · 飓风伊恩的预报锥：回答的是中心路径](../cases/representation-hurricane-cone)
 
 ## 回到原文
 
