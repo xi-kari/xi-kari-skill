@@ -3,7 +3,7 @@
   ink rule, set in sans so it never reads as the original text.
   Line style carries what kind of material a block holds:
   solid frame = sourced, dashed frame = assumed for teaching,
-  yellow field = what this step may not yet conclude.
+  red plaque = what this step may not yet conclude.
 */
 :root { interpolate-size: allow-keywords; }
 

@@ -25,6 +25,6 @@ FORM: Aeronautical approach plate, candidate 7 of 7 on the grounded list; seed d
 
 FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance
 
-## Unresolved
+## Related surface
 
-The handbook keeps its own drawing-set world; whether it later adopts this chart language is a separate decision.
+The handbook theme shares this chart language; its own direction is in `handbook.md`.
