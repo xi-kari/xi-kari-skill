@@ -12,10 +12,10 @@ MiniSearch — MIT
 https://github.com/lucaong/minisearch
 License: licenses/MiniSearch-MIT.txt
 
-Zhuque Fangsong 0.212 (朱雀仿宋), subset into WOFF2 slices — SIL Open Font License 1.1
-Copyright (c) 2023, Zhejiang JadeFoci Technology Co. LTD
-https://github.com/TrionesType/zhuque
-License: licenses/ZhuqueFangsong-OFL.txt
+Noto Sans SC (variable, Version 2.04), subset at weight 900 into one WOFF2 file named XK Display — SIL Open Font License 1.1
+Copyright 2014-2021 Adobe (http://www.adobe.com/), with Reserved Font Name 'Source'
+https://github.com/notofonts/noto-cjk
+License: licenses/NotoSansSC-OFL.txt
 
 Interface icons from VitePress's default theme (Lucide, ISC) are included with VitePress.
 
