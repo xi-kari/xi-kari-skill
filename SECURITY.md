@@ -11,7 +11,7 @@
 - `scripts/` 中的只读工具与安装包构建：路径处理、归档内容与文件散列
 - `source/source-manifest.json` 记录的理论原文身份，以及 `read_source.py` 的校验路径
 - `assets/reader.js`、`assets/reader.css`、`assets/condition-lab.js` 及其生成的离线 HTML
-- 随包第三方资源（KaTeX）的来源与许可证完整性
+- 随包第三方资源（KaTeX、`assets/fonts/` 中的思源黑体子集）的来源与许可证完整性
 
 本技能是本地运行的 Markdown 指令与标准库脚本，不含服务端、后台进程、网络回执或账号系统。涉及宿主模型行为、生成内容正确性或理论有效性的问题不属于安全报告，请改走 issue 或 Discussions。
 

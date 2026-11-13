@@ -142,5 +142,143 @@ class ComparisonTests(unittest.TestCase):
             self.assertNotEqual(refused.returncode, 0)
 
 
+def wide_model():
+    """Five options on one scale: a tie, two close values, one unknown, one stated fact."""
+    data = model()
+    data['candidates'] = [{'id': name, 'label': label} for name, label in
+                          (('a', '甲'), ('b', '乙'), ('c', '丙'), ('d', '丁'), ('e', '戊'))]
+    data['dimensions'] = [{'id': 'cost', 'label': '成本', 'direction': 'lower_is_better', 'unit': '万元'}]
+    values = {'a': (0, 'observed'), 'b': (40, 'assumed'), 'c': (10, 'assumed'), 'd': (None, 'unknown'), 'e': (0, 'assumed')}
+    data['cells'] = {name: {'cost': {'value': value, 'basis': basis, **({'source': '账目'} if basis == 'observed' else {})}}
+                     for name, (value, basis) in values.items()}
+    return data
+
+
+class ComparisonPageTests(unittest.TestCase):
+    def page(self, data=None, lang='zh'):
+        target = module()
+        return target, target.render_html(target.build_comparison(data or model(), lang))
+
+    def test_plate_carries_the_key_and_the_boundary_and_says_each_fact_once(self):
+        target, page = self.page()
+        self.assertIn('<span class="page-kind">方案比较</span><span class="page-sheet">xikari-comparison-1</span>', page)
+        plate = page[page.index('<section class="plate cmp-plate"'):page.index('<section class="cmp-section"')]
+        for kind in ('observed', 'assumed', 'unknown'):
+            self.assertIn(f'<dt><span class="basis basis-{kind}">', plate)
+        self.assertIn(f'<p class="boundary">{target.BOUNDARY}</p>', plate)
+        self.assertEqual(page.count('教学虚构'), 1)
+        self.assertEqual(page.count('取值不是现实事实'), 1)
+        self.assertNotIn('共 3 个方案', page)
+        self.assertNotIn('legend-heading', page)
+        _, provided = self.page({**model(), 'fictional': False})
+        self.assertIn('<span class="basis basis-observed">作者提供</span><span class="strip-aside">来源与假设需分别判断</span>', provided)
+
+    def test_page_has_no_script_and_no_inline_style_and_its_style_hash_holds(self):
+        import base64, hashlib, re
+        _, page = self.page(wide_model())
+        self.assertNotIn('<script', page)
+        body = page.split('<body>', 1)[1]
+        self.assertNotIn(' style=', body)
+        style = re.search(r'<style>(.*?)</style>', page, re.S).group(1)
+        digest = base64.b64encode(hashlib.sha256(style.encode('utf-8')).digest()).decode('ascii')
+        self.assertIn(f"style-src &#x27;sha256-{digest}&#x27;", page)
+
+    def test_every_option_carries_one_letter_in_the_head_the_cells_and_the_orders(self):
+        import re
+        target, page = self.page(wide_model())
+        self.assertEqual(target.option_codes(target.build_comparison(wide_model())), {'a': 'A', 'b': 'B', 'c': 'C', 'd': 'D', 'e': 'E'})
+        head = re.findall(r'<th scope="col" role="columnheader"><span class="opt-code">(\w)</span>([^<]+)</th>', page)
+        self.assertEqual(head, [('A', '甲'), ('B', '乙'), ('C', '丙'), ('D', '丁'), ('E', '戊')])
+        cells = re.findall(r'<span class="cell-option"><span class="opt-code">(\w)</span>([^<]+)</span>', page)
+        self.assertEqual(cells, head)
+        ranked = re.findall(r'<span class="rank">(\d)</span><span class="opt-code">(\w)</span><span class="candidate">([^<]+)</span>', page)
+        self.assertEqual(ranked, [('1', 'A', '甲'), ('1', 'E', '戊'), ('3', 'C', '丙'), ('4', 'B', '乙')])
+        # the table keeps its roles, so it is still a table where a narrow screen lays it out as blocks
+        self.assertIn('<table class="cmp-table" role="table">', page)
+        self.assertEqual(page.count('role="cell"'), 5)
+        self.assertEqual(page.count('role="rowheader"'), 1)
+
+    def test_equal_values_share_a_rank_in_every_format(self):
+        target = module()
+        result = target.build_comparison(wide_model())
+        ranking = result['dimensions'][0]['ranking']
+        self.assertEqual([(item['id'], item['rank']) for item in ranking], [('a', 1), ('e', 1), ('c', 3), ('b', 4)])
+        # an integer and a float of the same value are the same value
+        mixed = wide_model()
+        mixed['cells']['e']['cost']['value'] = 0.0
+        self.assertEqual([item['rank'] for item in target.build_comparison(mixed)['dimensions'][0]['ranking']], [1, 1, 3, 4])
+        payload = json.loads(target.render_json(result))
+        self.assertEqual([item['rank'] for item in payload['dimensions'][0]['ranking']], [1, 1, 3, 4])
+        markdown = target.render_markdown(result)
+        self.assertIn('- 并列第 1 位：甲：0（事实）\n- 并列第 1 位：戊：0（假设）\n- 第 3 位：丙：10（假设）\n- 第 4 位：乙：40（假设）', markdown)
+        self.assertNotIn('\n1. 甲', markdown)
+        english = target.render_markdown(target.build_comparison(wide_model(), 'en'))
+        self.assertIn('- Rank 1 (tied): 甲: 0 (Fact)\n- Rank 1 (tied): 戊: 0 (Assumption)\n- Rank 3: 丙: 10 (Assumption)', english)
+        # without a tie the numbered list stays as it was
+        plain = target.render_markdown(target.build_comparison(model()))
+        self.assertIn('1. 完全自动排序：0（假设）\n2. 人工复核：12（假设）', plain)
+        self.assertNotIn('并列', plain)
+
+    def test_scale_places_only_ranked_values_by_their_value(self):
+        import re
+        target = module()
+        result = target.build_comparison(wide_model())
+        scale = target.scale_svg(result['dimensions'][0], target.option_codes(result))
+        dots = re.findall(r'<circle class="sc-dot is-(\w+)" cx="([\d.]+)%" cy="(\d+)" r="6"/>', scale)
+        # four ranked values; the unknown option has no dot and no letter on the scale
+        self.assertEqual(len(dots), 4)
+        self.assertNotIn('>D<', scale)
+        places = {(kind, float(x)) for kind, x, _ in dots}
+        self.assertEqual(places, {('observed', 5.0), ('assumed', 5.0), ('assumed', 27.5), ('assumed', 95.0)})
+        # the two options tied at zero stand one above the other, each with its own letter beside it
+        tied = sorted(int(y) for kind, x, y in dots if float(x) == 5.0)
+        self.assertEqual(tied[1] - tied[0], 14)
+        self.assertEqual(re.findall(r'dx="11">(\w)</text>', scale), ['A', 'E'])
+        self.assertEqual(re.findall(r'<text class="sc-value"[^>]*>([^<]+)</text>', scale), ['0', '10', '40'])
+        self.assertIn('aria-hidden="true"', scale)
+
+    def test_scale_staggers_close_values_and_is_left_out_where_it_would_say_nothing(self):
+        import re
+        target = module()
+        data = wide_model()
+        data['cells']['c']['cost']['value'] = 38
+        result = target.build_comparison(data)
+        scale = target.scale_svg(result['dimensions'][0], target.option_codes(result))
+        lines = {value: int(y) for y, value in re.findall(r'<text class="sc-value" x="[\d.]+%" y="(\d+)"[^>]*>([^<]+)</text>', scale)}
+        self.assertGreater(lines['40'], lines['38'], 'A value close to its neighbour is lettered on the next line.')
+        # one ranked value has no scale to stand on; neither has a dimension without a common scale
+        single = model()
+        result = target.build_comparison(single)
+        codes = target.option_codes(result)
+        self.assertNotEqual(target.scale_svg(result['dimensions'][0], codes), '')
+        single['cells']['manual']['hours'] = {'value': None, 'basis': 'unknown'}
+        result = target.build_comparison(single)
+        self.assertEqual(target.scale_svg(result['dimensions'][0], codes), '')
+        self.assertEqual(target.scale_svg(result['dimensions'][1], codes), '')
+        self.assertEqual(target.render_html(result).count('<svg class="scale"'), 0)
+
+    def test_scale_survives_values_beyond_floating_point(self):
+        target = module()
+        data = wide_model()
+        data['cells']['b']['cost']['value'] = 10 ** 90 + 7
+        data['cells']['c']['cost']['value'] = 10 ** 90 + 8
+        result = target.build_comparison(data)
+        scale = target.scale_svg(result['dimensions'][0], target.option_codes(result))
+        self.assertIn('cx="95.00%"', scale)
+        self.assertIn(str(10 ** 90 + 8), scale)
+        # a spread that arithmetic cannot hold is not drawn; the order still lists it
+        for low, high in ((0.5, 10 ** 400), (-1.7e308, 1.7e308)):
+            data['cells']['a']['cost']['value'], data['cells']['b']['cost']['value'] = low, high
+            result = target.build_comparison(data)
+            self.assertEqual(target.scale_svg(result['dimensions'][0], target.option_codes(result)), '')
+            self.assertIn('<ol class="ranking"', target.render_html(result))
+
+    def test_english_page_sets_its_own_words(self):
+        _, page = self.page(wide_model(), 'en')
+        self.assertIn('<span class="page-kind">Comparison</span>', page)
+        self.assertIn('<span class="strip-aside">values are not real-world facts</span>', page)
+        self.assertIn('The letter before an option is its mark on the scales below.', page)
+
+
 if __name__ == '__main__':
     unittest.main()

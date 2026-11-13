@@ -1,5 +1,6 @@
 "use strict";
 (() => {
+  document.documentElement.classList.add("has-script");
   const data = JSON.parse(document.getElementById("condition-data").textContent.replace(
     /"(?:[^"\\]|\\.)*"|-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?/g,
     token => {
@@ -61,7 +62,12 @@
     return select;
   }
   const combinationLabel = item => Object.entries(item).map(([key, value]) => `${inputs[key].label}: ${withUnit(key, value)}`).join("；") || "无额外离散条件";
-  const shortCombination = item => Object.entries(item).map(([key, value]) => `${inputs[key].label} ${withUnit(key, value)}`).join("；") || "无额外离散条件";
+  /* A column heading names each condition and its value; on a narrow matrix the value keeps a line of its own. */
+  const combinationHead = item => {
+    const parts = Object.entries(item).flatMap(([key, value], index) =>
+      [index ? "；" : null, el("span", "head-name", inputs[key].label), " ", el("span", "head-value", withUnit(key, value))]);
+    return parts.length ? parts : "无额外离散条件";
+  };
   const originText = origin => {
     if (origin === "input") return "输入原值";
     if (origin === "explore") return "条件网格设定";
@@ -76,7 +82,6 @@
   const initialCombination = data.explore_combinations.findIndex(item => Object.entries(item).every(([key, value]) => Object.is(inputs[key].value, value)));
   if (initialCombination >= 0) combination.value = String(initialCombination);
   const plan = fillSelect("plan", data.plans.map(item => [item.id, item.label]));
-  document.getElementById("scope").textContent = (data.model.fictional ? "这是明确虚构的教学模型，输入不是现实事实。" : "这是作者提供的情境模型；输入来源与假设仍需分别判断。") + ` 已计算 ${data.case_count} 个组合。`;
   ["assumptions", "boundaries"].forEach(key => data.model[key].forEach(text => document.getElementById(key).append(el("li", "", text))));
   const definitions = document.getElementById("definitions");
   [["scenarios", "外部情景"], ["plans", "方案"]].forEach(([key, kind]) => data[key].forEach(item => {
@@ -95,21 +100,86 @@
   function caseFor(scenarioId, exploreIndex, planId) {
     return data.cases.find(item => item.scenario === scenarioId && item.plan === planId && item.explore_index === exploreIndex);
   }
+  const scenarioLabel = item => data.scenarios.find(entry => entry.id === item.scenario)?.label || item.scenario_label;
+
+  /* The case field on the plate: every computed case is a mark. Pointing at one reads it; pressing one holds it. */
+  const field = document.getElementById("case-field");
+  const readout = document.getElementById("field-readout");
+  const caption = readout ? readout.textContent : "";
+  const marks = new Map();
+  let ring = null, held = null;
+  function read(item) {
+    if (!readout) return;
+    readout.classList.toggle("is-reading", Boolean(item));
+    if (!item) { readout.textContent = caption; return; }
+    readout.replaceChildren(state(item.state, true), `方案：${item.plan_label} · ${scenarioLabel(item)} · ${combinationLabel(item.explore)}`);
+  }
+  function placeRing() {
+    const mark = held && marks.get(held.id);
+    if (!ring) return;
+    ring.hidden = !mark;
+    if (!mark) return;
+    const box = mark.getBoundingClientRect(), base = field.getBoundingClientRect();
+    /* a field too large for the plate scrolls inside it; keep the held case in view */
+    if (field.scrollHeight > field.clientHeight + 1 || field.scrollWidth > field.clientWidth + 1) {
+      if (box.top < base.top) field.scrollTop -= base.top - box.top + 12; else if (box.bottom > base.bottom) field.scrollTop += box.bottom - base.bottom + 12;
+      if (box.left < base.left) field.scrollLeft -= base.left - box.left + 12; else if (box.right > base.right) field.scrollLeft += box.right - base.right + 12;
+    }
+    const settled = mark.getBoundingClientRect(), frame = field.getBoundingClientRect();
+    ring.style.width = `${settled.width}px`;
+    ring.style.height = `${settled.height}px`;
+    ring.style.transform = `translate(${settled.left - frame.left + field.scrollLeft - field.clientLeft}px, ${settled.top - frame.top + field.scrollTop - field.clientTop}px)`;
+  }
+  if (field) {
+    const byId = new Map(data.cases.map(item => [item.id, item]));
+    const caseOf = event => { const mark = event.target.closest?.(".mark"); return mark ? byId.get(mark.dataset.case) : null; };
+    field.querySelectorAll(".mark").forEach(mark => { if (byId.has(mark.dataset.case)) marks.set(mark.dataset.case, mark); });
+    /* the ring is not rendered until a case is held, so its first placement is not animated; later ones travel */
+    ring = el("span", "field-ring is-live"); ring.hidden = true;
+    field.append(ring); field.classList.add("has-ring");
+    field.addEventListener("click", event => {
+      const item = caseOf(event);
+      if (!item) return;
+      scenario.value = item.scenario; combination.value = String(item.explore_index); plan.value = item.plan;
+      update();
+    });
+    field.addEventListener("pointerover", event => { if (event.pointerType !== "touch") read(caseOf(event)); });
+    field.addEventListener("pointerleave", () => read(null));
+    window.addEventListener("resize", placeRing);
+    if (window.ResizeObserver) new ResizeObserver(placeRing).observe(field);
+  }
+  function hold(current) {
+    held = current;
+    if (!field) return;
+    marks.forEach((mark, id) => mark.setAttribute("aria-pressed", String(id === current.id)));
+    field.querySelectorAll(".field-row").forEach(row => row.classList.toggle("is-here", row.dataset.plan === current.plan));
+    field.querySelectorAll(".field-block").forEach(block => block.classList.toggle("is-here", block.contains(marks.get(current.id) || null)));
+    placeRing();
+  }
+  /* Keep the pressed cell of a scrolled matrix clear of the edge and of the row names that stay in view. */
+  function reveal(target) {
+    const scroller = document.getElementById(target), pressed = scroller.querySelector('button[aria-pressed="true"]');
+    if (!pressed || scroller.scrollWidth <= scroller.clientWidth + 1) return;
+    const frame = scroller.getBoundingClientRect(), box = pressed.getBoundingClientRect();
+    const left = frame.left + (scroller.querySelector("tbody th")?.getBoundingClientRect().width || 0);
+    if (box.left < left) scroller.scrollLeft -= left - box.left + 8;
+    else if (box.right > frame.right) scroller.scrollLeft += box.right - frame.right + 8;
+  }
 
   function update() {
     const peers = data.cases.filter(item => item.scenario === scenario.value && item.explore_index === Number(combination.value));
     const current = peers.find(item => item.plan === plan.value);
     const band = document.getElementById("current-state");
-    band.className = "current-state";
+    band.className = "current-state dock";
     if (!current) { band.replaceChildren(el("span", "state-caveat", "此组合没有计算结果，不能插值推断。")); return; }
     band.classList.add(`is-${kinds[current.state] || "none"}`);
-    const scenarioLabel = data.scenarios.find(item => item.id === current.scenario)?.label || current.scenario_label;
     band.replaceChildren(state(current.state, true),
       el("span", "state-plan", `方案：${current.plan_label}`),
-      el("span", "state-caveat", `${scenarioLabel}；${combinationLabel(current.explore)}。该状态不等于现实可实施、最优或成功概率。`));
+      el("span", "state-caveat", `${scenarioLabel(current)}；${combinationLabel(current.explore)}。该状态不等于现实可实施、最优或成功概率。`));
+    hold(current);
 
     const combos = data.explore_combinations;
-    const overviewHead = ["方案", ...combos.map(shortCombination)];
+    const overviewHead = ["方案", ...combos.map(combinationHead)];
     table("overview", overviewHead, data.plans.map(item => ({
       rowHeader: true,
       className: item.id === current.plan ? "is-current-row" : "",
@@ -123,13 +193,14 @@
         button.addEventListener("click", () => select(item.id, index));
         return button;
       })]
-    })), "matrix");
+    })), combos.length <= 4 ? "matrix is-compact" : "matrix");
+    reveal("overview");
 
     table("comparison", ["方案", ...current.constraints.map(item => item.description), "所列约束"], peers.map(item => ({
       rowHeader: true,
       className: item.plan === current.plan ? "is-current-row" : "",
       cells: [item.plan_label, ...item.constraints.map(value => cellOf(value.state)), el("span", "overall-cell", cellOf(item.state, state(item.state, true)))]
-    })), "matrix");
+    })), current.constraints.length < 4 ? "matrix is-compact" : "matrix");
 
     table("constraints", ["约束", "公式", "结果", "说明"], current.constraints.map(item => ({
       cells: [el("span", "label", item.description), el("code", "formula", item.formula), state(item.state), el("span", "note", item.reason || "仅判断该显式公式")]

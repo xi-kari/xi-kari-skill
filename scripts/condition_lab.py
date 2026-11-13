@@ -25,6 +25,7 @@ sys.dont_write_bytecode = True
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 try:
     from xikari_paths import require_external_output
+    from xikari_page import DOWNLOAD, foundation, icon, page_bar
 finally:
     sys.path.pop(0)
 
@@ -420,14 +421,105 @@ def render_csv(result):
     return output.getvalue()
 
 
-DOWNLOAD_ICON = ('<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" '
-                 'stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 4v11"/><path d="m7.5 10.5 4.5 4.5 4.5-4.5"/>'
-                 '<path d="M5 19.5h14"/></svg>')
-STATE_LEGEND = ('<dl class="state-legend" aria-label="状态图例">'
-                '<div><dt><span class="state state-ok">满足</span></dt><dd>所列约束都成立</dd></div>'
-                '<div><dt><span class="state state-bad">不满足</span></dt><dd>至少一项约束不成立</dd></div>'
-                '<div><dt><span class="state state-unsure">尚不能确定</span></dt><dd>结果依赖未知输入</dd></div>'
-                '<div><dt><span class="state state-err">计算错误</span></dt><dd>公式在此组合下算不出</dd></div></dl>')
+STATE_KINDS = {"satisfies_model_constraints": "ok", "violates_model_constraints": "bad", "undetermined": "unsure",
+               "calculation_error": "err", "no_constraints": "none"}
+STATE_KEY = (("ok", "满足", "所列约束都成立"), ("bad", "不满足", "至少一项约束不成立"), ("unsure", "尚不能确定", "结果依赖未知输入"),
+             ("err", "计算错误", "公式在此组合下算不出"), ("none", "未定义约束", "模型没有列出约束"))
+FIELD_COLUMNS = 18
+FIELD_CAPTION = "每一格是一个已按模型公式算出的组合。页面只在这些结果之间切换，不插值，也不预测。"
+# Where the sheet is wide enough for every block to stand abreast, the row names stand once, in a column of their own.
+FIELD_ABREAST = (".field-blocks{flex:0 1 calc(var(--label) + var(--blocks)*var(--cols)*58px + var(--blocks)*26px);flex-wrap:nowrap}"
+                 ".field-labels{display:block}"
+                 ".field-block{flex:1 1 calc(var(--cols)*58px);min-width:calc(var(--cols)*24px);max-width:none}"
+                 ".field-block .field-line{grid-template-columns:none}"
+                 ".field-block .field-label{display:none}")
+# Strings the page sets in the display cut. `website/scripts/build_output_fonts.py` cuts the face to them.
+DISPLAY = ('条件模型', '个组合', '种', '组', '个', '下载全部条件、公式与计算结果', '未知', '是', '否',
+           '满足所列模型约束', '不满足所列模型约束', '存在计算错误', '尚不能确定', '未定义约束')
+
+
+def value_text(value):
+    """A value as the page prints it: the JSON token of a number, a word for a boolean or an unknown."""
+    if value is None:
+        return "未知"
+    if type(value) is bool:
+        return "是" if value else "否"
+    return json.dumps(value)
+
+
+def case_field(result):
+    """Every computed case as one mark on one sheet, with the rules that lay this model's sheet out.
+
+    A scenario is a block; inside it each plan is a row and each combination of the explored
+    conditions a column. A grid too wide for one block folds its outer conditions into the
+    blocks, so every block keeps columns that can be read. Returns the markup and the rules.
+    """
+    inputs = result["model"]["inputs"]
+    axes = list(result["model"].get("explore", {}).items())
+    total = len(result["explore_combinations"])
+    columns, folded = total, 0
+    while columns > FIELD_COLUMNS and folded < len(axes) - 1:
+        columns //= len(axes[folded][1])
+        folded += 1
+    cases = {(case["scenario"], case["explore_index"], case["plan"]): case for case in result["cases"]}
+
+    def with_unit(key, value):
+        unit = inputs[key].get("unit", "")
+        return value_text(value) + (f" {unit}" if unit and value is not None and type(value) is not bool else "")
+
+    strides, stride = [], columns
+    for _, values in axes[folded:]:
+        stride //= len(values)
+        strides.append(stride)
+
+    def axis_name(key):
+        unit = inputs[key].get("unit", "")
+        return html.escape(inputs[key]["label"] + (f"（{unit}）" if unit else ""))
+
+    names = [f'<div class="field-line field-axis"><span class="field-label">{axis_name(key)}</span></div>' for key, _ in axes[folded:]]
+    names += [f'<div class="field-line field-row" data-plan="{html.escape(plan["id"])}"><span class="field-label field-plan">'
+              f'{html.escape(plan["label"])}</span></div>' for plan in result["plans"]]
+    blocks = []
+    for scenario in result["scenarios"]:
+        for outer in range(total // columns):
+            offset = outer * columns
+            first = result["explore_combinations"][offset] if result["explore_combinations"] else {}
+            name = " · ".join([scenario["label"]] + [f"{inputs[key]['label']} {with_unit(key, first[key])}" for key, _ in axes[:folded]])
+            lines = [f'<div class="field-line field-name"><span class="field-label"></span><span class="field-block-name">{html.escape(name)}</span></div>']
+            for level, (key, values) in enumerate(axes[folded:]):
+                runs = "".join(f'<span class="field-run">{html.escape(value_text(values[run % len(values)]))}</span>'
+                               for run in range(columns // strides[level]))
+                lines.append(f'<div class="field-line field-axis field-axis-{level}{" is-grouped" if strides[level] > 1 else ""}"><span class="field-label">'
+                             f'{axis_name(key)}</span>{runs}</div>')
+            for plan in result["plans"]:
+                marks = "".join(
+                    f'<button class="mark is-{STATE_KINDS.get(case["state"], "none")}" type="button" tabindex="-1" data-case="{case["id"]}"></button>'
+                    for case in (cases[scenario["id"], offset + column, plan["id"]] for column in range(columns)))
+                lines.append(f'<div class="field-line field-row" data-plan="{html.escape(plan["id"])}"><span class="field-label field-plan">'
+                             f'{html.escape(plan["label"])}</span>{marks}</div>')
+            blocks.append(f'<div class="field-block" data-scenario="{html.escape(scenario["id"])}" data-offset="{offset}">{"".join(lines)}</div>')
+    counts = {}
+    for case in result["cases"]:
+        kind = STATE_KINDS.get(case["state"], "none")
+        counts[kind] = counts.get(kind, 0) + 1
+    key = "".join(f'<div><dt><span class="mark is-{kind}" aria-hidden="true"></span>{name}</dt>'
+                  f'<dd><span class="key-count">{counts[kind]}</span><span class="key-note">{note}</span></dd></div>'
+                  for kind, name, note in STATE_KEY if counts.get(kind))
+    kinds = (" is-large" if len(blocks) > 12 or len(result["cases"]) > 160 else "") + (" is-dense" if columns > 8 else "")
+    markup = (f'<div class="field{kinds}"><div class="field-blocks" id="case-field" aria-hidden="true">'
+              f'<div class="field-labels">{"".join(names)}</div>{"".join(blocks)}</div>'
+              f'<dl class="field-key" aria-label="各状态的组合数">{key}</dl></div>'
+              f'<p class="field-caption" id="field-readout">{FIELD_CAPTION}</p>')
+    rules = f".field{{--cols:{columns};--blocks:{len(blocks)}}}.field-block-name{{grid-column:span {columns}}}"
+    rules += "".join(f".field-axis-{level}>.field-run{{grid-column:span {span}}}" for level, span in enumerate(strides) if span > 1)
+    abreast = 210 + len(blocks) * (columns * 24 + 26) + 34
+    rules += f"@container plate (min-width:{abreast}px){{{FIELD_ABREAST}}}"
+    return markup, rules
+
+
+def display_strings(lang="zh"):
+    """Every string this page sets in the display cut, for the font build and its check."""
+    return list(DISPLAY) if lang == "zh" else []
 
 
 def title_html(title):
@@ -441,7 +533,8 @@ def title_html(title):
 def render_html(result):
     assets = Path(__file__).resolve().parents[1] / "assets"
     try:
-        css = (assets / "xikari-base.css").read_text(encoding="utf-8") + "\n" + (assets / "condition-lab.css").read_text(encoding="utf-8")
+        field, field_rules = case_field(result)
+        css = foundation(assets) + "\n" + (assets / "condition-lab.css").read_text(encoding="utf-8") + "\n" + field_rules
         javascript = (assets / "condition-lab.js").read_text(encoding="utf-8")
     except OSError as exc:
         raise ModelError(f"缺少离线展示资源: {exc}") from exc
@@ -451,36 +544,41 @@ def render_html(result):
     purpose = html.escape(model["purpose"])
     script_hash = base64.b64encode(hashlib.sha256(javascript.encode('utf-8')).digest()).decode('ascii')
     style_hash = base64.b64encode(hashlib.sha256(css.encode('utf-8')).digest()).decode('ascii')
-    csp = f"default-src 'none'; script-src 'sha256-{script_hash}'; style-src 'sha256-{style_hash}'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'"
+    csp = f"default-src 'none'; script-src 'sha256-{script_hash}'; style-src 'sha256-{style_hash}'; font-src data:; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'"
     download = base64.b64encode(json.dumps(result, ensure_ascii=False, allow_nan=False).encode('utf-8')).decode('ascii')
-    scope = ('这是明确虚构的教学模型，输入不是现实事实。' if model['fictional'] else '这是作者提供的情境模型；输入来源与假设仍需分别判断。') + f" 已计算 {result['case_count']} 个组合。"
-    scope_class = 'notice notice-fictional' if model['fictional'] else 'notice'
-    counts = (f"{len(result['scenarios'])} 种外部情景、{len(result['explore_combinations'])} 组离散条件、{len(result['plans'])} 个方案，"
-              "每个组合都已按模型公式算出。页面只在这些结果之间切换，不插值，也不预测。")
+    identity = ('<span class="basis basis-assumed">教学虚构</span><span class="strip-aside">输入不是现实事实</span>' if model['fictional']
+                else '<span class="basis basis-observed">作者情境</span><span class="strip-aside">来源与假设需分别判断</span>')
+    strip = (f'<div class="cell-big"><dt>已计算</dt><dd><span class="strip-big">{result["case_count"]}</span><span class="strip-unit">个组合</span></dd></div>'
+             f'<div><dt>外部情景</dt><dd>{len(result["scenarios"])} 种</dd></div>'
+             f'<div><dt>条件组合</dt><dd>{len(result["explore_combinations"])} 组</dd></div>'
+             f'<div><dt>方案</dt><dd>{len(result["plans"])} 个</dd></div>'
+             f'<div><dt>模型身份</dt><dd id="scope">{identity}</dd></div>')
     return f'''<!doctype html>
 <html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="generator" content="Xikari condition lab"><meta http-equiv="Content-Security-Policy" content="{html.escape(csp)}"><meta name="color-scheme" content="light dark"><title>{title}</title><style>{css}</style></head>
 <body><main class="lab">
-<header class="lab-header"><h1>{title_html(model["title"])}</h1><p class="lab-purpose">{purpose}</p><p id="scope" class="{scope_class}">{html.escape(scope)}</p><p class="lab-counts">{html.escape(counts)}</p></header>
+{page_bar("条件模型", TOOL)}
+<header class="lab-header"><h1>{title_html(model["title"])}</h1><p class="lab-purpose">{purpose}</p></header>
+<section class="plate lab-plate" aria-label="模型概览"><dl class="strip plate-strip">{strip}</dl>
+{field}</section>
+<noscript><p class="no-script">启用本地JavaScript后可以切换已计算的情景并展开每个组合的计算；不开启脚本时，上方的图仍列出全部组合的状态，也可下载本页内嵌的完整JSON结果。</p></noscript>
 <div class="lab-body">
 <aside class="lab-controls" aria-labelledby="controls-heading">
 <h2 id="controls-heading">选择已经计算的组合</h2>
 <div class="controls"><label>外部情景<select id="scenario"></select></label><label>条件组合<select id="combination"></select></label><label>展开方案<select id="plan"></select></label></div>
-<div id="current-state" class="current-state" role="status" aria-live="polite"></div>
-{STATE_LEGEND}
+<div id="current-state" class="current-state dock" role="status" aria-live="polite"></div>
 </aside>
 <div class="lab-results">
-<section class="lab-section" aria-labelledby="overview-heading"><h2 id="overview-heading">全部已计算组合</h2><p class="section-note">所选外部情景下，每个方案在每组条件中的模型状态。点选一格即可展开它的计算。</p><div id="overview" class="table-scroll" tabindex="0" role="region" aria-label="全部已计算组合，可横向滚动"></div></section>
+<section class="lab-section" aria-labelledby="overview-heading"><h2 id="overview-heading">所选情景下的组合</h2><p class="section-note">所选外部情景下，每个方案在每组条件中的模型状态。点选一格即可展开它的计算。</p><div id="overview" class="table-scroll" tabindex="0" role="region" aria-label="所选情景下的组合，可横向滚动"></div></section>
 <section class="lab-section" aria-labelledby="comparison-heading"><h2 id="comparison-heading">同组条件下的方案</h2><p class="section-note">外部情景与条件组合不变，只换方案，逐项列出每条约束的结果。</p><div id="comparison" class="table-scroll" tabindex="0" role="region" aria-label="方案比较，可横向滚动"></div></section>
 <section class="lab-section" aria-labelledby="constraints-heading"><h2 id="constraints-heading">逐项约束</h2><div id="constraints" class="table-scroll" tabindex="0" role="region" aria-label="逐项约束，可横向滚动"></div></section>
 <section class="lab-section" aria-labelledby="derived-heading"><h2 id="derived-heading">计算关系</h2><div id="derived" class="table-scroll" tabindex="0" role="region" aria-label="计算关系，可横向滚动"></div></section>
 <section class="lab-section" aria-labelledby="inputs-heading"><h2 id="inputs-heading">输入与来源</h2><p class="section-note">“作者声明的观察值”表示作者给出了来源，工具没有核验它。情景、条件网格和方案覆盖后的值一律标为假设或未知。</p><div id="inputs" class="table-scroll" tabindex="0" role="region" aria-label="输入与来源，可横向滚动"></div></section>
 <section class="lab-section" aria-labelledby="sensitivity-heading"><h2 id="sensitivity-heading">单项条件的影响</h2><p class="section-note">固定其余条件、只改变一项离散条件时，模型状态是否随之改变。它只描述所列取值，不说明现实中哪一项最重要。</p><div id="sensitivity" class="sensitivity"></div></section>
-<section class="lab-section lab-limits" aria-label="假设与边界"><div><h2>明确假设</h2><ul id="assumptions"></ul></div><div><h2>解释边界</h2><ul id="boundaries"></ul></div></section>
+<section class="lab-section lab-limits" aria-label="假设与边界"><div class="frame-assumed"><h2>明确假设</h2><ul id="assumptions"></ul></div><div class="frame-refused"><h2>解释边界</h2><ul id="boundaries"></ul></div></section>
 <section class="lab-section" aria-labelledby="definitions-heading"><h2 id="definitions-heading">方案与情景的定义</h2><div id="definitions" class="definitions"></div></section>
 </div>
 </div>
-<footer class="lab-footer"><p>{html.escape(result['interpretation'])}</p><p>数值单位由作者声明；相同单位、明确公式和模型内的结果，仍需结合现实材料解释。</p><a class="download" href="data:application/json;charset=utf-8;base64,{download}" download="condition-results.json">{DOWNLOAD_ICON}下载全部条件、公式与计算结果</a></footer>
-<noscript><p class="no-script">启用本地JavaScript后可以切换已计算的情景；不开启脚本时，仍可下载本页内嵌的完整JSON结果。</p></noscript>
+<footer class="lab-footer dock"><div class="footer-text"><p>{html.escape(result['interpretation'])}</p><p>数值单位由作者声明；相同单位、明确公式和模型内的结果，仍需结合现实材料解释。</p></div><a id="download" class="download sign sign-go" href="data:application/json;charset=utf-8;base64,{download}" download="condition-results.json">{icon(DOWNLOAD)}下载全部条件、公式与计算结果</a></footer>
 </main><script type="application/json" id="condition-data">{payload}</script><script>{javascript}</script></body></html>'''
 
 

@@ -139,15 +139,17 @@ class ReaderRenderingTests(unittest.TestCase):
             self.assertIn(text, ''.join(doc.text))
 
     def test_reading_progress_and_sidebar_affordances_are_present(self):
-        output = renderer().render_document('# 长篇阅读\n\n## 第一节\n\n正文。\n')
+        output = renderer().render_document('# 长篇阅读\n\n## 第一节\n\n正文。\n\n### 细目\n\n补充。\n')
         document = Document(output)
         identifiers = [attrs.get('id') for _, attrs in document.tags if attrs.get('id')]
         self.assertIn('reader-progress-bar', identifiers)
         progress = next(attrs for _, attrs in document.tags if attrs.get('class') == 'reader-progress')
         self.assertEqual(progress.get('role'), 'presentation')
         self.assertIn('class="reader-progress"', output)
-        for token in ('--accent-soft', '--ink-strong', '--quote-rule', '--radius-lg'):
+        for token in ('--paper', '--ink', '--blue', '--magenta', '--yellow', '--red'):
             self.assertIn(token + ':', output)
+        for identifier in ('reader-plate', 'reader-chart', 'reader-dock', 'rack-fold'):
+            self.assertIn(identifier, identifiers + [attrs.get('class') for _, attrs in document.tags])
 
     def test_math_currency_and_code_are_distinguished_and_offline(self):
         source = r'# 公式' + '\n\n' + r'原式 \(x^2\)，也可用 $y+1$。价格 $5 与 $10。代码 `$z$`。' + '\n\n$$\\frac{a}{b}$$\n'
@@ -160,8 +162,10 @@ class ReaderRenderingTests(unittest.TestCase):
         self.assertIn('data:font/woff2;base64,', output)
         self.assertIn('connect-src &#x27;none&#x27;', output)
         self.assertFalse(any(tag == 'script' and 'src' in attrs for tag, attrs in doc.tags))
+        self.assertIn('KaTeX_Main', output)
         plain = renderer().render_document('# 没有公式\n\n普通段落')
-        self.assertNotIn('data:font/woff2;base64,', plain)
+        self.assertNotIn('KaTeX_Main', plain)
+        self.assertIn('style-src-attr &#x27;none&#x27;', plain)
 
     def test_missing_math_assets_preserve_formula_and_other_controls(self):
         module = renderer()

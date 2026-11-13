@@ -20,7 +20,7 @@
 
 每个维度声明自己的朝向：
 
-- `higher_is_better` / `lower_is_better`：工具列出**本次取值下**的顺序，并说明该顺序只在列出的取值与依据条件下成立。
+- `higher_is_better` / `lower_is_better`：工具列出**本次取值下**的顺序，并说明该顺序只在列出的取值与依据条件下成立。取值相同的方案并列同一名次，其后的名次按前面的方案数顺延（1、1、3）；候选在模型里的先后不构成它们之间的顺序。
 - `not_orderable`：该维度没有共同比较尺度（例如「可逆性」这种定性判断），工具不生成任何排序，只列出各方案在该维度的取值与理由。
 
 工具不产生跨维度加权，也不给出「整体最优方案」。这是刻意的：把不同量纲的维度合成一个分数，等于用一个未声明的价值判断替换掉用户自己的取舍。比较是工具，取舍是作者与用户的职责。
@@ -61,7 +61,7 @@ python "$skillRoot/scripts/comparison.py" "$taskRoot/我的比较.json" --output
 python "$skillRoot/scripts/comparison.py" "$skillRoot/assets/examples/comparison-example.json" --output "$taskRoot/教学比较" --format all
 ```
 
-一次运行产生三件同源产物：`comparison-results.json`（完整结构化结果，唯一权威）、`comparison-table.md`、`comparison-table.html`（单文件、内联样式、离线可开、可打印、可下载完整 JSON）。`--format` 可选 `json`、`md`、`html` 或 `all`（默认）。`--force` 只覆盖本工具先前生成的同名产物，永不覆盖输入。英文成果加 `--lang en`，表头、依据标记、排序说明与边界改为英文，JSON 记 `"language": "en"`；模型里的标题、标签与说明须由作者用英文写入。
+一次运行产生三件同源产物：`comparison-results.json`（完整结构化结果，唯一权威）、`comparison-table.md`、`comparison-table.html`（单文件、内联样式、离线可开、可打印、可下载完整 JSON）。`--format` 可选 `json`、`md`、`html` 或 `all`（默认）。`--force` 只覆盖本工具先前生成的同名产物，永不覆盖输入。英文成果加 `--lang en`，表头、依据标记、排序说明与边界改为英文，JSON 记 `"language": "en"`；模型里的标题、标签与说明须由作者用英文写入。HTML 版按给出的顺序为每个方案标一个字母；有共同尺度的维度另画一条刻度线，按取值标出已排序方案的位置，取值相同的上下并列，未知取值和没有共同尺度的维度不上刻度。手机上按维度逐个阅读，不需要横向滚动。
 
 取值的依据身份在三种格式里都保留。HTML 用实线、虚线、点线三种标签区分事实、假设与未知，未知格另加斜线底纹，并在打印时降为带边框的文字标记，不依赖颜色单独传达区别；每个维度注明比较方向。
 

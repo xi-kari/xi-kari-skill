@@ -25,6 +25,7 @@ sys.dont_write_bytecode = True
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 try:
     from xikari_paths import require_external_output
+    from xikari_page import DOWNLOAD, foundation, icon, page_bar
 finally:
     sys.path.pop(0)
 
@@ -62,6 +63,8 @@ TEXT = {
         'orders_md': '## 各维度排序与不可排序说明',
         'order_intro': '本次取值下的顺序（不代表现实最优）：',
         'ranked_item': '{rank}. {label}：{value}（{basis}）',
+        'ranked_item_placed': '- 第 {rank} 位：{label}：{value}（{basis}）',
+        'ranked_item_tied': '- 并列第 {rank} 位：{label}：{value}（{basis}）',
         'not_ranked_item': '- 未参与排序：{label}（{reason}）',
         'assumptions': '明确假设',
         'limits': '解释边界',
@@ -75,20 +78,33 @@ TEXT = {
         'pair': '{label}：{value}',
         'not_orderable_html': '此维度没有共同的比较尺度，本工具不生成排序，只列出各方案的取值。',
         'legend_heading': '怎样读这张表',
-        'legend_note': '每一格都标出它的依据身份。三种身份用实线、虚线和点线区分，黑白打印也能分辨。',
         'observed_dd': '作者声明有来源的事实；工具没有核验这个来源。',
         'assumed_dd': '作者设定的假设或方案取值。',
         'unknown_dd': '尚无可信取值。不按 0、最差或最好处理，也不进入任何排序。',
         'table_heading': '比较表',
-        'table_note': '共 {candidates} 个方案、{dimensions} 个维度；表头下方注明每个维度的比较方向。',
+        'table_note': '每一格都标出它的依据身份，维度名下方注明它的比较方向。方案前的字母是它在下方各维度刻度上的标记。',
         'table_aria': '方案比较，可横向滚动',
         'orders_heading': '各维度的顺序',
-        'orders_note': '只在有共同尺度的维度上排列本次取值；不跨维度加权，也不给出整体最优方案。',
+        'orders_note': '只在有共同尺度的维度上排列本次取值，并按取值画在该维度自己的刻度上；不跨维度加权，也不给出整体最优方案。未知取值不上刻度。',
         'limits_aria': '假设与边界',
         'download': '下载完整比较结果',
         'source': '来源：{source}（作者声明，未经核验）',
         'unit_html': '单位：{unit}',
         'failed': '比较表生成失败：',
+        'overview': '比较概览',
+        'strip_options': '方案',
+        'unit_option': '个',
+        'strip_dimensions': '维度',
+        'dimensions_value': '{n} 个',
+        'strip_ordered': '可排序维度',
+        'strip_unknown': '未知取值',
+        'of': '{a} / {b}',
+        'strip_identity': '比较身份',
+        'identity_fictional': '教学虚构',
+        'identity_fictional_note': '取值不是现实事实',
+        'identity_provided': '作者提供',
+        'identity_provided_note': '来源与假设需分别判断',
+        'kind': '方案比较',
     },
     'en': {
         'html_lang': 'en',
@@ -111,6 +127,8 @@ TEXT = {
         'orders_md': '## Rankings by dimension, and dimensions without one',
         'order_intro': 'Order under these values (not the best in reality):',
         'ranked_item': '{rank}. {label}: {value} ({basis})',
+        'ranked_item_placed': '- Rank {rank}: {label}: {value} ({basis})',
+        'ranked_item_tied': '- Rank {rank} (tied): {label}: {value} ({basis})',
         'not_ranked_item': '- Not ranked: {label} ({reason})',
         'assumptions': 'Explicit assumptions',
         'limits': 'Limits of interpretation',
@@ -124,22 +142,46 @@ TEXT = {
         'pair': '{label}: {value}',
         'not_orderable_html': 'This dimension has no common scale of comparison. The tool does not rank it and lists each option\'s value only.',
         'legend_heading': 'How to read this table',
-        'legend_note': 'Every cell shows the standing of its basis. Solid, dashed and dotted lines tell the three apart, also in black-and-white print.',
         'observed_dd': 'A fact for which the author states a source; the tool has not verified the source.',
         'assumed_dd': 'An assumption or option value set by the author.',
         'unknown_dd': 'No credible value yet. It is not treated as zero, worst or best, and it enters no ranking.',
         'table_heading': 'Comparison table',
-        'table_note': '{candidates} option(s) and {dimensions} dimension(s); the direction of comparison is shown under each dimension.',
+        'table_note': 'Every cell shows the standing of its basis, and the direction of comparison is shown under each dimension. '
+                      'The letter before an option is its mark on the scales below.',
         'table_aria': 'Option comparison, scrolls horizontally',
         'orders_heading': 'Order within each dimension',
-        'orders_note': 'Values are ordered only on dimensions with a common scale; dimensions are not weighted against one another, and no overall best option is named.',
+        'orders_note': 'Values are ordered only on dimensions with a common scale and drawn on that dimension\'s own scale; dimensions are not '
+                       'weighted against one another, and no overall best option is named. Unknown values are not placed on a scale.',
         'limits_aria': 'Assumptions and limits',
         'download': 'Download the complete comparison results',
         'source': 'Source: {source} (stated by the author, not verified)',
         'unit_html': 'Unit: {unit}',
         'failed': 'Comparison table could not be generated: ',
+        'overview': 'Overview of the comparison',
+        'strip_options': 'Options',
+        'unit_option': '',
+        'strip_dimensions': 'Dimensions',
+        'dimensions_value': '{n}',
+        'strip_ordered': 'Ranked dimensions',
+        'strip_unknown': 'Unknown values',
+        'of': '{a} / {b}',
+        'strip_identity': 'Standing',
+        'identity_fictional': 'Fictional teaching example',
+        'identity_fictional_note': 'values are not real-world facts',
+        'identity_provided': 'Provided by the author',
+        'identity_provided_note': 'judge each source and assumption separately',
+        'kind': 'Comparison',
     },
 }
+
+
+# Labels the page sets in the display cut. `website/scripts/build_output_fonts.py` cuts the face to them.
+DISPLAY_KEYS = ('kind', 'unit_option', 'dimensions_value', 'of', 'download', 'unknown', 'yes', 'no')
+
+
+def display_strings(lang: str = 'zh') -> list[str]:
+    """Every string this page sets in the display cut, for the font build and its check."""
+    return [TEXT[lang][key] for key in DISPLAY_KEYS]
 
 
 def language(result: dict) -> str:
@@ -320,11 +362,14 @@ def build_comparison(model: dict, lang: str = 'zh') -> dict:
                          and not isinstance(item['value'], bool)]
             ranked = sorted(orderable, key=lambda item: item['value'],
                             reverse=dimension['direction'] == 'higher_is_better')
-            entry['ranking'] = [
-                {'id': item['id'], 'label': item['label'], 'value': item['value'], 'basis': item['basis'],
-                 'rank': position, 'holds_when': T['holds_when']}
-                for position, item in enumerate(ranked, 1)
-            ]
+            # Equal values share a rank and the next rank counts every option ahead of it (1, 1, 3):
+            # the order of the candidates in the model must not be read as an order between them.
+            entry['ranking'], rank = [], 0
+            for position, item in enumerate(ranked, 1):
+                if position == 1 or item['value'] != ranked[position - 2]['value']:
+                    rank = position
+                entry['ranking'].append({'id': item['id'], 'label': item['label'], 'value': item['value'], 'basis': item['basis'],
+                                         'rank': rank, 'holds_when': T['holds_when']})
             entry['unranked'] = [
                 {'id': item['id'], 'label': item['label'],
                  'reason': 'unknown' if item['basis'] == 'unknown' else T['non_numeric']}
@@ -395,8 +440,12 @@ def render_markdown(result: dict) -> str:
         if 'ranking' in dimension:
             lines.append(T['order_intro'])
             lines.append('')
+            # A numbered list renumbers itself when rendered, so where values tie the rank is written out in words.
+            ranks = [item['rank'] for item in dimension['ranking']]
             for item in dimension['ranking']:
-                lines.append(T['ranked_item'].format(rank=item['rank'], label=item['label'], value=item['value'], basis=T['basis'][item['basis']]))
+                form = ('ranked_item' if len(set(ranks)) == len(ranks)
+                        else 'ranked_item_tied' if ranks.count(item['rank']) > 1 else 'ranked_item_placed')
+                lines.append(T[form].format(rank=item['rank'], label=item['label'], value=item['value'], basis=T['basis'][item['basis']]))
         else:
             lines.append(dimension['reason'])
         for item in dimension['unranked']:
@@ -418,20 +467,11 @@ def render_markdown(result: dict) -> str:
 
 
 ASSETS = Path(__file__).resolve().parents[1] / 'assets'
-DIRECTION = {
-    'higher_is_better': '数值越高越好',
-    'lower_is_better': '数值越低越好',
-    'not_orderable': '无共同尺度，不排序',
-}
-UNRANKED_REASON = {'unknown': '未知，不参与排序', 'not_orderable': '无共同尺度'}
-DOWNLOAD_ICON = ('<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" '
-                 'stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 4v11"/><path d="m7.5 10.5 4.5 4.5 4.5-4.5"/>'
-                 '<path d="M5 19.5h14"/></svg>')
 
 
-def comparison_css() -> str:
+def comparison_css(lang: str = 'zh') -> str:
     try:
-        return (ASSETS / 'xikari-base.css').read_text(encoding='utf-8') + '\n' + (ASSETS / 'comparison.css').read_text(encoding='utf-8')
+        return foundation(ASSETS, lang) + '\n' + (ASSETS / 'comparison.css').read_text(encoding='utf-8')
     except OSError as exc:
         raise ComparisonError(f'缺少离线展示资源: {exc}') from exc
 
@@ -455,23 +495,73 @@ def direction_tag(direction: str, lang: str = 'zh') -> str:
     return f'<span class="direction{extra}">{TEXT[lang]["direction"][direction]}</span>'
 
 
+def option_codes(result: dict) -> dict:
+    """A letter for each option, in the order given: the mark that ties a column of the table to a point on a scale."""
+    return {item['id']: chr(ord('A') + index) for index, item in enumerate(result['candidates'])}
+
+
+def scale_svg(dimension: dict, codes: dict, lang: str = 'zh') -> str:
+    """Where the ranked options stand on this dimension's own scale, by their values.
+
+    Only values that entered the order are placed: an unknown or a value without a number has
+    no position. Options with the same value stand one above another. Positions are fractions
+    of the drawing's width, so the scale needs no script and prints as it stands.
+    """
+    ranked = dimension.get('ranking') or []
+    if len(ranked) < 2:
+        return ''
+    groups: dict = {}
+    for item in ranked:
+        groups.setdefault(item['value'], []).append(item)
+    ordered = sorted(groups.items())
+    low, high = ordered[0][0], ordered[-1][0]
+    try:
+        places = [(50.0 if high == low else 5 + 90 * ((value - low) / (high - low)), value, items) for value, items in ordered]
+    except OverflowError:
+        return ''
+    if not all(math.isfinite(place) for place, _, _ in places):
+        return ''  # a spread no drawing can hold; the order below still states it
+    lowered, flags = False, []
+    for index, (place, _, _) in enumerate(places):
+        lowered = index > 0 and place - places[index - 1][0] < 9 and not lowered
+        flags.append(lowered)
+    stack = max(len(items) for _, _, items in places)
+    axis = 24 + 14 * (stack - 1) + (13 if any(flags) and stack == 1 else 0)
+    parts = [f'<line class="sc-axis" x1="2%" x2="98%" y1="{axis}" y2="{axis}"/>']
+    for (place, value, items), shifted in zip(places, flags):
+        x = f'{place:.2f}%'
+        for level, item in enumerate(items):
+            y = axis - 14 * level
+            parts.append(f'<circle class="sc-dot is-{item["basis"]}" cx="{x}" cy="{y}" r="6"/>')
+            code = html.escape(codes[item['id']])
+            if len(items) > 1:
+                parts.append(f'<text class="sc-code" x="{x}" y="{y + 4.5}" dx="11">{code}</text>')
+            else:
+                parts.append(f'<text class="sc-code" x="{x}" y="{axis - (24 if shifted else 11)}" text-anchor="middle">{code}</text>')
+        parts.append(f'<text class="sc-value" x="{x}" y="{axis + (35 if shifted else 21)}" text-anchor="middle">'
+                     f'{html.escape(display(value, items[0]["basis"], lang))}</text>')
+    height = axis + (42 if any(flags) else 28)
+    return f'<svg class="scale" height="{height}" aria-hidden="true" focusable="false">{"".join(parts)}</svg>'
+
+
 def render_html(result: dict) -> str:
     lang = language(result)
     T = TEXT[lang]
-    css = comparison_css()
+    css = comparison_css(lang)
+    codes = option_codes(result)
     style_hash = base64.b64encode(hashlib.sha256(css.encode('utf-8')).digest()).decode('ascii')
-    csp = f"default-src 'none'; style-src 'sha256-{style_hash}'; base-uri 'none'; form-action 'none'"
-    header = ''.join(f'<th scope="col">{html.escape(item["label"])}</th>' for item in result['candidates'])
+    csp = f"default-src 'none'; style-src 'sha256-{style_hash}'; font-src data:; base-uri 'none'; form-action 'none'"
+    header = ''.join(f'<th scope="col" role="columnheader"><span class="opt-code">{codes[item["id"]]}</span>{html.escape(item["label"])}</th>' for item in result['candidates'])
     orders = []
     for dimension in result['dimensions']:
         unit = T['unit'].format(unit=dimension['unit']) if dimension['unit'] else ''
         head = f'<div class="order-head"><h3>{html.escape(dimension["label"] + unit)}</h3>{direction_tag(dimension["direction"], lang)}</div>'
         if 'ranking' in dimension:
             if dimension['ranking']:
-                ranked = ''.join(f'<li><span class="rank">{item["rank"]}</span><span class="candidate">{html.escape(item["label"])}</span>'
+                ranked = ''.join(f'<li><span class="rank">{item["rank"]}</span><span class="opt-code">{codes[item["id"]]}</span><span class="candidate">{html.escape(item["label"])}</span>'
                                  f'<span class="value">{html.escape(display(item["value"], item["basis"], lang))}</span>{basis_tag(item["basis"], lang)}</li>'
                                  for item in dimension['ranking'])
-                body = f'<ol class="ranking" aria-label="{T["order_aria"]}">{ranked}</ol><p class="holds">{T["holds"]}</p>'
+                body = f'{scale_svg(dimension, codes, lang)}<ol class="ranking" aria-label="{T["order_aria"]}">{ranked}</ol><p class="holds">{T["holds"]}</p>'
             else:
                 body = f'<p class="no-order">{T["no_order"]}</p>'
             if dimension['unranked']:
@@ -482,38 +572,51 @@ def render_html(result: dict) -> str:
             values = ''.join('<li>' + html.escape(T['pair'].format(label=item['label'], value=item['display'])) + ' ' + basis_tag(item['basis'], lang) + '</li>' for item in dimension['values'])
             body = f'<p class="no-order">{T["not_orderable_html"]}</p><ul class="plain-values">{values}</ul>'
         orders.append(f'<article class="order">{head}{body}</article>')
-    fictional = T['fictional'] if result['fictional'] else T['provided']
-    notice_class = 'notice notice-fictional' if result['fictional'] else 'notice'
     download = base64.b64encode(render_json(result).encode('utf-8')).decode('ascii')
+    ordered = sum(1 for dimension in result['dimensions'] if 'ranking' in dimension)
+    unknown = sum(1 for dimension in result['dimensions'] for item in dimension['values'] if item['basis'] == 'unknown')
+    cells = result['candidate_count'] * result['dimension_count']
+    identity = (f'<span class="basis basis-assumed">{T["identity_fictional"]}</span><span class="strip-aside">{T["identity_fictional_note"]}</span>'
+                if result['fictional'] else
+                f'<span class="basis basis-observed">{T["identity_provided"]}</span><span class="strip-aside">{T["identity_provided_note"]}</span>')
+    strip = (f'<div class="cell-big"><dt>{T["strip_options"]}</dt><dd><span class="strip-big">{result["candidate_count"]}</span>'
+             f'<span class="strip-unit">{T["unit_option"]}</span></dd></div>'
+             f'<div><dt>{T["strip_dimensions"]}</dt><dd>{T["dimensions_value"].format(n=result["dimension_count"])}</dd></div>'
+             f'<div><dt>{T["strip_ordered"]}</dt><dd>{T["of"].format(a=ordered, b=result["dimension_count"])}</dd></div>'
+             f'<div><dt>{T["strip_unknown"]}</dt><dd>{T["of"].format(a=unknown, b=cells)}</dd></div>'
+             f'<div><dt>{T["strip_identity"]}</dt><dd>{identity}</dd></div>')
     return f'''<!doctype html>
 <html lang="{T['html_lang']}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">{HTML_MARK}<meta http-equiv="Content-Security-Policy" content="{html.escape(csp)}"><meta name="color-scheme" content="light dark"><title>{html.escape(result['title'])}</title>
 <style>{css}</style></head>
 <body><main class="cmp">
-<header class="cmp-header"><h1>{title_html(result['title'], lang)}</h1><p class="cmp-purpose">{html.escape(result['purpose'])}</p>
-<p class="{notice_class}">{fictional}</p></header>
-<section class="cmp-section" aria-labelledby="legend-heading"><h2 id="legend-heading">{T['legend_heading']}</h2>
-<p class="section-note">{T['legend_note']}</p>
-<dl class="basis-legend"><div><dt>{basis_tag('observed', lang)}</dt><dd>{T['observed_dd']}</dd></div>
+{page_bar(T['kind'], TOOL)}
+<header class="cmp-header"><h1>{title_html(result['title'], lang)}</h1><p class="cmp-purpose">{html.escape(result['purpose'])}</p></header>
+<section class="plate cmp-plate" aria-label="{T['overview']}"><dl class="strip plate-strip">{strip}</dl>
+<dl class="basis-legend" aria-label="{T['legend_heading']}"><div><dt>{basis_tag('observed', lang)}</dt><dd>{T['observed_dd']}</dd></div>
 <div><dt>{basis_tag('assumed', lang)}</dt><dd>{T['assumed_dd']}</dd></div>
 <div><dt>{basis_tag('unknown', lang)}</dt><dd>{T['unknown_dd']}</dd></div></dl>
 <p class="boundary">{html.escape(T['boundary'])}</p></section>
 <section class="cmp-section" aria-labelledby="table-heading"><h2 id="table-heading">{T['table_heading']}</h2>
-<p class="section-note">{T['table_note'].format(candidates=result['candidate_count'], dimensions=result['dimension_count'])}</p>
-<div class="table-scroll" tabindex="0" role="region" aria-label="{T['table_aria']}"><table class="cmp-table">
-<thead><tr><th scope="col" class="corner">{T['dimension']}</th>{header}</tr></thead>
-<tbody>{''.join(dimension_row(item, result) for item in result['dimensions'])}</tbody>
+<p class="section-note">{T['table_note']}</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="{T['table_aria']}"><table class="cmp-table" role="table">
+<thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader" class="corner">{T['dimension']}</th>{header}</tr></thead>
+<tbody role="rowgroup">{''.join(dimension_row(item, result, codes) for item in result['dimensions'])}</tbody>
 </table></div></section>
 <section class="cmp-section" aria-labelledby="orders-heading"><h2 id="orders-heading">{T['orders_heading']}</h2>
 <p class="section-note">{T['orders_note']}</p>
 <div class="orders">{''.join(orders)}</div></section>
-<section class="cmp-section cmp-limits" aria-label="{T['limits_aria']}"><div><h2>{T['assumptions']}</h2><ul>{''.join(f'<li>{html.escape(t)}</li>' for t in result['assumptions'])}</ul></div>
-<div><h2>{T['limits']}</h2><ul>{''.join(f'<li>{html.escape(t)}</li>' for t in result['boundaries'])}</ul></div></section>
-<footer class="cmp-footer"><p>{html.escape(result['interpretation'])}</p>
-<a class="download" download="comparison-results.json" href="data:application/json;charset=utf-8;base64,{download}">{DOWNLOAD_ICON}{T['download']}</a></footer>
+<section class="cmp-section cmp-limits" aria-label="{T['limits_aria']}"><div class="frame-assumed"><h2>{T['assumptions']}</h2><ul>{''.join(f'<li>{html.escape(t)}</li>' for t in result['assumptions'])}</ul></div>
+<div class="frame-refused"><h2>{T['limits']}</h2><ul>{''.join(f'<li>{html.escape(t)}</li>' for t in result['boundaries'])}</ul></div></section>
+<footer class="cmp-footer dock"><p>{html.escape(result['interpretation'])}</p>
+<a id="download" class="download sign sign-go" download="comparison-results.json" href="data:application/json;charset=utf-8;base64,{download}">{icon(DOWNLOAD)}{T['download']}</a></footer>
 </main></body></html>'''
 
 
-def dimension_row(dimension, result):
+def dimension_row(dimension, result, codes):
+    """One dimension of the table. Each cell also carries its option's name, which a narrow screen shows above the cell.
+
+    The table keeps its roles in the markup, so it is still read as a table where a narrow screen lays it out as blocks.
+    """
     lang = language(result)
     T = TEXT[lang]
     cells = []
@@ -521,15 +624,16 @@ def dimension_row(dimension, result):
         cell = next(item for item in dimension['values'] if item['id'] == candidate['id'])
         text = T['unknown'] if cell['basis'] == 'unknown' else cell['display']
         kind = ' value-text' if not isinstance(cell['value'], (int, float)) or isinstance(cell['value'], bool) else ''
-        parts = [f'<span class="value{kind}">{html.escape(text)}</span>', basis_tag(cell['basis'], lang)]
+        parts = [f'<span class="cell-option"><span class="opt-code">{codes[candidate["id"]]}</span>{html.escape(candidate["label"])}</span>',
+                 f'<span class="value{kind}">{html.escape(text)}</span>', basis_tag(cell['basis'], lang)]
         if cell['note']:
             parts.append(f'<span class="note">{html.escape(cell["note"])}</span>')
         if cell['basis'] == 'observed' and cell['source']:
             parts.append('<span class="source">' + html.escape(T['source'].format(source=cell['source'])) + '</span>')
         unknown = ' class="cell-unknown"' if cell['basis'] == 'unknown' else ''
-        cells.append(f'<td{unknown}>' + ''.join(parts) + '</td>')
+        cells.append(f'<td role="cell"{unknown}>' + ''.join(parts) + '</td>')
     unit = '<span class="dim-unit">' + html.escape(T['unit_html'].format(unit=dimension['unit'])) + '</span>' if dimension['unit'] else ''
-    return (f'<tr><th scope="row"><span class="dim-label">{html.escape(dimension["label"])}</span>{unit}{direction_tag(dimension["direction"], lang)}</th>'
+    return (f'<tr role="row"><th scope="row" role="rowheader"><span class="dim-label">{html.escape(dimension["label"])}</span>{unit}{direction_tag(dimension["direction"], lang)}</th>'
             + ''.join(cells) + '</tr>')
 
 

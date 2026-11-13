@@ -88,6 +88,19 @@ characters the committed subsets do not cover. `assets/fonts/source.json`
 records each subset's source version, hash and covered characters, and
 `assets/fonts/OFL.txt` carries the licence.
 
+The pages the Skill generates carry their own cut of the same heavy sans, kept
+with the Skill in the repository's `assets/fonts/` and inlined into every page:
+`xk-display.woff2` for the Chinese interface and `xk-display-latin.woff2` for
+the English one. It holds numerals, Latin, the words a heading number is made
+of, and the strings each generator returns from `display_strings()`; text a
+document wrote is set in the reader's own fonts. After changing one of those
+strings, rebuild and check:
+
+```powershell
+python website/scripts/build_output_fonts.py --sans <NotoSansSC-VF.ttf>
+python website/scripts/build_output_fonts.py --check
+```
+
 `assets/provenance.json` records every raster the page ships. The output
 screenshots (`outputs-*.png`, the same files as in `.github/readme/`) and
 `social-card.png` (the page's own briefing strip and plan view at 1200 by 630)
