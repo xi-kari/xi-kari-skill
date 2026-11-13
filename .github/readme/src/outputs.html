@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>README figure: generated pages</title>
+<!--
+  Frame for .github/readme/outputs-*.png and docs/assets/outputs-*.png. capture.cjs builds the
+  three pages with the packaged tools, photographs them, puts the pictures into the [data-shot]
+  images and photographs #figure. Open with ?theme=night for the night printing. The frame keeps
+  the colours of the earlier outputs figure: near the generated pages' moon-white paper and indigo
+  (DESIGN.md, "Output surfaces") but not their tokens, and not the site's. Its labels are set in an
+  installed Noto Sans SC, which capture.cjs checks for.
+-->
+<style>
+  :root {
+    --outer: #f7f9fc; --rule: #d1dbe8; --head: #f7f9fc; --sheet: #ffffff;
+    --name: #586980; --pill: #dce2ed; --pill-text: #445b9f;
+    --mono: "Cascadia Mono", "Cascadia Code", Consolas, ui-monospace, monospace;
+    --sans: "Noto Sans SC", "Source Han Sans SC", "Microsoft YaHei", sans-serif;
+  }
+  :root[data-theme="night"] {
+    --outer: #121a28; --rule: #3a4c67; --head: #192335; --sheet: #0e141f;
+    --name: #aeb9c9; --pill: #2b374d; --pill-text: #b0c0f4;
+  }
+  * { box-sizing: border-box; margin: 0; }
+  html, body { background: transparent; }
+  body { width: 1920px; -webkit-font-smoothing: antialiased; font-synthesis: none; }
+  #figure {
+    width: 1920px; height: 870px; padding: 62px;
+    display: grid; grid-template-columns: 1151px 610px; grid-template-rows: 356px 356px; gap: 37px;
+    background: var(--outer); border: 1px solid var(--rule); border-radius: 24px;
+  }
+  .panel { display: grid; grid-template-rows: 66px minmax(0, 1fr); overflow: hidden; background: var(--sheet); border: 1.5px solid var(--rule); border-radius: 18px; }
+  .panel--main { grid-row: 1 / span 2; }
+  .panel header { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 0 24px; background: var(--head); border-bottom: 1.5px solid var(--rule); }
+  .panel code { font-family: var(--mono); font-size: 25px; letter-spacing: .01em; color: var(--name); }
+  .panel b { padding: 4px 18px 5px; font-family: var(--sans); font-size: 24px; font-weight: 700; line-height: 1.3; color: var(--pill-text); background: var(--pill); border-radius: 999px; }
+  .panel img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: left top; }
+</style>
+</head>
+<body>
+<figure id="figure">
+  <section class="panel panel--main"><header><code>xi-kari-answer.html</code><b>离线阅读页</b></header><img data-shot="reading" alt=""></section>
+  <section class="panel"><header><code>condition-results.html</code><b>条件模型页</b></header><img data-shot="condition" alt=""></section>
+  <section class="panel"><header><code>comparison-table.html</code><b>方案比较表</b></header><img data-shot="comparison" alt=""></section>
+</figure>
+<script>
+if (new URLSearchParams(location.search).get('theme') === 'night') document.documentElement.dataset.theme = 'night';
+</script>
+</body>
+</html>

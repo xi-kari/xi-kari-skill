@@ -3,26 +3,26 @@
     "files": [
       {
         "file": "outputs-light.png",
-        "sha256": "07541098cfd4e265057ce3dbeff1b99720fc50006d4609b94f73ad4112561672"
+        "sha256": "e4037f43edbc0bec1187c2f291cc5974b18321afe3cde63cd2ddb3c1e5550706"
       },
       {
         "file": "outputs-dark.png",
-        "sha256": "594d4b5c17ff0b7ebec80a7070e34019d6f93847295587fec6e50333e8a61a18"
+        "sha256": "4df3b2b71b69b396918cbe9aa5475a1bc88da2b297546fa37bc9dc645d953de5"
       }
     ],
     "width": 1920,
     "height": 870,
-    "source": ".github/readme/outputs-light.png and .github/readme/outputs-dark.png",
-    "origin": "Screenshots of pages produced by the packaged tools: the reading page from part one of the source text, the condition page and comparison table from the bundled, explicitly fictional teaching examples.",
-    "transformation": "Pixels unchanged; an origin note is embedded in each file."
+    "source": "Written by .github/readme/src/capture.cjs to .github/readme/outputs-light.png and outputs-dark.png, and byte-identical here.",
+    "origin": "Screenshots of pages built in a temporary folder by render_answer.py (Part 1 of the source text), condition_lab.py and comparison.py (the bundled, explicitly fictional teaching examples), framed by .github/readme/src/outputs.html and taken by .github/readme/src/capture.cjs.",
+    "transformation": "Each page is photographed in its own window (the reading page at twice the density) and scaled into its panel; the frame is captured at 1920 by 870 CSS pixels, one device pixel each; an origin note is embedded in each file."
   },
   "socialCard": {
     "file": "social-card.png",
-    "sha256": "68da592f2e71dfb96da5ceaf9e86df15e0ae379f47eb257bca9fb788d3dd9ecd",
+    "sha256": "68b9acc193c2e2b1ab6b4e9df2d7d41fd8be3517eb259539286817d47e6851e5",
     "width": 1200,
     "height": 630,
-    "origin": "Browser capture of this page's briefing strip and plan view in the day theme with route R2 selected.",
-    "transformation": "Scaled to 1200 by 630; an origin note is embedded in the file."
+    "origin": "Browser capture of this page's briefing strip and plan view in the day theme with route R2 selected; the download signs, the version number, the baseline date, the question dock and the legs readout are hidden. Taken by .github/readme/src/capture.cjs.",
+    "transformation": "Captured at 1200 by 630 CSS pixels, one device pixel each; an origin note is embedded in the file."
   },
   "fonts": {
     "record": "fonts/source.json",

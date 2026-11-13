@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>README figure: seven routes, ten modules</title>
+<!--
+  Source of .github/readme/routes-*.png. Open with ?lang=en for the English figure and
+  ?theme=night for the night printing; capture.cjs photographs #figure.
+  Routes, the modules each one passes and what it delivers follow the route table in SKILL.md;
+  the questions and the module labels follow the ask list and data-short labels in
+  docs/index.html; the English names are the chart forms of references/english.md.
+  The figure is set in an installed Noto Sans SC (capture.cjs checks for it). It is shown at
+  about two thirds of its width in a README, so no text is smaller than 14 CSS pixels.
+-->
+<style>
+  :root {
+    --paper: #fbfcfe; --paper-2: #eff3fa; --ink: #0d1b36; --ink-2: #33415e; --ink-3: #56647f;
+    --rule: #ccd5e5; --rule-2: #9aabc8; --blue: #1f4fc4; --tint: #dbe6fb; --magenta: #cf1578;
+    --display: "Noto Sans SC", "Source Han Sans SC", "Microsoft YaHei", sans-serif;
+  }
+  :root[data-theme="night"] {
+    --paper: #0a1326; --paper-2: #111d39; --ink: #e9effb; --ink-2: #b9c5dd; --ink-3: #8f9db9;
+    --rule: #25365a; --rule-2: #3d5282; --blue: #94b4ff; --tint: #14264d; --magenta: #ff5cab;
+  }
+  * { box-sizing: border-box; margin: 0; }
+  html { background: var(--paper); }
+  body { width: 1280px; font-family: var(--display); font-weight: 500; color: var(--ink); -webkit-font-smoothing: antialiased; font-synthesis: none; }
+  #figure { width: 1280px; background: var(--paper); border: 2px solid var(--ink); }
+
+  .head { display: grid; grid-template-columns: minmax(0, 1fr) auto; border-bottom: 2px solid var(--ink); }
+  .head > div { padding: 22px 28px 24px; }
+  .head h1 { font-size: 40px; line-height: 1.2; font-weight: 900; letter-spacing: .01em; }
+  .head p { margin-top: 8px; font-size: 20px; line-height: 1.5; color: var(--ink-2); text-wrap: balance; }
+  :root[lang="en"] .head h1 { font-size: 38px; }
+  :root[lang="en"] .head p { font-size: 18px; }
+  .key { display: grid; align-content: center; gap: 10px; padding: 0 28px; border-left: 1px solid var(--ink); font-size: 17px; line-height: 1.3; color: var(--ink-2); }
+  :root[lang="en"] .key { font-size: 16px; }
+  .key span { display: flex; align-items: center; gap: 12px; white-space: nowrap; }
+  .key svg { flex: none; width: 36px; height: 20px; overflow: visible; }
+
+  .grid { position: relative; display: grid; grid-template-columns: var(--left) minmax(0, 1fr) var(--right); --left: 300px; --right: 214px; }
+  :root[lang="en"] .grid { --left: 318px; --right: 222px; }
+  .cell { min-width: 0; display: flex; align-items: center; }
+  .cols > .cell { min-height: 92px; border-bottom: 1.5px solid var(--ink); }
+  .cols .label { padding: 0 24px 0 28px; font-size: 15px; letter-spacing: .1em; color: var(--ink-3); }
+  :root[lang="en"] .cols .label { letter-spacing: .06em; text-transform: uppercase; font-size: 14px; }
+  .mods { display: grid; grid-template-columns: repeat(10, minmax(0, 1fr)); width: 100%; align-self: stretch; border-left: 1px solid var(--rule-2); border-right: 1px solid var(--rule-2); }
+  /* codes share one line at the top; names hang below them */
+  .mod { display: grid; align-content: start; justify-items: center; gap: 4px; padding: 14px 3px 12px; text-align: center; }
+  .mod b { font-size: 22px; line-height: 1; font-weight: 900; font-variant-numeric: tabular-nums; }
+  .mod span { font-size: 15px; line-height: 1.2; color: var(--ink-2); }
+  /* the CJK face draws U+2010 full width, so a broken word ends in a plain hyphen-minus */
+  :root[lang="en"] .mod span { font-size: 14px; line-height: 1.15; hyphens: manual; hyphenate-character: "-"; }
+
+  .row > .cell { min-height: 84px; border-bottom: 1px solid var(--rule); }
+  .row:last-of-type > .cell { border-bottom: 0; }
+  .ask { gap: 14px; padding: 10px 16px 10px 28px; }
+  .code { flex: none; display: grid; place-items: center; width: 46px; height: 32px; font-size: 18px; font-weight: 900; font-variant-numeric: tabular-nums; letter-spacing: .02em; color: var(--paper); background: var(--ink); }
+  .ask div { min-width: 0; }
+  .ask strong { display: block; font-size: 21px; line-height: 1.3; font-weight: 900; text-wrap: balance; }
+  .ask small { display: block; margin-top: 3px; font-size: 15px; line-height: 1.3; color: var(--ink-3); }
+  :root[lang="en"] .ask strong { font-size: 18px; line-height: 1.25; font-weight: 800; }
+  :root[lang="en"] .ask small { font-size: 14px; }
+  .track { border-left: 1px solid var(--rule-2); border-right: 1px solid var(--rule-2); }
+  .track svg { display: block; width: 100%; height: 100%; overflow: visible; }
+  .deliver { padding: 10px 22px 10px 20px; font-size: 18px; line-height: 1.35; font-weight: 800; text-wrap: balance; }
+  :root[lang="en"] .deliver { font-size: 15.5px; font-weight: 700; }
+
+  .guide { stroke: var(--rule); stroke-width: 1; }
+  .line { fill: none; stroke: var(--magenta); stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; }
+  .line--in { stroke-width: 2.5; stroke-dasharray: 1 7; }
+  .fix { fill: var(--magenta); stroke: var(--paper); stroke-width: 2.5; stroke-linejoin: round; paint-order: stroke; }
+  .fix--maybe { fill: var(--paper); stroke: var(--magenta); stroke-width: 1.8; stroke-dasharray: 3 2.6; paint-order: normal; }
+  .rwy { fill: var(--ink); }
+  .rwy-mark { stroke: var(--paper); stroke-width: 1.6; stroke-dasharray: 4 3.5; }
+  .tip { fill: var(--magenta); }
+  .note rect { fill: var(--paper); }
+  .note text { font-family: var(--display); font-size: 16px; font-weight: 700; fill: var(--ink-2); }
+  :root[lang="en"] .note text { font-size: 14.5px; }
+
+  .foot { display: flex; align-items: center; gap: 28px; padding: 16px 28px 18px; border-top: 2px solid var(--ink); font-size: 16px; line-height: 1.5; color: var(--ink-2); }
+  .foot b { color: var(--ink); font-weight: 800; }
+  .foot span { text-wrap: balance; }
+  .foot span + span { padding-left: 28px; border-left: 1px solid var(--rule-2); }
+  :root[lang="en"] .foot { font-size: 15px; }
+</style>
+</head>
+<body>
+<figure id="figure">
+  <div class="head">
+    <div><h1 data-t="title"></h1><p data-t="sub"></p></div>
+    <div class="key">
+      <span><svg viewBox="0 0 36 20"><path class="line" d="M1 10H35"/><path class="fix" d="M18 2 26.5 17H9.5Z"/></svg><i data-t="keyFix" style="font-style:normal"></i></span>
+      <span><svg viewBox="0 0 36 20"><path class="line" d="M1 10H35"/><path class="fix fix--maybe" d="M18 2 26.5 17H9.5Z"/></svg><i data-t="keyMaybe" style="font-style:normal"></i></span>
+      <span><svg viewBox="0 0 36 20"><rect class="rwy" x="1" y="5" width="34" height="10"/><path class="rwy-mark" d="M5 10H31"/></svg><i data-t="keyLand" style="font-style:normal"></i></span>
+    </div>
+  </div>
+  <div class="grid" id="grid"></div>
+  <div class="foot"><span data-t="foot1"></span><span data-t="foot2"></span></div>
+</figure>
+
+<script>
+const query = new URLSearchParams(location.search);
+const lang = query.get('lang') === 'en' ? 'en' : 'zh';
+document.documentElement.lang = lang === 'en' ? 'en' : 'zh-CN';
+if (query.get('theme') === 'night') document.documentElement.dataset.theme = 'night';
+
+// Column order follows the order of work: the three transformations, when needed, come before mechanisms.
+const ORDER = ['M0', 'M1', 'M2', 'M4', 'M3', 'M5', 'M6', 'M7', 'M8', 'M9'];
+// English names break where the column needs it (U+00AD is a soft hyphen).
+const MODULES = {
+  zh: { M0: '问题合同', M1: '材料证据', M2: '对象状态', M4: '三类变换', M3: '机制解释', M5: '推演', M6: '条件前瞻', M7: '有限选择', M8: '反方', M9: '成文' },
+  en: { M0: 'Problem contract', M1: 'Materials, evidence', M2: 'Objects, states', M4: 'Transfor­mations', M3: 'Mecha­nisms', M5: 'Projec­tion', M6: 'Condi­tional foresight', M7: 'Bounded choice', M8: 'Counter­arguments', M9: 'Compo­sition' },
+};
+// stops: modules always passed; maybe: passed only when the question needs them; lead: how the route begins
+const ROUTES = [
+  { id: 'R1', stops: [], maybe: [], lead: 'direct',
+    zh: ['原文怎么定义它？', '原文与概念', '有边界的释义', '不经过模块链：读完相关的完整定义与依赖，直接回答'],
+    en: ['How does the source define it?', 'Source text and concepts', 'A bounded reading of the text', 'No module chain: read the complete definition and its dependencies, then answer'] },
+  { id: 'R2', stops: ['M0', 'M1', 'M2', 'M3', 'M8', 'M9'], maybe: ['M4'],
+    zh: ['它为什么会这样？', '解释与诊断', '有边界的机制说明'],
+    en: ['Why did this happen?', 'Explanation and diagnosis', 'A bounded account of the mechanism'] },
+  { id: 'R3', stops: ['M0', 'M1', 'M2', 'M5', 'M8', 'M9'], maybe: [],
+    zh: ['条件变了，会怎样？', '推演', '条件路径与区分信号'],
+    en: ['What if the conditions change?', 'Projection', 'Conditional paths and distinguishing signals'] },
+  { id: 'R4', stops: ['M0', 'M1', 'M2', 'M3', 'M5', 'M6', 'M8', 'M9'], maybe: [],
+    zh: ['到期前更可能怎样？', '条件前瞻', '结果前登记、可失败的判断'],
+    en: ['What is more likely by the deadline?', 'Conditional foresight', 'A judgment registered before the outcome, able to fail'] },
+  { id: 'R5', stops: ['M7', 'M8', 'M9'], maybe: [], lead: 'result',
+    zh: ['现在该选哪个？', '有限选择', '可反驳的分析推荐', '承接 R3 或 R4 的可用结果'],
+    en: ['Which option now?', 'Bounded choice', 'An analytical recommendation open to rebuttal', 'Builds on a usable result of R3 or R4'] },
+  { id: 'R6', stops: ['M0', 'M1', 'M2', 'M3', 'M7', 'M8', 'M9'], maybe: ['M4', 'M5'],
+    zh: ['帮我起草一份规则。', '制度与计划起草', '可审议草案'],
+    en: ['Draft a rule for me.', 'Drafting institutions and plans', 'A draft for deliberation'] },
+  { id: 'R7', stops: ['M3', 'M8', 'M9'], maybe: [], lead: 'full',
+    zh: ['这套理论站得住吗？', '理论评估', '具有全书覆盖的限定评价', '全书读完后进入'],
+    en: ['Does the theory hold up?', 'Theory assessment', 'A qualified assessment covering the whole book', 'Enters after reading the whole book'] },
+];
+const TEXT = {
+  zh: { title: '七条路由 × 十个模块', sub: '你问的是哪一类问题，决定它经过哪些模块，交付哪一种判断。', ask: '你想问的', deliver: '落地交付',
+        keyFix: '经过这个模块', keyMaybe: '需要时才经过', keyLand: '成文，交付判断',
+        foot1: '<b>混合问题按真实依赖串联</b>：先问为什么、再问怎么办，就先走 R2，再接 R5。', foot2: '<b>R4</b> 的每条判断都在结果出现前登记，登记取不到时退回 R3。' },
+  en: { title: 'Seven routes, ten modules', sub: 'The kind of question decides which modules a route passes and what it delivers.', ask: 'You ask', deliver: 'It delivers',
+        keyFix: 'Passes this module', keyMaybe: 'Only when needed', keyLand: 'Composition: the judgment is delivered',
+        foot1: '<b>Mixed questions chain by real dependence</b>: ask why, then what to do, and R2 runs first, then R5.', foot2: 'Every <b>R4</b> judgment is registered before the outcome; when registration is not possible, the question goes to R3 instead.' },
+};
+
+const t = TEXT[lang];
+document.querySelectorAll('[data-t]').forEach((node) => { node.innerHTML = t[node.dataset.t]; });
+
+const grid = document.getElementById('grid');
+const wrap = (className) => { const node = document.createElement('div'); node.className = className; node.style.display = 'contents'; grid.append(node); return node; };
+
+const cols = wrap('cols');
+cols.innerHTML = `<div class="cell label">${t.ask}</div><div class="cell"><div class="mods">${ORDER.map((id) => `<div class="mod"><b>${id}</b><span>${MODULES[lang][id]}</span></div>`).join('')}</div></div><div class="cell label">${t.deliver}</div>`;
+
+const NS = 'http://www.w3.org/2000/svg';
+const triangle = (x, y, r) => `M${x} ${y - r} ${x + r * 0.92} ${y + r * 0.72}H${x - r * 0.92}Z`;
+
+// every row is laid out first, so each track is measured at its final size
+const tracks = ROUTES.map((route) => {
+  const [question, name, deliver] = route[lang];
+  const row = wrap('row');
+  row.innerHTML = `<div class="cell ask"><span class="code">${route.id}</span><div><strong>${question}</strong><small>${name}</small></div></div><div class="cell track"></div><div class="cell deliver">${deliver}</div>`;
+  return row.querySelector('.track');
+});
+
+ROUTES.forEach((route, index) => {
+  const note = route[lang][3];
+  const track = tracks[index];
+  // the drawing uses the cell's own inner size, so every row lines up with the column heads
+  const width = track.clientWidth;
+  const H = track.clientHeight;
+  const pitch = width / ORDER.length;
+  const at = (id) => (ORDER.indexOf(id) + 0.5) * pitch;
+  const y = H / 2;
+  const svg = document.createElementNS(NS, 'svg');
+  svg.setAttribute('viewBox', `0 0 ${width} ${H}`);
+  track.append(svg);
+  const add = (tag, attrs, parent = svg) => { const node = document.createElementNS(NS, tag); for (const [key, value] of Object.entries(attrs)) node.setAttribute(key, value); parent.append(node); return node; };
+
+  for (const id of ORDER) add('line', { class: 'guide', x1: at(id), x2: at(id), y1: 0, y2: H });
+
+  // a note sits on the line; the line stops short of it on both sides
+  let gap = null;
+  if (note) {
+    const group = add('g', { class: 'note' });
+    const text = add('text', { x: route.lead === 'direct' ? width / 2 : pitch * 0.32 + 30, y: y + 5.5, 'text-anchor': route.lead === 'direct' ? 'middle' : 'start' }, group);
+    text.textContent = note;
+    const box = text.getBBox();
+    // a paper ground under the words hides the column guides behind them
+    group.insertBefore(add('rect', { x: box.x - 3, y: box.y - 3, width: box.width + 6, height: box.height + 6 }, group), text);
+    gap = [box.x - 12, box.x + box.width + 12];
+  }
+  const segment = (className, from, to) => {
+    const parts = gap ? [[from, Math.min(to, gap[0])], [Math.max(from, gap[1]), to]] : [[from, to]];
+    for (const [a, b] of parts) if (b - a > 10) add('path', { class: className, d: `M${a} ${y}H${b}` });
+  };
+
+  const end = at('M9');
+  if (route.lead === 'direct') {
+    segment('line', pitch * 0.32, width - pitch * 0.42);
+    add('path', { class: 'tip', d: `M${width - pitch * 0.2} ${y}l-17 -9v18Z` });
+  } else {
+    const first = at(route.stops[0]);
+    if (route.lead) segment('line line--in', pitch * 0.32, first - 18);
+    add('path', { class: 'line', d: `M${first} ${y}H${end - 14}` });
+    for (const id of route.maybe) add('path', { class: 'fix fix--maybe', d: triangle(at(id), y + 1.5, 11) });
+    for (const id of route.stops.slice(0, -1)) add('path', { class: 'fix', d: triangle(at(id), y + 1.5, 11.5) });
+    add('rect', { class: 'rwy', x: end - 21, y: y - 6, width: 42, height: 12 });
+    add('path', { class: 'rwy-mark', d: `M${end - 15} ${y}H${end + 15}` });
+  }
+  // the note stays above the lines it interrupts
+  const noteGroup = svg.querySelector('.note');
+  if (noteGroup) svg.append(noteGroup);
+});
+document.documentElement.dataset.ready = 'true';
+</script>
+</body>
+</html>

@@ -405,7 +405,8 @@
           shape('circle', { cx: round(x), cy: round(y + 1), r: 1.4, class: 'ch-rose-core' }, names);
           label(names, x + 14, y + 4, words, 'ch-note', 'start');
         }
-        if (roomy) label(names, g.fix.M7.x + 16, g.fix.M7.y + 27, 'R5 承接 R3、R4 的结果', 'ch-note ch-note--ink', 'start');
+        // far enough right that the first letter clears the edge of the approach disc
+        if (roomy) label(names, g.fix.M7.x + 24, g.fix.M7.y + 27, 'R5 承接 R3、R4 的结果', 'ch-note ch-note--ink', 'start');
         label(names, g.width - 14, g.height - 12, '示意图，不按比例', 'ch-note', 'end');
       }
 

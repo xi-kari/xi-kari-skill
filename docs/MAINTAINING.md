@@ -89,12 +89,80 @@ records each subset's source version, hash and covered characters, and
 `assets/fonts/OFL.txt` carries the licence.
 
 `assets/provenance.json` records every raster the page ships. The output
-screenshots are copies of `.github/readme/outputs-light.png` and
-`outputs-dark.png`; replace both places together when the tools' pages change.
-`social-card.png` is a capture of the page's own briefing strip and plan view at
-1200 by 630; retake it after the opening changes. Update the recorded hashes
-whenever a file changes. The plan view, profile view, compass rose and wind rose
-are drawn in the browser from the page's own data and need no image files.
+screenshots (`outputs-*.png`, the same files as in `.github/readme/`) and
+`social-card.png` (the page's own briefing strip and plan view at 1200 by 630)
+are taken together with the README figures below, and the script updates their
+recorded hashes. The plan view,
+profile view, compass rose and wind rose are drawn in the browser from the
+page's own data and need no image files.
+
+## README figures
+
+The two READMEs show figures from `.github/readme/`, each in a day and a night
+printing:
+
+| Files | What they show |
+| --- | --- |
+| `hero-*.png` | the project page's briefing strip and plan view |
+| `hero-en-*.png` | the same view with its words set in English, for `README.en.md` |
+| `routes-*.png`, `routes-en-*.png` | the seven routes against the ten modules, drawn by `src/routes.html` |
+| `handbook-*.png` | the station band of the handbook's home page |
+| `outputs-*.png` | the three generated pages, built by the packaged tools and framed by `src/outputs.html`; also used by the project page |
+
+`src/capture.cjs` takes every one of them, together with the project page's
+social card. It writes an origin note into each file, writes nothing unless all
+requested captures succeed, and updates the hashes in `assets/provenance.json`.
+For the generated pages it runs `render_answer.py` on Part 1 of the source
+text, and `condition_lab.py` and `comparison.py` on the bundled examples, in a
+temporary folder.
+
+The figures are taken on Windows, in an installed Google Chrome that the
+script drives through `playwright-core` (Playwright's `chrome` channel;
+`playwright-core` brings no browser of its own). `src/routes.html` and the
+labels of `src/outputs.html` are set in an installed Noto Sans SC (the variable
+`NotoSansSC-VF.ttf` from noto-cjk, SIL OFL), and the script stops if it is
+missing; the frame's file names use Cascadia Mono, or Consolas without it. The
+project page's body text and the generated pages use their own font stacks,
+which the script reports. Retaking on another system changes the type.
+
+Once, from the repository root, install the page-test and handbook packages
+and build the handbook (the build rewrites `docs/handbook/`; skip it when the
+committed build is current, because the preview serves that build):
+
+```powershell
+npm ci --prefix tests/dom --ignore-scripts --no-audit --no-fund
+npm ci --prefix website --ignore-scripts --no-audit --no-fund
+npm run build --prefix website
+```
+
+Then serve the project page in one terminal and the built handbook in another:
+
+```powershell
+python -m http.server 4321 --bind 127.0.0.1 --directory docs
+```
+
+```powershell
+npx --prefix website vitepress preview website --port 4173
+```
+
+and take the figures in a third:
+
+```powershell
+node .github/readme/src/capture.cjs "$PWD/tests/dom/node_modules/playwright-core"
+```
+
+`--only hero`, `hero-en`, `handbook`, `routes`, `outputs` or `card` retakes a
+single figure. On one machine repeated runs give identical files.
+
+Retake after the opening of either site changes, after a route or module
+changes in `SKILL.md` (update `src/routes.html` with it), and after
+`render_answer.py`, `condition_lab.py`, `comparison.py`, their assets or Part 1
+of the source change. The hero figures leave out the version, the baseline date
+and the download signs, so a release alone needs no retake. The English hero
+takes its words from the table in `capture.cjs`; the script stops when the
+page shows a phrase the table does not cover, or when a phrase it replaces
+whole has changed. Look at the new files before committing: a longer label can
+run into a line of the drawing.
 
 ## Not-found page
 
