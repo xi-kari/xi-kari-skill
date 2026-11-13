@@ -4,13 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Xikari Skill · 读完全书，再下判断</title>
-<meta name="description" content="Xikari Skill 是以 Xikari 著《Xikari-条件结构与转化论》为理论来源的智能体技能：先完整学习原文，再按问题类型组合模块，交出写明依据、条件与改判理由的判断。下载 6.1.0 安装包，查看七条问题路由、能力边界与研究完成情况。">
+<meta name="description" content="Xikari Skill 是以 Xikari 著《Xikari-条件结构与转化论》为理论来源的智能体技能：先完整学习原文，再按问题类型组合模块，交出写明依据、条件与改判理由的判断。下载 6.1.0 安装包，查看八条问题路由、能力边界与研究完成情况。">
 <meta name="color-scheme" content="light dark">
 <meta name="theme-color" content="#fbfcfe" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#0a1326" media="(prefers-color-scheme: dark)">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Xikari Skill · 读完全书，再下判断">
-<meta property="og:description" content="以《Xikari-条件结构与转化论》为理论来源的智能体技能：七条问题路由，十个方法模块，判断写明依据、条件与改判理由。">
+<meta property="og:description" content="以《Xikari-条件结构与转化论》为理论来源的智能体技能：八条问题路由，十一个方法模块，判断写明依据、条件与改判理由。">
 <meta property="og:url" content="https://xi-kari.github.io/xi-kari-skill/">
 <meta property="og:image" content="https://xi-kari.github.io/xi-kari-skill/assets/social-card.png">
 <meta property="og:image:width" content="1200">
@@ -102,6 +102,7 @@
         <li><button type="button" data-route="R5" aria-pressed="false"><span class="code">R5</span><span class="ask-q"><span class="nb">现在该选</span><span class="nb">哪个？</span></span></button></li>
         <li><button type="button" data-route="R6" aria-pressed="false"><span class="code">R6</span><span class="ask-q"><span class="nb">帮我起草</span><span class="nb">一份规则。</span></span></button></li>
         <li><button type="button" data-route="R7" aria-pressed="false"><span class="code">R7</span><span class="ask-q"><span class="nb">这套理论</span><span class="nb">站得住吗？</span></span></button></li>
+        <li><button type="button" data-route="R8" aria-pressed="false"><span class="code">R8</span><span class="ask-q"><span class="nb">还能推出</span><span class="nb">些什么？</span></span></button></li>
       </ol>
     </div>
 
@@ -139,7 +140,7 @@
 <section class="band band--paper" id="modules" aria-labelledby="modules-title">
   <div class="wrap">
     <div class="head">
-      <h2 class="display" id="modules-title"><span class="nb">十个模块，</span><span class="nb">一路下降到成文</span></h2>
+      <h2 class="display" id="modules-title"><span class="nb">十一个模块，</span><span class="nb">一路下降到成文</span></h2>
       <p>一条航线只经过它真正依赖的模块。模块交接的是实质内容：条件前瞻的结果前登记必须保存，其余交接物只在协作、复核或恢复需要时才单独存成文件。</p>
     </div>
     <div class="profile" data-profile aria-hidden="true"></div>
@@ -154,6 +155,7 @@
       <li data-module="M7" data-short="有限选择"><a class="code" href="https://github.com/xi-kari/xi-kari-skill/blob/main/modules/choice/MODULE.md">M7</a><h3>有限选择</h3><p>方案作者：六类方案、统一比较与行动上限</p><p class="handoff">方案比较及分析推荐</p></li>
       <li data-module="M8" data-short="反方"><a class="code" href="https://github.com/xi-kari/xi-kari-skill/blob/main/modules/critique/MODULE.md">M8</a><h3>反方与压力测试</h3><p>主作者或独立审查者：最强反方、敏感性与位置互换</p><p class="handoff">具体异议、影响及修正理由</p></li>
       <li data-module="M9" data-short="成文" data-file="xi-kari-answer.md"><a class="code" href="https://github.com/xi-kari/xi-kari-skill/blob/main/modules/compose/MODULE.md">M9</a><h3>成文</h3><p>主作者：补齐重要分支、综合跨部分关系、完整论证与取舍</p><p class="handoff">当前完整答案或所需成品</p></li>
+      <li data-module="M10" data-short="生成" data-file="candidates.json"><a class="code" href="https://github.com/xi-kari/xi-kari-skill/blob/main/modules/generate/MODULE.md">M10</a><h3>生成</h3><p>生成作者：定起点、选走法、定身份、四问筛选、配竞争项与检验</p><p class="handoff">带谱系的候选 <code>candidates.json</code></p></li>
     </ol>
     <p class="aside">模块数量与智能体数量不对应。独立的证据方向、分支或具体争议可以并行，前后紧密依赖的工作顺序承接；每个独立作判断的作者都先读完全书。</p>
   </div>
@@ -177,7 +179,7 @@
 
     <div class="table-wrap">
       <table class="minima" data-route-table>
-        <caption>七条航线各自交付的判断与证据边界</caption>
+        <caption>八条航线各自交付的判断与证据边界</caption>
         <thead><tr><th scope="col">航线</th><th scope="col">经过</th><th scope="col">交付的判断</th><th scope="col">证据边界</th></tr></thead>
         <tbody>
           <tr data-route="R1" data-name="原文与概念" data-legs="" data-note="概念问题读完相关的完整定义与依赖后直接回答，不经过模块链。"><th scope="row"><span class="code">R1</span>原文与概念</th><td>读相关完整定义与依赖，直接回答</td><td>有边界的释义</td><td>不展开全部工具合同</td></tr>
@@ -187,6 +189,7 @@
           <tr data-route="R5" data-name="有限选择" data-legs="M7 M8 M9" data-from="R3 R4" data-note="承接推演或条件前瞻的可用结果；机制、硬约束、稳健性与明示价值也能支持有限选择。"><th scope="row"><span class="code">R5</span>有限选择</th><td>R3 或 R4 的可用结果 → M7 → M8 → M9</td><td>可反驳的分析推荐</td><td>执行另据有效授权</td></tr>
           <tr data-route="R6" data-name="制度与计划起草" data-legs="M0 M1 M2 M3 M7 M8 M9" data-supplement="M4 M5" data-switch="需要补变换或推演" data-note="条文和计划以可直接使用为准，解释放在条款之后。" data-note-on="必要时补三类变换（M4）与推演（M5），再进入方案比较。"><th scope="row"><span class="code">R6</span>制度与计划起草</th><td>M0 → M1 → M2 → M3 → M7 → M8 → M9</td><td>可审议草案</td><td>必要时补 M4、M5</td></tr>
           <tr data-route="R7" data-name="理论评估" data-legs="M3 M8 M9" data-note="全书评价、体系比较、迁移与一致性始终全读，再比较机制与竞争方法。"><th scope="row"><span class="code">R7</span>理论评估</th><td>全读 → M3 → M8 → M9</td><td>具有全书覆盖的限定评价</td><td>始终全读，不走分层阅读</td></tr>
+          <tr data-route="R8" data-name="生成" data-legs="M0 M1 M2 M3? M10 M8 M9" data-switch="还没有可承接的机制比较" data-note="从已经成立或已明示的理解出发，推出原问没有问到的命题、问题与构想；同一任务里已有的分析直接承接。" data-note-on="没有可承接的机制比较时，先做机制与竞争解释（M3），再以它为起点生成。"><th scope="row"><span class="code">R8</span>生成</th><td>已有分析或 M0 → M1 → M2 →（需要时 M3），再 M10 → M8 → M9</td><td>带出处与检验办法的候选</td><td>不发布为事实、前瞻或授权；重述不算新</td></tr>
         </tbody>
       </table>
     </div>
@@ -200,6 +203,7 @@
       <li><strong class="plaque">未登记，不前瞻</strong><span>每条前瞻判断在结果出现前登记目标、期限、范围与基线；登记取不到就退回推演，只给条件路径。</span></li>
       <li><strong class="plaque">未知，不排序</strong><span>方案比较里事实、假设、未知分别标注。未知不参与排序，也不给跨维度的整体最优。</span></li>
       <li><strong class="plaque">共识不当证据</strong><span>多模型共识不是独立经验证据。反方审查者只提出可核的具体问题，不颁发质量认证。</span></li>
+      <li><strong class="plaque">未检验，不称发现</strong><span>生成的候选逐条写明起点、竞争项与否决条件。没有外部材料支持的，不写成事实、预测或建议执行；“未见”只相对写明的检索范围。</span></li>
     </ul>
     <p class="aside">当前工具测试覆盖 Windows，包括中文和空格路径、从其他工作目录运行；CI 使用 Python 3.10 与 3.13。其他操作系统和云端产品尚未验收。</p>
   </div>
@@ -286,10 +290,10 @@
       <div><dt>完整成果稿 <code>xi-kari-answer.md</code></dt><dd>初次完整交付或要求合稿时形成：中心判断在前，随后是材料评价、结构关系、机制比较、案例与反例、路径、反方回应、裁决与方案。</dd></div>
       <div><dt>离线阅读页</dt><dd>由完整稿生成的单个 HTML 文件，不联网。标题下方的航迹图按各章节的篇幅画出全文，读到哪里画到哪里，往下读时收在顶栏下方继续跟随；另有章节目录、全文搜索、字号调节和打印版式；选中一段正文，可以把选段连同位置整理成一条追问。</dd></div>
       <div><dt>Word 文档</dt><dd>保留正文、表格、脚注和本地图片。远程图片不会下载，而是保留为可见文字；无法表示的写法保留原文并逐项列出。</dd></div>
-      <div><dt>按需的研究产物</dt><dd>主张台账、方案比较表、研究设计与采集说明、条件模型页、跨轮次任务状态、案例库。它们在工作需要时才生成，不是每次分析的固定流程。</dd></div>
+      <div><dt>按需的研究产物</dt><dd>主张台账、候选账本、方案比较表、研究设计与采集说明、条件模型页、跨轮次任务状态、案例库。它们在工作需要时才生成，不是每次分析的固定流程。</dd></div>
     </dl>
     <details class="tools">
-      <summary><span>12 个随包工具，以及它们各自刻意不做的事</span><svg class="i" aria-hidden="true"><use href="#i-chevron"/></svg></summary>
+      <summary><span>13 个随包工具，以及它们各自刻意不做的事</span><svg class="i" aria-hidden="true"><use href="#i-chevron"/></svg></summary>
       <p>工具都是可选的 Python 脚本，只用标准库，需要 Python 3.10 或更新版本。它们只处理明确交给它们的材料、运算或文本，不能证明模型已经理解理论，也不能证明现实因果或方案正当。</p>
       <div class="table-wrap">
         <table class="toolbox">
@@ -299,6 +303,7 @@
             <tr><th scope="row"><code>read_source.py</code></th><td>按块顺序读取全文、按节号复读、关键词定位</td><td>报告块数或核对原文身份，都不等于读过</td></tr>
             <tr><th scope="row"><code>evidence.py</code></th><td>登记材料版本，保存选定片段及其支持范围</td><td>不联网下载，不判断材料是否可信</td></tr>
             <tr><th scope="row"><code>claims.py</code></th><td>主张台账：依据、理由、改判条件与未决分歧</td><td>不打分，不判定真伪</td></tr>
+            <tr><th scope="row"><code>candidates.py</code></th><td>候选账本：每条候选的起点、走法、身份、竞争项与检验状态</td><td>不判断候选真假与新旧，不让候选跳过检验</td></tr>
             <tr><th scope="row"><code>comparison.py</code></th><td>方案比较表，事实、假设、未知分别标注</td><td>未知不参与排序，不给整体最优</td></tr>
             <tr><th scope="row"><code>study_design.py</code></th><td>把未决问题变成能区分各解释的观察与采集说明</td><td>缺失保持缺失，不填默认值</td></tr>
             <tr><th scope="row"><code>condition_lab.py</code></th><td>运行明确的公式与约束，导出离散情景页</td><td>不插值，不把模型结果说成现实可行</td></tr>

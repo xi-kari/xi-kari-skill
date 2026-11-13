@@ -548,17 +548,17 @@ A top bar is paper, sticky, with a 1.5px ink rule beneath. Links are .875rem at 
 
 ### Plan view and dock
 
-The signature of the project page. The chart is generated from the route table and the module list printed further down the same page: the source text as a compass-rose station beside the runway, one arc carrying M3 to M7, the trunk M0 to M2 inbound, feeders for R1 and R7, the go-around and its hold, and, where there is room, three hazard notes. A legend in a 1.25px ink box explains the four line styles.
+The signature of the project page. The chart is generated from the route table and the module list printed further down the same page: the source text as a compass-rose station beside the runway, one arc carrying M3 to M7 and, at its far end, M10, the trunk M0 to M2 inbound, feeders for R1 and R7, the go-around and its hold, and, where there is room, three hazard notes. Labels keep clear of the legs that converge on M8: in the wide drawing M5 is named above the trunk and M6, M7 and M10 outside the arc; in the narrow one their codes stand above the fixes and M5's just inside the arc. R5's note sits outside the arc between M6 and M7, the two fixes whose results it takes up, and shrinks to a short mark beside M7 where they stand too close. A legend in a 1.25px ink box explains the four line styles.
 
-- **Question row:** seven buttons on the dock, each a route designator in yellow over the question in the visitor's words. The selected question is a yellow field; hover turns the border yellow.
+- **Question row:** eight buttons on the dock, each a route designator in yellow over the question in the visitor's words, set on two lines so every button reads alike. The selected question is a yellow field; hover turns the border yellow.
 - **Legs readout:** the selected route's designator and name, its fixes as chips joined by short rules, and the judgment it delivers in yellow. A chip turns magenta as the aircraft passes its fix; an optional fix has a dashed chip.
 - **Condition switch:** a 38 by 20px track with a square thumb. Switching it re-plans the route and the readout names what changed.
-- Choosing a question flies its route: the magenta line is drawn from the entry to the runway while the aircraft follows it, over at most 3.6 seconds. On R4 a small magenta registration mark, "已登记，只追加", appears as the aircraft passes M6 and stays.
+- Choosing a question flies its route: the magenta line is drawn from the entry to the runway while the aircraft follows it, over at most 3.6 seconds. On R4 a small magenta registration mark, "已登记，只追加", appears as the aircraft passes M6 and stays. R8 builds on analysis already in hand, so it flies straight in to the arc and then along it to M10, past the fixes it draws on without lighting them; with its condition switched on it goes by way of M3.
 - The chart is hidden from assistive technology; the route table, the module list and the legs readout carry the same content as text.
 
 ### Profile view and fix list
 
-A second drawing of the same route, seen from the side: ten fixes stepping down to the runway, a decision point, the go-around, and a handoff file under each fix that writes one. Below it the ten modules are rows ruled at 1px: designator with a triangle marker, name, who writes it, what it hands on. Modules on the selected route get a magenta marker.
+A second drawing of the same route, seen from the side: eleven fixes stepping down to the runway, a decision point, the go-around, and a handoff file under each fix that writes one. Below it the eleven modules are rows ruled at 1px: designator with a triangle marker, name, who writes it, what it hands on. Modules on the selected route get a magenta marker.
 
 ### Tables
 

@@ -8,8 +8,8 @@
   const stillness = query('(prefers-reduced-motion: reduce)');
   const canAnimate = () => !stillness.matches && typeof requestAnimationFrame === 'function';
   const COMPACT = 880;
-  const ARC_ORDER = ['M4', 'M3', 'M5', 'M6', 'M7'];
-  const FIX_ORDER = ['M0', 'M1', 'M2', 'M4', 'M3', 'M5', 'M6', 'M7', 'M8', 'M9'];
+  const ARC_ORDER = ['M4', 'M3', 'M5', 'M6', 'M7', 'M10'];
+  const FIX_ORDER = ['M0', 'M1', 'M2', 'M4', 'M3', 'M5', 'M6', 'M7', 'M10', 'M8', 'M9'];
   const PLANE = 'M0 -11 L3 -4 L12 3 L12 6 L3 3 L2.2 9 L5 11.5 L5 13 L0 11.6 L-5 13 L-5 11.5 L-2.2 9 L-3 3 L-12 6 L-12 3 L-3 -4 Z';
 
   function element(tag, className, text) {
@@ -99,7 +99,7 @@
 
   function planFor(route, on) {
     const plan = { id: route.id, fixes: route.base.slice(), maybe: [], lead: null };
-    if (route.id === 'R2' && on) plan.fixes = route.full.slice();
+    if (on && route.full.length > route.base.length) plan.fixes = route.full.slice();
     if (route.id === 'R6' && on) plan.maybe = route.supplement.slice();
     if (route.id === 'R5') { plan.lead = 'result'; plan.maybe = ['M5', 'M6']; }
     if (route.id === 'R7') plan.lead = 'full';
@@ -127,8 +127,9 @@
         g.a = { x: 0, y: 1 };
         g.b = { x: -1, y: 0 };
         g.center = { x: width / 2, y: height - 74 };
-        g.radius = Math.min((width / 2 - 46) / Math.sin(radians(38)), g.center.y - Math.max(180, Math.min(250, height * 0.42)));
-        g.angles = { M4: 38, M3: 17, M5: 0, M6: -17, M7: -38 };
+        /* Four fixes share the right half of the arc, so it runs further round than the left; their codes sit above them and need less margin than M4's, which sits beside it. */
+        g.radius = Math.min((width / 2 - 46) / Math.sin(radians(38)), (width / 2 - 22) / Math.sin(radians(43.5)), g.center.y - Math.max(180, Math.min(250, height * 0.42)));
+        g.angles = { M4: 38, M3: 17, M5: 0, M6: -14.5, M7: -29, M10: -43.5 };
         g.threshold = 90;
         g.runway = 40;
         g.rose = 30;
@@ -144,8 +145,8 @@
         g.rose = compact ? 42 : 50;
         g.runway = compact ? 50 : 60;
         g.center = { x: width - Math.max(g.rose + 80, width * 0.12), y: axis };
-        g.radius = Math.min(g.center.x - width * 0.46, (height - axis - 44) / Math.sin(radians(27)), (axis - 56) / Math.sin(radians(36)));
-        g.angles = { M4: 36, M3: 19, M5: 0, M6: -14, M7: -27 };
+        g.radius = Math.min(g.center.x - width * 0.46, (height - axis - 44) / Math.sin(radians(30)), (axis - 56) / Math.sin(radians(36)));
+        g.angles = { M4: 36, M3: 19, M5: 0, M6: -10, M7: -20, M10: -30 };
         g.threshold = Math.max(g.rose + g.runway + 14, Math.min(150, g.radius * 0.36));
         const left = Math.max(64, width * 0.07);
         const edge = g.center.x - g.radius;
@@ -156,8 +157,8 @@
         g.b = { x: 0, y: -1 };
         const axis = height * 0.6;
         g.center = { x: width - Math.max(150, width * 0.11), y: axis };
-        g.radius = Math.min(g.center.x - width * 0.54, (height - axis - 44) / Math.sin(radians(27)), (axis - 56) / Math.sin(radians(36)));
-        g.angles = { M4: 36, M3: 19, M5: 0, M6: -14, M7: -27 };
+        g.radius = Math.min(g.center.x - width * 0.54, (height - axis - 44) / Math.sin(radians(30)), (axis - 56) / Math.sin(radians(36)));
+        g.angles = { M4: 36, M3: 19, M5: 0, M6: -10, M7: -20, M10: -30 };
         g.threshold = Math.max(128, Math.min(150, g.radius * 0.33));
         g.runway = 64;
         g.rose = 52;
@@ -223,6 +224,8 @@
     function join(g, fromId, toId) {
       if (fromId === 'M2' && toId === 'M4') return detour(g);
       if (fromId === 'M4' && toId === 'M3') return `L${point(g.fix.M3)}`;
+      /* Generation starts from analysis already in hand: straight in to the arc, then along it past the fixes it builds on. */
+      if (fromId === 'M2' && toId === 'M10') return `L${point(g.fix.M5)} ${arcTo(g, g.fix.M5, g.fix.M10)}`;
       const onArc = ARC_ORDER.includes(fromId) && ARC_ORDER.includes(toId);
       return onArc ? arcTo(g, g.fix[fromId], g.fix[toId]) : `L${point(g.fix[toId])}`;
     }
@@ -277,8 +280,8 @@
       line(`M${point(g.fix.M2)} L${point(g.fix.M5)}`);
       line(`M${point(g.fix.M2)} ${detour(g)}`, 'ch-track ch-track--dash');
       line(`M${point(g.fix.M4)} L${point(g.fix.M3)}`, 'ch-track ch-track--dash');
-      line(`M${point(g.fix.M3)} ${arcTo(g, g.fix.M3, g.fix.M7)}`);
-      for (const id of ['M3', 'M5', 'M6', 'M7']) line(`M${point(g.fix[id])} L${point(g.fix.M8)}`);
+      line(`M${point(g.fix.M3)} ${arcTo(g, g.fix.M3, g.fix.M10)}`);
+      for (const id of ['M3', 'M5', 'M6', 'M7', 'M10']) line(`M${point(g.fix[id])} L${point(g.fix.M8)}`);
       line(`M${point(g.fix.M8)} L${point(g.fix.M9)}`);
       line(`M${point(g.full)} L${point(g.fix.M3)}`, 'ch-track ch-track--feeder');
       line(`M${point(g.direct)} L${point(g.center)}`, 'ch-track ch-track--feeder');
@@ -362,25 +365,31 @@
         const bare = (id, x, y, anchor) => { text[id] = [label(names, x, y, id, 'ch-code', anchor), label(names, x, y, '', 'ch-name', anchor)]; };
         bare('M4', g.fix.M4.x - 14, g.fix.M4.y + 5, 'end');
         bare('M3', g.fix.M3.x - 3, g.fix.M3.y + 28, 'middle');
-        bare('M5', g.fix.M5.x + 16, g.fix.M5.y - 10, 'start');
-        bare('M6', g.fix.M6.x + 16, g.fix.M6.y - 8, 'start');
+        /* M5 stands on the axis, so its code goes just inside the arc, clear of the three codes above the right half */
+        bare('M5', g.fix.M5.x - 6, g.fix.M5.y + 22, 'end');
+        bare('M6', g.fix.M6.x + 2, g.fix.M6.y - 16, 'middle');
         bare('M7', g.fix.M7.x + 2, g.fix.M7.y - 16, 'middle');
+        bare('M10', g.fix.M10.x + 2, g.fix.M10.y - 16, 'middle');
         tag('M8', g.fix.M8.x - 20, g.fix.M8.y + 5, 'end', false);
         label(names, g.fix.M9.x - 14, g.fix.M9.y + 16, 'RWY 09', 'ch-code', 'end');
         label(names, g.fix.M9.x - 14, g.fix.M9.y + 32, 'M9 成文', 'ch-name', 'end');
         label(names, g.center.x, g.center.y + g.rose + 18, '原文 XK · 16 部分 · 附录 A–D', 'ch-note ch-note--blue', 'middle');
         label(names, g.full.x + 2, g.full.y - 8, 'R7 全读', 'ch-note ch-note--ink', 'middle');
         label(names, g.direct.x - 6, g.direct.y + 4, 'R1', 'ch-note ch-note--ink', 'end');
-        label(names, g.fix.M0.x - 16, g.fix.M0.y - 14, 'R2 R3 R4 R6', 'ch-note ch-note--ink', 'end');
-        label(names, g.fix.M7.x + 15, g.fix.M7.y + 5, 'R5', 'ch-note ch-note--ink', 'start');
+        label(names, g.fix.M0.x - 16, g.fix.M0.y - 14, 'R2 R3 R4 R6 R8', 'ch-note ch-note--ink', 'end');
+        label(names, g.fix.M7.x + 17, g.fix.M7.y - 16, 'R5', 'ch-note ch-note--ink', 'start');
       } else {
         for (const id of ['M0', 'M1']) tag(id, g.fix[id].x, g.fix[id].y + 31, 'middle', true);
         tag('M2', g.fix.M2.x + 4, g.fix.M2.y + 33, 'middle', true);
         tag('M4', g.fix.M4.x + 22, g.fix.M4.y + 2, 'start', true);
         tag('M3', g.fix.M3.x + 24, g.fix.M3.y - 16, 'start', true);
-        tag('M5', g.fix.M5.x + 16, g.fix.M5.y + 27, 'start', true);
+        /* M5 stands where the trunk meets the arc. Its label goes above the trunk, clear of the leg from M6;
+           on a small arc the legs to M8 close in up there, so it stays below. */
+        if (g.radius >= 260) tag('M5', g.fix.M5.x + 16, g.fix.M5.y - 29, 'start', true);
+        else tag('M5', g.fix.M5.x + 16, g.fix.M5.y + 27, 'start', true);
         tag('M6', g.fix.M6.x - 17, g.fix.M6.y + 2, 'end', true);
         tag('M7', g.fix.M7.x - 17, g.fix.M7.y + 2, 'end', true);
+        tag('M10', g.fix.M10.x - 17, g.fix.M10.y + 2, 'end', true);
         tag('M8', g.fix.M8.x + 15, g.fix.M8.y - 30, 'start', true);
         const mid = (g.fix.M9.x + g.runwayEnd.x) / 2;
         label(names, mid, g.fix.M9.y + 30, 'RWY 09', 'ch-code', 'middle');
@@ -390,14 +399,15 @@
         label(names, g.center.x + 16, g.center.y + g.rose + 53, '16 部分 · 附录 A–D', 'ch-note', 'start');
         label(names, g.full.x - 12, g.full.y + 4, 'R7 全读进场', 'ch-note ch-note--ink', 'end');
         label(names, g.direct.x - 12, g.direct.y + 2, 'R1 直接回答', 'ch-note ch-note--ink', 'end');
-        label(names, g.inbound.x + 4, g.fix.M0.y - 14, 'R2 R3 R4 R6 进场', 'ch-note ch-note--ink', 'start');
+        label(names, g.inbound.x + 4, g.fix.M0.y - 14, 'R2 R3 R4 R6 R8 进场', 'ch-note ch-note--ink', 'start');
         const lower = g.height - g.center.y;
         const hazards = [
           [g.center.x - g.radius * 0.6, g.center.y - g.radius * 0.31, '收到意见 ≠ 有效反馈'],
           [g.center.x - g.radius * 0.5, g.center.y + lower * 0.62, '系统筛选 ≠ 主体选择'],
           g.flat
             ? [g.trunk[0].x + (g.trunk[2].x - g.trunk[0].x) * 0.3, g.center.y + lower * 0.62, '存续 ≠ 正当']
-            : [g.trunk[1].x + (g.fix.M7.x - g.trunk[1].x) * 0.42, g.trunk[1].y - 22, '存续 ≠ 正当'],
+            /* beside M1 at the trunk's own height: the labels of M6, M7 and M10 now fill the ground above it */
+            : [g.trunk[1].x + (g.fix.M7.x - g.trunk[1].x) * 0.2, g.trunk[1].y + 2, '存续 ≠ 正当'],
         ];
         const roomy = !(g.flat && g.width < COMPACT);
         for (const [x, y, words] of roomy ? hazards : []) {
@@ -405,8 +415,11 @@
           shape('circle', { cx: round(x), cy: round(y + 1), r: 1.4, class: 'ch-rose-core' }, names);
           label(names, x + 14, y + 4, words, 'ch-note', 'start');
         }
-        // far enough right that the first letter clears the edge of the approach disc
-        if (roomy) label(names, g.fix.M7.x + 24, g.fix.M7.y + 27, 'R5 承接 R3、R4 的结果', 'ch-note ch-note--ink', 'start');
+        /* R5 takes up what R3 and R4 produced, so its note sits outside the arc between their fixes;
+           where the two fixes stand too close for a line of text, a short mark beside M7 stands in. */
+        const gap = g.fix.M7.y - g.fix.M6.y;
+        if (roomy && gap >= 56) label(names, g.fix.M6.x - 17, (g.fix.M6.y + g.fix.M7.y + 20) / 2 + 4, 'R5 承接 R3、R4 的结果', 'ch-note ch-note--ink', 'end');
+        else label(names, g.fix.M7.x + 15, g.fix.M7.y + 5, 'R5', 'ch-note ch-note--ink', 'start');
         label(names, g.width - 14, g.height - 12, '示意图，不按比例', 'ch-note', 'end');
       }
 
@@ -558,8 +571,8 @@
       const threshold = width - (narrow ? 58 : 150);
       const runwayEnd = width - (narrow ? 16 : 62);
       const fafX = threshold - (narrow ? 44 : 132);
-      const spread = FIX_ORDER.slice(0, 9);
-      const labelX = (id) => (id === 'M9' ? (threshold + runwayEnd) / 2 : left + (fafX - left) * spread.indexOf(id) / 8);
+      const spread = FIX_ORDER.slice(0, -1);
+      const labelX = (id) => (id === 'M9' ? (threshold + runwayEnd) / 2 : left + (fafX - left) * spread.indexOf(id) / (spread.length - 1));
       const lowered = new Set();
       let reach = -Infinity;
       if (!narrow) {
@@ -576,7 +589,7 @@
       const top = narrow ? 44 : 50;
       const at = {};
       spread.forEach((id, index) => {
-        at[id] = { x: left + (faf.x - left) * index / 8, y: top + (faf.y - top) * index / 8 };
+        at[id] = { x: left + (faf.x - left) * index / (spread.length - 1), y: top + (faf.y - top) * index / (spread.length - 1) };
       });
       at.M9 = { x: threshold, y: ground };
       shape('line', { x1: 0, y1: ground, x2: width, y2: ground, class: 'pf-ground' }, svg);
