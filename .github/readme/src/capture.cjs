@@ -89,6 +89,7 @@ const ENGLISH = {
     '推演': 'Projection',
     '条件前瞻': 'Conditional foresight',
     '有限选择': 'Bounded choice',
+    '生成': 'Generation',
     '反方': 'Counterarguments',
     'M9 成文': 'M9 Composition',
     '原文 XK': 'Source XK',
@@ -96,7 +97,7 @@ const ENGLISH = {
     '16 部分 · 附录 A–D': '16 parts · App. A–D',
     'R7 全读进场': 'R7 after full reading',
     'R1 直接回答': 'R1 answers directly',
-    'R2 R3 R4 R6 进场': 'R2 R3 R4 R6 inbound',
+    'R2 R3 R4 R6 R8 进场': 'R2 R3 R4 R6 R8 inbound',
     '收到意见 ≠ 有效反馈': 'Comments received ≠ effective feedback',
     '系统筛选 ≠ 主体选择': 'Selection ≠ choice',
     '存续 ≠ 正当': 'Persistence ≠ justification',
@@ -151,8 +152,8 @@ async function toEnglish(tab) {
       const text = node.textContent.trim();
       if (words.chart[text]) node.textContent = words.chart[text];
     }
-    // Longer English labels are fitted to the wide drawing, whose stacked labels put the code at
-    // fix + 27 and the name 16 below it (project.js, tag()):
+    // Longer English labels are fitted to the wide drawing, whose stacked labels put the name
+    // 16 below the code (project.js, tag()):
     const label = (code) => { const all = texts(); const node = all.find((item) => item.textContent.trim() === code); return node ? [node, all[all.indexOf(node) + 1]] : []; };
     const shift = (node, dy) => node.setAttribute('y', parseFloat(node.getAttribute('y')) + dy);
     // M4's name breaks over two lines, clear of the go-around hold to its right;
@@ -164,13 +165,9 @@ async function toEnglish(tab) {
       shift(rest, 16);
       m4.after(rest);
     } else problems.push('M4 label not found');
-    // M5's name would run into the M6 leg below the trunk, so both lines move above it;
-    const [m5code, m5] = label('M5');
-    if (m5 && m5.textContent === 'Projection') {
-      const fix = parseFloat(m5code.getAttribute('y')) - 27;
-      m5code.setAttribute('y', fix - 30);
-      m5.setAttribute('y', fix - 13);
-    } else problems.push('M5 label not found');
+    // M5's label already stands above the trunk in the wide drawing (project.js), so it needs no move;
+    const [, m5] = label('M5');
+    if (!m5 || m5.textContent !== 'Projection') problems.push('M5 label not found');
     // M8's name sits a little higher, clear of the aircraft at the threshold.
     const [m8code, m8] = label('M8');
     if (m8 && m8.textContent === 'Counterarguments') { shift(m8code, -6); shift(m8, -6); } else problems.push('M8 label not found');

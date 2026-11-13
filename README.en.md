@@ -24,7 +24,7 @@
   <a href="LICENSE"><img alt="MIT License" src="https://img.shields.io/badge/license-MIT-33415E?style=flat-square"></a>
 </p>
 
-**Xikari Skill** is an agent skill. Its theory source is Xikari's *Xikari: On Conditions, Structure, and Transformation* (《Xikari-条件结构与转化论》), and it combines, question by question, source-text answers, explanation, projection, conditional foresight, bounded choice, institutional drafting and theory assessment. Ten method modules carry materials, objects, mechanisms, paths and options through to complete judgments that state their reasons and can be argued against.
+**Xikari Skill** is an agent skill. Its theory source is Xikari's *Xikari: On Conditions, Structure, and Transformation* (《Xikari-条件结构与转化论》), and it combines, question by question, source-text answers, explanation, projection, conditional foresight, bounded choice, institutional drafting, theory assessment and the generation of candidates. Eleven method modules carry materials, objects, mechanisms, paths, options and candidates through to complete judgments that state their reasons and can be argued against.
 
 It is built for questions that need both clear thinking and a decision: why an institution keeps failing, how a plan will affect different people, which of several explanations holds up, whether to keep, adjust, probe or exit now. The skill starts only when you name it and does not take over ordinary conversation.
 
@@ -50,6 +50,7 @@ The skill works in English and Chinese. Ask in English and the whole answer is i
 - **Willing to judge, and to make judgments that hold up to rebuttal.** It gathers primary or traceable material proportionate to the question and looks for the strongest competing explanations, counterexamples and objections. It separates facts, structure, mechanisms, values and authorization, gives a clear verdict and constructive proposals, and says what new facts would change them.
 - **Complete delivery, sized to the question.** The conclusion and key numbers come first. A question with a definite answer gets one or two paragraphs of grounds and conditions; a complex analysis is developed in full, and a long text is written when you ask for one. Clauses and plans are written to be used as they stand, with the explanation after them.
 - **One question can keep going.** Follow-ups, new material, counterexamples and requests for a combined draft all build on the existing work and revise from the earliest affected point instead of starting over each turn.
+- **It derives further from what is established, and says how far each step reaches.** Ask what else follows, and it works along the definitions, transformations and compositions of the source text to statements the question never asked for. Each one names its starting points and how it was reached, and whether it is a consequence that must hold within a stated model, a requirement a definition places on a claim, or a candidate still to be tested, with its strongest rival and the observation that would reject it. A restatement does not count as new, and *not found* always names the scope searched.
 
 ## Quick start
 
@@ -88,7 +89,7 @@ In the default full-reading mode the first turn includes complete study of the C
 
 <p><picture>
   <source media="(prefers-color-scheme: dark)" srcset=".github/readme/routes-en-dark.png">
-  <img alt="Seven routes against ten modules. R1 Source text and concepts: no module chain; the complete definition and its dependencies are read and the question is answered directly, delivering a bounded reading of the text. R2 Explanation and diagnosis: M0, M1, M2, then M4 when needed, then M3, M8 and M9, delivering a bounded account of the mechanism. R3 Projection: M0, M1, M2, M5, M8, M9, delivering conditional paths and distinguishing signals. R4 Conditional foresight: M0, M1, M2, M3, M5, M6, M8, M9, delivering a judgment registered before the outcome and able to fail. R5 Bounded choice: builds on a usable result of R3 or R4, then M7, M8, M9, delivering an analytical recommendation open to rebuttal. R6 Drafting institutions and plans: M0, M1, M2, M3, M7, M8, M9, with M4 and M5 when needed, delivering a draft for deliberation. R7 Theory assessment: enters after reading the whole book, then M3, M8, M9, delivering a qualified assessment covering the whole book. Below the figure: mixed questions chain by real dependence, so a question that asks why and then what to do runs R2 first, then R5; every R4 judgment is registered before the outcome, and when registration is not possible the question goes to R3 instead." src=".github/readme/routes-en-light.png" width="100%">
+  <img alt="Eight routes against eleven modules. R1 Source text and concepts: no module chain; the complete definition and its dependencies are read and the question is answered directly, delivering a bounded reading of the text. R2 Explanation and diagnosis: M0, M1, M2, then M4 when needed, then M3, M8 and M9, delivering a bounded account of the mechanism. R3 Projection: M0, M1, M2, M5, M8, M9, delivering conditional paths and distinguishing signals. R4 Conditional foresight: M0, M1, M2, M3, M5, M6, M8, M9, delivering a judgment registered before the outcome and able to fail. R5 Bounded choice: builds on a usable result of R3 or R4, then M7, M8, M9, delivering an analytical recommendation open to rebuttal. R6 Drafting institutions and plans: M0, M1, M2, M3, M7, M8, M9, with M4 and M5 when needed, delivering a draft for deliberation. R7 Theory assessment: enters after reading the whole book, then M3, M8, M9, delivering a qualified assessment covering the whole book. R8 Generation: builds on analysis already in hand, or M0, M1, M2, then M3 when needed, then M10, M8 and M9, delivering candidates that carry their origin and a test. Below the figure: mixed questions chain by real dependence, so a question that asks why and then what to do runs R2 first, then R5; every R4 judgment is registered before the outcome, and when registration is not possible the question goes to R3 instead." src=".github/readme/routes-en-light.png" width="100%">
 </picture></p>
 
 | Route | Request | How it is carried |
@@ -100,8 +101,16 @@ In the default full-reading mode the first turn includes complete study of the C
 | R5 | Bounded choice | build on an existing explanation or path and compare six kinds of options |
 | R6 | Drafting institutions and plans | give a draft for deliberation, resource arrangements and conditions for revision |
 | R7 | Theory assessment | read the whole book, then assess its relations and competing methods |
+| R8 | Generation | start from analysis already in hand and derive candidates that carry their origin and a test |
 
-The detailed order is in [routing](references/routing.md) and the [ten modules](references/forward-workflow.md) (in Chinese). Modules hand over substance; a separate handover file is saved only when collaboration, review or recovery needs it. Registration before the outcome is required for conditional foresight and must be kept. Older drafts and discussions use the earlier stage names XK0–XK11; [their mapping to modules](references/forward-workflow.md#旧工作名称的定位) (in Chinese) explains them. The skill no longer runs through those stages in order.
+The detailed order is in [routing](references/routing.md) and the [eleven modules](references/forward-workflow.md) (in Chinese). Modules hand over substance; a separate handover file is saved only when collaboration, review or recovery needs it. Registration before the outcome is required for conditional foresight and must be kept. Older drafts and discussions use the earlier stage names XK0–XK11; [their mapping to modules](references/forward-workflow.md#旧工作名称的定位) (in Chinese) explains them. The skill no longer runs through those stages in order.
+
+R8 is for the moment when the explanation is already in hand and the question is what else follows from it. It needs starting points: analysis from the same task is taken up as it stands, and without one the minimum work on materials, objects and mechanisms is done first. Every item comes back with its origin and its standing — a consequence that must hold within a stated model, a condition a claim must still meet by definition, a candidate awaiting a test, an analogy that only says where to look, a new question or a proposal — together with its strongest rival, a test and the observation that would reject it. The method is in the [generation guide](references/generation.md) (in Chinese).
+
+```text
+$xi-kari-skill Attached are six indicators from the first year of the hotline reform and the city's summary.
+No need to explain the numbers again. What follows from them that nobody has asked: conclusions, questions or ideas, above all ones that can be checked?
+```
 
 ## Conditional foresight and its limits
 
@@ -142,7 +151,7 @@ Long tasks can continue across sessions. When the session or model changes, the 
 - **Complete answer `xi-kari-answer.md`.** Produced at the first complete delivery or when you ask for a combined draft: the central judgment first, then evaluation of the material, structural relations, comparison of mechanisms, cases and counterexamples, paths, responses to objections, the verdict and the options.
 - **Offline reading page.** A single HTML file, generated from the complete draft, that makes no network connections. Under the title a track chart, drawn from the text's own counts, sets each section as a fix at its true distance; the track fills in as you read, pressing a fix goes to that section, and once the chart has scrolled away the same track stays in view under the bar. The contents list marks the current section as you read; there is full-text search, adjustable text size and a print layout; night mode follows the system and can be switched by hand; footnotes preview on hover and link back. Select a passage and “Ask about selection” turns it, with its location, into a follow-up question for you to copy back into the conversation. Formulas are typeset with the bundled KaTeX. Use `--lang en` for an English interface.
 - **Word document.** Keeps the text, tables, footnotes and local images; remote images are not downloaded but kept as visible text; anything that cannot be represented is kept as written and listed. Use `--lang en` for English labels and an English document language.
-- **Research products on demand.** A claim ledger, option comparison tables, study designs and collection notes, condition-model pages, task state across turns, a case library. They are produced when the work needs them, not as a fixed step of every analysis.
+- **Research products on demand.** A claim ledger, a candidate ledger, option comparison tables, study designs and collection notes, condition-model pages, task state across turns, a case library. They are produced when the work needs them, not as a fixed step of every analysis.
 
 ## Bundled tools
 
@@ -150,9 +159,10 @@ All tools are optional Python scripts that use only the standard library and nee
 
 | Tool | Use | Deliberately does not |
 | --- | --- | --- |
-| `read_source.py` | read the full text chunk by chunk, re-read sections by number, locate terms; `--lang en` for the English edition, `--parallel` (with `--section` or `--part`) for the Chinese and then the English text of the same range | count chunks or identity checks as reading |
+| `read_source.py` | read the full text chunk by chunk, re-read sections by number, locate terms; `--front` for the front matter alone, `--lang en` for the English edition, `--parallel` (with `--section`, `--part` or `--front`) for the Chinese and then the English text of the same range | count chunks or identity checks as reading |
 | `evidence.py` | register versions of material and keep selected excerpts with their scope of support | download from the web or judge whether material is credible |
 | `claims.py` | claim ledger: grounds, reasons, conditions for revising, open disagreements | score or decide truth |
+| `candidates.py` | candidate ledger: each candidate's starting points, move, standing, rivals and state of testing | judge whether a candidate is true or new, or let one skip testing |
 | `comparison.py` | option comparison tables as JSON, Markdown and HTML, marking facts, assumptions and unknowns; `--lang en` for English labels | rank unknowns or name an overall best option |
 | `study_design.py` | turn open questions into observations and collection plans that can tell explanations apart | fill in defaults for missing data |
 | `condition_lab.py` | run explicit formulas and constraints and export a page for switching among all computed combinations | interpolate, or present model results as feasible in reality |
@@ -174,7 +184,7 @@ python "$skillRoot/scripts/render_docx.py" "$taskRoot/xi-kari-answer.md" --outpu
 python "$skillRoot/scripts/comparison.py" "$taskRoot/compare.json" --output "$taskRoot/compare" --format all
 ```
 
-Common invocations are in [host setup and clean working directories](references/host-setup.md) (in Chinese); the commands of `manuscript.py`, `casebook.py` and `forecast.py` are in [manuscript work](references/manuscript-work.md), [the case library](references/case-library.md) and [the foresight module](modules/forecast/MODULE.md) (all in Chinese). Before creating any file, directory, lock or temporary file, every bundled tool that writes files, `forecast.py` included, refuses targets inside the skill installation directory and checks directory links and `..` paths. This is the tools' own write restriction, not an operating-system sandbox.
+Common invocations are in [host setup and clean working directories](references/host-setup.md) (in Chinese); the commands of `manuscript.py`, `casebook.py`, `candidates.py` and `forecast.py` are in [manuscript work](references/manuscript-work.md), [the case library](references/case-library.md), [the candidate ledger](references/candidate-ledger.md) and [the foresight module](modules/forecast/MODULE.md) (all in Chinese). Before creating any file, directory, lock or temporary file, every bundled tool that writes files, `forecast.py` included, refuses targets inside the skill installation directory and checks directory links and `..` paths. This is the tools' own write restriction, not an operating-system sandbox.
 
 ## Source text and reading
 
@@ -215,10 +225,10 @@ Common invocations are in [host setup and clean working directories](references/
 
 ```text
 xi-kari-skill/
-├── SKILL.md              skill entry point: reading modes and the seven routes
+├── SKILL.md              skill entry point: reading modes and the eight routes
 ├── source/               theory source and identity manifest (authoritative text)
 │   └── en/               English reference edition and its manifest
-├── modules/              ten analysis and judgment modules
+├── modules/              eleven analysis, judgment and generation modules
 ├── rules/                39 derived rule cards with source anchors
 ├── cases/                teaching demonstrations and runnable registration inputs
 ├── references/           guides: reading, modules, continuation, collaboration, tools, English
