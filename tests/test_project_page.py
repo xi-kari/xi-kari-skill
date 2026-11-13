@@ -202,22 +202,22 @@ class ProjectPageTests(unittest.TestCase):
     def test_route_table_matches_skill_routing(self):
         skill = (ROOT / 'SKILL.md').read_text(encoding='utf-8')
         routes = {m.group(1): m for m in re.finditer(r'^\| (R\d) ([^|]+?) \| [^|]+ \| ([^|]+) \| ([^|]+) \|$', skill, re.M)}
-        self.assertEqual(sorted(routes), [f'R{n}' for n in range(1, 8)])
+        self.assertEqual(sorted(routes), [f'R{n}' for n in range(1, 9)])
         rows = {node.attrs['data-route']: node for node in self.page.elements if node.tag == 'tr' and 'data-route' in node.attrs}
         self.assertEqual(set(rows), set(routes))
         for route, match in routes.items():
             with self.subTest(route=route):
                 row = rows[route]
                 self.assertEqual(row.attrs['data-name'], match.group(2).strip())
-                self.assertEqual([leg.rstrip('?') for leg in row.attrs['data-legs'].split()], re.findall(r'M\d', match.group(3)))
+                self.assertEqual([leg.rstrip('?') for leg in row.attrs['data-legs'].split()], re.findall(r'M\d+', match.group(3)))
                 self.assertIn(re.split(r'[，；]', match.group(4).strip())[0], row.text())
         asked = [node.attrs['data-route'] for node in self.page.elements if node.tag == 'button' and 'data-route' in node.attrs]
         self.assertEqual(asked, sorted(routes))
 
     def test_module_list_matches_skill_modules(self):
         skill = (ROOT / 'SKILL.md').read_text(encoding='utf-8')
-        modules = re.findall(r'^\| \[(M\d) ([^\]]+)\]\(modules/([a-z-]+)/MODULE\.md\) \|', skill, re.M)
-        self.assertEqual([code for code, _, _ in modules], [f'M{n}' for n in range(10)])
+        modules = re.findall(r'^\| \[(M\d+) ([^\]]+)\]\(modules/([a-z-]+)/MODULE\.md\) \|', skill, re.M)
+        self.assertEqual([code for code, _, _ in modules], [f'M{n}' for n in range(11)])
         items = [node for node in self.page.elements if node.tag == 'li' and 'data-module' in node.attrs]
         self.assertEqual([node.attrs['data-module'] for node in items], [code for code, _, _ in modules])
         for (code, name, folder), node in zip(modules, items):

@@ -118,7 +118,7 @@ printing:
 | --- | --- |
 | `hero-*.png` | the project page's briefing strip and plan view |
 | `hero-en-*.png` | the same view with its words set in English, for `README.en.md` |
-| `routes-*.png`, `routes-en-*.png` | the seven routes against the ten modules, drawn by `src/routes.html` |
+| `routes-*.png`, `routes-en-*.png` | the eight routes against the eleven modules, drawn by `src/routes.html` |
 | `handbook-*.png` | the station band of the handbook's home page |
 | `outputs-*.png` | the three generated pages, built by the packaged tools and framed by `src/outputs.html`; also used by the project page |
 
@@ -281,7 +281,7 @@ quotation and part titles against the manuscript, font coverage and the
 recorded asset hashes; `tests/test_project_page.py` covers each of these.
 
 On the actual published page, check desktop and mobile together: day/night
-theme, reduced motion, keyboard focus, the seven questions and each condition
+theme, reduced motion, keyboard focus, the eight questions and each condition
 switch, the flown route in the wide and the narrow plan view, the host switch,
 copy success and failure feedback, research search and empty results,
 expand/collapse, domain jumps, source links, progress labels, completion state

@@ -1,6 +1,6 @@
 # 安装与宿主适配
 
-本版本的安装包为 **`xi-kari-skill-6.1.0-windows.zip`**。使用实际交付的安装包或对应 Release 的附件。解压后只得到一个`xi-kari-skill`文件夹，将整个文件夹放入宿主的技能目录，使最终位置为`<技能目录>/xi-kari-skill/SKILL.md`。
+本版本的安装包为 **`xi-kari-skill-6.2.0-windows.zip`**。使用实际交付的安装包或对应 Release 的附件。解压后只得到一个`xi-kari-skill`文件夹，将整个文件夹放入宿主的技能目录，使最终位置为`<技能目录>/xi-kari-skill/SKILL.md`。
 
 同一Release附有逐文件清单`install-manifest.json`与`SHA256SUMS`。安装前，在下载目录运行下面的命令，把输出的哈希与该版本`SHA256SUMS`中的对应行对照，一致后再解压：
 

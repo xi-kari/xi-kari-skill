@@ -160,8 +160,14 @@ def check_english(zh_manifest: dict, zh_sections: dict, zh_parts: dict) -> dict:
     return result
 
 
-def selected_ranges(sections: dict, parts: dict, keys: list[str], numbers: list[int]) -> list[tuple[int, int]]:
+def selected_ranges(sections: dict, parts: dict, keys: list[str], numbers: list[int],
+                    front: bool = False) -> list[tuple[int, int]]:
     ranges = []
+    if front:
+        first = min((row["start"] for row in parts.values()), default=0)
+        if not first:
+            raise ValueError("This edition has no front matter before its first part anchor")
+        ranges.append((0, first))
     for key in keys:
         if key not in sections:
             raise ValueError(f"Unknown section: {key}; use --list")
@@ -198,6 +204,8 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--section", action="append", default=[], help="Exact section ID, e.g. 4.17 or C.3")
     parser.add_argument("--part", type=int, action="append", default=[], help="Part anchor number 1 through 21")
+    parser.add_argument("--front", action="store_true",
+                        help="Read the complete front matter before the first part anchor")
     parser.add_argument("--list", action="store_true", help="List available sections")
     parser.add_argument("--check", action="store_true", help="Maintenance-only source identity check")
     parser.add_argument("--chunks", action="store_true", help="Show total chunks for sequential complete reading")
@@ -210,7 +218,7 @@ def main() -> int:
     parser.add_argument("--lang", choices=("zh", "en"), default="zh",
                         help="zh reads the Chinese theory source (default); en reads the English reference edition")
     parser.add_argument("--parallel", action="store_true",
-                        help="With --section or --part, print the Chinese text and then the English text of the same range")
+                        help="With --section, --part or --front, print the Chinese text and then the English text of the same range")
     args = parser.parse_args()
     try:
         path = SOURCE if args.lang == "zh" else english_source()[0]
@@ -223,8 +231,8 @@ def main() -> int:
             raise ValueError("--context must not be negative")
         if any(not term.strip() for term in args.search):
             raise ValueError("Search terms must not be empty")
-        if args.parallel and not (args.section or args.part):
-            raise ValueError("--parallel needs --section or --part")
+        if args.parallel and not (args.section or args.part or args.front):
+            raise ValueError("--parallel needs --section, --part or --front")
         for number in args.chunk:
             if not 1 <= number <= len(chunks):
                 raise ValueError(f"Unknown chunk: {number}; available: 1 through {len(chunks)}")
@@ -232,7 +240,7 @@ def main() -> int:
         if args.parallel:
             english = english_source()[0]
             editions = [(SOURCE, *load_edition(SOURCE)[2:]), (english, *load_edition(english)[2:])]
-        planned = [(name, rows, selected_ranges(index, anchors, args.section, args.part))
+        planned = [(name, rows, selected_ranges(index, anchors, args.section, args.part, args.front))
                    for name, rows, index, anchors in editions]
         if args.search:
             order = sorted(sections.items(), key=lambda item: item[1]["start"])
@@ -281,7 +289,8 @@ def main() -> int:
             for start, end in ranges:
                 print(f"\n[{name.name} · lines {start + 1}-{end}]\n")
                 print("\n".join(rows[start:end]))
-        if not (args.check or args.list or args.section or args.part or args.chunks or args.chunk or args.search):
+        if not (args.check or args.list or args.section or args.part or args.front or args.chunks or args.chunk
+                or args.search):
             parser.print_help()
         return 0
     except (OSError, ValueError, KeyError) as exc:

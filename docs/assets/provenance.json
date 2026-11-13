@@ -18,7 +18,7 @@
   },
   "socialCard": {
     "file": "social-card.png",
-    "sha256": "68b9acc193c2e2b1ab6b4e9df2d7d41fd8be3517eb259539286817d47e6851e5",
+    "sha256": "cd9d6116da6019ecb4abcfc7eb2dd8f6850b2437961bbabe6e0821c9d99a6b52",
     "width": 1200,
     "height": 630,
     "origin": "Browser capture of this page's briefing strip and plan view in the day theme with route R2 selected; the download signs, the version number, the baseline date, the question dock and the legs readout are hidden. Taken by .github/readme/src/capture.cjs.",

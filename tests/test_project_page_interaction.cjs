@@ -103,6 +103,12 @@ async function load({fail = false, invalid = false, partial = false, hash = ''} 
   flip(); assert.equal(route(), 'R3');
   pick('R6'); flip(); assert.ok(legs().endsWith('M9 M4 M5'));
   pick('R7'); assert.equal(d.querySelectorAll('[data-modules] li.is-on').length, 3);
+  pick('R8'); assert.equal(legs(), 'M0 M1 M2 M10 M8 M9');
+  assert.equal(d.querySelector('[data-legs-deliver]').textContent, '带出处与检验办法的候选');
+  assert.equal(d.querySelector('[data-switch]').hidden, false);
+  flip(); assert.equal(legs(), 'M0 M1 M2 M3 M10 M8 M9');
+  assert.deepEqual([...d.querySelectorAll('[data-modules] li.is-on')].map(n => n.dataset.module), ['M0', 'M1', 'M2', 'M3', 'M8', 'M9', 'M10']);
+  assert.equal(d.querySelectorAll('[data-ask] button').length, 8);
   pick('R1'); assert.equal(d.querySelector('[data-switch]').hidden, true);
   assert.equal(d.querySelectorAll('[data-modules] li.is-on').length, 0);
   assert.deepEqual([...d.querySelectorAll('[data-route-table] tr.is-on')].map(n => n.dataset.route), ['R1']);

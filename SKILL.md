@@ -1,6 +1,6 @@
 ---
 name: xi-kari-skill
-description: 以Xikari著《Xikari-条件结构与转化论》为理论来源，按问题路由组合概念问答、解释、推演、条件前瞻、有限选择与制度起草；默认完整学习，显式授权时可做分层阅读实验，保留持续协作、明确判断与完整成果；中英文均可，英文工作使用随包对齐的英文参考译本与术语表，原文以中文为准。用户明确点名Xikari Skill、Xi-Kari Skill、xi-kari-skill、$xi-kari-skill或/xi-kari-skill时使用，其相关续问保持接续；不由无关普通请求自动激活。Works in English or Chinese with Xikari's theory On Conditions, Structure, and Transformation (the Chinese text governs; an aligned English reference edition is bundled) for concept questions, explanation, projection, conditional foresight, bounded choice and institutional drafting. Use only when the user explicitly names Xikari Skill, Xi-Kari Skill, xi-kari-skill, $xi-kari-skill or /xi-kari-skill, and for follow-ups on that task.
+description: 以Xikari著《Xikari-条件结构与转化论》为理论来源，按问题路由组合概念问答、解释、推演、条件前瞻、有限选择、制度起草与候选生成；默认完整学习，显式授权时可做分层阅读实验，保留持续协作、明确判断与完整成果；中英文均可，英文工作使用随包对齐的英文参考译本与术语表，原文以中文为准。用户明确点名Xikari Skill、Xi-Kari Skill、xi-kari-skill、$xi-kari-skill或/xi-kari-skill时使用，其相关续问保持接续；不由无关普通请求自动激活。Works in English or Chinese with Xikari's theory On Conditions, Structure, and Transformation (the Chinese text governs; an aligned English reference edition is bundled) for concept questions, explanation, projection, conditional foresight, bounded choice, institutional drafting and generating candidates from an established analysis. Use only when the user explicitly names Xikari Skill, Xi-Kari Skill, xi-kari-skill, $xi-kari-skill or /xi-kari-skill, and for follow-ups on that task.
 ---
 
 # Xikari Skill
@@ -31,7 +31,7 @@ description: 以Xikari著《Xikari-条件结构与转化论》为理论来源，
 
 `full` 仍是完整学习中文原文。以英文译本代替原文阅读与 `layered` 同属未经比较的阅读条件，只用于明确授权的实验，未完成同条件 A/B 比较前不作默认。英文术语依[中英术语表](references/glossary-en.md)，一个概念一个译名；引用英文译本时注明 §，用 `read_source.py --parallel` 核对中文。阅读版与 Word 成品用 `--lang en` 生成英文界面。
 
-## 七条问题路由
+## 八条问题路由
 
 入口依 §1.1、§12.1 判定所求输出；操作细节见[问题路由](references/routing.md)。路线决定必要工作，不提前决定结论。没有“完整正序”兼容路由；XK 编号仅在[工作承接](references/forward-workflow.md)中提供旧名称定位。
 
@@ -44,14 +44,17 @@ description: 以Xikari著《Xikari-条件结构与转化论》为理论来源，
 | R5 有限选择 | 怎么办、选哪个 | R3 或 R4 的可用结果 → M7 → M8 → M9 | 可反驳的分析推荐；执行另据有效授权 |
 | R6 制度与计划起草 | 章程、规则、计划与建设性安排 | M0 → M1 → M2 → M3 → M7 → M8 → M9 | 可审议草案，必要时补 M4、M5 |
 | R7 理论评估 | 全书评价、体系比较、迁移与一致性 | 全读 → M3 → M8 → M9 | 具有全书覆盖的限定评价 |
+| R8 生成 | 从已有理解还能推出什么 | 已有分析或 M0 → M1 → M2 → M3（需要时），再 M10 → M8 → M9 | 带出处与检验办法的候选，不发布为事实、前瞻或授权 |
 
 原文所称“输出上限”限定判断的身份、证据支持与现实行动资格，不限制相关论证的深度、广度或篇幅。路由按所求结果安排工作；复杂或混合问题在收窄局部模型前，先按[问题展开](references/problem-exploration.md)辨认相关概念族、对象位置、尺度与时间、规范分歧及可能遗漏的分支，再选择所需模块。发现新的实质依赖时补入相应工作，不以最初路由封闭问题。
 
 “会怎样”没有可判定目标和期限时，默认 R3，清楚给出条件后果，并指出补成 R4 所需的具体项。混合请求按真实依赖串联，例如“为什么、怎么办”先 R2 再 R5。R5 不强制先预测准确，机制、硬约束、稳健性与明示价值也能支持有限选择。
 
+R8 交付候选：从已经成立或已明示的理解出发，沿原文的定义、变换与组合关系，推出原问没有问到的命题、问题与构想，每条写明从哪些起点、怎样得到、是什么身份、与什么竞争、怎样检验。给定模型中的必然关系、定义对一项判断的要求与待查的候选分开标示；重述不算新，“未见”只相对写明的检索范围。只问“如果……会怎样”仍走 R3；要方案走 R5 或 R6，R8 得到的构想交给它们比较。其余路线在用户要求继续深入、另找角度或既有解释与方案不足时也可以调用 M10。
+
 选择路由时用简短自然语言说明所作判断的类型与范围，方便用户纠正，不逐步播报内部模块。概念问答可以直接答；复杂问题不能借较短路由逃避必要依赖、反方和充分展开。未知只限制真正依赖它的部分，独立成立的判断仍交付。
 
-## 十个方法模块
+## 十一个方法模块
 
 | 模块 | 读取者与实质工作 | 供后续使用的内容 |
 | --- | --- | --- |
@@ -65,6 +68,7 @@ description: 以Xikari著《Xikari-条件结构与转化论》为理论来源，
 | [M7 有限选择](modules/choice/MODULE.md) | 方案作者：六类方案、统一比较与行动上限 | 方案比较及分析推荐 |
 | [M8 反方与压力测试](modules/critique/MODULE.md) | 主作者或独立审查者：最强反方、敏感性与位置互换 | 具体异议、影响及修正理由 |
 | [M9 成文](modules/compose/MODULE.md) | 主作者：补齐重要分支、综合跨部分关系、完整论证与取舍 | 当前完整答案或所需成品 |
+| [M10 生成](modules/generate/MODULE.md) | 生成作者：定起点、选走法、定身份、四问筛选、配竞争项与检验 | 带谱系的候选及检验办法 |
 
 这些名称是交接内容的约定，除 R4 登记外不要求每题创建固定文件。短任务可在对话中承接；跨作者、长任务、版本冻结与恢复需要时才保存实际有用的交接物。已有材料直接引用，不复制同义台账，不先填状态表再开始工作。
 
@@ -86,7 +90,7 @@ R4 按[条件前瞻模块](modules/forecast/MODULE.md)完成 F0—F12：适格�
 
 ## 深度、广度与思想主动性
 
-使用[分析能力](references/reasoning-capabilities.md)和[批判与构想](references/critique-and-invention.md)，主动辨认隐藏前提、不同问题表示、竞争机制、历史形成、跨尺度差异、被转移的成本、反事实与新路径。贡献不只在改变首选，也在解释形成、支持或限定局部判断、澄清适用范围、揭示代价、理解失败和提出新问题。
+使用[分析能力](references/reasoning-capabilities.md)和[批判与构想](references/critique-and-invention.md)，主动辨认隐藏前提、不同问题表示、竞争机制、历史形成、跨尺度差异、被转移的成本、反事实与新路径。贡献不只在改变首选，也在解释形成、支持或限定局部判断、澄清适用范围、揭示代价、理解失败和提出新问题。需要从已有理解系统地推出新的命题与问题时，按[生成](references/generation.md)工作：生成可以大胆，一条陈述有多强仍只由它的依据决定。
 
 复杂问题还须主动发现并展开尚未进入分析的重要分支。按[问题展开](references/problem-exploration.md)为关键连接提供相称理由：因果与动态连接说明实际相关的载体、通道、条件、时钟与竞争解释；概念、形式和证据连接分别论证定义区别、前提推导与支持范围；规范连接说明价值前提、受影响位置与冲突取舍。各部分形成局部判断，再综合实际存在的资源、反馈、时间依赖与价值冲突；不能用增加标题、术语或并列报告代替这些工作。
 
@@ -126,6 +130,7 @@ R4 按[条件前瞻模块](modules/forecast/MODULE.md)完成 F0—F12：适格�
 | 参数、容量、条件变化 | [条件模型](references/condition-lab.md)，`condition_lab.py` |
 | 同口径多方案比较 | [方案比较](references/comparison-table.md)，`comparison.py` |
 | 区分机制的观察与采集 | [实际研究](references/research-work.md)、[研究设计](references/study-design.md) |
+| 候选的来路、身份与检验状态 | [候选账本](references/candidate-ledger.md)，`candidates.py` |
 | 多轮稿件与用户外部编辑 | [稿件工作](references/manuscript-work.md) |
 | 跨轮已决定、未决、复核与撤回 | [任务状态](references/task-state.md)，`task_state.py` |
 | Word 和完整阅读版 | [Word 导出](references/word-export.md)、[呈现](references/presentation.md) |

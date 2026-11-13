@@ -26,7 +26,7 @@ python "$skillRoot/scripts/read_source.py" --lang en --section 12.2
 python "$skillRoot/scripts/read_source.py" --lang en --search "action ceiling"
 ```
 
-`--parallel` prints the Chinese and then the English text of the same sections. `--lang en` works with `--section`, `--part`, `--chunk`, `--chunks`, `--list` and `--search`. `--check` verifies both editions and reports whether the English edition still translates the current Chinese source.
+`--parallel` prints the Chinese and then the English text of the same sections. `--lang en` works with `--section`, `--part`, `--front`, `--chunk`, `--chunks`, `--list` and `--search`. `--check` verifies both editions and reports whether the English edition still translates the current Chinese source.
 
 ## Terminology
 
@@ -66,6 +66,7 @@ Identifiers stay as written: G1–G4, E1–E5, C1–C12, F1–F6, H1–H6, HV01�
 | R5 有限选择 | R5 Bounded choice |
 | R6 制度与计划起草 | R6 Drafting institutions and plans |
 | R7 理论评估 | R7 Theory assessment |
+| R8 生成 | R8 Generation |
 | M0 问题合同 | M0 Problem contract |
 | M1 材料与证据 | M1 Materials and evidence |
 | M2 对象与状态 | M2 Objects and states |
@@ -76,6 +77,16 @@ Identifiers stay as written: G1–G4, E1–E5, C1–C12, F1–F6, H1–H6, HV01�
 | M7 有限选择 | M7 Bounded choice |
 | M8 反方与压力测试 | M8 Counterarguments and stress tests |
 | M9 成文 | M9 Composition |
+| M10 生成 | M10 Generation |
+| 起点；父项；走法；谱系 | starting point; parent; move; lineage |
+| 推必然；挪位置；接外部 | deriving what must hold; moving one position; reaching outside |
+| 展开承诺；核对组合；改换任务 | unfolding commitments; checking composition; changing the task |
+| 换尺度；换关系；换表示；换位置；换时钟；反过来问 | shifting scale; shifting relation; shifting representation; shifting position; shifting clock; asking the reverse |
+| 追残差；跨域借问；联想 | following the residual; borrowing a question across domains; association |
+| 模型内推论；定义要求；经验候选；变量候选 | consequence within a model; definitional requirement; empirical candidate; variable candidate |
+| 启发性类比；新问题；构想 | heuristic analogy; new question; proposal |
+| 重述；已有；可能已有；对本题新；所查范围内未见 | restatement; already known; probably known; new to this question; not found in the scope searched |
+| 候选账本 | candidate ledger |
 | 原问 | the original question |
 | 输出上限 | output ceiling: it limits a judgment's standing, evidential support and eligibility for real-world action, never the depth, breadth or length of the argument |
 | 分析推荐；现实采用与执行 | analytical recommendation; real-world adoption and execution |
@@ -87,7 +98,9 @@ Identifiers stay as written: G1–G4, E1–E5, C1–C12, F1–F6, H1–H6, HV01�
 | 主作者；独立反方审查者 | lead author; independent critic |
 | 完整学习；分层阅读实验 | full study (`full`); layered reading experiment (`layered`) |
 
-File names and command arguments stay as they are: `contract.md`, `state.md`, `snapshot.md`, `paths.md`, `forecasts.json`, `xi-kari-answer.md`.
+File names and command arguments stay as they are: `contract.md`, `state.md`, `snapshot.md`, `paths.md`, `forecasts.json`, `candidates.json`, `xi-kari-answer.md`.
+
+In an R8 answer the identity word travels with each candidate: *must* is used only for a consequence within a model that the sentence names; an untested empirical statement is a *candidate*, never a *finding*; *not found in the scope searched* always states the scope.
 
 ## Quoting
 
@@ -100,7 +113,7 @@ File names and command arguments stay as they are: `contract.md`, `state.md`, `s
 - Reading page: `render_answer.py … --lang en` gives an English interface and English reading statistics.
 - Word: `render_docx.py … --lang en` gives English labels and sets the document language to English.
 - Comparison table: `comparison.py … --lang en` gives English headers, basis marks, ordering notes and limits; the model's own titles, labels and notes are written in English by you.
-- Registers and ledgers (`forecast.py`, `claims.py`, `task_state.py`, `study_design.py`, `evidence.py`, `casebook.py`) store English text in their fields unchanged; their command messages are Chinese. The condition-model page of `condition_lab.py` still has Chinese fixed labels: when you hand it to an English reader, say so, or describe its results in English in the answer.
+- Registers and ledgers (`forecast.py`, `claims.py`, `candidates.py`, `task_state.py`, `study_design.py`, `evidence.py`, `casebook.py`) store English text in their fields unchanged; their command messages are Chinese. The candidate ledger rendered by `candidates.py` and the condition-model page of `condition_lab.py` still have Chinese fixed labels: when you hand it to an English reader, say so, or describe its results in English in the answer.
 
 ## Style
 

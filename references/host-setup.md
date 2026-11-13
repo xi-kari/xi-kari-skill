@@ -28,6 +28,7 @@ python "$skillRoot/scripts/read_source.py" --chunk 1
 python "$skillRoot/scripts/read_source.py" --search '条件结构' --context 2
 python "$skillRoot/scripts/evidence.py" --catalog "$taskRoot/materials.json" add "$taskRoot/material.md" --id material-1
 python "$skillRoot/scripts/claims.py" --ledger "$taskRoot/claims.json" check
+python "$skillRoot/scripts/candidates.py" --ledger "$taskRoot/candidates.json" check
 python "$skillRoot/scripts/comparison.py" "$taskRoot/compare.json" --output "$taskRoot/compare" --format all
 python "$skillRoot/scripts/study_design.py" --design "$taskRoot/design.json" validate
 python "$skillRoot/scripts/task_state.py" --state "$taskRoot/state.json" init --task '本轮要回答的问题'

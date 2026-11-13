@@ -6,7 +6,7 @@ from pathlib import Path
 import re
 
 
-INTERNAL_CODES = re.compile(r'(?<![A-Za-z0-9])(?:S[0-6](?:—S[0-6])?|X0|G\d+|CM-[A-Z]+|IT\d|IG\d|DF\d|M\d|R[1-7]|CAS-[A-Z]+)(?![A-Za-z0-9])')
+INTERNAL_CODES = re.compile(r'(?<![A-Za-z0-9])(?:S[0-6](?:—S[0-6])?|X0|G\d+|CM-[A-Z]+|IT\d|IG\d|DF\d|M(?:10|\d)|R[1-8]|CAS-[A-Z]+)(?![A-Za-z0-9])')
 METHOD_NOTE = re.compile(r'(?m)^[ \t]*(?:\*\*)?方法附注(?:\*\*)?[:：](?:\*\*)?[^\n]*(?:\n[ \t]*)*\Z')
 NEGATIVE_WORDS = re.compile(r'不能|不得|不等于|不代表|不是|不会|不应|不必|无需|并非|未必|不可|不宜|不构成|不意味|不作为|不把|不将|不要')
 

@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
 <meta charset="utf-8">
-<title>README figure: seven routes, ten modules</title>
+<title>README figure: eight routes, eleven modules</title>
 <!--
   Source of .github/readme/routes-*.png. Open with ?lang=en for the English figure and
   ?theme=night for the night printing; capture.cjs photographs #figure.
@@ -44,7 +44,7 @@
   .cols > .cell { min-height: 92px; border-bottom: 1.5px solid var(--ink); }
   .cols .label { padding: 0 24px 0 28px; font-size: 15px; letter-spacing: .1em; color: var(--ink-3); }
   :root[lang="en"] .cols .label { letter-spacing: .06em; text-transform: uppercase; font-size: 14px; }
-  .mods { display: grid; grid-template-columns: repeat(10, minmax(0, 1fr)); width: 100%; align-self: stretch; border-left: 1px solid var(--rule-2); border-right: 1px solid var(--rule-2); }
+  .mods { display: grid; grid-template-columns: repeat(11, minmax(0, 1fr)); width: 100%; align-self: stretch; border-left: 1px solid var(--rule-2); border-right: 1px solid var(--rule-2); }
   /* codes share one line at the top; names hang below them */
   .mod { display: grid; align-content: start; justify-items: center; gap: 4px; padding: 14px 3px 12px; text-align: center; }
   .mod b { font-size: 22px; line-height: 1; font-weight: 900; font-variant-numeric: tabular-nums; }
@@ -106,11 +106,11 @@ document.documentElement.lang = lang === 'en' ? 'en' : 'zh-CN';
 if (query.get('theme') === 'night') document.documentElement.dataset.theme = 'night';
 
 // Column order follows the order of work: the three transformations, when needed, come before mechanisms.
-const ORDER = ['M0', 'M1', 'M2', 'M4', 'M3', 'M5', 'M6', 'M7', 'M8', 'M9'];
+const ORDER = ['M0', 'M1', 'M2', 'M4', 'M3', 'M5', 'M6', 'M7', 'M10', 'M8', 'M9'];
 // English names break where the column needs it (U+00AD is a soft hyphen).
 const MODULES = {
-  zh: { M0: '问题合同', M1: '材料证据', M2: '对象状态', M4: '三类变换', M3: '机制解释', M5: '推演', M6: '条件前瞻', M7: '有限选择', M8: '反方', M9: '成文' },
-  en: { M0: 'Problem contract', M1: 'Materials, evidence', M2: 'Objects, states', M4: 'Transfor­mations', M3: 'Mecha­nisms', M5: 'Projec­tion', M6: 'Condi­tional foresight', M7: 'Bounded choice', M8: 'Counter­arguments', M9: 'Compo­sition' },
+  zh: { M0: '问题合同', M1: '材料证据', M2: '对象状态', M4: '三类变换', M3: '机制解释', M5: '推演', M6: '条件前瞻', M7: '有限选择', M10: '生成', M8: '反方', M9: '成文' },
+  en: { M0: 'Problem contract', M1: 'Materials, evidence', M2: 'Objects, states', M4: 'Transfor­mations', M3: 'Mecha­nisms', M5: 'Projec­tion', M6: 'Condi­tional foresight', M7: 'Bounded choice', M10: 'Genera­tion', M8: 'Counter­arguments', M9: 'Compo­sition' },
 };
 // stops: modules always passed; maybe: passed only when the question needs them; lead: how the route begins
 const ROUTES = [
@@ -134,13 +134,16 @@ const ROUTES = [
     en: ['Draft a rule for me.', 'Drafting institutions and plans', 'A draft for deliberation'] },
   { id: 'R7', stops: ['M3', 'M8', 'M9'], maybe: [], lead: 'full',
     zh: ['这套理论站得住吗？', '理论评估', '具有全书覆盖的限定评价', '全书读完后进入'],
-    en: ['Does the theory hold up?', 'Theory assessment', 'A qualified assessment covering the whole book', 'Enters after reading the whole book'] },
+    en: ['Does the theory hold up?', 'Theory assessment', 'A qualified assessment covering the whole book', 'Enters after full reading'] },
+  { id: 'R8', stops: ['M0', 'M1', 'M2', 'M10', 'M8', 'M9'], maybe: ['M3'],
+    zh: ['还能推出些什么？', '生成', '带出处与检验办法的候选'],
+    en: ['What else follows from this?', 'Generation', 'Candidates that carry their origin and a test'] },
 ];
 const TEXT = {
-  zh: { title: '七条路由 × 十个模块', sub: '你问的是哪一类问题，决定它经过哪些模块，交付哪一种判断。', ask: '你想问的', deliver: '落地交付',
+  zh: { title: '八条路由 × 十一个模块', sub: '你问的是哪一类问题，决定它经过哪些模块，交付哪一种判断。', ask: '你想问的', deliver: '落地交付',
         keyFix: '经过这个模块', keyMaybe: '需要时才经过', keyLand: '成文，交付判断',
         foot1: '<b>混合问题按真实依赖串联</b>：先问为什么、再问怎么办，就先走 R2，再接 R5。', foot2: '<b>R4</b> 的每条判断都在结果出现前登记，登记取不到时退回 R3。' },
-  en: { title: 'Seven routes, ten modules', sub: 'The kind of question decides which modules a route passes and what it delivers.', ask: 'You ask', deliver: 'It delivers',
+  en: { title: 'Eight routes, eleven modules', sub: 'The kind of question decides which modules a route passes and what it delivers.', ask: 'You ask', deliver: 'It delivers',
         keyFix: 'Passes this module', keyMaybe: 'Only when needed', keyLand: 'Composition: the judgment is delivered',
         foot1: '<b>Mixed questions chain by real dependence</b>: ask why, then what to do, and R2 runs first, then R5.', foot2: 'Every <b>R4</b> judgment is registered before the outcome; when registration is not possible, the question goes to R3 instead.' },
 };
