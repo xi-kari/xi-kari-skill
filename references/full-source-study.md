@@ -12,7 +12,7 @@ R7、全书一致性、体系迁移与未知路由始终全读。标题、正文
 
 `reading_mode=layered` 仅在用户或明确实验安排已授权时使用，依据 §1.5.3。授权实验不等于默认切换，不能在未完成 A/B 比较、预设容差尚未确定时声称与全读等效。
 
-先读[共同核心清单](reading-core.json)中 `reading` 的全部范围，包括 G1—G4 与 E1—E5 的完整合同；然后读所选模块头部 `reading` 的全部范围，最后补足实际用到的概念、规则卡与跨章依赖。共同核心只在该清单定义。
+先读[共同核心清单](reading-core.json)中 `reading` 的全部范围，包括 G1—G4 与 E1—E5 的完整合同；然后读本次路线实际运行的每个模块头部 `reading` 的全部范围，最后补足实际用到的概念、规则卡与跨章依赖。共同核心只在该清单定义。模块的 `reading` 里只服务于本次对象不涉及的那一类内容时（例如技术系统不使用的人类集体原型与行动者状态），这一部分可以不读，并在任务上下文记为未读；拿不准是否涉及时照读。
 
 `front` 为首个 `part_1` 锚点之前的完整书前内容；`part:18` 为附录 B。其余 `part:N` 对应原文分部锚点，数字或字母章节 ID 对应读取器索引。使用相关人类变量时补读第七部分和附录 A 的对应完整接口，不能把 U 直接当 HV。
 
@@ -34,13 +34,14 @@ R7、全书一致性、体系迁移与未知路由始终全读。标题、正文
 python "$skillRoot/scripts/read_source.py" --chunks
 python "$skillRoot/scripts/read_source.py" --chunk 1
 python "$skillRoot/scripts/read_source.py" --chunk 2
+python "$skillRoot/scripts/read_source.py" --front
 python "$skillRoot/scripts/read_source.py" --section 12.2
 python "$skillRoot/scripts/read_source.py" --part 11
 ```
 
 `full` 先取得总块数，再按 1 至末块顺序读取，真正进入作者可读的工具结果。默认每块 6000 字符；宿主输出较小时减小 `--chunk-size`，用同一块长继续或按实际位置重接。工具输出截断须补读，不把全部块塞进一次会截断的调用。`--part 1` 至 `--part 21` 不含书前，不能单独充当全书读取方法。
 
-`layered` 用分块取得书前，用 `--part` 和 `--section` 读取清单。`--list`、`--search` 只定位；定位后读完整语境。`--check` 是维护身份检查，不证明学习完成。没有 Python 时使用宿主按连续行段读取。
+`layered` 用 `--front` 取得完整书前，用 `--part` 和 `--section` 读取清单。`--list`、`--search` 只定位；定位后读完整语境。`--check` 是维护身份检查，不证明学习完成。没有 Python 时使用宿主按连续行段读取。
 
 ## 恢复与协作
 
