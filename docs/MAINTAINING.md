@@ -213,9 +213,12 @@ read from `docs/data/research-status.json`, the same record the project page
 uses.
 
 Section explanations live in `website/content/section-lessons.json`, keyed by
-the stable reading unit. `website/LESSONS.md` lists every field and the module it
+the stable reading unit; reviewed supplements in
+`website/content/lesson-overrides.json` replace whole fields of an imported
+lesson or supply the whole lesson for a unit the import lacks. `website/LESSONS.md` lists every field and the module it
 draws; the build attaches each page's lessons to that page only. The generator recreates `reading-units.json` from the
-canonical source and accepts all 412 numbered and unnumbered units. Each
+canonical source and accepts all 415 numbered and unnumbered units; once the
+supplements apply, every unit has a lesson. Each
 explanation follows its own original text; a parent section's introduction
 precedes the original child sections. Merge reviewed `sections.json` results
 into the matching keys and keep all substantive text in renderable fields.

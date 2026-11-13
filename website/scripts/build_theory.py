@@ -111,7 +111,15 @@ def lesson_sections(website: Path) -> list[str]:
         raise ValueError("section-lessons.json must contain a lessons object keyed by section number")
     if any(not isinstance(lesson, dict) for lesson in value["lessons"].values()):
         raise ValueError("Each section lesson must be an object")
-    return list(value["lessons"])
+    sections = list(value["lessons"])
+    # A supplement may supply the whole lesson for a reading unit the import lacks.
+    supplements = website / "content/lesson-overrides.json"
+    if supplements.is_file():
+        added = json.loads(supplements.read_text(encoding="utf-8")).get("lessons", {})
+        if not isinstance(added, dict) or any(not isinstance(lesson, dict) for lesson in added.values()):
+            raise ValueError("lesson-overrides.json must contain a lessons object of objects")
+        sections += [key for key in added if key not in value["lessons"]]
+    return sections
 
 
 def reading_units(lines: list[str], pages: list[Page]) -> list[dict]:

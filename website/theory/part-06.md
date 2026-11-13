@@ -289,3 +289,9 @@ CM-SELECTION-history：跨轮路径。 条件为“跨轮历史项条件增量�
 检索顺序可以根据漏检、误判和使用成本调整。调整必须保留原有机制的适用边界，并接受与更简单检索方法的比较；检索方便、卡片齐全或多个分析者采用同一顺序，均不证明现实机制已经成立。
 
 </div>
+
+<SectionLesson section="6.14" />
+
+<div v-pre class="theory-source">
+
+</div>

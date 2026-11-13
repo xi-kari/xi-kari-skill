@@ -34,7 +34,7 @@
 
 正文支持换行、明确的 Markdown 链接、粗体与行内代码，HTML 标签始终作为文字。原文节号可直接跳转。相对图片和资料地址以交付任务的资源目录解析；绝对外部链接保留其地址。图解制作方案留在可下载的图解材料中，不把计划中的交互描述成已实现功能。
 
-`content/section-lessons.json` 保留导入的内容。限定核读后的补充可写入 `content/lesson-overrides.json`，其 `baseSha256` 必须匹配导入文件，`lessons` 按单元键给出完整字段替换。正文与搜索共同读取补充后的内容；完整交付原稿继续保留原始字节。
+`content/section-lessons.json` 保留导入的内容。限定核读后的补充可写入 `content/lesson-overrides.json`，其 `baseSha256` 必须匹配导入文件，`lessons` 按单元键给出完整字段替换。导入文件缺少的阅读单元（须已列在 `content/reading-units.json`），也可以在这里写出完整讲解；运行 `python scripts/build_theory.py` 后，原文页面会在该小节之后留出讲解位置。正文与搜索共同读取补充后的内容；完整交付原稿继续保留原始字节。
 
 ## 一个最小的例子
 
