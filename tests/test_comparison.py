@@ -192,11 +192,32 @@ class ComparisonPageTests(unittest.TestCase):
         cells = re.findall(r'<span class="cell-option"><span class="opt-code">(\w)</span>([^<]+)</span>', page)
         self.assertEqual(cells, head)
         ranked = re.findall(r'<span class="rank">(\d)</span><span class="opt-code">(\w)</span><span class="candidate">([^<]+)</span>', page)
-        self.assertEqual(ranked, [('1', 'A', '甲'), ('2', 'E', '戊'), ('3', 'C', '丙'), ('4', 'B', '乙')])
+        self.assertEqual(ranked, [('1', 'A', '甲'), ('1', 'E', '戊'), ('3', 'C', '丙'), ('4', 'B', '乙')])
         # the table keeps its roles, so it is still a table where a narrow screen lays it out as blocks
         self.assertIn('<table class="cmp-table" role="table">', page)
         self.assertEqual(page.count('role="cell"'), 5)
         self.assertEqual(page.count('role="rowheader"'), 1)
+
+    def test_equal_values_share_a_rank_in_every_format(self):
+        target = module()
+        result = target.build_comparison(wide_model())
+        ranking = result['dimensions'][0]['ranking']
+        self.assertEqual([(item['id'], item['rank']) for item in ranking], [('a', 1), ('e', 1), ('c', 3), ('b', 4)])
+        # an integer and a float of the same value are the same value
+        mixed = wide_model()
+        mixed['cells']['e']['cost']['value'] = 0.0
+        self.assertEqual([item['rank'] for item in target.build_comparison(mixed)['dimensions'][0]['ranking']], [1, 1, 3, 4])
+        payload = json.loads(target.render_json(result))
+        self.assertEqual([item['rank'] for item in payload['dimensions'][0]['ranking']], [1, 1, 3, 4])
+        markdown = target.render_markdown(result)
+        self.assertIn('- 并列第 1 位：甲：0（事实）\n- 并列第 1 位：戊：0（假设）\n- 第 3 位：丙：10（假设）\n- 第 4 位：乙：40（假设）', markdown)
+        self.assertNotIn('\n1. 甲', markdown)
+        english = target.render_markdown(target.build_comparison(wide_model(), 'en'))
+        self.assertIn('- Rank 1 (tied): 甲: 0 (Fact)\n- Rank 1 (tied): 戊: 0 (Assumption)\n- Rank 3: 丙: 10 (Assumption)', english)
+        # without a tie the numbered list stays as it was
+        plain = target.render_markdown(target.build_comparison(model()))
+        self.assertIn('1. 完全自动排序：0（假设）\n2. 人工复核：12（假设）', plain)
+        self.assertNotIn('并列', plain)
 
     def test_scale_places_only_ranked_values_by_their_value(self):
         import re

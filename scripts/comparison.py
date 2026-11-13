@@ -63,6 +63,8 @@ TEXT = {
         'orders_md': '## 各维度排序与不可排序说明',
         'order_intro': '本次取值下的顺序（不代表现实最优）：',
         'ranked_item': '{rank}. {label}：{value}（{basis}）',
+        'ranked_item_placed': '- 第 {rank} 位：{label}：{value}（{basis}）',
+        'ranked_item_tied': '- 并列第 {rank} 位：{label}：{value}（{basis}）',
         'not_ranked_item': '- 未参与排序：{label}（{reason}）',
         'assumptions': '明确假设',
         'limits': '解释边界',
@@ -125,6 +127,8 @@ TEXT = {
         'orders_md': '## Rankings by dimension, and dimensions without one',
         'order_intro': 'Order under these values (not the best in reality):',
         'ranked_item': '{rank}. {label}: {value} ({basis})',
+        'ranked_item_placed': '- Rank {rank}: {label}: {value} ({basis})',
+        'ranked_item_tied': '- Rank {rank} (tied): {label}: {value} ({basis})',
         'not_ranked_item': '- Not ranked: {label} ({reason})',
         'assumptions': 'Explicit assumptions',
         'limits': 'Limits of interpretation',
@@ -358,11 +362,14 @@ def build_comparison(model: dict, lang: str = 'zh') -> dict:
                          and not isinstance(item['value'], bool)]
             ranked = sorted(orderable, key=lambda item: item['value'],
                             reverse=dimension['direction'] == 'higher_is_better')
-            entry['ranking'] = [
-                {'id': item['id'], 'label': item['label'], 'value': item['value'], 'basis': item['basis'],
-                 'rank': position, 'holds_when': T['holds_when']}
-                for position, item in enumerate(ranked, 1)
-            ]
+            # Equal values share a rank and the next rank counts every option ahead of it (1, 1, 3):
+            # the order of the candidates in the model must not be read as an order between them.
+            entry['ranking'], rank = [], 0
+            for position, item in enumerate(ranked, 1):
+                if position == 1 or item['value'] != ranked[position - 2]['value']:
+                    rank = position
+                entry['ranking'].append({'id': item['id'], 'label': item['label'], 'value': item['value'], 'basis': item['basis'],
+                                         'rank': rank, 'holds_when': T['holds_when']})
             entry['unranked'] = [
                 {'id': item['id'], 'label': item['label'],
                  'reason': 'unknown' if item['basis'] == 'unknown' else T['non_numeric']}
@@ -433,8 +440,12 @@ def render_markdown(result: dict) -> str:
         if 'ranking' in dimension:
             lines.append(T['order_intro'])
             lines.append('')
+            # A numbered list renumbers itself when rendered, so where values tie the rank is written out in words.
+            ranks = [item['rank'] for item in dimension['ranking']]
             for item in dimension['ranking']:
-                lines.append(T['ranked_item'].format(rank=item['rank'], label=item['label'], value=item['value'], basis=T['basis'][item['basis']]))
+                form = ('ranked_item' if len(set(ranks)) == len(ranks)
+                        else 'ranked_item_tied' if ranks.count(item['rank']) > 1 else 'ranked_item_placed')
+                lines.append(T[form].format(rank=item['rank'], label=item['label'], value=item['value'], basis=T['basis'][item['basis']]))
         else:
             lines.append(dimension['reason'])
         for item in dimension['unranked']:

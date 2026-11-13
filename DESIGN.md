@@ -850,9 +850,10 @@ no script and a restrictive Content-Security-Policy.
   dot for a stated fact and a dashed cobalt ring for an assumption, the value under it.
   Options with the same value stand one above another; values too close to letter side
   by side take a second line. An unknown value has no place on a scale. Under the scale
-  the order is listed as ruled chips, the rank in an ink cell, with the statement that it
-  holds only for the listed values and the names of what did not take part and why. A
-  dimension without a common scale produces neither scale nor order.
+  the order is listed as ruled chips, the rank in an ink cell and equal values sharing a
+  rank, with the statement that it holds only for the listed values and the names of
+  what did not take part and why. A dimension without a common scale produces neither
+  scale nor order.
 - **Limits and footer.** Assumptions and boundaries use the two frames; the footer is a
   dock with the download as its direction sign.
 
