@@ -1,36 +1,46 @@
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset=".github/readme/hero-dark.svg">
-  <img alt="Xikari Skill：原文为据，按问题形成判断。基于 Xikari 著《Xikari-条件结构与转化论》的智能体技能。" src=".github/readme/hero-light.svg" width="100%">
-</picture>
+<p><a href="https://xi-kari.github.io/xi-kari-skill/">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset=".github/readme/hero-dark.png">
+    <img alt="Xikari Skill：读完全书，再下判断。它先完整学习 Xikari 著《Xikari-条件结构与转化论》，再按你问的是哪一类问题组合模块，交出一份写明依据、条件和改判理由的判断。图为项目主页上的进近图：一条路由经过编号的模块，在 M9 成文落地。" src=".github/readme/hero-light.png" width="100%">
+  </picture>
+</a></p>
 
 <p align="center">
   <a href="README.en.md">English</a> · <b>中文</b>
 </p>
 
 <p align="center">
-  <a href="https://github.com/xi-kari/xi-kari-skill/releases/latest"><b>下载安装包</b></a>
-  &nbsp;·&nbsp;
-  <a href="https://xi-kari.github.io/xi-kari-skill/handbook/">原文精读</a>
-  &nbsp;·&nbsp;
-  <a href="https://xi-kari.github.io/xi-kari-skill/">项目主页</a>
-  &nbsp;·&nbsp;
-  <a href="docs/INSTALL.md">安装指南</a>
-  &nbsp;·&nbsp;
-  <a href="https://github.com/xi-kari/xi-kari-skill/discussions">讨论区</a>
+  <a href="https://github.com/xi-kari/xi-kari-skill/releases/latest"><b>下&#8288;载&#8288;安&#8288;装&#8288;包</b></a>&nbsp;·
+  <a href="https://xi-kari.github.io/xi-kari-skill/">项&#8288;目&#8288;主&#8288;页</a>&nbsp;·
+  <a href="https://xi-kari.github.io/xi-kari-skill/handbook/">原&#8288;文&#8288;精&#8288;读&#8288;站</a>&nbsp;·
+  <a href="docs/INSTALL.md">安&#8288;装&#8288;指&#8288;南</a>&nbsp;·
+  <a href="https://github.com/xi-kari/xi-kari-skill/discussions">讨&#8288;论&#8288;区</a>
 </p>
 
 <p align="center">
-  <a href="https://github.com/xi-kari/xi-kari-skill/releases/latest"><img alt="最新版本" src="https://img.shields.io/github/v/release/xi-kari/xi-kari-skill?style=flat-square&amp;label=release&amp;color=445B9F"></a>
+  <a href="https://github.com/xi-kari/xi-kari-skill/releases/latest"><img alt="最新版本" src="https://img.shields.io/github/v/release/xi-kari/xi-kari-skill?style=flat-square&amp;label=release&amp;color=1F4FC4"></a>
   <a href="https://github.com/xi-kari/xi-kari-skill/actions/workflows/windows.yml"><img alt="Windows 测试状态" src="https://img.shields.io/github/actions/workflow/status/xi-kari/xi-kari-skill/windows.yml?branch=main&amp;style=flat-square&amp;label=Windows%20CI"></a>
-  <img alt="可选工具需要 Python 3.10 或更新版本" src="https://img.shields.io/badge/python-3.10%2B%20%28%E5%8F%AF%E9%80%89%29-586980?style=flat-square">
-  <a href="LICENSE"><img alt="MIT 许可" src="https://img.shields.io/badge/license-MIT-586980?style=flat-square"></a>
+  <img alt="可选工具需要 Python 3.10 或更新版本" src="https://img.shields.io/badge/python-3.10%2B%20%28%E5%8F%AF%E9%80%89%29-33415E?style=flat-square">
+  <a href="LICENSE"><img alt="MIT 许可" src="https://img.shields.io/badge/license-MIT-33415E?style=flat-square"></a>
 </p>
 
 **Xikari Skill** 是一个智能体技能（Agent Skill）。它以 Xikari 著《Xikari-条件结构与转化论》为理论来源，按问题组合原文问答、解释、推演、条件前瞻、有限选择、制度起草与理论评估。十个方法模块承接材料、对象、机制、路径与方案，形成有理由、可反驳的完整判断。
 
 它为需要想清楚、也需要下判断的问题而设计：一项制度为什么反复失灵，一个方案会怎样影响不同的人，几种解释里哪一种站得住，现在该维持、调整、试探还是退出。技能只在你明确点名时启用，不会接管日常对话。
 
-中英文都可以使用：用英文提问，就以英文完成全部工作。理论权威仍是中文原文；安装包另附与原文逐节对齐的英文参考译本和中英术语表，用于英文术语与引文（见[英文工作](references/english.md)）。
+中英文都可以使用：用英文提问，成果就以英文写成。理论权威仍是中文原文；安装包另附与原文逐节对齐的英文参考译本和中英术语表，用于英文术语与引文（见[英文工作](references/english.md)）。
+
+## 从这里开始
+
+| 你想做的事 | 从这里进入 |
+| --- | --- |
+| 装好，问出第一个问题 | [快速开始](#快速开始) · [安装指南](docs/INSTALL.md) |
+| 看它怎样处理不同类型的问题 | [按问题组织模块](#按问题组织模块) · [项目主页](https://xi-kari.github.io/xi-kari-skill/) |
+| 先读懂理论本身 | [原文精读站](https://xi-kari.github.io/xi-kari-skill/handbook/) · [概念例解](https://xi-kari.github.io/xi-kari-skill/handbook/concepts/) · [真实案例](https://xi-kari.github.io/xi-kari-skill/handbook/cases/) |
+| 知道它交付什么、带哪些工具 | [交付什么](#交付什么) · [随包工具](#随包工具) |
+| 弄清它不声称什么、不做什么 | [条件前瞻与能力边界](#条件前瞻与能力边界) · [边界](#边界) |
+| 用英文工作 | [English README](README.en.md) · [英文工作](references/english.md) |
+| 修改或参与 | [参与开发](#参与开发) · [CONTRIBUTING.md](CONTRIBUTING.md) |
 
 ## 它有什么不同
 
@@ -75,6 +85,11 @@
 
 ## 按问题组织模块
 
+<p><picture>
+  <source media="(prefers-color-scheme: dark)" srcset=".github/readme/routes-dark.png">
+  <img alt="七条路由与十个模块的对照图。R1 原文与概念：不经过模块链，读完相关的完整定义与依赖后直接回答，交付有边界的释义。R2 解释与诊断：经过 M0、M1、M2，需要时经过 M4，再经过 M3、M8、M9，交付有边界的机制说明。R3 推演：经过 M0、M1、M2、M5、M8、M9，交付条件路径与区分信号。R4 条件前瞻：经过 M0、M1、M2、M3、M5、M6、M8、M9，交付结果前登记、可失败的判断。R5 有限选择：承接 R3 或 R4 的可用结果，经过 M7、M8、M9，交付可反驳的分析推荐。R6 制度与计划起草：经过 M0、M1、M2、M3、M7、M8、M9，需要时补 M4、M5，交付可审议草案。R7 理论评估：全书读完后进入 M3、M8、M9，交付具有全书覆盖的限定评价。图下注明：混合问题按真实依赖串联，先问为什么、再问怎么办，就先走 R2，再接 R5；R4 的每条判断都在结果出现前登记，登记取不到时退回 R3。" src=".github/readme/routes-light.png" width="100%">
+</picture></p>
+
 | 路由 | 请求 | 承接方式 |
 | --- | --- | --- |
 | R1 | 原文与概念 | 阅读完整定义及依赖，直接回答 |
@@ -85,7 +100,7 @@
 | R6 | 制度与计划起草 | 给出可审议草案、资源安排和修改条件 |
 | R7 | 理论评估 | 全读后评价全书关系与竞争方法 |
 
-详细顺序见[路由](references/routing.md)与[十个模块](references/forward-workflow.md)。模块交接的是实质内容；只有协作、复核或恢复需要时才单独保存交接文件。条件前瞻的结果前登记必须可保留。XK 编号只作原有工作与模块的对应，不提供旧完整正序兼容路线。
+详细顺序见[路由](references/routing.md)与[十个模块](references/forward-workflow.md)。模块交接的是实质内容；只有协作、复核或恢复需要时才单独保存交接文件。条件前瞻的结果前登记必须可保留。旧版文稿与讨论里的 XK0—XK11 是早先的阶段名，它们与模块的对应见[旧工作名称的定位](references/forward-workflow.md#旧工作名称的定位)；技能不再按这些阶段依次运行。
 
 ## 条件前瞻与能力边界
 
@@ -95,7 +110,7 @@
 
 `scripts/forecast.py` 提供 register、list、show、resolve、report、check。登记固定目标、期限、范围和输入截止；结果只追加，第一至第三阶分别统计，与预登记简单基线比较。报告支持适用任务的 Brier、对数损失、方向与首位命中、区间评分和预测时间窗，并提供配对基线比较与分歧子集统计；不把不适用或缺失标签填为零。
 
-[公开离职教学例](cases/forecast-public-resignation.md)展示完整步骤与独立阶次记录，教学与合成结果不计入能力证据。当前没有完成符合信息隔离要求的真实回测，也没有经作者确定的非劣界限或阅读容差，因此不能宣称预测优于普通模型、5.5.1 或简单基线。检索结构、文件检查与软件测试只证明各自检查的行为。
+[公开离职教学例](cases/forecast-public-resignation.md)展示完整步骤与独立阶次记录，教学与合成结果不计入能力证据。当前没有完成符合信息隔离要求的真实回测，也没有经作者确定的非劣界限或阅读容差，因此不能宣称预测优于普通模型、旧版 Xikari Skill 5.5.1 或简单基线。检索结构、文件检查与软件测试只证明各自检查的行为。
 
 ## 同一个问题，可以一直往下做
 
@@ -114,14 +129,14 @@
 
 ## 交付什么
 
-<picture>
+<p><picture>
   <source media="(prefers-color-scheme: dark)" srcset=".github/readme/outputs-dark.png">
   <img alt="三种生成页面的截图：离线阅读页（xi-kari-answer.html）、条件模型页（condition-results.html）与方案比较表（comparison-table.html）。" src=".github/readme/outputs-light.png" width="100%">
-</picture>
+</picture></p>
 
-<sub>截图由当前源码中的工具实际生成：阅读页以原文第一部分为示例内容；条件模型页与方案比较表来自随包的“明确虚构”教学示例，其中的数值不是现实事实。</sub>
+<sub>截图由随包工具实际生成：阅读页以原文第一部分为示例内容；条件模型页与方案比较表来自随包的“明确虚构”教学示例，其中的数值不是现实事实。</sub>
 
-**版本范围：**当前安装包为 `v6.1.0`；截图用于展示工具界面，各版本的功能以相应的 [Release 说明](https://github.com/xi-kari/xi-kari-skill/releases/latest)为准。
+**版本范围**：当前安装包为 `v6.1.0`；截图用于展示工具界面，各版本的功能以相应的 [Release 说明](https://github.com/xi-kari/xi-kari-skill/releases)为准。
 
 - **完整成果稿 `xi-kari-answer.md`。** 初次完整交付或要求合稿时形成：中心判断在前，随后是材料评价、结构关系、机制比较、案例与反例、路径、反方回应、裁决与方案。
 - **离线阅读页。** 由完整稿生成的单个 HTML 文件，不联网：章节目录随阅读位置标出当前章节，有全文搜索、字号调节和打印版式；夜间模式默认跟随系统，也可以手动切换；脚注可以悬停预览，也可以回跳。选中一段正文，旁边会出现“追问选段”，把选段连同位置整理成一条追问，由你复制回对话。有公式时内嵌随包的 KaTeX 排版。
@@ -157,18 +172,28 @@ python "$skillRoot/scripts/render_docx.py" "$taskRoot/xi-kari-answer.md" --outpu
 python "$skillRoot/scripts/comparison.py" "$taskRoot/compare.json" --output "$taskRoot/compare" --format all
 ```
 
-全部命令见[宿主接入与干净工作目录](references/host-setup.md)。十个会写文件的工具在创建文件、目录、锁或临时文件之前，都会拒绝以技能安装目录及其子目录为目标，也会检查目录链接和 `..` 路径。这是工具自身的写入约束，不是操作系统沙箱。
+常用调用见[宿主接入与干净工作目录](references/host-setup.md)；`manuscript.py`、`casebook.py` 与 `forecast.py` 的命令见[稿件工作](references/manuscript-work.md)、[案例库](references/case-library.md)与[前瞻模块](modules/forecast/MODULE.md)。所有会写文件的随包工具（包括 `forecast.py`）在创建文件、目录、锁或临时文件之前，都会拒绝以技能安装目录及其子目录为目标，也会检查目录链接和 `..` 路径。这是工具自身的写入约束，不是操作系统沙箱。
 
 ## 原文与阅读
 
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset=".github/readme/theory-dark.svg">
-  <img alt="《Xikari-条件结构与转化论》全书结构：第 1—2 部分阅读方法与证据责任；第 3—6 部分通用语法、条件命题、经验检验、尺度变换与运转机制；第 7—11 部分人的经验、集体原型、行动者、多圈层与动态推演；第 12—16 部分前瞻、选择、工具、规范、干涉和治理；随后是附录 A—D 与参考文献。" src=".github/readme/theory-light.svg" width="100%">
-</picture>
+<p><a href="https://xi-kari.github.io/xi-kari-skill/handbook/">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset=".github/readme/handbook-dark.png">
+    <img alt="原文精读站首页：《Xikari-条件结构与转化论》，Xikari 著。沿原文顺序读，每一节之后接着看讲解、图示和有出处的案例。全书画成一枚罗盘：中圈是第 1—16 部分，内圈是附录 A—D，外沿是附录 D 的 32 个领域。" src=".github/readme/handbook-light.png" width="100%">
+  </picture>
+</a></p>
+
+| 全书 | 讲什么 |
+| --- | --- |
+| [第 1—2 部分](https://xi-kari.github.io/xi-kari-skill/handbook/theory/part-01.html) | 阅读方法与证据责任 |
+| [第 3—6 部分](https://xi-kari.github.io/xi-kari-skill/handbook/theory/part-03.html) | 通用语法、条件命题、经验检验、尺度变换与运转机制 |
+| [第 7—11 部分](https://xi-kari.github.io/xi-kari-skill/handbook/theory/part-07.html) | 人的经验、集体原型、行动者、多圈层与动态推演 |
+| [第 12—16 部分](https://xi-kari.github.io/xi-kari-skill/handbook/theory/part-12.html) | 前瞻、选择、工具、规范、干涉和治理 |
+| [附录 A—D](https://xi-kari.github.io/xi-kari-skill/handbook/theory/appendix-a/) | 人类变量接口卡册、编号体系与术语总表、共同方法内核与跨学科桥接、领域解释与应用图谱 |
 
 - **[原文精读站](https://xi-kari.github.io/xi-kari-skill/handbook/)**：沿原文顺序阅读，每一节之后接着看讲解、图示和有出处的案例；可以搜索概念、案例与原文，也可以[下载](https://xi-kari.github.io/xi-kari-skill/handbook/downloads.html)完整原文的 Markdown 与 Word 阅读版。
 - **[概念例解](https://xi-kari.github.io/xi-kari-skill/handbook/concepts/)**：从一个问题进入一项区别，例如“收到意见，就算形成反馈了吗？”“每个方案都可行，能一起实施吗？”
-- **[真实案例](https://xi-kari.github.io/xi-kari-skill/handbook/cases/)**：火星气候轨道器的单位接口，丰田安灯的响应流程。
+- **[真实案例](https://xi-kari.github.io/xi-kari-skill/handbook/cases/)**：火星气候轨道器的单位接口、丰田安灯的响应流程、GitLab 的数据库恢复、弗林特的饮水投诉、飓风伊恩的预报锥等；案例总览按“先从哪个问题读起”给出阅读路线。
 - **[历史实测案例](https://github.com/xi-kari/xi-kari-skill/discussions?discussions_q=)**：Discussions 保留了基于 Xikari 8.3 的历史分析，供参考与讨论，不代表当前《Xikari-条件结构与转化论》及现行 Skill 的分析表现。
 - **[术语索引](https://xi-kari.github.io/xi-kari-skill/handbook/theory/appendix-b.html)**：附录 B 的编号体系与术语总表。
 - **权威文本**：[`source/Xikari-条件结构与转化论.md`](source/Xikari-条件结构与转化论.md)，身份（SHA-256）记录在 [`source/source-manifest.json`](source/source-manifest.json)。原文优先于技能的工程指引，也优先于模型对同名术语的既有理解。
@@ -191,17 +216,18 @@ python "$skillRoot/scripts/comparison.py" "$taskRoot/compare.json" --output "$ta
 xi-kari-skill/
 ├── SKILL.md              技能入口：阅读模式与七条问题路由
 ├── source/               理论原文与身份清单（权威文本）
-│   └── en/              英文参考译本及其身份清单
-├── modules/             十个分析与判断模块
-├── rules/               39 张带原文锚点的派生规则卡
-├── cases/               教学示范及可运行登记输入
-├── references/           方法指南：阅读、模块承接、持续对话、协作与各工具说明
-├── scripts/              可选 Python 工具（仅标准库）与安装包构建脚本
-├── assets/               阅读页与条件模型页的样式、脚本、示例数据；随包的 KaTeX
+│   └── en/               英文参考译本及其身份清单
+├── modules/              十个分析与判断模块
+├── rules/                39 张带原文锚点的派生规则卡
+├── cases/                教学示范及可运行登记输入
+├── references/           方法指南：阅读、模块承接、持续对话、协作、各工具说明、英文工作与术语表
+├── scripts/              可选 Python 工具（仅标准库）与构建、检查、评测脚本
+├── assets/               生成页面的样式、脚本与示例数据；随包的 KaTeX
 ├── agents/openai.yaml    Codex 界面信息与显式调用策略
 ├── skill-package.json    安装包的逐文件清单
 ├── website/              原文精读站源码（VitePress），构建到 docs/handbook/
 ├── docs/                 项目主页、安装指南与维护说明
+├── DESIGN.md             项目主页、原文精读站与生成页面的设计系统
 └── tests/                单元测试与页面交互测试
 ```
 
@@ -228,7 +254,7 @@ python scripts/build_install_package.py --output <仓库之外的目录>
 
 ## 许可
 
-本仓库以 [MIT License](LICENSE) 发布，© 2026 xi-kari。随包的 KaTeX 保留其[许可证](assets/vendor/katex/LICENSE)；原文精读站使用的第三方资源见 [THIRD_PARTY_NOTICES.txt](website/public/THIRD_PARTY_NOTICES.txt)。
+本仓库以 [MIT License](LICENSE) 发布，© 2026 xi-kari。随包的 KaTeX 保留其[许可证](assets/vendor/katex/LICENSE)；原文精读站使用的第三方资源见 [THIRD_PARTY_NOTICES.txt](website/public/THIRD_PARTY_NOTICES.txt)，项目主页的字体子集取自 Noto Sans SC 与 Noto Serif SC，[许可证](docs/assets/fonts/OFL.txt)随文件保存。
 
 <br>
 

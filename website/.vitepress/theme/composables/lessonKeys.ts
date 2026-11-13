@@ -23,6 +23,17 @@ export function sourceRef(key: string): string {
   return NUMBERED.test(key) ? `§${key}` : '本段原文'
 }
 
+/** A lesson's first paragraph may be a filing note saying where in the text it was cut from. */
+export function isLocatorNote(text: unknown): boolean {
+  return typeof text === 'string' && /^原文定位[：:]/.test(text)
+}
+
+/** The title shown for a lesson's source; the book's own entry is named without its delivery remark. */
+export function sourceTitle(source: { title?: string; source_type?: string } | undefined): string {
+  const title = source?.title || ''
+  return source?.source_type === 'theory_source' ? title.replace(/[，,]\s*用户提供原文\s*$/, '') : title
+}
+
 /** Link (without base) to a lesson on its page: '/theory/part-03.html#lesson-3-3'. */
 export function lessonPath(ref: LessonRef): string {
   return `${ref.route}${ref.route.endsWith('/') ? '' : '.html'}#lesson-${lessonSlug(ref.key)}`

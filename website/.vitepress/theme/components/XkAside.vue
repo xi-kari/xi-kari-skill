@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { computed, nextTick, ref, watch } from 'vue'
-import { useOutline } from '../composables/outline'
+import { useSharedOutline } from '../composables/outline'
 import { usePrefs, type TextSize } from '../composables/prefs'
 
 defineProps<{ open: boolean; isTheory: boolean }>()
 const emit = defineEmits<{ (e: 'close'): void }>()
 
-const { items, active } = useOutline()
+const { items, active } = useSharedOutline()
 const prefs = usePrefs()
 const sizes: { value: TextSize; text: string }[] = [
   { value: 's', text: '小' },
@@ -54,7 +54,6 @@ async function copyLink() {
             <a :href="`#${item.id}`" :class="{ 'is-active': item.id === active }" @click="emit('close')">
               <span v-if="item.no" class="xk-outline__no">{{ item.no }}</span>
               <span>{{ item.text }}</span>
-              <span v-if="item.lesson" class="xk-nav__dot" title="此节之后有讲解" />
             </a>
           </li>
         </ol>
@@ -83,7 +82,7 @@ async function copyLink() {
           <span id="xk-pref-face" class="xk-pref__label">正文字体</span>
           <div class="xk-seg" role="group" aria-labelledby="xk-pref-face">
             <button type="button" :aria-pressed="prefs.body === 'sans'" @click="prefs.body = 'sans'">黑体</button>
-            <button type="button" :aria-pressed="prefs.body === 'fang'" @click="prefs.body = 'fang'">仿宋</button>
+            <button type="button" :aria-pressed="prefs.body === 'song'" @click="prefs.body = 'song'">宋体</button>
           </div>
         </div>
         <button type="button" class="xk-copy" :class="{ 'is-done': copied }" aria-live="polite" @click="copyLink">

@@ -7,11 +7,12 @@ import FeedbackExplorer from '../explorers/FeedbackExplorer.vue'
 import JointExplorer from '../explorers/JointExplorer.vue'
 import PredictionExplorer from '../explorers/PredictionExplorer.vue'
 import { bubbleLabel, lessonSlug, sourceRef as refOf } from '../../composables/nav'
+import { isLocatorNote, sourceTitle } from '../../composables/lessonKeys'
 import { usePrefs } from '../../composables/prefs'
 import { resolveDestination } from '../../composables/richText'
 
 /**
- * One lesson, drawn on tracing paper after the original section it explains.
+ * One lesson, set on its own tinted field after the original section it explains.
  * Every field comes from content/section-lessons.json; the build attaches a
  * page's lessons to that page only. A module appears only when its field has
  * content. See website/LESSONS.md for the field list.
@@ -53,6 +54,17 @@ const figureNo = (i: number) => (figures.value.length > 1 ? `图 ${label.value}�
 
 const has = (value: unknown) => Array.isArray(value) ? value.length > 0 : !!value
 
+/* A filing note at the head of the explanation (where the text was cut from) belongs with the
+   other source details, not in the reading text. */
+const locatorNote = computed(() => {
+  const first = lesson.value?.explanation?.[0]
+  return isLocatorNote(first) ? String(first) : ''
+})
+const paragraphs = computed<string[]>(() => {
+  const list = lesson.value?.explanation || []
+  return locatorNote.value ? list.slice(1) : list
+})
+
 function link(href: unknown) {
   const target = resolveDestination(href, assetBase.value)
   if (!target) return undefined
@@ -68,6 +80,8 @@ const sourceForCase = (example: any) => (lesson.value?.sources || []).find((item
 const readingScope = (status: string) => ({ read: '已阅读', partially_read: '部分阅读', metadata_only: '仅元数据' }[status] || status)
 const sourceType = (type: string) => ({ theory_source: '理论原文', primary: '一手资料', secondary: '二手资料' }[type] || type)
 const identityLabel = (identity: string) => ({ constructed_boundary: '教学反例', real_counterevidence: '现实反证', source_counterexample: '来源中的反例', unresolved_boundary: '待判定边界', hypothetical: '假设情景' }[identity] || '对照与边界')
+/* drawn like every other block: a solid tag for what a source records, a dashed one for what is constructed */
+const identitySourced = (identity: string) => identity === 'real_counterevidence' || identity === 'source_counterexample'
 watch(() => prefs.sourceOnly, () => { open.value = false })
 let alive = false
 let scrollFrame = 0
@@ -127,8 +141,8 @@ onUnmounted(() => { alive = false; window.removeEventListener('hashchange', reve
           </header>
 
           <p v-if="lesson.lead" class="xk-lesson__lead"><span>{{ lesson.lead }}</span></p>
-          <div v-if="has(lesson.explanation)" class="xk-lesson__text">
-            <p v-for="(paragraph, i) in lesson.explanation" :key="i"><XkRichText :text="paragraph" /></p>
+          <div v-if="has(paragraphs)" class="xk-lesson__text">
+            <p v-for="(paragraph, i) in paragraphs" :key="i"><XkRichText :text="paragraph" /></p>
           </div>
 
           <section v-if="has(lesson.keyTerms)" class="xk-mod xk-terms">
@@ -182,7 +196,7 @@ onUnmounted(() => { alive = false; window.removeEventListener('hashchange', reve
           </figure>
 
           <section v-for="(example, i) in lesson.teachingExamples || []" :key="`t${i}`" class="xk-mod xk-scenario">
-            <h4 class="xk-mod__title"><XkModIcon name="scenario" />{{ example.title }}<span class="xk-tag xk-tag--assumed">教学情景</span></h4>
+            <h4 class="xk-mod__title xk-mod__title--plain"><XkModIcon name="scenario" />{{ example.title }}<span class="xk-tag xk-tag--assumed">教学情景</span></h4>
             <p v-if="example.assumptions" class="xk-scenario__setup"><b>设定</b><span>{{ example.assumptions }}</span></p>
             <p><XkRichText :text="example.text" /></p>
             <p v-if="example.boundary" class="xk-note"><b>边界</b><span>{{ example.boundary }}</span></p>
@@ -193,7 +207,7 @@ onUnmounted(() => { alive = false; window.removeEventListener('hashchange', reve
           </div>
 
           <article v-for="(example, i) in lesson.caseNotes || []" :key="`c${i}`" class="xk-mod xk-case">
-            <h4 class="xk-mod__title"><XkModIcon name="case" />{{ example.title }}<span class="xk-tag xk-tag--sourced">真实案例</span></h4>
+            <h4 class="xk-mod__title xk-mod__title--plain"><XkModIcon name="case" />{{ example.title }}<span class="xk-tag xk-tag--sourced">真实案例</span></h4>
             <p><XkRichText :text="example.text" /></p>
             <p v-if="example.sourceUrl || example.sourceLabel" class="xk-case__source">
               <b>出处</b>
@@ -209,10 +223,9 @@ onUnmounted(() => { alive = false; window.removeEventListener('hashchange', reve
           <section v-if="has(lesson.counterexamples)" class="xk-mod xk-counterexamples">
             <h4 class="xk-mod__title"><XkModIcon name="split" />反例怎样改变判断</h4>
             <article v-for="(example, i) in lesson.counterexamples" :key="i" class="xk-counterexample">
-              <p class="xk-counterexample__kind">{{ identityLabel(example.identity) }}</p>
-              <p><XkRichText :text="example.text" /></p>
+              <p><span class="xk-tag" :class="identitySourced(example.identity) ? 'xk-tag--sourced' : 'xk-tag--assumed'">{{ identityLabel(example.identity) }}</span><XkRichText :text="example.text" /></p>
               <p class="xk-note"><b>它限制什么</b><span><XkRichText :text="example.effect" /></span></p>
-              <p v-if="example.sourceIds?.length" class="xk-source-links"><a v-for="id in example.sourceIds" :key="id" :href="`#${sourceAnchor(id)}`">{{ (lesson.sources || []).find((source: any) => source.id === id)?.title || id }}</a></p>
+              <p v-if="example.sourceIds?.length" class="xk-source-links"><a v-for="id in example.sourceIds" :key="id" :href="`#${sourceAnchor(id)}`">{{ sourceTitle((lesson.sources || []).find((source: any) => source.id === id)) || id }}</a></p>
             </article>
           </section>
 
@@ -255,11 +268,12 @@ onUnmounted(() => { alive = false; window.removeEventListener('hashchange', reve
             <a v-for="item in lesson.caseLinks" :key="item.href" :href="link(item.href)"><span>{{ item.title }}</span></a>
           </nav>
 
-          <details v-if="has(lesson.sources) || lesson.lecturePath" class="xk-lesson-materials">
+          <details v-if="has(lesson.sources) || lesson.lecturePath || locatorNote" class="xk-lesson-materials">
             <summary>原文定位、引用资料与完整解读</summary>
             <div class="xk-lesson-materials__body">
               <p v-if="lesson.sourceHash" class="xk-original-refs">解读所据文本 SHA-256：{{ lesson.sourceHash }}</p>
               <p v-if="has(lesson.sourceRefs)" class="xk-original-refs"><span v-for="(item, i) in lesson.sourceRefs" :key="i">{{ item.section ? `§${item.section}` : sourceRef }} · 解读所据文本第 {{ item.startLine || item.start_line }}—{{ item.endLine || item.end_line }} 行</span></p>
+              <p v-if="locatorNote" class="xk-original-refs"><XkRichText :text="locatorNote" /></p>
               <nav class="xk-reading-downloads" aria-label="本节阅读材料">
                 <a v-if="lesson.lecturePath" :href="link(lesson.lecturePath)" download>完整解读原稿</a>
                 <a v-if="lesson.sourceSlicePath" :href="link(lesson.sourceSlicePath)" download>原文对照</a>
@@ -269,7 +283,7 @@ onUnmounted(() => { alive = false; window.removeEventListener('hashchange', reve
               </nav>
               <p class="xk-materials-note">以下资料支持本节的具体论述，实际阅读范围和适用限制在各条记录中注明。</p>
               <article v-for="source in lesson.sources || []" :id="sourceAnchor(source.id)" :key="source.id" class="xk-source-entry">
-                <h5><a v-if="link(source.url)" :href="link(source.url)" target="_blank" rel="noreferrer">{{ source.title }}</a><span v-else>{{ source.title }}</span></h5>
+                <h5><a v-if="link(source.url)" :href="link(source.url)" target="_blank" rel="noreferrer">{{ sourceTitle(source) }}</a><span v-else>{{ sourceTitle(source) }}</span></h5>
                 <p class="xk-source-entry__meta"><span v-if="source.source_type">{{ sourceType(source.source_type) }}</span><span v-if="source.version_or_date">{{ source.version_or_date }}</span><span v-if="source.access_status">{{ readingScope(source.access_status) }}</span></p>
                 <p v-if="source.locator"><XkRichText :text="source.locator" /></p>
                 <p v-if="source.book_locator"><XkRichText :text="source.book_locator" /></p>

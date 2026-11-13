@@ -1,133 +1,1339 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-09-21T14:41:22.561Z",
-  "title": "Design System: Xi-Kari project introduction",
+  "generatedAt": "2026-11-12T21:28:27Z",
+  "title": "Design System: Xikari",
   "extensions": {
+    "colorMeta": {
+      "paper": {
+        "role": "neutral",
+        "displayName": "Chart Paper",
+        "canonical": "#fbfcfe",
+        "tonalRamp": [
+          "#0b0b0c",
+          "#262628",
+          "#444547",
+          "#656668",
+          "#88898b",
+          "#adaeb0",
+          "#d0d1d3",
+          "#edeef0"
+        ]
+      },
+      "paper-2": {
+        "role": "neutral",
+        "displayName": "Recessed Paper",
+        "canonical": "#eff3fa",
+        "tonalRamp": [
+          "#090b10",
+          "#24272c",
+          "#42454b",
+          "#63666c",
+          "#868990",
+          "#aaaeb5",
+          "#cdd1d8",
+          "#ebeff6"
+        ]
+      },
+      "desk": {
+        "role": "neutral",
+        "displayName": "Desk",
+        "canonical": "#eef2f9",
+        "tonalRamp": [
+          "#090b10",
+          "#24272c",
+          "#42454b",
+          "#63666c",
+          "#868990",
+          "#aaaeb5",
+          "#cdd1d8",
+          "#ebeff6"
+        ]
+      },
+      "plate": {
+        "role": "neutral",
+        "displayName": "Plate",
+        "canonical": "#f6f8fb",
+        "tonalRamp": [
+          "#0a0b0d",
+          "#252629",
+          "#434547",
+          "#646669",
+          "#87898c",
+          "#acaeb1",
+          "#cfd1d4",
+          "#edeff1"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Procedure Ink",
+        "canonical": "#0d1b36",
+        "tonalRamp": [
+          "#010922",
+          "#172642",
+          "#344563",
+          "#556687",
+          "#778aac",
+          "#9bafd2",
+          "#bdd2f7",
+          "#e6efff"
+        ]
+      },
+      "ink-2": {
+        "role": "neutral",
+        "displayName": "Second Ink",
+        "canonical": "#33415e",
+        "tonalRamp": [
+          "#020921",
+          "#192640",
+          "#364562",
+          "#576685",
+          "#7989aa",
+          "#9daed1",
+          "#c0d1f5",
+          "#e7efff"
+        ]
+      },
+      "ink-3": {
+        "role": "neutral",
+        "displayName": "Third Ink",
+        "canonical": "#56647f",
+        "tonalRamp": [
+          "#030a1e",
+          "#1a263d",
+          "#38455e",
+          "#586681",
+          "#7b89a6",
+          "#9faecc",
+          "#c1d2f0",
+          "#e6efff"
+        ]
+      },
+      "rule": {
+        "role": "neutral",
+        "displayName": "Rule",
+        "canonical": "#ccd5e5",
+        "tonalRamp": [
+          "#060b15",
+          "#202732",
+          "#3e4552",
+          "#5f6674",
+          "#818a98",
+          "#a6aebe",
+          "#c8d1e1",
+          "#e6efff"
+        ]
+      },
+      "rule-2": {
+        "role": "neutral",
+        "displayName": "Strong Rule",
+        "canonical": "#9aabc8",
+        "tonalRamp": [
+          "#020a1e",
+          "#19263d",
+          "#37455e",
+          "#576781",
+          "#7a8aa6",
+          "#9eafcc",
+          "#c0d2f0",
+          "#e6efff"
+        ]
+      },
+      "cobalt": {
+        "role": "primary",
+        "displayName": "Chart Cobalt",
+        "canonical": "#1f4fc4",
+        "tonalRamp": [
+          "#000036",
+          "#00166e",
+          "#0834a8",
+          "#295bd1",
+          "#4b81fa",
+          "#84acff",
+          "#bad1ff",
+          "#e6efff"
+        ]
+      },
+      "cobalt-deep": {
+        "role": "primary",
+        "displayName": "Deep Cobalt",
+        "canonical": "#173d9c",
+        "tonalRamp": [
+          "#000036",
+          "#001471",
+          "#153a99",
+          "#345fc1",
+          "#5684e9",
+          "#84acff",
+          "#bad1ff",
+          "#e6efff"
+        ]
+      },
+      "tint": {
+        "role": "primary",
+        "displayName": "Airspace Tint",
+        "canonical": "#dbe6fb",
+        "tonalRamp": [
+          "#050b18",
+          "#1f2636",
+          "#3c4556",
+          "#5d6678",
+          "#80899d",
+          "#a4aec2",
+          "#c7d1e6",
+          "#e6efff"
+        ]
+      },
+      "tint-2": {
+        "role": "primary",
+        "displayName": "Airspace Tint, deeper step",
+        "canonical": "#c3d4f7",
+        "tonalRamp": [
+          "#030921",
+          "#1a2640",
+          "#374561",
+          "#576685",
+          "#7a89a9",
+          "#9eaed0",
+          "#c0d1f4",
+          "#e7efff"
+        ]
+      },
+      "note": {
+        "role": "primary",
+        "displayName": "Briefing Tint",
+        "canonical": "#e6eefc",
+        "tonalRamp": [
+          "#070b14",
+          "#212731",
+          "#3f4550",
+          "#606672",
+          "#828996",
+          "#a7aebc",
+          "#cad1df",
+          "#e7effd"
+        ]
+      },
+      "note-edge": {
+        "role": "primary",
+        "displayName": "Briefing Tint Edge",
+        "canonical": "#b7c8ea",
+        "tonalRamp": [
+          "#030920",
+          "#1a2640",
+          "#374561",
+          "#576684",
+          "#7a89a9",
+          "#9eaecf",
+          "#c0d1f4",
+          "#e7efff"
+        ]
+      },
+      "sign-white": {
+        "role": "neutral",
+        "displayName": "Sign White",
+        "canonical": "#ffffff",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#262626",
+          "#454545",
+          "#666666",
+          "#898989",
+          "#aeaeae",
+          "#d1d1d1",
+          "#eeeeee"
+        ]
+      },
+      "on-cobalt-2": {
+        "role": "primary",
+        "displayName": "Pale Text on Cobalt",
+        "canonical": "#d6e1ff",
+        "tonalRamp": [
+          "#05091d",
+          "#1e253b",
+          "#3c445c",
+          "#5c657f",
+          "#7f88a4",
+          "#a3adca",
+          "#c6d0ee",
+          "#e8eeff"
+        ]
+      },
+      "cobalt-rule": {
+        "role": "primary",
+        "displayName": "Rule on Cobalt",
+        "canonical": "#7f9be6",
+        "tonalRamp": [
+          "#020035",
+          "#0f1d5d",
+          "#2a3f82",
+          "#4962a8",
+          "#6b86cf",
+          "#8eabf7",
+          "#bdd0ff",
+          "#e7eeff"
+        ]
+      },
+      "magenta": {
+        "role": "secondary",
+        "displayName": "Position Magenta",
+        "canonical": "#cf1578",
+        "tonalRamp": [
+          "#1d000c",
+          "#4c0028",
+          "#800047",
+          "#b80069",
+          "#e7378c",
+          "#ff7bb0",
+          "#ffbad2",
+          "#ffe7ef"
+        ]
+      },
+      "yellow": {
+        "role": "tertiary",
+        "displayName": "Sign Yellow",
+        "canonical": "#ffd23d",
+        "tonalRamp": [
+          "#100a00",
+          "#312500",
+          "#554300",
+          "#7c6300",
+          "#a68500",
+          "#d2a900",
+          "#f9cc34",
+          "#ffeebc"
+        ]
+      },
+      "yellow-hover": {
+        "role": "tertiary",
+        "displayName": "Sign Yellow, hover",
+        "canonical": "#ffe07a",
+        "tonalRamp": [
+          "#100b00",
+          "#302500",
+          "#544300",
+          "#7b6400",
+          "#a4860b",
+          "#caab43",
+          "#eecf69",
+          "#ffeeb8"
+        ]
+      },
+      "on-yellow": {
+        "role": "neutral",
+        "displayName": "Lettering on Yellow",
+        "canonical": "#111827",
+        "tonalRamp": [
+          "#050b18",
+          "#1f2636",
+          "#3d4556",
+          "#5d6679",
+          "#80899d",
+          "#a4aec3",
+          "#c7d1e7",
+          "#e7efff"
+        ]
+      },
+      "on-yellow-2": {
+        "role": "neutral",
+        "displayName": "Second Lettering on Yellow",
+        "canonical": "#3a3317",
+        "tonalRamp": [
+          "#0f0b00",
+          "#2d260a",
+          "#4c4529",
+          "#6e6649",
+          "#91896b",
+          "#b6ae8f",
+          "#dad1b1",
+          "#f7efce"
+        ]
+      },
+      "highlight": {
+        "role": "tertiary",
+        "displayName": "Marked Text",
+        "canonical": "rgba(255, 210, 61, .62)",
+        "tonalRamp": [
+          "#100a00",
+          "#312500",
+          "#554300",
+          "#7c6300",
+          "#a68500",
+          "#d2a900",
+          "#f9cc34",
+          "#ffeebc"
+        ]
+      },
+      "red": {
+        "role": "tertiary",
+        "displayName": "Refusal Red",
+        "canonical": "#bf241c",
+        "tonalRamp": [
+          "#1f0000",
+          "#500000",
+          "#860002",
+          "#bb1e18",
+          "#e64d3f",
+          "#ff8575",
+          "#ffbfb5",
+          "#ffe9e5"
+        ]
+      },
+      "dock": {
+        "role": "neutral",
+        "displayName": "The Dock",
+        "canonical": "#0d1b36",
+        "tonalRamp": [
+          "#010922",
+          "#172642",
+          "#344563",
+          "#556687",
+          "#778aac",
+          "#9bafd2",
+          "#bdd2f7",
+          "#e6efff"
+        ]
+      },
+      "dock-text": {
+        "role": "neutral",
+        "displayName": "Dock Text",
+        "canonical": "#eef2fb",
+        "tonalRamp": [
+          "#090b11",
+          "#24262d",
+          "#42454c",
+          "#63666e",
+          "#868991",
+          "#aaaeb6",
+          "#cdd1da",
+          "#eaeef7"
+        ]
+      },
+      "dock-2": {
+        "role": "neutral",
+        "displayName": "Dock Second Text",
+        "canonical": "#aebbd6",
+        "tonalRamp": [
+          "#040a1c",
+          "#1d263b",
+          "#3a455b",
+          "#5b667e",
+          "#7d89a3",
+          "#a1aec9",
+          "#c4d1ed",
+          "#e7efff"
+        ]
+      },
+      "dock-3": {
+        "role": "neutral",
+        "displayName": "Dock Third Text",
+        "canonical": "#93a2c0",
+        "tonalRamp": [
+          "#030a1f",
+          "#1b263e",
+          "#38455f",
+          "#586682",
+          "#7b89a6",
+          "#9faecd",
+          "#c2d1f1",
+          "#e7efff"
+        ]
+      },
+      "dock-rule": {
+        "role": "neutral",
+        "displayName": "Dock Rule",
+        "canonical": "#2b3b60",
+        "tonalRamp": [
+          "#020727",
+          "#162447",
+          "#33446a",
+          "#53658e",
+          "#7589b3",
+          "#99aeda",
+          "#bcd1ff",
+          "#e7efff"
+        ]
+      },
+      "dock-rule-2": {
+        "role": "neutral",
+        "displayName": "Dock Strong Rule",
+        "canonical": "#46598a",
+        "tonalRamp": [
+          "#02042d",
+          "#14234f",
+          "#314271",
+          "#516496",
+          "#7388bc",
+          "#96ade4",
+          "#bdd0ff",
+          "#e7eeff"
+        ]
+      },
+      "dock-cobalt": {
+        "role": "primary",
+        "displayName": "Cobalt on the Dock",
+        "canonical": "#a9c2ff",
+        "tonalRamp": [
+          "#020230",
+          "#132252",
+          "#2f4275",
+          "#4f649a",
+          "#7187c1",
+          "#94ade8",
+          "#bdd0ff",
+          "#e7eeff"
+        ]
+      },
+      "dock-tint": {
+        "role": "primary",
+        "displayName": "Tint on the Dock",
+        "canonical": "#18294f",
+        "tonalRamp": [
+          "#010629",
+          "#14244a",
+          "#31446c",
+          "#516590",
+          "#7389b6",
+          "#97aedd",
+          "#bbd1ff",
+          "#e7efff"
+        ]
+      },
+      "dock-magenta": {
+        "role": "secondary",
+        "displayName": "Magenta on the Dock",
+        "canonical": "#ff5cab",
+        "tonalRamp": [
+          "#1d000d",
+          "#4b002a",
+          "#7f004b",
+          "#b7006f",
+          "#e24092",
+          "#ff7ab6",
+          "#ffbad5",
+          "#ffe7f0"
+        ]
+      },
+      "scrim": {
+        "role": "neutral",
+        "displayName": "Scrim",
+        "canonical": "rgba(10, 22, 44, .46)",
+        "tonalRamp": [
+          "#020a1f",
+          "#19263e",
+          "#37455f",
+          "#576782",
+          "#798aa6",
+          "#9eafcd",
+          "#c0d2f1",
+          "#e6efff"
+        ]
+      },
+      "night-paper": {
+        "role": "neutral",
+        "displayName": "Night Paper",
+        "canonical": "#0a1326",
+        "tonalRamp": [
+          "#040a1c",
+          "#1c263b",
+          "#3a455b",
+          "#5a667e",
+          "#7c89a3",
+          "#a1aec9",
+          "#c3d1ed",
+          "#e6efff"
+        ]
+      },
+      "night-paper-2": {
+        "role": "neutral",
+        "displayName": "Night Recessed Paper",
+        "canonical": "#111d39",
+        "tonalRamp": [
+          "#020823",
+          "#192542",
+          "#364464",
+          "#566687",
+          "#7889ac",
+          "#9caed3",
+          "#bfd1f7",
+          "#e7efff"
+        ]
+      },
+      "night-desk": {
+        "role": "neutral",
+        "displayName": "Night Desk",
+        "canonical": "#070e1d",
+        "tonalRamp": [
+          "#050b19",
+          "#1e2637",
+          "#3c4557",
+          "#5c667a",
+          "#7f899e",
+          "#a3aec4",
+          "#c6d1e8",
+          "#e6efff"
+        ]
+      },
+      "night-plate": {
+        "role": "neutral",
+        "displayName": "Night Plate",
+        "canonical": "#0f1b36",
+        "tonalRamp": [
+          "#020922",
+          "#192541",
+          "#364563",
+          "#566686",
+          "#7889ab",
+          "#9daed2",
+          "#bfd1f6",
+          "#e7efff"
+        ]
+      },
+      "night-ink": {
+        "role": "neutral",
+        "displayName": "Night Ink",
+        "canonical": "#e9effb",
+        "tonalRamp": [
+          "#080b13",
+          "#22262f",
+          "#40454f",
+          "#616670",
+          "#848994",
+          "#a8aeb9",
+          "#cbd1dd",
+          "#e9effb"
+        ]
+      },
+      "night-ink-2": {
+        "role": "neutral",
+        "displayName": "Night Second Ink",
+        "canonical": "#b9c5dd",
+        "tonalRamp": [
+          "#050a1a",
+          "#1d2638",
+          "#3b4559",
+          "#5c667b",
+          "#7e89a0",
+          "#a3aec6",
+          "#c5d1ea",
+          "#e7efff"
+        ]
+      },
+      "night-ink-3": {
+        "role": "neutral",
+        "displayName": "Night Third Ink",
+        "canonical": "#8f9db9",
+        "tonalRamp": [
+          "#030a1e",
+          "#1b263c",
+          "#39455d",
+          "#596680",
+          "#7c89a5",
+          "#a0aecb",
+          "#c3d1ef",
+          "#e7efff"
+        ]
+      },
+      "night-rule": {
+        "role": "neutral",
+        "displayName": "Night Rule",
+        "canonical": "#25365a",
+        "tonalRamp": [
+          "#010727",
+          "#152547",
+          "#324469",
+          "#52668d",
+          "#7489b3",
+          "#98aeda",
+          "#bbd1fe",
+          "#e6efff"
+        ]
+      },
+      "night-rule-2": {
+        "role": "neutral",
+        "displayName": "Night Strong Rule",
+        "canonical": "#3d5282",
+        "tonalRamp": [
+          "#01042d",
+          "#12234f",
+          "#2f4372",
+          "#4f6596",
+          "#7188bc",
+          "#94ade4",
+          "#bbd1ff",
+          "#e7efff"
+        ]
+      },
+      "night-cobalt": {
+        "role": "primary",
+        "displayName": "Lit Cobalt",
+        "canonical": "#94b4ff",
+        "tonalRamp": [
+          "#010035",
+          "#0c1e5d",
+          "#284081",
+          "#4763a7",
+          "#6987ce",
+          "#8cacf6",
+          "#bcd1ff",
+          "#e7efff"
+        ]
+      },
+      "night-tint": {
+        "role": "primary",
+        "displayName": "Night Airspace Tint",
+        "canonical": "#14264d",
+        "tonalRamp": [
+          "#00062a",
+          "#12244b",
+          "#30446e",
+          "#4f6692",
+          "#7189b8",
+          "#95aedf",
+          "#bad1ff",
+          "#e6efff"
+        ]
+      },
+      "night-tint-2": {
+        "role": "primary",
+        "displayName": "Night Airspace Tint, deeper step",
+        "canonical": "#1c3566",
+        "tonalRamp": [
+          "#00062a",
+          "#0b2352",
+          "#294376",
+          "#49659b",
+          "#6b89c1",
+          "#8faee9",
+          "#b9d2ff",
+          "#e6efff"
+        ]
+      },
+      "night-note": {
+        "role": "primary",
+        "displayName": "Night Briefing Tint",
+        "canonical": "#101e3d",
+        "tonalRamp": [
+          "#010825",
+          "#162545",
+          "#344467",
+          "#54668a",
+          "#7689b0",
+          "#9aaed6",
+          "#bcd1fb",
+          "#e6efff"
+        ]
+      },
+      "night-note-edge": {
+        "role": "primary",
+        "displayName": "Night Briefing Tint Edge",
+        "canonical": "#2a4175",
+        "tonalRamp": [
+          "#000231",
+          "#0e2253",
+          "#2b4277",
+          "#4b659c",
+          "#6d88c2",
+          "#90adea",
+          "#bbd1ff",
+          "#e7efff"
+        ]
+      },
+      "night-field": {
+        "role": "primary",
+        "displayName": "Night Station Field",
+        "canonical": "#12306f",
+        "tonalRamp": [
+          "#00062b",
+          "#041f5d",
+          "#224182",
+          "#4164a8",
+          "#6388cf",
+          "#87adf7",
+          "#b9d2ff",
+          "#e6efff"
+        ]
+      },
+      "night-field-deep": {
+        "role": "primary",
+        "displayName": "Night Station Field, deeper step",
+        "canonical": "#0c2254",
+        "tonalRamp": [
+          "#000430",
+          "#0c2254",
+          "#294378",
+          "#49659d",
+          "#6b88c3",
+          "#8faeeb",
+          "#bad1ff",
+          "#e6efff"
+        ]
+      },
+      "night-field-rule": {
+        "role": "primary",
+        "displayName": "Night Rule on Cobalt",
+        "canonical": "#4766b3",
+        "tonalRamp": [
+          "#010036",
+          "#091c63",
+          "#243f88",
+          "#4362ae",
+          "#6486d6",
+          "#88abfe",
+          "#bcd1ff",
+          "#e7efff"
+        ]
+      },
+      "night-magenta": {
+        "role": "secondary",
+        "displayName": "Night Position Magenta",
+        "canonical": "#ff5cab",
+        "tonalRamp": [
+          "#1d000d",
+          "#4b002a",
+          "#7f004b",
+          "#b7006f",
+          "#e24092",
+          "#ff7ab6",
+          "#ffbad5",
+          "#ffe7f0"
+        ]
+      },
+      "night-highlight": {
+        "role": "tertiary",
+        "displayName": "Night Marked Text",
+        "canonical": "rgba(255, 210, 61, .32)",
+        "tonalRamp": [
+          "#100a00",
+          "#312500",
+          "#554300",
+          "#7c6300",
+          "#a68500",
+          "#d2a900",
+          "#f9cc34",
+          "#ffeebc"
+        ]
+      },
+      "night-red": {
+        "role": "tertiary",
+        "displayName": "Night Refusal Plate",
+        "canonical": "#b3261e",
+        "tonalRamp": [
+          "#1f0000",
+          "#500001",
+          "#860002",
+          "#b62921",
+          "#e05446",
+          "#ff8576",
+          "#ffbfb5",
+          "#ffe9e5"
+        ]
+      },
+      "night-red-mark": {
+        "role": "tertiary",
+        "displayName": "Night Refusal Mark",
+        "canonical": "#ff8f85",
+        "tonalRamp": [
+          "#1f0001",
+          "#500004",
+          "#7e1819",
+          "#a63f3a",
+          "#cf645c",
+          "#f98980",
+          "#ffbfb7",
+          "#ffe9e6"
+        ]
+      },
+      "night-dock": {
+        "role": "neutral",
+        "displayName": "Night Dock",
+        "canonical": "#050b18",
+        "tonalRamp": [
+          "#050b18",
+          "#1e2735",
+          "#3c4556",
+          "#5d6678",
+          "#7f8a9c",
+          "#a4aec2",
+          "#c6d2e6",
+          "#e6efff"
+        ]
+      },
+      "night-dock-rule": {
+        "role": "neutral",
+        "displayName": "Night Dock Rule",
+        "canonical": "#223257",
+        "tonalRamp": [
+          "#010728",
+          "#152448",
+          "#33446a",
+          "#53658e",
+          "#7589b4",
+          "#99aedb",
+          "#bbd1ff",
+          "#e7efff"
+        ]
+      },
+      "night-notice": {
+        "role": "neutral",
+        "displayName": "Night Limits Band",
+        "canonical": "#111d39",
+        "tonalRamp": [
+          "#020823",
+          "#192542",
+          "#364464",
+          "#566687",
+          "#7889ac",
+          "#9caed3",
+          "#bfd1f7",
+          "#e7efff"
+        ]
+      },
+      "night-notice-2": {
+        "role": "neutral",
+        "displayName": "Second Text on the Night Limits Band",
+        "canonical": "#c9d3e8",
+        "tonalRamp": [
+          "#050b18",
+          "#1f2636",
+          "#3d4556",
+          "#5d6678",
+          "#80899d",
+          "#a4aec2",
+          "#c7d1e6",
+          "#e7efff"
+        ]
+      },
+      "night-scrim": {
+        "role": "neutral",
+        "displayName": "Night Scrim",
+        "canonical": "rgba(3, 10, 24, .66)",
+        "tonalRamp": [
+          "#040b19",
+          "#1c2737",
+          "#3a4657",
+          "#5a677a",
+          "#7d8a9e",
+          "#a1afc4",
+          "#c4d2e8",
+          "#e5efff"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "The project page's headline. One per page, never above 6rem."
+      },
+      "handbook-display": {
+        "displayName": "Handbook display",
+        "purpose": "The book title on the handbook's station band."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Section headings on the project page, balanced across lines."
+      },
+      "handbook-headline": {
+        "displayName": "Handbook headline",
+        "purpose": "Home headings in the handbook, each under a 1.5px ink rule."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Headings inside a section, and the book's section headings under a 1.5px ink rule."
+      },
+      "item-title": {
+        "displayName": "Item title",
+        "purpose": "Entries in a list: module names, re-entry phrases, research domains, lesson and case titles."
+      },
+      "lede": {
+        "displayName": "Lede",
+        "purpose": "The paragraph under a headline, in second ink."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Running text on the project page; 15px at 760px and below."
+      },
+      "reading": {
+        "displayName": "Reading",
+        "purpose": "The handbook's text at a 38em measure; the reader can choose 16, 17 or 19px and a Song body."
+      },
+      "small": {
+        "displayName": "Small",
+        "purpose": "Secondary paragraphs and table cells."
+      },
+      "control": {
+        "displayName": "Control",
+        "purpose": "Bar links, tabs, small signs and compact buttons; at 400 it carries leg names, statuses and footers."
+      },
+      "note": {
+        "displayName": "Note",
+        "purpose": "Captions, statuses and dock labels."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "The label inside a ruled cell and the cell label of a stacked table. Never above a heading."
+      },
+      "cell-value": {
+        "displayName": "Cell value",
+        "purpose": "The value under a cell label in a ruled strip."
+      },
+      "sign": {
+        "displayName": "Sign",
+        "purpose": "Lettering on direction signs, plain signs and plaques."
+      },
+      "designator": {
+        "displayName": "Designator",
+        "purpose": "R1 to R7, M0 to M9, part and strip numbers, versions, dates and counts, in tabular numerals."
+      },
+      "numeral": {
+        "displayName": "Numeral",
+        "purpose": "The yellow numerals of the install steps; the 404 on both not-found pages runs up to 6rem in cobalt."
+      },
+      "quotation": {
+        "displayName": "Quotation",
+        "purpose": "The quoted passage on the project page's source band, in XK Song."
+      },
+      "handbook-quotation": {
+        "displayName": "Handbook quotation",
+        "purpose": "The opening paragraph on the handbook home, in the reader's installed Song."
+      },
+      "mono": {
+        "displayName": "Mono",
+        "purpose": "File names, commands, topic and task identifiers."
+      },
+      "chart-code": {
+        "displayName": "Chart designator",
+        "purpose": "Fix and runway designators on the plan and the profile."
+      },
+      "chart-name": {
+        "displayName": "Chart name",
+        "purpose": "Fix names on the plan and the profile."
+      },
+      "chart-note": {
+        "displayName": "Chart note",
+        "purpose": "Notes, feeder labels and hazard notes on the drawings."
+      }
+    },
     "shadows": [],
     "motion": [
       {
-        "name": "signature-complete",
-        "value": "3500ms",
-        "purpose": "Original 23 Latin stroke masks and 3 dawn ornament masks reach the complete signature."
+        "name": "ease-out",
+        "value": "cubic-bezier(.16, 1, .3, 1)",
+        "purpose": "Default easing for state changes, panels, sheet turns and the chart's arrival. `--ease` on the project page, `--xk-ease` in the handbook."
       },
       {
-        "name": "signature-easing",
-        "value": "cubic-bezier(.33, 0, .36, 1)",
-        "purpose": "Original stroke-mask drawing."
+        "name": "ease-in",
+        "value": "cubic-bezier(.5, 0, .75, 0)",
+        "purpose": "The outgoing sheet number when a sheet turns. `--xk-ease-in`."
       },
       {
-        "name": "ink-letter",
-        "value": "350ms",
-        "purpose": "Chinese letter settling; 75ms initial delay, then 80ms between letters."
+        "name": "quick",
+        "value": "160ms",
+        "purpose": "Hover, pressed and selected colour changes. `--xk-quick`; .16s on the project page."
       },
       {
-        "name": "icon-field",
-        "value": "5200ms",
-        "purpose": "Spatially staggered repeating color cycle; paused when hidden and static for reduced motion."
+        "name": "nudge",
+        "value": "220ms cubic-bezier(.16, 1, .3, 1)",
+        "purpose": "The 2 to 3px icon nudge inside a hovered sign or link."
       },
       {
-        "name": "tide-far",
-        "value": "29s linear infinite",
-        "purpose": "Rear tide; paused outside the cover or in a hidden document."
+        "name": "panel",
+        "value": "300ms",
+        "purpose": "Drawers, bay folds, switch thumbs and answer disclosures. `--xk-panel`; chevrons on the project page turn in 260ms."
       },
       {
-        "name": "tide-middle",
-        "value": "21s linear infinite reverse",
-        "purpose": "Middle tide; same visibility and reduced-motion rules."
+        "name": "turn",
+        "value": "420ms",
+        "purpose": "A sheet turn, a lesson fold and the rack holder's travel. `--xk-turn`."
       },
       {
-        "name": "tide-front",
-        "value": "17s linear infinite",
-        "purpose": "Front tide; same visibility and reduced-motion rules."
+        "name": "chart-arrival",
+        "value": "950ms field rise, 700ms fades from 120ms and 300ms, fixes pop 520ms from 360ms at 55ms intervals, labels at 680ms, go-around at 820ms",
+        "purpose": "The plan view assembles once when the page loads."
       },
       {
-        "name": "section-reveal",
-        "value": "660ms cubic-bezier(.16,1,.3,1)",
-        "purpose": "One entrance per marked section; skipped for reduced motion."
+        "name": "route-flight",
+        "value": "min(3600ms, 900ms + 2ms per unit of route length), quadratic ease-in-out",
+        "purpose": "The magenta route is drawn and the aircraft follows it; the first flight starts 1150ms after load."
       },
       {
-        "name": "navigation-reveal",
-        "value": "320ms cubic-bezier(.16,1,.3,1)",
-        "purpose": "Fine-pointer navigation reveal."
+        "name": "hold-circuit",
+        "value": "4800ms, once",
+        "purpose": "The aircraft flies one circuit of the hold when 60% of the drawing is in view."
+      },
+      {
+        "name": "rose-settle",
+        "value": "1100ms cubic-bezier(.16, 1, .3, 1), from -34deg",
+        "purpose": "The book rose turns into place once on arrival."
+      },
+      {
+        "name": "sheet-turn",
+        "value": "old sheet 250ms fade with 320ms slide of 28px; new sheet 250ms fade with 440ms slide of 40px",
+        "purpose": "Moving between handbook sheets, from the side the new sheet lies on in the book; bar, rack and outline stay put."
+      },
+      {
+        "name": "sheet-number",
+        "value": "260ms out, 420ms in after 60ms",
+        "purpose": "The sheet number on the page strip rolls when the sheet turns."
+      },
+      {
+        "name": "theme-spread",
+        "value": "620ms cubic-bezier(.3, .1, .2, 1), circular clip from the switch",
+        "purpose": "Switching between the day and the night chart in the handbook."
+      },
+      {
+        "name": "figure-zoom",
+        "value": "380ms cubic-bezier(.16, 1, .3, 1)",
+        "purpose": "A figure grows into the lightbox and back."
+      },
+      {
+        "name": "structure-cycle",
+        "value": "4200ms hold, 1500ms morph, four arrangements",
+        "purpose": "The structure drawing on the handbook home; paused when out of view or hidden."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "all animation and transition off",
+        "purpose": "The route is painted complete, the aircraft is parked, the structure drawing holds still, sheets change at once."
       }
     ],
     "breakpoints": [
       {
-        "name": "intermediate",
-        "value": "(max-width: 1050px)"
+        "name": "plan-flat",
+        "value": "(max-width: 1279px)"
       },
       {
-        "name": "mobile",
+        "name": "project-rows",
+        "value": "(max-width: 1180px)"
+      },
+      {
+        "name": "plan-portrait",
+        "value": "(max-width: 920px)"
+      },
+      {
+        "name": "project-one-column",
+        "value": "(max-width: 900px)"
+      },
+      {
+        "name": "phone",
         "value": "(max-width: 760px)"
       },
       {
-        "name": "short-desktop",
-        "value": "(min-width: 761px) and (max-height: 850px)"
+        "name": "project-question-tight",
+        "value": "(max-width: 1399px)"
+      },
+      {
+        "name": "coarse-pointer",
+        "value": "(pointer: coarse)"
+      },
+      {
+        "name": "handbook-outline-drawer",
+        "value": "(max-width: 1279px)"
+      },
+      {
+        "name": "handbook-board-two-bays",
+        "value": "(max-width: 1180px)"
+      },
+      {
+        "name": "handbook-rack-drawer",
+        "value": "(max-width: 1023px)"
+      },
+      {
+        "name": "handbook-rose-readout-tight",
+        "value": "(max-width: 960px)"
+      },
+      {
+        "name": "handbook-home-stack",
+        "value": "(max-width: 900px)"
+      },
+      {
+        "name": "handbook-not-found-stack",
+        "value": "(max-width: 860px)"
+      },
+      {
+        "name": "handbook-search-full-screen",
+        "value": "(max-width: 767px)"
       }
     ]
   },
   "components": [
     {
-      "name": "Icon button",
+      "name": "Direction sign",
       "kind": "button",
-      "refersTo": "icon-button",
-      "description": "Circular quiet action with soft hover and visible keyboard focus.",
-      "html": "<button type=\"button\" class=\"ds-icon-button\" aria-label=\"返回顶部\"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 20V4m-6 6 6-6 6 6\"/></svg></button>",
-      "css": ".ds-icon-button{width:40px;height:40px;display:grid;place-items:center;border:0;border-radius:50%;padding:9px;background:none;color:rgb(var(--studio-ink,31 48 73));cursor:pointer}.ds-icon-button svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round}.ds-icon-button:hover{background:rgb(var(--studio-soft,231 237 249))}.ds-icon-button:focus-visible{outline:2px solid rgb(var(--studio-accent,68 91 159));outline-offset:5px}@media(max-width:760px){.ds-icon-button{width:34px;height:34px;padding:8px}}"
+      "refersTo": "sign-go",
+      "description": "The primary action of a group: a yellow sign with dark lettering. At most one per group of actions.",
+      "html": "<a class=\"ds-sign-go\" href=\"#\">下载安装包<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 4v11m-5-5 5 5 5-5M5 20h14\"/></svg></a>",
+      "css": ".ds-sign-go{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:48px;padding:6px 18px;border-radius:3px;font-family:var(--font-display, var(--xk-font-display, 'XK Display', 'Noto Sans SC', 'Source Han Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif));font-weight:900;font-size:1rem;line-height:1.2;text-decoration:none;cursor:pointer;transition:background-color .16s, color .16s, transform .16s cubic-bezier(.16,1,.3,1);background:var(--yellow, var(--xk-marker, #ffd23d));color:#111827;border:2px solid #111827}.ds-sign-go svg{flex:none;width:1.15em;height:1.15em;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;transition:transform .22s cubic-bezier(.16,1,.3,1)}.ds-sign-go:hover{background:#ffe07a}.ds-sign-go:hover svg{transform:translateY(2px)}.ds-sign-go:active{transform:translateY(1px)}.ds-sign-go:focus-visible{outline:3px solid var(--focus, var(--xk-focus, #cf1578));outline-offset:3px}@media (prefers-reduced-motion:reduce){.ds-sign-go, .ds-sign-go svg{transition:none}}"
     },
     {
-      "name": "Status filter",
-      "kind": "chip",
-      "refersTo": "status-filter",
-      "description": "Completion filter with soft fill and accent text for selection.",
-      "html": "<div class=\"ds-status-filters\" role=\"group\" aria-label=\"按完成状态筛选\"><button type=\"button\" aria-pressed=\"true\">全部</button><button type=\"button\" aria-pressed=\"false\">待完成</button><button type=\"button\" aria-pressed=\"false\">已完成</button></div>",
-      "css": ".ds-status-filters{display:flex;gap:4px;flex-wrap:wrap}.ds-status-filters button{font-family:'PingFang SC','Microsoft YaHei',system-ui,sans-serif;border:0;border-radius:8px;background:none;color:rgb(var(--studio-ink,31 48 73));font-size:12px;line-height:1.8;padding:9px 14px;cursor:pointer}.ds-status-filters button[aria-pressed='true']{background:rgb(var(--studio-soft,231 237 249));color:rgb(var(--studio-accent,68 91 159))}.ds-status-filters button:focus-visible{outline:2px solid rgb(var(--studio-accent,68 91 159));outline-offset:5px}"
+      "name": "Plain sign",
+      "kind": "button",
+      "refersTo": "sign-plain",
+      "description": "The second action beside a direction sign, or a lone onward link: paper with ink lettering, inverting on hover.",
+      "html": "<a class=\"ds-sign-plain\" href=\"#\">读原文精读站<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M4 12h15m-6-6 6 6-6 6\"/></svg></a>",
+      "css": ".ds-sign-plain{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:48px;padding:6px 18px;border-radius:3px;font-family:var(--font-display, var(--xk-font-display, 'XK Display', 'Noto Sans SC', 'Source Han Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif));font-weight:900;font-size:1rem;line-height:1.2;text-decoration:none;cursor:pointer;transition:background-color .16s, color .16s, transform .16s cubic-bezier(.16,1,.3,1);background:var(--paper, var(--xk-sheet, #fbfcfe));color:var(--ink, var(--xk-ink, #0d1b36));border:2px solid var(--ink, var(--xk-ink, #0d1b36))}.ds-sign-plain svg{flex:none;width:1.15em;height:1.15em;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;transition:transform .22s cubic-bezier(.16,1,.3,1)}.ds-sign-plain:hover{background:var(--ink, var(--xk-ink, #0d1b36));color:var(--paper, var(--xk-sheet, #fbfcfe))}.ds-sign-plain:hover svg{transform:translateX(3px)}.ds-sign-plain:active{transform:translateY(1px)}.ds-sign-plain:focus-visible{outline:3px solid var(--focus, var(--xk-focus, #cf1578));outline-offset:3px}@media (prefers-reduced-motion:reduce){.ds-sign-plain, .ds-sign-plain svg{transition:none}}"
     },
     {
-      "name": "Research search",
+      "name": "Refusal plaque",
+      "kind": "custom",
+      "refersTo": "plaque",
+      "description": "A red plate naming one thing the Skill does not do, or what a step may not yet conclude.",
+      "html": "<strong class=\"ds-plaque\">未登记，不前瞻</strong>",
+      "css": ".ds-plaque{display:inline-grid;place-items:center;min-height:40px;padding:5px 10px;background:var(--red, var(--xk-refuse, #bf241c));color:#fff;font-family:var(--font-display, var(--xk-font-display, 'XK Display', 'Noto Sans SC', 'Source Han Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif));font-weight:900;font-size:.9375rem;line-height:1.25;text-align:center;border:2px solid #fff;outline:2px solid var(--red, var(--xk-refuse, #bf241c));border-radius:2px}"
+    },
+    {
+      "name": "Ruled strip",
+      "kind": "custom",
+      "refersTo": "strip-cell",
+      "description": "Identity and status data as label over value in ruled cells: 1px gaps over an ink ground inside a 1.5px ink border.",
+      "html": "<dl class=\"ds-strip\"><div><dt>编号</dt><dd class=\"ds-strip-num\">03</dd></div><div><dt>所属</dt><dd>导读与通用结构</dd></div><div><dt>讲解</dt><dd>19 处</dd></div></dl>",
+      "css": ".ds-strip{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:1px;max-width:520px;margin:0;background:var(--ink, var(--xk-ink, #0d1b36));border:1.5px solid var(--ink, var(--xk-ink, #0d1b36));font-family:var(--font-sans, var(--xk-font-sans, -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei UI', 'Microsoft YaHei', 'Noto Sans SC', system-ui, sans-serif))}.ds-strip > div{min-width:0;padding:9px 16px 10px;background:var(--paper, var(--xk-sheet, #fbfcfe))}.ds-strip dt{font-size:.75rem;line-height:1.4;letter-spacing:.08em;color:var(--ink-3, var(--xk-ink-3, #56647f))}.ds-strip dd{margin:0;font-size:.9375rem;font-weight:700;line-height:1.45;color:var(--ink, var(--xk-ink, #0d1b36))}.ds-strip dd.ds-strip-num{font-family:var(--font-display, var(--xk-font-display, 'XK Display', 'Noto Sans SC', 'Source Han Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif));font-weight:900;font-size:1.875rem;line-height:1;margin-top:4px;font-variant-numeric:tabular-nums}"
+    },
+    {
+      "name": "Question row and legs readout",
+      "kind": "custom",
+      "refersTo": "question",
+      "description": "On the dock: the visitor picks a question, and the route's fixes turn magenta as the aircraft passes them. A dashed chip is an optional fix.",
+      "html": "<div class=\"ds-dock\"><ol class=\"ds-ask\"><li><button type=\"button\" aria-pressed=\"false\"><span class=\"ds-code\">R1</span><span>原文怎么定义它？</span></button></li><li><button type=\"button\" aria-pressed=\"true\"><span class=\"ds-code\">R2</span><span>它为什么会这样？</span></button></li></ol><ol class=\"ds-legs\"><li class=\"is-flown\"><span class=\"ds-code\">M0</span>问题合同</li><li class=\"is-flown\"><span class=\"ds-code\">M1</span>材料与证据</li><li><span class=\"ds-code\">M2</span>对象与状态</li><li class=\"is-optional\"><span class=\"ds-code\">M4</span>三类变换</li></ol></div>",
+      "css": ".ds-dock{display:grid;gap:14px;padding:14px 18px 16px;background:var(--dock, var(--xk-dock, #0d1b36));color:var(--dock-text, var(--xk-dock-ink, #eef2fb));font-family:var(--font-sans, var(--xk-font-sans, -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei UI', 'Microsoft YaHei', 'Noto Sans SC', system-ui, sans-serif))}.ds-ask, .ds-legs{display:flex;flex-wrap:wrap;margin:0;padding:0;list-style:none}.ds-ask{gap:8px}.ds-ask button{display:grid;gap:1px;min-width:9.5rem;padding:8px 12px 9px;text-align:left;font:inherit;font-size:.9375rem;font-weight:700;line-height:1.45;background:transparent;color:var(--dock-text, var(--xk-dock-ink, #eef2fb));border:1.5px solid var(--dock-rule, var(--xk-dock-rule, #2b3b60));border-radius:3px;cursor:pointer;transition:background-color .16s, border-color .16s, color .16s}.ds-code{font-family:var(--font-display, var(--xk-font-display, 'XK Display', 'Noto Sans SC', 'Source Han Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif));font-weight:900;font-variant-numeric:tabular-nums;letter-spacing:.02em}.ds-ask .ds-code{font-size:.75rem;line-height:1.4;color:var(--yellow, var(--xk-marker, #ffd23d))}.ds-ask button:hover{border-color:var(--yellow, var(--xk-marker, #ffd23d))}.ds-ask button[aria-pressed=\"true\"]{background:var(--yellow, var(--xk-marker, #ffd23d));border-color:var(--yellow, var(--xk-marker, #ffd23d));color:#111827}.ds-ask button[aria-pressed=\"true\"] .ds-code{color:#111827}.ds-ask button:focus-visible{outline:3px solid var(--dock-magenta, #ff5cab);outline-offset:3px}.ds-legs{align-items:center;gap:6px 0}.ds-legs li{display:inline-flex;align-items:center;gap:6px;font-size:.875rem;line-height:1.4;color:var(--dock-2, var(--xk-dock-2, #aebbd6));white-space:nowrap}.ds-legs li:not(:last-child)::after{content:\"\";width:18px;height:1.5px;margin-inline:2px 8px;background:var(--dock-rule, var(--xk-dock-rule, #2b3b60))}.ds-legs .ds-code{display:inline-grid;place-items:center;min-width:2.3em;padding:1px 5px;font-size:.8125rem;color:var(--dock-text, var(--xk-dock-ink, #eef2fb));border:1.5px solid var(--dock-2, var(--xk-dock-2, #aebbd6));border-radius:2px}.ds-legs li.is-flown{color:var(--dock-text, var(--xk-dock-ink, #eef2fb))}.ds-legs li.is-flown .ds-code{background:var(--dock-magenta, #ff5cab);border-color:var(--dock-magenta, #ff5cab);color:#111827}.ds-legs li.is-flown:has(+ li.is-flown)::after{background:var(--dock-magenta, #ff5cab)}.ds-legs li.is-optional .ds-code{border-style:dashed}"
+    },
+    {
+      "name": "Rack strips",
+      "kind": "nav",
+      "refersTo": "rack-strip",
+      "description": "The handbook's index: one ruled strip per sheet (number, title, lesson count). The sheet being read has a magenta holder.",
+      "html": "<ul class=\"ds-rack\"><li><a href=\"#\"><span class=\"ds-rack-no\">02</span><span class=\"ds-rack-text\">边界与方法</span><span class=\"ds-rack-count\">23</span></a></li><li><a href=\"#\" aria-current=\"page\"><span class=\"ds-rack-no\">03</span><span class=\"ds-rack-text\">通用结构语法</span><span class=\"ds-rack-count\">19</span><span class=\"ds-rack-holder\" aria-hidden=\"true\"></span></a></li><li><a href=\"#\"><span class=\"ds-rack-no\">04</span><span class=\"ds-rack-text\">经验问题、结果合同与条件形式命题</span><span class=\"ds-rack-count\">47</span></a></li></ul>",
+      "css": ".ds-rack{display:grid;gap:3px;max-width:272px;margin:0;padding:0;list-style:none;font-family:var(--font-sans, var(--xk-font-sans, -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei UI', 'Microsoft YaHei', 'Noto Sans SC', system-ui, sans-serif))}.ds-rack a{position:relative;display:grid;grid-template-columns:38px minmax(0,1fr) auto;min-height:34px;font-size:13.5px;line-height:1.45;color:var(--ink-2, var(--xk-ink-2, #33415e));text-decoration:none;background:var(--paper, var(--xk-sheet, #fbfcfe));border:1px solid var(--rule, var(--xk-rule, #ccd5e5));transition:color .16s, border-color .16s}.ds-rack a:hover{color:var(--ink, var(--xk-ink, #0d1b36));border-color:var(--rule-2, var(--xk-rule-2, #9aabc8))}.ds-rack a[aria-current=\"page\"]{color:var(--ink, var(--xk-ink, #0d1b36));font-weight:700}.ds-rack-no{display:grid;place-items:center;border-right:1px solid var(--rule, var(--xk-rule, #ccd5e5));font-family:var(--font-display, var(--xk-font-display, 'XK Display', 'Noto Sans SC', 'Source Han Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif));font-weight:900;font-size:12px;color:var(--ink-3, var(--xk-ink-3, #56647f));font-variant-numeric:tabular-nums}.ds-rack a[aria-current=\"page\"] .ds-rack-no{color:var(--magenta, var(--xk-here, #cf1578))}.ds-rack-text{display:flex;align-items:center;min-width:0;padding:6px 10px}.ds-rack-count{display:grid;place-items:center;min-width:30px;padding:0 6px;border-left:1px solid var(--rule, var(--xk-rule, #ccd5e5));font-size:11.5px;font-weight:700;color:var(--ink-3, var(--xk-ink-3, #56647f));font-variant-numeric:tabular-nums}.ds-rack-holder{position:absolute;inset:-1px;border:2px solid var(--magenta, var(--xk-here, #cf1578));pointer-events:none}.ds-rack a:focus-visible{outline:3px solid var(--focus, var(--xk-focus, #cf1578));outline-offset:3px}"
+    },
+    {
+      "name": "Search field",
       "kind": "input",
-      "refersTo": "search",
-      "description": "Named search field with a fine bottom border.",
-      "html": "<label class=\"ds-search\"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><circle cx=\"10.5\" cy=\"10.5\" r=\"6.5\"/><path d=\"m16 16 5 5\"/></svg><input type=\"search\" placeholder=\"搜索思想、人物、主题或编号\" aria-label=\"搜索研究问题\"></label>",
-      "css": ".ds-search{display:flex;align-items:center;gap:12px;max-width:520px;padding:8px 0;border-bottom:1px solid rgb(var(--studio-muted,88 105 128));color:rgb(var(--studio-ink,31 48 73))}.ds-search svg{width:20px;height:20px;flex:0 0 auto;fill:none;stroke:currentColor;stroke-width:1.4;stroke-linecap:round}.ds-search input{font-family:'PingFang SC','Microsoft YaHei',system-ui,sans-serif;width:100%;min-width:0;border:0;background:transparent;color:inherit;font-size:14px;line-height:1.8;padding:3px 0;caret-color:rgb(var(--studio-accent,68 91 159))}.ds-search input::placeholder{color:rgb(var(--studio-muted,88 105 128));opacity:1}.ds-search input:focus-visible{outline:2px solid rgb(var(--studio-accent,68 91 159));outline-offset:5px}"
+      "refersTo": "search-field",
+      "description": "A paper field in a 1.5px ink border; the focus ring is drawn around the whole field.",
+      "html": "<label class=\"ds-search\"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><circle cx=\"10.5\" cy=\"10.5\" r=\"6.5\"/><path d=\"m15.5 15.5 5 5\"/></svg><input type=\"search\" placeholder=\"搜索思想、人物、主题或编号\" aria-label=\"搜索研究问题\"></label>",
+      "css": ".ds-search{display:flex;align-items:center;gap:10px;max-width:520px;padding:0 12px;background:var(--paper, var(--xk-sheet, #fbfcfe));color:var(--ink, var(--xk-ink, #0d1b36));border:1.5px solid var(--ink, var(--xk-ink, #0d1b36));border-radius:3px;font-family:var(--font-sans, var(--xk-font-sans, -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei UI', 'Microsoft YaHei', 'Noto Sans SC', system-ui, sans-serif))}.ds-search:focus-within{outline:3px solid var(--focus, var(--xk-focus, #cf1578));outline-offset:2px}.ds-search svg{flex:none;width:1.15em;height:1.15em;fill:none;stroke:var(--ink-3, var(--xk-ink-3, #56647f));stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}.ds-search input{flex:1;min-width:0;height:44px;padding:0;background:none;border:0;outline:0;font:inherit;font-size:.9375rem;color:inherit;caret-color:var(--magenta, var(--xk-here, #cf1578))}.ds-search input::placeholder{color:var(--ink-3, var(--xk-ink-3, #56647f));opacity:1}"
     },
     {
-      "name": "Research domain",
-      "kind": "custom",
-      "refersTo": "domain-title",
-      "description": "Native disclosure group with a domain identifier and official completion count.",
-      "html": "<details class=\"ds-domain\"><summary><span class=\"ds-domain-number\">01</span><h3>框架起点、理论借用与解释权</h3><span class=\"ds-domain-count\">0 / 8</span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"m6 9 6 6 6-6\"/></svg></summary><p>展开后按编号浏览研究问题。</p></details>",
-      "css": ".ds-domain{font-family:'PingFang SC','Microsoft YaHei',system-ui,sans-serif;color:rgb(var(--studio-ink,31 48 73));border-top:1px solid rgb(var(--studio-line,208 219 233))}.ds-domain summary{list-style:none;display:flex;align-items:center;gap:18px;padding:24px 0;cursor:pointer}.ds-domain summary::-webkit-details-marker{display:none}.ds-domain h3{flex:1;margin:0;font-family:var(--studio-serif,'Noto Serif SC','Source Han Serif SC','Songti SC',serif);font-size:19px;font-weight:500;line-height:1.65}.ds-domain-number{flex:0 0 23px;font-size:12px;color:rgb(var(--studio-muted,88 105 128));font-variant-numeric:tabular-nums}.ds-domain-count{color:rgb(var(--studio-muted,88 105 128));font-size:11px;white-space:nowrap;font-variant-numeric:tabular-nums}.ds-domain svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:1.4;transition:transform .2s}.ds-domain[open] svg{transform:rotate(180deg)}.ds-domain p{font-size:12px;color:rgb(var(--studio-muted,88 105 128));line-height:1.95}.ds-domain summary:focus-visible{outline:2px solid rgb(var(--studio-accent,68 91 159));outline-offset:5px}@media(max-width:760px){.ds-domain summary{gap:11px;padding:21px 0}.ds-domain h3{font-size:17px}.ds-domain-number{flex-basis:19px;font-size:11px}}@media(prefers-reduced-motion:reduce){.ds-domain svg{transition:none}}"
+      "name": "Switch and segmented control",
+      "kind": "input",
+      "refersTo": "segment",
+      "description": "Reading settings: a square-thumbed switch and a ruled segmented control whose selected cell is an ink sign.",
+      "html": "<div class=\"ds-prefs\"><button type=\"button\" role=\"switch\" class=\"ds-switch\" aria-checked=\"true\"><span>只看原文</span><span class=\"ds-switch-track\" aria-hidden=\"true\"></span></button><div class=\"ds-seg\" role=\"group\" aria-label=\"字号\"><button type=\"button\" aria-pressed=\"false\">小</button><button type=\"button\" aria-pressed=\"true\">中</button><button type=\"button\" aria-pressed=\"false\">大</button></div></div>",
+      "css": ".ds-prefs{display:grid;gap:14px;max-width:236px;font-family:var(--font-sans, var(--xk-font-sans, -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei UI', 'Microsoft YaHei', 'Noto Sans SC', system-ui, sans-serif))}.ds-switch{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;padding:0;background:none;border:0;font:inherit;font-size:13px;font-weight:700;color:var(--ink, var(--xk-ink, #0d1b36));text-align:left;cursor:pointer}.ds-switch-track{position:relative;flex:none;width:38px;height:20px;border:1.5px solid var(--ink-2, var(--xk-ink-2, #33415e));border-radius:3px;transition:background-color .16s, border-color .16s}.ds-switch-track::after{content:\"\";position:absolute;top:2px;left:2px;width:13px;height:13px;border-radius:1px;background:var(--ink-2, var(--xk-ink-2, #33415e));transition:transform .3s cubic-bezier(.16,1,.3,1), background-color .16s}.ds-switch[aria-checked=\"true\"] .ds-switch-track{background:var(--ink, var(--xk-ink, #0d1b36));border-color:var(--ink, var(--xk-ink, #0d1b36))}.ds-switch[aria-checked=\"true\"] .ds-switch-track::after{transform:translateX(18px);background:var(--paper, var(--xk-sheet, #fbfcfe))}.ds-switch:focus-visible{outline:3px solid var(--focus, var(--xk-focus, #cf1578));outline-offset:3px}.ds-seg{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;overflow:hidden;background:var(--paper, var(--xk-sheet, #fbfcfe));border:1.5px solid var(--ink, var(--xk-ink, #0d1b36));border-radius:3px}.ds-seg button{height:30px;padding:0 10px;background:none;border:0;font:inherit;font-size:13px;font-weight:700;color:var(--ink-2, var(--xk-ink-2, #33415e));white-space:nowrap;cursor:pointer;transition:background-color .16s, color .16s}.ds-seg button + button{border-left:1.5px solid var(--ink, var(--xk-ink, #0d1b36))}.ds-seg button:hover{color:var(--ink, var(--xk-ink, #0d1b36));background:var(--tint, var(--xk-blue-wash, #dbe6fb))}.ds-seg button[aria-pressed=\"true\"]{background:var(--xk-loc, var(--ink, #0d1b36));color:var(--xk-loc-ink, var(--paper, #fbfcfe))}.ds-seg button:focus-visible{outline:3px solid var(--focus, var(--xk-focus, #cf1578));outline-offset:-3px}"
     },
     {
-      "name": "Usage command",
+      "name": "Lesson field",
       "kind": "custom",
-      "refersTo": "command",
-      "description": "Wrapped instruction in a lightly tinted outlined container.",
-      "html": "<div class=\"ds-command\"><code>使用 xi-kari-skill 分析：这个变化会怎样影响不同的人？</code></div>",
-      "css": ".ds-command{position:relative;border:1px solid rgb(var(--studio-line,208 219 233));padding:24px 56px 24px 22px;margin:22px 0;border-radius:12px;background:rgb(var(--studio-surface,255 255 255)/.65);color:rgb(var(--studio-ink,31 48 73));line-height:2}.ds-command code{font-family:ui-monospace,Consolas,monospace;font-size:13px;overflow-wrap:anywhere}@media(max-width:760px){.ds-command{padding:18px 48px 18px 16px}}"
+      "refersTo": "lesson-field",
+      "description": "An explanation attached to a section of the book: briefing tint under an ink rule, a two-cell tag, the key sentence over a yellow bar, and identity tags (filled is sourced, dashed is assumed).",
+      "html": "<section class=\"ds-lesson\"><header class=\"ds-lesson-head\"><span class=\"ds-bubble\" aria-hidden=\"true\"><span>3.3</span><span>讲</span></span><div><h3>读懂这一节</h3><p>有效反馈</p></div></header><p class=\"ds-lesson-lead\"><span>回执证明消息到达；有效反馈要看后续状态是否因此改变。</span></p><p class=\"ds-lesson-tags\"><span class=\"ds-tag ds-tag--sourced\">真实案例</span><span class=\"ds-tag ds-tag--assumed\">教学情景</span></p></section>",
+      "css": ".ds-lesson{max-width:44em;padding:26px 30px 32px;font-family:var(--font-sans, var(--xk-font-sans, -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei UI', 'Microsoft YaHei', 'Noto Sans SC', system-ui, sans-serif));font-size:.95em;line-height:1.85;color:var(--ink, var(--xk-ink, #0d1b36));background:var(--xk-note, var(--tint, #e6eefc));border-top:1.5px solid var(--ink, var(--xk-ink, #0d1b36));border-bottom:1px solid var(--xk-note-edge, var(--rule-2, #b7c8ea))}.ds-lesson-head{display:flex;align-items:center;gap:16px;padding-bottom:18px;margin-bottom:20px;border-bottom:1px solid var(--xk-note-edge, var(--rule-2, #b7c8ea))}.ds-bubble{display:grid;grid-template-rows:1fr 1fr;flex:none;width:54px;height:54px;overflow:hidden;background:var(--paper, var(--xk-sheet, #fbfcfe));border:1.5px solid var(--ink, var(--xk-ink, #0d1b36));border-radius:2px;font-family:var(--font-display, var(--xk-font-display, 'XK Display', 'Noto Sans SC', 'Source Han Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif));font-weight:900;line-height:1;font-variant-numeric:tabular-nums}.ds-bubble span{display:grid;place-items:center;font-size:12.5px}.ds-bubble span + span{font-size:14px;color:var(--xk-loc-ink, var(--paper, #fbfcfe));background:var(--xk-loc, var(--ink, #0d1b36))}.ds-lesson-head h3{margin:0;font-family:var(--font-display, var(--xk-font-display, 'XK Display', 'Noto Sans SC', 'Source Han Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif));font-weight:900;font-size:1.42em;line-height:1.3}.ds-lesson-head p{margin:4px 0 0;font-size:.92em;line-height:1.6;color:var(--ink-2, var(--xk-ink-2, #33415e))}.ds-lesson-lead{margin:0 0 18px;font-size:1.24em;font-weight:800;line-height:1.7}.ds-lesson-lead span{background-image:linear-gradient(var(--yellow, var(--xk-marker, #ffd23d)), var(--yellow, var(--xk-marker, #ffd23d)));background-size:100% .3em;background-position:0 92%;background-repeat:no-repeat;-webkit-box-decoration-break:clone;box-decoration-break:clone}.ds-lesson-tags{display:flex;flex-wrap:wrap;gap:10px;margin:0}.ds-tag{display:inline-flex;align-items:center;height:22px;padding:0 8px;border-radius:2px;font-size:12px;font-weight:700;letter-spacing:.06em;white-space:nowrap}.ds-tag--sourced{border:1.5px solid var(--ink, var(--xk-ink, #0d1b36));color:var(--paper, var(--xk-sheet, #fbfcfe));background:var(--ink, var(--xk-ink, #0d1b36))}.ds-tag--assumed{border:1.5px dashed var(--blue, var(--xk-blue, #1f4fc4));color:var(--blue, var(--xk-blue, #1f4fc4))}"
+    },
+    {
+      "name": "Bar links and the here sign",
+      "kind": "nav",
+      "refersTo": "tab-current",
+      "description": "Section links in a top bar. The link for where the reader is becomes a filled sign: ink with yellow lettering on the project page, ink with paper lettering in the handbook.",
+      "html": "<nav class=\"ds-topnav\" aria-label=\"页面导航\"><a href=\"#\" aria-current=\"true\">航线</a><a href=\"#\">模块</a><a href=\"#\">边界</a><a href=\"#\">安装</a></nav>",
+      "css": ".ds-topnav{display:flex;gap:2px;padding:10px 14px;background:var(--paper, var(--xk-sheet, #fbfcfe));border-bottom:1.5px solid var(--ink, var(--xk-ink, #0d1b36));font-family:var(--font-sans, var(--xk-font-sans, -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei UI', 'Microsoft YaHei', 'Noto Sans SC', system-ui, sans-serif))}.ds-topnav a{padding:5px 11px;font-size:.875rem;font-weight:700;text-decoration:none;color:var(--ink-2, var(--xk-ink-2, #33415e));border-radius:3px;transition:background-color .16s, color .16s}.ds-topnav a:hover{color:var(--ink, var(--xk-ink, #0d1b36));background:var(--tint, var(--xk-blue-wash, #dbe6fb))}.ds-topnav a[aria-current=\"true\"]{background:var(--here, var(--xk-loc, #0d1b36));color:var(--here-text, var(--xk-loc-ink, #ffd23d))}.ds-topnav a:focus-visible{outline:3px solid var(--focus, var(--xk-focus, #cf1578));outline-offset:3px}"
     }
   ],
   "narrative": {
-    "northStar": "The existing blog, carried into a reading page",
-    "overview": "This document applies only to `docs/index.html` and its page assets. It does not define Xi-Kari theory, source documents, Skill semantics, or the design of the original blog. The visual authority is the user's existing [blog homepage](https://xi-kari.com/): blue-white surfaces, dark blue text, muted indigo, Chinese serif lettering, the original Chinese wordmark and Hiiragi Shinonome vector signature.\n\nOne static landscape anchors the opening scene. Below it, generous open sections, fine dividers and a grouped research list support reading. The page has no shadow-based card system. Asset identity and original image bytes are recorded in `docs/assets/provenance.json`.",
+    "northStar": "The Instrument Approach Chart",
+    "overview": "These eight sections define the two public web surfaces of the Xikari Skill as one system. The project page (`docs/index.html`, `docs/404.html`, `docs/assets/project.css`, `docs/assets/project.js`) draws the Skill as an approach plate: a question enters at the chart edge, flies a published route through numbered fixes, reaches a decision point, and either lands on RWY 09 as a written judgment or goes around. The handbook (theme in `website/.vitepress/theme/`, built to `docs/handbook/`) is the manual behind that chart: the book is the station every route is measured from, and each of its sheets is a flight progress strip, read in order. Theory text, Skill semantics and the pages the Skill generates are outside these sections; the generated pages keep their own system under Output surfaces.\n\nThe material is print. White chart paper, blue-black procedure ink in three strengths, a cobalt airspace tint, and flat page-wide fields of yellow, ink and cobalt. Data sits in ruled cells. A line's style states what kind of thing it draws: solid for what is required or sourced, dotted or short-dashed for what is conditional or assumed, long dashes for the go-around. Three signals are rationed by job: magenta says where the route or the reader is, yellow is the sign to act on or the one sentence to notice, red is a refusal. Nothing casts a shadow, nothing fades into anything else, and no control is rounded past 3px.\n\nBoth surfaces print a day chart and a night chart from the same roles. The project page is dense and declarative, made to be scanned once and acted on. The handbook is set for long continuous Chinese reading, so the chart vocabulary moves to the edges of the sheet (the strip rack, the page's own strip, the position rose) and the text column stays plain.",
     "keyCharacteristics": [
-      "Original signature, ink lettering, icon color field and three tide layers.",
-      "Open reading columns that become one column on small screens.",
-      "Quiet controls with explicit focus and selected states.",
-      "Shared published progress, with a separate local maintenance state."
+      "One chart system across the project page and the handbook, in a day and a night printing.",
+      "Ruled strips for identity, status and navigation: label over value, 1px rules, a 1.5px ink frame.",
+      "Line style carries state, always with a legend or a tag beside it.",
+      "Magenta for position, yellow for the sign, red for refusal; cobalt for structure and links.",
+      "A heavy sans for titles, signs and designators; Song for the book's quoted words; monospace for identifiers.",
+      "Flat fields, square frames, no shadows.",
+      "Drawings are generated from data published on the page and recomposed for the space they have.",
+      "Motion answers an action: a route is flown, a sheet turns, a lesson folds."
     ],
-    "rules": [],
+    "rules": [
+      {
+        "name": "The Position Rule",
+        "body": "Magenta answers one question: where. It is a mark (a line, a fix, a holder, a marker bar, a focus ring), never a band, a button or a heading.",
+        "section": "colors"
+      },
+      {
+        "name": "The Sign Rule",
+        "body": "Yellow is a ground under dark lettering, or lettering on ink, navy and cobalt. It is never lettering on paper, and lettering on yellow is #111827 in both printings.",
+        "section": "colors"
+      },
+      {
+        "name": "The Refusal Rule",
+        "body": "Red appears only where something is refused, blocked or failed. It does not mark emphasis, degrees of warning, or decoration.",
+        "section": "colors"
+      },
+      {
+        "name": "The Re-pointed Roles Rule",
+        "body": "A coloured band re-points the role tokens (ink, second ink, rule, link, tint, focus) for everything inside it. Components are not restyled per band; they read the roles.",
+        "section": "colors"
+      },
+      {
+        "name": "The Three Voices Rule",
+        "body": "XK Display is the lettering of the chart: headlines, part and section titles, signs, plaques and designators. Song is the book being quoted: quoted source text, and inside the book's prose its block quotations and the emphasis that Chinese does not italicise. Monospace names files, commands and identifiers. Nothing else uses any of the three, and the theme's own sentences are never set in Song.",
+        "section": "typography"
+      },
+      {
+        "name": "The Cut Face Rule",
+        "body": "XK Display and XK Song are subsets cut to the characters the pages set in them: on the project page its display text, signs, plaques and quoted passage; in the handbook the theme's own strings, the book index and every first- and second-level heading. Anything outside the cut (lesson-written titles, research topics loaded from data, third-level headings, body copy) is set in the body sans. A new display string means re-cutting the subset (`website/scripts/build_page_fonts.py` for the project page, `website/scripts/build_fonts.py` for the handbook); `--check` reports uncovered characters without writing anything.",
+        "section": "typography"
+      },
+      {
+        "name": "The Tabular Rule",
+        "body": "Counts, dates, lengths and designators use tabular numerals wherever they sit in a column or a strip.",
+        "section": "typography"
+      },
+      {
+        "name": "The Redraw Rule",
+        "body": "The plan view and the profile are measured and redrawn at the size they are given, with lettering in fixed pixels: three plan compositions, a profile that sheds names and file labels as it narrows. Figures with a fixed geometry (the roses, the hold) scale as a whole, and on a phone the home rose is reduced to a symbol instead of being shrunk with its numerals.",
+        "section": "layout"
+      },
+      {
+        "name": "The Flat Band Rule",
+        "body": "Page-scale colour is a full-width flat field of paper, yellow, ink or cobalt, edge to edge, and everything inside it reads the band's roles.",
+        "section": "layout"
+      },
+      {
+        "name": "The No Shadow Rule",
+        "body": "If something needs to read as above something else, give it an ink rule and an opaque ground. Shadows, glows and translucent glass are not part of this system.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Square Frame Rule",
+        "body": "Radius is for controls (3px) and chips (2px). A frame, a strip, a band or a figure with rounded corners is out of system.",
+        "section": "shapes"
+      },
+      {
+        "name": "The Line Style Rule",
+        "body": "Line style is a statement and is always explained beside the drawing. Solid ink is a required leg or sourced material. Dots (2 on, 7 off) are a leg flown only when needed. Long dashes (9 on, 7 off) in second ink are the go-around. A thick magenta line is the current route, and magenta dots are the lead-in a route takes before its first fix. A fix filled magenta has been flown, outlined in dashed magenta it may be added, outlined in the strong rule it is not on this route. A handoff file ruled above and below must be written; with a dashed underline it is written only when needed. In the handbook a solid ink frame with a filled tag is sourced, a dashed cobalt frame with a dashed tag is assumed for teaching, and a red frame under a red plaque is what may not be inferred.",
+        "section": "shapes"
+      }
+    ],
     "dos": [
-      "**Do** preserve the original blog identity assets and use the single landscape recorded in the provenance file.",
-      "**Do** use the current semantic color roles, open reading layout and native research controls.",
-      "**Do** retain keyboard focus, reduced-motion behavior, loading feedback and recoverable failures.",
-      "**Do** keep public progress read-only and local maintenance explicit."
+      "**Do** put identity, status and navigation data in a ruled strip: 1px gaps over an ink ground inside a 1.5px ink border, label over value.",
+      "**Do** let line style carry state, and print the legend or tag that explains it beside the drawing, so no meaning rests on colour alone.",
+      "**Do** keep magenta for position, yellow for the sign and red for refusal, and set lettering on yellow in #111827 in both printings.",
+      "**Do** re-point the role tokens on a band and let components read them, instead of restyling a component per ground.",
+      "**Do** recompose a chart for the space it has, and give every drawing a text twin on the same page: the route table, the fix list, the parts list, the strip board.",
+      "**Do** keep the 3px focus outline at 3px offset on every control, in the colour its ground calls for.",
+      "**Do** re-cut the display subsets when display text changes, and run the build scripts with `--check` before publishing.",
+      "**Do** honour reduced motion with a complete still state: the route painted, the aircraft parked, nothing left half-drawn."
     ],
     "donts": [
-      "**Don't** replace the signatures, invent another theme, introduce a dashboard card system or add a rotating wallpaper gallery.",
-      "**Don't** present visitor-local checkmarks as official project progress.",
-      "**Don't** apply this page's visual rules to theory sources or alter the original blog through this document."
+      "**Don't** add a box-shadow, a text-shadow, a blur or a glow; depth is a rule and a ground.",
+      "**Don't** blend colours. Fields are flat; a gradient appears only as a hard-edged drawing device such as the bar under a key sentence or the ticks of a scale.",
+      "**Don't** round a frame, a strip, a band or a figure, and don't give a control more than 3px or a chip more than 2px.",
+      "**Don't** use magenta as a ground for a band, a button or a heading, yellow as lettering on paper, or red for emphasis.",
+      "**Don't** use a dashed or dotted line as decoration; here it means conditional or assumed.",
+      "**Don't** set text in XK Display that the cut does not cover (lesson-written titles, data loaded at run time), and don't set the theme's own words in Song.",
+      "**Don't** add a label line above a heading. Labels belong inside ruled cells, over the value they name; a heading stands alone.",
+      "**Don't** type a character where an icon is meant; icons are stroked drawings on the 24-unit grid.",
+      "**Don't** shrink a chart until its lettering stops being readable; recompose it or drop labels.",
+      "**Don't** apply these sections to theory sources or to the pages the Skill generates; those are described under Output surfaces."
     ]
   }
 }

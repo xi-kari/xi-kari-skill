@@ -88,7 +88,7 @@ export function installPageTurns(router: Router, siteData: Ref<SiteData>) {
   }
 }
 
-/** Flip between paper and blueprint, exposing the new look from the switch outward. */
+/** Switch between the day and the night chart, spreading the new look from the switch outward. */
 export async function flipTheme(event: MouseEvent | undefined, isDark: Ref<boolean>) {
   const doc = document as TransitionDocument
   if (!canTransition() || !doc.startViewTransition || !event) {

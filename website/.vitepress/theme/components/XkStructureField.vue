@@ -2,7 +2,7 @@
 import { computed, onMounted, onUnmounted, ref } from 'vue'
 
 /**
- * The home print: twelve objects that keep re-forming into four arrangements the
+ * The home drawing: twelve objects that keep re-forming into four arrangements the
  * book names — a structure object with its boundary, a chain from local to whole,
  * a feedback loop, and nested scales. A highlighted signal travels the current
  * arrangement. Static for readers who prefer reduced motion.
@@ -172,7 +172,7 @@ onUnmounted(() => {
       />
       <circle v-for="(node, i) in frame.nodes" :key="`n${i}`" class="xk-sf__node" :cx="node.x" :cy="node.y" r="7" :opacity="node.o" />
       <circle class="xk-sf__node is-key" :cx="frame.signal.x" :cy="frame.signal.y" r="6" :opacity="frame.signal.o" />
-      <circle :cx="frame.signal.x" :cy="frame.signal.y" r="14" fill="none" stroke="#ffd447" stroke-width="1" :opacity="frame.signal.o * .5" />
+      <circle class="xk-sf__halo" :cx="frame.signal.x" :cy="frame.signal.y" r="14" :opacity="frame.signal.o * .5" />
       <g v-for="label in frame.labels" :key="label.a.label" :opacity="label.o">
         <path class="xk-sf__label-line" :d="`M${label.a.anchor[0] + 2} ${label.a.anchor[1] + 10}L${label.a.leader[0]} ${label.a.leader[1]}`" />
         <circle :cx="label.a.leader[0]" :cy="label.a.leader[1]" r="2.5" fill="currentColor" />

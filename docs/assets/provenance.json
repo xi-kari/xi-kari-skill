@@ -1,18 +1,35 @@
 {
-  "wallpaper": {
-    "file": "hero-landscape.jpg",
-    "source": "https://xi-kari.com/assets/home-backgrounds/void-01.jpg",
-    "width": 5039,
-    "height": 2160,
-    "sha256": "c7c324841f669a89fbef67f585ddd07a628f08493cb51e5b8ce6a4857ae64f84",
-    "transformation": "Original bytes; display adaptation uses CSS only."
+  "outputs": {
+    "files": [
+      {
+        "file": "outputs-light.png",
+        "sha256": "e4037f43edbc0bec1187c2f291cc5974b18321afe3cde63cd2ddb3c1e5550706"
+      },
+      {
+        "file": "outputs-dark.png",
+        "sha256": "4df3b2b71b69b396918cbe9aa5475a1bc88da2b297546fa37bc9dc645d953de5"
+      }
+    ],
+    "width": 1920,
+    "height": 870,
+    "source": "Written by .github/readme/src/capture.cjs to .github/readme/outputs-light.png and outputs-dark.png, and byte-identical here.",
+    "origin": "Screenshots of pages built in a temporary folder by render_answer.py (Part 1 of the source text), condition_lab.py and comparison.py (the bundled, explicitly fictional teaching examples), framed by .github/readme/src/outputs.html and taken by .github/readme/src/capture.cjs.",
+    "transformation": "Each page is photographed in its own window (the reading page at twice the density) and scaled into its panel; the frame is captured at 1920 by 870 CSS pixels, one device pixel each; an origin note is embedded in each file."
   },
-  "signature": {
-    "source": "https://xi-kari.com/",
-    "implementation": "Original SVG strokes, masks, ornaments and timing from the blog signature component."
+  "socialCard": {
+    "file": "social-card.png",
+    "sha256": "68b9acc193c2e2b1ab6b4e9df2d7d41fd8be3517eb259539286817d47e6851e5",
+    "width": 1200,
+    "height": 630,
+    "origin": "Browser capture of this page's briefing strip and plan view in the day theme with route R2 selected; the download signs, the version number, the baseline date, the question dock and the legs readout are hidden. Taken by .github/readme/src/capture.cjs.",
+    "transformation": "Captured at 1200 by 630 CSS pixels, one device pixel each; an origin note is embedded in the file."
   },
-  "visuals": {
-    "source": "https://xi-kari.com/",
-    "implementation": "Blog Chinese wordmark, icon color field and three-layer tide paths."
+  "fonts": {
+    "record": "fonts/source.json",
+    "license": "fonts/OFL.txt",
+    "origin": "Subsets of Noto Sans SC and Noto Serif SC cut by website/scripts/build_page_fonts.py."
+  },
+  "drawings": {
+    "origin": "The plan view, profile view, hold, compass rose and wind rose are drawn by project.js from the route, module, part and research data published on the page."
   }
 }

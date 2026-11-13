@@ -8,6 +8,7 @@ from collections import Counter
 from pathlib import Path
 import re
 import shutil
+import subprocess
 import sys
 import tempfile
 import unittest
@@ -112,6 +113,9 @@ class HandbookSourceTests(unittest.TestCase):
             if lessons.is_file():
                 (root / "content").mkdir()
                 shutil.copyfile(lessons, root / "content/section-lessons.json")
+                supplements = WEBSITE / "content/lesson-overrides.json"
+                if supplements.is_file():
+                    shutil.copyfile(supplements, root / "content/lesson-overrides.json")
             result = builder.build(root, self.source, WEBSITE / "public/downloads" / f"{builder.TITLE}.docx")
             self.assertEqual(result, self.manifest)
             for record in result["pages"]:
@@ -231,6 +235,68 @@ class HandbookSourceTests(unittest.TestCase):
             self.assertLess(front.index('section="front-scope"'), front.index("## 分部目录"))
             part = (root / "theory/part-03.md").read_text(encoding="utf-8")
             self.assertLess(part.index('section="intro-03-part"'), part.index("## 3.1"))
+
+    def test_every_reading_unit_has_a_lesson_once_supplements_apply(self):
+        imported_bytes = (WEBSITE / "content/section-lessons.json").read_bytes()
+        imported = json.loads(imported_bytes)["lessons"]
+        supplements = json.loads((WEBSITE / "content/lesson-overrides.json").read_text(encoding="utf-8"))
+        units = [unit["lesson_key"] for unit in
+                 json.loads((WEBSITE / "content/reading-units.json").read_text(encoding="utf-8"))["units"]]
+        self.assertEqual(supplements["baseSha256"], hashlib.sha256(imported_bytes).hexdigest())
+        self.assertLessEqual(set(supplements["lessons"]), set(imported) | set(units))
+        self.assertEqual(set(imported) | set(supplements["lessons"]), set(units))
+        self.assertEqual(self.manifest["annotation_sections"], units)
+        for key in set(units) - set(imported):
+            lesson = supplements["lessons"][key]
+            self.assertTrue(lesson.get("title") and lesson.get("lead") and lesson.get("explanation"), key)
+
+    def test_supplement_supplies_the_lesson_for_a_unit_the_import_lacks(self):
+        with tempfile.TemporaryDirectory(prefix="xikari-supplemented-unit-") as directory:
+            root = Path(directory)
+            (root / "content").mkdir()
+            (root / "content/section-lessons.json").write_text('{"lessons":{"3.3":{}}}', encoding="utf-8")
+            (root / "content/lesson-overrides.json").write_text(
+                json.dumps({"baseSha256": "-", "lessons": {"3.3": {"lead": "x"}, "1.5.3": {"title": "y"}}}), encoding="utf-8")
+            manifest = builder.build(root, self.source, WEBSITE / "public/downloads" / f"{builder.TITLE}.docx")
+            self.assertEqual(manifest["annotation_sections"], ["1.5.3", "3.3"])
+            part = (root / "theory/part-01.md").read_text(encoding="utf-8")
+            self.assertLess(part.index("读取记录或完成标记也不证明已经理解。"), part.index('<SectionLesson section="1.5.3" />'))
+            self.assertLess(part.index('<SectionLesson section="1.5.3" />'), part.index("## 1.6 "))
+
+    def test_unknown_supplemented_unit_fails_before_writing_theory_pages(self):
+        with tempfile.TemporaryDirectory(prefix="xikari-unknown-supplement-") as directory:
+            root = Path(directory)
+            (root / "content").mkdir()
+            (root / "content/section-lessons.json").write_text('{"lessons":{"3.3":{}}}', encoding="utf-8")
+            (root / "content/lesson-overrides.json").write_text('{"lessons":{"99.999":{}}}', encoding="utf-8")
+            with self.assertRaisesRegex(ValueError, "Unknown lesson sections"):
+                builder.build(root, self.source, WEBSITE / "public/downloads" / f"{builder.TITLE}.docx")
+            self.assertFalse((root / "theory").exists())
+
+    @unittest.skipUnless(shutil.which("node"), "Node.js is not installed")
+    def test_site_loader_adds_lessons_only_for_listed_reading_units(self):
+        loader = (WEBSITE / "scripts/lesson_data.mjs").as_uri()
+        script = ("import { loadLessons } from %s\n"
+                  "try { console.log(JSON.stringify(loadLessons(process.argv[1]))) }\n"
+                  "catch (error) { console.log(JSON.stringify({ error: error.message })) }\n") % json.dumps(loader)
+        with tempfile.TemporaryDirectory(prefix="xikari-lesson-loader-") as directory:
+            root = Path(directory)
+            (root / "content").mkdir()
+            imported = b'{"lessons":{"3.3":{"title":"a","lead":"b"}}}'
+            (root / "content/section-lessons.json").write_bytes(imported)
+            (root / "content/reading-units.json").write_text(
+                json.dumps({"units": [{"lesson_key": "3.3"}, {"lesson_key": "1.5.3"}]}), encoding="utf-8")
+
+            def load(lessons):
+                (root / "content/lesson-overrides.json").write_text(json.dumps(
+                    {"baseSha256": hashlib.sha256(imported).hexdigest(), "lessons": lessons}), encoding="utf-8")
+                result = subprocess.run(["node", "--input-type=module", "-e", script, str(root)],
+                                        capture_output=True, text=True, encoding="utf-8", check=True)
+                return json.loads(result.stdout)
+
+            self.assertEqual(load({"3.3": {"lead": "c"}, "1.5.3": {"title": "d"}}),
+                             {"3.3": {"title": "a", "lead": "c"}, "1.5.3": {"title": "d"}})
+            self.assertEqual(load({"99.999": {"title": "e"}}), {"error": "Unknown supplemented reading unit: 99.999"})
 
     def test_unknown_lesson_section_fails_before_writing_theory_pages(self):
         with tempfile.TemporaryDirectory(prefix="xikari-unknown-lesson-") as directory:

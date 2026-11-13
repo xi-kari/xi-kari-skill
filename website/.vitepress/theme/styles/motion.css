@@ -1,13 +1,13 @@
-/* Motion answers the reader: turning a sheet, laying down or lifting a tracing,
-   flipping the set into a blueprint. The home print develops once on arrival. */
+/* Motion answers the reader: turning a sheet, opening or folding a lesson,
+   switching between the day and the night chart. The book rose settles once on arrival. */
 
 @keyframes xk-fade-in { from { opacity: 0; } }
 @keyframes xk-draw { from { stroke-dashoffset: var(--len); } }
 @keyframes xk-pop { from { transform: scale(0); opacity: 0; } }
 @keyframes xk-dash { to { stroke-dashoffset: 0; } }
 @keyframes xk-ring { 0% { opacity: .9; transform: scale(1); } 100% { opacity: 0; transform: scale(2.3); } }
-@keyframes xk-exposure { to { --xk-exp: 175%; } }
 @keyframes xk-flow { to { stroke-dashoffset: -18; } }
+@keyframes xk-rose-settle { from { opacity: 0; transform: rotate(-34deg); } 45% { opacity: 1; } }
 @keyframes xk-sheet-enter { from { opacity: 0; transform: translateX(calc(var(--xk-dir, 1) * 28px)); } }
 @keyframes xk-slide-out { to { transform: translateX(calc(var(--xk-dir, 1) * -28px)); } }
 @keyframes xk-slide-in { from { transform: translateX(calc(var(--xk-dir, 1) * 40px)); } }
@@ -36,7 +36,7 @@ html.xk-turning::view-transition-new(root) {
 ::view-transition-group(xk-sheet-no) { overflow: clip; animation: none; }
 ::view-transition-image-pair(xk-sheet-no) { overflow: clip; }
 
-/* theme flip: the blueprint is exposed from the switch outward */
+/* theme switch: the other chart spreads outward from the switch */
 html.xk-theme-flip .xk-topbar, html.xk-theme-flip .xk-nav, html.xk-theme-flip .xk-aside,
 html.xk-theme-flip .xk-nav__marker, html.xk-theme-flip .xk-tb__no .xk-tb__value { view-transition-name: none; }
 html.xk-theme-flip::view-transition-old(root), html.xk-theme-flip::view-transition-new(root) { animation: none; mix-blend-mode: normal; }

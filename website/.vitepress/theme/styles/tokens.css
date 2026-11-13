@@ -1,51 +1,68 @@
 /*
   Xikari handbook — design tokens.
-  Concept: each part of the book is a drawing sheet in one set.
-  Original text is printed on the sheet in Prussian ink; explanations are
-  tracing-paper overlays; structural art is a cyanotype (晒图) print.
-  Night mode turns the whole set into a blueprint.
+  The handbook is the manual behind the project page's approach chart: paper,
+  blue-black ink and cobalt; magenta marks where the reader is; taxiway yellow
+  marks the one thing to notice; red marks what may not be inferred.
+  Night turns the same sheet into a night chart.
 */
 :root {
   color-scheme: light;
 
-  /* paper, ink and lines */
-  --xk-table: #e7ebee;
-  --xk-sheet: #fbfcfc;
-  --xk-sheet-2: #f1f4f6;
-  --xk-ink: #13233f;
-  --xk-ink-2: #45546a;
-  --xk-ink-3: #58677a;
-  --xk-rule: #d3dae2;
-  --xk-rule-2: #b3bfcc;
+  /* paper, ink and rules */
+  --xk-table: #eef2f9;
+  --xk-sheet: #fbfcfe;
+  --xk-sheet-2: #eff3fa;
+  --xk-ink: #0d1b36;
+  --xk-ink-2: #33415e;
+  --xk-ink-3: #56647f;
+  --xk-rule: #ccd5e5;
+  --xk-rule-2: #9aabc8;
 
-  /* cyanotype blue: links, structure, the hero print */
-  --xk-blue: #1f4a8a;
-  --xk-blue-2: #173b72;
-  --xk-blue-wash: #e4ecf7;
-  --xk-field: #1c4279;
-  --xk-field-deep: #13305c;
-  --xk-field-ink: #f2f6fc;
-  --xk-field-line: rgba(242, 246, 252, .82);
+  /* cobalt: links, structure, the station band */
+  --xk-blue: #1f4fc4;
+  --xk-blue-2: #173d9c;
+  --xk-blue-wash: #dbe6fb;
+  --xk-field: #1f4fc4;
+  --xk-field-deep: #173d9c;
+  --xk-field-ink: #ffffff;
+  --xk-field-2: #d6e1ff;
+  --xk-field-line: #7f9be6;
 
-  /* highlighter and caution tape */
-  --xk-marker: #ffd447;
-  --xk-marker-soft: rgba(255, 212, 71, .5);
-  --xk-break: #b4432f;
+  /* where the reader is: the magenta mark, and ink signs for the current tab or setting */
+  --xk-here: #cf1578;
+  --xk-focus: #cf1578;
+  --xk-loc: #0d1b36;
+  --xk-loc-ink: #fbfcfe;
 
-  /* tracing paper */
-  --xk-vellum: rgba(239, 244, 245, .9);
-  --xk-vellum-edge: rgba(31, 74, 138, .2);
-  --xk-vellum-grid: rgba(31, 74, 138, .055);
-  --xk-tape: rgba(255, 226, 140, .78);
+  /* yellow: the one thing to notice. red: what may not be inferred */
+  --xk-marker: #ffd23d;
+  --xk-marker-soft: rgba(255, 210, 61, .62);
+  --xk-on-marker: #111827;
+  --xk-break: #bf241c;
+  --xk-refuse: #bf241c;
+  --xk-refuse-ink: #ffffff;
 
-  --xk-lift: 0 1px 0 rgba(19, 35, 63, .04), 0 18px 34px -26px rgba(19, 35, 63, .45);
+  /* the ground figures are printed on */
+  --xk-plate: #f6f8fb;
+
+  /* explanations sit on a flat tint */
+  --xk-note: #e6eefc;
+  --xk-note-edge: #b7c8ea;
+
+  /* the dark band that closes a page */
+  --xk-dock: #0d1b36;
+  --xk-dock-ink: #eef2fb;
+  --xk-dock-2: #aebbd6;
+  --xk-dock-rule: #2b3b60;
+
   --xk-overlay: rgba(10, 22, 44, .46);
 
   /* type */
   --xk-font-sans: -apple-system, BlinkMacSystemFont, "PingFang SC", "HarmonyOS Sans SC", "MiSans",
     "Microsoft YaHei UI", "Microsoft YaHei", "Noto Sans CJK SC", "Source Han Sans SC", "Noto Sans SC",
     system-ui, sans-serif;
-  --xk-font-fang: "XK Fangsong", "FangSong", "STFangsong", "FangSong_GB2312", "Songti SC", serif;
+  --xk-font-display: "XK Display", "Noto Sans SC", "Source Han Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --xk-font-song: "Noto Serif SC", "Source Han Serif SC", "Songti SC", "STSong", "SimSun", serif;
   --xk-font-code: ui-monospace, "SFMono-Regular", "Cascadia Mono", Consolas, monospace;
   --xk-font-body: var(--xk-font-sans);
   --xk-text: 17px;
@@ -54,11 +71,13 @@
 
   /* layout */
   --xk-bar: 56px;
+  --xk-locator: 38px;
+  --xk-head: var(--xk-bar);
   --xk-nav-w: 272px;
   --xk-aside-w: 236px;
 
   /* motion */
-  --xk-ease: cubic-bezier(.2, .7, .2, 1);
+  --xk-ease: cubic-bezier(.16, 1, .3, 1);
   --xk-ease-in: cubic-bezier(.5, 0, .75, 0);
   --xk-quick: 160ms;
   --xk-panel: 300ms;
@@ -76,7 +95,7 @@
   --vp-local-search-result-bg: transparent;
   --vp-local-search-result-border: var(--xk-rule);
   --vp-local-search-result-selected-bg: var(--xk-blue-wash);
-  --vp-local-search-result-selected-border: var(--xk-blue);
+  --vp-local-search-result-selected-border: var(--xk-ink);
   --vp-local-search-highlight-bg: var(--xk-marker-soft);
   --vp-local-search-highlight-text: var(--xk-ink);
 }
@@ -84,37 +103,44 @@
 .dark {
   color-scheme: dark;
 
-  --xk-table: #0a1630;
-  --xk-sheet: #0f2244;
-  --xk-sheet-2: #142a52;
-  --xk-ink: #e6eef9;
-  --xk-ink-2: #b0bfd6;
-  --xk-ink-3: #8597b2;
-  --xk-rule: #26406c;
-  --xk-rule-2: #365887;
+  --xk-table: #070e1d;
+  --xk-sheet: #0a1326;
+  --xk-sheet-2: #111d39;
+  --xk-ink: #e9effb;
+  --xk-ink-2: #b9c5dd;
+  --xk-ink-3: #8f9db9;
+  --xk-rule: #25365a;
+  --xk-rule-2: #3d5282;
 
-  --xk-blue: #a3c4ff;
-  --xk-blue-2: #c9dcff;
-  --xk-blue-wash: #18346a;
-  --xk-field: #15386c;
-  --xk-field-deep: #0d2852;
+  --xk-blue: #94b4ff;
+  --xk-blue-2: #c4d5ff;
+  --xk-blue-wash: #14264d;
+  --xk-field: #12306f;
+  --xk-field-deep: #0c2254;
+  --xk-field-line: #4766b3;
 
-  --xk-marker: #ffd447;
-  --xk-marker-soft: rgba(255, 212, 71, .36);
-  --xk-break: #ff9b84;
+  --xk-here: #ff5cab;
+  --xk-focus: #ffd23d;
+  --xk-loc: #e9effb;
+  --xk-loc-ink: #0a1326;
 
-  --xk-vellum: rgba(214, 228, 250, .06);
-  --xk-vellum-edge: rgba(214, 228, 250, .2);
-  --xk-vellum-grid: rgba(214, 228, 250, .05);
-  --xk-tape: rgba(255, 212, 71, .5);
+  --xk-marker-soft: rgba(255, 210, 61, .32);
+  --xk-break: #ff8f85;
+  --xk-refuse: #b3261e;
+  --xk-plate: #0f1b36;
 
-  --xk-lift: 0 18px 40px -28px rgba(0, 0, 0, .8);
+  --xk-note: #101e3d;
+  --xk-note-edge: #2a4175;
+
+  --xk-dock: #050b18;
+  --xk-dock-rule: #223257;
+
   --xk-overlay: rgba(3, 10, 24, .66);
 }
 
 html.xk-size-s { --xk-text: 16px; }
 html.xk-size-l { --xk-text: 19px; --xk-leading: 1.95; }
-html.xk-body-fang { --xk-font-body: var(--xk-font-fang); --xk-leading: 1.95; }
+html.xk-body-song { --xk-font-body: var(--xk-font-song); --xk-leading: 1.95; }
 
 @media (max-width: 760px) {
   :root { --xk-text: 16.5px; --xk-bar: 52px; }

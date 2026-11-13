@@ -1,43 +1,43 @@
-"""Cut the handbook's display face into small unicode-range slices.
+"""Subset the handbook's display face.
 
-The handbook sets titles, lesson headings and the optional Fangsong reading
-mode in Zhuque Fangsong (SIL OFL 1.1). The full font is several megabytes, so
-this script keeps the characters the site actually uses plus the 3,755 common
-characters of GB 2312 level 1, orders them by how often they appear in the
-site, and writes one WOFF2 file per slice. Browsers download only the slices
-whose characters appear on the page being read.
+Titles, strip numbers, signs and the theme's fixed headings are set in a heavy
+sans cut from Noto Sans SC (SIL OFL 1.1) at weight 900. The subset holds the
+characters of the theme's own strings, the book index, and every first- and
+second-level heading, so one small file serves the whole site. Body text,
+quotations and lesson content use the reader's system fonts.
 
-Run it again after a large batch of new lessons introduces new characters:
+Rebuild after headings, index titles or theme strings gain new characters:
 
-    python website/scripts/build_fonts.py --font <ZhuqueFangsong-Regular.ttf>
+    python website/scripts/build_fonts.py --font <NotoSansSC-VF.ttf>
 
-Requires fontTools with WOFF2 support (`pip install fonttools brotli`).
-Source font: https://github.com/TrionesType/zhuque/releases (v0.212).
+Without `--font` the script looks for that file in the operating system's font
+directory. `--check` only reads: it reports characters the committed subset
+does not cover and changes nothing.
+
+Building requires fontTools with WOFF2 support (`pip install fonttools brotli`).
+Source font: https://github.com/notofonts/noto-cjk
 """
 
 from __future__ import annotations
 
 import argparse
-from collections import Counter
+import hashlib
+import json
+import os
 from pathlib import Path
-
-from fontTools import subset
-from fontTools.ttLib import TTFont
+import sys
 
 
 WEBSITE = Path(__file__).resolve().parents[1]
 THEME = WEBSITE / ".vitepress" / "theme"
 FONT_DIR = THEME / "fonts"
 CSS_PATH = THEME / "styles" / "fonts.css"
-FAMILY = "XK Fangsong"
-PREFIX = "xk-fangsong"
-FIRST_SLICE = 260
-SITE_SLICE = 300
-COMMON_SLICE = 420
-SOURCES = ("**/*.md", "content/*.json", ".vitepress/**/*.vue", ".vitepress/**/*.ts",
-           ".vitepress/**/*.mts", ".vitepress/**/*.json")
-BASE_RANGES = [(0x20, 0x7E), (0xA0, 0xFF), (0x2010, 0x2027), (0x2030, 0x205E),
-               (0x2190, 0x21FF), (0x2200, 0x22FF), (0x3000, 0x303F), (0xFF01, 0xFF5E)]
+RECORD = FONT_DIR / "source.json"
+FAMILY = "XK Display"
+FILE = "xk-display.woff2"
+WEIGHT = 900
+ASCII = "".join(chr(code) for code in range(0x20, 0x7F))
+PUNCTUATION = "，。：；、？！“”‘’《》（）〈〉【】·—–…→≠§"
 
 
 def is_cjk(char: str) -> bool:
@@ -45,105 +45,137 @@ def is_cjk(char: str) -> bool:
     return 0x3400 <= code <= 0x4DBF or 0x4E00 <= code <= 0x9FFF or 0xF900 <= code <= 0xFAFF
 
 
-def gb2312_level1() -> list[str]:
-    chars = []
-    for high in range(0xB0, 0xD8):
-        for low in range(0xA1, 0xFF):
-            try:
-                chars.append(bytes([high, low]).decode("gb2312"))
-            except UnicodeDecodeError:
-                continue
-    return chars
-
-
-def site_frequency() -> Counter[str]:
-    counts: Counter[str] = Counter()
-    seen: set[Path] = set()
-    for pattern in SOURCES:
-        for path in WEBSITE.glob(pattern):
-            if "node_modules" in path.parts or path in seen or not path.is_file():
-                continue
-            seen.add(path)
-            counts.update(char for char in path.read_text(encoding="utf-8") if is_cjk(char))
-    return counts
-
-
-def ranges(codes: list[int]) -> str:
-    codes = sorted(set(codes))
-    spans, start, prev = [], codes[0], codes[0]
-    for code in codes[1:]:
-        if code == prev + 1:
-            prev = code
+def needed_characters() -> str:
+    """Every character the site sets in the display face."""
+    chars = set(ASCII) | set(PUNCTUATION)
+    theme_files = [path for pattern in ("*.vue", "*.ts") for path in THEME.rglob(pattern)]
+    theme_files += [WEBSITE / ".vitepress" / "config.mts", WEBSITE / ".vitepress" / "theory-sidebar.json"]
+    for path in theme_files:
+        chars.update(char for char in path.read_text(encoding="utf-8") if is_cjk(char))
+    for path in WEBSITE.rglob("*.md"):
+        if "node_modules" in path.parts or path.name == "LESSONS.md":
             continue
-        spans.append((start, prev))
-        start = prev = code
-    spans.append((start, prev))
-    return ", ".join(f"U+{a:X}" if a == b else f"U+{a:X}-{b:X}" for a, b in spans)
+        for line in path.read_text(encoding="utf-8").splitlines():
+            if line.startswith("# ") or line.startswith("## "):
+                chars.update(char for char in line.lstrip("# ") if not char.isspace())
+    return "".join(sorted(chars))
 
 
-def slices(font_codes: set[int]) -> list[list[int]]:
-    frequency = site_frequency()
-    site = [char for char, _ in sorted(frequency.items(), key=lambda item: (-item[1], item[0]))]
-    # rarely needed characters follow in code-point order, which keeps their unicode-range short
-    common = sorted((char for char in gb2312_level1() if char not in frequency), key=ord)
-    base = [code for low, high in BASE_RANGES for code in range(low, high + 1) if code in font_codes]
-    ordered = [ord(char) for char in site + common if ord(char) in font_codes]
-    result = [base + ordered[:FIRST_SLICE]]
-    rest = ordered[FIRST_SLICE:]
-    site_left = max(0, len([c for c in site if ord(c) in font_codes]) - FIRST_SLICE)
-    for start in range(0, site_left, SITE_SLICE):
-        result.append(rest[start:min(start + SITE_SLICE, site_left)])
-    for start in range(site_left, len(rest), COMMON_SLICE):
-        result.append(rest[start:start + COMMON_SLICE])
-    return [chunk for chunk in result if chunk]
+def missing_characters(record: dict) -> str:
+    covered = set(record["characters"])
+    return "".join(char for char in needed_characters() if char not in covered)
 
 
-def build(font_path: Path) -> list[tuple[str, list[int], int]]:
-    font = TTFont(font_path)
-    font_codes = set(font.getBestCmap())
-    version = font["name"].getDebugName(5) or "unknown version"
+def sha256(path: Path) -> str:
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def system_font(name: str) -> Path | None:
+    roots = [Path(os.environ[key]) / "Fonts" for key in ("WINDIR", "SystemRoot") if os.environ.get(key)]
+    roots += [Path("/usr/share/fonts"), Path("/Library/Fonts"), Path.home() / "Library" / "Fonts"]
+    for root in roots:
+        if root.is_dir():
+            for found in root.rglob(name):
+                return found
+    return None
+
+
+def build(source: Path) -> dict:
+    from fontTools import subset
+    from fontTools.ttLib import TTFont
+    from fontTools.varLib import instancer
+
+    characters = needed_characters()
+    font = TTFont(source, recalcTimestamp=False)
+    names = font["name"]
+    origin = {
+        "family": names.getDebugName(1),
+        "version": names.getDebugName(5),
+        "copyright": names.getDebugName(0),
+        "sha256": sha256(source),
+    }
+    options = subset.Options()
+    options.layout_features = ["kern", "locl", "ccmp", "mark", "mkmk"]
+    options.name_IDs = [0, 1, 2, 3, 4, 5, 6, 13, 14]
+    options.name_languages = ["*"]
+    options.notdef_outline = True
+    options.glyph_names = False
+    options.hinting = False
+    options.desubroutinize = True
+    options.drop_tables += ["DSIG", "vhea", "vmtx", "VORG", "BASE"]
+    cutter = subset.Subsetter(options)
+    cutter.populate(text=characters)
+    cutter.subset(font)
+    font = instancer.instantiateVariableFont(font, {"wght": WEIGHT})
+    for entry in list(font["name"].names):
+        if entry.nameID in (1, 4, 16):
+            font["name"].setName(FAMILY, entry.nameID, entry.platformID, entry.platEncID, entry.langID)
+        elif entry.nameID == 6:
+            font["name"].setName(FAMILY.replace(" ", ""), 6, entry.platformID, entry.platEncID, entry.langID)
+        elif entry.nameID in (2, 17):
+            font["name"].setName("Regular", entry.nameID, entry.platformID, entry.platEncID, entry.langID)
+    font["OS/2"].usWeightClass = WEIGHT
+    font.flavor = "woff2"
     FONT_DIR.mkdir(parents=True, exist_ok=True)
-    for old in FONT_DIR.glob(f"{PREFIX}-*.woff2"):
+    for old in FONT_DIR.glob("xk-fangsong-*.woff2"):
         old.unlink()
-    written = []
-    for index, codes in enumerate(slices(font_codes)):
-        options = subset.Options()
-        options.flavor = "woff2"
-        options.hinting = False
-        options.desubroutinize = True
-        options.name_IDs = [0, 1, 2, 3, 4, 5, 6, 13, 14]
-        options.layout_features = ["kern", "palt", "halt", "locl", "ccmp"]
-        subsetter = subset.Subsetter(options)
-        subsetter.populate(unicodes=codes)
-        piece = TTFont(font_path)
-        subsetter.subset(piece)
-        name = f"{PREFIX}-{index:02}.woff2"
-        piece.flavor = "woff2"
-        piece.save(FONT_DIR / name)
-        written.append((name, codes, (FONT_DIR / name).stat().st_size))
-    faces = [f"/* Generated by website/scripts/build_fonts.py from Zhuque Fangsong {version}.\n"
-             f"   SIL Open Font License 1.1, see public/licenses/ZhuqueFangsong-OFL.txt. */"]
-    for name, codes, _ in written:
-        faces.append("@font-face {\n"
-                     f"  font-family: \"{FAMILY}\";\n  font-style: normal;\n  font-weight: 400;\n"
-                     "  font-display: swap;\n"
-                     f"  src: url(\"../fonts/{name}\") format(\"woff2\");\n"
-                     f"  unicode-range: {ranges(codes)};\n}}")
-    CSS_PATH.parent.mkdir(parents=True, exist_ok=True)
-    CSS_PATH.write_text("\n".join(faces) + "\n", encoding="utf-8")
-    return written
+    target = FONT_DIR / FILE
+    font.save(target)
+    covered = set(chr(code) for code in font.getBestCmap())
+    record = {
+        "license": "SIL Open Font License 1.1",
+        "licenseFile": "public/licenses/NotoSansSC-OFL.txt",
+        "family": FAMILY,
+        "file": FILE,
+        "weight": WEIGHT,
+        "bytes": target.stat().st_size,
+        "sha256": sha256(target),
+        "source": origin,
+        "characters": "".join(char for char in characters if char in covered),
+    }
+    RECORD.write_text(json.dumps(record, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    CSS_PATH.write_text(
+        f"/* Generated by website/scripts/build_fonts.py from {origin['family']} {origin['version']}.\n"
+        "   SIL Open Font License 1.1, see public/licenses/NotoSansSC-OFL.txt. */\n"
+        "@font-face {\n"
+        f"  font-family: \"{FAMILY}\";\n  font-style: normal;\n  font-weight: {WEIGHT};\n"
+        "  font-display: swap;\n"
+        f"  src: url(\"../fonts/{FILE}\") format(\"woff2\");\n}}\n",
+        encoding="utf-8",
+    )
+    return record
 
 
-def main() -> None:
+def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
-    parser.add_argument("--font", type=Path, required=True, help="ZhuqueFangsong-Regular.ttf")
+    parser.add_argument("--font", type=Path, help="Noto Sans SC variable font")
+    parser.add_argument("--check", action="store_true", help="report uncovered characters and change nothing")
     args = parser.parse_args()
-    written = build(args.font)
-    total = sum(size for _, _, size in written)
-    for name, codes, size in written:
-        print(f"{name}: {len(codes):4} characters, {size / 1024:6.1f} KiB")
-    print(f"{len(written)} slices, {total / 1024:.0f} KiB in total")
+
+    if args.check:
+        record = json.loads(RECORD.read_text(encoding="utf-8"))
+        gap = missing_characters(record)
+        stale = sha256(FONT_DIR / record["file"]) != record["sha256"]
+        if gap:
+            print(f"{len(gap)} uncovered: {gap}")
+        if stale:
+            print(f"{record['file']}: bytes differ from source.json")
+        if not gap and not stale:
+            print("the display subset covers every character set in it")
+        return 1 if gap or stale else 0
+
+    source = args.font or system_font("NotoSansSC-VF.ttf")
+    if not source or not source.is_file():
+        print("source font not found; pass --font", file=sys.stderr)
+        return 2
+    record = build(source)
+    needed = needed_characters()
+    print(f"{record['file']}: {len(record['characters'])} characters, {record['bytes']} bytes")
+    absent = "".join(char for char in needed if char not in set(record["characters"]))
+    if absent:
+        print(f"not in the source font: {absent}")
+    return 0
 
 
 if __name__ == "__main__":
-    main()
+    raise SystemExit(main())

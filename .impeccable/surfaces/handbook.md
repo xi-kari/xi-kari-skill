@@ -1,5 +1,5 @@
 ---
-version: 2
+version: 3
 slug: handbook
 primary_target: website/index.md
 related_targets: [website/.vitepress/theme/Layout.vue, website/.vitepress/theme/styles/tokens.css, website/.vitepress/theme/components/lesson/SectionLesson.vue, website/LESSONS.md, docs/handbook/index.html]
@@ -11,22 +11,22 @@ Primary target: `website/`
 
 Related targets: `docs/handbook/`
 
-Mode: Read.
+Mode: Read. Reading pages follow the complete original text in order; each explanation sits directly after the section it explains. Source text is generated from the authoritative manuscript and never edited by the theme; teaching examples are identified; historical reports are not relabeled as current analyses.
 
-Purpose: Help readers understand the entire original work through section-by-section reading, with explanations, diagrams and sourced cases immediately following the corresponding original section.
+## Direction contract
 
-North star: "One set of drawings." Each part of the book is a sheet in a drawing set. The original text is printed on the sheet in Prussian ink; explanations are tracing-paper overlays laid on top; structural art is a cyanotype print. Night mode turns the whole set into a blueprint.
+THESIS: The handbook is the manual behind the approach chart: every sheet of the book is a flight progress strip, worked in order. It refuses the documentation-site default of a logo bar, a sidebar tree and prose cards.
 
-Composition: The home page opens with a single cyanotype print: the book title in Fangsong, an animated structure drawing that re-forms into four arrangements the book names (structure object, local and whole chain, effective feedback, cross-scale transformation), and a drawing title block with title, author, text date and structure. Below it: the opening paragraph quoted exactly, the sixteen parts and four appendices as a four-column drawing index, every written lesson, real cases and downloads. Reading pages use a custom VitePress theme: a book index on the left (sheet numbers, collapsible groups, yellow dots where lessons exist), the sheet in the middle inside a double drawing frame with zone ticks, and the page outline with reading settings on the right. Theory pages open with a title block (number, group, length, lessons, a small structure sigil generated from the sheet number). Section numbers hang in the margin; part titles carry their prefix as a kicker.
+OWN-WORLD: The project page's chart system, set for long reading: paper, blue-black ink, cobalt, a magenta mark for where the reader is, taxiway yellow for the one thing to notice, red for what may not be inferred. Strips with ruled cells carry numbers, lengths and counts; explanations sit on a flat cobalt tint; assumed material is dashed, sourced material solid.
 
-Lessons: Each lesson is a tracing-paper sheet (faint grid, drafting tape, detail-callout bubble with the section number). Every module has its own drafting convention: steps as a dimension chain, distinctions as a section cut with a yellow ≠ seam, teaching scenarios dashed (assumed), real cases solid with a folded corner and a separate source box (sourced), limits behind caution tape, questions as numbered checks with expanding answers. Field reference: `website/LESSONS.md`. Each page carries only its own lessons; the site ships a small index of where lessons are.
+STORY: The reader sees the whole book as twenty strips, opens one, reads the original in sequence, opens the explanation attached to a section, and always knows which sheet and section they are on.
 
-Type: Zhuque Fangsong (SIL OFL 1.1, subset into unicode-range slices by `website/scripts/build_fonts.py`) for titles, lesson headings and an optional Fangsong reading mode; the system sans stack for body text and interface. Fangsong is the lettering of Chinese engineering drawings, which is why it carries the titles.
+FIRST VIEWPORT: Home: a cobalt station band with the book title at display scale beside the compass rose of sixteen parts, four appendices and thirty-two domains, the identity strip under it, and the first bay of strips rising into view. Reading page: the page's own strip (number, group, length, explanations, position on the rose) above the part title.
 
-Color: cool paper `#fbfcfc` on a drafting table `#e7ebee`, Prussian ink `#13233f`, cyanotype blue `#1f4a8a` / print field `#1c4279`, highlighter yellow `#ffd447` for the one thing to notice. Night: table `#0a1630`, sheet `#0f2244`, ink `#e6eef9`, links `#a3c4ff`.
+FORM: Flight progress strips, candidate 7 of 7 on the grounded list; seed 7f61b948. Code-led, inside the world of `docs/index.html`. Signature interaction: the rose and the strip rack are one index, and moving between sheets turns the sheet while the marker travels down the rack.
 
-Motion: Motion answers the reader. Moving between pages turns the sheet (View Transitions: the old sheet slides out as it fades, the new one slides in from the side it lies on in the book; top bar, index and outline stay still; the sheet number rolls like an odometer; the index marker glides). The theme switch exposes the blueprint from the button outward. Source-only reading lifts the tracing paper off and folds it away. Models animate the connection that just changed. Figures zoom from their place. The home print develops once on arrival and its structure drawing pauses when out of view. Reduced motion removes all of it.
+FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance
 
-Interaction: Search (Ctrl/⌘ K or /), section links, collapsible index, outline scroll-spy, reading settings that persist (source only, text size, Fangsong body), copy link, figure zoom, three interactive teaching models. Keyboard use, narrow screens (index drawer, outline bottom sheet), reduced motion, print and dark mode keep full content.
+## Reading aids kept
 
-Content authority: Source text is generated from the authoritative manuscript and never edited by the theme; heading numbers are wrapped in spans for layout only. Editorial pages link their source sections. Teaching examples are identified; historical reports are not relabeled as current analyses.
+Search (Ctrl/⌘ K or /), section links, collapsible rack, outline scroll-spy, persistent reading settings (source only, text size, body face), copy link, figure zoom, three interactive teaching models, index drawer and outline sheet on narrow screens, print and night themes. Field reference for lessons: `website/LESSONS.md`.

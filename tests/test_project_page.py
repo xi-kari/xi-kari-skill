@@ -2,6 +2,7 @@
 
 import hashlib
 from html.parser import HTMLParser
+import importlib.util
 import json
 from pathlib import Path
 import re
@@ -198,18 +199,93 @@ class ProjectPageTests(unittest.TestCase):
         self.assertNotIn('https://github.com/xi-kari/xi-kari-skill#安装', links)
         self.assertIn('Windows', self.html)
 
-    def test_original_artwork_and_icon_counts_are_preserved(self):
-        marks = self.page.find('data-field-mark')
-        self.assertEqual(len(marks), 96)
-        self.assertEqual(sum(m.attrs.get('data-field-compact') == 'true' for m in marks), 48)
-        masks = [node for node in self.page.elements if node.tag == 'mask']
-        self.assertEqual(sum('signature-latin-' in node.attrs.get('id', '') for node in masks), 23)
-        self.assertEqual(sum('signature-dawn-' in node.attrs.get('id', '') for node in masks), 3)
-        provenance = json.loads((DOCS / 'assets/provenance.json').read_text(encoding='utf-8'))['wallpaper']
-        self.assertEqual(hashlib.sha256((DOCS / 'assets' / provenance['file']).read_bytes()).hexdigest(), provenance['sha256'])
+    def test_route_table_matches_skill_routing(self):
+        skill = (ROOT / 'SKILL.md').read_text(encoding='utf-8')
+        routes = {m.group(1): m for m in re.finditer(r'^\| (R\d) ([^|]+?) \| [^|]+ \| ([^|]+) \| ([^|]+) \|$', skill, re.M)}
+        self.assertEqual(sorted(routes), [f'R{n}' for n in range(1, 8)])
+        rows = {node.attrs['data-route']: node for node in self.page.elements if node.tag == 'tr' and 'data-route' in node.attrs}
+        self.assertEqual(set(rows), set(routes))
+        for route, match in routes.items():
+            with self.subTest(route=route):
+                row = rows[route]
+                self.assertEqual(row.attrs['data-name'], match.group(2).strip())
+                self.assertEqual([leg.rstrip('?') for leg in row.attrs['data-legs'].split()], re.findall(r'M\d', match.group(3)))
+                self.assertIn(re.split(r'[，；]', match.group(4).strip())[0], row.text())
+        asked = [node.attrs['data-route'] for node in self.page.elements if node.tag == 'button' and 'data-route' in node.attrs]
+        self.assertEqual(asked, sorted(routes))
+
+    def test_module_list_matches_skill_modules(self):
+        skill = (ROOT / 'SKILL.md').read_text(encoding='utf-8')
+        modules = re.findall(r'^\| \[(M\d) ([^\]]+)\]\(modules/([a-z-]+)/MODULE\.md\) \|', skill, re.M)
+        self.assertEqual([code for code, _, _ in modules], [f'M{n}' for n in range(10)])
+        items = [node for node in self.page.elements if node.tag == 'li' and 'data-module' in node.attrs]
+        self.assertEqual([node.attrs['data-module'] for node in items], [code for code, _, _ in modules])
+        for (code, name, folder), node in zip(modules, items):
+            with self.subTest(module=code):
+                self.assertEqual(next(node.descendants('h3')).text(), name)
+                self.assertTrue(next(node.descendants('a')).attrs['href'].endswith(f'/modules/{folder}/MODULE.md'))
+                self.assertTrue((ROOT / 'modules' / folder / 'MODULE.md').is_file())
+
+    def test_source_facts_on_the_page_match_the_manuscript(self):
+        baseline = self.page.find('data-baseline-date')[0]
+        self.assertEqual(baseline.attrs['datetime'], self.status['theory']['baselineDate'])
+        self.assertEqual(baseline.text(), self.status['theory']['baselineDate'].replace('-', '.'))
+        quotes = [node for node in self.page.elements if 'song' in node.attrs.get('class', '').split()]
+        self.assertTrue(quotes)
+        for quote in quotes:
+            self.assertIn(quote.text().strip(), self.source_text)
+        parts = [node for node in self.page.find('data-parts')[0].descendants('a')]
+        self.assertEqual(len(parts), self.status['theory']['mainParts'] + self.status['theory']['appendices'])
+        contents = re.findall(r'^\[(?:第.+?部分|附录[A-D])[\s　]*(.+?)\]\(#part_\d+\)$', self.source_text, re.M)
+        self.assertEqual([re.sub(r'^[0-9A-D]+', '', node.text()) for node in parts], contents)
+
+    def test_page_assets_keep_their_recorded_identity(self):
+        provenance = json.loads((DOCS / 'assets/provenance.json').read_text(encoding='utf-8'))
+        for item in provenance['outputs']['files'] + [provenance['socialCard']]:
+            with self.subTest(file=item['file']):
+                self.assertEqual(hashlib.sha256((DOCS / 'assets' / item['file']).read_bytes()).hexdigest(), item['sha256'])
+        fonts = json.loads((DOCS / 'assets' / provenance['fonts']['record']).read_text(encoding='utf-8'))
+        for face in fonts['faces'].values():
+            with self.subTest(font=face['file']):
+                data = (DOCS / 'assets/fonts' / face['file']).read_bytes()
+                self.assertEqual((hashlib.sha256(data).hexdigest(), len(data)), (face['sha256'], face['bytes']))
+        self.assertIn('SIL OPEN FONT LICENSE', (DOCS / 'assets' / provenance['fonts']['license']).read_text(encoding='utf-8'))
+        css = (DOCS / 'assets/project.css').read_text(encoding='utf-8')
+        local = [node.attrs[key] for node in self.page.elements for key in ('src', 'href') if node.attrs.get(key, '').startswith('./assets/')]
+        local += ['./assets/' + path for path in re.findall(r'url\("\./([^"]+)"\)', css)]
+        local.append('./assets/' + next(node.attrs['content'] for node in self.page.elements if node.attrs.get('property') == 'og:image').rsplit('/assets/', 1)[1])
+        self.assertGreater(len(local), 6)
+        for path in local:
+            with self.subTest(asset=path):
+                self.assertTrue((DOCS / path).is_file())
+
+    def test_bundled_fonts_cover_the_text_set_in_them(self):
+        spec = importlib.util.spec_from_file_location('build_page_fonts', ROOT / 'website/scripts/build_page_fonts.py')
+        builder = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(builder)
+        record = json.loads((DOCS / 'assets/fonts/source.json').read_text(encoding='utf-8'))
+        self.assertEqual([page.name for page in builder.PAGES], ['index.html', '404.html'])
+        for page in builder.PAGES:
+            with self.subTest(page=page.name):
+                self.assertEqual(builder.missing_characters(page.read_text(encoding='utf-8'), record), {})
+
+    def test_not_found_page_leads_back_into_the_site(self):
+        lost = Page((DOCS / '404.html').read_text(encoding='utf-8'))
+        self.assertEqual([node.attrs['content'] for node in lost.find('name', 'robots')], ['noindex'])
+        links = [node.attrs['href'] for node in lost.elements if node.tag == 'a' and node.attrs.get('href', '').startswith('/')]
+        self.assertEqual(sorted(set(links)), ['/xi-kari-skill/', '/xi-kari-skill/handbook/'])
+        local = [node.attrs[key] for node in lost.elements for key in ('src', 'href') if node.attrs.get(key, '').startswith('/xi-kari-skill/assets/')]
+        self.assertEqual(sorted(local), ['/xi-kari-skill/assets/favicon.svg', '/xi-kari-skill/assets/project.css'])
+        for path in local:
+            with self.subTest(asset=path):
+                self.assertTrue((DOCS / path.removeprefix('/xi-kari-skill/')).is_file())
+        script = ''.join(node.text() for node in lost.elements if node.tag == 'script')
+        self.assertIn("'/xi-kari-skill/handbook/'", script)
+        self.assertTrue((DOCS / 'handbook/404.html').is_file())
+        self.assertEqual(len(list(lost.root.descendants('h1'))), 1)
 
     def test_public_page_does_not_embed_machine_specific_locations(self):
-        for relative in ('index.html', 'assets/project.js', 'data/research-status.json', 'data/research-topics.json', 'data/research-outline.md'):
+        for relative in ('index.html', 'assets/project.js', 'assets/provenance.json', 'assets/fonts/source.json', 'data/research-status.json', 'data/research-topics.json', 'data/research-outline.md'):
             with self.subTest(file=relative):
                 text = (DOCS / relative).read_text(encoding='utf-8')
                 self.assertNotRegex(text, r'(?<![A-Za-z])[A-Za-z]:[/\\]|file://|xi-kari-runs|threadId|run-2026')
