@@ -24,8 +24,13 @@ const server = http.createServer((request, response) => {
       const errors = [];
       page.on('pageerror', error => errors.push(error.message));
       await page.goto(`http://127.0.0.1:${server.address().port}/reader.html`);
-      const article = page.locator('#document');
-      const original = await article.textContent();
+      // the document's own text; the plate under the title is page furniture and reports the reading position
+      const text = () => page.evaluate(() => {
+        const copy = document.getElementById('document').cloneNode(true);
+        copy.querySelectorAll('[data-reader-chrome]').forEach(node => node.remove());
+        return copy.textContent;
+      });
+      const original = await text();
       const formulas = await page.locator('.katex').count();
       const search = page.locator('#reader-search');
       const status = page.locator('#search-status');
@@ -34,7 +39,7 @@ const server = http.createServer((request, response) => {
         await search.fill(query);
         await search.press('Enter');
         assert.equal(await status.innerText(), expected, `${viewport.width}px: ${message}`);
-        assert.equal(await article.textContent(), original, 'Highlighting must preserve the original text, including whitespace.');
+        assert.equal(await text(), original, 'Highlighting must preserve the original text, including whitespace.');
         assert.equal(await page.locator('.katex').count(), formulas, 'Searching must preserve rendered formulas.');
       }
       assert.equal(await page.locator('#document > p').first().innerText(), 'Alpha beta is continuous visible prose.');
@@ -73,7 +78,7 @@ const server = http.createServer((request, response) => {
       await search.press('Escape');
       assert.equal(await status.textContent(), '');
       assert.equal(await page.locator('mark[data-match], [data-math-match], .current-match').count(), 0);
-      assert.equal(await article.textContent(), original, 'Clearing highlights must restore the original text exactly.');
+      assert.equal(await text(), original, 'Clearing highlights must restore the original text exactly.');
       assert.equal(await page.locator('#previous-match').isDisabled(), true);
       assert.equal(await page.locator('#next-match').isDisabled(), true);
       assert.deepEqual(errors, []);

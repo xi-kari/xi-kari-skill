@@ -4,6 +4,10 @@ Uses only Python's standard library. Supports headings, paragraphs, emphasis,
 links, local images, nested lists, quotes, pipe tables, footnotes, and code.
 Explicit formulas use bundled KaTeX in the generated browser document.
 Other Markdown extensions remain literal text; the original bytes are downloadable.
+
+The page draws the document as a track chart: each section is a fix placed at its
+measured distance, and the reader's position is flown along it. Everything the
+chart shows is counted from the rendered text; nothing is added to the text itself.
 """
 
 from __future__ import annotations
@@ -27,11 +31,16 @@ sys.dont_write_bytecode = True
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 try:
     from xikari_paths import require_external_output
+    from xikari_page import DOWNLOAD, STATION, foundation, icon
 finally:
     sys.path.pop(0)
 
 
 ASSETS = Path(__file__).resolve().parents[1] / 'assets'
+HAN = re.compile(r'[\u3400-\u4dbf\u4e00-\u9fff\uf900-\ufaff]')
+WORD = re.compile(r"[A-Za-z]+(?:['’-][A-Za-z]+)*|\d+(?:[.,]\d+)*")
+TAG = re.compile(r'<[^>]+>')
+TITLE_BLOCK = re.compile(r'\s*<span class="legacy-anchor"[^>]*></span><h1 [^>]*>.*?</h1>', re.S)
 HEADING = re.compile(r'^ {0,3}(#{1,6})(?:\s+|$)(.*?)\s*$')
 FENCE = re.compile(r'^ {0,3}(`{3,}|~{3,})([^\n]*)$')
 LIST = re.compile(r'^( {0,3})([-+*]|\d+[.)])([ \t]+)(.*)$')
@@ -51,6 +60,11 @@ HEADING_NUMBER = re.compile(
     ')[ \\t\\u3000]*'
 )
 TITLE_BREAKS = ('：', '——')
+NUMBER_END = '、．.:： \t\u3000'
+FIX_MARK = ('<svg class="fix-mark" viewBox="0 0 12 12" aria-hidden="true" focusable="false">'
+            '<path d="M6 1.5 11 10.3H1Z"/></svg>')
+ENTRY_MARK = ('<svg class="entry-mark" viewBox="0 0 12 12" aria-hidden="true" focusable="false">'
+              '<circle cx="6" cy="6" r="3.7"/></svg>')
 
 
 def escape(value: str) -> str:
@@ -124,6 +138,37 @@ LABELS = {
         'noscript': '正文、目录、脚注和原文下载仍可使用，公式保留原式。浏览器内搜索与打印可通过 Ctrl+F、Ctrl+P 打开。',
         'same_file': '输入与输出不能是同一个文件',
         'failed': '阅读版生成失败：',
+        'overview': '全文概览',
+        'strip_time': '读完约',
+        'strip_length': '篇幅',
+        'strip_sections': '章节',
+        'strip_figures': '图表',
+        'strip_notes': '脚注',
+        'unit_minute': '分钟',
+        'unit_hour': '小时',
+        'length_wan': '约 {n} 万字',
+        'length_plain': '约 {n} 字',
+        'opening': '开篇',
+        'section_value': '{n} 节',
+        'sections_value': '{n} 节',
+        'subsection_value': '{n} 小节',
+        'subsections_value': '{n} 小节',
+        'tables_value': '表 {n}',
+        'figures_value': '图 {n}',
+        'formulas_value': '式 {n}',
+        'notes_value': '{n} 条',
+        'join': ' · ',
+        'rack_unit': '字',
+        'rack_unit_thousands': '千字',
+        'unfold': '展开全部小节',
+        'resume': '继续阅读',
+        'face': '正文用宋体',
+        'face_title': '正文在黑体与宋体之间切换',
+        'keys': '键盘',
+        'keys_search': '搜索',
+        'keys_sections': '上一节、下一节',
+        'keys_close': '关闭',
+        'face_specimen': '文',
     },
     'en': {
         'html_lang': 'en',
@@ -156,7 +201,7 @@ LABELS = {
         'skip': 'Skip to the text',
         'contents': 'Contents',
         'sections': 'Sections and clauses',
-        'download': 'Download the Markdown original',
+        'download': 'Download Markdown',
         'tools': 'Reading tools',
         'open_contents': 'Open contents',
         'search': 'Search the text',
@@ -191,8 +236,48 @@ LABELS = {
         'noscript': 'The text, contents, footnotes and Markdown download still work, and formulas are kept as written. Use Ctrl+F to search and Ctrl+P to print.',
         'same_file': 'Input and output must not be the same file',
         'failed': 'Reading page could not be generated: ',
+        'overview': 'Overview of the text',
+        'strip_time': 'Reading time',
+        'strip_length': 'Length',
+        'strip_sections': 'Sections',
+        'strip_figures': 'Tables and figures',
+        'strip_notes': 'Footnotes',
+        'unit_minute': 'min',
+        'unit_hour': 'hr',
+        'length_wan': 'About {n} words',
+        'length_plain': 'About {n} words',
+        'opening': 'Start',
+        'section_value': '{n} section',
+        'sections_value': '{n} sections',
+        'subsection_value': '{n} subsection',
+        'subsections_value': '{n} subsections',
+        'tables_value': 'Tables {n}',
+        'figures_value': 'Figures {n}',
+        'formulas_value': 'Formulas {n}',
+        'notes_value': '{n}',
+        'join': ' · ',
+        'rack_unit': 'words',
+        'rack_unit_thousands': 'k words',
+        'unfold': 'Unfold every subsection',
+        'resume': 'Continue reading',
+        'face': 'Set the text in a serif face',
+        'face_title': 'Switch the text between sans and serif',
+        'keys': 'Keyboard',
+        'keys_search': 'search',
+        'keys_sections': 'previous and next section',
+        'keys_close': 'close',
+        'face_specimen': 'Ag',
     },
 }
+# Labels the page sets in the display cut. `website/scripts/build_output_fonts.py` cuts the face to them.
+DISPLAY_KEYS = ('ask_here', 'ask_selection', 'copy_question', 'quote_section', 'download', 'resume', 'contents', 'opening',
+                'unit_minute', 'unit_hour', 'length_wan', 'length_plain', 'section_value', 'sections_value', 'subsection_value',
+                'subsections_value', 'tables_value', 'figures_value', 'formulas_value', 'notes_value', 'join')
+
+
+def display_strings(lang: str = 'zh') -> list[str]:
+    """Every string this page sets in the display cut, for the font build and its check."""
+    return [LABELS[lang][key] for key in DISPLAY_KEYS]
 
 
 def number_heading(rendered: str, label: str = 'heading-no') -> str:
@@ -206,6 +291,31 @@ def number_heading(rendered: str, label: str = 'heading-no') -> str:
     if separator:
         number = f'{figure}<span class="number-sep">{separator}</span>'
     return f'<span class="{label}">{number}</span>{rendered[match.end():]}'
+
+
+def segment(rendered: str) -> str:
+    """Let a title break after its own punctuation: each clause stays together when it fits the line."""
+    pieces, start, depth, i = [], 0, 0, 0
+    while i < len(rendered):
+        if rendered[i] == '<':
+            end = rendered.find('>', i)
+            if end < 0:
+                return rendered
+            tag = rendered[i:end + 1]
+            if tag.startswith('</'):
+                depth -= 1
+            elif not tag.endswith('/>') and not re.match(r'<(?:br|img|wbr)\b', tag):
+                depth += 1
+            i = end + 1
+            continue
+        if depth == 0 and rendered[i] in '，、；' and rendered[i + 1:].strip():
+            pieces.append(rendered[start:i + 1])
+            start = i + 1
+        i += 1
+    if not pieces:
+        return rendered
+    pieces.append(rendered[start:])
+    return ''.join(f'<span class="seg">{piece}</span>' for piece in pieces if piece)
 
 
 def split_title(rendered: str) -> str:
@@ -228,35 +338,199 @@ def split_title(rendered: str) -> str:
                 if rendered.startswith(mark, i):
                     head, tail = rendered[:i], rendered[i + len(mark):]
                     if not head.strip() or not tail.strip():
-                        return rendered
-                    return (f'<span class="title-main">{head}<span class="title-colon">{mark}</span></span>'
-                            f'<span class="title-sub">{tail}</span>')
+                        return segment(rendered)
+                    return (f'<span class="title-main">{segment(head)}<span class="title-colon">{mark}</span></span>'
+                            f'<span class="title-sub">{segment(tail)}</span>')
         i += 1
-    return rendered
+    return segment(rendered)
+
+
+def text_units(fragment: str) -> tuple[int, int]:
+    """Han characters and Latin words or numbers in a rendered fragment."""
+    text = html.unescape(TAG.sub(' ', fragment))
+    return len(HAN.findall(text)), len(WORD.findall(text))
+
+
+def reading_minutes(han: int, words: int) -> float:
+    return han / 400 + words / 220
+
+
+def length_text(total: int, lang: str = 'zh') -> str:
+    L = LABELS[lang]
+    if lang != 'en' and total >= 10000:
+        return L['length_wan'].format(n=f'{total / 10000:.1f}'.removesuffix('.0'))
+    return L['length_plain'].format(n=f'{round(total, -2):,}' if total >= 1000 else f'{max(1, round(total, -1) or total)}')
+
+
+def duration_text(minutes: int, lang: str = 'zh') -> str:
+    hours, rest = divmod(minutes, 60)
+    if lang == 'en':
+        unit = lambda n, word: f"{n} {word}{'' if n == 1 else 's'}"
+        return unit(minutes, 'minute') if minutes < 60 else unit(hours, 'hour') + (f' {unit(rest, "minute")}' if rest else '')
+    return f'{minutes} 分钟' if minutes < 60 else f'{hours} 小时' + (f' {rest} 分钟' if rest else '')
 
 
 def reading_stats(body: str, lang: str = 'zh') -> str:
     """Length and reading time of the rendered text, for orientation only."""
-    text = html.unescape(re.sub(r'<[^>]+>', ' ', body))
-    han = len(re.findall(r'[\u3400-\u4dbf\u4e00-\u9fff\uf900-\ufaff]', text))
-    words = len(re.findall(r"[A-Za-z]+(?:['’-][A-Za-z]+)*|\d+(?:[.,]\d+)*", text))
-    minutes = max(1, round(han / 400 + words / 220))
+    han, words = text_units(body)
+    minutes = max(1, round(reading_minutes(han, words)))
     if lang == 'en':
-        total = words + han
-        count = f'{round(total, -2):,}' if total >= 1000 else f'{max(1, round(total, -1) or total)}'
-        hours, rest = divmod(minutes, 60)
-        unit = lambda n, word: f"{n} {word}{'' if n == 1 else 's'}"
-        duration = unit(minutes, 'minute') if minutes < 60 else unit(hours, 'hour') + (f' {unit(rest, "minute")}' if rest else '')
-        return f'About {count} words; about {duration} to read.'
-    total = han + words
-    if total >= 10000:
-        count = f'约 {total / 10000:.1f} 万字'.replace('.0 万', ' 万')
-    elif total >= 1000:
-        count = f'约 {round(total, -2):,} 字'
-    else:
-        count = f'约 {max(1, round(total, -1) or total)} 字'
-    duration = f'{minutes} 分钟' if minutes < 60 else f'{minutes // 60} 小时' + (f' {minutes % 60} 分钟' if minutes % 60 else '')
-    return f'全文{count}，读完约需 {duration}。'
+        return f'{length_text(han + words, lang)}; about {duration_text(minutes, lang)} to read.'
+    return f'全文{length_text(han + words, lang)}，读完约需 {duration_text(minutes, lang)}。'
+
+
+def measure(fragment: str) -> dict:
+    """What a stretch of rendered text holds: its length, and the tables, figures, set-off formulas and note references in it."""
+    han, words = text_units(fragment)
+    return {'units': han + words, 'minutes': reading_minutes(han, words), 'tables': fragment.count('<table'),
+            'figures': fragment.count('<figure class="figure-image">'),
+            'formulas': fragment.count('class="reader-math math-display"'),
+            'notes': fragment.count('class="footnote-ref"')}
+
+
+def section_measures(body: str, headings: list[tuple[int, str, str]]) -> tuple[dict, dict[str, dict]]:
+    """Measure the text before the first heading and the text each heading opens."""
+    marks = sorted((index, anchor) for index, anchor in
+                   ((body.find(f' id="{anchor}" data-reader-section="'), anchor) for _, anchor, _ in headings) if index >= 0)
+    lead = measure(body[:body.rfind('<', 0, marks[0][0])] if marks else body)
+    sections = {}
+    for position, (index, anchor) in enumerate(marks):
+        end = body.rfind('<', 0, marks[position + 1][0]) if position + 1 < len(marks) else len(body)
+        sections[anchor] = measure(body[body.find('>', index) + 1:end])
+    return lead, sections
+
+
+def own_number(plain: str) -> tuple[str, str]:
+    """A heading's own number and the rest of its text; the number is empty when it has none."""
+    match = HEADING_NUMBER.match(plain)
+    if not match or match.end() >= len(plain):
+        return '', plain
+    return match.group(0).rstrip(NUMBER_END), plain[match.end():]
+
+
+def outline(body: str, headings: list[tuple[int, str, str]], measures: dict[str, dict], lead: dict) -> tuple[dict[str, dict], dict]:
+    """Decide which headings are fixes on the track: the top level of the document's own structure.
+
+    The title is the only h1, or the h1 that opens a document with several. The fixes are the
+    shallowest headings besides it, and the footnotes when there are any. A fix carries its own
+    number when it has one. When no fix is numbered they are numbered in sequence for wayfinding;
+    the heading text itself is never changed. Each fix carries the length of everything it opens;
+    what stands before the first fix is the opening.
+    """
+    firsts = [anchor for level, anchor, _ in headings if level == 1]
+    title = (firsts[0] if firsts and (len(firsts) == 1 or (headings[0][0] == 1 and TITLE_BLOCK.match(body))) else None)
+    levels = [level for level, anchor, _ in headings if anchor not in (title, 'reader-footnotes')]
+    fix_level = min(levels) if levels else 0
+    info, current = {}, None
+    opening = {'units': lead['units'], 'minutes': lead['minutes']}
+    for level, anchor, text in headings:
+        number, label = own_number(text)
+        own = measures.get(anchor, {'units': 0, 'minutes': 0.0})
+        fix = anchor != title and (anchor == 'reader-footnotes' or level == fix_level)
+        info[anchor] = {'title': anchor == title, 'fix': fix, 'number': number, 'label': label, 'sequence': '',
+                        'units': own['units'], 'minutes': own['minutes']}
+        if fix:
+            current = anchor
+        else:
+            holder = info[current] if current else opening
+            holder['units'] += own['units']
+            holder['minutes'] += own['minutes']
+    numbered = [anchor for anchor, item in info.items() if item['fix'] and anchor != 'reader-footnotes']
+    if numbered and not any(info[anchor]['number'] for anchor in numbered):
+        for position, anchor in enumerate(numbered, 1):
+            info[anchor]['sequence'] = f'{position:02d}'
+    return info, opening
+
+
+def toc_label(text: str) -> str:
+    """A contents entry with its own number set apart; the entry's text is unchanged."""
+    rendered = escape(text)
+    match = HEADING_NUMBER.match(rendered)
+    if not match or match.end() >= len(rendered):
+        return f'<span class="toc-title">{rendered}</span>'
+    number = match.group(0)
+    figure = number.rstrip(NUMBER_END)
+    separator = number[len(figure):]
+    if separator:
+        figure += f'<span class="number-sep">{separator}</span>'
+    return f'<span class="toc-no">{figure}</span><span class="toc-title">{rendered[match.end():]}</span>'
+
+
+def rack_lengths(parts: list[int], thousands: bool) -> list[str]:
+    """Lengths in the unit the rack states, so that the column adds up to the length the plate states.
+
+    Counts are given as counted. In thousands each strip is rounded to a tenth, and the tenths
+    lost to rounding go to the strips that lost most, so the column still sums to the whole.
+    """
+    if not thousands:
+        return [str(units) for units in parts]
+    tenths = [units // 100 for units in parts]
+    spare = round(sum(parts) / 100) - sum(tenths)
+    for index in sorted(range(len(parts)), key=lambda index: (-(parts[index] % 100), index))[:max(0, spare)]:
+        tenths[index] += 1
+    return [f'{value / 10:.1f}' if value else ('&lt;0.1' if units else '0') for value, units in zip(tenths, parts)]
+
+
+def length_cell(value: str) -> str:
+    return f'<span class="toc-len" aria-hidden="true"><span class="toc-min num">{value}</span>{FIX_MARK}</span>'
+
+
+def build_rack(headings: list[tuple[int, str, str]], info: dict[str, dict], opening: dict, label: str, thousands: bool) -> str:
+    """The contents as a rack of strips: the opening, then one strip per fix with its subsections racked beneath it."""
+    items, bay_open, sub_open = [], False, False
+    has_fix = any(item['fix'] for item in info.values())
+    leading = headings[0][1] if headings and info[headings[0][1]]['title'] else None
+    entry = has_fix and bool(leading or opening['units'])
+    lengths = iter(rack_lengths(([opening['units']] if entry else []) + [item['units'] for item in info.values() if item['fix']], thousands))
+
+    def close() -> None:
+        nonlocal bay_open, sub_open
+        if sub_open:
+            items.append('</ol>')
+        if bay_open:
+            items.append('</li>')
+        bay_open = sub_open = False
+
+    if entry:
+        items.append(f'<li class="rack-bay rack-entry"><span class="toc-seq" aria-hidden="true">{ENTRY_MARK}</span>'
+                     f'<a href="#{leading or "document"}"><span class="toc-title">{label}</span></a>'
+                     f'{length_cell(next(lengths))}</li>')
+    for level, anchor, text in headings:
+        item = info[anchor]
+        if item['title']:
+            if has_fix and anchor == leading:
+                continue
+            close()
+            items.append(f'<li class="toc-level-1 rack-title"><a href="#{anchor}">{split_title(escape(text))}</a></li>')
+        elif item['fix']:
+            close()
+            sequence = (f'<span class="toc-seq num" aria-hidden="true">{item["sequence"]}</span>' if item['sequence']
+                        else '' if item['number'] else f'<span class="toc-seq" aria-hidden="true">{FIX_MARK}</span>')
+            items.append(f'<li class="toc-level-{level} rack-bay">{sequence}<a href="#{anchor}">{toc_label(text)}</a>'
+                         f'{length_cell(next(lengths))}')
+            bay_open = True
+        else:
+            if bay_open and not sub_open:
+                items.append('<ol class="rack-sub">')
+                sub_open = True
+            items.append(f'<li class="toc-level-{level}"><a href="#{anchor}">{toc_label(text)}</a></li>')
+    close()
+    return ''.join(items)
+
+
+def mark_opening(inner: str) -> str:
+    """Where the document itself opens with an emphasized sentence, mark it as the sentence to notice.
+
+    Only the source decides: a first paragraph that begins with a whole sentence in bold keeps
+    its words and gains the mark; anything else is left as written.
+    """
+    match = re.match(r'<strong>(.*?)</strong>', inner, re.S)
+    if not match:
+        return inner
+    text = html.unescape(TAG.sub('', match.group(1))).rstrip('”’」』）)" \n')
+    if not text or text[-1] not in '。！？.!?':
+        return inner
+    return '<strong class="key">' + inner[len('<strong>'):]
 
 
 def safe_url(value: str) -> bool:
@@ -737,15 +1011,11 @@ def katex_assets() -> tuple[str, str]:
     return javascript, css
 
 
-def icon(paths: str, extra: str = '') -> str:
-    return (f'<svg class="icon{extra}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" '
-            f'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">{paths}</svg>')
-
-
-NOSCRIPT_CSS = ('.toolbar-actions,.search-control,#nav-toggle{display:none!important}'
+NOSCRIPT_CSS = ('.toolbar-actions,.search-control,#nav-toggle,.rack-fold,.bar-readout{display:none!important}'
                 '@media (max-width:1040px){.reader-sidebar{position:static;transform:none;visibility:visible;width:auto;'
-                'height:auto;box-shadow:none;border-right:0;border-bottom:1px solid var(--line)}}')
+                'height:auto;max-height:none;border-right:0;border-bottom:1.5px solid var(--ink)}}')
 ICONS = {
+    'station': icon(STATION, ' station'),
     'contents': icon('<path d="M9 6h11M9 12h11M9 18h11"/><path d="M4.5 6h.01M4.5 12h.01M4.5 18h.01" stroke-width="2.6"/>'),
     'search': icon('<circle cx="10.8" cy="10.8" r="6.3"/><path d="m15.6 15.6 4.4 4.4"/>'),
     'up': icon('<path d="m6.5 14.5 5.5-5.5 5.5 5.5"/>'),
@@ -755,9 +1025,31 @@ ICONS = {
     'moon': icon('<path d="M19.6 14.4A7.9 7.9 0 1 1 9.6 4.4a6.3 6.3 0 0 0 10 10Z"/>', ' theme-moon'),
     'sun': icon('<circle cx="12" cy="12" r="3.8"/><path d="M12 3v1.8M12 19.2V21M4.9 4.9l1.3 1.3M17.8 17.8l1.3 1.3M3 12h1.8M19.2 12H21M4.9 19.1l1.3-1.3M17.8 6.2l1.3-1.3"/>', ' theme-sun'),
     'print': icon('<path d="M7 8.5V4h10v4.5"/><path d="M7 17H5.5A1.5 1.5 0 0 1 4 15.5v-5A2 2 0 0 1 6 8.5h12a2 2 0 0 1 2 2v5a1.5 1.5 0 0 1-1.5 1.5H17"/><path d="M7 14h10v6H7z"/>'),
-    'download': icon('<path d="M12 4v11"/><path d="m7.5 10.5 4.5 4.5 4.5-4.5"/><path d="M5 19.5h14"/>'),
+    'download': icon(DOWNLOAD),
+    'unfold': icon('<path d="m7.5 9 4.5-4.5L16.5 9"/><path d="m7.5 15 4.5 4.5 4.5-4.5"/>'),
+    'arrow': icon('<path d="M5 12h13"/><path d="m12.5 6.5 5.5 5.5-5.5 5.5"/>'),
     'type': '<span class="font-step" aria-hidden="true">Aa</span>',
 }
+
+
+def strip_cells(L: dict, lang: str, units: int, minutes: int, sections: int, subsections: int, totals: dict, notes: int) -> str:
+    """The briefing strip: what the file is, counted from its own text."""
+    value, unit = ((str(minutes), L['unit_minute']) if minutes < 100
+                   else (f'{minutes / 60:.1f}'.removesuffix('.0'), L['unit_hour']))
+    cells = [f'<div class="cell-big"><dt>{L["strip_time"]}</dt><dd><span class="strip-big">{value}</span>'
+             f'<span class="strip-unit">{unit}</span></dd></div>',
+             f'<div><dt>{L["strip_length"]}</dt><dd>{length_text(units, lang)}</dd></div>']
+    if sections:
+        parts = [L['section_value' if sections == 1 else 'sections_value'].format(n=sections)]
+        if subsections:
+            parts.append(L['subsection_value' if subsections == 1 else 'subsections_value'].format(n=subsections))
+        cells.append(f'<div><dt>{L["strip_sections"]}</dt><dd>{L["join"].join(parts)}</dd></div>')
+    held = [L[key + '_value'].format(n=totals[key]) for key in ('tables', 'figures', 'formulas') if totals[key]]
+    if held:
+        cells.append(f'<div><dt>{L["strip_figures"]}</dt><dd>{L["join"].join(held)}</dd></div>')
+    if notes:
+        cells.append(f'<div><dt>{L["strip_notes"]}</dt><dd>{L["notes_value"].format(n=notes)}</dd></div>')
+    return ''.join(cells)
 
 
 def render_document(source: str, *, title: str | None = None, source_path: Path | None = None, source_bytes: bytes | None = None, lang: str = 'zh') -> str:
@@ -768,11 +1060,51 @@ def render_document(source: str, *, title: str | None = None, source_path: Path 
     reader = MarkdownReader(source_path, lang)
     body = reader.render(source)
     title = title or next((text for level, _, text in reader.headings if level == 1), source_path.stem)
-    toc = ''.join(f'<li class="toc-level-{level}"><a href="#{anchor}">{split_title(escape(text)) if level == 1 else number_heading(escape(text), "toc-no")}</a></li>'
-                  for level, anchor, text in reader.headings)
-    if not toc:
-        toc = '<li><a href="#document">' + L['read_all'] + '</a></li>'
-    css = (ASSETS / 'xikari-base.css').read_text(encoding='utf-8') + '\n' + (ASSETS / 'reader.css').read_text(encoding='utf-8')
+
+    # Measure the rendered text, then write the measurements onto the headings they belong to.
+    han, words = text_units(body)
+    minutes = max(1, round(reading_minutes(han, words)))
+    stats = reading_stats(body, lang)
+    lead, measures = section_measures(body, reader.headings)
+    info, opening = outline(body, reader.headings, measures, lead)
+    thousands = han + words >= 2000
+    totals = {key: lead[key] + sum(item[key] for item in measures.values()) for key in ('tables', 'figures', 'formulas')}
+    for _, anchor, _ in reader.headings:
+        data, item = measures.get(anchor), info[anchor]
+        if not data:
+            continue
+        attributes = f' data-units="{data["units"]}" data-minutes="{data["minutes"]:.2f}"'
+        attributes += ''.join(f' data-{key}="{data[key]}"' for key in ('tables', 'figures', 'formulas', 'notes') if data[key])
+        if item['fix']:
+            attributes += f' data-fix="{escape(item["number"] or item["sequence"])}" data-label="{escape(item["label"])}"'
+        body = body.replace(f' id="{anchor}" data-reader-section="', f' id="{anchor}"{attributes} data-reader-section="', 1)
+    fixes = sum(1 for anchor, item in info.items() if item['fix'] and anchor != 'reader-footnotes')
+    subsections = sum(1 for anchor, item in info.items() if not item['fix'] and not item['title'])
+
+    # The plate stands directly under the title; the first paragraph after it is the opening.
+    plate = (f'<aside class="plate" id="reader-plate" data-reader-chrome aria-label="{L["overview"]}">'
+             f'<dl class="strip plate-strip">{strip_cells(L, lang, han + words, minutes, fixes, subsections, totals, len(reader.footnotes))}</dl>'
+             '<div class="chart" id="reader-chart" aria-hidden="true" hidden></div>'
+             '<div class="plate-dock dock" id="reader-dock" hidden>'
+             '<p class="dock-here" aria-hidden="true"><span class="dock-chip num" id="dock-chip"></span><span class="dock-title" id="dock-title"></span></p>'
+             '<p class="dock-go" aria-hidden="true"><span class="dock-read" id="dock-read"></span><span class="dock-left" id="dock-left"></span></p>'
+             f'<button id="resume-reading" class="sign sign-go sign-small" type="button" hidden>{ICONS["arrow"]}<span class="button-label">{L["resume"]}</span></button>'
+             '</div></aside>')
+    titled = next((anchor for anchor, item in info.items() if item['title']), None)
+    cut = body.index('</h1>', body.index(f' id="{titled}"')) + 5 if titled else 0
+    head, rest = body[:cut], body[cut:].lstrip('\n')
+    if rest.startswith('<p>') and '</p>' in rest:
+        end = rest.index('</p>')
+        rest = '<p class="lede">' + mark_opening(rest[3:end]) + rest[end:]
+    body = (head + '\n' if head else '') + plate + '\n' + rest
+
+    toc = (build_rack(reader.headings, info, opening, L['opening'], thousands)
+           or f'<li class="rack-loose"><a href="#document">{L["read_all"]}</a></li>')
+    fold = (f'<button id="rack-fold" class="icon-button rack-fold" type="button" aria-pressed="false" aria-label="{L["unfold"]}" title="{L["unfold"]}">{ICONS["unfold"]}</button>'
+            if '<ol class="rack-sub">' in toc else '')
+    unit = (f'<span class="rack-unit" id="rack-unit" aria-hidden="true">{L["rack_unit_thousands" if thousands else "rack_unit"]}</span>'
+            if fixes or 'reader-footnotes' in info else '')
+    css = foundation(ASSETS, lang) + '\n' + (ASSETS / 'reader.css').read_text(encoding='utf-8')
     javascript = (ASSETS / 'reader.js').read_text(encoding='utf-8')
     scripts = [javascript]
     if reader.has_math:
@@ -785,48 +1117,54 @@ def render_document(source: str, *, title: str | None = None, source_path: Path 
     script_hashes = ' '.join("'sha256-" + base64.b64encode(hashlib.sha256(script.encode('utf-8')).digest()).decode('ascii') + "'" for script in scripts)
     style_hash = base64.b64encode(hashlib.sha256(css.encode('utf-8')).digest()).decode('ascii')
     fallback_hash = base64.b64encode(hashlib.sha256(NOSCRIPT_CSS.encode('utf-8')).digest()).decode('ascii')
-    original = base64.b64encode(source_bytes if source_bytes is not None else source.encode('utf-8')).decode('ascii')
+    original_bytes = source_bytes if source_bytes is not None else source.encode('utf-8')
+    original = base64.b64encode(original_bytes).decode('ascii')
+    identity = hashlib.sha256(original_bytes).hexdigest()[:16]
     notes = ''.join('<li>' + escape(note) + '</li>' for note in sorted(reader.notes))
     note_html = '<details class="render-notes"><summary>' + L['format_notes'] + '</summary><ul>' + notes + '</ul></details>' if notes else ''
     math_enabled = len(scripts) > 1
     style_attributes = "'unsafe-inline'" if math_enabled else "'none'"
-    font_sources = 'data:' if math_enabled else "'none'"
-    csp = f"default-src 'none'; script-src {script_hashes}; script-src-attr 'none'; style-src 'sha256-{style_hash}' 'sha256-{fallback_hash}'; style-src-elem 'sha256-{style_hash}' 'sha256-{fallback_hash}'; style-src-attr {style_attributes}; img-src data:; connect-src 'none'; font-src {font_sources}; object-src 'none'; base-uri 'none'; form-action 'none'"
+    csp = f"default-src 'none'; script-src {script_hashes}; script-src-attr 'none'; style-src 'sha256-{style_hash}' 'sha256-{fallback_hash}'; style-src-elem 'sha256-{style_hash}' 'sha256-{fallback_hash}'; style-src-attr {style_attributes}; img-src data:; connect-src 'none'; font-src data:; object-src 'none'; base-uri 'none'; form-action 'none'"
     script_html = ''.join('<script>' + script + '</script>' for script in scripts)
     section_options = ''.join(f'<option value="{anchor}">{escape(text)}</option>' for _, anchor, text in reader.headings)
     return f'''<!doctype html>
-<html lang="{L['html_lang']}" data-font="medium">
+<html lang="{L['html_lang']}" data-font="medium" data-doc="{identity}">
 <head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta http-equiv="Content-Security-Policy" content="{escape(csp)}">
 <meta name="color-scheme" content="light dark"><meta name="generator" content="Xikari reader"><title>{escape(title)}</title>
 <style>{css}</style><noscript><style>{NOSCRIPT_CSS}</style></noscript></head>
 <body>
 <a class="skip-link" href="#document">{L['skip']}</a>
-<div class="reader-shell">
-<aside id="contents" class="reader-sidebar" aria-label="{L['contents']}">
-<nav aria-label="{L['sections']}"><ol>{toc}</ol></nav>
-<div class="sidebar-foot"><p class="doc-stats">{escape(reading_stats(body, lang))}</p><a class="source-download" href="data:text/markdown;charset=utf-8;base64,{original}" download="{escape(source_path.name)}">{ICONS['download']}{L['download']}</a></div>
-</aside>
-<div class="reader-main">
 <header class="reader-toolbar" aria-label="{L['tools']}">
 <button id="nav-toggle" class="icon-button" type="button" aria-controls="contents" aria-expanded="false" aria-label="{L['open_contents']}" title="{L['contents']}">{ICONS['contents']}</button>
-<p class="toolbar-heading" aria-hidden="true"><span class="toolbar-doc">{escape(title)}</span><span class="toolbar-section" id="toolbar-section">{escape(title)}</span></p>
+<a class="bar-mark" href="#document" aria-label="{L['to_start']}" title="{L['to_start']}">{ICONS['station']}</a>
+<p class="toolbar-heading" aria-hidden="true"><span class="toolbar-here">{L['opening']}</span><span class="toolbar-doc">{escape(title)}</span></p>
+<p class="bar-readout" id="bar-readout" aria-hidden="true"></p>
 <div class="search-control" role="search">{ICONS['search']}<label class="visually-hidden" for="reader-search">{L['search']}</label><input id="reader-search" type="search" placeholder="{L['search']}" autocomplete="off" spellcheck="false" enterkeyhint="search"><kbd class="search-key" aria-hidden="true">/</kbd><span id="search-status" role="status" aria-live="polite"></span><span class="search-buttons"><button id="previous-match" class="icon-button" type="button" disabled aria-label="{L['previous_match']}" title="{L['previous_title']}">{ICONS['up']}</button><button id="next-match" class="icon-button" type="button" disabled aria-label="{L['next_match']}" title="{L['next_title']}">{ICONS['down']}</button></span><button id="search-close" class="icon-button" type="button" aria-label="{L['close_search']}">{ICONS['close']}</button></div>
 <div class="toolbar-actions">
 <button id="search-toggle" class="icon-button" type="button" aria-label="{L['search']}" aria-controls="reader-search" aria-expanded="false">{ICONS['search']}</button>
-<button id="quote-question" class="primary-button" type="button" aria-controls="question-panel" aria-expanded="false">{ICONS['ask']}<span class="button-label">{L['ask_here']}</span></button>
+<button id="quote-question" class="sign sign-go sign-small" type="button" aria-controls="question-panel" aria-expanded="false">{ICONS['ask']}<span class="button-label">{L['ask_here']}</span></button>
 <button id="tools-toggle" class="icon-button" type="button" aria-label="{L['settings']}" aria-controls="reading-controls" aria-expanded="false">{ICONS['type']}</button>
 <div class="reading-controls" id="reading-controls">
 <button id="font-smaller" class="icon-button" type="button" aria-label="{L['smaller']}" title="{L['smaller_title']}"><span class="font-step" aria-hidden="true">A</span></button>
 <button id="font-larger" class="icon-button" type="button" aria-label="{L['larger']}" title="{L['larger_title']}"><span class="font-step" aria-hidden="true">A</span></button>
+<button id="face-toggle" class="icon-button" type="button" aria-pressed="false" aria-label="{L['face']}" title="{L['face_title']}"><span class="face-step" aria-hidden="true">{L['face_specimen']}</span></button>
 <button id="theme-toggle" class="icon-button" type="button" aria-pressed="false" aria-label="{L['night']}" title="{L['to_night']}">{ICONS['moon']}{ICONS['sun']}</button>
 <button id="print-reader" class="icon-button" type="button" aria-label="{L['print']}" title="{L['print']}">{ICONS['print']}</button>
 </div>
 </div>
 <div class="reader-progress" role="presentation"><span id="reader-progress-bar"></span></div>
 </header>
-<main><article id="document" tabindex="-1">{body}</article>{note_html}
-<footer class="reader-footer"><p>{L['footer']}</p><a href="#document">{L['to_start']}</a></footer></main>
+<div class="track-strip" id="track-strip" aria-hidden="true" hidden><p class="strip-here"><span class="strip-chip num" id="strip-chip"></span><span class="strip-name" id="strip-name"></span></p><div class="strip-track" id="strip-track"></div><p class="strip-go" id="strip-go"></p></div>
+<div class="reader-shell">
+<aside id="contents" class="reader-sidebar" aria-label="{L['contents']}">
+<div class="rack-head"><p class="rack-name">{L['contents']}</p>{fold}{unit}</div>
+<nav aria-label="{L['sections']}"><ol class="rack">{toc}</ol></nav>
+<div class="sidebar-foot"><p class="doc-stats">{escape(stats)}</p><a class="source-download sign sign-small" href="data:text/markdown;charset=utf-8;base64,{original}" download="{escape(source_path.name)}">{ICONS['download']}{L['download']}</a></div>
+</aside>
+<div class="reader-main">
+<main><article id="document" tabindex="-1" data-lead-units="{lead['units']}" data-lead-minutes="{lead['minutes']:.2f}">{body}</article>{note_html}</main>
+<footer class="reader-footer dock"><p class="footer-note">{ICONS['station']}<span>{L['footer']}</span></p><p class="footer-keys"><span class="visually-hidden">{L['keys']}</span><kbd>/</kbd>{L['keys_search']}<kbd>[</kbd><kbd>]</kbd>{L['keys_sections']}<kbd>Esc</kbd>{L['keys_close']}</p><a href="#document">{L['to_start']}</a></footer>
 </div>
 </div>
 <div class="nav-scrim" id="nav-scrim" hidden></div>
@@ -834,11 +1172,11 @@ def render_document(source: str, *, title: str | None = None, source_path: Path 
 <div class="question-heading"><h2 id="question-title">{L['question_title']}</h2><button id="close-question" class="icon-button" type="button" aria-label="{L['close_question']}" title="{L['close_question_title']}">{ICONS['close']}</button></div>
 <p id="question-help">{L['question_help']}</p>
 <label class="question-label" for="question-section">{L['quote_label']}</label>
-<div class="question-section"><select id="question-section"><option value="">{L['choose_section']}</option>{section_options}</select><button id="quote-section" class="secondary-button" type="button" disabled>{L['quote_section']}</button></div>
+<div class="question-section"><select id="question-section"><option value="">{L['choose_section']}</option>{section_options}</select><button id="quote-section" class="sign sign-small" type="button" disabled>{L['quote_section']}</button></div>
 <label class="question-label" for="question-text">{L['question_label']}</label><textarea id="question-text" rows="8" aria-describedby="question-help" placeholder="{L['question_placeholder']}"></textarea>
-<div class="question-actions"><span id="question-status" role="status" aria-live="polite">{L['no_passage']}</span><button id="copy-question" class="primary-button" type="button" disabled>{L['copy_question']}</button></div>
+<div class="question-actions"><span id="question-status" role="status" aria-live="polite">{L['no_passage']}</span><button id="copy-question" class="sign sign-go sign-small" type="button" disabled>{L['copy_question']}</button></div>
 </section>
-<button id="selection-question" class="selection-bubble" type="button" hidden>{ICONS['ask']}{L['ask_selection']}</button>
+<button id="selection-question" class="selection-bubble sign sign-go sign-small" type="button" hidden>{ICONS['ask']}{L['ask_selection']}</button>
 <noscript><p class="no-script">{L['noscript']}</p></noscript>
 {script_html}
 </body></html>'''

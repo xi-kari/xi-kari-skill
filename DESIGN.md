@@ -1,6 +1,6 @@
 ---
 name: Xikari
-description: "The project page and the handbook, drawn as one instrument approach chart: white chart paper, blue-black ink, cobalt, a magenta mark for position, sign yellow and red plates for refusals."
+description: "The project page, the handbook and the pages the Skill generates, drawn as one instrument approach chart: white chart paper, blue-black ink, cobalt, a magenta mark for position, sign yellow and red plates for refusals."
 colors:
   paper: "#fbfcfe"
   paper-2: "#eff3fa"
@@ -340,7 +340,7 @@ components:
 
 **Creative North Star: "The Instrument Approach Chart"**
 
-These eight sections define the two public web surfaces of the Xikari Skill as one system. The project page (`docs/index.html`, `docs/404.html`, `docs/assets/project.css`, `docs/assets/project.js`) draws the Skill as an approach plate: a question enters at the chart edge, flies a published route through numbered fixes, reaches a decision point, and either lands on RWY 09 as a written judgment or goes around. The handbook (theme in `website/.vitepress/theme/`, built to `docs/handbook/`) is the manual behind that chart: the book is the station every route is measured from, and each of its sheets is a flight progress strip, read in order. Theory text, Skill semantics and the pages the Skill generates are outside these sections; the generated pages keep their own system under Output surfaces.
+These eight sections define the two public web surfaces of the Xikari Skill as one system. The project page (`docs/index.html`, `docs/404.html`, `docs/assets/project.css`, `docs/assets/project.js`) draws the Skill as an approach plate: a question enters at the chart edge, flies a published route through numbered fixes, reaches a decision point, and either lands on RWY 09 as a written judgment or goes around. The handbook (theme in `website/.vitepress/theme/`, built to `docs/handbook/`) is the manual behind that chart: the book is the station every route is measured from, and each of its sheets is a flight progress strip, read in order. The pages the Skill generates for a task are sheets of the same chart: they read these sections, and what their job adds is recorded under Output surfaces. Theory text and Skill semantics are outside this document.
 
 The material is print. White chart paper, blue-black procedure ink in three strengths, a cobalt airspace tint, and flat page-wide fields of yellow, ink and cobalt. Data sits in ruled cells. A line's style states what kind of thing it draws: solid for what is required or sourced, dotted or short-dashed for what is conditional or assumed, long dashes for the go-around. Three signals are rationed by job: magenta says where the route or the reader is, yellow is the sign to act on or the one sentence to notice, red is a refusal. Nothing casts a shadow, nothing fades into anything else, and no control is rounded past 3px.
 
@@ -348,7 +348,7 @@ Both surfaces print a day chart and a night chart from the same roles. The proje
 
 **Key Characteristics:**
 
-- One chart system across the project page and the handbook, in a day and a night printing.
+- One chart system across the project page, the handbook and the generated pages, in a day and a night printing.
 - Ruled strips for identity, status and navigation: label over value, 1px rules, a 1.5px ink frame.
 - Line style carries state, always with a legend or a tag beside it.
 - Magenta for position, yellow for the sign, red for refusal; cobalt for structure and links.
@@ -393,23 +393,23 @@ Each surface follows the system preference until the reader uses its theme switc
 
 ### Token names
 
-The two surfaces name the same roles differently. New work reads the role, then uses the name of the surface it lands on.
+The surfaces name the same roles differently. New work reads the role, then uses the name of the surface it lands on. The generated pages take the project page's names, with the handbook's desk and plate, from `assets/xikari-base.css`.
 
-| Role | Project page | Handbook |
-| --- | --- | --- |
-| paper, recessed paper | `--paper`, `--paper-2` | `--xk-sheet`, `--xk-sheet-2` |
-| ink, second, third | `--ink`, `--ink-2`, `--ink-3` | `--xk-ink`, `--xk-ink-2`, `--xk-ink-3` |
-| rule, strong rule | `--rule`, `--rule-2` | `--xk-rule`, `--xk-rule-2` |
-| cobalt, tints | `--blue`, `--tint`, `--tint-2` | `--xk-blue`, `--xk-blue-wash` |
-| station field | `--navaid`, `--navaid-text`, `--navaid-2`, `--navaid-rule` | `--xk-field`, `--xk-field-ink`, `--xk-field-2`, `--xk-field-line`, `--xk-field-deep` |
-| position | `--magenta`, `--dock-magenta` | `--xk-here` |
-| sign | `--yellow` | `--xk-marker`, `--xk-on-marker`, `--xk-marker-soft` |
-| refusal | `--red` | `--xk-refuse`, `--xk-refuse-ink`, `--xk-break` |
-| "here" sign | `--here`, `--here-text` | `--xk-loc`, `--xk-loc-ink` |
-| focus ring | `--focus` | `--xk-focus` |
-| dock | `--dock`, `--dock-text`, `--dock-2`, `--dock-rule` | `--xk-dock`, `--xk-dock-ink`, `--xk-dock-2`, `--xk-dock-rule` |
-| limits band | `--notice`, `--notice-text`, `--notice-2`, `--notice-rule` | not used |
-| desk, plate, briefing tint | not used | `--xk-table`, `--xk-plate`, `--xk-note`, `--xk-note-edge` |
+| Role | Project page | Handbook | Generated pages |
+| --- | --- | --- | --- |
+| paper, recessed paper | `--paper`, `--paper-2` | `--xk-sheet`, `--xk-sheet-2` | `--paper`, `--paper-2` |
+| ink, second, third | `--ink`, `--ink-2`, `--ink-3` | `--xk-ink`, `--xk-ink-2`, `--xk-ink-3` | `--ink`, `--ink-2`, `--ink-3` |
+| rule, strong rule | `--rule`, `--rule-2` | `--xk-rule`, `--xk-rule-2` | `--rule`, `--rule-2` |
+| cobalt, tints | `--blue`, `--tint`, `--tint-2` | `--xk-blue`, `--xk-blue-wash` | `--blue`, `--tint`, `--tint-2` |
+| station field | `--navaid`, `--navaid-text`, `--navaid-2`, `--navaid-rule` | `--xk-field`, `--xk-field-ink`, `--xk-field-2`, `--xk-field-line`, `--xk-field-deep` | not used |
+| position | `--magenta`, `--dock-magenta` | `--xk-here` | `--magenta`, `--dock-magenta` |
+| sign | `--yellow` | `--xk-marker`, `--xk-on-marker`, `--xk-marker-soft` | `--yellow`, `--on-yellow`, `--mark` |
+| refusal | `--red` | `--xk-refuse`, `--xk-refuse-ink`, `--xk-break` | `--red`, `--on-red`, `--red-mark` |
+| "here" sign | `--here`, `--here-text` | `--xk-loc`, `--xk-loc-ink` | `--here`, `--here-text` |
+| focus ring | `--focus` | `--xk-focus` | `--focus` |
+| dock | `--dock`, `--dock-text`, `--dock-2`, `--dock-rule` | `--xk-dock`, `--xk-dock-ink`, `--xk-dock-2`, `--xk-dock-rule` | `--dock`, `--dock-text`, `--dock-2`, `--dock-rule` |
+| limits band | `--notice`, `--notice-text`, `--notice-2`, `--notice-rule` | not used | not used |
+| desk, plate, briefing tint | not used | `--xk-table`, `--xk-plate`, `--xk-note`, `--xk-note-edge` | `--desk`, `--plate` |
 
 ### Named Rules
 
@@ -455,7 +455,7 @@ Interface text steps through 12, 13, 14, 15, 16, 17 and 18px; the handbook's rac
 
 **The Three Voices Rule.** XK Display is the lettering of the chart: headlines, part and section titles, signs, plaques and designators. Song is the book being quoted: quoted source text, and inside the book's prose its block quotations and the emphasis that Chinese does not italicise. Monospace names files, commands and identifiers. Nothing else uses any of the three, and the theme's own sentences are never set in Song.
 
-**The Cut Face Rule.** XK Display and XK Song are subsets cut to the characters the pages set in them: on the project page its display text, signs, plaques and quoted passage; in the handbook the theme's own strings, the book index and every first- and second-level heading. Anything outside the cut (lesson-written titles, research topics loaded from data, third-level headings, body copy) is set in the body sans. A new display string means re-cutting the subset (`website/scripts/build_page_fonts.py` for the project page, `website/scripts/build_fonts.py` for the handbook); `--check` reports uncovered characters without writing anything.
+**The Cut Face Rule.** XK Display and XK Song are subsets cut to the characters the pages set in them: on the project page its display text, signs, plaques and quoted passage; in the handbook the theme's own strings, the book index and every first- and second-level heading. Anything outside the cut (lesson-written titles, research topics loaded from data, third-level headings, body copy) is set in the body sans. A new display string means re-cutting the subset (`website/scripts/build_page_fonts.py` for the project page, `website/scripts/build_fonts.py` for the handbook); `--check` reports uncovered characters without writing anything. The generated pages inline their own cut (`website/scripts/build_output_fonts.py`): numerals, Latin, the words a heading number is made of, and the strings the pages themselves set in the face. Whatever a document wrote, its title included, is set in the reader's own sans.
 
 **The Tabular Rule.** Counts, dates, lengths and designators use tabular numerals wherever they sit in a column or a strip.
 
@@ -650,109 +650,211 @@ Motion answers the reader. Easing is cubic-bezier(.16, 1, .3, 1); colour changes
 - **Don't** add a label line above a heading. Labels belong inside ruled cells, over the value they name; a heading stands alone.
 - **Don't** type a character where an icon is meant; icons are stroked drawings on the 24-unit grid.
 - **Don't** shrink a chart until its lettering stops being readable; recompose it or drop labels.
-- **Don't** apply these sections to theory sources or to the pages the Skill generates; those are described under Output surfaces.
+- **Don't** apply these sections to theory sources. The pages the Skill generates follow them, with the additions under Output surfaces.
 
 ## Output surfaces
 
-The rules above define the project page (`docs/index.html`, `docs/404.html`) and the
-handbook theme. The pages the Skill generates for a task are separate surfaces with
-their own system, documented here so the two are not confused.
+The pages the Skill generates for a task are sheets of the same chart. They read the
+roles and rules above; this section records what their job adds. Each page is one
+offline file, built by standard-library Python from the reader's own material, and
+whatever it draws is counted from that material.
 
-### Shared foundation (`assets/xikari-base.css`)
+### Shared foundation (`assets/xikari-base.css`, `scripts/xikari_page.py`)
 
-**North Star: "moon-white paper, indigo ink, one hue per kind of artifact."** Every
-generated HTML page inlines this file before its own stylesheet.
+**North Star: "what the route delivers, printed on the same chart."** Every generated
+page inlines the foundation before its own stylesheet.
 
-- **Paper and ink.** 月白 paper (`--paper` #f0f4f9 for chrome, `--page` #fbfcfe for the
-  reading surface, `--raise` #fff for floating surfaces) and 黛 ink (`--ink` #1f2b3d,
-  `--ink-strong` #0f1928, `--muted` #5a687c). Lines are `--line` and `--line-strong`.
-  Night values replace the same roles; nothing structural changes with theme.
-- **One accent per surface.** Each surface sets `--hue` and `--hue-night`; derived
-  tints (`--accent-soft`, `--accent-line`, `--soft`) are mixed from it with `color-mix`.
-  Reading page 靛青 indigo #3a51a1, condition page 青碧 teal #1d6c78, comparison page
-  藕荷 lilac #6a4e96, so a reader can tell at a glance what kind of artifact they hold.
-- **Type.** Chinese serif (Noto Serif SC → Source Han Serif → Songti → SimSun) for titles
-  and section headings; system sans for text and interface; a Kai stack (LXGW WenKai,
-  then the system 楷体) for quoted material; monospace only for code and formulas.
-  A “主题：副题” title is set on two lines without changing its text.
-- **Identity tags.** `.basis-observed` is a solid filled tag, `.basis-assumed` a dashed
-  amber outline, `.basis-unknown` a dotted outline. The line style carries the meaning,
-  so it survives grayscale and print.
-- **Computed states.** `.state-ok` (filled circle), `.state-bad` (diamond),
-  `.state-unsure` (dotted ring), `.state-err` (square), `.state-none` (hollow ring).
-  The word is always printed next to the mark; colour never carries it alone.
-- **Theme.** Without a stored choice, pages follow `prefers-color-scheme`.
-  `[data-theme="paper"]` and `[data-theme="night"]` force either side.
-- **Motion.** Only responses to the reader's action (a sheet opening, a bubble
-  appearing, a drawer sliding). Reduced-motion preferences remove it.
+- **Roles.** The day, night and print values of the chart's roles under the project
+  page's names (`--paper`, `--ink`, `--blue`, `--magenta`, `--yellow`, `--red`, the dock
+  set), with `--desk` and `--plate` from the handbook and `--red-mark` for red lettering
+  on paper. Print is black ink on white (`#000`, `#222`, `#444` for the three inks) with
+  the dock's ground removed.
+- **Display cut.** `assets/fonts/xk-display.woff2` for the Chinese interface and
+  `xk-display-latin.woff2` for the English one are inlined as a data URI. The cut holds
+  numerals, Latin, the numerals and ordinal words a heading number is made of, and the
+  strings each generator lists in `display_strings()`. Designators, strip values, signs
+  and state plates are set in it. A title or heading the document wrote is set in
+  `--title`: an installed Noto or Source Han Sans at weight 900 where there is one, the
+  system sans in bold otherwise. `website/scripts/build_output_fonts.py` cuts the face,
+  the same source cutting to the same bytes, and `--check` reports uncovered characters
+  without writing anything.
+- **The bar.** Every page opens under a bar with the station mark and an ink sign. On the
+  reading page the sign says where the reader is; on a computed sheet it says what kind
+  of sheet this is, and the sheet's format name stands in monospace at the far corner.
+- **The plate.** Under its title a page has one framed sheet: a ruled strip of what the
+  page is, its first cell a large numeral, then the page's drawing or key, then a dock or
+  caption where the page reads something out. A fact stated in the strip is not said
+  again in the notes under it.
+- **Identity tags.** `.basis-observed` is a filled ink tag, `.basis-assumed` a dashed
+  cobalt tag, `.basis-unknown` a dotted tag in third ink.
+- **States.** `.state-ok` is an ink dot, `.state-bad` a red circle and slash,
+  `.state-unsure` a dotted ring, `.state-err` a red square, `.state-none` a hollow ring.
+  The word always stands beside the mark.
+- **Frames.** What is assumed stands in a dashed cobalt frame with cobalt fix marks. What
+  may not be inferred stands in a red frame under a red plaque, each item marked with a
+  circle and slash.
+- **Tables.** Closed by 1.5px ink rules above and below. A table wider than its frame
+  scrolls inside it, and a 2px ink rule stands at the side that is cut off.
+- **Theme.** Without a stored choice a page follows `prefers-color-scheme`;
+  `[data-theme="paper"]` and `[data-theme="night"]` force either printing.
+- **Constraints.** A strict Content-Security-Policy with hashed inline style and script,
+  no network, and no inline style attributes unless a formula needs them. Scripts set
+  styles through the CSSOM; a drawing made without script takes its positions from SVG
+  geometry attributes or from a few rules the generator appends to the hashed stylesheet.
 
-### Reading page (`assets/reader.css`, `assets/reader.js`)
+### Reading page (`scripts/render_answer.py`, `assets/reader.css`, `assets/reader.js`)
 
-**North Star: "a long argument set like a monograph."** The page carries a complete
-work-product; its design exists to keep a dense Chinese argument readable over tens of
-thousands of characters.
+**North Star: "the document flown as a track."** The page carries a complete
+work-product. Its chart is drawn from the document's own measures, and the text column
+stays plain.
 
-- **Composition.** A full-height contents spine on the left and the reading column on
-  the right, under a translucent 56px toolbar. The text column is `36em` (about 36
-  characters a line); tables with four or more columns and image figures widen to
-  `54em`. Text is justified when the column is wide enough and ragged on phones.
-- **Opening.** The title is set large in serif with any subtitle on its own line, then a
-  short indigo bar. The first paragraph after the title, where the Skill puts its
-  central judgment, is set slightly larger.
-- **Chapters.** Each `h2` opens with a hairline whose first segment is indigo. A
-  heading's own number (“二、”, “2.1”, “第一章”) hangs in the margin when there is room,
-  with its separator hidden but kept in the text; on narrow screens it stays inline.
-  Clause headings (“第一条　…”) show the clause number in the accent.
-- **Body marks.** Quoted material is set in Kai with a thin indigo rule; emphasis
-  (`em`) uses Kai instead of fake italics; tables are booktabs-style with right-aligned
-  numerals and scroll shadows when cut off; code sits in a tinted panel with its
-  language noted; `---` becomes three dots; footnote references are small pills.
-- **Contents.** Numbered entries align their numbers in a column; the current chapter
-  is marked with an indigo bar and follows the reader's scroll. Reading length and
-  time are stated at the foot of the spine with the Markdown download.
-- **Toolbar.** Search (press `/`), the follow-up button, text size, theme and print.
-  The document title appears once the opening has scrolled away; on narrow screens the
-  current chapter is shown instead, the contents become a drawer, and size, theme and
-  print fold into a small menu.
-- **Reading aids.** In-place search highlights without hiding text; footnote previews
-  on hover or focus; a “追问选段” bubble beside any selection; the follow-up panel
-  floats at the side (a bottom sheet on phones) so the reading position never moves.
-- **Print.** Chrome is dropped, numbers stop hanging, tables keep rows whole, external
-  links print their address, and pages are numbered “n / total”.
-- **Constraints.** Everything stays one offline file: no network requests, no external
-  stylesheet or script, KaTeX and its fonts inlined only when a formula is present. The
-  reader does not add, summarize or reorder content.
+- **Composition.** A sticky 56px bar across the top; the rack on the desk ground at the
+  left (296px, 264px below 1280px, a drawer below 1040px); the sheet beside it. The text
+  column is `37em`; the title, the plate, tables of four columns or more and figures
+  take the wide column of `54em`. Chinese text is justified when the column is wide
+  enough; English text and phones are ragged.
+- **Opening.** The title at display scale, breaking after its own punctuation, any
+  subtitle on its own line in cobalt, then the plate, then the first paragraph at lede
+  size. Where the document itself opens with a whole sentence in bold, that sentence
+  keeps its words and gains a yellow bar under it; the page marks nothing the source did
+  not mark.
+- **Track plate.** The strip gives reading time as a large numeral, length, sections,
+  tables with figures and formulas, and footnotes. The chart under it sets each
+  top-level section as a fix at a distance proportional to its length: lead-in dots, the
+  entry, the track, the runway bar at the end of the text, and a scale in characters or
+  words. A fix carries the heading's own number, or a sequence number when no heading has
+  one. Names are lettered from the longest leg down, cut at a word where they must be
+  cut. A name stands centred over its own fix; one that would collide moves to a second
+  row on a leader that joins it to its fix, or is left to the rack. Ticks under the track are subsections; small cobalt marks are tables, figures
+  and set-off formulas at their places, counted the same way the strip counts them. A key
+  in a 1.25px ink box names every mark present. From 780px the rose stands beyond the
+  runway with one sector per fix.
+- **Flight.** The reading position is measured in the document's own units between
+  headings. Behind it the track is magenta and the fixes are filled; the aircraft sits
+  on it; the rose holds the current sector and a needle at the exact place. The dock
+  under the chart reads the current fix, the share read and the distance to go in
+  yellow. Pointing at the track reads the place under the pointer, pressing it goes
+  there, and pressing a fix flies to that section. A search prints its hits on the
+  track in yellow and its counts on the rack.
+- **Docked strip.** Once the plate has left the screen the same track stands in a 40px
+  strip under the bar for as long as the text is read: the current fix's designator and
+  name, the track with its flown part, fixes, aircraft and search hits, then the share
+  read and the minutes to go. It is a ruler and a set of ways in like the plate's track.
+- **Recomposition.** Below 780px the rose is dropped. Below 560px the track runs down the
+  sheet the way the text does, designators to its left and names beside their fixes,
+  each fix a target a finger can press. A text without sections shows the strip of
+  facts alone and a 3px magenta progress line under the bar. For print the chart is
+  redrawn at 640px, and the stylesheet itself drops the rose, the aircraft, the flown
+  part and its key.
+- **Rack.** A tinted head (name, fold, the unit of the last column), then the opening as
+  the first strip and one strip per fix: designator cell, title, length. Lengths are the
+  counted characters or words, or thousands of them in a long text, rounded so the
+  column still adds up to the length the plate states. Subsections are racked beneath
+  their fix; past twelve of them only the bay being read stays open, and the fold opens
+  all. A 2px magenta holder travels to the strip being read; a strip that has been read
+  shows a filled magenta fix mark where its length was; during a search the column is
+  headed "hits" and shows yellow counts only.
+- **Bar.** The station mark returns to the start. On arrival an ink sign beside it reads
+  where the reader is; once the title has scrolled away the bar carries the title. Then
+  the search field (press `/`), the small yellow sign for a follow-up question, text
+  size, text face (sans or Song), theme and print. On phones the search and the settings
+  fold into buttons and the sign keeps its icon.
+- **Body.** A section heading stands under a 1.5px ink rule with its own number hanging
+  in the margin in cobalt display numerals, or a cobalt fix mark where it has none; on
+  narrow screens the number stays inline. Lists use fix marks. Quoted material is Song
+  behind a 1.5px ink rule; emphasis is Song. Code sits on recessed paper in an ink
+  border with its language as an ink tag and a copy button. A figure is printed on the
+  plate ground in an ink border with its caption under a rule, and opens enlarged when
+  pressed. Diagram source that is kept and not drawn stands in a dashed cobalt frame.
+  Footnote references are cobalt chips on tint, previewed on hover or focus.
+- **Follow-up panel.** A 380px drawer from the right under the bar. Between 1041px and
+  1779px the sheet slides aside by the width of the rack while the panel is open, so the
+  text stays clear and nothing is laid out again. On phones it is a bottom sheet.
+- **Memory and keys.** The place last read, text size, face and theme are kept in the
+  reader's browser only; a yellow sign in the dock returns to the place. `[` and `]`
+  step between sections.
+- **Motion.** The chart assembles once on arrival: the track is drawn, the fixes appear
+  in order, then the lettering. Switching theme spreads the other chart outward from the
+  switch. With reduced motion both are instant.
+- **Print.** Bars, rack, dock and panels are dropped; the plate keeps its strip and
+  track; numbers stop hanging; tables keep rows whole; external links print their
+  address; pages are numbered "n / total".
+- **Constraints.** The reader does not add, summarize or reorder content. Without script
+  the text, the contents, the strip, footnotes and the download still work.
 
-### Condition page (`assets/condition-lab.css`, `assets/condition-lab.js`)
+### Condition page (`scripts/condition_lab.py`, `assets/condition-lab.css`, `assets/condition-lab.js`)
 
-**North Star: "a worked calculation on grid paper."** The teal accent and the faint grid
-behind the title keep a model result from being mistaken for the argument itself.
+**North Star: "every computed case is one mark on the plate."** The page switches
+between results that were all computed beforehand; nothing between the marks is
+interpolated.
 
-- A sticky control card holds the three selectors, the current state as a filled band
-  (state mark, plan, scenario and the reminder that the state is not a feasibility or
-  success claim) and a legend of the state marks.
-- Results read top to bottom: an overview of every computed combination for the
-  selected scenario (each cell selects that case), the peer plans against every
-  constraint, the current case's constraints, derived quantities with formulas, inputs
-  with basis tag, role, origin and source, then how each declared discrete condition
-  alone moves the state, assumptions, boundaries and definitions.
-- Unknown, assumed and observed values keep separate wording; no state is rendered as a
-  number it does not have. Print drops the selectors and keeps the calculation.
+- **Plate.** The strip counts the computed cases as a large numeral, then scenarios,
+  condition combinations, plans, and the model's standing as a tag with the one caveat
+  that goes with it. Under the strip stands the case field, and under that one line
+  saying what a mark is and what the page will not do.
+- **Case field.** Written by the generator, so it stands without script. A scenario is a
+  block under an ink rule, a plan a row, a combination of the explored conditions a
+  column headed by its values; a condition that changes over groups of columns is ruled
+  above its groups. A mark is a ruled paper cell with an ink dot where the constraints
+  hold, a red plate with a circle and slash where one is broken, a dashed cell with a
+  dotted ring where the result depends on an unknown, a red-ruled cell with a red square
+  where a formula cannot be computed, and a dotted cell with a hollow ring where the
+  model states no constraint. A key beside the field names the marks in use and counts
+  the cases under each.
+- **Holding a case.** Pressing a mark holds that case everywhere on the page: a 3px
+  magenta ring travels to the mark, the block's rule turns magenta, the plan's name takes
+  a magenta pointer, and the selectors, the readout and the tables follow. Pointing at a mark reads it out
+  on the line under the field. The field is hidden from assistive technology and is not
+  a tab stop; the selectors and the tables are its text.
+- **Recomposition.** Where the plate is wide enough for every block to stand abreast the
+  row names stand once in a column of their own and the blocks share the width equally;
+  otherwise each block carries its own names and the blocks wrap. On a narrow plate a
+  block of many columns puts each row name on a line above its marks. A grid of more
+  than eighteen combinations folds its outer conditions into the blocks, and a field of
+  more than twelve blocks scrolls inside the plate with the held case kept in view.
+- **Selectors and readout.** The selectors stand on the desk ground beside the sheet and
+  stay in view. Under them the held case is read out on the dock: its state as a plate,
+  the plan in yellow, and the reminder that the state is not a claim of feasibility or
+  success.
+- **Tables.** Results read top to bottom: the held scenario's combinations with their
+  states in words, the peer plans against every constraint, the held case's constraints,
+  derived quantities with formulas, inputs with basis tag, role, origin and source, what
+  each declared condition alone does to the state, assumptions, boundaries and
+  definitions. In a matrix the held case has a 3px magenta outline and its row stands on
+  tint behind a magenta pointer. A matrix of up to four cases across is laid out to the width it has, down to
+  a phone, where a cell stacks its mark over its word; a wider matrix scrolls under row
+  names that stay in view, and the held case is scrolled into view.
+- **Limits and footer.** Assumptions stand in the dashed frame and boundaries under the
+  red plaque. The footer is a dock with the download as its direction sign. Print drops
+  the selectors and the ring and keeps the field and the calculation.
 
-### Comparison table (`assets/comparison.css`, `scripts/comparison.py`)
+### Comparison table (`scripts/comparison.py`, `assets/comparison.css`)
 
 **North Star: "every cell keeps its own basis."** A single self-contained HTML file with
-no script, external stylesheet or font, and a restrictive Content-Security-Policy.
+no script and a restrictive Content-Security-Policy.
 
-- A legend explains the three identities before the table. Each cell carries its tag;
-  an unknown cell is hatched and never drawn as a number, a zero, or the bottom of a
-  scale, and never enters a ranking.
-- Dimensions run down a sticky first column with unit and declared direction; candidates
-  run across. A dimension without a shared scale produces no order at all.
-- The order section lists each orderable dimension's values in order, says the order
-  holds only for the listed values, and names what did not take part and why.
-- No cross-dimension weighting and no overall winner: the page states that boundary in
-  its own text, in the Markdown, and in the JSON.
+- **Plate.** The strip counts options as a large numeral, then dimensions, how many of
+  them can be ranked, how many values are unknown, and the comparison's standing as a tag
+  with its caveat. The key to the three identities stands on the plate under the strip,
+  and under the key a red plaque line states that the page weighs nothing across
+  dimensions and names no winner. The table follows directly.
+- **Option letters.** Each option carries a letter in cobalt display type, in the order
+  given: in the table head, above its cells on a phone, in each order and on each scale.
+- **Table.** Dimensions run down a sticky first column with unit and declared direction;
+  options run across. Each cell carries its value, its tag, its note and its source. An
+  unknown cell is hatched and never drawn as a number, a zero or the bottom of a scale.
+  On a phone the table is read one dimension at a time, each option's cell under its own
+  name; the markup keeps its table roles.
+- **Scales and orders.** A dimension with a common scale draws its ranked values on a
+  line of its own: each option's letter above a dot placed by its value, a filled ink
+  dot for a stated fact and a dashed cobalt ring for an assumption, the value under it.
+  Options with the same value stand one above another; values too close to letter side
+  by side take a second line. An unknown value has no place on a scale. Under the scale
+  the order is listed as ruled chips, the rank in an ink cell, with the statement that it
+  holds only for the listed values and the names of what did not take part and why. A
+  dimension without a common scale produces neither scale nor order.
+- **Limits and footer.** Assumptions and boundaries use the two frames; the footer is a
+  dock with the download as its direction sign.
 
 ### Word document (`scripts/render_docx.py`)
 

@@ -16,7 +16,7 @@
  * Figures come in a day and a night printing (the card in day only). The hero, handbook and
  * routes figures are taken in a 1280 CSS pixel window at twice the density; the outputs frame is
  * laid out at 1920 by 870 and the card cut at 1200 by 630 from a 1440 window, both at one device
- * pixel per CSS pixel. Every file carries an origin note in a PNG text chunk, and the hashes in
+ * pixel per CSS pixel. The pages inside the outputs frame are photographed at twice the density. Every file carries an origin note in a PNG text chunk, and the hashes in
  * docs/assets/provenance.json are updated. Files are written only after every requested capture
  * has succeeded. docs/MAINTAINING.md says how to serve the two sites, which browser and fonts the
  * figures need, and when to retake.
@@ -269,27 +269,33 @@ function buildPages() {
 
   async function outputs(browser, work, colorScheme) {
     const shots = {};
-    // the two small panels open at the working part of each page: the selector and its tables,
-    // and the comparison table itself
-    for (const [key, file, width, height, scale, focus] of [
-      ['reading', 'xi-kari-answer.html', 1151, 683, 2, null],
-      ['condition', path.join('condition', 'condition-results.html'), 1220, 580, 1, '.lab-body'],
-      ['comparison', path.join('comparison', 'comparison-table.html'), 1220, 580, 1, '#table-heading'],
+    // The large panel is the reading page as it opens. Each small panel is cut to the one object its page is
+    // about, at the scale of the large panel: the case field of the condition page and the table of the comparison.
+    for (const [key, file, width, height, object, margin] of [
+      ['reading', 'xi-kari-answer.html', 1151, 683, null, 0],
+      ['condition', path.join('condition', 'condition-results.html'), 720, 900, '.field', 0],
+      ['comparison', path.join('comparison', 'comparison-table.html'), 760, 900, '#table-heading', 14],
     ]) {
-      const context = await browser.newContext({ viewport: { width, height }, deviceScaleFactor: scale, colorScheme, reducedMotion: 'reduce' });
+      const context = await browser.newContext({ viewport: { width, height }, deviceScaleFactor: 2, colorScheme, reducedMotion: 'reduce' });
       const tab = await context.newPage();
       await tab.goto(pathToFileURL(path.join(work, file)).href, { waitUntil: 'load' });
-      if (focus) {
-        const found = await tab.evaluate((selector) => {
+      let clip;
+      if (object) {
+        const box = await tab.evaluate((selector) => {
           const node = document.querySelector(selector);
-          if (node) window.scrollTo(0, node.getBoundingClientRect().top + window.scrollY - 24);
-          return Boolean(node);
-        }, focus);
-        if (!found) throw new Error(`${file}: ${focus} not found; update the focus in capture.cjs`);
+          if (!node) return null;
+          window.scrollTo(0, node.getBoundingClientRect().top + window.scrollY - 12);
+          const rect = node.getBoundingClientRect();
+          return { x: rect.left, y: rect.top, width: rect.width };
+        }, object);
+        if (!box) throw new Error(`${file}: ${object} not found; update the object in capture.cjs`);
+        // the panel's picture area is 610 by 290
+        const span = Math.ceil(box.width) + margin * 2;
+        clip = { x: Math.floor(box.x) - margin, y: Math.floor(box.y) - margin, width: span, height: Math.round(span * 290 / 610) };
       }
       await settle(tab);
       if (key === 'reading') console.log(`  reading page fonts: heading ${(await fontsOf(tab, 'h1')).join(', ')}; text ${(await fontsOf(tab, 'article p')).join(', ')}`);
-      shots[key] = (await tab.screenshot()).toString('base64');
+      shots[key] = (await tab.screenshot(clip ? { clip } : {})).toString('base64');
       await context.close();
     }
     const context = await browser.newContext({ viewport: { width: 1920, height: 870 }, deviceScaleFactor: 1, colorScheme, reducedMotion: 'reduce' });
@@ -352,7 +358,7 @@ function buildPages() {
 
       if (wanted('outputs')) {
         keep([path.join(README, `outputs-${name}.png`), path.join(ASSETS, `outputs-${name}.png`)], await outputs(browser, work, colorScheme),
-          `Screenshots of pages built by the packaged tools in the ${theme} theme: the reading page from Part 1 of the source text, the condition page and the comparison table from the bundled, explicitly fictional teaching examples. Framed by .github/readme/src/outputs.html; taken by .github/readme/src/capture.cjs.`);
+          `Screenshots of pages built by the packaged tools in the ${theme} theme: the reading page from Part 1 of the source text as it opens, and, cut to the object each page is about, the case field of the condition page and the table of the comparison page, both from the bundled, explicitly fictional teaching examples. Framed by .github/readme/src/outputs.html; taken by .github/readme/src/capture.cjs.`);
       }
     }
 

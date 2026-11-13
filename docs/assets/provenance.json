@@ -3,17 +3,17 @@
     "files": [
       {
         "file": "outputs-light.png",
-        "sha256": "e4037f43edbc0bec1187c2f291cc5974b18321afe3cde63cd2ddb3c1e5550706"
+        "sha256": "2c466379fc9697b0a72a007efd49b04f50cb3f28a194b235ed4ae9e8c527dde3"
       },
       {
         "file": "outputs-dark.png",
-        "sha256": "4df3b2b71b69b396918cbe9aa5475a1bc88da2b297546fa37bc9dc645d953de5"
+        "sha256": "5acf597ac43fac0270977c0c039520ef8716e8988644d98b4d35b994e7bf2404"
       }
     ],
     "width": 1920,
     "height": 870,
     "source": "Written by .github/readme/src/capture.cjs to .github/readme/outputs-light.png and outputs-dark.png, and byte-identical here.",
-    "origin": "Screenshots of pages built in a temporary folder by render_answer.py (Part 1 of the source text), condition_lab.py and comparison.py (the bundled, explicitly fictional teaching examples), framed by .github/readme/src/outputs.html and taken by .github/readme/src/capture.cjs.",
+    "origin": "Screenshots of pages built in a temporary folder by render_answer.py (Part 1 of the source text, as the page opens), condition_lab.py (the case field) and comparison.py (the table), the last two from the bundled, explicitly fictional teaching examples, framed by .github/readme/src/outputs.html and taken by .github/readme/src/capture.cjs.",
     "transformation": "Each page is photographed in its own window (the reading page at twice the density) and scaled into its panel; the frame is captured at 1920 by 870 CSS pixels, one device pixel each; an origin note is embedded in each file."
   },
   "socialCard": {

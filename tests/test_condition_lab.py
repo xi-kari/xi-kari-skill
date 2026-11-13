@@ -510,5 +510,98 @@ class ConditionLabTests(unittest.TestCase):
         self.assertIn("输出已存在", json.loads(process.stderr)["error"])
 
 
+class CaseFieldTests(unittest.TestCase):
+    """The plate draws every computed case as one mark; these check the drawing against the results."""
+
+    def marks(self, markup):
+        import re
+        return re.findall(r'<button class="mark is-(\w+)" type="button" tabindex="-1" data-case="(case-\d+)"></button>', markup)
+
+    def test_every_computed_case_is_one_mark_carrying_its_state(self):
+        result = lab.evaluate_model(example("university"))
+        markup, rules = lab.case_field(result)
+        marks = self.marks(markup)
+        self.assertEqual(len(marks), 27)
+        self.assertEqual({case_id for _, case_id in marks}, {case["id"] for case in result["cases"]})
+        states = {case["id"]: lab.STATE_KINDS[case["state"]] for case in result["cases"]}
+        self.assertTrue(all(states[case_id] == kind for kind, case_id in marks))
+        self.assertEqual(markup.count('<div class="field-block"'), 3)
+        self.assertIn(".field{--cols:3;--blocks:3}", rules)
+        self.assertIn("@container plate (min-width:", rules)
+        # the drawing is hidden from assistive technology and none of its marks is a tab stop; the tables are its text
+        self.assertIn('id="case-field" aria-hidden="true"', markup)
+        self.assertEqual(markup.count('tabindex="-1"'), 27)
+
+    def test_the_key_counts_the_cases_of_each_state_and_names_only_marks_in_use(self):
+        import re
+        result = lab.evaluate_model(example("university"))
+        markup, _ = lab.case_field(result)
+        key = markup[markup.index('<dl class="field-key"'):markup.index('</dl>')]
+        counted = dict(re.findall(r'<span class="mark is-(\w+)" aria-hidden="true"></span>[^<]+</dt><dd><span class="key-count">(\d+)</span>', key))
+        expected = {}
+        for case in result["cases"]:
+            kind = lab.STATE_KINDS[case["state"]]
+            expected[kind] = expected.get(kind, 0) + 1
+        self.assertEqual({kind: int(count) for kind, count in counted.items()}, expected)
+        self.assertEqual(sum(expected.values()), result["case_count"])
+        self.assertNotIn("计算错误", key)
+        self.assertNotIn("未定义约束", key)
+        model = minimal()
+        model["constraints"] = []
+        markup, _ = lab.case_field(lab.evaluate_model(model))
+        self.assertIn('<span class="mark is-none" aria-hidden="true"></span>未定义约束</dt><dd><span class="key-count">1</span>', markup)
+
+    def test_a_grid_too_wide_for_one_block_folds_its_outer_conditions_into_the_blocks(self):
+        model = minimal()
+        model["inputs"]["demand"] = {"label": "需求", "value": 1, "unit": "件", "basis": "assumed", "role": "condition"}
+        model["explore"] = {"capacity": [6, 8, 10, 12, 14], "demand": [1, 2, 3, 4, 5, 6]}
+        model["scenarios"] = [{"id": "tight", "label": "紧张", "overrides": {}}]
+        result = lab.evaluate_model(model)
+        self.assertEqual(result["case_count"], 60)
+        markup, rules = lab.case_field(result)
+        self.assertEqual(len(self.marks(markup)), 60)
+        # thirty combinations fold the outer condition into the blocks: two scenarios by five capacities, six columns each
+        self.assertEqual(markup.count('<div class="field-block"'), 10)
+        self.assertIn(".field{--cols:6;--blocks:10}", rules)
+        self.assertIn('<span class="field-block-name">输入中的条件值 · 容量 6 小时</span>', markup)
+        self.assertIn('<span class="field-block-name">紧张 · 容量 14 小时</span>', markup)
+        self.assertIn('<span class="field-label">需求（件）</span><span class="field-run">1</span>', markup)
+        self.assertNotIn("is-grouped", markup)
+        offsets = [int(value) for value in __import__("re").findall(r'data-offset="(\d+)"', markup)]
+        self.assertEqual(offsets, [0, 6, 12, 18, 24] * 2)
+
+    def test_two_conditions_that_fit_one_block_are_ruled_in_groups(self):
+        model = minimal()
+        model["inputs"]["demand"] = {"label": "需求", "value": 1, "unit": "件", "basis": "assumed", "role": "condition"}
+        model["explore"] = {"capacity": [6, 8, 10], "demand": [1, 2]}
+        markup, rules = lab.case_field(lab.evaluate_model(model))
+        self.assertEqual(markup.count('<div class="field-block"'), 1)
+        self.assertIn('field-axis-0 is-grouped"><span class="field-label">容量（小时）</span><span class="field-run">6</span><span class="field-run">8</span><span class="field-run">10</span></div>', markup)
+        self.assertIn('field-axis-1"><span class="field-label">需求（件）</span>' + '<span class="field-run">1</span><span class="field-run">2</span>' * 3, markup)
+        self.assertIn(".field-axis-0>.field-run{grid-column:span 2}", rules)
+        self.assertNotIn(".field-axis-1>", rules)
+
+    def test_values_are_printed_as_the_page_script_prints_them(self):
+        self.assertEqual([lab.value_text(value) for value in (None, True, False, 30, 1.0, 0.1, 1e21)], ["未知", "是", "否", "30", "1.0", "0.1", "1e+21"])
+
+    def test_page_says_each_fact_once_and_keeps_its_style_hash(self):
+        import base64, hashlib, re
+        page = lab.render_html(lab.evaluate_model(example("university")))
+        self.assertEqual(page.count("教学虚构"), 1)
+        self.assertEqual(page.count("输入不是现实事实"), 1)
+        self.assertNotIn("已计算 27 个组合", page)
+        self.assertIn('<header class="page-bar">', page)
+        self.assertIn('<span class="page-kind">条件模型</span><span class="page-sheet">xikari-condition-lab-1</span>', page)
+        self.assertIn(lab.FIELD_CAPTION, page)
+        style = re.search(r"<style>(.*?)</style>", page, re.S).group(1)
+        digest = base64.b64encode(hashlib.sha256(style.encode("utf-8")).digest()).decode("ascii")
+        self.assertIn(f"style-src &#x27;sha256-{digest}&#x27;", page)
+        self.assertNotIn(" style=", page.split("<body>", 1)[1].split('<script type="application/json"', 1)[0])
+        other = minimal()
+        other["fictional"] = False
+        page = lab.render_html(lab.evaluate_model(other))
+        self.assertIn('<span class="basis basis-observed">作者情境</span><span class="strip-aside">来源与假设需分别判断</span>', page)
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -31,6 +31,21 @@ try {
     }
     assert.ok(document.getElementById('inputs').textContent.includes('假设或方案设定'));
   }
+  /* the plate draws every computed case; pressing a mark holds that case everywhere on the page */
+  const marks = document.querySelectorAll('#case-field .mark');
+  assert.equal(marks.length, 27);
+  assert.equal(document.getElementById('case-field').getAttribute('aria-hidden'), 'true');
+  assert.ok(Array.from(marks).every(mark => mark.tabIndex === -1), 'The field is not a tab stop; the tables are its text.');
+  for (const testCase of [data.cases[5], data.cases[22], data.cases[0]]) {
+    const mark = document.querySelector(`#case-field .mark[data-case="${testCase.id}"]`);
+    mark.click();
+    assert.deepEqual([scenario.value, combination.value, plan.value], [testCase.scenario, String(testCase.explore_index), testCase.plan]);
+    assert.deepEqual(Array.from(document.querySelectorAll('#case-field .mark[aria-pressed="true"]'), node => node.dataset.case), [testCase.id]);
+    assert.ok(document.getElementById('current-state').textContent.includes(messages[testCase.state]));
+    assert.ok(mark.closest('.field-block').classList.contains('is-here'));
+    assert.ok(Array.from(document.querySelectorAll('#case-field .field-row.is-here')).every(row => row.dataset.plan === testCase.plan));
+  }
+  assert.equal(Array.from(document.querySelectorAll('.field-key .key-count')).reduce((sum, node) => sum + Number(node.textContent), 0), 27);
   const gridButton = document.querySelectorAll('#overview button')[2];
   const selectedLabel = gridButton.getAttribute('aria-label');
   gridButton.focus();
@@ -48,5 +63,5 @@ try {
   assert.equal(document.querySelectorAll('script[src],link[rel="stylesheet"]').length, 0);
   assert.ok(document.querySelector('meta[http-equiv="Content-Security-Policy"]').content.includes("connect-src 'none'"));
   assert.equal(failures.length, 0, failures.join('\n'));
-  console.log('Condition DOM checks passed: all 27 selections, grid focus, selector focus, peer-plan comparison, input identity, complete offline JSON download.');
+  console.log('Condition DOM checks passed: all 27 selections, case field, grid focus, selector focus, peer-plan comparison, input identity, complete offline JSON download.');
 } finally { dom.window.close(); }

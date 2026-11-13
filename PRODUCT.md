@@ -24,7 +24,7 @@ The original text retains its identity and content. Teaching explanations, histo
 
 ## Brand Commitments
 
-Keep the Xikari name. The project page and the handbook share one identity, drawn as an instrument chart: white chart paper, blue-black ink and cobalt, with magenta for where the reader or the active route is, sign yellow for the one thing to notice, and red for what may not be inferred. The reading experience prioritizes clear Chinese typography, diagrams, accessible navigation and complete content.
+Keep the Xikari name. The project page, the handbook and the pages the Skill generates for a task (the reading page, the condition page and the comparison table) share one identity, drawn as an instrument chart: white chart paper, blue-black ink and cobalt, with magenta for where the reader or the active route is, sign yellow for the one thing to notice, and red for what may not be inferred. The reading experience prioritizes clear Chinese typography, diagrams, accessible navigation and complete content.
 
 ## Evidence on Hand
 

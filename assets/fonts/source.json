@@ -1,0 +1,34 @@
+{
+  "license": "SIL Open Font License 1.1",
+  "licenseFile": "OFL.txt",
+  "faces": {
+    "zh": {
+      "family": "XK Display",
+      "file": "xk-display.woff2",
+      "weight": 900,
+      "bytes": 21024,
+      "sha256": "dc1f8a98a4b571d4565cf9e50c0b4072750b4cdd5b24220493fa20a25d32be0e",
+      "source": {
+        "family": "Noto Sans SC",
+        "version": "Version 2.04;241114210130;non-release",
+        "copyright": "© 2014-2021 Adobe (http://www.adobe.com/), with Reserved Font Name 'Source'.",
+        "sha256": "763146584cf0710223441356b4395e279021b0806c196614377a7a0174ae074a"
+      },
+      "characters": " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~±·×—…‰′″→≈≤≥、。〇一七万三下不与两个义九二五亿件全八公六分列制十千卷原合否四回图在型处复字存完定小尚开式引录所整方时是未束条果案模款此段比满用百目知确种稿章第算篇约组结继续编能节表计误读足载较追选部钟错问阅零项％（），．：；"
+    },
+    "en": {
+      "family": "XK Display",
+      "file": "xk-display-latin.woff2",
+      "weight": 900,
+      "bytes": 7712,
+      "sha256": "8870a46a89fa00411ac7ce765d67da6b4b6078b981fd0b30421235c346b5f6c3",
+      "source": {
+        "family": "Noto Sans SC",
+        "version": "Version 2.04;241114210130;non-release",
+        "copyright": "© 2014-2021 Adobe (http://www.adobe.com/), with Reserved Font Name 'Source'.",
+        "sha256": "763146584cf0710223441356b4395e279021b0806c196614377a7a0174ae074a"
+      },
+      "characters": " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~±·×—…‰′″→≈≤≥、。％（），．：；"
+    }
+  }
+}

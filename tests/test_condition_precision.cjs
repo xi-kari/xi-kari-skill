@@ -106,6 +106,10 @@ for name, model in [("minimal", minimal), ("large", large), ("scalars", scalars)
             "derivedValues": [scalar(item["value"]) if item["state"] == "known" else names[item["state"]] for item in case["derived"]],
             "formulas": [item["formula"] for item in case["derived"]],
             "constraints": [names[item["state"]] for item in case["constraints"]], "sensitivity": sensitivity})
+    field_runs, stride = [], len(result["explore_combinations"])
+    for key, values in model["explore"].items():
+        stride //= len(values)
+        field_runs += [scalar(values[run % len(values)]) for run in range(len(result["explore_combinations"]) // stride)]
     with pathlib.Path(paths["csv"]).open(encoding="utf-8", newline="") as handle:
         rows = {(row["case_id"], row["kind"], row["id"]): row for row in csv.DictReader(handle)}
     for case in result["cases"]:
@@ -119,6 +123,7 @@ for name, model in [("minimal", minimal), ("large", large), ("scalars", scalars)
         "headings": ["方案"] + [combination(item, " ") for item in result["explore_combinations"]],
         "definitionLabels": [item["label"] for group in ["scenarios", "plans"] for item in result[group]],
         "definitionValues": ["；".join(inputs[key]["label"] + " = " + with_unit(key, value) for key, value in item["overrides"].items()) for group in ["scenarios", "plans"] for item in result[group] if item["overrides"]],
+        "fieldRuns": field_runs, "caseCount": len(result["cases"]), "combinationCount": len(result["explore_combinations"]),
         "literalText": text})
 (folder / "oracle.json").write_text(json.dumps(fixtures, ensure_ascii=False), encoding="utf-8")
 `;
@@ -155,15 +160,21 @@ const server = http.createServer((request, response) => {
         assert.deepEqual(await page.locator('#overview thead th').allTextContents(), fixture.headings, `${context}: overview headings`);
         assert.deepEqual(await page.locator('.definition-label').allTextContents(), fixture.definitionLabels, `${context}: definition labels`);
         assert.deepEqual(await page.locator('.definition-overrides').allTextContents(), fixture.definitionValues, `${context}: definition numbers`);
+        assert.equal(await page.locator('#case-field .mark').count(), fixture.caseCount, `${context}: one mark for each computed case`);
+        assert.deepEqual(await page.locator('#case-field .field-block').first().locator('.field-run').allTextContents(), fixture.fieldRuns, `${context}: the field prints exact condition values over its columns`);
+        assert.equal(await page.locator('.field-key .key-count').evaluateAll(nodes => nodes.reduce((sum, node) => sum + Number(node.textContent), 0)), fixture.caseCount, `${context}: the key counts every case once`);
         for (const selector of ['.lab-purpose', '#assumptions li', '#boundaries li']) {
           assert.equal(await page.locator(selector).textContent(), fixture.literalText, `${context}: numeric and escaped text stays literal`);
         }
         for (const [index, expected] of fixture.cases.entries()) {
-          await page.locator('#scenario').selectOption(expected.scenario);
-          if (index % 2) {
+          if (index % 3 === 2) {
+            await page.locator(`#case-field .mark[data-case="${expected.id}"]`).click();
+          } else if (index % 2) {
+            await page.locator('#scenario').selectOption(expected.scenario);
             const planIndex = await page.locator('#plan option').evaluateAll((options, value) => options.findIndex(option => option.value === value), expected.plan);
             await page.locator('#overview tbody tr').nth(planIndex).locator('button').nth(Number(expected.combination)).click();
           } else {
+            await page.locator('#scenario').selectOption(expected.scenario);
             await page.locator('#combination').selectOption(expected.combination);
             await page.locator('#plan').selectOption(expected.plan);
           }
@@ -176,6 +187,20 @@ const server = http.createServer((request, response) => {
               planLabel: document.querySelector('#current-state .state-plan').textContent,
               caveat: document.querySelector('#current-state .state-caveat').textContent,
               overviewLabels: Array.from(document.querySelectorAll('#overview button[aria-pressed="true"]'), node => node.getAttribute('aria-label')),
+              held: Array.from(document.querySelectorAll('#case-field .mark[aria-pressed="true"]'), node => node.dataset.case),
+              heldInView: (() => {
+                const scroller = document.getElementById('overview'), frame = scroller.getBoundingClientRect();
+                const pressed = scroller.querySelector('button[aria-pressed="true"]').getBoundingClientRect();
+                const names = scroller.scrollWidth > scroller.clientWidth + 1 ? scroller.querySelector('tbody th').getBoundingClientRect().width : 0;
+                return pressed.left >= frame.left + names - 1 && pressed.right <= frame.right + 1;
+              })(),
+              ringOnHeld: (() => {
+                const ring = document.querySelector('#case-field .field-ring'), mark = document.querySelector('#case-field .mark[aria-pressed="true"]');
+                if (!ring || ring.hidden || !mark) return false;
+                ring.getAnimations().forEach(animation => animation.finish());
+                const a = ring.getBoundingClientRect(), b = mark.getBoundingClientRect();
+                return Math.abs(a.left - b.left) <= 1.5 && Math.abs(a.top - b.top) <= 1.5 && Math.abs(a.width - b.width) <= 1.5;
+              })(),
               inputLabels: texts('#inputs .label'),
               inputValues: Array.from(document.querySelectorAll('#inputs .number'), node => node.firstChild.textContent),
               derivedLabels: texts('#derived .label'),
@@ -190,7 +215,7 @@ const server = http.createServer((request, response) => {
             };
           });
           const { id, overviewLabel, ...view } = expected;
-          assert.deepEqual(actual, { ...view, overviewLabels: [overviewLabel] }, `${context}, ${id}: selectors, overview, scalar text, or sensitivity chose the wrong case`);
+          assert.deepEqual(actual, { ...view, overviewLabels: [overviewLabel], held: [id], heldInView: true, ringOnHeld: true }, `${context}, ${id}: selectors, overview, field, scalar text, or sensitivity chose the wrong case`);
         }
         const link = page.locator('a[download="condition-results.json"]');
         const href = await link.getAttribute('href');
@@ -202,6 +227,19 @@ const server = http.createServer((request, response) => {
         assert.equal(fs.readFileSync(await download.path(), 'utf8'), compact, `${context}: downloaded file must preserve original numeric tokens`);
         assert.equal(await page.locator('#condition-data').textContent(), embedded, `${context}: interactions must not rewrite source JSON`);
         assert.deepEqual(errors, [], `${context}: no browser errors`);
+        const fit = await page.evaluate(() => {
+            const overview = document.getElementById('overview');
+            return {
+              page: document.documentElement.scrollWidth - document.documentElement.clientWidth,
+              overview: overview.scrollWidth - overview.clientWidth,
+              field: (() => { const field = document.getElementById('case-field'); return field.scrollWidth - field.clientWidth; })(),
+              marks: Math.min(...Array.from(document.querySelectorAll('#case-field .mark'), node => node.getBoundingClientRect().width)),
+            };
+        });
+        assert.ok(fit.page <= 0, `${context}: the page must not scroll sideways (${fit.page})`);
+        assert.ok(fit.field <= 1, `${context}: the case field must fit its plate (${fit.field})`);
+        assert.ok(fit.marks >= 14, `${context}: marks keep a width that can be read (${fit.marks})`);
+        if (fixture.combinationCount <= 4) assert.ok(fit.overview <= 1, `${context}: a matrix of up to four cases across must not scroll sideways (${fit.overview})`);
         if (fixture.name === 'wide') {
           const overflow = await page.evaluate(() => {
             const targets = [
@@ -223,7 +261,7 @@ const server = http.createServer((request, response) => {
           });
           layoutFailures.push(...overflow.map(item => ({ viewport, ...item })));
         }
-        console.log(JSON.stringify({ viewport, fixture: fixture.name, cases: fixture.cases.length, exactLabels: 'passed', sensitivity: 'passed', selectorsAndOverview: 'passed', download: 'passed', ...(fixture.name === 'wide' ? { layoutFailures: layoutFailures.filter(item => item.viewport.width === viewport.width).length } : {}) }));
+        console.log(JSON.stringify({ viewport, fixture: fixture.name, cases: fixture.cases.length, exactLabels: 'passed', sensitivity: 'passed', selectorsAndOverview: 'passed', caseField: 'passed', download: 'passed', ...(fixture.name === 'wide' ? { layoutFailures: layoutFailures.filter(item => item.viewport.width === viewport.width).length } : {}) }));
         await page.close();
       }
     }
