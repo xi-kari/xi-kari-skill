@@ -10,6 +10,13 @@ title: "Part 11 Event-Driven Dynamic Projection"
 
 Dynamic projection starts from a joint state with evidential statuses recorded. It analyzes state differences, transmission, feedback, and branching after observed, reported, planned, hypothetical, or simulated events. Actions that actually occur can change reality with or without authorization. They must all be recorded according to the evidence. Whether an action occurred, how it is evaluated normatively, any legal or institutional authority, and permission to carry it out on this occasion must each be judged separately. Projection must specify which changes can be established directly, which are only conditional consequences, and which signals would support or weaken the corresponding paths.
 
+</div>
+
+<SectionLesson section="intro-11-part" />
+
+<div v-pre class="theory-source">
+
+
 ## 11.1 The Difference Between Projection and Narrative Continuation {#section-11-1}
 
 Narrative continuation can choose what comes next by coherence alone. Structural projection must preserve conditions, channels, competing paths, and the meaning of failure. If key variables are missing, the projection should stop at an unknown or generate variable candidates. It must not fill the gaps with the smoothest story. If several continuations are consistent with existing evidence, keep them as separate branches. If paths are incomparable, do not force an ordering.
@@ -24,6 +31,13 @@ The minimum inputs to projection are a frozen snapshot, event records, mechanism
 | Parameter | Value, interval, level, or explicit unknown | False precision masks uncertainty |
 | Stopping | Conditions involving information, risk, exceeding bounds, and resources | The story continues indefinitely |
 
+</div>
+
+<SectionLesson section="11.1" />
+
+<div v-pre class="theory-source">
+
+
 ## 11.2 The Event Contract[^tn-contract-12] {#section-11-2}
 
 There are five kinds of event: observed, reported, planned, hypothetical, and simulated. The type must be included in the record. A reported event can affect people who believe it but must not automatically be treated as having occurred. A plan may change expectations without amounting to execution. A hypothetical event serves conditional analysis. A simulated event belongs only to a model run and must not be written back as a fact about reality.
@@ -37,6 +51,13 @@ An event record must include at least the event ID, time or window of occurrence
 | Planned | Expectations, preparations, and strategic interaction | Existence of the plan does not establish execution | Authorization, resources, and conditions for cancellation |
 | Hypothetical | Counterfactuals and scenario comparison | No factual status in reality | Conditions, purpose, and feasibility |
 | Simulated | Unfolding paths within the model | Model state only | Model version, parameters, and prohibition on extrapolation |
+
+</div>
+
+<SectionLesson section="11.2" />
+
+<div v-pre class="theory-source">
+
 
 ## 11.3 The Joint State Update Formula {#section-11-3}
 
@@ -54,6 +75,13 @@ Observed violations, actions beyond authorization, refusals to carry out orders,
 
 Each update must distinguish directly observed state differences, inferences supported by the mechanism contract, scenario values set to explore a path, and residuals still unexplained. All four retain their provenance in subsequent paths. Appearing together in a snapshot does not give them the same evidential status.
 
+</div>
+
+<SectionLesson section="11.3" />
+
+<div v-pre class="theory-source">
+
+
 ### 11.3.1 States, Observations, and Identified Sets {#section-11-3-1}
 
 A joint snapshot is a structured representation of the material currently available. It does not directly read every state of the world. Let `z(t)` denote the actual state yet to be inferred for the current task, and `o(t)` the record produced by observation rule H, sampling positions, and conditions of data collection. It can be written as `o(t)=H[z(t),m(t),ε(t)]`. `m(t)` includes who can enter the record, when they are measured, and which fields are withheld from disclosure for protection. `ε(t)` is used only when there is a corresponding error model. Unknowns must not all be called random noise. When conditions allow, numerical measurements can use additive error. Text and categorical records use their corresponding generation rules. Ω should preserve the distinction between the records and the judgments, so a change in observation rule is not mistaken for a change in the object.
@@ -61,6 +89,13 @@ A joint snapshot is a structured representation of the material currently availa
 The same set of records can correspond to several states or mechanisms. Let `Z(o)` denote the set of states still compatible with the record under the stated model and error bounds. If the answer to question q is the same in every state in `Z(o)`, the current material is sufficient for the question. A limited answer can be given without recovering every latent variable. If the values differ, the output should retain their range, any direction that can be identified, or the parts that genuinely remain unknown. Failure to detect a difference in a finite sample does not automatically establish that only one answer remains over the entire set.
 
 The set also helps plan the next observation. First identify state distinctions that would change the current answer or the comparison of actions. Then check which feasible observations could distinguish them. More precision that leaves the answer unchanged need not help. A low-cost observation that narrows an important branch may be more valuable than expanding the whole variable table. Data collection remains subject to purpose, necessity, and protection. A need for identification does not confer permission to collect data.
+
+</div>
+
+<SectionLesson section="11.3.1" />
+
+<div v-pre class="theory-source">
+
 
 ### 11.3.2 Event Processing and State Continuation {#section-11-3-2}
 
@@ -70,43 +105,120 @@ State updating consists of two operations. An evidence update revises the judgme
 
 Concurrent events may be combined in any order only if the operations commute, shared resources are not in conflict, and neither changes the other’s conditions. If two actions compete for a resource, overwrite the same record, or change each other’s available action set, retain branches for the possible orders or specify an explicit rule for concurrency. Similar timestamps do not establish simultaneity. The order in which execution calls return does not by itself reveal the causal order of real events.
 
+</div>
+
+<SectionLesson section="11.3.2" />
+
+<div v-pre class="theory-source">
+
+
 ## 11.4 The Nine-Step Projection Loop {#section-11-4}
+
+</div>
+
+<SectionLesson section="11.4" />
+
+<div v-pre class="theory-source">
+
 
 ### 11.4.1 Step One. Freeze the Current State {#section-11-4-1}
 
 Record the evidence cutoff, objects, variables, unknowns, disputes, and model version. Information obtained after the cutoff must not be fed back into the starting point. If it needs to be used, create a new version of the run.
 
+</div>
+
+<SectionLesson section="11.4.1" />
+
+<div v-pre class="theory-source">
+
+
 ### 11.4.2 Step Two. Identify Actors and Circles {#section-11-4-2}
 
 Use Parts 9 and 10. If a circle has no grounds for object facts and the grouping gain claimed for it is not supported, retain it as a candidate grouping. If there is insufficient support for a personality hypothesis, retain it as a variable candidate. Do not turn candidates into entities merely to complete the graph.
+
+</div>
+
+<SectionLesson section="11.4.2" />
+
+<div v-pre class="theory-source">
+
 
 ### 11.4.3 Step Three. Separate Conditions in the Two Channels {#section-11-4-3}
 
 List the relevant material conditions separately for the task. Also list the relevant experience–meaning conditions and declare the bridges needed between channels. If missing information from the other channel affects the current judgment, retain the unknown. Do not fill the gap by assuming symmetry. A channel genuinely irrelevant to the current task may be marked not applicable with a reason. Do not collect experiential material for the sake of completing the form. Suspend only propagation that depends on the missing channel. Independently established states and paths can still be carried forward.
 
+</div>
+
+<SectionLesson section="11.4.3" />
+
+<div v-pre class="theory-source">
+
+
 ### 11.4.4 Step Four. Declare Clocks, Thresholds, Capacity, and Delay {#section-11-4-4}
 
 Identify each variable’s update clock. If a channel has capacity limits, delay, loss, saturation, reversal, or a recovery window, register them before propagation.
+
+</div>
+
+<SectionLesson section="11.4.4" />
+
+<div v-pre class="theory-source">
+
 
 ### 11.4.5 Step Five. Inject an Event or Action {#section-11-4-5}
 
 A run may include multiple events and actions ordered by time, with their independent sources retained. First determine whether an action occurred, then record the actor, object, consequences, and authorization status separately. Lack of authorization cannot justify deleting a fact about what actually occurred. Plans, proposals, and simulated actions that have yet to occur retain their conditional status and must not be recorded as executed. If a model initiates or carries out a real-world action, valid authorization must be obtained separately. A recommendation for deliberation requires only that its evidence, normative premises, costs, gaps in authority, and conditions for revising the judgment be stated clearly.
 
+</div>
+
+<SectionLesson section="11.4.5" />
+
+<div v-pre class="theory-source">
+
+
 ### 11.4.6 Step Six. Propagate Along Declared Channels {#section-11-4-6}
 
 First record directly confirmable state differences, then analyze return signals, indirect effects, and cross-circle cascades. An identified total effect of an intervention may enter a bounded judgment about the outcome. Unidentified parts of the internal mechanism remain unknown. The total effect must not be used to fill in missing edges of propagation. Explaining specific propagation requires corresponding material about channels and temporal order. Where there is only co-occurrence or correlation, retain common background, selection effects, and other competing explanations. Store state differences derived conditionally from the model separately from those observed in reality.
+
+</div>
+
+<SectionLesson section="11.4.6" />
+
+<div v-pre class="theory-source">
+
 
 ### 11.4.7 Step Seven. Generate Paths at Branch Points {#section-11-4-7}
 
 Conditions, thresholds, actor choices, external disturbances, or uncertainty about mechanisms can all produce branching. Keep mutually exclusive paths separate. Retain parallel paths if they can occur at the same time. Create a merge node only when the conditions for merging are clear.
 
+</div>
+
+<SectionLesson section="11.4.7" />
+
+<div v-pre class="theory-source">
+
+
 ### 11.4.8 Step Eight. Register Signals, Residuals, and Variable Candidates {#section-11-4-8}
 
 List early and contrary signals for each path. State differences that the current variables cannot explain enter the residuals. A residual can prompt an entry in the ledger of variable candidates, but cannot automatically supply a value in reality.
 
+</div>
+
+<SectionLesson section="11.4.8" />
+
+<div v-pre class="theory-source">
+
+
 ### 11.4.9 Step Nine. Write Back the Results {#section-11-4-9}
 
 When actual results arrive, append which paths are supported, when results diverged from the projection, whether a simple baseline performed better, how well the projection was calibrated, and which mechanisms or variables should be downgraded, split, given revised boundaries, or retired. Write-back does not overwrite the original run.
+
+</div>
+
+<SectionLesson section="11.4.9" />
+
+<div v-pre class="theory-source">
+
 
 ## 11.5 Propagation, Delay, and Thresholds {#section-11-5}
 
@@ -123,6 +235,13 @@ An account of propagation must at least distinguish the arrival of a signal from
 | Recovery | How does the object return to its previous state or move to a new one after a shock? | Resilience, cumulative damage, and lock-in |
 
 When the same event reaches different circles through different channels, the effects can be opposite. Additional resources may reduce load in one circle but intensify competition in another. A public statement may repair external legitimacy but activate shame or distrust within the circle. A projection should record each channel separately. Net effects must not hide differences in distribution.
+
+</div>
+
+<SectionLesson section="11.5" />
+
+<div v-pre class="theory-source">
+
 
 ## 11.6 Feedback and Cross-Circle Cascades {#section-11-6}
 
@@ -142,6 +261,13 @@ Two local effects can form a transmission chain only with shared conditions for 
 
 A cascade record should therefore check how the output of the preceding segment enters the next one, the scope of support for joint response, capacity and delay, and offsetting and parallel paths. A limited total effect already identified through an eligible comparison can be retained directly. What is added here is the responsibility to explain the specific propagation. It does not require explaining all micromechanisms before acknowledging any effect. When an edge has yet to be identified, retain the independently established upstream changes and terminal effects according to their own evidence.
 
+</div>
+
+<SectionLesson section="11.6" />
+
+<div v-pre class="theory-source">
+
+
 ## 11.7 A Graph of Branching Paths {#section-11-7}
 
 A path node must include at least the parent node, condition set, triggering event or action, state differences, affected clocks, support status, a probability or ordering expression, early signals, contrary signals, the next node, and the reason for termination. The path graph should be a directed acyclic graph. If there is a feedback loop in reality, represent it with new nodes unfolded over time. A node must not be its own cause and effect within the same run.
@@ -154,6 +280,13 @@ Four kinds of uncertainty can produce branches: uncertainty about facts, uncerta
 | Mechanisms | Does silence come from fear or strategy? | Signals that distinguish the alternatives and parallel paths | Shutting down inquiry with a personality label |
 | Choice | An actor cooperates, resists, or exits | Conditions and consequences of each choice | Claiming that free choices can be predicted precisely |
 | Disturbance | Change in policy, prices, disasters, or technology | Stress scenarios and conditions for recovery | Attributing unmodeled residuals to fate |
+
+</div>
+
+<SectionLesson section="11.7" />
+
+<div v-pre class="theory-source">
+
 
 ## 11.8 The Ledger of Variable Candidates {#section-11-8}
 
@@ -171,6 +304,13 @@ Candidate statuses include proposed, under test, supported candidate, rejected, 
 
 The framework can only identify residuals the current set of variables cannot explain, propose several distinguishable variable candidates, and design a minimal test with acceptable risk for each. It cannot decide on its own that a candidate is true in reality.
 
+</div>
+
+<SectionLesson section="11.8" />
+
+<div v-pre class="theory-source">
+
+
 ## 11.9 Scenarios, Counterfactuals, and Simulation {#section-11-9}
 
 Scenario projection asks, “If these conditions hold, what paths emerge?” A counterfactual asks, “If an event or mechanism had been different, how might the outcome that actually occurred have changed?” Simulation unfolds specified rules and parameters. All three must be kept separate from descriptions of fact.
@@ -183,6 +323,13 @@ The strength of a counterfactual conclusion depends on whether mechanisms still 
 
 Counterfactual analysis can therefore produce one answer, a set of feasible answers, or conditional bounds. Treat a direction as robust only when all compatible mechanisms support the same conclusion. If the conclusion reverses across plausible mechanisms, report the conditions under which it reverses and list the evidence needed to distinguish the mechanisms as the next observation. Historically, “removing a person from the post they came to occupy” and “that person having never been there” have different starting points and processes of adaptation. They cannot share the same counterfactual answer.
 
+</div>
+
+<SectionLesson section="11.9" />
+
+<div v-pre class="theory-source">
+
+
 ## 11.9.1 Multi-Order Recursive Projection of the Future {#section-11-9-1}
 
 Advancing time over multiple steps, re-entry from a simulated state, and anticipatory reflexivity are three orthogonal dimensions. Advancing time over multiple steps carries a state forward in time within a single run. Simulation re-entry uses a simulated future generated in the first round as the starting point for a child run. Anticipatory reflexivity occurs when actors in the simulation form expectations about the more distant future or other people’s responses and change their current strategies. These three operations must not be conflated under the single term “recursion.”
@@ -191,11 +338,25 @@ Three orders are one default way to organize exploratory projection. The first u
 
 The layer that generates possibilities may be bold. The state layer must be strict, the evidence layer must not raise its own status, and the action layer still needs separate authorization. Boldness can expand the space of plausible mechanisms, competing paths, and branches with low probability and severe consequences. It also helps produce clear judgments within the limits of the evidence. The strength of a judgment is supported only by evidence, conditions of applicability, and permitted uses. Tone or the number of generated possibilities cannot make it stronger.
 
+</div>
+
+<SectionLesson section="11.9.1" />
+
+<div v-pre class="theory-source">
+
+
 ### 11.9.2 Recursive Interfaces and Lineage {#section-11-9-2}
 
 Before each re-entry, conduct a recasting audit. Record the current order, parent run, parent path, parent node, simulated time, the current order’s time window and the cumulative window, model version, inherited assumptions, new conditions, what is preserved, changed, collapsed, or omitted, new unknowns, effective variables for the target, residuals, identity across re-entry, the return path, and the reason for stopping. The simulated starting point must not be rewritten as present reality.
 
 A child run must inherit the unresolved unknowns, losses, and residuals of its parent run. Selecting a hypothetical branch only narrows the conditions. It does not mean material from reality has eliminated the uncertainty. Increasing the number of draws may reduce computational error. It does not increase empirical support about outcomes in reality.
+
+</div>
+
+<SectionLesson section="11.9.2" />
+
+<div v-pre class="theory-source">
+
 
 ### 11.9.3 Branching, Merging, and Pruning {#section-11-9-3}
 
@@ -203,15 +364,36 @@ At each order, check whether there are substantive grounds for the main path, it
 
 Branches may be merged only when object identity is preserved, key states are equivalent within a predetermined tolerance, differences in history do not change subsequent transitions, and the available actions and constraints agree going forward. Pruning rules must be declared in advance. Preserve pruned branches, reasons for pruning, any possible probability mass, and the level of harm. Low probability alone cannot justify removing a path with severe consequences.
 
+</div>
+
+<SectionLesson section="11.9.3" />
+
+<div v-pre class="theory-source">
+
+
 ### 11.9.4 Early Stopping {#section-11-9-4}
 
 Stop or downgrade if object identity or scale identity fails, key assumptions cannot be inherited, the transition mechanism falls outside its domain, the recursive interface lacks closure, or branches proliferate without signals to distinguish them. Also stop or downgrade if the results reverse across the board under small changes, residuals exceed the threshold for the intended use, a deeper order adds nothing relative to a shallower one and a simple baseline, the calibrated time window is exceeded, a boundary of rights or authorization is reached, or the third-order limit is reached. The stopping record must state what can still be said and what cannot.
+
+</div>
+
+<SectionLesson section="11.9.4" />
+
+<div v-pre class="theory-source">
+
 
 ## 11.10 Stopping Conditions for a Projection Run {#section-11-10}
 
 Affected propositions and the paths that depend on them should be suspended or downgraded if a key object lacks grounds for object facts or a grouping-gain claim on which a path depends is not supported, the event’s factual status is unclear, a propagation channel is missing, a cross-scale mapping fails, or the number of paths grows without signals to distinguish them. The same rule applies if the model is extremely sensitive to small changes in parameters, privacy or safety risks exceed the value of the information, the projection is asked to generate a diagnosis, punishment, or authorization directly, or a simple baseline already performs as well or better. If a shared premise or the overall conditions for use fail, all related runs stop.
 
 Stopping is part of the output. It must not be used to conceal failure. The stopping record should state where the projection stopped, what has been obtained, which unknowns prevent continuation, which next observation would be most informative, and what risk further projection would add.
+
+</div>
+
+<SectionLesson section="11.10" />
+
+<div v-pre class="theory-source">
+
 
 ## 11.11 An Example of a Cross-Circle Cascade {#section-11-11}
 
@@ -223,11 +405,25 @@ Early signals can include the number of internal appeals, records of hours actua
 
 The projection still cannot say which path the company “should” take. It provides conditional consequences and signals that distinguish the paths. Forecast registration, comparison of options, normative premises, and authorization are addressed in the next Part.
 
+</div>
+
+<SectionLesson section="11.11" />
+
+<div v-pre class="theory-source">
+
+
 ## 11.12 Outputs of This Part {#section-11-12}
 
 A qualifying projection output should include a frozen joint snapshot, event type and evidence, mechanism and parameter assumptions, update steps, and a path graph. For every path, it should record conditions, clocks, support status, and early and contrary signals. It should also include residuals and variable candidates, stopping conditions, a plan for writing back results, and an explicit statement separating prediction and action.
 
 Projection can improve structured preparation for what follows, but it remains conditional. Without registration before results, a simple baseline, calibration, and continuing write-back, it cannot support a claim that foresight capability has improved. Without normative grounds and authorization, it cannot support a claim that an action should be carried out. An analysis based on explicit normative premises can recommend an option, reject it, or recommend deferral. None of these judgments establishes that the option has been authorized for execution. For each such judgment, its grounds, costs, opposing case, and conditions for revision must be stated in full.
+
+</div>
+
+<SectionLesson section="11.12" />
+
+<div v-pre class="theory-source">
+
 
 ## 11.13 Action Choice and Updating Conditions {#section-11-13}
 
@@ -240,5 +436,11 @@ Later projection starts from explicitly stated conditional state differences and
 [^tn-circle-12]: Translator's note: Circles may be parallel, nested, overlapping, or bridged.
 
 [^tn-contract-12]: Translator's note: A contract here is an analytical agreement registered and frozen before results, akin to pre-registration.
+
+</div>
+
+<SectionLesson section="11.13" />
+
+<div v-pre class="theory-source">
 
 </div>

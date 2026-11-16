@@ -14,6 +14,13 @@ The two kinds of question must be kept separate. An explanation can be highly re
 
 The requirements in this Part belong to three levels with different scopes. Principles of argument state what a normative judgment must distinguish: facts and what ought to be, the value premises used and their conflicts, and beneficiaries and those who bear the costs; where options are chosen, they also include the options, no action among them. Analytical recommendations for deliberation are bound by them as well. Substantive safeguards state what real-world adoption must actually have: valid authorization covering the action, and the substance of the protections referred to by PF-1–PF-10, including identification of affected and low-power positions, safe submission and anti-retaliation, genuine refusal and exit, accessible appeal and independent review, adding evidence and correcting records, rollback and remedy, and action ceilings and expiry. The record format states how this framework registers the above for its own `authorized` status, for example by pointing to the no-action option through a unique `no_action_option_id` and having exactly ten `protection_floor_bindings`. Other implementations that carry equivalent responsibilities for protection, tracing, and review may adopt different formats. Whether they are equivalent must be confirmed by independent review, not self-reported by the implementer. If deleting a requirement would change who is protected, who bears the costs, who has the right to decide, who can stop, or who can correct errors, it does not belong to the record format.
 
+</div>
+
+<SectionLesson section="intro-14-part" />
+
+<div v-pre class="theory-source">
+
+
 ## 14.1 Facts Do Not Entail What Ought to Be Done {#section-14-1}
 
 Factual propositions describe “what is.” Normative premises state “what is worth pursuing, protecting, or prohibiting.” Claims that “a structure is stable,” “an option is more efficient,” “the system retains a certain type,” or “a risk is rising” cannot directly entail “therefore this should be done.” Facts have a defined role in choice. They determine whether an option is possible, what its consequences might be, and the extent of risk and uncertainty. They do not choose values or create authorization on their own.
@@ -23,6 +30,13 @@ Any process that moves from explanation or diagnosis to real-world action must t
 The severity of a diagnosis provides no direct route to action. High model confidence provides no route to broader permission. Stronger evidence can raise the ceiling for descriptive judgments, but cannot raise the action ceiling by itself.
 
 C12 checks the validity of the normative bridge. C12 does not choose values. It checks only whether the descriptive conclusion, current evidence, explicit normative premises, conflicts of value, the protection floor, the J axis, options, no action, O1–O4, the action ceiling, and conditions for correction all meet their requirements at the same time. Least harm and proportionality must be explicitly selected, explained, and reviewed in the specific choice record. They must not be left implicit in C12.
+
+</div>
+
+<SectionLesson section="14.1" />
+
+<div v-pre class="theory-source">
+
 
 ## 14.2 Three Distinct Processes of Selection and Choice {#section-14-2}
 
@@ -35,6 +49,13 @@ Selection and choice cover at least three structurally distinct processes. Confl
 `SEL-GOV` is collective governance authorized through a procedure. It addresses common affairs. The fact that they are common does not establish that the majority can represent everyone or that the scope of impact equals the scope of jurisdiction. A governance decision must make it possible to trace its boundaries, how the agenda was formed, who has authority to represent, which positions can participate, how dissent is preserved, how minorities are protected, how conflicts of interest are handled, who executes and reviews it, and when authorization expires. Numbers, loudness, efficiency, claims to represent, and legal form cannot by themselves substitute for bounded public authorization.
 
 The three types have strict boundaries. `SEL-SYS` cannot acquire intent or normative justification by borrowing the language of subjects. `SEL-AGT` cannot decide for others beyond the subject’s own permissions. `SEL-GOV` cannot bypass procedure and present governance as an enlarged version of personal choice.
+
+</div>
+
+<SectionLesson section="14.2" />
+
+<div v-pre class="theory-source">
+
 
 ## 14.3 Registering N1–N5 Premises at Runtime {#section-14-3}
 
@@ -56,6 +77,13 @@ Premises drawn from N can conflict. For example, quickly limiting losses can con
 
 `rights_floor` records the PF IDs actually in force for the current choice. It sets a boundary each option must pass first. It must not be treated as a preference freely exchangeable for efficiency. The rights floor and N premises have distinct roles. N states the grounds for choice, and PF states the conditions of protection that those grounds cannot override.
 
+</div>
+
+<SectionLesson section="14.3" />
+
+<div v-pre class="theory-source">
+
+
 ## 14.4 Generating Options, Consequences Across Scales, and Distribution {#section-14-4}
 
 Choice begins by generating a set of comparable options. It does not consist of finding reasons for a preselected option. Each option has a stable `option_id` and freezes its `option_kind`, action type, target object, territory, validity period, reversibility, expected impacts, and distributional impacts. A change to an option’s action, object, territory, or validity period should produce a new version or ID. The same ID must not be quietly repurposed after review.
@@ -71,6 +99,13 @@ The distribution ledger must record benefits, costs, risks, impacts on rights, a
 Least harm and proportionality are two explicit principles of choice. Each record must specify the principle ID and version, selected option, all options compared, evaluation dimensions, adequate reasons, evidence references, reviewer, time of review, and status. `least_harm` must instantiate `NSP-LEAST-HARM`. It must explain which harms can be avoided across all feasible options and no action, and why the selected option is the narrowest. `proportionality` must instantiate `NSP-PROPORTIONALITY`. It checks suitability, necessity, benefits and the costs imposed on rights, intensity, scope, and duration separately. Neither principle is a synonym for a “good objective.” Neither can be reduced to a slogan that cannot be reviewed or a token carrying only a name.
 
 Evidence for an instance of a principle must resolve to the evidence set for the current run. The reviewer must be distinct from the deciding subject and be linked to an independent party responsible for review. Review must take place no later than the transition to authorization. The version may refer only to the current registered version. Expiry, the validity of all ten PF items, and the timing of further review must all cover the validity period of the selected option. An expired review record must not be used to maintain `authorized`.
+
+</div>
+
+<SectionLesson section="14.4" />
+
+<div v-pre class="theory-source">
+
 
 ### 14.4.1 The Scope and Limits of the Responsibility to Identify {#section-14-4-1}
 
@@ -124,6 +159,13 @@ Atomic authorization specifies sufficient coverage for a particular action. Actu
 
 Personal consent, private appointment, public authority, and an organization’s legally established standing to make a request can also be valid separately. When a public action is lawful without a private appointment, that does not establish personal consent or permit expansion into other matters. The framework’s internal issuance status determines only the scope of use it is willing to certify. The legal effect of external procedures, normative disputes, and actual effects of protection must still be assessed separately on their respective evidence.
 
+</div>
+
+<SectionLesson section="14.6" />
+
+<div v-pre class="theory-source">
+
+
 ## 14.7 Status, Action Ceilings, and the Correction Loop {#section-14-7}
 
 A choice record has only seven statuses: `draft`, `under_review`, `authorized`, `paused`, `stopped`, `rolled_back`, and `closed`. Every transition must append the previous status, time, responsible party, and grounds. It must not overwrite history.
@@ -137,6 +179,13 @@ For each action, pre-register its maximum level, prohibited actions, stop trigge
 Appeal must be accessible, have a time limit, and be capable of changing a record or an action. It must lead to external independent review in high-impact cases or when there is a conflict of interest. Anti-retaliation mechanisms protect submission of evidence, objections, refusal, stopping, appeal, and exit. Rollback goes beyond withdrawing an order. It includes restoration to an acceptable state, correction of authoritative records, synchronization of downstream versions, remedy of real harm, and tracking of residual harm. Every authorization has an `expiry`. It lapses automatically at expiry. Continued execution requires a new authorization process and must not be renewed by default.
 
 Correction has four distinct endpoints. Views are heard safely. Relevant evidence is understood. An authority with jurisdiction actually changes the erroneous decision. Restored resources and rights reach the people concerned. An earlier step can have independent value without closing a later one. A higher rate of overturned decisions is not automatically better. Review whether substantiated errors can be corrected, who could not enter the process, and what actually reaches people after correction. A rollback record cannot erase harm that occurred, opportunities that were missed, or costs incurred by others. 〔Studies 21.04, 21.08, 28.04〕
+
+</div>
+
+<SectionLesson section="14.7" />
+
+<div v-pre class="theory-source">
+
 
 ## 14.8 How PF-1–PF-10 Connect to the Choice Record {#section-14-8}
 
@@ -172,6 +221,13 @@ How the world “ought to choose” cannot be reduced to a single objective func
 
 The protection floor provides minimum procedural requirements and limits on burdens. It does not exhaust substantive rights. For each matter, still specify the relevant rights, claimants, duty bearers, applicable grounds, conflicts, and remedies. The ten mechanisms do not automatically establish that a distribution of income, eligibility, care, or property is justified. Conversely, a right with independent grounds does not come into existence only when the framework’s forms are used.
 
+</div>
+
+<SectionLesson section="14.8" />
+
+<div v-pre class="theory-source">
+
+
 ## 14.9 Distribution Across Circles and Responsibility for Inaction {#section-14-9}
 
 Multi-circle options must record local benefits, cross-boundary spillovers, and costs in different time windows separately. Better metrics in the primary circle cannot offset harm to rights in another circle. An overall average cannot cover people unable to exit. Positions where memberships overlap may bear costs more than once. Bridging parties may bear translation costs and risk of conflict. Responsibilities and histories can remain after a temporary circle dissolves.
@@ -179,6 +235,13 @@ Multi-circle options must record local benefits, cross-boundary spillovers, and 
 No action is also an option. State which rules and allocations of resources it retains, who continues to benefit or suffer harm, which clocks keep advancing, when to reopen evaluation, and who is responsible for observation and protection. If there is ongoing harm, a statutory duty, irreversible lock-in, or a position from which exit is impossible, “waiting for more evidence” cannot be extended indefinitely. Even without the main action, minimal protection, appeal, disclosure, or temporary uptake may be needed.
 
 The prediction layer cannot compare options automatically. Foresight provides conditional consequences, the normative layer discloses conflicts of value and the protection floor, and the authorization layer determines who may act. Predictive accuracy, complexity, and technical capability do not confer a qualification to rule.
+
+</div>
+
+<SectionLesson section="14.9" />
+
+<div v-pre class="theory-source">
+
 
 ### 14.9.1 Bounded Judgment When Every Option Involves Losses {#section-14-9-1}
 
@@ -204,5 +267,11 @@ The absence of actual intervention does not guarantee the absence of domination.
 The scope of those affected, the scope of those subject to a governance structure, legal membership, and the scope of formal representation need not coincide. The first two help identify overlooked problems and needs for protection. The latter two must be determined under the specific institution and authorization. None can confer all voting rights or jurisdiction merely by applying one principle. The framework’s own review checks belong to its contract for bounded action. They do not establish the only legitimate system of decision-making for every community. How ordinary disagreements are resolved, which rights cannot be canceled by a majority, and when emergency procedures end should be stated publicly and be open to review.
 
 [^tn-contract-15]: Translator's note: A contract here is an analytical agreement registered and frozen before results, akin to pre-registration.
+
+</div>
+
+<SectionLesson section="14.10" />
+
+<div v-pre class="theory-source">
 
 </div>

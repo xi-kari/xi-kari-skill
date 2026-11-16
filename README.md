@@ -65,7 +65,7 @@
 
 宿主需要能读取包内的完整 Markdown、保持或恢复长任务上下文，并输出足够完整的答案；联网检索、Python 和多智能体协作都使用宿主已有的能力。
 
-1. **下载。** 打开[最新正式 Release](https://github.com/xi-kari/xi-kari-skill/releases/latest)，取得附件中的 Windows 安装包（`xi-kari-skill-<版本号>-windows.zip`）。同一页面附有逐文件清单 `install-manifest.json` 和 `SHA256SUMS`；运行下面的命令，将下载文件的哈希与该版本的 `SHA256SUMS` 对照：
+1. **下载。** 打开[最新正式 Release](https://github.com/xi-kari/xi-kari-skill/releases/latest)，通过页面提供的下载链接取得 Windows 安装包（`xi-kari-skill-<版本号>-windows.zip`）。同一页面还提供逐文件清单 `install-manifest.json` 和 `SHA256SUMS` 的下载链接；运行下面的命令，将下载文件的哈希与该版本的 `SHA256SUMS` 对照：
 
    ```powershell
    Get-FileHash -Path .\xi-kari-skill-*-windows.zip -Algorithm SHA256
@@ -211,7 +211,7 @@ python "$skillRoot/scripts/comparison.py" "$taskRoot/compare.json" --output "$ta
 | [附录 A—D](https://xi-kari.github.io/xi-kari-skill/handbook/theory/appendix-a/) | 人类变量接口卡册、编号体系与术语总表、共同方法内核与跨学科桥接、领域解释与应用图谱 |
 
 - **[中文精读站](https://xi-kari.github.io/xi-kari-skill/handbook/)**：v2 全文分为 65 个阅读页面、397 个编号小节；连同书前、分部导言等共 421 个阅读单元，均有中文讲解入口。原文与讲解分开呈现，概念、案例与正文可以搜索。
-- **[英文阅读站](https://xi-kari.github.io/xi-kari-skill/handbook/en/)**：完整英文参考正文与中文共用小节编号，配有英文导航、搜索、概念页、案例页和精选逐节导读。可以切换语言对照；中文研究长讲义尚未全部英译，英文导读范围单独列明。
+- **[英文阅读站](https://xi-kari.github.io/xi-kari-skill/handbook/en/)**：完整英文参考正文与中文共用小节编号，全部 421 个网页讲解单元均有英文译文，包含论证、例子、问答和来源说明；配有英文导航、搜索、概念页与案例页。可以切换语言对照；原图配英文说明，历史研究附件保留中文并明确标注。
 - **[全文下载](https://xi-kari.github.io/xi-kari-skill/handbook/downloads.html)**：提供中文 v2 Markdown、英文阅读稿和保留原始字节的作者英文原件。另保留明确标为第一版的旧 Word；它不对应 v2。历史研究材料也保留各自版本与来源说明。
 - **[概念例解](https://xi-kari.github.io/xi-kari-skill/handbook/concepts/)**：从一个问题进入一项区别，例如“收到意见，就算形成反馈了吗？”“每个方案都可行，能一起实施吗？”
 - **[真实案例](https://xi-kari.github.io/xi-kari-skill/handbook/cases/)**：火星气候轨道器的单位接口、丰田安灯的响应流程、GitLab 的数据库恢复、弗林特的饮水投诉、飓风伊恩的预报锥等；案例总览按“先从哪个问题读起”给出阅读路线。

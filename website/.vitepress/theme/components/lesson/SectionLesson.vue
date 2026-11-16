@@ -26,7 +26,7 @@ const lesson = computed(() => frontmatter.value.xkLessons?.[props.section])
 const assetBase = computed(() => lesson.value?.taskId ? `/reading-assets/${lesson.value.taskId}/` : '/')
 provide('xk-lesson-assets', assetBase)
 const slug = computed(() => lessonSlug(props.section))
-const label = computed(() => isEnglish.value && !/^(?:\d+|[A-D])(?:\.\d+)+$/.test(props.section) ? (props.section.startsWith('front-') ? 'Start' : 'Note') : bubbleLabel(props.section))
+const label = computed(() => bubbleLabel(props.section, isEnglish.value ? 'en' : 'zh'))
 const sourceRef = computed(() => isEnglish.value && !/^(?:\d+|[A-D])(?:\.\d+)+$/.test(props.section) ? 'this passage' : refOf(props.section))
 
 const MODELS: Record<string, any> = { feedback: FeedbackExplorer, joint: JointExplorer, prediction: PredictionExplorer }
@@ -195,6 +195,10 @@ onUnmounted(() => { alive = false; window.removeEventListener('hashchange', reve
               <img :src="withBase(figure.path)" :alt="figure.alt" loading="lazy" decoding="async">
             </button>
             <figcaption><span class="xk-plate__no">{{ figureNo(i) }}</span>{{ figure.caption }}</figcaption>
+            <details v-if="isEnglish && lesson.translationOf && figure.alt" class="xk-figure-description" open>
+              <summary>English description · original figure in Chinese</summary>
+              <p><XkRichText :text="figure.alt" /></p>
+            </details>
           </figure>
 
           <section v-for="(example, i) in lesson.teachingExamples || []" :key="`t${i}`" class="xk-mod xk-scenario">
@@ -273,16 +277,17 @@ onUnmounted(() => { alive = false; window.removeEventListener('hashchange', reve
           <details v-if="has(lesson.sources) || lesson.lecturePath || locatorNote || lesson.editionNote" class="xk-lesson-materials">
             <summary>{{ t('原文定位、引用资料与完整解读', 'Source locations, references, and lesson materials') }}</summary>
             <div class="xk-lesson-materials__body">
+              <p v-if="isEnglish && lesson.translationOf" class="xk-materials-note">This is a translation of the corresponding Chinese reading lesson. The author’s English reference text appears above. Reading-scope statements preserve the original lesson’s research record. Archived research manuscripts, source excerpts, registers, and original figures retain their Chinese language and original dates.</p>
               <p v-if="lesson.editionNote" class="xk-materials-note"><b>{{ t('版本说明：', 'Edition note: ') }}</b><XkRichText :text="lesson.editionNote" /></p>
               <p v-if="lesson.sourceHash" class="xk-original-refs">{{ t('解读所据文本 SHA-256：', 'Source text SHA-256: ') }}{{ lesson.sourceHash }}</p>
               <p v-if="has(lesson.sourceRefs)" class="xk-original-refs"><span v-for="(item, i) in lesson.sourceRefs" :key="i">{{ item.section ? `§${item.section}` : sourceRef }} · {{ t('解读所据文本第', 'Source lines') }} {{ item.startLine || item.start_line }}–{{ item.endLine || item.end_line }} {{ t('行', '') }}</span></p>
               <p v-if="locatorNote" class="xk-original-refs"><XkRichText :text="locatorNote" /></p>
               <nav class="xk-reading-downloads" :aria-label="t('本节阅读材料', 'Materials for this section')">
                 <a v-if="lesson.lecturePath" :href="link(lesson.lecturePath)" download>{{ t('完整解读原稿', 'Complete lesson manuscript (Chinese)') }}</a>
-                <a v-if="lesson.sourceSlicePath" :href="link(lesson.sourceSlicePath)" download>{{ t('原文对照', 'Source excerpt') }}</a>
-                <a v-if="lesson.sourcesPath" :href="link(lesson.sourcesPath)" download>{{ t('来源登记', 'Source register') }}</a>
-                <a v-if="lesson.diagramsPath" :href="link(lesson.diagramsPath)" download>{{ t('图解材料', 'Diagram materials') }}</a>
-                <a v-for="file in lesson.supplementaryFiles || []" :key="file.path" :href="link(file.path)" download>{{ file.title || file.label || file.name || t('补充数据', 'Supplementary data') }}</a>
+                <a v-if="lesson.sourceSlicePath" :href="link(lesson.sourceSlicePath)" download>{{ t('原文对照', 'Archived source excerpt (Chinese)') }}</a>
+                <a v-if="lesson.sourcesPath" :href="link(lesson.sourcesPath)" download>{{ t('来源登记', 'Original source register (Chinese)') }}</a>
+                <a v-if="lesson.diagramsPath" :href="link(lesson.diagramsPath)" download>{{ t('图解材料', 'Original diagram materials (Chinese)') }}</a>
+                <a v-for="file in lesson.supplementaryFiles || []" :key="file.path" :href="link(file.path)" download>{{ file.title || file.label || file.name || t('补充数据', 'Supplementary data') }}{{ isEnglish && lesson.translationOf && /teaching_(before|after)\.txt$/.test(file.path) ? ' (Chinese)' : '' }}</a>
               </nav>
               <p class="xk-materials-note">{{ t('以下资料支持本节的具体论述，实际阅读范围和适用限制在各条记录中注明。', 'These sources support the specific claims in this note. Each entry identifies the reading scope and limits.') }}</p>
               <article v-for="source in lesson.sources || []" :id="sourceAnchor(source.id)" :key="source.id" class="xk-source-entry">

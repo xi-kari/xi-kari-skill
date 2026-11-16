@@ -16,6 +16,13 @@ The tool layer confers no authorization. Even when the workflow, evidence, and s
 
 The following workflow governs structured judgments formed under this framework and their handoff. Reading, checking against the original text, and clarifying a low-impact question can use concise records suited to the task. Skipping the full tool workflow is no basis for declaring that established facts in the domain do not exist. Formal diagnosis, foresight, or high-impact use requires the corresponding full contract[^tn-contract-14]. Renaming an output cannot reduce the responsibilities it carries.
 
+</div>
+
+<SectionLesson section="intro-13-part" />
+
+<div v-pre class="theory-source">
+
+
 ## 13.1 Four Conversions {#section-13-1}
 
 Each conversion adds a responsibility for recording. Replacing terms from the theory with labels for real-world situations does not accomplish this. If any step fails, the outputs that depend on it stop before that step. A later step’s completed fields cannot make up for the failure. Other independent judgments are reviewed separately on their own grounds and intended uses.
@@ -31,11 +38,25 @@ IT1 prevents a narrative about structure from being treated as an observed fact.
 
 If any IT conversion fails, dependent later conversions may only be marked `not_run`. The propositions, comparative judgments, strong-judgment candidates, and requirements for action that they support must be stopped or downgraded. Downstream conclusions that share the same gap must not regain their ceiling through renaming, splitting, or opening another branch. A later `not_run` only preserves the chain of failure. Completing the kit cannot repair the break. A judgment may retain its original standing if it does not depend on the failed step, has independent grounds, and its use meets its own requirements. If the gap affects the overall source status, a shared factual premise, the object boundary, or lawful conditions for use of the entire task, stop or downgrade all dependent outputs together. If a gate required for high-impact adoption fails, calling the same judgment an ordinary opinion does not allow it to retain its original use.
 
+</div>
+
+<SectionLesson section="13.1" />
+
+<div v-pre class="theory-source">
+
+
 ## 13.2 Using the Universal Primitives and Human Variable Interfaces (11+11) {#section-13-2}
 
 HV01–HV11 in Part 7 are the 11 interfaces for the human structured world. U01–U11 in Part 3 are the universal structural primitives. The tool layer can use both sets in the same case. Matching numbers, equal counts, or similar questions do not establish one-to-one equivalence.
 
 At minimum, record the universal or human interface ID, effective object, nine-axis scale, selected support route, instance evidence, alternative explanations, missing-data status, judgment ceiling, and action ceiling. H1/H4/H5 may enter the specified routes only through the corresponding H-instance in each case. G1–G4 can support empirical claims only through a G-instance frozen before results. An interface card can raise a question. Completing its fields cannot establish facts about the object.
+
+</div>
+
+<SectionLesson section="13.2" />
+
+<div v-pre class="theory-source">
+
 
 ## 13.3 The Seven Gates as the Only Main Workflow {#section-13-3}
 
@@ -56,6 +77,13 @@ Passing all seven gates indicates only that the applicable recording requirement
 IG6 has a specific applicability rule. An ordinary L1/L2 output may mark it `not_applicable`, but the record must state why the strong-judgment procedure is not triggered in this case. This does not block IG7. Once IG6 is marked `passed`, the same run record must link a complete SJ1–SJ8, with every item marked `passed`. A “checked” string or an empty rationale cannot substitute for the eight results.
 
 The scope of identification for IG3 is determined under §14.4.1. Positions that section requires to be listed in full must be listed in full; for other positions, the record must state how far they were traced and why tracing stopped. For explanation and diagnosis tasks without a comparison of options, the test is whether further tracing could change the conclusion or its grade, the scope of use, or protective arrangements.
+
+</div>
+
+<SectionLesson section="13.3" />
+
+<div v-pre class="theory-source">
+
 
 ## 13.4 The Five Gates and 13 Steps for Elaborating a Diagnosis {#section-13-4}
 
@@ -89,6 +117,13 @@ The 13 steps form an auditable sequence from the real-world question to write-ba
 
 When DS06 uses S0–S6, it must do so only for human intentional collectives to which the prototypes apply. The prototypes must not be forced onto other objects. S0–S6 must not be treated as levels of maturity or as fate. Identifying an important variable for protection in DS08 can generate only a requirement for protection. Identifying uptake or overextension in DS09 cannot generate a duty to make sacrifices or establish full responsibility. Candidate mechanisms in DS11 must not bypass the causal contract. Branches in DS12 do not describe a certain future. If DS13 lacks review and withdrawal procedures, the judgment must not be entered into organizational records, eligibility, allocation, or public memory.
 
+</div>
+
+<SectionLesson section="13.4" />
+
+<div v-pre class="theory-source">
+
+
 ## 13.5 The Strong-Judgment Kit {#section-13-5}
 
 Strong judgments are defined by their uses and foreseeable impacts. Tone, length, and confidence of expression do not determine the category. A judgment enters the strong-judgment procedure if it is intended or reasonably foreseeable for use in real-world action or decisions about eligibility, rights, or resource allocation. The same applies if it has a material impact on a specific subject’s reputation and place in public memory, or if it is embedded in automated, organizational, or institutional decisions. Check the actual use of intermediate scores, recommendations, or material screening when they affect these decisions downstream. Public dissemination calls for greater scrutiny. Assess it in light of the object evaluated, factual allegations, identifiability, reach, and consequences. Publication alone is insufficient to raise every analytical output to a strong judgment. Ordinary work can reach definite conclusions when evaluating arguments, explaining mechanisms, or articulating normative views, provided the uses and impacts above are absent and the evidence and review meet the task’s requirements. Calling an output commentary, research, or a draft does not exempt it if it actually meets the strong-judgment conditions. A strong-judgment candidate may be registered only at L3, with all seven gates passed and each of the following eight items passed individually. It still confers no authorization to act in reality.
@@ -106,6 +141,13 @@ Strong judgments are defined by their uses and foreseeable impacts. Tone, length
 
 If any item is missing, IG6 fails for that strong judgment. The judgment must not enter the category of strong-judgment candidate or retain its original high-impact use. It may be recorded only as an internal hypothesis, an open assertion, or a candidate mechanism within the limits of its materials and actual use. An L2 comparative judgment may remain if it does not depend on the missing item, has independent grounds, and does not trigger a strong-judgment use. Failure of a common premise still blocks all dependent judgments. Renaming or splitting must not be used to evade that limit. Access to appeal does not count as an effective appeal if it cannot change a record or action. Being external in name does not establish independence. A statement, apology, or release of a new version does not amount to actual rollback and repair.
 
+</div>
+
+<SectionLesson section="13.5" />
+
+<div v-pre class="theory-source">
+
+
 ## 13.6 Diagnostic Levels {#section-13-6}
 
 | ID | Level | When It Applies | Output Ceiling |
@@ -115,6 +157,13 @@ If any item is missing, IG6 fails for that strong judgment. The judgment must no
 | L3 | Strong-judgment candidate carrying high responsibility | Judgments with substantively high impact or embedded in automated, organizational, or institutional decisions. Public dissemination is reviewed in light of the object, factual allegations, identifiability, and consequences | A strong-judgment candidate after the seven gates and the kit pass |
 
 A higher level adds responsibility for recording and does not make a judgment “closer to the truth.” The level must be downgraded if evidence coverage declines, the object undergoes conversion, reflexivity becomes uncontrolled, or appeals or anti-retaliation protection fail. Urgency does not permit omitting the object, protection, or stopping conditions. When waiting is costly, the tool may only propose the narrowest, withdrawable, monitorable requirement for action, separately from the applicable authorization.
+
+</div>
+
+<SectionLesson section="13.6" />
+
+<div v-pre class="theory-source">
+
 
 ## 13.7 Six Formal Tools {#section-13-7}
 
@@ -131,6 +180,13 @@ The evidence ledger must not turn “has a source” into “is supported.” An
 
 Automatic validation is suited to checking closed fields, whether references resolve, consistency of versions and statuses, and whether calculations can be reproduced. It cannot replace assessment of materials, testimony from people affected, causal identification, or choices about values. Programs should do the work that can be done mechanically so that readers can examine the actual grounds for judgments. Complete logs and clear prose can be kept separately with references between them.
 
+</div>
+
+<SectionLesson section="13.7" />
+
+<div v-pre class="theory-source">
+
+
 ## 13.8 Limits on the Use of AI {#section-13-8}
 
 AI can organize materials, check fields, compare versions, generate candidate questions, list alternative explanations, and find inconsistencies in formatting. Where the evidence and normative premises allow, it should also compare mechanisms, form refutable judgments, recommend options, and draft complete institutional arrangements, plans, and commentary. AI must not invent sources, treat information recalled from training as current evidence, express consent on someone’s behalf, interpret silence as consent, take the place of a deciding subject or authorizing authority, or hide uncertainty. It must not make high-risk real-world decisions independently.
@@ -138,6 +194,13 @@ AI can organize materials, check fields, compare versions, generate candidate qu
 AI outputs must state what materials were used, what is missing, which content is observation/inference/analogy, who is responsible for the final judgment, how it may be used, and when it is to be reviewed or withdrawn. Where disclosure of identity, retaliation risk, or justified opacity is involved, protective omissions must remain distinguishable from “no evidence.”
 
 Responsibility for AI use should also reflect the actual division of work among those who provide materials, decide objectives and permissions, maintain systems, carry out actions, and review results. Facilities and procedures that perform technical steps do not become subjects capable of bearing moral or legal responsibility merely because they output recommendations or execute instructions. Organizations legally capable of bearing a specified responsibility must be assessed separately according to their institutional status and the matter at issue. Greater automation does not put all responsibility on the person who clicks last. Reviewers must have sufficient materials, time, capability, and authority to stop actions in practice. The organization must also provide the resources needed for these conditions.
+
+</div>
+
+<SectionLesson section="13.8" />
+
+<div v-pre class="theory-source">
+
 
 ## 13.9 Run Records and Failure Semantics {#section-13-9}
 
@@ -150,6 +213,13 @@ A normative handoff must link to verifiable external choice, C12, and authorizat
 Outcome statuses must remain distinct. `passed` means the recording requirements at that gate were met. `failed` means the step ran and failed. `not_run` means it was not run because of an earlier gate or a scope restriction. `unknown`, `not_applicable`, `not_observable`, and `withheld_for_protection` remain four distinct missing-data statuses. Failure must not be rewritten as inapplicability. Concealment for protection must not be rewritten as absence.
 
 The run record’s `authorization_effect` is always `none`. Even when external references for normative choice, C12, J, and O exist, this record only checks them and hands them off. It does not issue authorization. All reviewed outputs must retain an accessible appeal and a means of actual withdrawal or correction. A tool conclusion that cannot be withdrawn must not be put to a high-impact use that is difficult to reverse.
+
+</div>
+
+<SectionLesson section="13.9" />
+
+<div v-pre class="theory-source">
+
 
 ## 13.10 The Nine Gates for Multi-Circle Projection {#section-13-10}
 
@@ -169,9 +239,23 @@ The seven gates are the only main workflow for explanation and diagnosis. When a
 
 The tool can propose candidate circles at DF2 and variable candidates at DF5. Every candidate retains the status `candidate`. If DF6 does not pass, outputs must not use forecast language such as “will happen” or “expected to prove accurate.” If DF7 or DF8 does not pass, outputs must not give executable instructions. DF9 does not permit overwriting the original run.
 
+</div>
+
+<SectionLesson section="13.10" />
+
+<div v-pre class="theory-source">
+
+
 ## 13.11 Limits on AI in Dynamic Runs {#section-13-11}
 
 AI can organize materials, check original passages that can be located, find gaps in fields, generate and compare competing paths, check contract consistency, and calculate registered metrics. Under explicit normative premises it can also form well-grounded local judgments and recommendations and draft complete texts. AI cannot certify a real-world event solely by its own generation, self-report, or internal procedure. It cannot diagnose personality, disclose information on behalf of those concerned, impose circle boundaries on others through its own classifications, treat simulations as facts, settle disputed value premises for others, or issue authorization. Whether external material supports a particular fact must be judged separately according to the material’s status, method, counterexamples, and intended use. Faithfulness to a source does not automatically establish that what it says about the world is true. For a variable automatically proposed by AI, the system must record its status as a model candidate, the minimal test, and prohibited uses. It must not be upgraded before the corresponding external evidence is available.
+
+</div>
+
+<SectionLesson section="13.11" />
+
+<div v-pre class="theory-source">
+
 
 ### 13.11.1 Checking AI Materials and the Chain of Tool Actions {#section-13-11-1}
 
@@ -180,6 +264,13 @@ When checking a generated answer, examine separately whether the source exists, 
 Retrieval augmentation can improve access to materials and performance on a task. Consistency or uncertainty checks can also detect certain errors. Their effectiveness remains limited by retrieval coverage, shared sources, and the types of error. An error repeated reliably can appear consistent. Several models repeating the same inaccurate material do not supply several independent pieces of evidence. A formal checker can confirm a derivation under stated premises, but cannot establish that those premises hold in reality.
 
 For automated action, record the recommendation, tool request, application execution, external state, and consequences separately. The model writing “stopped” does not establish that the executor received a stop instruction. An interface showing “deleted” does not establish that downstream copies are gone. A person changing a recommendation does not establish that the change took effect before an irreversible action. Permissions for actual protection and correction must be exercisable in the corresponding system.
+
+</div>
+
+<SectionLesson section="13.11.1" />
+
+<div v-pre class="theory-source">
+
 
 ### 13.11.2 Task Endpoints and a Verifiable Execution Chain {#section-13-11-2}
 
@@ -200,5 +291,11 @@ Stopping has its own completion conditions. Record separately the issuing of a s
 [^tn-diagnosis-14]: Translator's note: Diagnosis here denotes a nonclinical assessment within the framework.
 
 [^tn-contract-14]: Translator's note: A contract here is an analytical agreement registered and frozen before results, akin to pre-registration.
+
+</div>
+
+<SectionLesson section="13.11.2" />
+
+<div v-pre class="theory-source">
 
 </div>

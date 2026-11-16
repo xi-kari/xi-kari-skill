@@ -50,6 +50,13 @@ Moore, Edward F. 1956. “Gedanken-Experiments on Sequential Machines.” In Aut
 
 ---
 
+</div>
+
+<SectionLesson section="references" />
+
+<div v-pre class="theory-source">
+
+
 ## Copyright and License {#copyright-license}
 
 Work: Xikari: On Conditions, Structure, and Transformation

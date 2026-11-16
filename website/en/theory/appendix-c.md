@@ -10,6 +10,13 @@ title: "Appendix C Common Method Kernel and Cross-Disciplinary Bridging"
 
 This appendix lists methodological responsibilities that can be shared when texts interoperate. Each text retains its own authoritative definitions and way of operating. The common kernel requires no shared chapter structure, artifact count, or numbering. It does not make one text independent empirical evidence for another.
 
+</div>
+
+<SectionLesson section="intro-19-appendix-c" />
+
+<div v-pre class="theory-source">
+
+
 ## C.1 Method Kernel and Stable References {#section-c-1}
 
 | Chinese Reference | Content | Where to Find It |
@@ -21,11 +28,25 @@ This appendix lists methodological responsibilities that can be shared when text
 | Outcome and mechanism contracts C1–C12 | Outcome registration, mechanism composition, and bridging to normative procedures | The individual contracts in Part 4 |
 | Governance invariants | Freezing, evidence, baselines, authorization, protection, and the life cycle | Existing governance clauses in both texts |
 
+</div>
+
+<SectionLesson section="C.1" />
+
+<div v-pre class="theory-source">
+
+
 ## C.2 Common Method Constraints {#section-c-2}
 
 CMC1 requires the task, representation, horizon, environment, operations, and error to be declared together. Test static recovery, dynamic closure, and intervention sufficiency separately. CMC2 requires preserving the evidential status of materials, source lineage, inferential premises, and scope of support. Reprocessing material does not count as independent empirical evidence. CMC3 requires facts, value judgments, and eligibility to act to be established separately. See §4.17 for the full formulation.
 
 The three constraints specify responsibilities for using models. They do not constitute three empirical laws of the world. Whether they reduce errors or impose unnecessary burdens in real tasks requires separate evaluation. Compliance with the procedures does not establish the framework’s effectiveness.
+
+</div>
+
+<SectionLesson section="C.2" />
+
+<div v-pre class="theory-source">
+
 
 ## C.3 Shared Governance Invariants {#section-c-3}
 
@@ -47,11 +68,25 @@ Invariant eight. Capabilities have domains of applicability and validity periods
 
 Invariant nine. Aggregate results must not erase low-power positions, privacy, non-disclosure for protection, appeal, or exit.
 
+</div>
+
+<SectionLesson section="C.3" />
+
+<div v-pre class="theory-source">
+
+
 ## C.4 Preserving Differences Across Texts {#section-c-4}
 
 Interoperability should separately check proposition layers, empirical question-family contracts, null conclusions, scale closure, noncommutation tests, and inferential dependencies, as well as information status, artifact systems, typed unknowns, experimental evaluation, evidence of capability, and model life cycles. A complete contract in one text cannot be replaced by a similar name or case in the other. When the correspondence has yet to be established, keep the differences explicit.
 
 The framework’s nine scale operators need not be aligned with the standard operator steps in *World Model*. The framework’s 14-section scale transformation record is also kept separate from the closed artifact system of *World Model*. The two share only the minimum meanings of what is preserved, changed, collapsed, or omitted, new unknowns, source lineage, domain of applicability, residuals, and stopping.
+
+</div>
+
+<SectionLesson section="C.4" />
+
+<div v-pre class="theory-source">
+
 
 ## C.5 A Mathematical Example of Bridging Scales {#section-c-5}
 
@@ -62,6 +97,13 @@ Mathematical bridging requires carrying the source object, target object, mappin
 Related studies are 05.05 “Gödel, Incompleteness, and Computability,” 05.06 “Effective Theories, Scale Closure, and Coarse-Graining,” and 05.08 “Model Selection, Parsimony, and Expressive Power.” These numbers help locate material. To check a particular mathematical conclusion, return to the assumptions, proofs, and domains of validity in the original works. A bibliography entry cannot substitute for verification.
 
 See Appendix D for the framework’s map of applications by domain. Each domain retains its terminology, measurements, arguments, and professional boundaries. Teaching examples in the map illustrate conditions and the structure of counterexamples. They do not stand in for experiments that have been carried out or actual cases. Topic numbers connect existing research materials and do not rank theoretical importance.
+
+</div>
+
+<SectionLesson section="C.5" />
+
+<div v-pre class="theory-source">
+
 
 ## C.6 F1 Task Recovery and Worst-Case Error {#section-c-6}
 
@@ -80,6 +122,13 @@ Proof. For any output c, the sum of its distances to the two endpoints is at lea
 For a nonnegative tolerance ε, a decoder with error at most ε over the entire domain exists if and only if the range of every fiber is at most 2ε. With an infinite state domain, use suprema and check boundedness. Vector values, restricted outputs, average loss, and probability weighting each give a different optimization problem. Half the range cannot serve as a universal score of information loss across domains.
 
 Suppose the target is binary, the loss is zero-one loss, and the finite set of source states is uniformly distributed. Let n\_y0 and n\_y1 be the counts for the two labels in each fiber. The minimum error rate is |X|⁻¹∑\_y min(n\_y0,n\_y1). Only one label can be chosen for each fiber. Choosing the more frequent label attains the smaller of the two error counts. The error under randomized labeling is a convex combination of these two counts and cannot be lower. This expression describes the given distribution. It does not estimate error frequencies in a real population.
+
+</div>
+
+<SectionLesson section="C.6" />
+
+<div v-pre class="theory-source">
+
 
 ## C.7 F4 Composition of Conversions and Actual Execution {#section-c-7}
 
@@ -109,6 +158,13 @@ In a finite stochastic system, let P(x,x′) be the transition kernel. If the pr
 Approximate closure also needs a horizon. Let d be a metric on Y. Suppose each reachable x satisfies d(π(F(x)),F̄(π(x)))≤ε, and F̄ satisfies d(F̄(y),F̄(y′))≤L d(y,y′) in the region reached. Starting from y\_0=π(x\_0), let e\_t=d(π(x\_t),y\_t). The triangle inequality gives e\_&#123;t+1&#125;≤ε+Le\_t, and the recurrence yields e\_t≤ε∑\_&#123;j=0&#125;^&#123;t−1&#125;L^j. If the per-step error or L changes over time, adapt the recurrence. The fixed-parameter formula must not still be applied.
 
 These propositions state exact closure and error propagation under the conditions for approximate closure, respectively. They cannot determine whether an empirical model meets the statewise bound, whether it leaves the working region, or whether an intervention belongs to the original operation set. Closure under the usual distribution, closure under intervention, and normative usability still have to be established separately.
+
+</div>
+
+<SectionLesson section="C.8" />
+
+<div v-pre class="theory-source">
+
 
 ## C.9 Different Tasks for Two Queues {#section-c-9}
 
@@ -157,6 +213,13 @@ Thus all crossings at positive k go outward, with no re-entry. Together with sta
 
 With k=0.8 fixed, the critical values for d=0 and 1 are 2 and 1, respectively, and the system is stable. The critical values for d=2 and 3 are approximately 0.618034 and 0.445042, respectively, and the system is unstable. For an all-ones initial history, the first step in all four cases gives 0.2. The feedback term already affects the state in the model, while convergence differs. Even when the system is stable, the result still places no bound on transient peaks or costs and does not establish acceptability to people or real-world repair. Time-varying delays, stochastic disturbances, nonlinearity, and constraints on execution require new analysis.
 
+</div>
+
+<SectionLesson section="C.10" />
+
+<div v-pre class="theory-source">
+
+
 ## C.11 Historical Increments and Omissions in the Current Representation {#section-c-11}
 
 Use the same 961 equiprobable initial states, but let each queue serve at most 5 tasks per round with no new arrivals. Advance the full state by F(q₁,q₂)=((q₁−5)\_+,(q₂−5)\_+). The prediction target is the mean after the second round. Compare four inputs after the first round: the current mean, the current mean with the initial mean, the full current state, and the full current state with the initial mean. Under squared loss, outputting the conditional mean of the target for each input fiber attains the minimum expected loss.
@@ -171,6 +234,13 @@ Use the same 961 equiprobable initial states, but let each queue serve at most 5
 The calculation advances each of the 961 initial states and retains its original weight. It does not make the states after the first round uniform again. In particular, (0,20) advances to (0,15) and has a next mean of 5. The state (10,15) advances to (5,10) and has a next mean of 2.5. Both current means are 7.5, while the initial means differ. The historical mean helps distinguish differences collapsed by the current projection. The full current state already suffices to determine the future.
 
 This establishes that a historical predictive increment can arise from an omission in the current representation. It does not establish that real systems universally lack memory. Real data still require attention to measurement, confounding, temporal order, leakage, and model selection. If the full current carrier is unavailable, one cannot claim to have ruled out a historical increment. If earlier experience affects the outcome through a current skill and the residual disappears once that skill is represented sufficiently, the result limits only the additional prediction given the skill. It does not negate the total effect of earlier experience or rule out learning in general.
+
+</div>
+
+<SectionLesson section="C.11" />
+
+<div v-pre class="theory-source">
+
 
 ## C.12 Three Limits on Composing Local Successes {#section-c-12}
 

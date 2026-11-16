@@ -12,6 +12,13 @@ This Part puts a chain of constrained conversions between “finding a problem�
 
 This Part sets out the theoretical meaning, protection requirements, and limits of evidence for intervention levels and application modules. Structured contracts[^tn-contract-16] can carry registration and validation. Their IDs, names, fields, and rules must be checked separately against the versions actually in use. A file’s existence or a passing format check does not establish that the implementation matches the meaning of the text.
 
+</div>
+
+<SectionLesson section="intro-15-part" />
+
+<div v-pre class="theory-source">
+
+
 ## 15.1 The Four Tasks Must Be Kept Separate {#section-15-1}
 
 The conversion chain has a fixed order.
@@ -27,6 +34,13 @@ Intervention uses only choices and authorization that already exist. It does not
 
 If any requirement for real-world action is missing, execution must stop. The corresponding action requirements may call only for no action, more evidence, preservation, continued deliberation, or a recommendation for external referral. Any actual action in that list still requires applicable, independently valid authority. “We have explained it clearly,” “the problem is serious,” and “the objective is well-intentioned” all skip required steps if given as grounds to act.
 
+</div>
+
+<SectionLesson section="15.1" />
+
+<div v-pre class="theory-source">
+
+
 ## 15.2 What T0–T4 Have in Common {#section-15-2}
 
 T0–T4 are types of intervention task. They do not indicate maturity, a developmental ladder, the relative merit of objects, or a label of identity. Each level fixes `classification_kind` as `intervention_task_type` and fixes `maturity_rank` and `mandatory_sequence` as `false`. The numbers set the order of reading only. If safety conditions fail, T4 can be assessed directly without any prior T level. An object with reliable evidence of safety, minimum order, and structure need not perform each level in turn just to complete the form. “Directly” means only that a T-level route has no prior-level requirement. A diagnosis never yields authorization directly. None of the four tasks of explanation, diagnosis, normative choice, and intervention may be skipped, nor may C12, J, or O1–O4. Re-select the task level whenever the object, scale, K, time window, jurisdiction, affected positions, or action changes substantially.
@@ -36,6 +50,13 @@ No level may generate its own authorization. Each must record entry conditions, 
 Every record other than `draft` must retain an `execution_state_log` that cannot be erased. Append state events in order, linking each event through the preceding hash and its own hash. An external `anchor` records the event count, head hash, and current state. Each event retains the complete choice at the time and references to `selected_action`, C12, the single J authorization, and O1–O4. Stopping, rollback, completion, expiry, and withdrawal are no grounds for deleting the historical authorization chain. `rolled_back`, `completed`, `expired`, and `withdrawn` are terminal states for the record. Recomputing hashes in the same package cannot return it to `active`. Only new choice, authorization, and execution records can be created. The current execution state must also agree with the state of the complete 17-field choice record.
 
 A hash chain can check links between stored contents and changes to their bytes. It cannot by itself establish that the whole log was never rewritten, that events actually occurred, or that the anchor is independent. The external anchor’s identity, time of acquisition, and control relationships must also be verifiable. Confirm execution outcomes separately with evidence from the relevant systems and the world. Recording serves traceability, correction, and protection. Cryptographic format cannot substitute for factual investigation.
+
+</div>
+
+<SectionLesson section="15.2" />
+
+<div v-pre class="theory-source">
+
 
 ### 15.2.1 T0 | Carriers of Safety and Trust {#section-15-2-1}
 
@@ -49,6 +70,13 @@ T0 must verify that the channel can actually be reached, access to identities is
 
 Stop contact and propagation immediately if an identity is leaked, retaliation follows submission, the receiving party loses independence, continued contact increases immediate risk, or authorization ceases to hold. Revoke unnecessary access, restore anonymous channels or submission through a representative, remedy new harm, and move the carrier. Appeals allow anonymity, representatives, independent third parties, and emergency stops. Once safety is established, one may remain at T0 or move to T1/T2. If safety cannot be established, one may move directly to T4.
 
+</div>
+
+<SectionLesson section="15.2.1" />
+
+<div v-pre class="theory-source">
+
+
 ### 15.2.2 T1 | Reversible Minimum Order {#section-15-2-2}
 
 T1 applies when harm is spreading and basic functions are breaking down while full diagnosis still takes time. Its objectives are limited to stopping identifiable harm, preserving evidence and key supports, restoring minimal communication and essential services, and opening a new observation window.
@@ -58,6 +86,13 @@ Permitted actions include safe separation, reducing coupling, preserving evidenc
 Entry into T1 requires specifying the immediate harm, consequences of taking no action, key variables for protection, a reversal path for each measure, and side effects by group. Minimum order must not shift the costs of maintaining function onto positions with the least authority, least resources, or care responsibilities. Near misses, silence, and anomalies at the margins remain weak signals. People unable to exit must not be presumed to consent because they stay. Reporting risk, refusing a temporary measure, or requesting review must not lead to retaliation affecting schedules, resources, services, or reputation.
 
 Stop if the measures produce greater harm, reversibility is lost, the deadline is extended without authorization, costs rise at low-power positions, appeal is suppressed, or J authorization ceases to hold. Rollback must restore the original rights, services, resources, and records and remedy harm caused by the temporary measures. Once harm has stabilized and structural evidence is sufficient, T2 can be assessed. Return to T0 if safety deteriorates. Enter T4 if safe repair is infeasible or irreversible risks increase.
+
+</div>
+
+<SectionLesson section="15.2.2" />
+
+<div v-pre class="theory-source">
+
 
 ### 15.2.3 T2 | Repair of the Uptake–Return Flow Chain {#section-15-2-3}
 
@@ -71,6 +106,13 @@ Evidence must include chain nodes, direction of flow, delay, effects by group, r
 
 Stop if alternative channels fail to operate, benefits do not return to positions under pressure, bad news cannot change the plan, margins decline at intermediate levels and the downstream end, harm to a group exceeds a threshold, or authorization ceases to hold. Rollback includes stopping expansion, restoring old channels or running them in parallel, reversing unauthorized reallocations, correcting eligibility and records, compensating for harm, and comparing options again. Assess T3 only when there is a stable closed loop and long-term uptake is in place. Enter T4 when repair is infeasible, power blocks it, or net harm grows.
 
+</div>
+
+<SectionLesson section="15.2.3" />
+
+<div v-pre class="theory-source">
+
+
 ### 15.2.4 T3 | Deep-Time Maintenance and Higher-Order Updating {#section-15-2-4}
 
 Use T3 only when there is already sustained evidence of safety, minimum order, and key return flows. It addresses maintenance debt, breaks in succession, dependence on a single center, slow variables, institutional aging, and recovery margins. It does not declare that the system has entered an “advanced stage.”
@@ -80,6 +122,13 @@ Permitted actions include establishing deep-time early warnings, monitoring slow
 Evidence for entry includes data by group across cycles, maintenance debt, succession and substitution outcomes, recovery exercises, independent audits of vulnerabilities, adoption of counterexamples, and changes in versions. A narrative of long-term stability must not turn near misses, successors’ objections, or deviations in slow variables into noise. Account for maintenance costs by generation, territory, role, and resource position. People unable to exit have local exemptions, representation, and alternative arrangements to take over. Reporting an institutional vulnerability must not affect eligibility for succession, resources, or reputation.
 
 T3 must stop when T0–T2 resources are squeezed, monitoring becomes unauthorized control, succession becomes reproduction of power, costs are shifted to low-power or future positions, or counterexamples cannot change rules over a sustained period. Rollback includes suspending long-term mechanisms, minimizing monitoring data or shutting off the data flow, restoring basic resources, withdrawing obsolete rules, and starting retirement or replacement. T3 can return to any task of protection or repair or move to T4. It is not the endpoint for every object.
+
+</div>
+
+<SectionLesson section="15.2.4" />
+
+<div v-pre class="theory-source">
+
 
 ### 15.2.5 T4 | Exit, Transfer, and Preservation of Evolutionary Memory {#section-15-2-5}
 
@@ -99,6 +148,13 @@ Assessing success or failure in T0–T4 first requires fixing the function and c
 
 When work is taken over after an exit, distinguish who carries out tasks, who arranges and verifies them, who is on call, and who bears the costs. If the person previously responsible still arranges and checks tasks after handover, acknowledge the reduction in execution work and retain the coordination burden that has not been transferred. Safe exit does not require affected people to supply a perfect replacement first. Where bounded responsibilities still have independent grounds, parties with authority and resources must state the scope and duration of the arrangements for taking over and the gaps that remain. The need for continuity must not be rewritten as a requirement that the original party stay indefinitely.
 
+</div>
+
+<SectionLesson section="15.2.5" />
+
+<div v-pre class="theory-source">
+
+
 ## 15.3 Common Checks for the Application Modules {#section-15-3}
 
 A domain name does not supply an object contract. For each application, first register the D0 object, nine-axis scale SP=&lt;A,X,T,O,C,R,I,N,J&gt;, K, time window, sources, and affected and low-power positions. Then enter the seven-gate tool workflow. An application module can change only the questions asked, risk checks, and action ceiling. It cannot substitute for domain investigation, professional judgment, legal procedures, or authorization.
@@ -108,6 +164,13 @@ All nine modules retain PF-1 through PF-10. They register affected and low-power
 Each module below specifies the scope of domain evidence and how to downgrade outputs for gaps. It states what judgments the available materials can support, what facts and verification are still missing, and how those gaps limit the output. Each supported proposition has its own `claim_id`, material references in `source_refs`, and a value for `max_inference` from the closed set. A module title or list of materials cannot support a whole passage of conclusions.
 
 Partial coverage can still be useful. The output ceiling must fall in line with the gaps. Every `source_gap_effects` entry must select from the closed enumerations “lower confidence, suspend the proposition, require external verification, or record only a gap in the inventory” and “no external action, require a domain protocol, narrow authorization, or suspend intervention.” It must not be `none` or `ignore`. The effects of gaps propagate along the dependencies of each proposition. A gap in one item does not invalidate all analysis. Argument evaluations, procedural critiques, and conditional recommendations under explicit premises can be retained separately when they have independent grounds.
+
+</div>
+
+<SectionLesson section="15.3" />
+
+<div v-pre class="theory-source">
+
 
 ### 15.3.1 APP-REL | Relationships {#section-15-3-1}
 
@@ -121,6 +184,13 @@ The tool can produce at most plain-language observations, escalation of risk, ne
 
 Scope of domain evidence and downgrading for gaps (partial coverage). The framework’s rules support a lightweight entry into relationship analysis, protection in informal settings, and protection for people unable to exit. Independent causal contracts for relationships, systematic cases, and evidence of intervention effects are still missing. The output can therefore include only observations, escalation of risk, and needs for support. It cannot determine personality, causal responsibility, or the effectiveness of intervention on that basis. Where violence, coercion, or consequences for property, residence, or guardianship are involved, hand the matter to the appropriate professional procedure and narrow the action ceiling.
 
+</div>
+
+<SectionLesson section="15.3.1" />
+
+<div v-pre class="theory-source">
+
+
 ### 15.3.2 APP-FAM | Families {#section-15-3-2}
 
 The family module checks co-residence, recognition of kinship, affection, property, care, labor, and legal eligibility separately. It assumes no membership boundary that assigns all rights and duties at once. People who live together need not jointly control resources. People who provide care need not acquire inheritance rights. Legally recognized family members may live apart for long periods. The nuclear family can be a particular statistical category and must not be assumed to be the only real form or the normative standard. A family as a whole, a relationship between two people, a chain of care, an individual safety event, and an external institution are distinct objects. Birth, death, illness, migration, and changes in guardianship or economic dependence may require rechecking the corresponding boundaries and K.
@@ -133,6 +203,13 @@ The module can generate only gaps in care or resources, safety boundaries, and c
 
 Scope of domain evidence and downgrading for gaps (partial coverage). The framework’s rules can identify shared living arrangements, the privatization of costs at major life transitions, and protection needs where exit is impossible. The module’s evidence and protocols are incomplete for children, older people, people with disabilities, economically dependent people, and other subdomains. If materials are insufficient, record only risks and facts to verify. Do not presume consent, assign care responsibilities, or propose guardianship or disposition of resources. Child protection, medical, guardianship, or domestic violence procedures must provide further verification.
 
+</div>
+
+<SectionLesson section="15.3.2" />
+
+<div v-pre class="theory-source">
+
+
 ### 15.3.3 APP-ORG | Organizations and Projects {#section-15-3-3}
 
 The object is the chain of objectives, resources, positions, execution, feedback, and responsibility in a specified organization or project. Register the organization, project, department, position, and individual separately. When the object of analysis changes among individual performance, the function of a position, a process, a project, and the organization’s institutional arrangements, rebuild the K mapping.
@@ -144,6 +221,13 @@ Central summaries must not silence frontline workarounds, near misses, maintenan
 The module can identify risks, breaks in uptake or return flow, and candidates for T0–T4. It does not authorize scoring, appointment, discipline, layoffs, contract changes, or financial changes. Once diagnosis is used in a personnel decision, the corresponding action must be put on hold, people who provided feedback must be protected, and independent appeal and rollback must be available.
 
 Scope of domain evidence and downgrading for gaps (partial coverage). The framework’s rules support checks on translation across organizational roles and levels, return flows, uptake at intermediate levels, responsibility chains, and concentrations of power. Evidence about the specific industry, position, labor relations, and project cycle still needs external supplementation. If on-site records, data by group, or independent review are missing, findings of fact, causal attributions of responsibility, and eligibility for real-world adoption that depend on them cannot be established. One may propose audit questions, recommendations for reversible trials, and assessments of texts, procedural critiques, and conditional plans that have independent grounds. These do not permit scoring, appointment, discipline, layoffs, or changes to contracts.
+
+</div>
+
+<SectionLesson section="15.3.3" />
+
+<div v-pre class="theory-source">
+
 
 ### 15.3.4 APP-PLT | Platforms {#section-15-3-4}
 
@@ -161,6 +245,13 @@ Research on recommendations should distinguish behavioral records, preference re
 
 Suspend an assertion about a parameter or internal mechanism if evidence on the relevant version, parameters, or implementation is insufficient. Randomized or quasi-experimental studies with clearly defined interventions and valid comparisons can support limited effects within their samples, treatments, outcomes, and time windows, even if researchers cannot obtain all internal parameters. Effects of the entire configuration cannot be recorded as independent contributions of its parameters or extrapolated to other versions. Without evidence about effects by group and effective review, do not certify fairness, safety, or eligibility for broader action.
 
+</div>
+
+<SectionLesson section="15.3.4" />
+
+<div v-pre class="theory-source">
+
+
 ### 15.3.5 APP-INS | Institutions and Public Governance {#section-15-3-5}
 
 The object is the structure of institutional rules, execution, resources, eligibility, feedback, responsibility, and public commitments within a frozen jurisdiction and time window. Register legal texts, policies, implementing institutions, budgets, informal rules, public objects, and affected groups separately. A state, institution, organization, and policy are distinct objects.
@@ -173,6 +264,13 @@ The module can produce institutional risks, distributional impacts, gaps in proc
 
 Scope of domain evidence and downgrading for gaps (substantial coverage). The rules cover checks on concentrations of power, production and distribution, public commitments, multiple centers, bureaucracy, and misuse. Specific institutions still require case registration, comparison across jurisdictions, and causal evaluation. If evidence about applicable law, implementation, budgets, or affected groups is missing, stop each legal finding, certification of effects, or real-world adoption that depends on the gap. The framework cannot be used to prove a political position or issue authorization for public action. Independently grounded critiques of texts, institutional evaluations under explicit normative premises, and complete drafts of charters and plans for review can still stand. State the conditions of applicability, costs, and matters awaiting review for each item.
 
+</div>
+
+<SectionLesson section="15.3.5" />
+
+<div v-pre class="theory-source">
+
+
 ### 15.3.6 APP-OPI | Public Opinion {#section-15-3-6}
 
 The object is a process of public interpretation with the event, issue, groups, propagation network, platform conditions, and time window frozen. Facts, evidence, recognition, interpretation, responsibility, identity, and action must be kept at separate levels. Popularity does not establish who the public is or what is representative of it.
@@ -184,6 +282,13 @@ Low-attention material, expression from the margins, deleted material, silence, 
 The module produces only levels of clarification, gaps in evidence, questions about repair, and candidates for T0–T4. It does not authorize deleting comments, throttling, controlling comments, publishing individual material, or classifying the public as a whole. Stop and publish a traceable correction when a factual version changes, the response increases exposure, a platform action exceeds authority, or corrections cannot be written back into the propagation chain.
 
 Scope of domain evidence and downgrading for gaps (partial coverage). Record separately material eligible to enter the candidate content set, actual presentation, reading or contact, private judgments, public expression, and verifiable actions. Deletion and editing, media choice, shared events, and existing relations can all change the visible distribution. A change in exposure with no detected change in attitudes does not cancel the effect on exposure or establish permanent ineffectiveness. Popularity and participation counts use denominators for platform behavior. Public opinion requires its own population and sampling. Public legitimacy also requires independent normative and institutional grounds. If materials are insufficient, suspend claims about representativeness, mechanisms, or effects that depend on the gap. Independently grounded text evaluations, local facts, and conditional recommendations can be retained, with traceable correction available.
+
+</div>
+
+<SectionLesson section="15.3.6" />
+
+<div v-pre class="theory-source">
+
 
 ### 15.3.7 APP-SPC | Space and Channels {#section-15-3-7}
 
@@ -200,6 +305,13 @@ Scope of domain evidence and downgrading for gaps (substantial coverage). The ru
 For urban development, housing, or reconstruction after a disaster, establish protected links among pre-disaster addresses, current locations, and destinations. Record separately building safety and renewed exposure, services households actually receive, the same residents’ relationship networks, local memory, and whether there is adequate information, feasible choice, and access to appeal and remedy. A well-kept streetscape, open facilities, signs of mail delivery, occupied plots, or an area average cannot substitute for the return of original residents, affordable housing, restored relationships, or authorization to represent others.
 
 For comparisons across locations, group original residents, people who moved out, newcomers, renters, owners, caregivers, people waiting, and people unable to move. Record costs, times, capacity, alternative routes, risks at the destination, and who can change the plan. Connections on a map do not authorize relocation, land acquisition, closures, or resource allocation. If key on-site parameters are missing, the output can specify only the required site investigations and evidence. It must not conclude that a channel is safe or an engineering plan feasible.
+
+</div>
+
+<SectionLesson section="15.3.7" />
+
+<div v-pre class="theory-source">
+
 
 ### 15.3.8 APP-EMG | Emergencies and High-Pressure Situations {#section-15-3-8}
 
@@ -219,6 +331,13 @@ Recovery can reach different endpoints in phases. If a temporary teaching site, 
 
 Scope of domain evidence and downgrading for gaps (substantial coverage). The rules cover normal accidents, near misses, drift into failure, narrowing of functions, command, and chains of recovery. Specific disaster types, danger thresholds, statutory command, and professional operating cards must come from the relevant domain systems. Without on-site confirmation, a responsible professional, or valid emergency authorization, the framework only records information and flags risks. It must not delay life-saving action, substitute for command, or generate operational orders.
 
+</div>
+
+<SectionLesson section="15.3.8" />
+
+<div v-pre class="theory-source">
+
+
 ### 15.3.9 APP-ULS | Ultra-Large Scale {#section-15-3-9}
 
 The object is a nested system with boundaries, levels, jurisdiction, time window, key subsystems, resources/transmission/return flows, and external responses frozen. Register the whole, regions, groups, organizational levels, infrastructure, and external systems separately. Each move from local to aggregate, short-term to deep-time, or organizational to institutional requires reassessing object conversion, the nine-axis partial order, and K. An increase in scope of influence on the I axis does not expand authority to act on the J axis.
@@ -233,6 +352,13 @@ The module can produce only areas where judgment remains open, stress tests, tri
 
 Scope of domain evidence and downgrading for gaps (substantial coverage). The rules cover blind spots, applicability switches, stress tests, and intervention priorities. Unified data, case registration, causal identification, representativeness, and methods of governance across domains still need to be established for the particular object. Without stratified samples, evidence of resource capacity, the execution chain, or evidence of rollback, do not extrapolate from the local to the aggregate, infer execution from intent, or propose a blanket option. Downgrade the output to areas where judgment remains open, a plan to obtain more evidence, and proposals for small-scale reversible trials.
 
+</div>
+
+<SectionLesson section="15.3.9" />
+
+<div v-pre class="theory-source">
+
+
 ## 15.4 Minimum Output for an Application Record {#section-15-4}
 
 Each application must retain at least the module ID, object, scale, K, and time window. It must record every supported proposition and its external evidence, coverage status and effects of gaps, material and tool inputs, domain risks, and affected, low-power, weak-signal, and unable-to-exit positions. It must include the protection floor, diagnosis and action ceiling, and how evidence gaps lower confidence and the level of judgment. Where a choice is needed, retain normative choice or a comparison with no action. Where intervention is needed, retain the candidate T level. Give reasons for inapplicable items. If proceeding to real-world action, attach the complete 17-field choice record wrapper, structured `selected_action`, C12, explicit N premises, O1–O4, the single atomic J authorization, stopping, anonymous appeals or appeals through a representative, anti-retaliation monitoring, rollback, and the execution state log.
@@ -240,6 +366,13 @@ Each application must retain at least the module ID, object, scale, K, and time 
 In all module records, including those used only for diagnosis, references to evidence, positions, channels, and responsible parties must resolve to the runtime registry. When context is omitted, summary placeholders such as `GHOST`, `none`, `self`, or `self:*` must not substitute for external records. The parties responsible for appeal, independent review, and rollback must be distinct from the deciding subject.
 
 An output missing these fields can serve only as a reading aid and cannot proceed to real-world action. An application proposed for real-world intervention must retain a bounded chain of action that can be changed by counterexamples, input from safe positions, and real-world consequences. A task limited to explanation or diagnosis ends at its corresponding evidential boundary.
+
+</div>
+
+<SectionLesson section="15.4" />
+
+<div v-pre class="theory-source">
+
 
 ## 15.5 Starting Dynamic Analysis in the Application Modules {#section-15-5}
 
@@ -252,5 +385,11 @@ If an application only needs explanation, do not require multi-circle foresight.
 [^tn-contract-16]: Translator's note: A contract here is an analytical agreement registered and frozen before results, akin to pre-registration.
 
 [^tn-diagnosis-16]: Translator's note: Diagnosis here is an assessment of an object against stated criteria within this framework.
+
+</div>
+
+<SectionLesson section="15.5" />
+
+<div v-pre class="theory-source">
 
 </div>

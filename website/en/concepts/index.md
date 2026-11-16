@@ -23,7 +23,7 @@ These pages explain distinctions in the theory through a small number of worked 
 
 - [Predicting ordinary behavior is not enough for intervention](./prediction) — Test new operations and outcome targets separately.
 
-For the book in order, use the [contents](/en/). For guides attached to particular sections, use the [selected-guide directory](/en/guide/selected-guides). The English guides do not constitute a full translation of the longer Chinese research lectures.
+For the book in order, use the [contents](/en/). For translations of all 421 on-page Chinese reading lessons, use the [lesson directory](/en/guide/selected-guides). Downloadable historical research files retain their original Chinese language and dates.
 
 ## Further distinctions made explicit in v2
 

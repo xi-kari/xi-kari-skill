@@ -1,6 +1,6 @@
 ---
 title: "How to use this reading site"
-description: "Read the source, follow selected guides, and keep theory, illustrations, and case evidence distinct."
+description: "Read the source and complete lesson translations, keeping theory, illustrations, and case evidence distinct."
 ---
 
 # How to use this reading site
@@ -15,9 +15,9 @@ Useful starting points are [§3.3 Effective feedback](/en/theory/part-03#section
 
 ## What has been translated
 
-The complete theory is available in English. The English site also includes fourteen [concept pages](/en/concepts/), eight [case pages](/en/cases/), and [selected section guides](./selected-guides). These guides are new explanations aligned with v2; they are **not a complete translation of the Chinese research lectures**. The longer Chinese lecture files and their research materials remain in Chinese. The democratic-authorization case page identifies its older Chinese research report separately.
+The complete theory and **all 421 on-page Chinese reading lessons** are available in English. The lessons retain the explanations, argument steps, distinctions, teaching examples, documented cases, counterexamples, questions and answers, and source notes of their Chinese counterparts. The site also includes fourteen [concept pages](/en/concepts/), eight [case pages](/en/cases/), and a [lesson directory](./selected-guides).
 
-Use the language switch to move between corresponding source sections. A Chinese page may contain a longer guide than its English counterpart. A section without an English guide still has its full English source text.
+Use the language switch to move between corresponding source sections and lessons. Original figures have English captions and descriptions. Downloadable historical research manuscripts, source registers, excerpts, and diagram files remain in Chinese and are labeled accordingly. Statements about sources read and their dates preserve the original Chinese lessons’ research records. The democratic-authorization case page identifies its older Chinese research report separately.
 
 ## Follow a question through the book
 

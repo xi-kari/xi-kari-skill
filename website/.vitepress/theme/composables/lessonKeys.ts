@@ -10,11 +10,12 @@ export function lessonSlug(key: string): string {
 }
 
 /** Text for the callout bubble: the section number, or a short mark for unnumbered units. */
-export function bubbleLabel(key: string): string {
+export function bubbleLabel(key: string, language = 'zh'): string {
   if (NUMBERED.test(key)) return key
   const part = key.match(/^intro-(\d+)-part$/)
   if (part) return part[1]
-  if (key.startsWith('front-')) return '开篇'
+  if (key.startsWith('front-')) return language === 'en' ? 'Start' : '开篇'
+  if (language === 'en') return key === 'app-b' ? 'B' : key === 'references' ? 'Ref.' : 'Note'
   return '注'
 }
 
@@ -25,7 +26,7 @@ export function sourceRef(key: string): string {
 
 /** A lesson's first paragraph may be a filing note saying where in the text it was cut from. */
 export function isLocatorNote(text: unknown): boolean {
-  return typeof text === 'string' && /^原文定位[：:]/.test(text)
+  return typeof text === 'string' && /^(?:原文定位|(?:Chinese |Original Chinese |Original )?[Ss]ource (?:location|locator)|Location in the (?:original )?Chinese (?:source|text))[：:]/.test(text)
 }
 
 /** The title shown for a lesson's source; the book's own entry is named without its delivery remark. */

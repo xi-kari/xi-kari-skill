@@ -14,6 +14,13 @@ The current scope of application must still be declared separately each time: th
 
 This choice of scope also sets the framework's limits. The framework seeks to explain how objects form identifiable structures, how they operate, how they change or undergo dissolution under the effects of conditions, and how descriptions at different scales can be converted. It does not presuppose a unified purpose for the world, project human intentions onto nonhuman processes, or infer “how one should choose” directly from “what is.” Real-world choices are taken up by the normative layer and operational procedures separately.
 
+</div>
+
+<SectionLesson section="intro-02-part" />
+
+<div v-pre class="theory-source">
+
+
 ## 2.1 Two-Stage Object Admission {#section-2-1}
 
 Structural modeling begins with candidate objects, without presupposing that the grouping has already received support for a grouping gain, and without letting a declaration substitute for grounds for object facts. When applying for formal support for root instances within this framework, object admission has two stages whose order must not be reversed. This procedure governs strong empirical claims made under G and the C and CM claims that depend on it. It is not a universal truth check for all domain knowledge, historical records, or everyday understanding.
@@ -25,6 +32,13 @@ The second stage is testing of root instances. When the analyst claims grouping 
 Support eligibility requires that exploratory work be kept separate from confirmatory work, positive results from null conclusions, and completed freezing from post hoc deviations. Only confirmatory or replication instances completed under a contract frozen before the evidence can provide positive support. Falsification instances support only the pre-registered falsification or null-model judgment. Exploratory work, drafts, post-evidence deviations, or undisclosed deviations can only generate candidates, register deviations, or remain unresolved. They must not use formal-instance eligibility to support C branches that require that eligibility. Failure to pass the positive-support check does not automatically support N0 either. Unless equivalence or sufficiency, statistical power or sensitivity, and tolerance have been pre-registered and their requirements met, the conclusion can only be “not positively supported” or “unresolved.” Thus, “the candidate object has been registered,” “positive G is not supported,” “the null model is supported,” and “the instance receives limited positive support” must remain distinct states.
 
 This two-stage structure prevents two opposite errors: treating the analyst's naming, clustering, or boundary choice as meaning that a grouping gain or object facts have already been supported; and piecing scattered materials together after the fact into an unfalsifiable “system” before the object has even been declared.
+
+</div>
+
+<SectionLesson section="2.1" />
+
+<div v-pre class="theory-source">
+
 
 ### 2.1.1 Domain Evidence and Formal Instance Eligibility {#section-2-1-1}
 
@@ -46,6 +60,13 @@ Formal proofs hold under their axioms, semantics, and rules of derivation. Textu
 Formal propositions first specify the state domain, mapping, target, admissible operations, and logical premises; proof then establishes their conclusions. Exhaustive enumeration of a complete finite domain can test every case within that domain. Numerical computation must also specify precision, boundary determination, and implementation error. Proof, exhaustive enumeration, and numerical checks can cross-check one another, but together they do not generate real-world samples, and more computations do not increase independent empirical support.
 
 Applying a formal conclusion to a real-world object requires a separate account of how real-world quantities correspond to model variables, which premises are already supported by materials, whether the errors and applicable ranges are acceptable, and what counterexamples would invalidate the mapping. “The proposition holds in the given model” and “whether the real-world object satisfies the model remains undetermined” can both be acknowledged. A mathematical counterexample is already sufficient to refute the unconditional inference it addresses. The absence of a completed real-world experiment does not erase this formal answer. Conversely, formal feasibility, the existence of an algorithm, computability within budget, timely availability of data, correct execution in practice, and authority to adopt are six judgments, each requiring its own basis.
+
+</div>
+
+<SectionLesson section="2.1.2" />
+
+<div v-pre class="theory-source">
+
 
 ## 2.2 Proposition Roles and the Burden of Argument {#section-2-2}
 
@@ -73,6 +94,13 @@ A descriptive or explanatory conclusion + explicit normative premises + current 
 
 If any element of this bridge to real-world action is missing, real-world action should stop. The associated action requirements should remain at the level of description, candidate explanations, obtaining further evidence, non-action, or proposing a reversible probe, rather than bypassing authorization through theoretical language.
 
+</div>
+
+<SectionLesson section="2.2" />
+
+<div v-pre class="theory-source">
+
+
 ## 2.3 Four Kinds of Dependency Must Be Kept Separate {#section-2-3}
 
 Relations between propositions use four different contracts. They must not be merged into an ambiguously defined “dependency.”
@@ -85,6 +113,13 @@ Relations between propositions use four different contracts. They must not be me
 | `applies_to` | Specifies which objects, propositions, or actions a norm or procedure applies to | No |
 
 Method checks determine whether a judgment may be released, but do not thereby become additional empirical causes. Domain specialization narrows the scope of application, but does not turn classification rules into factual evidence. Normative applicability constrains action, but does not in turn prove a description true. Only hard inferential premises enter the acyclic graph of roots and inferred conclusions.
+
+</div>
+
+<SectionLesson section="2.3" />
+
+<div v-pre class="theory-source">
+
 
 ## 2.3.1 Layered Responsibilities of the Common Method Kernel {#section-2-3-1}
 
@@ -101,11 +136,25 @@ This framework and *World Model* may share methodological responsibilities, whil
 
 Identifiers such as D, G, and C provide stable references. The common kernel's Chinese identifiers serve only to align texts. They cannot replace the complete contracts in the body, nor can they obtain double support merely because another text uses the same name.
 
+</div>
+
+<SectionLesson section="2.3.1" />
+
+<div v-pre class="theory-source">
+
+
 ## 2.4 Causal Protocol[^tn-protocol-02] {#section-2-4}
 
 A causal claim first registers the specific version of the treatment or cause, the outcome, the object and population, the time window, the scale, and the effect being asked about. It then explains why the comparison can identify that effect. Common inputs, selection, attrition, changes in measurement, reverse causation, and interference between units must all be addressed where relevant. A claim about a specified structural channel or a complete mediation mechanism must also provide the mechanism chain, temporal sequence, and discriminating evidence at that level: whether blocking, replacement, or natural variation meeting identification conditions changes outcomes as expected; whether alternative channels can explain the difference; whether cross-layer conclusions have a D3/E5 bridge; and what observations would make the mechanism claim fail.
 
 Temporal sequence, correlation, and a coherent story cannot by themselves identify causation. A design may identify the total effect for a bounded population and window under explicit assumptions while still leaving the mediator undetermined. In that case, it should report “limited identification of the effect; the specific mechanism is unresolved.” Unsupported structural effects must not be filled in. Conversely, the separate existence of several local links does not automatically establish that the chain is connected as a whole in this case or that the net effect holds. Opposing paths may cancel one another out, and a total effect near zero does not establish that all mechanisms are absent. Causal strength, mechanism resolution, and the scope of extrapolation are evaluated separately.
+
+</div>
+
+<SectionLesson section="2.4" />
+
+<div v-pre class="theory-source">
+
 
 ### 2.4.1 The Estimand and Mechanism Responsibilities {#section-2-4-1}
 
@@ -114,6 +163,13 @@ Offering someone an opportunity, that person actually receiving an intervention,
 More variables do not make observational control more reliable by default. Controlling for a mediator may change the total effect being asked about; controlling for a variable jointly determined by different causes may introduce bias. A larger sample cannot compensate for explanations that cannot be distinguished, either. When point identification is unavailable, supported bounds, sets of possible directions, exclusions based on necessary conditions, or specific process knowledge may be retained, with a clear statement of what these conclusions have not answered.
 
 “Offering an opportunity” and “actually accepting, remaining, or exiting” are different treatments. The text of an agreement, verification, execution, and everyday use are also different outcomes. An announcement, public understanding, arrival, action at a border crossing, and full clearance must each be evidenced separately along the event chain. Neither a total effect nor the existence of an agreement can fill these gaps in mediation and distribution.
+
+</div>
+
+<SectionLesson section="2.4.1" />
+
+<div v-pre class="theory-source">
+
 
 ### 2.4.2 Local Effects, Joint Responses, and the Chain as a Whole {#section-2-4-2}
 
@@ -151,6 +207,13 @@ The evidence chain distinguishes sources, materials, observation records, eviden
 
 Absence and silence are not negative evidence by default; inability to observe is not the same as nonexistence. Justified opacity must state its reason, minimum scope, duration, and trusted reviewer, with the strength of public conclusions reduced accordingly. If counterexamples or residuals are found after evidence has been frozen, the failure record should be retained, and the claim downgraded, suspended, or withdrawn under the contract. The object, subtype, threshold, or success criterion must not be rewritten after results appear.
 
+</div>
+
+<SectionLesson section="2.5" />
+
+<div v-pre class="theory-source">
+
+
 ### 2.5.1 Measurement Objects and Data Generation {#section-2-5-1}
 
 Directly recorded quantities, composite indicators defined by construction, measurement of latent attributes, formative conditions, and predictive proxies carry different explanatory responsibilities. A test score can accurately reflect performance within the current set of questions while not yet representing long-term capability. Usage can fall while the required services are still insufficient. More diagnoses may also reflect easier access to testing. First state what is to be measured and how the materials are generated, then decide which errors and counterexamples are relevant to the current use.
@@ -159,17 +222,38 @@ Comparisons across groups or periods require comparability proportionate to the 
 
 Changes in an indicator can result from genuine improvement, genuine adaptation to a narrow target, changes in the sample that enters or is reported, or falsification of records. These mechanisms can coexist and require separate investigation. Nor does the fact that two legitimate indicators answer different questions and point in opposite directions mean that one must be wrong, much less justify directly concluding that there has been manipulation.
 
+</div>
+
+<SectionLesson section="2.5.1" />
+
+<div v-pre class="theory-source">
+
+
 ## 2.6 Analogy Protocol {#section-2-6}
 
 Analogy is only a tool for generating questions. Every use must be explicitly marked as an analogy and specify the source domain, target domain, shared structure, key differences, nontransferable conditions, variable mapping, and discriminating tests. Similar words, similar diagrams, compelling narratives, or similar outcomes do not constitute evidence for a bridge across domains.
 
 Analogy can help ask “which channel, boundary, or competing explanation should also be checked.” It cannot replace a G-instance, nor can it transfer causal relations, normative evaluations, or action plans directly from the source domain to the target domain. If contrary conditions have not been specified, the conclusion from the analogy remains a heuristic candidate.
 
+</div>
+
+<SectionLesson section="2.6" />
+
+<div v-pre class="theory-source">
+
+
 ### 2.6.1 Analogy, Formal Instances, and Tested Comparisons {#section-2-6-1}
 
 A heuristic analogy, a formal instance satisfying explicit mathematical premises, and a target-domain relation tested against independent materials are three different states. For the first, state similarities and differences; for a formal instance, check variables and assumptions; for empirical transfer, test operations, formation processes, and alternative explanations in the target domain. A comparison supported by independent evidence can contribute to a specific argument. Its support comes from those materials and bridges, not from the word “like.”
 
 Historical and archaeological comparisons must also distinguish the physical formation of traces, the functions of activities, and social relations. Similar tool marks do not automatically imply the same institutions of power; kinship does not automatically imply relations of rule; and accurate dates do not automatically yield an event's full meaning. Respect for different sources of knowledge does not require giving them equal weight on every question. Different materials may each supply content that cannot be substituted for the others.
+
+</div>
+
+<SectionLesson section="2.6.1" />
+
+<div v-pre class="theory-source">
+
 
 ## 2.7 Source Protocol {#section-2-7}
 
@@ -179,6 +263,13 @@ Conceptual definitions, field mappings, and method descriptions specify only wha
 
 Empirical support must come from independently registered instance materials and include the object and scale, time window, research design, N0, outcomes, uncertainty, review or reproduction, and evidential level. Without corresponding external instance materials, specific empirical assertions within the G question families cannot acquire formal empirical support. C is used separately for outcome registration, mechanism conditions, and normative bridging; real-world mechanism judgments under CM still need the corresponding instance evidence. A question catalog, outcome contracts, and the framework's own descriptions cannot replace the missing materials.
 
+</div>
+
+<SectionLesson section="2.7" />
+
+<div v-pre class="theory-source">
+
+
 ### 2.7.1 Relations between Sources and the Scope of Actual Use {#section-2-7-1}
 
 Reading a table of contents, an abstract, relevant chapters, or the full text should be recorded separately. Finding a link, completing a download, and understanding an argument are also different actions. Relations between sources should be retained for different analyses of the same data, a preprint and its published version, and an original report and an institution's account of it. Citation counts must not be added up as independent reproductions. When a version changes outcomes, samples, or reporting definitions, first explain the changes, then compare conclusions.
@@ -187,11 +278,25 @@ A theory's historical adoption, mere mention, explicit restriction or rejection,
 
 The generation, preservation, destruction, opening, and retrieval of archives, as well as narrative choices, can each cause absence. Absence has the corresponding force as counterevidence only when it is clear that a certain kind of event should have left records that could be found. Inaccurate dates in oral accounts still need correction, while the way the account is told may also be important material for understanding memory and experience. Neither cancels the other.
 
+</div>
+
+<SectionLesson section="2.7.1" />
+
+<div v-pre class="theory-source">
+
+
 ### 2.7.2 Evidence Independence and the Propagation of Defects {#section-2-7-2}
 
 Independence must be judged relative to the claim being supported. Adding later outcomes to the same random assignment can add temporal and outcome information. Testing the same data with another algorithm can uncover implementation or interpretation problems. Neither increases the number of independent randomizations or original cohorts. Conversely, studies on the same subject but with different underlying samples must not be merged merely because their names are similar. Records should specify shared data, common measurements, version inheritance, and genuinely new observations, rather than turn a file count into an evidence score.
 
 Traceable dependencies should be retained between source values, transcriptions, model inputs, derived statistics, and judgments in the text. When a local discrepancy is found, first distinguish conflict concerning the same object, legitimate differences between different objects, and apparent inconsistency caused by display precision. Then suspend the precise conclusions that actually depend on that discrepancy. Reconciliation of the component sum with the total does not by itself validate every component, nor does a source anomaly reveal the cause of a discrepancy on its own. Other judgments with independent support should continue to be used within their actual scope.
+
+</div>
+
+<SectionLesson section="2.7.2" />
+
+<div v-pre class="theory-source">
+
 
 ## 2.8 Core Terminology Locks {#section-2-8}
 
@@ -211,6 +316,13 @@ Responsibility and authorization. Uptake carriers, bearers of costs of the same 
 
 Bearing obligations requires a separate account of the relations among commitments, roles, causal contributions, benefits, capabilities, and applicable norms. These reasons may act together; no one of them can automatically settle the whole matter. Disclosing bounded obligations and their boundaries does not make anyone a person required to take up obligations without limit, unilaterally, and without the possibility of exit.
 
+</div>
+
+<SectionLesson section="2.8" />
+
+<div v-pre class="theory-source">
+
+
 ## 2.9 Missing Fields and Visibility States, Downgrading, Suspension, and Exit {#section-2-9}
 
 Every contract field must fall within an explicit state, rather than be filled with vague wording.
@@ -225,11 +337,25 @@ Withheld for protection: materials exist, but disclosure would violate privacy, 
 
 When key variables are unknown, conditions under which the object is not applicable remain unaddressed, core channels are unobservable, or non-disclosure for protection cannot undergo trusted review, conclusions are downgraded successively to candidate hypotheses, lists of questions, or description only. When authorization to act is unclear, potential harm is irreversible, appeals and stopping are inaccessible, or the limits of professional capability would be exceeded, real-world action should be suspended and referred to an appropriate procedure. Downgrading is not analytical failure. It keeps the evidential ceiling, boundaries of power, and what is still unknown visible. Each downgrade is registered proposition by proposition with its dependencies and the effects of what is missing. Other judgments with independent support are not downgraded along with it; failure of a global source, common premise, or object boundary blocks all related outputs.
 
+</div>
+
+<SectionLesson section="2.9" />
+
+<div v-pre class="theory-source">
+
+
 ## 2.10 Methodological Boundaries for Multi-Circle Objects {#section-2-10}
 
 Circles[^tn-circle-02] are first of all candidate groupings, not natural entities established by naming. Families, organizations, platform groups, occupational communities, or cultural categories should specify boundaries, members, roles, channels, time windows, and identity criteria. Documents, relationship records, or exposure records can support the relevant facts about objects. A claim that the grouping brings explanatory or foresight gains must then be compared against suitable simple baselines, such as no grouping or a single circle. Formal G1 support does not replace other grounds for the object's existence. Parallelism, nesting, and overlap are judged along the declared dimensions. Potential bridging, actual transmission, and effects of transmission require separate evidence. Competition specifies constraints on the available set; temporariness specifies a time limit or evidence concerning duration. Both can be combined with other relations.
 
 Multi-circle analysis must not turn every background factor into an entity. Before a circle is added, the necessary question it answers, the distinction that would be lost if it were removed, and the measurement and privacy costs should be stated. If it is used for explanation or propagation, the relevant channels and competing explanations must also be specified. Where its current purpose cannot be stated, retain it as an environmental condition or candidate variable. When a complex model lacks stable comparative support, reduce the relevant gain claims and give priority to an adequate simple model. Retaining an object to describe supported responsibilities, differences in membership, or authority over matters does not first require proving that it increases predictive accuracy.
+
+</div>
+
+<SectionLesson section="2.10" />
+
+<div v-pre class="theory-source">
+
 
 ## 2.11 Methodological Boundaries for Personality and Actor States {#section-2-11}
 
@@ -237,17 +363,38 @@ Personality enters only as a slow-variable hypothesis with an evidential level, 
 
 Actor variables are divided by timescale into slow, intermediate, and fast bands. Each is tied to an observation window, source, counterevidence, circle conditions, privacy, and permitted uses. The framework does not perform clinical or psychiatric diagnosis, nor does it record silence, refusal to disclose, or unobservability as pathological evidence. A model may propose candidate variables and minimal tests; it must not automatically fill in real-world values.
 
+</div>
+
+<SectionLesson section="2.11" />
+
+<div v-pre class="theory-source">
+
+
 ## 2.12 Methodological Boundaries for Foresight and Projection {#section-2-12}
 
 Path projection may use observations, reports, plans, hypothetical events, and simulated events, but must retain the event type. A report's content is not automatically true; a plan is not the same as execution; hypothetical and simulated events are not written back as real-world facts. Each run freezes the joint snapshot, evidence cutoff, mechanisms, parameter ranges, clocks, propagation rules, and stopping conditions. Information obtained after the results may enter only a new version.
 
 Conditional foresight must register, before results, the target, horizon, scope of objects and circles, input cutoff, simple baseline, paths, form of expression, calibration metrics, early signals, contrary signals, suspension, retirement, and outcome write-back. Unregistered post hoc explanations do not count as successful predictions. Changing the target, extending the horizon, narrowing the population, or merging paths all require a new record. For reopening on stated grounds, see §2.14.
 
+</div>
+
+<SectionLesson section="2.12" />
+
+<div v-pre class="theory-source">
+
+
 ## 2.13 Limits on Autonomous Variable Refinement {#section-2-13}
 
 “Autonomous variable refinement” permits only three actions: proposing multiple competing candidates from residuals; stating which channels a candidate might act through and what observable implications it might produce; and designing a minimal test with acceptable risk. Candidates move in sequence through the states proposed, under test, supported candidate, rejected, or retired. They must not jump directly from a model suggestion to an observed fact, a personality conclusion, a supported circle, or a causal mechanism.
 
 If a candidate concerns privacy, health, safety, legal standing, or a position with little power, the necessity of obtaining the information, its use, and its harms should be reviewed first. When the value of the information is insufficient to outweigh the risk, retaining the unknown status is more appropriate than actively filling in the information.
+
+</div>
+
+<SectionLesson section="2.13" />
+
+<div v-pre class="theory-source">
+
 
 ## 2.14 Freezing and Reopening a Question {#section-2-14}
 

@@ -219,6 +219,16 @@ English. The maps record language, theory version, source identity and the
 separate legacy Word identity. Keep translator notes resolvable on every split
 page that cites them, and check rendered code fields as well as source bytes.
 
+English on-page lessons live in `content/en/section-lessons.json` and cover
+all 421 Chinese lesson units. `content/en/translation-manifest.json` binds
+the Chinese import, its overrides, and the English lesson data; each English
+lesson also records the identity of its Chinese counterpart. Changes to a
+Chinese lesson require reviewing the affected translation before renewing
+those bindings. Preserve the full field structure, examples, answers, source
+limits, and original identifiers. Archived research files and figures remain
+in Chinese; show English figure descriptions and explicit archive-language
+labels without changing the original files.
+
 The source, concept lessons and case explanations have separate responsibilities.
 Keep original text unchanged; cite actual primary sources for real case facts.
 Explanatory diagrams and interactive teaching models must retain their assumptions.

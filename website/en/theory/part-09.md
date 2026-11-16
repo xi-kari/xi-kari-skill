@@ -10,6 +10,13 @@ title: "Part 9 Actor States and Personality Hypotheses"
 
 This Part brings people into multi-circle projection without reducing anyone to a fixed label. An actor in an event brings long-term tendencies that change relatively slowly. They occupy roles and positions in relationships and access to resources that are specific to a period. Immediate emotions, bodily states, information, and opportunities also affect them. The same person may act differently in different circles[^tn-circle-10]. These differences need not be explained by hypocrisy, a split in personality, or a change in essence. They may also arise from changes in role activation, risk structure, visible information, rewards and penalties, ability to exit, and affected positions.
 
+</div>
+
+<SectionLesson section="intro-09-part" />
+
+<div v-pre class="theory-source">
+
+
 ## 9.1 An Actor Is Not a Single Variable {#section-9-1}
 
 The minimum form of an actor record is:
@@ -27,9 +34,23 @@ The asterisk indicates that this remains a candidate state description. An actor
 | Conditions | What makes a particular behavior more feasible or riskier? | Register material conditions and experience–meaning conditions separately | Determination of behavior by a single cause |
 | Unknowns | Which key information is unavailable for now? | Kind of missingness, impact, and limits on obtaining the information | Freedom for the model to impute values |
 
+</div>
+
+<SectionLesson section="9.1" />
+
+<div v-pre class="theory-source">
+
+
 ## 9.2 Slow, Intermediate-Timescale, and Fast Variables {#section-9-2}
 
 The three time bands are neither personality types nor independent compartments. They constrain the rate of updates. Some states can change after one event, others take multiple rounds to change, and still others should be updated only after more time has passed, evidence across contexts is available, or the person’s life has been substantially reorganized.
+
+</div>
+
+<SectionLesson section="9.2" />
+
+<div v-pre class="theory-source">
+
 
 ### 9.2.1 Slow Variables {#section-9-2-1}
 
@@ -41,11 +62,25 @@ Learned tendencies can develop through repeated practices in families, schools, 
 
 The same actor may carry different tendencies from several experiences of socialization. An old tendency may fit poorly in a new environment. A resource recognized in one domain may bring no return in another, and repeated new practices may change earlier tendencies. Slow variables should be open to splitting by context, revision, or retirement. An average association at the group level does not fill in an individual’s state. Deviation from what is typical in the group does not automatically make the individual abnormal.
 
+</div>
+
+<SectionLesson section="9.2.1" />
+
+<div v-pre class="theory-source">
+
+
 ### 9.2.2 Intermediate-Timescale Variables {#section-9-2-2}
 
 Intermediate-timescale variables include role identity, goals for the current period, expectations in relationships, positions in alliances, accumulated fatigue, recent reputation, and trust specific to the period. They generally span several rounds of interaction but may change with the end of a project, organizational restructuring, repair of a relationship, a public event, or a change in resources.
 
 Intermediate-timescale variables are the main interface for mutual constitution between individuals and circles. Circles shape them through roles, metrics, reputation, rewards and penalties, and a sense of belonging. Actors in turn change circles through the fulfillment of responsibilities, resistance, exit, alliance formation, interpretation, and institutional write-back. Observing only one side can lead to treating structural pressure as a personality defect or reducing individual choice entirely to determination by the environment.
+
+</div>
+
+<SectionLesson section="9.2.2" />
+
+<div v-pre class="theory-source">
+
 
 ### 9.2.3 Fast Variables {#section-9-2-3}
 
@@ -58,6 +93,13 @@ Although short-lived, fast variables may feed into intermediate-timescale and sl
 | Slow variables | Slow relative to the current window, possibly spanning months, years, or major periods | Assess persistence using materials across time. Claims across contexts require corresponding coverage. Record dependence among sources. Record counterexamples separately | New evidence may change the level of support or the variable’s value. Check separately whether the change persists | Treating a label as innate or prescribing the same update rate for everyone |
 | Intermediate-timescale variables | Several rounds of interaction to one period | Repeated observations within the same period, with role and circle conditions | May be updated as relationships, projects, organizations, or resources change | Treating a response to a role as personality |
 | Fast variables | Minutes, hours, or several days | Tie to the time, event, bodily state, and information state | May be updated after each event | Using one emotion to predict the entire future |
+
+</div>
+
+<SectionLesson section="9.2.3" />
+
+<div v-pre class="theory-source">
+
 
 ## 9.3 Personality Only as a Conditional Hypothesis About Slow Variables {#section-9-3}
 
@@ -79,6 +121,13 @@ A personality hypothesis can have only the status of observation record, support
 
 This framework does not perform clinical diagnosis, psychiatric diagnosis, or unauthorized psychological assessment. Even if a professional diagnosis exists outside the framework, it may be included only as material with a source, authorization, and limits of applicability. The framework must not generate or expand diagnoses itself or use them to take action incompatible with their original purpose.
 
+</div>
+
+<SectionLesson section="9.3" />
+
+<div v-pre class="theory-source">
+
+
 ## 9.4 Role Activation and Circle Conditions {#section-9-4}
 
 At least six conditions can change when an actor enters different circles. These are visible information, available resources, rewards and penalties, responsibility, identity activation, and the ability to exit. These conditions, independently measured individual differences, and the interaction between the two should be treated as competing explanations for differences in behavior. Looking first at contexts that are easier to change does not justify assigning all the overlap in explanatory contribution to context in advance.
@@ -88,6 +137,13 @@ For example, a person may be silent in their family circle, assertive at work, a
 A role activation record should identify which event activated which role and whether the role comes from formal rules, informal expectations, a commitment by the actor, or a threat. It should also state whether the actor identifies with the role and whether it conflicts with other roles. Specify what the role permits or prohibits, what costs it requires the actor to bear, and what conditions are needed to exit the role.
 
 A claim of stability across contexts must also specify whether it concerns rank order, mean level, the distribution of state fluctuations, or a profile of “how the person responds under specified conditions.” Changes in the proportions of different contexts a person encounters can change their overall mean behavior even if their conditional responses are unchanged. Long-term resources and capabilities are also slow variables. A person-specific random intercept in a statistical model represents only individual differences that have yet to be decomposed. It cannot be directly labeled personality.
+
+</div>
+
+<SectionLesson section="9.4" />
+
+<div v-pre class="theory-source">
+
 
 ## 9.5 How Individuals and Circles Affect One Another {#section-9-5}
 
@@ -105,6 +161,13 @@ The individual-to-circle chain can be described as follows. The actor’s expres
 
 “Affect one another” is only the beginning of an explanation. The analyst must still look for direction, channels, delays, thresholds, losses, and counterfactuals.
 
+</div>
+
+<SectionLesson section="9.5" />
+
+<div v-pre class="theory-source">
+
+
 ## 9.6 Evidence Levels and Upgrading Variable Status {#section-9-6}
 
 Actor variables are upgraded in a conservative order. A model can propose candidates from residuals. It must not promote a candidate directly to a fact. A single self-report, a single account from another person, a single behavioral observation, and a single measurement scale result each carry different biases. Agreement across sources does not automatically rule out a common environment, a shared narrative, or the same measurement bias.
@@ -120,6 +183,13 @@ Actor variables are upgraded in a conservative order. A model can propose candid
 
 If a variable is proposed only after results are known, it can help explain those results and generate a test for the next round. It cannot retroactively support the original prediction. If the definition, time band, or indicators of the same variable change, a new version should be created. Earlier failures must not be overwritten.
 
+</div>
+
+<SectionLesson section="9.6" />
+
+<div v-pre class="theory-source">
+
+
 ## 9.7 Material and Experience–Meaning Conditions in Actor States {#section-9-7}
 
 An actor’s material conditions include physical load, observable aspects of health and sleep, time, space, money, tools, transportation, care responsibilities, standing under the law, and the actual ability to exit. Experience–meaning conditions include feelings, expectations, memory, identity, trust, shame, hope, fear, commitments, perceived legitimacy, and conflicts of value.
@@ -130,11 +200,25 @@ Status also has an institutional dimension that cannot be reduced to personal ex
 
 A person can still act under constraints. A person signing under a credible threat and a device moving their body to produce the same handwriting involve different processes. The first can still be the person’s own action, even though there is no safe way to refuse and valid consent is absent. Attribution of the action, knowledge, control, feasible alternatives, blame, and remedy each require their own grounds. A causal explanation does not automatically exempt anyone from responsibility or establish that blame is warranted.
 
+</div>
+
+<SectionLesson section="9.7" />
+
+<div v-pre class="theory-source">
+
+
 ## 9.8 Privacy, Absence, and Refusal to Disclose {#section-9-8}
 
 The closer the analysis gets to an individual, the higher the cost of misuse. Actor records must distinguish information that is public, limited to a particular context, sensitive, or highly sensitive, as well as information a person declines to disclose. Permitted uses must be consistent with the purpose of collection, authorization, and protections for those affected. Using material for communication does not by itself qualify it for use in hiring, insurance, law enforcement, medical care, punishment, or public evaluation.
 
 Refusal to disclose is not evidence of hostility, deception, ignorance, or risk. Silence can stem from safety concerns, trauma, privacy, language, trust, differences in power, or reasonable noncooperation. The analyst may record only that “there is no usable information” and how this limits projection. Personality inferences must not be used to fill the gap.
+
+</div>
+
+<SectionLesson section="9.8" />
+
+<div v-pre class="theory-source">
+
 
 ## 9.9 Actor State Snapshots {#section-9-9}
 
@@ -152,6 +236,13 @@ An auditable snapshot must contain at least the following.
 
 The snapshot retains its observation cutoff and the time at which information was obtained. When a new event occurs, first determine which channels and time bands it reaches and then update the corresponding variables. Calculate autonomous changes triggered by the passage of time itself separately under the registered rules for dynamics. When neither a new observation nor a reliable rule for advancing the state is available, the last observed value and its time can be retained or the state can be marked unknown. The old value must not be treated as the actual current state. Rerunning the model is likewise no evidence that all variables changed at once.
 
+</div>
+
+<SectionLesson section="9.9" />
+
+<div v-pre class="theory-source">
+
+
 ## 9.10 Example of Actor Analysis in an Event {#section-9-10}
 
 Suppose a project lead suddenly vetoes the team’s proposal in a public meeting. The observation record can establish only the veto, the context of the meeting, what was said, and the visible consequences. Candidate fast variables might include time pressure, physical fatigue, perceived threat, and immediate anger. Candidate intermediate-timescale variables might include project goals, responsibilities of the role, a recent decline in trust, and reputational risk. A candidate slow variable might be long-term tolerance of uncertainty, which would require evidence across contexts.
@@ -159,6 +250,13 @@ Suppose a project lead suddenly vetoes the team’s proposal in a public meeting
 The circles must also be examined. Has management just changed the metrics? Is the team short on resources? Has public opinion on a platform raised the cost of failing publicly? Do care responsibilities at home reduce the time available? Does organizational culture reward forceful decisions? The lead’s veto may change trust and subsequent expression in the team. The team’s silence may reinforce the lead’s belief that “only coercion works,” creating feedback. Writing only “controlling personality” would obscure multiple channels open to intervention. Writing only “determined by structure” would erase the actor’s choices, responsibilities, and capability to bridge circles.
 
 A reasonable output should separate confirmed facts about behavior from the support available for hypotheses about states. It should also specify circle conditions and channels in both directions, the next observation that would best distinguish the alternatives, and what remains unknown when evidence is insufficient. The output can enter path projection in Part 11. It cannot itself produce a diagnosis of the person, punishment, or authority to compel.
+
+</div>
+
+<SectionLesson section="9.10" />
+
+<div v-pre class="theory-source">
+
 
 ## 9.11 Where This Part Stops {#section-9-11}
 
@@ -169,5 +267,11 @@ This framework does not adjudicate the essence of a person. No professional asse
 [^tn-actor-tuple-10]: Translator's note: The full tuple in English is `A* = <actor ID, observation window, circle memberships, roles, slow variables, intermediate-timescale variables, fast variables, material conditions, experience–meaning conditions, unknowns, evidential status, privacy and permitted uses>`.
 
 [^tn-circle-10]: Translator's note: Circles may be parallel, nested, overlapping, or bridged.
+
+</div>
+
+<SectionLesson section="9.11" />
+
+<div v-pre class="theory-source">
 
 </div>

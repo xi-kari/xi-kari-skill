@@ -6,6 +6,7 @@ const http = require('node:http');
 const path = require('node:path');
 const { chromium } = require(process.argv[2] || path.join(__dirname, 'dom/node_modules/playwright-core'));
 const built = path.resolve(__dirname, '../docs/handbook');
+const englishLessons = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../website/content/en/section-lessons.json'), 'utf8')).lessons;
 const prefix = '/xi-kari-skill/handbook/';
 const mime = { '.html': 'text/html; charset=utf-8', '.js': 'application/javascript', '.json': 'application/json', '.css': 'text/css', '.svg': 'image/svg+xml', '.woff2': 'font/woff2', '.png': 'image/png' };
 const server = http.createServer((request, response) => {
@@ -61,6 +62,19 @@ const server = http.createServer((request, response) => {
       await page.goto(base + 'en/');
       await page.locator('.xk-station--en').waitFor({ state: 'visible' });
       await checkHeaderLayout();
+      const directory = page.locator('#xk-lesson-directory');
+      assert.equal(await directory.locator('.xk-lessons > a').count(), Object.keys(englishLessons).length);
+      assert.equal(await directory.locator('.xk-lesson-group[open]').count(), 1, 'The complete directory opens one group by default.');
+      await page.getByRole('button', { name: 'Expand all', exact: true }).click();
+      assert.equal(await directory.locator('.xk-lesson-group[open]').count(), await directory.locator('.xk-lesson-group').count());
+      await page.getByRole('button', { name: 'Collapse all', exact: true }).click();
+      assert.equal(await directory.locator('.xk-lesson-group[open]').count(), 0);
+      await page.locator('#xk-find-lesson').fill('14.9.1');
+      await directory.locator('a[href$="#lesson-14-9-1"]').waitFor({ state: 'visible' });
+      assert.equal(await directory.locator('.xk-lessons > a').count(), 1);
+      assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth + 2), false, 'The English lesson directory must fit the viewport.');
+      await page.getByRole('button', { name: 'Clear', exact: true }).click();
+      assert.equal(await directory.locator('.xk-lessons > a').count(), Object.keys(englishLessons).length);
       await page.goto(base + 'en/theory/part-03.html#section-3-3');
       await page.waitForFunction(() => document.querySelector('.xk-tool--language')?.getAttribute('href')?.endsWith('#section-3-3'));
       assert.equal(await page.locator('html').getAttribute('lang'), 'en');
@@ -118,6 +132,33 @@ const server = http.createServer((request, response) => {
       await page.locator('#localsearch-list a.result').first().click();
       await page.waitForFunction(() => !document.getElementById('localsearch-input'));
       assert.ok(page.url().includes('/en/'), 'Opening a search result must remain in English.');
+
+      // A full translated lesson must retain the parts that a short guide could omit.
+      await page.goto(base + 'en/theory/part-01.html#lesson-1-1');
+      const complete = englishLessons['1.1'];
+      const lesson = page.locator('.xk-lesson[data-section="1.1"]');
+      await lesson.waitFor({ state: 'visible' });
+      assert.equal(await lesson.locator('.xk-lesson__topic').textContent(), complete.title);
+      assert.equal(await lesson.locator('.xk-steps > li').count(), complete.argumentSteps.length);
+      assert.equal(await lesson.locator('.xk-split').count(), complete.distinctions.length);
+      assert.equal(await lesson.locator('.xk-scenario').count(), complete.teachingExamples.length);
+      assert.equal(await lesson.locator('.xk-counterexample').count(), complete.counterexamples.length);
+      assert.equal(await lesson.locator('.xk-answer').count(), complete.questionAnswers.length);
+      assert.equal(await lesson.locator('.xk-source-entry').count(), complete.sources.length);
+      assert.ok(await lesson.locator('.xk-figure-description[open]').count(), 'Original Chinese figures need a visible English description.');
+      const answer = lesson.locator('.xk-answer').first();
+      await answer.locator('summary').click();
+      await answer.locator('.xk-answer__body').waitFor({ state: 'visible' });
+      assert.ok((await answer.locator('.xk-answer__body').textContent()).trim().length > 60, 'The full answer must be available.');
+      const materials = lesson.locator('.xk-lesson-materials');
+      await materials.locator(':scope > summary').click();
+      await materials.getByRole('link', { name: 'Complete lesson manuscript (Chinese)', exact: true }).waitFor({ state: 'visible' });
+      await page.locator('.xk-tool--language').click();
+      await page.waitForURL(/\/theory\/part-01\.html#lesson-1-1$/);
+      await page.waitForFunction(() => document.documentElement.lang === 'zh-CN');
+      await page.locator('.xk-tool--language').click();
+      await page.waitForURL(/\/en\/theory\/part-01\.html#lesson-1-1$/);
+      await page.waitForFunction(() => document.documentElement.lang === 'en');
 
       // Field names and translation notes survive the Markdown/Vue rendering pipeline.
       await page.goto(base + 'en/theory/part-16.html');
