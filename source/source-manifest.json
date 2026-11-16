@@ -2,11 +2,13 @@
   "title": "Xikari-条件结构与转化论",
   "author": "Xikari",
   "source_file": "Xikari-条件结构与转化论.md",
-  "sha256": "18a7cc167faa3eda68a04b21313f833be6583abf1a2a47523a246a5f8a7eaee6",
-  "bytes": 675263,
-  "theory_version": null,
-  "source_identity": "manuscript-20261017-18a7cc167faa",
+  "sha256": "6ef2e508474d4ac1ad07d7e4e068955342c405b5f680afcfc40d68cca3d0149c",
+  "bytes": 692246,
+  "theory_version": "v2",
+  "source_identity": "manuscript-v2-20261116-6ef2e508474d",
   "upstream_sha256": "df579dbdbb68442b1781b066606c267761f0a1673fbd034ce93eeeb41641439f",
   "upstream_title": "Xikari-条件结构与转化论",
-  "scope": "理论正文；现实事实与方法有效性按各自材料判断"
+  "scope": "理论正文；现实事实与方法有效性按各自材料判断",
+  "previous_source_identity": "manuscript-20261017-18a7cc167faa",
+  "previous_source_sha256": "18a7cc167faa3eda68a04b21313f833be6583abf1a2a47523a246a5f8a7eaee6"
 }

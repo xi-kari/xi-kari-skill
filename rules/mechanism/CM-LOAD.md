@@ -5,9 +5,11 @@
   "title": "同型需求、容量与恢复缺口",
   "anchors": [
     "6.6",
-    "6.11"
+    "6.11",
+    "7.3.9",
+    "6.10.1"
   ],
-  "theory_sha256": "18a7cc167faa3eda68a04b21313f833be6583abf1a2a47523a246a5f8a7eaee6",
+  "theory_sha256": "6ef2e508474d4ac1ad07d7e4e068955342c405b5f680afcfc40d68cca3d0149c",
   "status": "draft",
   "applies_to": [
     "human_collective",
@@ -25,7 +27,8 @@
   "competes_with": [
     "CM-MAINTENANCE",
     "CM-PHASE",
-    "PATH-pseudo_steady"
+    "PATH-pseudo_steady",
+    "PATH-formation-maintenance-recovery-replication"
   ]
 }
 ---
@@ -47,6 +50,8 @@
 - 并列容量同步扩展吸收需求、即时缺口后恢复、跨边界转嫁、当前损伤持续四条路径；只有后一条的载体和时序齐全才研究累积。〔派生，待确认〕
 
 ## 时钟与时延
+
+- 涉及人类任务且任务依赖连续时段时，另记可用整段的长度和可预期性；待命或默认补缺可以切断整段时间，不能仅因实际调用很少忽略，也不折算成时数或与已占用钟表时间相加。〔派生，待确认〕
 
 - 分清峰值容量、持续容量、补给周期和替代渠道到位时间；复工时刻、K/F 恢复和余量补回分别计时。〔派生，待确认〕
 

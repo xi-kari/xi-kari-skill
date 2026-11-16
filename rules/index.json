@@ -1,5 +1,5 @@
 {
-  "theory_sha256": "18a7cc167faa3eda68a04b21313f833be6583abf1a2a47523a246a5f8a7eaee6",
+  "theory_sha256": "6ef2e508474d4ac1ad07d7e4e068955342c405b5f680afcfc40d68cca3d0149c",
   "rules": [
     {
       "id": "CM-FEEDBACK",
@@ -10,7 +10,7 @@
         "6.2.1",
         "6.11"
       ],
-      "theory_sha256": "18a7cc167faa3eda68a04b21313f833be6583abf1a2a47523a246a5f8a7eaee6",
+      "theory_sha256": "6ef2e508474d4ac1ad07d7e4e068955342c405b5f680afcfc40d68cca3d0149c",
       "status": "draft",
       "applies_to": [
         "human_collective",
@@ -39,9 +39,10 @@
       "anchors": [
         "6.3",
         "6.4",
-        "6.11"
+        "6.11",
+        "2.14"
       ],
-      "theory_sha256": "18a7cc167faa3eda68a04b21313f833be6583abf1a2a47523a246a5f8a7eaee6",
+      "theory_sha256": "6ef2e508474d4ac1ad07d7e4e068955342c405b5f680afcfc40d68cca3d0149c",
       "status": "draft",
       "applies_to": [
         "human_collective",
@@ -59,7 +60,8 @@
       "competes_with": [
         "CM-FEEDBACK",
         "CM-SELECTION",
-        "CM-MAINTENANCE"
+        "CM-MAINTENANCE",
+        "CM-ALLOCATION-CAPABILITY"
       ],
       "file": "rules/mechanism/CM-LEARNING.md"
     },
@@ -70,9 +72,10 @@
       "anchors": [
         "6.5",
         "6.10",
-        "6.11"
+        "6.11",
+        "6.10.1"
       ],
-      "theory_sha256": "18a7cc167faa3eda68a04b21313f833be6583abf1a2a47523a246a5f8a7eaee6",
+      "theory_sha256": "6ef2e508474d4ac1ad07d7e4e068955342c405b5f680afcfc40d68cca3d0149c",
       "status": "draft",
       "applies_to": [
         "human_collective",
@@ -90,7 +93,8 @@
       "competes_with": [
         "CM-LOAD",
         "CM-LEARNING",
-        "PATH-functional_transfer"
+        "PATH-functional_transfer",
+        "PATH-formation-maintenance-recovery-replication"
       ],
       "file": "rules/mechanism/CM-MAINTENANCE.md"
     },
@@ -100,9 +104,11 @@
       "title": "同型需求、容量与恢复缺口",
       "anchors": [
         "6.6",
-        "6.11"
+        "6.11",
+        "7.3.9",
+        "6.10.1"
       ],
-      "theory_sha256": "18a7cc167faa3eda68a04b21313f833be6583abf1a2a47523a246a5f8a7eaee6",
+      "theory_sha256": "6ef2e508474d4ac1ad07d7e4e068955342c405b5f680afcfc40d68cca3d0149c",
       "status": "draft",
       "applies_to": [
         "human_collective",
@@ -120,7 +126,8 @@
       "competes_with": [
         "CM-MAINTENANCE",
         "CM-PHASE",
-        "PATH-pseudo_steady"
+        "PATH-pseudo_steady",
+        "PATH-formation-maintenance-recovery-replication"
       ],
       "file": "rules/mechanism/CM-LOAD.md"
     },
@@ -133,7 +140,7 @@
         "6.11",
         "8.2.1"
       ],
-      "theory_sha256": "18a7cc167faa3eda68a04b21313f833be6583abf1a2a47523a246a5f8a7eaee6",
+      "theory_sha256": "6ef2e508474d4ac1ad07d7e4e068955342c405b5f680afcfc40d68cca3d0149c",
       "status": "draft",
       "applies_to": [
         "human_collective",
@@ -163,7 +170,7 @@
         "6.8",
         "6.11"
       ],
-      "theory_sha256": "18a7cc167faa3eda68a04b21313f833be6583abf1a2a47523a246a5f8a7eaee6",
+      "theory_sha256": "6ef2e508474d4ac1ad07d7e4e068955342c405b5f680afcfc40d68cca3d0149c",
       "status": "draft",
       "applies_to": [
         "human_collective",
@@ -194,7 +201,7 @@
         "8.2",
         "11.7"
       ],
-      "theory_sha256": "18a7cc167faa3eda68a04b21313f833be6583abf1a2a47523a246a5f8a7eaee6",
+      "theory_sha256": "6ef2e508474d4ac1ad07d7e4e068955342c405b5f680afcfc40d68cca3d0149c",
       "status": "draft",
       "applies_to": [
         "human_collective"
@@ -218,7 +225,7 @@
         "8.2",
         "11.7"
       ],
-      "theory_sha256": "18a7cc167faa3eda68a04b21313f833be6583abf1a2a47523a246a5f8a7eaee6",
+      "theory_sha256": "6ef2e508474d4ac1ad07d7e4e068955342c405b5f680afcfc40d68cca3d0149c",
       "status": "draft",
       "applies_to": [
         "human_collective"
@@ -242,7 +249,7 @@
         "8.2",
         "11.7"
       ],
-      "theory_sha256": "18a7cc167faa3eda68a04b21313f833be6583abf1a2a47523a246a5f8a7eaee6",
+      "theory_sha256": "6ef2e508474d4ac1ad07d7e4e068955342c405b5f680afcfc40d68cca3d0149c",
       "status": "draft",
       "applies_to": [
         "human_collective"
@@ -267,7 +274,7 @@
         "8.2",
         "11.7"
       ],
-      "theory_sha256": "18a7cc167faa3eda68a04b21313f833be6583abf1a2a47523a246a5f8a7eaee6",
+      "theory_sha256": "6ef2e508474d4ac1ad07d7e4e068955342c405b5f680afcfc40d68cca3d0149c",
       "status": "draft",
       "applies_to": [
         "human_collective"
@@ -292,7 +299,7 @@
         "8.2",
         "11.7"
       ],
-      "theory_sha256": "18a7cc167faa3eda68a04b21313f833be6583abf1a2a47523a246a5f8a7eaee6",
+      "theory_sha256": "6ef2e508474d4ac1ad07d7e4e068955342c405b5f680afcfc40d68cca3d0149c",
       "status": "draft",
       "applies_to": [
         "human_collective"
@@ -317,7 +324,7 @@
         "8.2",
         "11.7"
       ],
-      "theory_sha256": "18a7cc167faa3eda68a04b21313f833be6583abf1a2a47523a246a5f8a7eaee6",
+      "theory_sha256": "6ef2e508474d4ac1ad07d7e4e068955342c405b5f680afcfc40d68cca3d0149c",
       "status": "draft",
       "applies_to": [
         "human_collective"
@@ -342,7 +349,7 @@
         "8.2",
         "11.7"
       ],
-      "theory_sha256": "18a7cc167faa3eda68a04b21313f833be6583abf1a2a47523a246a5f8a7eaee6",
+      "theory_sha256": "6ef2e508474d4ac1ad07d7e4e068955342c405b5f680afcfc40d68cca3d0149c",
       "status": "draft",
       "applies_to": [
         "human_collective"
@@ -367,7 +374,7 @@
         "8.2",
         "11.7"
       ],
-      "theory_sha256": "18a7cc167faa3eda68a04b21313f833be6583abf1a2a47523a246a5f8a7eaee6",
+      "theory_sha256": "6ef2e508474d4ac1ad07d7e4e068955342c405b5f680afcfc40d68cca3d0149c",
       "status": "draft",
       "applies_to": [
         "human_collective"
@@ -392,7 +399,7 @@
         "8.2",
         "11.7"
       ],
-      "theory_sha256": "18a7cc167faa3eda68a04b21313f833be6583abf1a2a47523a246a5f8a7eaee6",
+      "theory_sha256": "6ef2e508474d4ac1ad07d7e4e068955342c405b5f680afcfc40d68cca3d0149c",
       "status": "draft",
       "applies_to": [
         "human_collective"
@@ -417,7 +424,7 @@
         "8.2",
         "11.7"
       ],
-      "theory_sha256": "18a7cc167faa3eda68a04b21313f833be6583abf1a2a47523a246a5f8a7eaee6",
+      "theory_sha256": "6ef2e508474d4ac1ad07d7e4e068955342c405b5f680afcfc40d68cca3d0149c",
       "status": "draft",
       "applies_to": [
         "human_collective"
@@ -442,7 +449,7 @@
         "8.2",
         "11.7"
       ],
-      "theory_sha256": "18a7cc167faa3eda68a04b21313f833be6583abf1a2a47523a246a5f8a7eaee6",
+      "theory_sha256": "6ef2e508474d4ac1ad07d7e4e068955342c405b5f680afcfc40d68cca3d0149c",
       "status": "draft",
       "applies_to": [
         "human_collective"
@@ -468,7 +475,7 @@
         "8.2",
         "11.7"
       ],
-      "theory_sha256": "18a7cc167faa3eda68a04b21313f833be6583abf1a2a47523a246a5f8a7eaee6",
+      "theory_sha256": "6ef2e508474d4ac1ad07d7e4e068955342c405b5f680afcfc40d68cca3d0149c",
       "status": "draft",
       "applies_to": [
         "human_collective"
@@ -493,9 +500,11 @@
       "anchors": [
         "8.4",
         "8.2",
-        "11.7"
+        "11.7",
+        "14.4.1",
+        "14.5"
       ],
-      "theory_sha256": "18a7cc167faa3eda68a04b21313f833be6583abf1a2a47523a246a5f8a7eaee6",
+      "theory_sha256": "6ef2e508474d4ac1ad07d7e4e068955342c405b5f680afcfc40d68cca3d0149c",
       "status": "draft",
       "applies_to": [
         "human_collective"
@@ -521,7 +530,7 @@
         "8.2",
         "11.7"
       ],
-      "theory_sha256": "18a7cc167faa3eda68a04b21313f833be6583abf1a2a47523a246a5f8a7eaee6",
+      "theory_sha256": "6ef2e508474d4ac1ad07d7e4e068955342c405b5f680afcfc40d68cca3d0149c",
       "status": "draft",
       "applies_to": [
         "human_collective"
@@ -547,7 +556,7 @@
         "8.2",
         "11.7"
       ],
-      "theory_sha256": "18a7cc167faa3eda68a04b21313f833be6583abf1a2a47523a246a5f8a7eaee6",
+      "theory_sha256": "6ef2e508474d4ac1ad07d7e4e068955342c405b5f680afcfc40d68cca3d0149c",
       "status": "draft",
       "applies_to": [
         "human_collective"
@@ -576,7 +585,7 @@
         "8.3.1",
         "8.4"
       ],
-      "theory_sha256": "18a7cc167faa3eda68a04b21313f833be6583abf1a2a47523a246a5f8a7eaee6",
+      "theory_sha256": "6ef2e508474d4ac1ad07d7e4e068955342c405b5f680afcfc40d68cca3d0149c",
       "status": "draft",
       "applies_to": [
         "human_collective"
@@ -601,9 +610,10 @@
         "8.2",
         "8.2.1",
         "8.3.2",
-        "8.4"
+        "8.4",
+        "7.6.1"
       ],
-      "theory_sha256": "18a7cc167faa3eda68a04b21313f833be6583abf1a2a47523a246a5f8a7eaee6",
+      "theory_sha256": "6ef2e508474d4ac1ad07d7e4e068955342c405b5f680afcfc40d68cca3d0149c",
       "status": "draft",
       "applies_to": [
         "human_collective"
@@ -615,7 +625,8 @@
       "competes_with": [
         "S0",
         "S2",
-        "PATH-takeover"
+        "PATH-takeover",
+        "CM-ALLOCATION-CAPABILITY"
       ],
       "file": "rules/state/S1.md"
     },
@@ -630,7 +641,7 @@
         "8.3.3",
         "8.4"
       ],
-      "theory_sha256": "18a7cc167faa3eda68a04b21313f833be6583abf1a2a47523a246a5f8a7eaee6",
+      "theory_sha256": "6ef2e508474d4ac1ad07d7e4e068955342c405b5f680afcfc40d68cca3d0149c",
       "status": "draft",
       "applies_to": [
         "human_collective"
@@ -658,7 +669,7 @@
         "8.3.4",
         "8.4"
       ],
-      "theory_sha256": "18a7cc167faa3eda68a04b21313f833be6583abf1a2a47523a246a5f8a7eaee6",
+      "theory_sha256": "6ef2e508474d4ac1ad07d7e4e068955342c405b5f680afcfc40d68cca3d0149c",
       "status": "draft",
       "applies_to": [
         "human_collective"
@@ -686,7 +697,7 @@
         "8.3.5",
         "8.4"
       ],
-      "theory_sha256": "18a7cc167faa3eda68a04b21313f833be6583abf1a2a47523a246a5f8a7eaee6",
+      "theory_sha256": "6ef2e508474d4ac1ad07d7e4e068955342c405b5f680afcfc40d68cca3d0149c",
       "status": "draft",
       "applies_to": [
         "human_collective"
@@ -715,7 +726,7 @@
         "8.3.6",
         "8.4"
       ],
-      "theory_sha256": "18a7cc167faa3eda68a04b21313f833be6583abf1a2a47523a246a5f8a7eaee6",
+      "theory_sha256": "6ef2e508474d4ac1ad07d7e4e068955342c405b5f680afcfc40d68cca3d0149c",
       "status": "draft",
       "applies_to": [
         "human_collective"
@@ -743,7 +754,7 @@
         "8.3.7",
         "8.4"
       ],
-      "theory_sha256": "18a7cc167faa3eda68a04b21313f833be6583abf1a2a47523a246a5f8a7eaee6",
+      "theory_sha256": "6ef2e508474d4ac1ad07d7e4e068955342c405b5f680afcfc40d68cca3d0149c",
       "status": "draft",
       "applies_to": [
         "human_collective"
@@ -770,7 +781,7 @@
         "8.5.1",
         "8.5.2"
       ],
-      "theory_sha256": "18a7cc167faa3eda68a04b21313f833be6583abf1a2a47523a246a5f8a7eaee6",
+      "theory_sha256": "6ef2e508474d4ac1ad07d7e4e068955342c405b5f680afcfc40d68cca3d0149c",
       "status": "draft",
       "applies_to": [
         "human_collective"
@@ -796,7 +807,7 @@
         "11.6",
         "6.13"
       ],
-      "theory_sha256": "18a7cc167faa3eda68a04b21313f833be6583abf1a2a47523a246a5f8a7eaee6",
+      "theory_sha256": "6ef2e508474d4ac1ad07d7e4e068955342c405b5f680afcfc40d68cca3d0149c",
       "status": "draft",
       "applies_to": [
         "human_collective",
@@ -823,7 +834,7 @@
         "11.6",
         "6.13"
       ],
-      "theory_sha256": "18a7cc167faa3eda68a04b21313f833be6583abf1a2a47523a246a5f8a7eaee6",
+      "theory_sha256": "6ef2e508474d4ac1ad07d7e4e068955342c405b5f680afcfc40d68cca3d0149c",
       "status": "draft",
       "applies_to": [
         "human_collective",
@@ -851,7 +862,7 @@
         "11.6",
         "6.13"
       ],
-      "theory_sha256": "18a7cc167faa3eda68a04b21313f833be6583abf1a2a47523a246a5f8a7eaee6",
+      "theory_sha256": "6ef2e508474d4ac1ad07d7e4e068955342c405b5f680afcfc40d68cca3d0149c",
       "status": "draft",
       "applies_to": [
         "human_collective",
@@ -879,7 +890,7 @@
         "11.6",
         "6.13"
       ],
-      "theory_sha256": "18a7cc167faa3eda68a04b21313f833be6583abf1a2a47523a246a5f8a7eaee6",
+      "theory_sha256": "6ef2e508474d4ac1ad07d7e4e068955342c405b5f680afcfc40d68cca3d0149c",
       "status": "draft",
       "applies_to": [
         "human_collective",
@@ -907,7 +918,7 @@
         "11.6",
         "6.13"
       ],
-      "theory_sha256": "18a7cc167faa3eda68a04b21313f833be6583abf1a2a47523a246a5f8a7eaee6",
+      "theory_sha256": "6ef2e508474d4ac1ad07d7e4e068955342c405b5f680afcfc40d68cca3d0149c",
       "status": "draft",
       "applies_to": [
         "human_collective",
@@ -935,7 +946,7 @@
         "6.5",
         "4.4"
       ],
-      "theory_sha256": "18a7cc167faa3eda68a04b21313f833be6583abf1a2a47523a246a5f8a7eaee6",
+      "theory_sha256": "6ef2e508474d4ac1ad07d7e4e068955342c405b5f680afcfc40d68cca3d0149c",
       "status": "draft",
       "applies_to": [
         "technical_system",
@@ -964,7 +975,7 @@
         "12.6",
         "12.10.2"
       ],
-      "theory_sha256": "18a7cc167faa3eda68a04b21313f833be6583abf1a2a47523a246a5f8a7eaee6",
+      "theory_sha256": "6ef2e508474d4ac1ad07d7e4e068955342c405b5f680afcfc40d68cca3d0149c",
       "status": "draft",
       "applies_to": [
         "human_collective",
@@ -995,7 +1006,7 @@
         "11.6",
         "11.7"
       ],
-      "theory_sha256": "18a7cc167faa3eda68a04b21313f833be6583abf1a2a47523a246a5f8a7eaee6",
+      "theory_sha256": "6ef2e508474d4ac1ad07d7e4e068955342c405b5f680afcfc40d68cca3d0149c",
       "status": "draft",
       "applies_to": [
         "human_collective",
@@ -1023,9 +1034,10 @@
       "title": "预警、依赖线索与承接",
       "anchors": [
         "8.6",
-        "12.6"
+        "12.6",
+        "7.6.1"
       ],
-      "theory_sha256": "18a7cc167faa3eda68a04b21313f833be6583abf1a2a47523a246a5f8a7eaee6",
+      "theory_sha256": "6ef2e508474d4ac1ad07d7e4e068955342c405b5f680afcfc40d68cca3d0149c",
       "status": "draft",
       "applies_to": [
         "human_collective"
@@ -1039,7 +1051,8 @@
       "competes_with": [
         "PATH-pseudo_steady",
         "S6",
-        "SIG-EARLY-REVERSE"
+        "SIG-EARLY-REVERSE",
+        "CM-ALLOCATION-CAPABILITY"
       ],
       "file": "rules/signal/SIG-WARNING.md"
     },
@@ -1051,7 +1064,7 @@
         "12.6",
         "12.7"
       ],
-      "theory_sha256": "18a7cc167faa3eda68a04b21313f833be6583abf1a2a47523a246a5f8a7eaee6",
+      "theory_sha256": "6ef2e508474d4ac1ad07d7e4e068955342c405b5f680afcfc40d68cca3d0149c",
       "status": "draft",
       "applies_to": [
         "human_collective",
@@ -1072,6 +1085,75 @@
         "SIG-PROPAGATION"
       ],
       "file": "rules/signal/SIG-EARLY-REVERSE.md"
+    },
+    {
+      "id": "CM-ALLOCATION-CAPABILITY",
+      "type": "mechanism",
+      "title": "配置与能力的跨轮相互强化",
+      "anchors": [
+        "7.6.1",
+        "7.6",
+        "4.5",
+        "4.13.3",
+        "6.14",
+        "8.6"
+      ],
+      "theory_sha256": "6ef2e508474d4ac1ad07d7e4e068955342c405b5f680afcfc40d68cca3d0149c",
+      "status": "draft",
+      "applies_to": [
+        "human_collective",
+        "actor",
+        "mixed"
+      ],
+      "triggers": [
+        "关键任务集中",
+        "训练机会受限",
+        "能力差距扩大",
+        "替代成本上升"
+      ],
+      "competes_with": [
+        "CM-LEARNING",
+        "CM-SELECTION",
+        "CM-LOAD",
+        "S1",
+        "SIG-WARNING"
+      ],
+      "file": "rules/mechanism/CM-ALLOCATION-CAPABILITY.md"
+    },
+    {
+      "id": "PATH-formation-maintenance-recovery-replication",
+      "type": "path",
+      "title": "形成、维持、恢复与复制分别判断",
+      "anchors": [
+        "6.10.1",
+        "6.5",
+        "6.6",
+        "6.10",
+        "2.4.1"
+      ],
+      "theory_sha256": "6ef2e508474d4ac1ad07d7e4e068955342c405b5f680afcfc40d68cca3d0149c",
+      "status": "draft",
+      "applies_to": [
+        "human_collective",
+        "actor",
+        "technical_system",
+        "natural_process",
+        "mixed"
+      ],
+      "triggers": [
+        "首次形成",
+        "持续运转",
+        "受扰恢复",
+        "异地复制",
+        "规模扩大"
+      ],
+      "competes_with": [
+        "CM-MAINTENANCE",
+        "CM-LOAD",
+        "PATH-functional_transfer",
+        "PATH-pseudo_steady"
+      ],
+      "file": "rules/path/PATH-formation-maintenance-recovery-replication.md"
     }
   ]
 }

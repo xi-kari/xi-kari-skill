@@ -3,6 +3,7 @@
 Maintenance tool for this repository; it is not part of the installed skill.
 
     python scripts/build_english_edition.py --from <translation-directory>
+    python scripts/build_english_edition.py --from-file <english-manuscript.md>
     python scripts/build_english_edition.py --check
 
 ``--from`` reads the page-by-page English translation (its ``source-manifest.json``,
@@ -11,6 +12,12 @@ Chinese pages are the same text as ``source/`` here, and writes
 ``source/en/`` plus ``references/glossary-en.md``. ``--check`` only reads the
 vendored files and reports whether the edition still aligns with the Chinese
 source; it never writes.
+
+``--from-file`` imports a supplied single-file English manuscript. It preserves
+the original bytes under ``source/en/upstream/`` and performs only reading-format
+adaptations: remove Chinese parenthetical glosses outside notes/code/link targets,
+and remove stale "(in Chinese)" labels from local links. Original tuples,
+translator notes, copyright notice, and license text remain unchanged.
 
 The Chinese manuscript remains the sole theory authority. The English edition is
 a reference translation for terminology, quotation and English readers.
@@ -48,6 +55,8 @@ PAGE_LINK = re.compile(r"\]\(/works/xikari-conditions/[^/#)\s]+/?(#[^)\s]*)?\)( 
 NOTE_REF = re.compile(r"\[\^(tn-[^\]]+)\]")
 NOTE_DEF = re.compile(r"^\[\^[^\]]+\]:.*?(?=\n\s*\n|\Z)", re.M | re.S)
 FOOTNOTE_LINE = re.compile(r"^\[\^[^\]]+\]:")
+COPYRIGHT_NOTICE = re.compile(r"(?m)^> Original text ©[^\n]*(?:\n>[^\n]*)*\n")
+LICENSE_TAIL = re.compile(r"\n---\n\n## Copyright and License\n[\s\S]*\Z")
 ESCAPES = {"\\_": "_", "\\*": "*", "\\[": "[", "\\]": "]", "\\|": "|", "\\<": "<", "\\>": ">", "\\~": "~", "\\#": "#"}
 
 # The translation keeps these definitional tuples in their Chinese wording so the
@@ -114,6 +123,46 @@ def strip_glosses(text: str) -> str:
     return "".join(out)
 
 
+def edition_body(text: str) -> tuple[str, list[dict]]:
+    """Exclude only located edition notices from alignment; retain them on disk."""
+    spans = []
+    first_part = text.find('<a id="part_1"></a>')
+    for match in COPYRIGHT_NOTICE.finditer(text):
+        if 0 <= match.start() < first_part:
+            spans.append((match.start(), match.end(), "copyright_notice"))
+    license_match = LICENSE_TAIL.search(text)
+    references = text.find('<a id="part_21"></a>')
+    if license_match and 0 <= references < license_match.start():
+        # Do not hide numbered theory sections or extra part anchors as a license.
+        tail = license_match.group()
+        if ("### MIT License\n" in tail
+                and "Permission is hereby granted, free of charge" in tail
+                and not re.search(r'(?m)^#{1,6}\s+(?:\d+|[A-D])\.\d', tail)
+                and '<a id="part_' not in tail):
+            spans.append((license_match.start(), license_match.end(), "copyright_and_license"))
+    metadata = [{"kind": kind, "sha256": sha256(text[start:end].encode("utf-8")),
+                 "bytes": len(text[start:end].encode("utf-8"))} for start, end, kind in spans]
+    body = text
+    for start, end, _ in reversed(spans):
+        body = body[:start] + body[end:]
+    return body, metadata
+
+
+def adapt_uploaded_file(text: str) -> str:
+    """Adapt presentation only, preserving all supplied translator-note wording."""
+    def prose(segment: str) -> str:
+        segment = strip_glosses(segment)
+        return re.sub(r'(\]\(#[^)]+\)) \(in Chinese\)', r'\1', segment)
+
+    out, last = [], 0
+    for note in NOTE_DEF.finditer(text):
+        out.append(prose(text[last:note.start()]))
+        out.append(note.group())
+        last = note.end()
+    out.append(prose(text[last:]))
+    return "".join(out)
+
+
 def english_tuple(note: str) -> str:
     match = re.search(r"`([^`]+)`", note)
     if not match or CJK.search(match.group(1)):
@@ -172,6 +221,7 @@ def assemble(directory: Path) -> tuple[str, list[dict]]:
 
 
 def alignment(zh_text: str, en_text: str) -> dict:
+    en_text, _ = edition_body(en_text)
     zh_lines, en_lines = zh_text.splitlines(), en_text.splitlines()
     zs, zp = build_index(zh_lines)
     es, ep = build_index(en_lines)
@@ -277,12 +327,59 @@ def build(directory: Path) -> dict:
             "sha256": manifest["sha256"], **{k: report[k] for k in ("sections", "parts", "blocks")}}
 
 
+def import_file(path: Path) -> dict:
+    """Import the user's English text without translating or rewriting its prose."""
+    raw = path.read_bytes()
+    original = raw.decode("utf-8-sig").replace("\r\n", "\n")
+    zh_manifest = json.loads(ZH_MANIFEST.read_text(encoding="utf-8"))
+    zh_bytes = (ROOT / "source" / zh_manifest["source_file"]).read_bytes()
+    if sha256(zh_bytes) != zh_manifest["sha256"]:
+        raise ValueError("Chinese source does not match its manifest")
+    text = adapt_uploaded_file(original)
+    report = alignment(zh_bytes.decode("utf-8-sig"), text)
+    if report["problems"]:
+        raise ValueError("; ".join(report["problems"]))
+    _, notices = edition_body(text)
+    data = text.encode("utf-8")
+    upstream_name = "upstream/xikari-conditions-en.md"
+    manifest = {
+        "title": TITLE, "author": "Xikari", "language": "en",
+        "role": "user-supplied reference translation; the Chinese source governs",
+        "source_file": EN_FILE, "sha256": sha256(data), "bytes": len(data),
+        "translates": {"source_file": zh_manifest["source_file"], "sha256": zh_manifest["sha256"]},
+        "alignment": {key: report[key] for key in ("sections", "parts", "blocks")},
+        "non_body_material": notices,
+        "imported_from": {"source_file": upstream_name, "uploaded_name": path.name,
+                          "sha256": sha256(raw), "bytes": len(raw)},
+        "format_adaptations": [
+            "Decode UTF-8 (optional BOM) and normalize CRLF to LF for the reading edition; retain upstream bytes exactly.",
+            "Remove Chinese parenthetical glosses outside translator notes, code spans, and link targets.",
+            "Remove '(in Chinese)' from links targeting this document's own anchors.",
+        ],
+        "edition_notes": [
+            "Prose and translations are supplied by the user; no model retranslation is substituted.",
+            "Original definitional tuples and translator notes retain their wording and identifiers.",
+            "Copyright and license material is preserved; only these located notices are excluded from body alignment.",
+            "Structural alignment and source binding do not certify semantic accuracy or author approval.",
+        ],
+    }
+    (EN_DIR / "upstream").mkdir(parents=True, exist_ok=True)
+    (EN_DIR / upstream_name).write_bytes(raw)
+    (EN_DIR / EN_FILE).write_bytes(data)
+    EN_MANIFEST.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8", newline="\n")
+    return {"written": [f"source/en/{EN_FILE}", "source/en/source-manifest.json", f"source/en/{upstream_name}"],
+            "sha256": sha256(data), "upstream_sha256": sha256(raw),
+            **{key: report[key] for key in ("sections", "parts", "blocks")}}
+
+
 def check() -> dict:
     zh_manifest = json.loads(ZH_MANIFEST.read_text(encoding="utf-8"))
     en_manifest = json.loads(EN_MANIFEST.read_text(encoding="utf-8"))
     zh_bytes = (ROOT / "source" / zh_manifest["source_file"]).read_bytes()
     en_bytes = (EN_DIR / en_manifest["source_file"]).read_bytes()
     problems = []
+    if sha256(zh_bytes) != zh_manifest["sha256"]:
+        problems.append("Chinese source bytes differ from its manifest")
     if sha256(en_bytes) != en_manifest["sha256"] or len(en_bytes) != en_manifest["bytes"]:
         problems.append("English edition bytes differ from its manifest")
     if en_manifest.get("translates", {}).get("sha256") != zh_manifest["sha256"]:
@@ -291,6 +388,24 @@ def check() -> dict:
         problems.append("English edition must use LF line endings")
     report = alignment(zh_bytes.decode("utf-8-sig"), en_bytes.decode("utf-8"))
     problems.extend(report["problems"])
+    if en_manifest.get("alignment") != {key: report[key] for key in ("sections", "parts", "blocks")}:
+        problems.append("English alignment counts differ from its manifest")
+    imported = en_manifest.get("imported_from")
+    if imported:
+        upstream = (EN_DIR / imported["source_file"]).resolve()
+        if not upstream.is_relative_to(EN_DIR.resolve()):
+            problems.append("Imported English source escapes source/en")
+        elif not upstream.is_file():
+            problems.append("Imported English source is missing")
+        else:
+            raw = upstream.read_bytes()
+            if sha256(raw) != imported.get("sha256") or len(raw) != imported.get("bytes"):
+                problems.append("Imported English source bytes differ from its manifest")
+            reproduced = adapt_uploaded_file(raw.decode("utf-8-sig").replace("\r\n", "\n")).encode("utf-8")
+            if reproduced != en_bytes:
+                problems.append("English reading edition is not the reproducible adaptation of its imported source")
+        if en_manifest.get("non_body_material") != edition_body(en_bytes.decode("utf-8"))[1]:
+            problems.append("English copyright and license material differs from its manifest")
     return {"ok": not problems, "sha256": sha256(en_bytes), "translates": en_manifest.get("translates", {}).get("sha256"),
             **{k: report[k] for k in ("sections", "parts", "blocks")}, "problems": problems}
 
@@ -302,10 +417,11 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     group = parser.add_mutually_exclusive_group(required=True)
     group.add_argument("--from", dest="source", type=Path, help="Translation directory to build from")
+    group.add_argument("--from-file", dest="source_file", type=Path, help="Supplied English manuscript to import without retranslation")
     group.add_argument("--check", action="store_true", help="Verify the vendored English edition; read-only")
     args = parser.parse_args()
     try:
-        result = check() if args.check else build(args.source)
+        result = check() if args.check else import_file(args.source_file) if args.source_file else build(args.source)
     except (OSError, ValueError, KeyError) as exc:
         print(f"English edition: {exc}", file=sys.stderr)
         return 2

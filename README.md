@@ -18,7 +18,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/xi-kari/xi-kari-skill/releases/latest"><img alt="最新版本" src="https://img.shields.io/github/v/release/xi-kari/xi-kari-skill?style=flat-square&amp;label=release&amp;color=1F4FC4"></a>
+  <a href="skill-package.json"><img alt="技能版本 6.3.0" src="https://img.shields.io/badge/skill-6.3.0-1F4FC4?style=flat-square"></a>
   <a href="https://github.com/xi-kari/xi-kari-skill/actions/workflows/windows.yml"><img alt="Windows 测试状态" src="https://img.shields.io/github/actions/workflow/status/xi-kari/xi-kari-skill/windows.yml?branch=main&amp;style=flat-square&amp;label=Windows%20CI"></a>
   <img alt="可选工具需要 Python 3.10 或更新版本" src="https://img.shields.io/badge/python-3.10%2B%20%28%E5%8F%AF%E9%80%89%29-33415E?style=flat-square">
   <a href="LICENSE"><img alt="MIT 许可" src="https://img.shields.io/badge/license-MIT-33415E?style=flat-square"></a>
@@ -28,7 +28,7 @@
 
 它为需要想清楚、也需要下判断的问题而设计：一项制度为什么反复失灵，一个方案会怎样影响不同的人，几种解释里哪一种站得住，现在该维持、调整、试探还是退出。技能只在你明确点名时启用，不会接管日常对话。
 
-中英文都可以使用：用英文提问，成果就以英文写成。理论权威仍是中文原文；安装包另附与原文逐节对齐的英文参考译本和中英术语表，用于英文术语与引文（见[英文工作](references/english.md)）。
+中英文都可以使用：用英文提问，成果就以英文写成。理论权威仍是中文原文；安装包另附与原文逐节对齐的英文参考译本和中英术语表，用于英文术语与引文（见[英文工作](references/english.md)）。当前技能使用 v2；原文精读站仍按第一版编排。
 
 ## 从这里开始
 
@@ -115,7 +115,7 @@ $xi-kari-skill 附件是热线改革一年来的六项指标和市里的总结�
 
 **前瞻工具可用，准确性尚未验证。**
 
-[前瞻模块](modules/forecast/MODULE.md)从适格检查、冻结快照、机制与路径开始，完成表达、登记、方案承接与到期回写。39 张[派生规则卡](rules/README.md)提供检索与使用提示，使用时回到完整原文小节；当前卡片均为 draft，等待作者按抽样范围审定。
+[前瞻模块](modules/forecast/MODULE.md)从适格检查、冻结快照、机制与路径开始，完成表达、登记、方案承接与到期回写。41 张[派生规则卡](rules/README.md)提供检索与使用提示，使用时回到完整原文小节；当前卡片均为 draft，等待作者按抽样范围审定。
 
 `scripts/forecast.py` 提供 register、list、show、resolve、report、check。登记固定目标、期限、范围和输入截止；结果只追加，第一至第三阶分别统计，与预登记简单基线比较。报告支持适用任务的 Brier、对数损失、方向与首位命中、区间评分和预测时间窗，并提供配对基线比较与分歧子集统计；不把不适用或缺失标签填为零。
 
@@ -145,7 +145,7 @@ $xi-kari-skill 附件是热线改革一年来的六项指标和市里的总结�
 
 <sub>截图由随包工具实际生成：阅读页以原文第一部分为示例内容；条件模型页与方案比较表来自随包的“明确虚构”教学示例，其中的数值不是现实事实。</sub>
 
-**版本范围**：当前安装包为 `v6.2.0`；截图用于展示工具界面，各版本的功能以相应的 [Release 说明](https://github.com/xi-kari/xi-kari-skill/releases)为准。
+**版本范围**：当前安装包为 `v6.3.0`；截图用于展示工具界面，各版本的功能以相应的 [Release 说明](https://github.com/xi-kari/xi-kari-skill/releases)为准。
 
 - **完整成果稿 `xi-kari-answer.md`。** 初次完整交付或要求合稿时形成：中心判断在前，随后是材料评价、结构关系、机制比较、案例与反例、路径、反方回应、裁决与方案。
 - **离线阅读页。** 由完整稿生成的单个 HTML 文件，不联网：标题下方有一张按正文自身统计画出的航迹图，每个章节是一个定位点，间距与篇幅成比例，读到哪里航迹就画到哪里，点一下定位点就翻到那一节，往下读时同一条航迹收在顶栏下方继续跟随；章节目录随阅读位置标出当前章节，有全文搜索、字号调节和打印版式；夜间模式默认跟随系统，也可以手动切换；脚注可以悬停预览，也可以回跳。选中一段正文，旁边会出现“追问选段”，把选段连同位置整理成一条追问，由你复制回对话。有公式时内嵌随包的 KaTeX 排版。
@@ -228,7 +228,7 @@ xi-kari-skill/
 ├── source/               理论原文与身份清单（权威文本）
 │   └── en/               英文参考译本及其身份清单
 ├── modules/              十一个分析、判断与生成模块
-├── rules/                39 张带原文锚点的派生规则卡
+├── rules/                41 张带原文锚点的派生规则卡
 ├── cases/                教学示范及可运行登记输入
 ├── references/           方法指南：阅读、模块承接、持续对话、协作、各工具说明、英文工作与术语表
 ├── scripts/              可选 Python 工具（仅标准库）与构建、检查、评测脚本

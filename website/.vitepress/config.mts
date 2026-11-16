@@ -88,11 +88,11 @@ function tableFrames(md: MarkdownIt) {
   md.renderer.rules.table_close = (tokens, idx, options, _env, self) => self.renderToken(tokens, idx, options) + '</div>'
 }
 
-/** The date the published text was fixed, from the same record the project page reads. */
+/** The date of this handbook's selected edition, independent of skill upgrades. */
 function baselineDate(): string {
   try {
-    const status = JSON.parse(readFileSync(join(WEBSITE, '../docs/data/research-status.json'), 'utf8'))
-    const match = String(status?.theory?.baselineDate || '').match(/^(\d{4})-(\d{2})-(\d{2})$/)
+    const source = JSON.parse(readFileSync(SOURCE_MAP, 'utf8'))
+    const match = String(source?.source_date || '').match(/^(\d{4})-(\d{2})-(\d{2})$/)
     return match ? `${match[1]}.${match[2]}.${match[3]}` : ''
   } catch {
     return ''

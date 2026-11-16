@@ -6,9 +6,10 @@
   "anchors": [
     "6.5",
     "6.10",
-    "6.11"
+    "6.11",
+    "6.10.1"
   ],
-  "theory_sha256": "18a7cc167faa3eda68a04b21313f833be6583abf1a2a47523a246a5f8a7eaee6",
+  "theory_sha256": "6ef2e508474d4ac1ad07d7e4e068955342c405b5f680afcfc40d68cca3d0149c",
   "status": "draft",
   "applies_to": [
     "human_collective",
@@ -26,7 +27,8 @@
   "competes_with": [
     "CM-LOAD",
     "CM-LEARNING",
-    "PATH-functional_transfer"
+    "PATH-functional_transfer",
+    "PATH-formation-maintenance-recovery-replication"
   ]
 }
 ---
@@ -44,6 +46,8 @@
 - 核查原文判据「还要比较维护、减维护、错配维护与停止维护条件」。〔原文 §6.5〕
 
 ## 生成的路径
+
+- 形成、维持、受扰恢复和异地复制分别取证；一次维持成功不证明新地点能复制，下一轮承接失败也不抹去此前有依据的保持结果。〔派生，待确认〕
 
 - 生成匹配维护延长 K/F、错配维护保住旧 K 却损害 F、替代通道接续、对象转换或有序停止；比较不是要求现实中撤走必要维护。〔派生，待确认〕
 

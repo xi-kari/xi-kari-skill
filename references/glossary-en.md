@@ -177,7 +177,7 @@ English renderings used by the reference edition in `source/en/`, in order of fi
 | 对象准入 | object admission | locked | 两阶段程序 |
 | 根实例 | root instance | locked | 正式检验实例 |
 | 状态变量 | state variable | locked | D0字段X |
-| 对象识别 | object identification | locked | 对象层面识别 |
+| 对象识别 | object identification | locked | 仅限一般或领域对象识别；不再用作G1检验结果名，不作对象事实总门槛 |
 | 指定通道 | specified channel | proposed |  |
 | 历史条件增量 | historical conditional increment | proposed |  |
 | 条件增量 | conditional increment | locked | 条件修饰词族 |
@@ -206,7 +206,16 @@ English renderings used by the reference edition in `source/en/`, in order of fi
 | 映射 | mapping | locked | 变量或表示之间对应 |
 | 允许操作 | admissible operations | locked | 形式命题的允许动作 |
 | 经验支持 | empirical support | proposed |  |
-| 分组增益 | grouping gain | proposed |  |
+| 分组增益 | grouping gain | proposed | G1相对于所声明解释或前瞻任务的增益，不等于对象事实或对象存在 |
+| 分组增益支持 | grouping-gain support | proposed | 用户提供英文版的G1实例限定范围内支持结果 |
+| 分组增益支持强度 | strength of grouping-gain support | proposed | 区别于对象识别强度；C1、HV01同义使用 |
+| 边界扰动稳健性 | robustness to boundary perturbations | proposed | 指该分组增益对已测试扰动的稳健性，不称天然边界可信度 |
+| 对象事实 | object facts | proposed | 可有独立文书和观察依据；分组增益未获支持不取消其依据 |
+| 构成关系 | constitutive relation | proposed | §2.4.3：按适用领域规则成立地位，与因果效应分别取证 |
+| 因果关系 | causal relation | proposed | §2.4.3：地位成立之后实际发生什么，不代证构成性地位 |
+| 构成性地位 | constitutive standing | proposed | 用户提供英文版译名；按对象所属领域规则成立，不是本框架的定义D |
+| 重开 | reopening | proposed | §2.14：另立问题并保留原问及结果，不事后改写成功 |
+| 连续可用时段 | continuous blocks of available time | proposed | §7.3.9：记录整段长度与可预期性，不折算累加为占用时数 |
 | 事实断言 | factual assertion | proposed |  |
 | 认识论约束 | epistemic constraint | proposed |  |
 | 制度写回 | institutional write-back | proposed | 制度字段发生反馈所致变化且有实际执行记录的写回。 |

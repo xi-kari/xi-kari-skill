@@ -5,9 +5,10 @@
   "title": "预警、依赖线索与承接",
   "anchors": [
     "8.6",
-    "12.6"
+    "12.6",
+    "7.6.1"
   ],
-  "theory_sha256": "18a7cc167faa3eda68a04b21313f833be6583abf1a2a47523a246a5f8a7eaee6",
+  "theory_sha256": "6ef2e508474d4ac1ad07d7e4e068955342c405b5f680afcfc40d68cca3d0149c",
   "status": "draft",
   "applies_to": [
     "human_collective"
@@ -21,7 +22,8 @@
   "competes_with": [
     "PATH-pseudo_steady",
     "S6",
-    "SIG-EARLY-REVERSE"
+    "SIG-EARLY-REVERSE",
+    "CM-ALLOCATION-CAPABILITY"
   ]
 }
 ---
@@ -55,6 +57,8 @@
 - 采样和噪声改变足以解释波动、可用替代承接持续生效，或已验证反向信号出现时，收窄预警。〔派生，待确认〕
 
 ## 竞争解释
+
+- 关键知识持续集中、继任受阻时追加配置—实践—能力—下一轮配置的候选比较；不能从依赖现象直接判该循环成立，按 CM-ALLOCATION-CAPABILITY 核跨至少两轮材料与竞争解释。〔派生，待确认〕
 
 - 与资源红利、中心隐性救火和观测压制比较；同时记录线索之间的来源依赖，避免重复计权。〔派生，待确认〕
 

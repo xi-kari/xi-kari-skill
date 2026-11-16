@@ -2,3 +2,4 @@
 *.docx binary
 website/public/reading-assets/** -text
 docs/handbook/reading-assets/** -text
+source/en/upstream/** -text

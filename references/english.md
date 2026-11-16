@@ -10,9 +10,9 @@ Read this when the user writes in English, asks for English output, or quotes th
 ## Two editions, one authority
 
 - `source/Xikari-条件结构与转化论.md` is the theory source and the only authority. Its definitions, conditions, exclusions, quantifiers, permissions and prohibitions govern.
-- `source/en/Xikari-On-Conditions-Structure-and-Transformation.md` is a reference translation of exactly that text. It shares every section ID (`1.1`, `4.17`, `C.12`, …) and part anchor with the source, so a § reference names the same passage in both.
+- `source/en/Xikari-On-Conditions-Structure-and-Transformation.md` is the reading edition of the user-supplied English translation of Chinese v2. Its original is preserved byte for byte in `source/en/upstream/xikari-conditions-en.md`. Both share every section ID (`1.1`, `4.17`, `C.12`, …) and part anchor with the Chinese source, so a § reference names the same passage in both. Verify the edition binding and reproducible format adaptations in `source/en/source-manifest.json`; structural alignment and matching hashes do not certify translation accuracy or author approval.
 - Use the English edition for English terminology, for quotations in English answers, and for readers who want to read the theory in English. It gains no authority of its own. Where it appears to differ from the Chinese on a definition, condition, quantifier, permission or prohibition, follow the Chinese, translate that passage directly, and tell the reader when the difference matters.
-- The edition omits the Chinese glosses that the page-by-page translation puts after terms, and gives the definitional tuples (`A*`, `C*`, `MC*`, `M(SP0→SP1)`) in English. Translator's notes are marked `[^pNN-tn-…]`; they are not the author's text and are never quoted as such.
+- The reading edition omits parenthetical Chinese glosses from the prose and removes stale “(in Chinese)” labels from local links. It preserves the supplied definitional tuples (`A*`, `C*`, `MC*`, `M(SP0→SP1)`) and their English explanations in the translator's notes. Those notes retain their original `[^tn-…]` identifiers and wording; they are not the author's text and are never quoted as such. Copyright and license text is retained in full; it is not part of the Chinese–English body alignment.
 
 ## Reading
 
@@ -43,6 +43,9 @@ These distinctions must survive in English:
 | 规范前提、价值前提 | normative premise, value premise | two different premises |
 | 成本、代价 | cost, the price to be paid | *cost* is the accounted quantity of §2.8 |
 | 修复、恢复 | repair, recovery | never *restoration* for 修复 |
+| 分组增益、对象事实 | grouping gain, object facts | G1 supports a task-relative gain, not object existence; *object identification* is not the name of the G1 result |
+| 构成关系、因果关系 | constitutive relation, causal relation | evidence that a status holds is distinct from evidence of its effects |
+| 形成、维持、恢复、复制 | formation, maintenance, recovery, replication | four descriptive outcomes; none proves another or authorizes continuation |
 | 承接、承担、承载 | take up / uptake, bear, carry | three different relations |
 | 退出、退场、有序退场 | exit (an actor leaves), exit (an object leaves), orderly exit | |
 | 正当、合法性、合法 | justification, legitimacy, lawful | normative justification is not perceived legitimacy |
@@ -52,6 +55,8 @@ These distinctions must survive in English:
 | 圈层、多圈层、联合状态 | circle, multi-circle, joint state | a circle implies no hierarchy |
 
 Modal force follows the Chinese: 须／必须 *must*; 应 *should*; 不得 *must not*; 不能 *must not* for a rule and *cannot* for an impossibility; 可以 *may* for permission and *can* for possibility; 不必 *need not*; 未必 *not necessarily*; 不自动 *does not automatically*; 不等于 *is not the same as*; 单独 *by itself*; 只有……才 *only if*; 仍 *still*. Rules about what AI, tools or analysts may do are rules: write *must not*, not *cannot*.
+
+Preserve the scope of the normative distinctions as well. In §14.4.1, proportionality concerns identifying indirect and more distant positions, not reduced protection for identified positions or permission to omit directly affected and known low-power positions. In §14.8, maintaining protection does not guarantee unchanged outcomes. In §14.9.1, a justified analytical recommendation when every option involves loss does not confer `authorized` status or waive non-waivable requirements. Do not turn a restriction on adoption into a ban on giving the analysis.
 
 Identifiers stay as written: G1–G4, E1–E5, C1–C12, F1–F6, H1–H6, HV01–HV11, U01–U11, M01–M09, CM-…, D0, K\*, N0, J, O1–O4, § numbers and `snake_case` field names.
 

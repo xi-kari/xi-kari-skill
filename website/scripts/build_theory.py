@@ -11,7 +11,6 @@ import re
 
 
 WEBSITE = Path(__file__).resolve().parents[1]
-REPO = WEBSITE.parent
 TITLE = "Xikari-条件结构与转化论"
 SOURCE_SHA256 = "18a7cc167faa3eda68a04b21313f833be6583abf1a2a47523a246a5f8a7eaee6"
 DOCX_SHA256 = "878189fe49000577c2715a9ffb006f0e43a6bc03f6a5ca4ec599cb5607a97e59"
@@ -240,7 +239,9 @@ def write_json(path: Path, value: object) -> None:
 
 
 def build(website: Path = WEBSITE, source: Path | None = None, docx: Path | None = None) -> dict:
-    source = source or REPO / "source" / f"{TITLE}.md"
+    # The handbook has its own selected edition and Word counterpart. A skill
+    # source upgrade must not silently replace that frozen website edition.
+    source = source or WEBSITE / "public/downloads" / f"{TITLE}.md"
     data = source.read_bytes()
     if sha256(data) != SOURCE_SHA256:
         raise ValueError("The canonical manuscript does not match the selected source identity")

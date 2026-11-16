@@ -41,7 +41,7 @@ def restore_original(generated, page):
 class HandbookSourceTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.source = ROOT / "source" / f"{builder.TITLE}.md"
+        cls.source = WEBSITE / "public/downloads" / f"{builder.TITLE}.md"
         cls.raw = cls.source.read_bytes()
         cls.lines, cls.pages = builder.split_source(cls.raw.decode("utf-8"))
         cls.manifest = json.loads((WEBSITE / "public/source-map.json").read_text(encoding="utf-8"))
@@ -52,6 +52,15 @@ class HandbookSourceTests(unittest.TestCase):
         word = (WEBSITE / "public/downloads" / f"{builder.TITLE}.docx").read_bytes()
         self.assertEqual(hashlib.sha256(word).hexdigest(), builder.DOCX_SHA256)
         self.assertEqual(self.manifest["source_sha256"], builder.SOURCE_SHA256)
+
+    def test_default_build_uses_the_handbooks_selected_edition(self):
+        with tempfile.TemporaryDirectory(prefix="xikari-handbook-default-") as directory:
+            destination = Path(directory) / "site"
+            manifest = builder.build(
+                destination, docx=WEBSITE / "public/downloads" / f"{builder.TITLE}.docx")
+            self.assertEqual(manifest["source_sha256"], builder.SOURCE_SHA256)
+            self.assertEqual((destination / "public/downloads" / self.source.name).read_bytes(), self.raw)
+            self.assertEqual(manifest["pages"], self.manifest["pages"])
 
     def test_page_spans_cover_each_source_line_once_in_reading_order(self):
         records = self.manifest["pages"]
