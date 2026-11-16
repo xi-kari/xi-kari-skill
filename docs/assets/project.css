@@ -515,6 +515,9 @@ thead th { padding-block: 8px; font-size: .8125rem; font-weight: 700; border-top
 tbody th { font-weight: 800; white-space: nowrap; }
 tbody th .code { display: inline-block; min-width: 2.3em; margin-right: 8px; }
 tbody tr:last-child > * { border-bottom: 1px solid var(--rule); }
+.analysis-checks { table-layout: fixed; margin-top: 22px; }
+.analysis-checks th { white-space: normal; }
+.analysis-checks th:first-child { width: 34%; }
 
 .minima { margin-top: clamp(36px, 4.4vw, 60px); min-width: 760px; }
 .minima tbody tr { transition: background-color .2s; }

@@ -1,0 +1,160 @@
+---
+title: "Part 1 Introduction"
+---
+
+<div v-pre class="theory-source">
+
+<a id="part_1"></a>
+
+# Part 1 Introduction {#part-title-1}
+
+This framework provides a working language for describing structures, testing mechanisms, and constraining inferences about action. It connects objects, conditions, actors, events, and consequences, allowing explanations at different scales and in different circles[^tn-circle-01] to be checked against one another. Using it should make clearer what supports a judgment, where it applies, which competing explanations remain, and when to stop drawing further conclusions.
+
+Analysis can represent actors and the multiple circles they inhabit as a joint state. Circles may be parallel, nested, overlapping, bridged, or in competition, and may also form temporarily around particular events. Whether to use this representation depends on whether it helps answer the current question. A technical fault may be adequately explained by a local technical model; conflicts involving family care, work arrangements, and public services may require observing several circles at once. Adding variables and layers requires stating which necessary distinctions are retained relative to a simpler explanation. Complexity must not substitute for explanatory capability.
+
+## 1.1 Four Kinds of Output and Eight Layers of Responsibility {#section-1-1}
+
+The framework distinguishes explanation, projection, conditional foresight[^tn-foresight-01], and bounded choice. These four kinds of output answer different questions, require different materials, and each have their own stopping point.
+
+Explanation addresses phenomena that have already occurred, specifying objects, relations, conditions, and possible mechanisms while retaining competing accounts that cannot yet be distinguished. Projection starts from explicit states and conditions and unfolds paths that may follow an event. Conditional foresight goes further by making a judgment about the future with a target, a horizon, and a simple baseline, one that can be evaluated and is allowed to fail. Bounded choice discloses normative premises, evidence, the price to be paid, and affected positions, comparing action, delay, probes, exit, and non-action. Analytical recommendations for deliberation may be formed under these conditions; actual adoption and execution must separately pass the applicable protection, review, and lawful authorization procedures.
+
+| Output | Question Asked | Main Entry Point | Limits on the Conclusion |
+| --- | --- | --- | --- |
+| Explanation | Why this phenomenon occurred | Parts 2–8 | An existing explanation does not by itself acquire eligibility for prediction or authority to act |
+| Projection | Which conditions and events may cause states to change along different paths | Parts 9–11 | Retain branches, unknowns, residuals, and stopping conditions |
+| Conditional foresight | Which outcome is more reasonably expected within explicit horizons and conditions | Part 12 | Register targets and baselines before results; check and write back after results |
+| Bounded choice | Whether one should act, wait, probe, exit, or do nothing | Parts 12–15 | Constrained by norms, protections, evidence, authorization, and the action ceiling |
+
+The eight layers of responsibility are U, the universal structural core; S, cross-scale and cross-circle transformations; H, the human structured world; A, actor states; MC, multi-circle joint states; P, path projection and conditional foresight; I, inference and real-world interfaces; and N, normative choice and authorization. These layers represent a division of responsibilities, not a ranking of value. Nor do they form a ladder of maturity that objects must climb stage by stage.
+
+The four kinds of output can connect within the same task, but each connection requires the corresponding conditions to be supplied. An explanation may hold while prediction remains difficult; a forecast may be accurate while a particular action remains unjustified; an option may merit discussion without yet having authorization for execution. Predictive capability and decision-making authority are established separately.
+
+## 1.2 Reading Paths through the Book {#section-1-2}
+
+Parts 1–4 explain the scope of application, terms, evidential responsibilities, empirical question families, outcome contracts[^tn-contract-01] and mechanism contracts, and conditional formal propositions. Parts 5–8 address scale transformation, structural operation, adaptation to the human domain, and collective state prototypes. Parts 9–12 address actors, multi-circle joint objects, event projection, conditional foresight, and bounded choice. Parts 13–16 connect these topics to tools, norms, intervention, and governance.
+
+When analyzing a specific event, one may first freeze the question, event scope, and data cutoff, then identify actors and candidate circles, stating material conditions and experience–meaning conditions separately. Next, register the update clocks of different variables, unfold paths along channels supported by evidence, and list early and contrary signals that can distinguish the paths. Only when a future judgment needs to be released must the further responsibilities for registering and evaluating conditional foresight be borne. Only when real-world action or high-impact adoption is needed does the analysis enter the corresponding normative, protection, and authorization procedures.
+
+Appendix A provides complete interfaces for human variables; Appendix B offers an index of identifiers and terms; Appendix C explains the common method kernel and bridges across disciplines; and Appendix D provides entry points into domain explanations and applications. The appendices help readers return to the contracts they need; they do not replace domain research itself.
+
+## 1.3 The Framework and Domain Knowledge {#section-1-3}
+
+The framework does not replace disciplinary evidence, legal procedures, professional assessments, or the decision-making authority of those concerned. Its function is to let different explanations correct one another within the same question and to make their respective grounds and limits visible.
+
+Technical research can show what can actually be done; institutional research can show who can decide; actors' experiences can show how an arrangement enters everyday life. These materials may together constitute an explanation, but the validity of one does not automatically provide evidence for the others. When a more precise domain model is needed, that model's variables, units, objects, and identification conditions should be retained. More abstract structural terms are useful only when they preserve the distinctions at issue.
+
+Different methods can also fulfill their own tasks separately. Historical understanding, textual interpretation, empirical description, formal derivation, and normative argument need not first be fully rewritten into structural variables to acquire standing as knowledge. Formal eligibility within the framework constrains the relevant strong claims made in its name; it must not be expanded into a universal admission institution for all knowledge.
+
+## 1.4 Explanation, Diagnosis, Normative Choice, and Intervention[^tn-diagnosis-01] {#section-1-4}
+
+### 1.4.1 Explanation {#section-1-4-1}
+
+Explanation describes phenomena and their possible mechanisms. Structural explanation pays particular attention to objects, relations, flows, feedback, and conditions, but must still compare other explanations sufficient to account for the same materials. A coherent story can raise questions; coherence alone cannot establish causation.
+
+### 1.4.2 Diagnosis {#section-1-4-2}
+
+Within the scope supported by evidence, diagnosis locates constraints, points of destabilization, and gaps in carrying. The object, scale, time window, and risk level of a diagnosis must be explicit. Identifying a risk does not automatically authorize others to act on it, nor does it deprive the person being analyzed of standing to dissent and appeal.
+
+### 1.4.3 Normative Choice {#section-1-4-3}
+
+Normative choice discloses value premises, claims of right, the consequences of options, and conflicting reasons. Moving from facts to an evaluation or recommendation requires stating the normative premises that connect them. The same facts may leave room for disagreement under different normative reasons. Value choices must not be rewritten as factual necessity merely to produce a unified conclusion.
+
+### 1.4.4 Intervention {#section-1-4-4}
+
+Intervention specifies the level of actual action, source of authorization, scope, stopping conditions, and paths to remedy. When the window permits, information can change later choices, and the benefits of a probe can sufficiently offset the price to be paid, reversible small steps may be considered first. Imminent harm, accumulated exposure, or a critical window may also make waiting more dangerous. Reversibility needs to be verified from the affected positions: the possibility of rolling back a technical configuration does not mean that losses others have already borne disappear with it.
+
+Opinions, comparisons of options, and institutional drafts for deliberation do not by themselves generate power to constrain others. If these outputs will in practice be used for sanctions, eligibility decisions, resource allocation, or other high-impact decisions, review and authorization must be completed according to their foreseeable use. Responsibility must not be reduced merely by calling an output “advice.”
+
+Outcomes also need to be judged separately. Industrial capability, workers' lives, political participation, and cross-border connections may not move in step. The cessation of violence, dispute resolution, political arrangements, accountability, recovery of everyday life, and reconciliation may also change separately. Established local improvements should be retained; other outcomes that are not yet supported still require separate evidence.
+
+## 1.5 Choosing an Entry Point by Task and Risk {#section-1-5}
+
+### 1.5.1 Entering by Task {#section-1-5-1}
+
+When a formal analysis is needed, first state the object, question, time window, scale, and required output. Understanding concepts can begin with the universal grammar; comparing different scales requires checking transformations; analyzing real events requires distinguishing evidence and mechanisms; and real-world action proceeds further into the procedures for choice and intervention.
+
+### 1.5.2 Escalating According to Risk {#section-1-5-2}
+
+The intensity of scrutiny increases with the use of a conclusion and the actual risks. Insufficient evidence, unequal power, irreversible consequences, and high-pressure situations require more careful review. Everyday reading, local understanding, and ordinary communication need not run through every contract.
+
+Procedures themselves have costs in time, care, privacy, and expression. Priority should be given to gaps that would change the current judgment or protective arrangements, while retaining local conclusions supported by the available materials. Those concerned must not be required to learn the entire terminology before their experiences are acknowledged or their legitimate needs addressed.
+
+### 1.5.3 Scope of Reading and Use of the Method {#section-1-5-3}
+
+The scope of theoretical study should match the judgments for which responsibility is being borne. Evaluating the book's overall consistency, comparing the entire scheme, or transferring its common grammar requires reading it in full. For conceptual clarification and local applications, it is possible to explore organizing reading around the common constraints, the Parts required by the task, and the specific sections cited. Conclusions from partial reading cover only the materials obtained and understood; they do not automatically represent judgments about the whole book.
+
+Reading in layers first retains the common grammar, evidential status, the specialized meanings of core terms, relations of nonequivalence, and output boundaries, then covers the complete sections on which the current task depends. Continue reading when cross-chapter references, competing explanations, exceptions, exclusions, or scale conversions arise. If the scope of the dependencies cannot be determined, expand the reading to consecutive Parts or the whole book. Method summaries, indexes, and other people's accounts can only help locate material; they cannot replace the conditions in the source text being used.
+
+Whether reading in layers can replace reading in full is a question about method use that requires comparison. The comparison should hold the task, materials, model conditions, and evaluation method fixed, observing consequential misjudgments, effective answers, retained unknowns, and reading burden separately. Acceptable differences must be set in advance; the criteria must not be moved after results have been seen. Before the comparison has been completed, experimental applications with explicitly marked scopes may be undertaken, without claiming that the two approaches are equivalent. Nor does a reading log or a completion marker establish understanding.
+
+## 1.6 Ten Questions for Strong Judgments {#section-1-6}
+
+A strong judgment should be checked against 10 questions: whether the object is established, whether the evidence is sufficient, whether a causal bridge exists, whether the scale has been switched without acknowledgment, whether alternative explanations have been compared, whether rights have been impaired, whether authorization is valid, whether action can be stopped, whether consequences can be remedied, and whether the conclusion can be appealed.
+
+The 10 questions are not a checklist for adding points to a conclusion. Each addresses a gap that could invalidate the current judgment or cause it to exceed its authority. When a question cannot be answered, it should be specified whether the gap limits the factual judgment, mechanism account, scope of extrapolation, eligibility for public release, or real-world action, and proportionate measures to downgrade or stop should be taken.
+
+## 1.7 The Protection Floor {#section-1-7}
+
+The protection floor requires preserving a person's standing as a subject, channels for dissent, the possibility of exit, minimal harm, traceable responsibility, and actual rollback. Protective requirements must enter specific options and the conditions of execution; they must not remain merely statements of objectives.
+
+Inability to exit, difficulty expressing oneself, or unwillingness to disclose must not automatically be interpreted as consent, absence of loss, or absence of dissent. The specific protective arrangements and their conditions of application are developed in the Parts on norms, intervention, and governance. Possession of more materials or greater confidence in an explanation does not thereby expand the analyst's authority to act.
+
+## 1.8 Entering an Analysis through an Event {#section-1-8}
+
+First separate what happened, what materials it left, and what we have inferred from those materials. Freeze the data cutoff and the existing disputes. When a multi-circle representation is needed, then identify actors, the primary circle, and the necessary neighboring circles. Actor states are addressed in Part 9; circle relations and joint states in Part 10.
+
+Material conditions and experience–meaning conditions need to be addressed proportionately at the same time. A lack of resources must not automatically be rewritten as an attitude problem, nor can conflicts of meaning be explained solely by the total amount of resources. For every proposed connection, state the layer to which the materials provide support.
+
+Next, distinguish the clocks. Immediate emotions may change within hours; expectations about relationships may take several rounds of interaction; organizational resources may be adjusted weekly or quarterly; institutional rules may require longer procedures; and long-term capabilities and identities may change over years. An event's direct effects update only the variables reached through its actual channels. Autonomous dynamics and internal clocks as time advances update according to declared and supported rules. Variables without a corresponding basis in effects or dynamics must not change along with the narrative, and states whose evidence has expired need to be checked again or marked unknown.
+
+When path projection is needed, inject an event into a frozen snapshot, recording direct effects, returning feedback, and cross-circle impacts. Create branches where conditions, thresholds, actor choices, or external disturbances may change subsequent paths, and list signals and stopping conditions for each path. Differences that existing variables cannot explain may prompt multiple candidate variables and minimal tests. An explanation that has just been thought of must not be entered directly as a fact.
+
+If a task ends with understanding, it may conclude once a supported explanation has been formed and what remains unresolved has been made explicit. Releasing a future judgment requires registering the target, horizon, simple baseline, and evaluation arrangements before results appear. Choosing real-world actions requires a further review of action, delay, probes, exit, and non-action against the same comparative baseline, with authorization, ceilings, stopping, and remedy made explicit.
+
+## 1.9 Boundaries of Capability {#section-1-9}
+
+The information a model can connect is always limited. Unobserved variables, mechanisms not yet understood, unavailable materials, subjects' choices, and unforeseen events may all change paths. Written contracts make these limits easier to inspect; they cannot copy reality in full into a text.
+
+Explanation needs to retain unexplained residuals; foresight needs to retain simple baselines and outcomes at the due date; and choice needs to retain non-action and different cost-bearing positions. Foresight capability can be supported only by continuing comparisons registered before results and checked afterward. The framework's size, number of terms, and length of exposition cannot establish it.
+
+## 1.10 A Common Grammar and Multiple Paths to Understanding {#section-1-10}
+
+Analysis can begin with a specific puzzle: why the same rule produces different results for different people, why a real improvement has not changed a long-term predicament, or why a particular lived experience does not appear in existing indicators. First state the difference to be explained, then choose the materials and methods. Structure, psychology, interests, culture, or technology cannot acquire the standing of an ultimate cause merely by being named.
+
+Shared practices, the circumstances of those who bear costs, and intertemporal relations can complement one another. Practice shows how action occurs; cost-bearing positions make time, the body, resources, and the cost of refusal visible; intertemporal relations bring recurring rules and distributions into the explanation. These paths have no fixed order of value. Equipment failure may be explained primarily by technical mechanisms, local care may have value in its own right, and public rules may change the lives of many people who have never met.
+
+Knowledge and meaning do not hold only when collective states change. A person's learning a skill, understanding history, appreciating a work, completing a game, or finding comfort can be described on the basis of the relevant materials. Specific terms such as CM-LEARNING, HV03, and HV11 address only their explicitly specified mechanisms or interfaces. Failure to satisfy a narrower contract is not the same as the absence of learning, meaning, love, or value. When ordinary concepts enter formal judgments, the meaning being used needs to be stated, avoiding silent switches between everyday and specialized uses.
+
+“Small repairs” in everyday accounts may refer to local remedies, renewed contact, or adjustments to living arrangements. Analysis of these materials should retain the distinctions between who names them, what actually changes, and what losses continue, without declaring on behalf of those concerned that recovery has already occurred. Ordinary help does not depend on advance registration. A judgment of repair in the framework's formal sense must still satisfy the target criteria and responsibility boundaries in §2.8 and §6.10.
+
+A complete analysis should let readers see the question, evidence, main explanation, strongest opposing case, judgment, and its limits, as well as what new materials would change that judgment. What can be answered need not wait until every problem is solved; what cannot be supported must not be concealed by fluent narration. Understanding can itself be an endpoint; eligibility for foresight, high-impact adoption, and real-world action each bear further responsibilities.
+
+## 1.11 Conditions for Connecting Judgments {#section-1-11}
+
+The key to structural explanation is to specify which judgments can connect under which conditions. The same materials may suffice to answer a question about a total without necessarily sufficing to answer a question about its distribution. Two local causal links may each hold without necessarily being borne by the same set of objects. Each option may be feasible on its own without necessarily being possible to complete at the same time as the others using shared, limited resources. Lawful authorization does not guarantee that actual action reaches the intended endpoint, either. A failed connection may lie in representation, identification, clocks, capacity, rules, access to materials, or permissions. These failures should not all be assigned to vague complexity.
+
+Analysis begins with the difference at issue, retaining inputs, outputs, conditions, and modes of failure for each connection. If information necessary for the task has been lost, a minimal distinction may be added. If a rule is being used incorrectly, it should be corrected. If materials cannot be obtained in time, access or decision arrangements need to change. If resources or permissions are lacking, greater explanatory precision alone will not supply them. Revisions should address the actual point of failure while retaining the limited results already obtained at the preceding stage.
+
+Conditionality is not the same as rejecting conclusions across the board. Mathematical function decomposition can prove representational sufficiency for a given question; specialist research can support bounded total effects; and auxiliary conditions can enable actual recovery of expression and function. Each positive conclusion bears only the content it actually addresses. When the task, operations, object, or window changes, check again whether the original basis can support the connection; what cannot yet be supported remains an identifiable unresolved matter.
+
+This also determines the standing of the framework itself. The common grammar organizes questions; formal contracts delimit inference; domain evidence supports empirical conclusions; normative reasons constrain choices; and engineering implementation enables the method to run. These can help one another, but none can by itself secure eligibility on behalf of another layer. A shorter, sufficient specialist method should be permitted; a more complex joint representation must state which necessary distinctions it preserves and what costs it adds.
+
+## 1.12 Theoretical Skeleton and the Burden of Argument {#section-1-12}
+
+Definitions give questions clear meanings; method constraints make the status of materials, scope of inference, and conversion processes checkable; conditional formal propositions state necessary relations within a given model; specific assertions within empirical question families, together with mechanism propositions, are subject to support or refutation from real-world materials; and normative reasons and operational procedures constrain adoption and action. These elements connect, but do not form a single chain of deduction from a few natural axioms to every domain.
+
+G1–G4 organize four kinds of empirical question concerning grouping, channels, history, and scale; specific answers belong to given objects, windows, and comparative designs. C1–C12 bear different responsibilities, including outcome registration, combinations of additional mechanisms, independent pattern identification, and procedural bridging. F1–F6 state formal relations with explicit objects and proofs. These three sets of identifiers help locate questions, use results, and check derivations, respectively; their number does not add up to theoretical strength.
+
+For example, a person's practice can affect later performance through current skills. If those skills adequately represent the relevant impacts, a complete practice history may not add predictive information; this does not negate learning. Similarly, a total may answer a question about the total accurately while remaining insufficient to identify local overload. The first example requires distinguishing historical formation from conditional residuals; the second requires matching representation to task. Distinguishing relations that can hold, relations that cannot be inferred in sequence, and relations that require supplementation is the common method by which this book organizes materials from different domains.
+
+The theory itself also needs comparisons that can change its conclusions. A proposition's fitting the data does not establish that the classification used is the simplest; an instance's receiving positive support does not establish that every object has that mechanism; and a rigorous manuscript does not establish that its adoption by readers or tools has improved real-world performance. Comparisons with specialist methods and streamlined methods should retain the same necessary materials and protective requirements, evaluating consequential misjudgments, effective answers, retained unknowns, time spent, and burden separately.
+
+[^tn-circle-01]: Translator's note: A circle here may be parallel to, nested within, overlap with, or bridge other circles; the term does not imply a hierarchy.
+
+[^tn-foresight-01]: Translator's note: Foresight here requires registered targets, horizons, and baselines, together with calibration. A single such judgment is called a forecast.
+
+[^tn-contract-01]: Translator's note: A contract here is an analytical agreement registered and frozen before results, close to pre-registration; it is not a legal instrument.
+
+[^tn-diagnosis-01]: Translator's note: Diagnosis within this framework is nonclinical. Section 2.11 expressly excludes clinical and psychiatric diagnosis.
+
+</div>

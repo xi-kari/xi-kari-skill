@@ -1,0 +1,1572 @@
+{
+  "lessons": {
+    "2.1.1": {
+      "title": "Domain evidence keeps its own standing",
+      "lead": "A framework-specific eligibility rule must not erase a conclusion supported by another appropriate method.",
+      "explanation": [
+        "The section separates a real object or domain finding from eligibility for a particular formal instance in this framework. A document can establish that an organization was registered; observations can establish what a service did. These facts do not wait for a G1 grouping-gain test.",
+        "G1 instead asks whether a declared grouping improves a specified explanatory or forecasting task relative to the matched null model and other conditions. An unsupported grouping-gain claim therefore leaves the independently grounded object facts intact.",
+        "The same discipline applies to learning, injury, or a historical effect. Existing research retains the support its actual design provides. It must not be silently upgraded into a pre-registered framework test, but neither should it be dismissed because it lacks the framework’s identifiers."
+      ],
+      "distinctions": [
+        {
+          "leftTitle": "Object fact",
+          "leftText": "Supported by appropriate documentary or observational evidence.",
+          "rightTitle": "Grouping gain",
+          "rightText": "A task-relative comparison with its own instance conditions."
+        }
+      ],
+      "teachingExamples": [
+        {
+          "title": "A registered team and a predictive grouping",
+          "text": "Suppose reliable records show a team exists. Grouping its members together fails to improve a particular forecast over a simpler baseline. The team’s documented existence remains supported; the forecast grouping gain does not.",
+          "assumptions": "Hypothetical example; the baseline and target are assumed to be appropriately specified.",
+          "boundary": "It does not establish any real team or measured gain."
+        }
+      ],
+      "boundaries": [
+        "Do not retroactively label existing studies pre-registered G-instances.",
+        "A source’s existence is not enough: its actual method must support the particular claim."
+      ],
+      "questionAnswers": [
+        {
+          "question": "Does missing G1 support make the organization nonexistent?",
+          "answer": "No. It limits the grouping-gain claim. Object facts and each domain conclusion retain their independent evidential bases.",
+          "basis": "Theory v2, §2.1.1, with the distinctions explained above."
+        }
+      ],
+      "caseLinks": [
+        {
+          "title": "London taxi trainees: distinct learning outcomes",
+          "href": "/en/cases/london-taxi-learning"
+        }
+      ],
+      "sourceRefs": [
+        {
+          "section": "2.1.1",
+          "startLine": 251,
+          "endLine": 258
+        }
+      ],
+      "sourceHash": "51795bb7988f2669a324a52666c320cfba1382f597f7b5c6a1431844572da1fb",
+      "sources": [
+        {
+          "id": "theory-v2-en",
+          "title": "Xikari: On Conditions, Structure, and Transformation — English reference edition",
+          "url": "/en/theory/part-02#section-2-1-1",
+          "source_type": "theory_source",
+          "version_or_date": "Theory v2, November 2026",
+          "locator": "§2.1.1; English reading edition, lines 251–258",
+          "claim_support": [
+            "The section’s definitions, argument, and conditions, interpreted in this guide."
+          ],
+          "limits": [
+            "The Chinese original remains authoritative. This is a theory source, not independent empirical support for a real case."
+          ]
+        }
+      ]
+    },
+    "2.4.2": {
+      "title": "Average effects do not automatically join into one chain",
+      "lead": "The units responding to the first link may be different from those responding to the second.",
+      "explanation": [
+        "A causal chain needs more than separately positive averages. The question concerns the joint response of the same cases under compatible conditions. Timing, common support, capacity, and the final outcome must also match the proposed composition.",
+        "The source’s two-type construction makes the missing correspondence visible. One type changes its mediator in response to treatment but has no outcome response to that mediator. The other type has an outcome response but no treatment-induced mediator change. Each average link is positive, while the whole-chain effect is zero.",
+        "This counterexample does not withdraw a total effect independently identified by a valid design. A total effect, a specific mediator, and a composed chain are different estimands; knowing one does not require pretending to know all the others."
+      ],
+      "distinctions": [
+        {
+          "leftTitle": "Separate link averages",
+          "leftText": "May describe effects across different responding units.",
+          "rightTitle": "Whole-chain effect",
+          "rightText": "Requires compatible joint response and the endpoint of the same chain."
+        }
+      ],
+      "teachingExamples": [
+        {
+          "title": "Two equally weighted types",
+          "text": "For s∈{0,1}, set m(a)=a(1−s) and y(a,m)=sm. Each link’s average effect is 1/2, but y(a,m(a)) is always zero. Multiplying the averages gives a false 1/4.",
+          "assumptions": "The two types have equal weight and exactly the stipulated response functions.",
+          "boundary": "A formal counterexample, not a real population estimate."
+        }
+      ],
+      "boundaries": [
+        "The counterexample rules out unconditional multiplication; it does not show all causal composition is impossible."
+      ],
+      "questionAnswers": [
+        {
+          "question": "Must a well-identified total effect be rejected if one mediator remains unknown?",
+          "answer": "No. Preserve the supported total effect and leave the unresolved mechanism separate.",
+          "basis": "Theory v2, §2.4.2, with the distinctions explained above."
+        }
+      ],
+      "caseLinks": [
+        {
+          "title": "Two effective links can fail as a whole",
+          "href": "/en/concepts/chain"
+        }
+      ],
+      "sourceRefs": [
+        {
+          "section": "2.4.2",
+          "startLine": 333,
+          "endLine": 340
+        }
+      ],
+      "sourceHash": "51795bb7988f2669a324a52666c320cfba1382f597f7b5c6a1431844572da1fb",
+      "sources": [
+        {
+          "id": "theory-v2-en",
+          "title": "Xikari: On Conditions, Structure, and Transformation — English reference edition",
+          "url": "/en/theory/part-02#section-2-4-2",
+          "source_type": "theory_source",
+          "version_or_date": "Theory v2, November 2026",
+          "locator": "§2.4.2; English reading edition, lines 333–340",
+          "claim_support": [
+            "The section’s definitions, argument, and conditions, interpreted in this guide."
+          ],
+          "limits": [
+            "The Chinese original remains authoritative. This is a theory source, not independent empirical support for a real case."
+          ]
+        }
+      ]
+    },
+    "2.4.3": {
+      "title": "A valid status and its consequences need different evidence",
+      "lead": "Constitutive standing is established under applicable rules; causal effects concern what happens through it.",
+      "explanation": [
+        "Some relations constitute an office, right, membership, authorization, or promise under the rules of the relevant practice. Their standing is not inferred simply by observing that they produced an effect. A valid right may be obstructed in practice; actual influence can exist without valid authority.",
+        "Keep four inquiries visible: whether constitutive conditions hold, how participants understand the arrangement, whether it is implemented, and whether it is normatively justified. Documentary interpretation and causal inquiry may both matter, but answer different questions.",
+        "This prevents two opposite errors. Lack of an observed consequence does not automatically cancel an established right. A successful intervention does not retroactively supply a missing mandate or prove that a rule is just."
+      ],
+      "distinctions": [
+        {
+          "leftTitle": "Constitutive relation",
+          "leftText": "The applicable rules establish a specified standing.",
+          "rightTitle": "Causal relation",
+          "rightText": "A supported channel explains an actual effect."
+        }
+      ],
+      "teachingExamples": [
+        {
+          "title": "An approved entitlement and a delayed payment",
+          "text": "Assume a valid decision grants a benefit, but payment has not arrived. The entitlement may already exist; delivery remains incomplete. Whether the arrangement is fair requires a further argument.",
+          "assumptions": "The validity of the decision is independently established; no real legal case is asserted.",
+          "boundary": "The example does not determine any jurisdiction’s rules or authorize collection."
+        }
+      ],
+      "boundaries": [
+        "The framework does not invent the constitutive rules of a domain.",
+        "Legal validity and normative justification remain distinct."
+      ],
+      "questionAnswers": [
+        {
+          "question": "If an unauthorized actor successfully solves a problem, has the success created authorization?",
+          "answer": "No. Effectiveness does not supply the applicable constitutive conditions for authority.",
+          "basis": "Theory v2, §2.4.3, with the distinctions explained above."
+        }
+      ],
+      "caseLinks": [
+        {
+          "title": "Democratic authorization: the scope of an office",
+          "href": "/en/cases/democratic-authorization"
+        }
+      ],
+      "sourceRefs": [
+        {
+          "section": "2.4.3",
+          "startLine": 341,
+          "endLine": 348
+        }
+      ],
+      "sourceHash": "51795bb7988f2669a324a52666c320cfba1382f597f7b5c6a1431844572da1fb",
+      "sources": [
+        {
+          "id": "theory-v2-en",
+          "title": "Xikari: On Conditions, Structure, and Transformation — English reference edition",
+          "url": "/en/theory/part-02#section-2-4-3",
+          "source_type": "theory_source",
+          "version_or_date": "Theory v2, November 2026",
+          "locator": "§2.4.3; English reading edition, lines 341–348",
+          "claim_support": [
+            "The section’s definitions, argument, and conditions, interpreted in this guide."
+          ],
+          "limits": [
+            "The Chinese original remains authoritative. This is a theory source, not independent empirical support for a real case."
+          ]
+        }
+      ]
+    },
+    "2.14": {
+      "title": "Freeze a test without monopolizing the question",
+      "lead": "Preserve the original question and result while allowing a justified new question to be opened.",
+      "explanation": [
+        "Freezing protects an inquiry against moving its target after the outcome is known. It does not give the original question-setter permanent ownership of the goal, population, losses, or constraints. Affected and excluded positions can identify omissions and challenge the framing.",
+        "A reopening request should identify what changes and why. Its handling and reasons remain on record even if it is rejected. A new inquiry preserves the old question, evidence, and result rather than replacing a failure with a newly convenient success.",
+        "This matters especially when an apparent constraint is itself a prior decision. Asking who controls a shortage can open a relevant policy question. It cannot change what the original resource-limited test actually found.",
+        "State whether the new question replaces, runs parallel to, or refines the old one, and which existing evidence still applies. The analyst may answer both side by side. Actual changes to an institution’s indicators, eligibility, agenda, or resource allocation belong to the procedure with the corresponding authority; an analytical reframing does not itself change those rules."
+      ],
+      "distinctions": [
+        {
+          "leftTitle": "Preserve the test",
+          "leftText": "Keep its original target, conditions, and outcome.",
+          "rightTitle": "Reopen the question",
+          "rightText": "State a new framing and preserve the history of the change."
+        }
+      ],
+      "teachingExamples": [
+        {
+          "title": "A service target omitted waiting time",
+          "text": "Suppose a frozen review measures completed transactions. Users then identify an omitted waiting burden. Keep the transaction result, record the challenge, and assess a new waiting-time question with suitable evidence.",
+          "assumptions": "Hypothetical review; transaction counts are assumed accurate.",
+          "boundary": "The omission does not automatically prove the original numerical result false."
+        }
+      ],
+      "boundaries": [
+        "Reopening is not permission for retrospective success claims.",
+        "An affected person need not master the framework’s terminology to challenge a question."
+      ],
+      "questionAnswers": [
+        {
+          "question": "Is a disappointing outcome alone a reason to redefine success?",
+          "answer": "No. A new question needs an explicit reason and its own record; the old outcome is retained.",
+          "basis": "Theory v2, §2.14, with the distinctions explained above."
+        }
+      ],
+      "caseLinks": [],
+      "sourceRefs": [
+        {
+          "section": "2.14",
+          "startLine": 453,
+          "endLine": 472
+        }
+      ],
+      "sourceHash": "51795bb7988f2669a324a52666c320cfba1382f597f7b5c6a1431844572da1fb",
+      "sources": [
+        {
+          "id": "theory-v2-en",
+          "title": "Xikari: On Conditions, Structure, and Transformation — English reference edition",
+          "url": "/en/theory/part-02#section-2-14",
+          "source_type": "theory_source",
+          "version_or_date": "Theory v2, November 2026",
+          "locator": "§2.14; English reading edition, lines 453–472",
+          "claim_support": [
+            "The section’s definitions, argument, and conditions, interpreted in this guide."
+          ],
+          "limits": [
+            "The Chinese original remains authoritative. This is a theory source, not independent empirical support for a real case."
+          ]
+        }
+      ]
+    },
+    "3.3": {
+      "title": "Trace the return and the difference it causes",
+      "lead": "Reception, effect, stability, and improvement are four separate claims.",
+      "explanation": [
+        "D2 names a return that changes a subsequent state, transition probability, timing, or constraint relative to no return or a blocked channel. Identify the earlier state or output, channel, receiving position, and changed field. A visible arrow in a diagram does not establish those links.",
+        "A receipt or archive establishes arrival or retention. It does not by itself establish the effect on the service or decision under inquiry. Causal attribution must address other changes that could explain the outcome; a before-and-after sequence alone may be insufficient.",
+        "A fixed controller can produce feedback without learning or lasting parameter change. A harmful signal can also be effective in this technical sense. Learning, convergence, correction, and beneficial outcomes each require their own conditions."
+      ],
+      "distinctions": [
+        {
+          "leftTitle": "Receipt",
+          "leftText": "Evidence that the signal reached a recorded point.",
+          "rightTitle": "Effective feedback",
+          "rightText": "Evidence of a return-caused difference in a specified later field."
+        }
+      ],
+      "teachingExamples": [
+        {
+          "title": "A reply versus an earlier inspection",
+          "text": "An automated reply confirms receipt. If a complaint instead causes an inspection to occur earlier, the timing difference can support feedback even if the hazard is not yet removed.",
+          "assumptions": "Constructed complaint process; the timing effect is assumed to have adequate causal support.",
+          "boundary": "The example does not establish a real remedy or a beneficial net effect."
+        }
+      ],
+      "boundaries": [
+        "Do not interpret “effective” as necessarily truthful, timely, stable, or good.",
+        "A blocked-channel comparison does not authorize disrupting a real safety system."
+      ],
+      "questionAnswers": [
+        {
+          "question": "Can fixed rules generate feedback without being retrained?",
+          "answer": "Yes. A returned observation can change the next action or state through a fixed rule. Learning is a further question.",
+          "basis": "Theory v2, §3.3, with the distinctions explained above."
+        }
+      ],
+      "caseLinks": [
+        {
+          "title": "Flint: receipt and risk assessment",
+          "href": "/en/cases/flint-water-feedback"
+        },
+        {
+          "title": "Toyota: notification and response",
+          "href": "/en/cases/toyota-andon"
+        }
+      ],
+      "sourceRefs": [
+        {
+          "section": "3.3",
+          "startLine": 515,
+          "endLine": 524
+        }
+      ],
+      "sourceHash": "51795bb7988f2669a324a52666c320cfba1382f597f7b5c6a1431844572da1fb",
+      "sources": [
+        {
+          "id": "theory-v2-en",
+          "title": "Xikari: On Conditions, Structure, and Transformation — English reference edition",
+          "url": "/en/theory/part-03#section-3-3",
+          "source_type": "theory_source",
+          "version_or_date": "Theory v2, November 2026",
+          "locator": "§3.3; English reading edition, lines 515–524",
+          "claim_support": [
+            "The section’s definitions, argument, and conditions, interpreted in this guide."
+          ],
+          "limits": [
+            "The Chinese original remains authoritative. This is a theory source, not independent empirical support for a real case."
+          ]
+        }
+      ],
+      "model": "feedback"
+    },
+    "4.5": {
+      "title": "History may act through a sufficient present carrier",
+      "lead": "The absence of an extra G3 increment need not erase historical formation or ordinary learning.",
+      "explanation": [
+        "Separate three questions: how earlier experience formed the current state, how a present carrier retains and transmits its effect, and whether history adds information or an effect conditional on the declared current representation. G3 is the third question.",
+        "When earlier practice H forms skill S and S affects outcome Y, conditioning on a sufficiently informative S can remove H’s extra predictive contribution. That does not cancel the formation or use of skill. Conversely, an unsupported G3 result cannot by itself prove either process occurred.",
+        "Carrier claims require longitudinal evidence about formation, retention or replenishment, and later operation, plus discriminating causal evidence for causal claims. Do not omit a known current carrier simply to make historical data appear incrementally valuable."
+      ],
+      "distinctions": [
+        {
+          "leftTitle": "Carrier route",
+          "leftText": "Historical formation and later effects through a present state.",
+          "rightTitle": "Historical-increment route",
+          "rightText": "Additional information or effect beyond an explicit current representation."
+        }
+      ],
+      "teachingExamples": [
+        {
+          "title": "Practice, skill, and a later task",
+          "text": "Assume practice changes a measurable skill and the later task is fully determined by that skill. The practice can matter causally while adding no predictive information once skill is known.",
+          "assumptions": "A stipulated mediated relation; no hidden empirical claim.",
+          "boundary": "Real measurements may fail to capture the full current carrier."
+        }
+      ],
+      "boundaries": [
+        "A predictive increment does not by itself establish a causal historical effect.",
+        "Ordinary domain evidence for learning keeps its own supported scope."
+      ],
+      "questionAnswers": [
+        {
+          "question": "Does a longitudinal study automatically test G3?",
+          "answer": "No. It must test the specified additional increment conditional on its declared present representation, with the appropriate design.",
+          "basis": "Theory v2, §4.5, with the distinctions explained above."
+        }
+      ],
+      "caseLinks": [
+        {
+          "title": "History, records, and learning",
+          "href": "/en/concepts/history"
+        },
+        {
+          "title": "London taxi trainees",
+          "href": "/en/cases/london-taxi-learning"
+        }
+      ],
+      "sourceRefs": [
+        {
+          "section": "4.5",
+          "startLine": 678,
+          "endLine": 699
+        }
+      ],
+      "sourceHash": "51795bb7988f2669a324a52666c320cfba1382f597f7b5c6a1431844572da1fb",
+      "sources": [
+        {
+          "id": "theory-v2-en",
+          "title": "Xikari: On Conditions, Structure, and Transformation — English reference edition",
+          "url": "/en/theory/part-04#section-4-5",
+          "source_type": "theory_source",
+          "version_or_date": "Theory v2, November 2026",
+          "locator": "§4.5; English reading edition, lines 678–699",
+          "claim_support": [
+            "The section’s definitions, argument, and conditions, interpreted in this guide."
+          ],
+          "limits": [
+            "The Chinese original remains authoritative. This is a theory source, not independent empirical support for a real case."
+          ]
+        }
+      ]
+    },
+    "4.6": {
+      "title": "A useful prediction can fail under a new action",
+      "lead": "Preserve distinctions required by the intervention, not just by ordinary dynamics.",
+      "explanation": [
+        "A representation can combine states that behave alike under the observed process. Once an intervention changes their responses differently, the same coarse state can cease to determine the answer. Ordinary predictive sufficiency therefore does not automatically extend to intervention sufficiency.",
+        "The book’s two-state construction shows how a small additional variable can help. If the share p of A₁ within A is known, the specified intervention probability becomes 0.1 + 0.7p. The task does not require restoring every micro-level detail.",
+        "A repair to this answer is still bounded. Knowing p now does not supply its future update law, guarantee long-horizon closure, or establish sufficiency for another intervention. State the target, environment, horizon, admissible operations, and error criterion together."
+      ],
+      "distinctions": [
+        {
+          "leftTitle": "Ordinary prediction",
+          "leftText": "May be sufficient under the existing transition process.",
+          "rightTitle": "Intervention response",
+          "rightText": "Must preserve differences relevant to the declared new operation."
+        }
+      ],
+      "teachingExamples": [
+        {
+          "title": "Two ordinary probabilities, two intervention responses",
+          "text": "A₁ and A₂ each move to B with probability 0.2 ordinarily. Under intervention their probabilities are 0.8 and 0.1. With share p, the mixture response is 0.1 + 0.7p.",
+          "assumptions": "All probabilities are stipulated by the source’s teaching construction.",
+          "boundary": "No real treatment effect or permission to intervene follows."
+        }
+      ],
+      "boundaries": [
+        "A model can be sufficient for one query and insufficient for another.",
+        "Prediction quality is not authorization to govern or intervene."
+      ],
+      "questionAnswers": [
+        {
+          "question": "Does adding p establish its own dynamic closure?",
+          "answer": "No. The rule for updating the share and its sufficiency over the declared horizon require separate evidence or proof.",
+          "basis": "Theory v2, §4.6, with the distinctions explained above."
+        }
+      ],
+      "caseLinks": [
+        {
+          "title": "Prediction and intervention",
+          "href": "/en/concepts/prediction"
+        }
+      ],
+      "sourceRefs": [
+        {
+          "section": "4.6",
+          "startLine": 700,
+          "endLine": 713
+        }
+      ],
+      "sourceHash": "51795bb7988f2669a324a52666c320cfba1382f597f7b5c6a1431844572da1fb",
+      "sources": [
+        {
+          "id": "theory-v2-en",
+          "title": "Xikari: On Conditions, Structure, and Transformation — English reference edition",
+          "url": "/en/theory/part-04#section-4-6",
+          "source_type": "theory_source",
+          "version_or_date": "Theory v2, November 2026",
+          "locator": "§4.6; English reading edition, lines 700–713",
+          "claim_support": [
+            "The section’s definitions, argument, and conditions, interpreted in this guide."
+          ],
+          "limits": [
+            "The Chinese original remains authoritative. This is a theory source, not independent empirical support for a real case."
+          ]
+        }
+      ],
+      "model": "prediction"
+    },
+    "6.2.1": {
+      "title": "Feedback delay changes the stability interval",
+      "lead": "A return can have an effect while the resulting dynamics fail to converge.",
+      "explanation": [
+        "For the specified recurrence x(t+1)=x(t)−k x(t−d), the book gives the exact asymptotic-stability condition 0<k<2sin[π/(4d+2)]. The delay d is a fixed nonnegative integer and the gain k is fixed. The condition concerns all finite initial histories in this particular linear model.",
+        "At k=0.8, delays zero and one lie inside their stability intervals; delays two and three do not. Under the all-one initial history, all four first updates equal 0.2. The return already has a model-internal effect, while long-run convergence differs.",
+        "Even stability leaves other questions open: transient peaks, resource costs, constraints, safety, and human acceptability. Time-varying delays, noise, saturation, external inputs, and nonlinear rules require a different analysis rather than silent reuse of the formula."
+      ],
+      "distinctions": [
+        {
+          "leftTitle": "Feedback effect",
+          "leftText": "The return changes the next state relative to no return.",
+          "rightTitle": "Asymptotic stability",
+          "rightText": "Every finite initial history converges to zero under the stated model."
+        }
+      ],
+      "teachingExamples": [
+        {
+          "title": "Same gain, longer delay",
+          "text": "At k=0.8, the critical gains for d=0,1,2,3 are 2,1,approximately 0.618034,and approximately 0.445042. The first two cases are stable and the last two are not.",
+          "assumptions": "Fixed linear recurrence, no noise or saturation, finite initial history.",
+          "boundary": "The equality boundary is excluded; the values are not universal organizational thresholds."
+        }
+      ],
+      "boundaries": [
+        "An unstable model can still have special trajectories, such as an all-zero history, that do not grow.",
+        "The formal result does not certify a real controller or repair."
+      ],
+      "questionAnswers": [
+        {
+          "question": "Does the minus sign guarantee stable correction?",
+          "answer": "No. Stability depends on the gain, delay, and the complete dynamics, not the sign alone.",
+          "basis": "Theory v2, §6.2.1, with the distinctions explained above."
+        }
+      ],
+      "caseLinks": [
+        {
+          "title": "C.10: full stability argument",
+          "href": "/en/theory/appendix-c#section-c-10"
+        }
+      ],
+      "sourceRefs": [
+        {
+          "section": "6.2.1",
+          "startLine": 1382,
+          "endLine": 1389
+        }
+      ],
+      "sourceHash": "51795bb7988f2669a324a52666c320cfba1382f597f7b5c6a1431844572da1fb",
+      "sources": [
+        {
+          "id": "theory-v2-en",
+          "title": "Xikari: On Conditions, Structure, and Transformation — English reference edition",
+          "url": "/en/theory/part-06#section-6-2-1",
+          "source_type": "theory_source",
+          "version_or_date": "Theory v2, November 2026",
+          "locator": "§6.2.1; English reading edition, lines 1382–1389",
+          "claim_support": [
+            "The section’s definitions, argument, and conditions, interpreted in this guide."
+          ],
+          "limits": [
+            "The Chinese original remains authoritative. This is a theory source, not independent empirical support for a real case."
+          ]
+        }
+      ]
+    },
+    "6.3": {
+      "title": "An update must be retained and used to support learning",
+      "lead": "One write-back, training event, or successful attempt cannot stand for the whole mechanism.",
+      "explanation": [
+        "Feedback-mediated learning links a return to a locatable update, the update’s retention or renewal in a carrier, actual later use, and a comparison for a declared task. A rule can be written and never used. A later success can also come from a new resource or easier task rather than the update.",
+        "The carried-learning route follows current skills, rules, parameters, memory, or structures across rounds. The historical-increment route adds the narrower G3 question beyond an explicit current representation. These routes must not borrow each other’s eligibility or treat positive G3 as a universal prerequisite for learning.",
+        "A practice may truly have changed while its later net effects remain uncertain. Learning on one task also does not establish independent transfer, fairness, or improvement across every affected position. State the achievement and the unresolved outcome separately."
+      ],
+      "distinctions": [
+        {
+          "leftTitle": "A saved update",
+          "leftText": "Shows that a record or rule changed.",
+          "rightTitle": "Feedback-mediated learning",
+          "rightText": "Adds retention, actual later use, task comparison, and the required causal basis."
+        }
+      ],
+      "teachingExamples": [
+        {
+          "title": "The unused checklist",
+          "text": "Suppose an incident produces a better checklist, but later teams never open it. The document changed; its use cannot explain later performance. If use is documented, the outcome comparison still remains to be assessed.",
+          "assumptions": "Hypothetical process designed to separate storage from use.",
+          "boundary": "The example does not show that a real checklist is effective or ineffective."
+        }
+      ],
+      "boundaries": [
+        "Do not equate absent G3 support with absence of ordinary learning.",
+        "Training attendance, archive size, or a single success does not establish the specified mechanism."
+      ],
+      "questionAnswers": [
+        {
+          "question": "Must supported participation be followed by success without support?",
+          "answer": "Only if independent transfer is the declared target. Necessary support can be part of a successfully completed task.",
+          "basis": "Theory v2, §6.3, with the distinctions explained above."
+        }
+      ],
+      "caseLinks": [
+        {
+          "title": "Flint: a changed procedure and open outcome questions",
+          "href": "/en/cases/flint-water-feedback"
+        }
+      ],
+      "sourceRefs": [
+        {
+          "section": "6.3",
+          "startLine": 1390,
+          "endLine": 1407
+        }
+      ],
+      "sourceHash": "51795bb7988f2669a324a52666c320cfba1382f597f7b5c6a1431844572da1fb",
+      "sources": [
+        {
+          "id": "theory-v2-en",
+          "title": "Xikari: On Conditions, Structure, and Transformation — English reference edition",
+          "url": "/en/theory/part-06#section-6-3",
+          "source_type": "theory_source",
+          "version_or_date": "Theory v2, November 2026",
+          "locator": "§6.3; English reading edition, lines 1390–1407",
+          "claim_support": [
+            "The section’s definitions, argument, and conditions, interpreted in this guide."
+          ],
+          "limits": [
+            "The Chinese original remains authoritative. This is a theory source, not independent empirical support for a real case."
+          ]
+        }
+      ]
+    },
+    "6.6": {
+      "title": "Recovery has several endpoints",
+      "lead": "Restored service, restored criteria, and replenished margins need separate evidence.",
+      "explanation": [
+        "Load must be compared with capacity of the relevant type, at the same position and within the relevant window. An adequate average can hide a critical local shortage. A short peak is not automatically a cumulative-damage mechanism.",
+        "For recovery, specify what returned, for whom, under which support conditions, and as of when. Restored visible output, the declared identity or functional criteria K/F, and internal margins are distinct. Spare parts, staff rest, maintenance backlog, financing, and burdens shifted outside the boundary may matter to the wider claim.",
+        "Continuing support does not make a restored function false. A later interruption also does not automatically negate an earlier bounded success. Investigate continued old damage, depleted reserves, support loss, a new shock, or a changed measurement boundary before deciding what must be revised."
+      ],
+      "distinctions": [
+        {
+          "leftTitle": "A functioning service now",
+          "leftText": "A bounded availability result for specified users and conditions.",
+          "rightTitle": "Restored recovery margins",
+          "rightText": "Evidence that the relevant resources and capacity for continued operation or future recovery are available."
+        }
+      ],
+      "teachingExamples": [
+        {
+          "title": "Temporary power at one service point",
+          "text": "Assume temporary power restores the target service for observed users during a defined period. This is a real bounded recovery, while coverage of all former users and service after support expires remain unestablished.",
+          "assumptions": "Constructed example; actual availability within the stated scope is assumed.",
+          "boundary": "Necessary support should not be withdrawn just to make recovery look independent."
+        }
+      ],
+      "boundaries": [
+        "Do not replace the denominator of pre-event residents with current service users without saying so.",
+        "“False recovery” limits an overextended claim; it does not independently establish deception."
+      ],
+      "questionAnswers": [
+        {
+          "question": "Does unrecovered data negate restored service availability?",
+          "answer": "No. The outcomes differ. Both the restored service and the remaining data loss must be reported accurately.",
+          "basis": "Theory v2, §6.6, with the distinctions explained above."
+        }
+      ],
+      "caseLinks": [
+        {
+          "title": "GitLab: service, data, and recovery arrangements",
+          "href": "/en/cases/gitlab-recovery"
+        }
+      ],
+      "sourceRefs": [
+        {
+          "section": "6.6",
+          "startLine": 1438,
+          "endLine": 1453
+        }
+      ],
+      "sourceHash": "51795bb7988f2669a324a52666c320cfba1382f597f7b5c6a1431844572da1fb",
+      "sources": [
+        {
+          "id": "theory-v2-en",
+          "title": "Xikari: On Conditions, Structure, and Transformation — English reference edition",
+          "url": "/en/theory/part-06#section-6-6",
+          "source_type": "theory_source",
+          "version_or_date": "Theory v2, November 2026",
+          "locator": "§6.6; English reading edition, lines 1438–1453",
+          "claim_support": [
+            "The section’s definitions, argument, and conditions, interpreted in this guide."
+          ],
+          "limits": [
+            "The Chinese original remains authoritative. This is a theory source, not independent empirical support for a real case."
+          ]
+        }
+      ]
+    },
+    "6.10.1": {
+      "title": "Formation, maintenance, recovery, and replication are different outcomes",
+      "lead": "Evidence that an arrangement started does not settle whether it lasts, recovers, or transfers.",
+      "explanation": [
+        "Formation concerns how an arrangement comes into being. Maintenance concerns what keeps it operating. Recovery concerns a specified function or identity after disruption. Replication concerns the result under a declared new realization or setting. Each needs its own target, conditions, window, and evidence.",
+        "A successful launch may rely on unusual founding resources. Routine operation may depend on maintenance labor that the launch record never measured. A recovery may meet a limited function while changing components. Replication may change the treatment itself when scale, implementation, or the object changes.",
+        "When replication fails, distinguish failure of the scheme itself, including the possibility that the original result was not caused by the scheme; deviation from the implementation specified beforehand; absence of a previously stated enabling condition; and a scale change that alters the treatment or object. Both implementation content and enabling conditions must be written before results and independently checkable. Inventing a missing condition after every failure shields the claim from correction.",
+        "An implementation deviation or missing enabling condition suggested only after failure remains a candidate for a later test. It does not revise the present result record. Whether an arrangement should be maintained, recovered, or replicated is also a separate normative judgment."
+      ],
+      "distinctions": [
+        {
+          "leftTitle": "A new result",
+          "leftText": "Evidence for the specific formation, maintenance, recovery, or replication task.",
+          "rightTitle": "A wider mechanism claim",
+          "rightText": "Requires the evidence and conditions of that additional task."
+        }
+      ],
+      "teachingExamples": [
+        {
+          "title": "A pilot works, a larger program does not",
+          "text": "Suppose a pilot uses a declared staffing ratio. A later rollout uses a different ratio and process. Record the actual implementation change; do not call it an identical treatment or invent an unrecorded condition after failure.",
+          "assumptions": "Hypothetical comparison; the original conditions and actual difference are available.",
+          "boundary": "The distinction alone does not identify which mechanism caused the failure."
+        }
+      ],
+      "boundaries": [
+        "Formation does not prove maintenance, and recovery does not prove unchanged identity.",
+        "Retain successes within their supported task even when another outcome fails."
+      ],
+      "questionAnswers": [
+        {
+          "question": "Can a failed replication be excused by any condition named afterward?",
+          "answer": "No. A relevant enabling condition must have been stated beforehand and be independently checkable; other explanations remain candidates requiring evidence.",
+          "basis": "Theory v2, §6.10.1, with the distinctions explained above."
+        }
+      ],
+      "caseLinks": [],
+      "sourceRefs": [
+        {
+          "section": "6.10.1",
+          "startLine": 1496,
+          "endLine": 1501
+        }
+      ],
+      "sourceHash": "51795bb7988f2669a324a52666c320cfba1382f597f7b5c6a1431844572da1fb",
+      "sources": [
+        {
+          "id": "theory-v2-en",
+          "title": "Xikari: On Conditions, Structure, and Transformation — English reference edition",
+          "url": "/en/theory/part-06#section-6-10-1",
+          "source_type": "theory_source",
+          "version_or_date": "Theory v2, November 2026",
+          "locator": "§6.10.1; English reading edition, lines 1496–1501",
+          "claim_support": [
+            "The section’s definitions, argument, and conditions, interpreted in this guide."
+          ],
+          "limits": [
+            "The Chinese original remains authoritative. This is a theory source, not independent empirical support for a real case."
+          ]
+        }
+      ]
+    },
+    "7.2.4": {
+      "title": "Uptake carriers are not automatically responsible parties",
+      "lead": "Doing, bearing costs, benefiting, deciding, and owing a remedy are distinct roles.",
+      "explanation": [
+        "CV identifies what actually executes, transmits, maintains, records, cares for, or repairs: a person, role, procedure, facility, or system. This makes otherwise invisible work and dependencies describable without assigning all responsibility to the carrier.",
+        "RS needs a separate basis, responsibility type, knowledge and control, scope, and period. Action, decision, authorization, supervision, benefit, and remedy can involve different parties. A low-authority executor must not become the default main responsible party merely because their action is most visible.",
+        "Separate cost bearers, beneficiaries, and the right to stop as well. A person’s demonstrated capacity to absorb work does not create an unlimited duty. A recommendation for better task allocation is an analytical result, not an authorization to impose the change."
+      ],
+      "distinctions": [
+        {
+          "leftTitle": "Uptake carrier",
+          "leftText": "What performs or carries the relevant function.",
+          "rightTitle": "Responsible party",
+          "rightText": "Who bears a particular responsibility on independently established grounds."
+        }
+      ],
+      "teachingExamples": [
+        {
+          "title": "A repair worker and a maintenance budget",
+          "text": "Suppose a worker carries out repairs while a separate role controls staffing and preventive maintenance. Their actual actions, information, powers, and duties must be assessed individually; one visible action cannot settle the whole responsibility chain.",
+          "assumptions": "Hypothetical organization; no person or legal liability is identified.",
+          "boundary": "Specific legal and organizational duties require their own applicable rules."
+        }
+      ],
+      "boundaries": [
+        "Capacity does not establish an obligation to continue indefinitely.",
+        "The classification itself does not assign liability or authorize redistribution."
+      ],
+      "questionAnswers": [
+        {
+          "question": "Can a technical facility carry a function without carrying moral responsibility?",
+          "answer": "Yes. Functional carrying and responsibility are different classifications; organizational subject status is also judged under its own rules.",
+          "basis": "Theory v2, §7.2.4, with the distinctions explained above."
+        }
+      ],
+      "caseLinks": [
+        {
+          "title": "Responsibility and actual work",
+          "href": "/en/concepts/responsibility"
+        }
+      ],
+      "sourceRefs": [
+        {
+          "section": "7.2.4",
+          "startLine": 1594,
+          "endLine": 1597
+        }
+      ],
+      "sourceHash": "51795bb7988f2669a324a52666c320cfba1382f597f7b5c6a1431844572da1fb",
+      "sources": [
+        {
+          "id": "theory-v2-en",
+          "title": "Xikari: On Conditions, Structure, and Transformation — English reference edition",
+          "url": "/en/theory/part-07#section-7-2-4",
+          "source_type": "theory_source",
+          "version_or_date": "Theory v2, November 2026",
+          "locator": "§7.2.4; English reading edition, lines 1594–1597",
+          "claim_support": [
+            "The section’s definitions, argument, and conditions, interpreted in this guide."
+          ],
+          "limits": [
+            "The Chinese original remains authoritative. This is a theory source, not independent empirical support for a real case."
+          ]
+        }
+      ]
+    },
+    "7.3.9": {
+      "title": "Equal total hours can hide unequal usable time",
+      "lead": "Some tasks depend on continuous, predictable blocks, not just the sum of occupied hours.",
+      "explanation": [
+        "HV09 compares tasks and coordination requirements with available capacity and recovery margins at particular positions. When the inquiry concerns overall burden, execution, management, simultaneous activity, standby, and opportunity costs may require different measures. Adding unlike quantities into one burden score can conceal rather than clarify.",
+        "The v2 addition asks whether default-contact, standby, or last-minute replacement duties split the blocks needed for a task. Two people may each report the same total work hours while only one has predictable uninterrupted time for study, recovery, or a long task.",
+        "Record block length and predictability when the target actually depends on them. These are not extra occupied hours to add again to a time-use total. The relevant question is what task remains feasible under the observed temporal arrangement."
+      ],
+      "distinctions": [
+        {
+          "leftTitle": "Total occupied time",
+          "leftText": "A quantity measured under stated counting and overlap rules.",
+          "rightTitle": "Continuous available blocks",
+          "rightText": "A different condition concerning length and predictability of usable intervals."
+        }
+      ],
+      "teachingExamples": [
+        {
+          "title": "Four hours in two schedules",
+          "text": "One person has a predictable four-hour block. Another has four nominally free hours repeatedly interruptible by standby calls. A task needing two uninterrupted hours may be feasible only in the first schedule.",
+          "assumptions": "Hypothetical task with a stated continuity requirement.",
+          "boundary": "The example does not assign a universal burden value to standby or convert availability into paid hours."
+        }
+      ],
+      "boundaries": [
+        "Only collect continuity information when it is relevant to the question.",
+        "An observed scheduling constraint does not establish personality, willingness, or a universal overload mechanism."
+      ],
+      "questionAnswers": [
+        {
+          "question": "Should the lost continuous block be added as four more worked hours?",
+          "answer": "No. Preserve the distinct measures and overlap rules; evaluate continuity against the task that needs it.",
+          "basis": "Theory v2, §7.3.9, with the distinctions explained above."
+        }
+      ],
+      "caseLinks": [],
+      "sourceRefs": [
+        {
+          "section": "7.3.9",
+          "startLine": 1672,
+          "endLine": 1679
+        }
+      ],
+      "sourceHash": "51795bb7988f2669a324a52666c320cfba1382f597f7b5c6a1431844572da1fb",
+      "sources": [
+        {
+          "id": "theory-v2-en",
+          "title": "Xikari: On Conditions, Structure, and Transformation — English reference edition",
+          "url": "/en/theory/part-07#section-7-3-9",
+          "source_type": "theory_source",
+          "version_or_date": "Theory v2, November 2026",
+          "locator": "§7.3.9; English reading edition, lines 1672–1679",
+          "claim_support": [
+            "The section’s definitions, argument, and conditions, interpreted in this guide."
+          ],
+          "limits": [
+            "The Chinese original remains authoritative. This is a theory source, not independent empirical support for a real case."
+          ]
+        }
+      ]
+    },
+    "7.6.1": {
+      "title": "Allocation can shape the capability used to justify later allocation",
+      "lead": "A reinforcing loop requires evidence across rounds, not just a repeated claim of merit.",
+      "explanation": [
+        "An allocation of practice, opportunity, or responsibility can help form capability. Later allocation may then use that capability as a criterion, widening a gap or concentrating opportunities. This is a candidate mechanism with multiple links and at least two rounds to examine.",
+        "Check whether the relevant capability actually depends on practice and whether that practice is obtained mainly through the allocation in question. Then check whether current capability actually changes the next allocation. Prior differences, incentives, training duration, legal conditions, preferences, attrition, scarcity, discrimination, trust, and incumbents’ interests may provide competing or interacting explanations.",
+        "The gap or concentration must widen relative to the starting point, and capability formation, retention, and later use need evidence under §4.5. If material is insufficient, retain a candidate. Formal mechanism support additionally requires C10’s carrier-reproduction route; repeated association alone does not qualify.",
+        "The capability difference can be real even if its formation was unequal. Recognizing its reality does not establish fair opportunity or dictate a future allocation rule. Conversely, unequal allocation among equally capable people may challenge the proposed capability-to-allocation link and require a different mechanism.",
+        "Discriminating observations compare when the gap began, whether equally capable people receive comparable allocations, and whether predeclared, independently verifiable handover, training, or access conditions reduce the gap within a window appropriate to capability formation. Compare units with similarly tight resources but different allocation rules. Contrary observations require narrowing or withdrawing the affected link, not changing the meaning of genuine support after the outcome."
+      ],
+      "distinctions": [
+        {
+          "leftTitle": "Measured capability",
+          "leftText": "A task-specific difference that may have evidence.",
+          "rightTitle": "Fair allocation",
+          "rightText": "A normative judgment about opportunities, criteria, burdens, and alternatives."
+        }
+      ],
+      "teachingExamples": [
+        {
+          "title": "Practice opportunities across two rounds",
+          "text": "Suppose group A receives practice, improves on a relevant task, and that measured improvement is used to assign the next practice round. Trace each link and compare competing explanations before calling this reinforcement.",
+          "assumptions": "Constructed mechanism candidate, not an observation of a real group.",
+          "boundary": "The pattern does not by itself prove malicious intent or justify equal or unequal allocation."
+        }
+      ],
+      "boundaries": [
+        "A loop cannot be established from one static association.",
+        "Capability, opportunity, authority, and normative justification require distinct evidence.",
+        "Support or training conditions used in a comparison must be stated beforehand and independently verifiable. A lack of improvement cannot be excused afterward by asserting that the offered conditions were not genuine."
+      ],
+      "questionAnswers": [
+        {
+          "question": "Does a manager repeatedly saying “capability” establish the second link?",
+          "answer": "No. The criterion must actually affect the later allocation; rhetoric alone does not identify the mechanism.",
+          "basis": "Theory v2, §7.6.1, with the distinctions explained above."
+        }
+      ],
+      "caseLinks": [],
+      "sourceRefs": [
+        {
+          "section": "7.6.1",
+          "startLine": 1719,
+          "endLine": 1734
+        }
+      ],
+      "sourceHash": "51795bb7988f2669a324a52666c320cfba1382f597f7b5c6a1431844572da1fb",
+      "sources": [
+        {
+          "id": "theory-v2-en",
+          "title": "Xikari: On Conditions, Structure, and Transformation — English reference edition",
+          "url": "/en/theory/part-07#section-7-6-1",
+          "source_type": "theory_source",
+          "version_or_date": "Theory v2, November 2026",
+          "locator": "§7.6.1; English reading edition, lines 1719–1734",
+          "claim_support": [
+            "The section’s definitions, argument, and conditions, interpreted in this guide."
+          ],
+          "limits": [
+            "The Chinese original remains authoritative. This is a theory source, not independent empirical support for a real case."
+          ]
+        }
+      ]
+    },
+    "8.5.2": {
+      "title": "Orderly exit requires more than declaring closure",
+      "lead": "Trace functions, people, resources, memory, obligations, and weak connections through the handoff.",
+      "explanation": [
+        "X0 is an independent lifecycle path, not an eighth stage or a prize available only after S5 or S6. Its completion concerns what happens to the original object and its necessary functions, people and relationships, resources, records, debts, responsibility, and weak connections.",
+        "A closure announcement, a receiving organization, or an online archive can establish a narrower fact. Completion needs actual uptake and the specified protection and review arrangements. Unknown affected groups, remaining duties, receiving capacity, appeals, or memory safety prevent the stronger claim of benign completion.",
+        "This does not make every unknown a proven failure. Record candidate, in-progress, partial, completed, or unknown status as appropriate. Records custody also differs from responsibility for unresolved obligations. Restricted access may protect vulnerable material rather than demonstrate a failed handoff."
+      ],
+      "distinctions": [
+        {
+          "leftTitle": "One documented handoff",
+          "leftText": "Evidence for a specified function, resource, or record transfer.",
+          "rightTitle": "Completed X0",
+          "rightText": "Evidence covering all applicable completion conditions and unresolved obligations."
+        }
+      ],
+      "teachingExamples": [
+        {
+          "title": "Records accepted, duties unresolved",
+          "text": "Assume an archive receives an institution’s records, while no material identifies responsibility for outstanding claims. The records transfer can be supported; overall orderly-exit completion remains unknown.",
+          "assumptions": "Hypothetical example of a partial handoff.",
+          "boundary": "Unknown overall completion does not mean the archive transfer failed."
+        }
+      ],
+      "boundaries": [
+        "X0 classification does not grant permission to dissolve, disclose records, or abandon duties.",
+        "Access restrictions alone do not establish harmful opacity."
+      ],
+      "questionAnswers": [
+        {
+          "question": "Must an organization reach a high state prototype before considering X0?",
+          "answer": "No. The exit path has its own entry and completion conditions; it is not S7 or a reward for maturity.",
+          "basis": "Theory v2, §8.5.2, with the distinctions explained above."
+        }
+      ],
+      "caseLinks": [
+        {
+          "title": "Atlantic’s archives and the limits of custody evidence",
+          "href": "/en/cases/atlantic-archives-exit"
+        }
+      ],
+      "sourceRefs": [
+        {
+          "section": "8.5.2",
+          "startLine": 1931,
+          "endLine": 1946
+        }
+      ],
+      "sourceHash": "51795bb7988f2669a324a52666c320cfba1382f597f7b5c6a1431844572da1fb",
+      "sources": [
+        {
+          "id": "theory-v2-en",
+          "title": "Xikari: On Conditions, Structure, and Transformation — English reference edition",
+          "url": "/en/theory/part-08#section-8-5-2",
+          "source_type": "theory_source",
+          "version_or_date": "Theory v2, November 2026",
+          "locator": "§8.5.2; English reading edition, lines 1931–1946",
+          "claim_support": [
+            "The section’s definitions, argument, and conditions, interpreted in this guide."
+          ],
+          "limits": [
+            "The Chinese original remains authoritative. This is a theory source, not independent empirical support for a real case."
+          ]
+        }
+      ]
+    },
+    "12.6": {
+      "title": "A warning, a response, and an outcome need separate evaluation",
+      "lead": "Score the registered forecast while separately examining prevention and the justification for action.",
+      "explanation": [
+        "Signals must connect to a target, input cutoff, horizon, outcome record, and response clock. Lead time is useful only if verification, communication, understanding, dispatch, and protection can occur soon enough. A signal arriving before an event may still arrive too late for a feasible response.",
+        "After a warning, the observed outcome may reflect protective action. Keep three judgments separate: forecast performance against the registered target, the response’s causal effect, and the normative case for adopting it. An event’s absence alone proves neither a false warning nor successful prevention.",
+        "A complete label can still be scored under the registered target and response regime. Missing observation must not be converted to a zero-event label. The causal question about avoided harm needs a suitable comparison rather than an inference from the outcome alone."
+      ],
+      "distinctions": [
+        {
+          "leftTitle": "Forecast score",
+          "leftText": "A prediction compared with its registered, observed target.",
+          "rightTitle": "Response effect",
+          "rightText": "A causal comparison of what the action changed."
+        }
+      ],
+      "teachingExamples": [
+        {
+          "title": "A probability of 0.8 and an observed zero",
+          "text": "For a complete binary target with prediction 0.8 and outcome 0, the Brier score is (0.8−0)²=0.64. That calculation does not identify what would have happened without a protective response.",
+          "assumptions": "Registered target and complete outcome label are stipulated.",
+          "boundary": "If monitoring failed, the outcome is unknown and must not be entered as zero."
+        }
+      ],
+      "boundaries": [
+        "Generated branch counts are not automatically real-world probabilities.",
+        "An accurate warning does not issue authority to execute a response."
+      ],
+      "questionAnswers": [
+        {
+          "question": "Does no disaster after a warning prove that the intervention worked?",
+          "answer": "No. The outcome can be scored if observed, but prevention requires its own causal evidence.",
+          "basis": "Theory v2, §12.6, with the distinctions explained above."
+        }
+      ],
+      "caseLinks": [
+        {
+          "title": "Hurricane Ian: separate forecast products and action questions",
+          "href": "/en/cases/representation-hurricane-cone"
+        }
+      ],
+      "sourceRefs": [
+        {
+          "section": "12.6",
+          "startLine": 2677,
+          "endLine": 2684
+        }
+      ],
+      "sourceHash": "51795bb7988f2669a324a52666c320cfba1382f597f7b5c6a1431844572da1fb",
+      "sources": [
+        {
+          "id": "theory-v2-en",
+          "title": "Xikari: On Conditions, Structure, and Transformation — English reference edition",
+          "url": "/en/theory/part-12#section-12-6",
+          "source_type": "theory_source",
+          "version_or_date": "Theory v2, November 2026",
+          "locator": "§12.6; English reading edition, lines 2677–2684",
+          "claim_support": [
+            "The section’s definitions, argument, and conditions, interpreted in this guide."
+          ],
+          "limits": [
+            "The Chinese original remains authoritative. This is a theory source, not independent empirical support for a real case."
+          ]
+        }
+      ]
+    },
+    "14.4.1": {
+      "title": "Trace affected positions proportionately without shrinking protection",
+      "lead": "A stopping rule for further inquiry is not a license to omit known people or lower their safeguards.",
+      "explanation": [
+        "Directly affected positions, known or raised low-power positions, and positions explicitly required by the application module must be listed in full. Proportionality governs the further tracing of indirect and more distant effects, taking severity, irreversibility, scale, accumulation, and power differences into account.",
+        "Further tracing may stop when it can no longer reasonably change the judgment, comparison of options, or protection arrangements. Record channels searched, positions consulted, and remaining unknowns. Include an undeclared channel raised by others or state the reason for not adopting it. The grounds must be published in advance and open to appeal; a beneficiary of a narrow boundary cannot decide it alone, and high-impact cases or conflicts require independent review.",
+        "An unknown reasonably capable of revealing a failure of the protection floor or changing the option comparison blocks the affected part of adoption until evidence is added, the option is narrowed, or protection with separate grounds is in place. Other unknowns remain visible with observation and renewed-identification conditions. Later-discovered positions retain the same appeal, correction, and remedy rights without proving they were foreseeable."
+      ],
+      "distinctions": [
+        {
+          "leftTitle": "Proportionate identification",
+          "leftText": "Limits further tracing of indirect and distant positions on explicit grounds.",
+          "rightTitle": "Protection of identified positions",
+          "rightText": "Is not reduced by that tracing limit."
+        }
+      ],
+      "teachingExamples": [
+        {
+          "title": "A service relocation and a missing user group",
+          "text": "Suppose direct users are listed and a low-power group is raised by an advocate. That group cannot be omitted because it is costly to contact. More remote effects may use the proportionate tracing rule, with the basis open to challenge.",
+          "assumptions": "Hypothetical proposal; no actual service or group is evaluated.",
+          "boundary": "Known harm cannot be left unprotected merely because all distant effects cannot be exhaustively mapped."
+        }
+      ],
+      "boundaries": [
+        "Do not apply the proportional stopping rule to the categories that must be fully listed.",
+        "Distinguish blocking unknowns from other registered unknowns; do not declare every gap harmless."
+      ],
+      "questionAnswers": [
+        {
+          "question": "Are harms of keeping the status quo exempt from this inquiry?",
+          "answer": "No. No action and maintaining the status quo carry the same responsibility to identify affected positions.",
+          "basis": "Theory v2, §14.4.1, with the distinctions explained above."
+        }
+      ],
+      "caseLinks": [],
+      "sourceRefs": [
+        {
+          "section": "14.4.1",
+          "startLine": 3068,
+          "endLine": 3075
+        }
+      ],
+      "sourceHash": "51795bb7988f2669a324a52666c320cfba1382f597f7b5c6a1431844572da1fb",
+      "sources": [
+        {
+          "id": "theory-v2-en",
+          "title": "Xikari: On Conditions, Structure, and Transformation — English reference edition",
+          "url": "/en/theory/part-14#section-14-4-1",
+          "source_type": "theory_source",
+          "version_or_date": "Theory v2, November 2026",
+          "locator": "§14.4.1; English reading edition, lines 3068–3075",
+          "claim_support": [
+            "The section’s definitions, argument, and conditions, interpreted in this guide."
+          ],
+          "limits": [
+            "The Chinese original remains authoritative. This is a theory source, not independent empirical support for a real case."
+          ]
+        }
+      ]
+    },
+    "14.5": {
+      "title": "Past consent does not close every later route of refusal",
+      "lead": "Check the original choice and the current conditions for refusal, negotiation, and exit separately.",
+      "explanation": [
+        "An initial choice can alter later options through debt, interrupted skills, housing, services, or care dependencies. Continued participation then provides weaker evidence of continuing consent. A signature or failure to leave does not by itself establish that refusal is still safe and feasible.",
+        "This does not cancel bounded commitments or support duties with independent grounds, and it does not require every future option to remain open forever. The inquiry asks how the relevant obligation can be fulfilled, renegotiated, transferred, or ended under the applicable conditions.",
+        "Participation also has levels. An institution may respond to individual issues while its agenda, rules, or final adjudicator remain unchallengeable. Report both facts. In high-impact cases or conflicts, an unchallengeable final decision without external independent review does not satisfy N3 and PF-7."
+      ],
+      "distinctions": [
+        {
+          "leftTitle": "Issue-level response",
+          "leftText": "A specific complaint may receive a reasoned answer or change.",
+          "rightTitle": "Adequate capacity for correction",
+          "rightText": "Also depends on the relevant rules, final authority, and available independent review."
+        }
+      ],
+      "teachingExamples": [
+        {
+          "title": "A choice changes later choices",
+          "text": "Suppose someone freely entered an arrangement, then housing and essential care became tied to staying. Their continued presence cannot alone establish present consent; current refusal and transition conditions require examination.",
+          "assumptions": "Constructed scenario, not a finding about a real relationship.",
+          "boundary": "It does not automatically cancel independently grounded obligations or justify unsafe withdrawal of support."
+        }
+      ],
+      "boundaries": [
+        "Do not fabricate unanimous consent from majority voting or formal participation.",
+        "A framework authorization record is not external legal authority."
+      ],
+      "questionAnswers": [
+        {
+          "question": "Does an unresolved disagreement necessarily mean the process failed?",
+          "answer": "No. A reasoned response under a qualified decision rule can preserve disagreement. Unanswered decisive objections and failed protection conditions are different problems.",
+          "basis": "Theory v2, §14.5, with the distinctions explained above."
+        }
+      ],
+      "caseLinks": [
+        {
+          "title": "Democratic authorization and review",
+          "href": "/en/cases/democratic-authorization"
+        }
+      ],
+      "sourceRefs": [
+        {
+          "section": "14.5",
+          "startLine": 3076,
+          "endLine": 3091
+        }
+      ],
+      "sourceHash": "51795bb7988f2669a324a52666c320cfba1382f597f7b5c6a1431844572da1fb",
+      "sources": [
+        {
+          "id": "theory-v2-en",
+          "title": "Xikari: On Conditions, Structure, and Transformation — English reference edition",
+          "url": "/en/theory/part-14#section-14-5",
+          "source_type": "theory_source",
+          "version_or_date": "Theory v2, November 2026",
+          "locator": "§14.5; English reading edition, lines 3076–3091",
+          "claim_support": [
+            "The section’s definitions, argument, and conditions, interpreted in this guide."
+          ],
+          "limits": [
+            "The Chinese original remains authoritative. This is a theory source, not independent empirical support for a real case."
+          ]
+        }
+      ]
+    },
+    "14.9.1": {
+      "title": "A choice with losses still calls for a reasoned bounded judgment",
+      "lead": "Recommend within explicit premises while preserving unmet claims and the limits of authority.",
+      "explanation": [
+        "Sometimes every feasible option, including delay and no action, leaves legitimate claims unmet. The analysis should not invent a costless option or stop at questions. It can give a recommendation for deliberation, with the normative premises and decision rule made explicit.",
+        "State who bears the remaining losses, why their claims still hold, who owes mitigation, remedy, explanation, or review, and what would change the recommendation. If the decision rule is disputed, present the different resulting judgments without choosing on behalf of a qualified authority.",
+        "First test the apparent lack of alternatives: who controls the scarcity, whether prior decisions can be challenged, and whether options were excluded merely because they cost the decision maker. If authority is insufficient, refer the matter to a subject with authority rather than treating that gap as proof of no alternative. This showing remains open to appeal and goes to review independent of the decision maker.",
+        "Nonwaivable law and protection do not lapse because choices are painful. A claim that they cannot all be preserved must identify the conflicting requirements and excluded options for independent review. If that claim is not confirmed, return to options that do not cross those requirements. Even if confirmed, the framework does not endorse any option as authorized, and still-preservable protections continue. A competent actor needs its own applicable statutory or emergency authority, acts within the narrowest scope, bears responsibility, and sets expiry and subsequent review."
+      ],
+      "distinctions": [
+        {
+          "leftTitle": "Analytical recommendation",
+          "leftText": "A reasoned proposal with premises, costs, and revision conditions.",
+          "rightTitle": "Real-world authorization",
+          "rightText": "Valid authority and applicable protections for execution."
+        }
+      ],
+      "teachingExamples": [
+        {
+          "title": "Two urgent needs, one available worker",
+          "text": "Assume two needs compete for one worker and all feasible schedules cause some delay. A stated priority rule can support a bounded recommendation. The delayed person’s claim and the institution’s staffing responsibility remain on record.",
+          "assumptions": "Hypothetical scarcity; no clinical triage instruction is given.",
+          "boundary": "Actual professional or emergency decisions require the relevant competent procedure."
+        }
+      ],
+      "boundaries": [
+        "Costs of waiting do not create authority to act.",
+        "Nonwaivable requirements cannot be traded away by a framework score."
+      ],
+      "questionAnswers": [
+        {
+          "question": "Does choosing an option erase the losses that could not be avoided?",
+          "answer": "No. The affected claims and subsequent responsibilities remain; the ledger must not remove them to make the choice look costless.",
+          "basis": "Theory v2, §14.9.1, with the distinctions explained above."
+        }
+      ],
+      "caseLinks": [],
+      "sourceRefs": [
+        {
+          "section": "14.9.1",
+          "startLine": 3162,
+          "endLine": 3169
+        }
+      ],
+      "sourceHash": "51795bb7988f2669a324a52666c320cfba1382f597f7b5c6a1431844572da1fb",
+      "sources": [
+        {
+          "id": "theory-v2-en",
+          "title": "Xikari: On Conditions, Structure, and Transformation — English reference edition",
+          "url": "/en/theory/part-14#section-14-9-1",
+          "source_type": "theory_source",
+          "version_or_date": "Theory v2, November 2026",
+          "locator": "§14.9.1; English reading edition, lines 3162–3169",
+          "claim_support": [
+            "The section’s definitions, argument, and conditions, interpreted in this guide."
+          ],
+          "limits": [
+            "The Chinese original remains authoritative. This is a theory source, not independent empirical support for a real case."
+          ]
+        }
+      ]
+    },
+    "16.23": {
+      "title": "Human oversight needs a real path to change the action",
+      "lead": "A review click is insufficient if evidence, time, capability, or an effective veto is missing.",
+      "explanation": [
+        "Oversight requires access to evidence, counterevidence, and uncertainty; relevant capability; time before the action; and a tolerable workload. The reviewer must be able to reject, modify, or pause. Those signals must reach the actuator soon enough to change what happens.",
+        "Evaluate more than the number of overrides. Can correct recommendations be appropriately adopted, incorrect ones stopped, unprompted problems detected, and affected people’s corrections acted on? More overrides are not always better, and total agreement is not proof of reliability.",
+        "For narrow operations faster than case-by-case human judgment, machine-checkable constraints and minimal permissions may be studied. This does not put all responsibility on a final click: target selection, omitted constraints, anomaly handling, and remedy still need responsible parties. A candidate must not become an observed fact merely because software passes it onward."
+      ],
+      "distinctions": [
+        {
+          "leftTitle": "A nominal review step",
+          "leftText": "The interface records a click or acknowledgment.",
+          "rightTitle": "Effective oversight",
+          "rightText": "The reviewer has the conditions and actual ability to alter execution."
+        }
+      ],
+      "teachingExamples": [
+        {
+          "title": "A rejection arrives after execution",
+          "text": "Suppose a user presses reject but the backend task is already irreversible. The interface recorded a refusal; it did not provide a timely veto over that action.",
+          "assumptions": "Hypothetical software behavior; no actual product is assessed.",
+          "boundary": "The example does not establish which legal or organizational duty applies."
+        }
+      ],
+      "boundaries": [
+        "AI output cannot independently certify real-world safety, consent, or authorization.",
+        "Personality hypotheses do not license clinical diagnosis or unauthorized discriminatory scoring."
+      ],
+      "questionAnswers": [
+        {
+          "question": "Does a high override rate prove good oversight?",
+          "answer": "No. Review quality depends on appropriately accepting correct advice, stopping errors, detecting other problems, and enabling correction.",
+          "basis": "Theory v2, §16.23, with the distinctions explained above."
+        }
+      ],
+      "caseLinks": [],
+      "sourceRefs": [
+        {
+          "section": "16.23",
+          "startLine": 3713,
+          "endLine": 3720
+        }
+      ],
+      "sourceHash": "51795bb7988f2669a324a52666c320cfba1382f597f7b5c6a1431844572da1fb",
+      "sources": [
+        {
+          "id": "theory-v2-en",
+          "title": "Xikari: On Conditions, Structure, and Transformation — English reference edition",
+          "url": "/en/theory/part-16#section-16-23",
+          "source_type": "theory_source",
+          "version_or_date": "Theory v2, November 2026",
+          "locator": "§16.23; English reading edition, lines 3713–3720",
+          "claim_support": [
+            "The section’s definitions, argument, and conditions, interpreted in this guide."
+          ],
+          "limits": [
+            "The Chinese original remains authoritative. This is a theory source, not independent empirical support for a real case."
+          ]
+        }
+      ]
+    },
+    "16.24": {
+      "title": "Replace a model when the comparison warrants it",
+      "lead": "Compare judgment quality and total burden under fixed tasks and a serious alternative.",
+      "explanation": [
+        "A framework needs a retirement and replacement path. If a simpler method consistently performs better on the relevant explanation, foresight, protection, and accessibility tasks, hand over the necessary records, failures, unresolved claims, and responsibilities rather than preserving the model’s status for its own sake.",
+        "Fix the task, materials, input cutoff, resources, and evaluation method. Keep a sufficiently strong domain method and accurate source retrieval as comparators. Examine errors, omissions, inappropriate nonanswers, time, disclosure, and maintenance work separately. More files, characters, or accepted candidates do not measure practical benefit.",
+        "A textual adoption is an editorial fact. A successful build is an engineering fact. Running the changed package, producing an adequate answer, and benefiting a real task have different endpoints. When theory, software, and materials change together, a comparison can assess the combination but cannot assign all improvement to one sentence or one packaging choice."
+      ],
+      "distinctions": [
+        {
+          "leftTitle": "A verified artifact change",
+          "leftText": "Evidence that text or software actually changed.",
+          "rightTitle": "Demonstrated task benefit",
+          "rightText": "Evidence from an appropriate comparison of outcomes and burdens."
+        }
+      ],
+      "teachingExamples": [
+        {
+          "title": "A new version produces more reports",
+          "text": "Suppose a revised tool writes twice as many reports. Without a fixed task comparison, this establishes output volume, not improved decisions or lower reader burden.",
+          "assumptions": "Hypothetical software comparison.",
+          "boundary": "A local improvement can still be preserved when another dimension worsens; neither should be hidden."
+        }
+      ],
+      "boundaries": [
+        "Retirement does not erase unresolved harm or responsibility records.",
+        "Internal checks and accurate hashes do not establish external effectiveness."
+      ],
+      "questionAnswers": [
+        {
+          "question": "If no comparative study exists, should the framework be declared equivalent or useless?",
+          "answer": "No. Absence of comparison supports neither superiority nor equivalence nor uselessness. State the untested claim and retain existing bounded evidence.",
+          "basis": "Theory v2, §16.24, with the distinctions explained above."
+        }
+      ],
+      "caseLinks": [],
+      "sourceRefs": [
+        {
+          "section": "16.24",
+          "startLine": 3721,
+          "endLine": 3728
+        }
+      ],
+      "sourceHash": "51795bb7988f2669a324a52666c320cfba1382f597f7b5c6a1431844572da1fb",
+      "sources": [
+        {
+          "id": "theory-v2-en",
+          "title": "Xikari: On Conditions, Structure, and Transformation — English reference edition",
+          "url": "/en/theory/part-16#section-16-24",
+          "source_type": "theory_source",
+          "version_or_date": "Theory v2, November 2026",
+          "locator": "§16.24; English reading edition, lines 3721–3728",
+          "claim_support": [
+            "The section’s definitions, argument, and conditions, interpreted in this guide."
+          ],
+          "limits": [
+            "The Chinese original remains authoritative. This is a theory source, not independent empirical support for a real case."
+          ]
+        }
+      ]
+    },
+    "C.7": {
+      "title": "Sufficient information and correct execution are separate",
+      "lead": "A decoder cannot recover a lost distinction; an adequate representation can still be used incorrectly.",
+      "explanation": [
+        "If q=g∘f, a second conversion h preserves the same final query only when g is constant on the fibers of h restricted to the actual reachable set f(X). Checking every imaginable intermediate value is unnecessary; preserving the distinctions relevant to the final answer on the actual image is essential.",
+        "The first conversion can correctly retain a pair of bits while a later sum correctly counts them, yet their composition fails if the final query still asks for the first bit. Changing the final query to the count creates a different successful task rather than repairing the original one.",
+        "Actual execution adds another check. If two source states share a representation but need different answers, there is representational insufficiency. If a third representation unambiguously requires one answer but the actual rule returns another, there is also an independent rule error. Fixing the latter does not remove the former."
+      ],
+      "distinctions": [
+        {
+          "leftTitle": "Representation insufficiency",
+          "leftText": "The retained value merges states requiring different target answers.",
+          "rightTitle": "Execution error",
+          "rightText": "The actual rule returns a wrong answer despite the relevant retained distinction."
+        }
+      ],
+      "teachingExamples": [
+        {
+          "title": "Keeping two bits, then only their sum",
+          "text": "The states (0,1) and (1,0) have the same sum but different first bits. The sum answers a counting query but cannot recover the first bit. Keeping that bit separately repairs the specified query.",
+          "assumptions": "Finite deterministic bit pairs; final query remains the first bit.",
+          "boundary": "No general claim that every compression fails or all details must be retained."
+        }
+      ],
+      "boundaries": [
+        "A real fault may remain unclassified when its actual input or execution rule is unknown.",
+        "Do not erase locally correct outputs because other states fail."
+      ],
+      "questionAnswers": [
+        {
+          "question": "If an original document existed somewhere, was the decision maker’s input sufficient?",
+          "answer": "Not necessarily. The document must have been accessible in time to the actual actor and rule. Later reconstructability is not timely availability.",
+          "basis": "Theory v2, §C.7, with the distinctions explained above."
+        }
+      ],
+      "caseLinks": [
+        {
+          "title": "Mars Climate Orbiter: the unit mapping",
+          "href": "/en/cases/mars-climate-orbiter"
+        }
+      ],
+      "sourceRefs": [
+        {
+          "section": "C.7",
+          "startLine": 4609,
+          "endLine": 4618
+        }
+      ],
+      "sourceHash": "51795bb7988f2669a324a52666c320cfba1382f597f7b5c6a1431844572da1fb",
+      "sources": [
+        {
+          "id": "theory-v2-en",
+          "title": "Xikari: On Conditions, Structure, and Transformation — English reference edition",
+          "url": "/en/theory/appendix-c#section-c-7",
+          "source_type": "theory_source",
+          "version_or_date": "Theory v2, November 2026",
+          "locator": "§C.7; English reading edition, lines 4609–4618",
+          "claim_support": [
+            "The section’s definitions, argument, and conditions, interpreted in this guide."
+          ],
+          "limits": [
+            "The Chinese original remains authoritative. This is a theory source, not independent empirical support for a real case."
+          ]
+        }
+      ]
+    },
+    "C.9": {
+      "title": "The right extra variable depends on the task",
+      "lead": "A mean can preserve total load while losing local overload and position.",
+      "explanation": [
+        "For two ordered queues with lengths from 0 to 30, the source defines local overload as a maximum above 15. States (0,20) and (10,10) share mean 10 but require opposite overload answers. The mean is correct; its information is insufficient for that target.",
+        "Adding the maximum recovers overload and maximum length. With two queues, identical per-position service capacity c, and no new tasks, the smaller queue is 2m−M, so the pair (mean, maximum) also closes under the specified symmetric update.",
+        "The result changes with the task and dynamics. Different capacities tied to position make the location of the large queue relevant. With three queues, mean and maximum need not determine the updated total. The finite uniform-state error count is exact for the constructed domain, not an estimate of a real queue population."
+      ],
+      "distinctions": [
+        {
+          "leftTitle": "Accurate average",
+          "leftText": "Correctly describes the declared mean and, with queue count, total.",
+          "rightTitle": "Task sufficiency",
+          "rightText": "Retains all distinctions needed for the particular answer or update."
+        }
+      ],
+      "teachingExamples": [
+        {
+          "title": "A location-specific service change",
+          "text": "With capacities (15,10), states (0,20) and (20,0) share mean 10 and maximum 20. They update to (0,10) and (5,0), so their next mean and maximum differ.",
+          "assumptions": "Two ordered queues, no arrivals, each served up to its assigned capacity.",
+          "boundary": "The example establishes failure of this representation under this update, not universal failure of aggregation."
+        }
+      ],
+      "boundaries": [
+        "The 961 equally weighted states are a teaching distribution, not measured frequencies.",
+        "Do not attribute a poor decoding rule’s avoidable errors entirely to representation loss."
+      ],
+      "questionAnswers": [
+        {
+          "question": "Must every micro-level detail be restored to detect overload?",
+          "answer": "No. The maximum suffices for this target. A different target or operation may require a different retained distinction.",
+          "basis": "Theory v2, §C.9, with the distinctions explained above."
+        }
+      ],
+      "caseLinks": [
+        {
+          "title": "Representation and local overload",
+          "href": "/en/concepts/representation"
+        },
+        {
+          "title": "Hurricane Ian: a different target needs different information",
+          "href": "/en/cases/representation-hurricane-cone"
+        }
+      ],
+      "sourceRefs": [
+        {
+          "section": "C.9",
+          "startLine": 4631,
+          "endLine": 4646
+        }
+      ],
+      "sourceHash": "51795bb7988f2669a324a52666c320cfba1382f597f7b5c6a1431844572da1fb",
+      "sources": [
+        {
+          "id": "theory-v2-en",
+          "title": "Xikari: On Conditions, Structure, and Transformation — English reference edition",
+          "url": "/en/theory/appendix-c#section-c-9",
+          "source_type": "theory_source",
+          "version_or_date": "Theory v2, November 2026",
+          "locator": "§C.9; English reading edition, lines 4631–4646",
+          "claim_support": [
+            "The section’s definitions, argument, and conditions, interpreted in this guide."
+          ],
+          "limits": [
+            "The Chinese original remains authoritative. This is a theory source, not independent empirical support for a real case."
+          ]
+        }
+      ]
+    },
+    "C.12": {
+      "title": "Three forms of composition need three different checks",
+      "lead": "Preserving an answer, composing a causal effect, and executing tasks together are not one “connected” status.",
+      "explanation": [
+        "Function composition asks whether successive representations preserve the same final query. Causal composition asks whether joint responses and conditions support an effect through the whole chain. Resource composition asks whether the combined tasks satisfy shared constraints. The same workflow can contain all three problems.",
+        "The source’s two-task example isolates resources and deadlines. Each task occupies one full slot, both are due in period one, and that period has capacity one. Each is feasible alone; the pair is not. Future capacity cannot repair the original missed deadline unless the deadline is validly changed.",
+        "F3 adds an information constraint: one observation may leave several compatible states. A single acceptable action exists precisely when their acceptable-action sets have a nonempty intersection. Each state having some good action is insufficient. Those sets must already include the task’s actual resource, protection, and valid-permission requirements."
+      ],
+      "distinctions": [
+        {
+          "leftTitle": "Each state or task has a solution",
+          "leftText": "Separate feasible sets are nonempty.",
+          "rightTitle": "A common feasible action or plan",
+          "rightText": "The relevant intersection or combined constraint set is nonempty."
+        }
+      ],
+      "teachingExamples": [
+        {
+          "title": "Opposite actions under the same observation",
+          "text": "If one compatible state allows only left and another only right, both are individually solvable but no one action works in both. A valid preservation action allowed in both would make the intersection nonempty.",
+          "assumptions": "Finite, single-round, deterministic task and explicitly listed compatible states.",
+          "boundary": "Unknown states, sequential strategies, and risk-tolerant decisions require their own analysis."
+        }
+      ],
+      "boundaries": [
+        "A formal feasibility proof does not certify real resources or permissions.",
+        "Legal observation, waiting, or preservation may change the available strategy set, but cannot be assumed costless or automatically available."
+      ],
+      "questionAnswers": [
+        {
+          "question": "Can two independently available permissions be combined to authorize an action neither covers?",
+          "answer": "No. The mathematical action set cannot manufacture valid authority; permissions must be applicable at the relevant nodes under their governing rules.",
+          "basis": "Theory v2, §C.12, with the distinctions explained above."
+        }
+      ],
+      "caseLinks": [
+        {
+          "title": "Joint feasibility",
+          "href": "/en/concepts/joint-feasibility"
+        },
+        {
+          "title": "Causal chains",
+          "href": "/en/concepts/chain"
+        }
+      ],
+      "sourceRefs": [
+        {
+          "section": "C.12",
+          "startLine": 4686,
+          "endLine": 4701
+        }
+      ],
+      "sourceHash": "51795bb7988f2669a324a52666c320cfba1382f597f7b5c6a1431844572da1fb",
+      "sources": [
+        {
+          "id": "theory-v2-en",
+          "title": "Xikari: On Conditions, Structure, and Transformation — English reference edition",
+          "url": "/en/theory/appendix-c#section-c-12",
+          "source_type": "theory_source",
+          "version_or_date": "Theory v2, November 2026",
+          "locator": "§C.12; English reading edition, lines 4686–4701",
+          "claim_support": [
+            "The section’s definitions, argument, and conditions, interpreted in this guide."
+          ],
+          "limits": [
+            "The Chinese original remains authoritative. This is a theory source, not independent empirical support for a real case."
+          ]
+        }
+      ],
+      "model": "joint"
+    }
+  }
+}

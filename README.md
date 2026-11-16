@@ -28,7 +28,7 @@
 
 它为需要想清楚、也需要下判断的问题而设计：一项制度为什么反复失灵，一个方案会怎样影响不同的人，几种解释里哪一种站得住，现在该维持、调整、试探还是退出。技能只在你明确点名时启用，不会接管日常对话。
 
-中英文都可以使用：用英文提问，成果就以英文写成。理论权威仍是中文原文；安装包另附与原文逐节对齐的英文参考译本和中英术语表，用于英文术语与引文（见[英文工作](references/english.md)）。当前技能使用 v2；原文精读站仍按第一版编排。
+中英文都可以使用：用英文提问，成果就以英文写成。理论权威仍是中文原文；安装包另附作者提供、与原文逐节对齐的英文参考译本和中英术语表，用于英文术语与引文（见[英文工作](references/english.md)）。技能与[双语阅读站](https://xi-kari.github.io/xi-kari-skill/handbook/)均以 v2 为正文基准；[英文站](https://xi-kari.github.io/xi-kari-skill/handbook/en/)可以连续阅读全书。
 
 ## 从这里开始
 
@@ -39,7 +39,7 @@
 | 先读懂理论本身 | [原文精读站](https://xi-kari.github.io/xi-kari-skill/handbook/) · [概念例解](https://xi-kari.github.io/xi-kari-skill/handbook/concepts/) · [真实案例](https://xi-kari.github.io/xi-kari-skill/handbook/cases/) |
 | 知道它交付什么、带哪些工具 | [交付什么](#交付什么) · [随包工具](#随包工具) |
 | 弄清它不声称什么、不做什么 | [条件前瞻与能力边界](#条件前瞻与能力边界) · [边界](#边界) |
-| 用英文工作 | [English README](README.en.md) · [英文工作](references/english.md) |
+| 用英文工作或读书 | [English README](README.en.md) · [英文阅读站](https://xi-kari.github.io/xi-kari-skill/handbook/en/) · [英文工作](references/english.md) |
 | 修改或参与 | [参与开发](#参与开发) · [CONTRIBUTING.md](CONTRIBUTING.md) |
 
 ## 它有什么不同
@@ -51,6 +51,15 @@
 - **完整交付，篇幅与问题相称。** 先给结论与关键数字。确定答案的计算或判断题用一到两段说明依据和条件；复杂分析完整展开，用户需要长文时充分论证。条文和计划以可直接使用为准，解释放在条款之后。
 - **同一个问题可以一直往下做。** 追问、补材料、提反例、要求合稿，都接着已有成果推进，从最早受影响的地方修订，而不是每轮从头开始。
 - **从已有理解往下推，并说清每一步推到哪里。** 问“从这里还能推出什么”时，它沿原文的定义、变换与组合关系，推出原问没有问到的命题、问题与构想。每条写明从哪些起点、怎样得到，是给定模型里必然成立的关系、定义对一项判断的要求，还是有待检验的候选，并配上最强的竞争项和否决条件。重述不算新；“未见”只相对写明的检索范围。
+
+具体分析中，模块会把容易混用的判断拆开，再接回原问题：
+
+| 问题中的困难 | 技能怎样处理 |
+| --- | --- |
+| 目标、成员或约束本身受到质疑 | [问题合同](modules/contract/MODULE.md)保留质疑及处置理由；需要重开时说明新旧问题的关系，保留旧结果 |
+| 一项资格或授权成立，却未产生期待的效果 | [机制模块](modules/mechanism/MODULE.md)分别核对构成地位、当事人理解、实际兑现与规范正当，各自使用相称证据 |
+| 某处成功运行，准备长期维持、修复或推广 | [推演模块](modules/dynamics/MODULE.md)分别检查形成、维持、恢复和复制的条件，不用一次成功代替其他阶段的依据 |
+| 包括等待在内，每个方案都有损失 | [有限选择](modules/choice/MODULE.md)比较受影响位置、保护、资源和联合可行性，给出明示前提下的推荐，并保留损失、补救责任与改判条件；现实采用另核授权 |
 
 ## 快速开始
 
@@ -201,13 +210,15 @@ python "$skillRoot/scripts/comparison.py" "$taskRoot/compare.json" --output "$ta
 | [第 12—16 部分](https://xi-kari.github.io/xi-kari-skill/handbook/theory/part-12.html) | 前瞻、选择、工具、规范、干涉和治理 |
 | [附录 A—D](https://xi-kari.github.io/xi-kari-skill/handbook/theory/appendix-a/) | 人类变量接口卡册、编号体系与术语总表、共同方法内核与跨学科桥接、领域解释与应用图谱 |
 
-- **[原文精读站](https://xi-kari.github.io/xi-kari-skill/handbook/)**：沿原文顺序阅读，每一节之后接着看讲解、图示和有出处的案例；可以搜索概念、案例与原文，也可以[下载](https://xi-kari.github.io/xi-kari-skill/handbook/downloads.html)完整原文的 Markdown 与 Word 阅读版。
+- **[中文精读站](https://xi-kari.github.io/xi-kari-skill/handbook/)**：v2 全文分为 65 个阅读页面、397 个编号小节；连同书前、分部导言等共 421 个阅读单元，均有中文讲解入口。原文与讲解分开呈现，概念、案例与正文可以搜索。
+- **[英文阅读站](https://xi-kari.github.io/xi-kari-skill/handbook/en/)**：完整英文参考正文与中文共用小节编号，配有英文导航、搜索、概念页、案例页和精选逐节导读。可以切换语言对照；中文研究长讲义尚未全部英译，英文导读范围单独列明。
+- **[全文下载](https://xi-kari.github.io/xi-kari-skill/handbook/downloads.html)**：提供中文 v2 Markdown、英文阅读稿和保留原始字节的作者英文原件。另保留明确标为第一版的旧 Word；它不对应 v2。历史研究材料也保留各自版本与来源说明。
 - **[概念例解](https://xi-kari.github.io/xi-kari-skill/handbook/concepts/)**：从一个问题进入一项区别，例如“收到意见，就算形成反馈了吗？”“每个方案都可行，能一起实施吗？”
 - **[真实案例](https://xi-kari.github.io/xi-kari-skill/handbook/cases/)**：火星气候轨道器的单位接口、丰田安灯的响应流程、GitLab 的数据库恢复、弗林特的饮水投诉、飓风伊恩的预报锥等；案例总览按“先从哪个问题读起”给出阅读路线。
 - **[历史实测案例](https://github.com/xi-kari/xi-kari-skill/discussions?discussions_q=)**：Discussions 保留了基于 Xikari 8.3 的历史分析，供参考与讨论，不代表当前《Xikari-条件结构与转化论》及现行 Skill 的分析表现。
 - **[术语索引](https://xi-kari.github.io/xi-kari-skill/handbook/theory/appendix-b.html)**：附录 B 的编号体系与术语总表。
 - **权威文本**：[`source/Xikari-条件结构与转化论.md`](source/Xikari-条件结构与转化论.md)，身份（SHA-256）记录在 [`source/source-manifest.json`](source/source-manifest.json)。原文优先于技能的工程指引，也优先于模型对同名术语的既有理解。
-- **英文参考译本**：[`source/en/Xikari-On-Conditions-Structure-and-Transformation.md`](source/en/Xikari-On-Conditions-Structure-and-Transformation.md)，译自上述权威文本，与它共用全部小节和分部编号，所译原文的 SHA-256 记在 [`source/en/source-manifest.json`](source/en/source-manifest.json)。译本不取得独立权威，与中文看似不一致时以中文为准；术语见[中英术语表](references/glossary-en.md)。
+- **英文参考译本**：[`source/en/Xikari-On-Conditions-Structure-and-Transformation.md`](source/en/Xikari-On-Conditions-Structure-and-Transformation.md)，从[作者提供的英文原件](source/en/upstream/xikari-conditions-en.md)整理出阅读格式，保留原件与确定性导入记录。中英文共用全部小节和分部编号，文本身份记在 [`source/en/source-manifest.json`](source/en/source-manifest.json)。译本不取得独立权威，与中文看似不一致时以中文为准；术语见[中英术语表](references/glossary-en.md)。
 - **[项目主页](https://xi-kari.github.io/xi-kari-skill/)**：项目介绍、使用方式与研究进度。
 
 ## 边界

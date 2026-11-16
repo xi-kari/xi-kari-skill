@@ -9,6 +9,7 @@
     "preview": "vitepress preview"
   },
   "devDependencies": {
+    "markdown-it-footnote": "4.0.0",
     "vitepress": "1.6.4"
   },
   "overrides": {

@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { useLocale } from '../composables/locale'
+const { t, isEnglish, localePath } = useLocale()
 import { computed } from 'vue'
 import { useData } from 'vitepress'
 import XkPosition from './XkPosition.vue'
@@ -8,9 +10,13 @@ const { frontmatter } = useData()
 const { route, current, currentGroup, lessonsOn } = useNav()
 
 const no = computed(() => current.value?.no || sheetNo(route.value) || '—')
-const group = computed(() => currentGroup.value?.text || '原文')
+const group = computed(() => currentGroup.value?.text || t('原文', 'Source text'))
 const lessons = computed(() => lessonsOn(route.value))
 const length = computed(() => {
+  if (isEnglish.value) {
+    const words = Number(frontmatter.value.xkWords || 0)
+    return words ? `About ${words.toLocaleString('en')} words, ${Math.max(1, Math.round(words / 220))} min` : ''
+  }
   const chars = Number(frontmatter.value.xkChars || 0)
   if (!chars) return ''
   const minutes = Math.max(1, Math.round(chars / 380))
@@ -20,22 +26,22 @@ const length = computed(() => {
 </script>
 
 <template>
-  <header class="xk-tb" aria-label="本篇信息">
+  <header class="xk-tb" :aria-label="t('本篇信息', 'Page information')">
     <div class="xk-tb__no">
-      <span class="xk-tb__label">编号</span>
+      <span class="xk-tb__label">{{ t('编号', 'Number') }}</span>
       <span class="xk-tb__value">{{ no }}</span>
     </div>
     <div>
-      <span class="xk-tb__label">所属</span>
+      <span class="xk-tb__label">{{ t('所属', 'Part') }}</span>
       <span class="xk-tb__value">{{ group }}</span>
     </div>
     <div v-if="length">
-      <span class="xk-tb__label">篇幅</span>
+      <span class="xk-tb__label">{{ t('篇幅', 'Length') }}</span>
       <span class="xk-tb__value xk-tb__nowrap">{{ length }}</span>
     </div>
     <div class="xk-tb__lessons">
-      <span class="xk-tb__label">讲解</span>
-      <span class="xk-tb__value xk-tb__nowrap">{{ lessons ? `${lessons} 处` : '暂无' }}</span>
+      <span class="xk-tb__label">{{ t('讲解', 'Notes') }}</span>
+      <span class="xk-tb__value xk-tb__nowrap">{{ lessons ? t(`${lessons} 处`, `${lessons}`) : t('暂无', 'None yet') }}</span>
     </div>
     <div class="xk-tb__rose"><XkPosition :no="no" /></div>
   </header>

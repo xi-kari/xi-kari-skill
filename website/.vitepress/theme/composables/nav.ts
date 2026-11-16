@@ -1,6 +1,7 @@
 import { computed } from 'vue'
 import { useData, withBase } from 'vitepress'
 import { normalize, type LessonRef } from './lessonKeys'
+import { withoutLocale } from './locale'
 
 export { bubbleLabel, lessonPath, lessonSlug, normalize, sourceRef, type LessonRef } from './lessonKeys'
 
@@ -23,7 +24,7 @@ export function routeOf(relativePath: string): string {
 
 /** The number a sheet carries in the book: 03, A.1, D.01, B … */
 export function sheetNo(link: string): string {
-  const route = normalize(link)
+  const route = withoutLocale(normalize(link))
   let match: RegExpMatchArray | null
   if (route === '/theory/') return '00'
   if ((match = route.match(/^\/theory\/part-(\d+)$/))) return match[1]
@@ -38,6 +39,8 @@ export function shortTitle(text: string): string {
   const short = text
     .replace(/^第[一二三四五六七八九十]+部分[\s\u3000]*/, '')
     .replace(/^附录[A-D][\s\u3000]*/, '')
+    .replace(/^Part\s+(?:[IVX]+|\d+)[\s:—–.-]+/i, '')
+    .replace(/^Appendix\s+[A-D][\s:—–.-]+/i, '')
     .replace(/^[A-D]\.\d+[\s\u3000]+/, '')
     .trim()
   return short || text
@@ -98,6 +101,6 @@ export function useNav() {
 
 /** Position of a route in the full reading order, used to give a page turn its direction. */
 export function readingOrder(theme: any): string[] {
-  const all = resolveSidebar(theme.sidebar, '/theory/')
+  const all = [...resolveSidebar(theme.sidebar, '/theory/'), ...resolveSidebar(theme.sidebar, '/en/theory/')]
   return all.flatMap((group) => (group.items || []).filter((item) => item.link).map((item) => normalize(item.link!)))
 }

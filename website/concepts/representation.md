@@ -34,10 +34,6 @@ description: "数据是否足够，取决于你到底要回答什么问题。"
 
 [阅读伊恩飓风案例：来源、数字与适用范围](/cases/representation-hurricane-cone)
 
-Optional, same file, last item of the list under `## 接着理解` (same form as the existing orbiter entry there):
-
-- [真实案例 · 飓风伊恩的预报锥：回答的是中心路径](../cases/representation-hurricane-cone)
-
 ## 回到原文
 
 > 总量表示可准确回答总量，增加一个与任务相关的变量可修复部分不足
@@ -54,3 +50,5 @@ Optional, same file, last item of the list under `## 接着理解` (same form as
 - [能预测常态，为什么未必能预测改变后的结果](./prediction)
 - [每件事都做得到，为什么放在一起就做不到](./joint-feasibility)
 - [真实案例 · 火星气候轨道器：接口的单位差异](../cases/mars-climate-orbiter)
+
+- [真实案例 · 飓风伊恩的预报锥：回答的是中心路径](../cases/representation-hurricane-cone)

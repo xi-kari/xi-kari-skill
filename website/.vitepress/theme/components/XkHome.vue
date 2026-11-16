@@ -105,7 +105,7 @@ function toggleAllGroups() {
 
 const downloads = [
   { type: 'MD', name: '完整 Markdown 原文', desc: '适合检索、引用和交给能读文件的智能体', href: '/downloads/Xikari-条件结构与转化论.md' },
-  { type: 'DOCX', name: 'Word 阅读版', desc: '适合连续阅读与打印', href: '/downloads/Xikari-条件结构与转化论.docx' }
+  { type: 'DOCX', name: '第一版 Word（历史版本）', desc: '2026-10-17 第一版，正文与当前 v2 不同', href: '/downloads/Xikari-条件结构与转化论.v1.docx' }
 ]
 </script>
 
@@ -129,10 +129,25 @@ const downloads = [
     <dl class="xk-idstrip">
       <div class="xk-idstrip__wide xk-idstrip__book"><dt>书名</dt><dd>Xikari-条件结构与转化论</dd></div>
       <div><dt>著者</dt><dd>Xikari</dd></div>
+      <div><dt>理论版本</dt><dd>{{ theme.xkEdition }}</dd></div>
       <div v-if="baseline"><dt>正文基线</dt><dd class="xk-idstrip__num">{{ baseline }}</dd></div>
       <div><dt>结构</dt><dd>十六部分，四篇附录</dd></div>
       <div><dt>讲解</dt><dd><span class="xk-idstrip__num">{{ lessons.length }}</span> 个单元</dd></div>
     </dl>
+
+    <section class="xk-home__sec" aria-labelledby="xk-h-v2">
+      <h2 id="xk-h-v2" class="xk-home__h">从 v2 的关键区别进入</h2>
+      <p>阅读原文时，可从六个概念导读辨认地位、因果、结果与选择中的必要区别，再回到对应节号核对定义、条件与反例。</p>
+      <div class="xk-home-v2-links">
+        <a :href="pageHref('/concepts/status-and-effects')">地位与作用</a>
+        <a :href="pageHref('/concepts/reopening-questions')">问题冻结与重开</a>
+        <a :href="pageHref('/concepts/four-outcomes')">四种结果</a>
+        <a :href="pageHref('/concepts/allocation-and-capability')">配置与能力</a>
+        <a :href="pageHref('/concepts/affected-positions')">受影响位置</a>
+        <a :href="pageHref('/concepts/choices-with-loss')">全有损失的选择</a>
+      </div>
+      <p><a class="xk-link" :href="withBase('/en/')">Read the complete English reference edition</a></p>
+    </section>
 
     <section id="map" class="xk-home__sec" aria-labelledby="xk-h-map">
       <h2 id="xk-h-map" class="xk-home__h">全书十六部分与四篇附录</h2>

@@ -12,16 +12,19 @@ import XkSearch from './components/XkSearch.vue'
 import XkLightbox from './components/XkLightbox.vue'
 import { provideOutline, useReadingProgress } from './composables/outline'
 import { startPrefs } from './composables/prefs'
+import { useLocale } from './composables/locale'
+import XkEnglishHome from './components/XkEnglishHome.vue'
 
 /* the home page carries every lesson's title and lead, so it loads on its own */
 const XkHome = defineAsyncComponent(() => import('./components/XkHome.vue'))
 
 const { page, frontmatter } = useData()
 const route = useRoute()
+const { t, isEnglish } = useLocale()
 
 const isHome = computed(() => frontmatter.value.layout === 'home')
 const isNotFound = computed(() => !!page.value.isNotFound)
-const isTheory = computed(() => page.value.relativePath.startsWith('theory/'))
+const isTheory = computed(() => /^(en\/)?theory\//.test(page.value.relativePath))
 
 const navOpen = ref(false)
 const asideOpen = ref(false)
@@ -132,7 +135,7 @@ onUnmounted(() => {
 
 <template>
   <div class="xk-app" :class="{ 'is-home': isHome, 'has-locator': !isHome && !isNotFound, 'nav-open': navOpen, 'aside-open': asideOpen }">
-    <a class="xk-skip" href="#xk-main" :inert="drawerOpen || undefined">跳到正文</a>
+    <a class="xk-skip" href="#xk-main" :inert="drawerOpen || undefined">{{ t('跳到正文', 'Skip to content') }}</a>
     <XkTopBar
       :inert="drawerOpen || undefined"
       :progress="progress"
@@ -149,7 +152,7 @@ onUnmounted(() => {
     <XkNotFound v-if="isNotFound" :inert="drawerOpen || undefined" />
 
     <template v-else-if="isHome">
-      <main id="xk-main" tabindex="-1" :inert="drawerOpen || undefined"><XkHome /></main>
+      <main id="xk-main" tabindex="-1" :inert="drawerOpen || undefined"><XkEnglishHome v-if="isEnglish" /><XkHome v-else /></main>
       <XkBookNav class="xk-nav--drawer" :open="navOpen" :role="navOpen ? 'dialog' : undefined" :aria-modal="navOpen || undefined" :tabindex="navOpen ? -1 : undefined" @close="closeDrawers()" />
     </template>
 

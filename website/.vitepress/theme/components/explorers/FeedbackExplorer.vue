@@ -1,12 +1,15 @@
 <script setup lang="ts">
-import { ref, useId } from 'vue'
+import { computed, ref, useId } from 'vue'
 import { withBase } from 'vitepress'
+import { useLocale } from '../../composables/locale'
 
-const stages = [
-  { name: '收到回执', title: '消息回来了，后续决定还没有改变。', body: '记录能够证明有过接收。要判断有效反馈，还需要看这条返回通道是否实际改变后续状态、时序、概率或约束。', limit: '不能由“已收悉”推出问题已被纠正。' },
-  { name: '改变决定', title: '返回信息进入了下一步。', body: '沿这条路线，反馈已经有了实际作用。它可能改善结果，也可能迟到、放大偏差或引起振荡；有效反馈不等于有益反馈。', limit: '不能由一次改变推出已经形成可保留的学习。' },
-  { name: '保留并调用', title: '变化留下了载体，并在后来被使用。', body: '沿反馈介导学习这条路线，还须把后续预定任务与基线或替代过程比较，并核对相应因果依据。留档、调用与任务结果是不同环节。', limit: '不能只凭保留与调用宣布学习成立；学习成立也不自动证明净收益。' }
-]
+const { t, localePath } = useLocale()
+
+const stages = computed(() => [
+  { name: t('收到回执', 'Receipt received'), title: t('消息回来了，后续决定还没有改变。', 'A message has returned; the later decision has not changed.'), body: t('记录能够证明有过接收。要判断有效反馈，还需要看这条返回通道是否实际改变后续状态、时序、概率或约束。', 'A record can establish receipt. To identify effective feedback, check whether this return channel actually changes a later state, timing, probability or constraint.'), limit: t('不能由“已收悉”推出问题已被纠正。', 'Acknowledgement does not establish that the problem has been corrected.') },
+  { name: t('改变决定', 'Decision changed'), title: t('返回信息进入了下一步。', 'The returned information affects what happens next.'), body: t('沿这条路线，反馈已经有了实际作用。它可能改善结果，也可能迟到、放大偏差或引起振荡；有效反馈不等于有益反馈。', 'Along this route, feedback has had an actual effect. It may improve the result, arrive too late, amplify a deviation or cause oscillation. Effective feedback is not necessarily beneficial feedback.'), limit: t('不能由一次改变推出已经形成可保留的学习。', 'One change does not establish learning that can be retained.') },
+  { name: t('保留并调用', 'Retained and used'), title: t('变化留下了载体，并在后来被使用。', 'The change persists in a carrier and is used later.'), body: t('沿反馈介导学习这条路线，还须把后续预定任务与基线或替代过程比较，并核对相应因果依据。留档、调用与任务结果是不同环节。', 'For feedback-mediated learning, the later specified task must also be compared with a baseline or alternative process, with the relevant causal evidence checked. Recording, use and task results are distinct steps.'), limit: t('不能只凭保留与调用宣布学习成立；学习成立也不自动证明净收益。', 'Retention and use alone do not establish learning; learning does not automatically establish a net benefit.') }
+])
 
 const id = useId()
 const selected = ref(0)
@@ -28,18 +31,18 @@ function move(event: KeyboardEvent) {
   ;(event.currentTarget as HTMLElement).querySelectorAll<HTMLButtonElement>('[role="tab"]')[next]?.focus()
 }
 
-const nodes = [
-  { x: 80, name: '返回信息', state: () => '有接收记录' },
-  { x: 320, name: '后续决定', state: () => (selected.value > 0 ? '实际发生改变' : '尚未见改变') },
-  { x: 560, name: '后续任务', state: () => (selected.value > 1 ? '更新被保留与调用' : '尚未见调用') }
-]
+const nodes = computed(() => [
+  { x: 80, name: t('返回信息', 'Returned information'), state: () => t('有接收记录', 'Receipt recorded') },
+  { x: 320, name: t('后续决定', 'Later decision'), state: () => (selected.value > 0 ? t('实际发生改变', 'Changed') : t('尚未见改变', 'No change observed')) },
+  { x: 560, name: t('后续任务', 'Later task'), state: () => (selected.value > 1 ? t('更新被保留与调用', 'Update retained and used') : t('尚未见调用', 'No use observed')) }
+])
 </script>
 
 <template>
-  <section class="xk-model xk-fb" aria-label="反馈与学习关系示意">
+  <section class="xk-model xk-fb" :aria-label="t('反馈与学习关系示意', 'Feedback and learning diagram')">
     <div class="xk-model__head">
-      <span class="xk-tag xk-tag--assumed">关系示意</span>
-      <div class="xk-seg xk-fb__tabs" role="tablist" aria-label="查看不同情形" @keydown="move">
+      <span class="xk-tag xk-tag--assumed">{{ t('关系示意', 'Relationship diagram') }}</span>
+      <div class="xk-seg xk-fb__tabs" role="tablist" :aria-label="t('查看不同情形', 'Explore different situations')" @keydown="move">
         <button
           v-for="(stage, i) in stages"
           :id="`${id}-tab-${i}`"
@@ -89,7 +92,7 @@ const nodes = [
       </Transition>
     </div>
     <div class="xk-model__foot">
-      <p>原文关系示意：<a :href="withBase('/theory/part-03.html#section-3-3')">§3.3</a>、<a :href="withBase('/theory/part-06.html#section-6-3')">§6.3—6.4</a></p>
+      <p>{{ t('原文关系示意：', 'Relations in the source: ') }}<a :href="withBase(localePath('/theory/part-03.html#section-3-3'))">§3.3</a>{{ t('、', ', ') }}<a :href="withBase(localePath('/theory/part-06.html#section-6-3'))">§6.3—6.4</a></p>
     </div>
   </section>
 </template>

@@ -96,3 +96,9 @@ concepts: [effective-feedback, carried-learning]
 [3] 执法与合规保障办公室对报告22-P-0046的答复，2022年7月18日。[PDF](https://www.epa.gov/system/files/documents/2023-03/Response%20to%20Final%20Flint%20Follow%20Up%20Report%20OA-FY21-0123_7-18-22.final_.pdf)
 
 [4] 监察长对上述答复的意见，2022年7月27日。[PDF](https://www.epa.gov/system/files/documents/2022-07/_epaoig_22-P-0046_IG_Comment_on_Response.pdf)
+
+## 与 v2 原文接续
+
+[§2.14](../theory/part-02#section-2-14)允许用有据的遗漏重开问题，同时保留旧结果；[§14.4.1](../theory/part-14#section-14-4-1)要求说明受影响位置的识别界线。收到投诉、规则更新与持续生活结果仍按本案原材料分别判断。
+
+本次更新调整理论阅读连接，案例的来源身份、证据截止与原有事实范围保持不变，未据换版声称已完成新的外部调查。

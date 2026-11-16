@@ -55,3 +55,9 @@ concepts: [carried-learning]
 
 1. Katherine Woollett、Eleanor A. Maguire（2011），Acquiring “the Knowledge” of London’s Layout Drives Structural Brain Changes，*Current Biology* 21（24），2109—2114，DOI [10.1016/j.cub.2011.11.018](https://doi.org/10.1016/j.cub.2011.11.018)。开放获取全文见[PMC3268356](https://pmc.ncbi.nlm.nih.gov/articles/PMC3268356/)，带期刊页码的版本见[作者实验室托管的PDF](https://www.fil.ion.ucl.ac.uk/Maguire/WoollettMaguireCBDec2011.pdf)。
 2. 同一论文的补充材料Document S1（表S1与补充实验方法，共5页），[出版社附件](https://ars.els-cdn.com/content/image/1-s2.0-S096098221101267X-mmc1.pdf)。
+
+## 与 v2 原文接续
+
+[§6.10.1](../theory/part-06#section-6-10-1)提示技能形成、维持及迁移到新任务需分别判断；[§7.6.1](../theory/part-07#section-7-6-1)的配置—能力机制还需至少两轮配置及区分性材料。本案例现有资格、表现与影像材料不自动完成后一机制检验。
+
+本次更新调整理论阅读连接，案例的来源身份、证据截止与原有事实范围保持不变，未据换版声称已完成新的外部调查。

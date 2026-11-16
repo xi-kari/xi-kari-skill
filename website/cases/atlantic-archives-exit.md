@@ -51,3 +51,9 @@ concepts: [orderly-exit, carrier-and-responsibility]
 - The Atlantic Philanthropies：[网站首页](https://www.atlanticphilanthropies.org/)。
 
 以上网页均于2026年11月12日读取。
+
+## 与 v2 原文接续
+
+[§6.10.1](../theory/part-06#section-6-10-1)区分形成与后续维持；已有档案承接安排不代答日后持续可达，更不代答全部退场条件。X0的独立完成要求继续以原文§8.5及本页实际材料为准。
+
+本次更新调整理论阅读连接，案例的来源身份、证据截止与原有事实范围保持不变，未据换版声称已完成新的外部调查。

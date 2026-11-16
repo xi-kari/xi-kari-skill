@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { useLocale } from '../composables/locale'
+const { t, isEnglish, localePath } = useLocale()
 import { nextTick, onMounted, onUnmounted, ref } from 'vue'
 import { onContentUpdated } from 'vitepress'
 import { canTransition } from '../composables/transitions'
@@ -69,7 +71,7 @@ function enhance() {
   document.querySelectorAll<HTMLImageElement>('.xk-prose .concept-figure img').forEach((img) => {
     img.tabIndex = 0
     img.setAttribute('role', 'button')
-    img.setAttribute('aria-label', `放大图示：${img.alt || '图示'}`)
+    img.setAttribute('aria-label', t(`放大图示：${img.alt || '图示'}`, `Enlarge figure: ${img.alt || 'figure'}`))
   })
 }
 
@@ -89,14 +91,14 @@ onUnmounted(() => {
   <dialog
     ref="dialog"
     class="xk-lightbox"
-    aria-label="放大的图示"
+    :aria-label="t('放大的图示', 'Enlarged figure')"
     @cancel.prevent="hide"
     @click.self="hide"
   >
     <div class="xk-lightbox__bar">
-      <button type="button" class="xk-lightbox__size" :aria-pressed="originalSize" @click="originalSize = !originalSize">{{ originalSize ? '适应窗口' : '原始尺寸' }}</button>
-      <a v-if="src" class="xk-lightbox__original" :href="src" target="_blank" rel="noreferrer">打开原图</a>
-      <button type="button" class="xk-lightbox__close" aria-label="关闭放大的图示" @click="hide">
+      <button type="button" class="xk-lightbox__size" :aria-pressed="originalSize" @click="originalSize = !originalSize">{{ originalSize ? t('适应窗口', 'Fit to window') : t('原始尺寸', 'Original size') }}</button>
+      <a v-if="src" class="xk-lightbox__original" :href="src" target="_blank" rel="noreferrer">{{ t('打开原图', 'Open original image') }}</a>
+      <button type="button" class="xk-lightbox__close" :aria-label="t('关闭放大的图示', 'Close enlarged figure')" @click="hide">
         <svg class="xk-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" /></svg>
       </button>
     </div>

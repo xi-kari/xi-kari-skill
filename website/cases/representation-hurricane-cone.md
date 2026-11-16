@@ -74,3 +74,9 @@ NHC没有让预报锥去回答潮水问题，而是另发风暴潮监视、警�
 2. 美国国家飓风中心. [Definition of the NHC Track Forecast Cone](https://web.archive.org/web/20220926140803/https://www.nhc.noaa.gov/aboutcone.shtml). 2022年版，互联网档案馆2022年9月26日存档。其中的定义和大西洋半径也见于John P. Cangialosi, [*National Hurricane Center Forecast Verification Report: 2021 Hurricane Season*](https://www.nhc.noaa.gov/verification/pdfs/Verification_2021.pdf), 2022年4月25日，第13页和表14（第46页）。
 3. 美国国家飓风中心. [Hurricane Ian Discussion Number 18](https://www.nhc.noaa.gov/archive/2022/al09/al092022.discus.018.shtml)，2022年9月27日11时（美国东部夏令时）；[Hurricane Ian Discussion Number 20](https://www.nhc.noaa.gov/archive/2022/al09/al092022.discus.020.shtml)，同日23时。
 4. 美国国家飓风中心. [Definition of the NHC Track Forecast Cone](https://www.nhc.noaa.gov/aboutcone.shtml). 当前页面，2026年11月12日查阅，所列为2026年的半径。
+
+## 与 v2 原文接续
+
+[§2.14](../theory/part-02#section-2-14)区分保留原预测目标与另立新问题。中心路径的结果应按原目标评价；扩展到潮水或其他损害时另核表示与材料，不能用新问题的不足抹去原目标内已有结果。
+
+本次更新调整理论阅读连接，案例的来源身份、证据截止与原有事实范围保持不变，未据换版声称已完成新的外部调查。

@@ -7,7 +7,8 @@
  *
  * hero        hero-*.png: the project page's briefing strip and plan view, served at --project
  * hero-en     hero-en-*.png: the same view with its words set in English, for README.en.md
- * handbook    handbook-*.png: the station band of the handbook's home page, served at --handbook
+ * handbook    handbook-*.png: the Chinese station band, served at --handbook
+ * handbook-en handbook-en-*.png: the English station band, served at --handbook/en/
  * routes      routes-*.png and routes-en-*.png: routes.html in this folder, in Chinese and English
  * outputs     outputs-*.png here and in docs/assets: the three generated pages, built by the
  *             packaged tools into a temporary folder and framed by outputs.html
@@ -28,7 +29,7 @@ const crypto = require('crypto');
 const { execFileSync } = require('child_process');
 const { pathToFileURL } = require('url');
 
-const NAMES = ['hero', 'hero-en', 'handbook', 'routes', 'outputs', 'card'];
+const NAMES = ['hero', 'hero-en', 'handbook', 'handbook-en', 'routes', 'outputs', 'card'];
 const args = process.argv.slice(2);
 const usage = `usage: node capture.cjs <path to playwright-core> [--project <url>] [--handbook <url>] [--only ${NAMES.join('|')}]`;
 function fail(message) {
@@ -330,14 +331,16 @@ function buildPages() {
           `Browser capture of the project page's briefing strip and plan view in the ${theme} theme with route R2 selected; ${HIDDEN}. Its words are set in English for README.en.md; the page itself is in Chinese. Taken by .github/readme/src/capture.cjs.`);
       }
 
-      if (wanted('handbook')) {
-        await tab.goto(handbook, { waitUntil: 'load' });
+      for (const [figure, suffix, language] of [['handbook', '', 'Chinese'], ['handbook-en', '-en', 'English']]) {
+        if (!wanted(figure)) continue;
+        const target = suffix ? new URL('en/', handbook.endsWith('/') ? handbook : handbook + '/').href : handbook;
+        await tab.goto(target, { waitUntil: 'load' });
         // the picture links to the handbook as a whole, so the station's own signs are left out
         await tab.addStyleTag({ content: '.xk-station__actions { display: none !important; }' });
         await tab.waitForSelector('.xk-station__rose svg');
         await settle(tab);
-        keep(path.join(README, `handbook-${name}.png`), await tab.locator('.xk-station').screenshot(),
-          `Browser capture of the station band on the handbook's home page in the ${theme} theme; its two signs are hidden. Taken by .github/readme/src/capture.cjs.`);
+        keep(path.join(README, `handbook${suffix}-${name}.png`), await tab.locator('.xk-station').screenshot(),
+          `Browser capture of the ${language} station band on the handbook's home page in the ${theme} theme; its action signs are hidden. Taken by .github/readme/src/capture.cjs.`);
       }
 
       if (wanted('routes')) {

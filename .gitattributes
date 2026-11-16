@@ -3,3 +3,5 @@
 website/public/reading-assets/** -text
 docs/handbook/reading-assets/** -text
 source/en/upstream/** -text
+website/public/downloads/xikari-conditions-en.original.md -text
+docs/handbook/downloads/xikari-conditions-en.original.md -text

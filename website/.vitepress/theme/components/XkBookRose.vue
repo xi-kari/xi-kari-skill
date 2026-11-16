@@ -2,6 +2,9 @@
 import { computed, ref } from 'vue'
 import { useData, useRouter } from 'vitepress'
 import { normalize, pageHref, shortTitle, type SidebarEntry } from '../composables/nav'
+import { useLocale } from '../composables/locale'
+
+const { t, localePath } = useLocale()
 
 /**
  * The book as a compass rose: sixteen parts on the main ring, the four
@@ -28,7 +31,7 @@ const wedge = (inner: number, outer: number, from: number, to: number) =>
   `M${text(inner, from)} L${text(outer, from)} A${outer} ${outer} 0 0 1 ${text(outer, to)} L${text(inner, to)} A${inner} ${inner} 0 0 0 ${text(inner, from)} Z`
 
 const entries = computed(() => {
-  const groups = (theme.value.sidebar?.['/theory/'] || []) as SidebarEntry[]
+  const groups = (theme.value.sidebar?.[localePath('/theory/')] || []) as SidebarEntry[]
   const map = new Map<string, SidebarEntry>()
   for (const entry of groups.flatMap((group) => group.items || [])) if (entry.link) map.set(normalize(entry.link), entry)
   return map
@@ -37,21 +40,21 @@ const entries = computed(() => {
 const sectors = computed<Sector[]>(() => {
   const list: Sector[] = []
   const add = (route: string, sector: Omit<Sector, 'title' | 'href'>) => {
-    const entry = entries.value.get(route)
+    const entry = entries.value.get(localePath(route))
     if (entry) list.push({ ...sector, title: shortTitle(entry.text), href: pageHref(entry.link!) })
   }
   for (let n = 1; n <= 16; n++) {
     const from = (n - 1) * 22.5
-    add(`/theory/part-${String(n).padStart(2, '0')}`, { key: `p${n}`, mark: String(n), label: `第 ${n} 部分`, d: wedge(134, 202, from, from + 22.5), at: point(168, from + 11.25) })
+    add(`/theory/part-${String(n).padStart(2, '0')}`, { key: `p${n}`, mark: String(n), label: t(`第 ${n} 部分`, `Part ${n}`), d: wedge(134, 202, from, from + 22.5), at: point(168, from + 11.25) })
   }
   'abcd'.split('').forEach((letter, index) => {
-    const route = entries.value.has(`/theory/appendix-${letter}/`) ? `/theory/appendix-${letter}/` : `/theory/appendix-${letter}`
-    add(route, { key: `a${letter}`, mark: letter.toUpperCase(), label: `附录 ${letter.toUpperCase()}`, d: wedge(88, 134, index * 90, (index + 1) * 90), at: point(111, index * 90 + 45) })
+    const route = entries.value.has(localePath(`/theory/appendix-${letter}/`)) ? `/theory/appendix-${letter}/` : `/theory/appendix-${letter}`
+    add(route, { key: `a${letter}`, mark: letter.toUpperCase(), label: t(`附录 ${letter.toUpperCase()}`, `Appendix ${letter.toUpperCase()}`), d: wedge(88, 134, index * 90, (index + 1) * 90), at: point(111, index * 90 + 45) })
   })
   for (let n = 1; n <= 32; n++) {
     const no = String(n).padStart(2, '0')
     const from = (n - 1) * 11.25
-    add(`/theory/appendix-d/d-${no}`, { key: `d${no}`, mark: '', label: `领域 D.${no}`, d: wedge(202, 226, from + .7, from + 10.55) })
+    add(`/theory/appendix-d/d-${no}`, { key: `d${no}`, mark: '', label: t(`领域 D.${no}`, `Domain D.${no}`), d: wedge(202, 226, from + .7, from + 10.55) })
   }
   return list
 })
@@ -105,7 +108,7 @@ function open(sector: Sector, event: Event) {
     </svg>
     <p class="xk-rose__readout" :class="{ 'is-on': active }">
       <template v-if="active"><b>{{ active.label }}</b><span>{{ active.title }}</span></template>
-      <template v-else><b>原文 XK</b><span>16 部分 · 附录 A–D · 32 领域</span></template>
+      <template v-else><b>{{ t('原文 XK', 'Source XK') }}</b><span>{{ t('16 部分 · 附录 A–D · 32 领域', '16 parts · Appendices A–D · 32 domains') }}</span></template>
     </p>
   </div>
 </template>

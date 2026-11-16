@@ -1,3 +1,6 @@
+import { computed } from 'vue'
+import { useLocale } from './locale'
+
 export interface TopLink { text: string; link: string; match: (route: string) => boolean }
 
 /** The Skill's project page, one level above the handbook. Opened as a normal page load. */
@@ -11,3 +14,14 @@ export const topLinks: TopLink[] = [
   { text: '案例', link: '/cases/', match: (r) => r.startsWith('/cases/') },
   { text: '指南', link: '/guide/', match: (r) => r.startsWith('/guide/') || r === '/downloads' }
 ]
+
+export function useTopLinks() {
+  const { isEnglish, localePath } = useLocale()
+  const english = ['Text', 'Terms', 'Guides', 'Cases', 'Help']
+  return computed(() => topLinks.map((item, index) => ({
+    ...item,
+    text: isEnglish.value ? english[index] : item.text,
+    link: localePath(item.link),
+    match: (route: string) => item.match(route.replace(/^\/en(?=\/|$)/, '') || '/')
+  })))
+}

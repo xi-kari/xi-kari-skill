@@ -2,6 +2,7 @@
 
 import hashlib
 import html
+from html.parser import HTMLParser
 import importlib.util
 import json
 from collections import Counter
@@ -27,13 +28,14 @@ LESSON_BOUNDARY = re.compile(r'\n</div>\n\n<SectionLesson section="[^"]+" />\n\n
 def restore_original(generated, page):
     body = generated.split('<div v-pre class="theory-source">\n\n', 1)[1].rsplit("\n\n</div>", 1)[0]
     body = LESSON_BOUNDARY.sub("", body)
+    body = re.sub(r"\n\n<!-- source-note-copies:start -->.*?<!-- source-note-copies:end -->", "", body, flags=re.S)
     recovered = []
     for line in body.rstrip().splitlines():
         match = re.match(r"^(#+) (.*?) \{#[^}]+\}$", line)
         if match:
             line = "#" * (len(match.group(1)) + page.level - 1) + " " + match.group(2)
         line = html.unescape(line)
-        line = re.sub(r"\]\(/theory/[^)]*#(part_\d+)\)", r"](#\1)", line)
+        line = re.sub(r"\]\(/(?:en/)?theory/[^)]*#(part_\d+)\)", r"](#\1)", line)
         recovered.append(line)
     return recovered
 
@@ -52,6 +54,11 @@ class HandbookSourceTests(unittest.TestCase):
         word = (WEBSITE / "public/downloads" / f"{builder.TITLE}.docx").read_bytes()
         self.assertEqual(hashlib.sha256(word).hexdigest(), builder.DOCX_SHA256)
         self.assertEqual(self.manifest["source_sha256"], builder.SOURCE_SHA256)
+        self.assertEqual(self.raw, (ROOT / "source" / self.source.name).read_bytes())
+        self.assertEqual(self.manifest["theory_version"], "v2")
+        self.assertEqual(self.manifest["legacy_docx"]["theory_version"], "v1")
+        self.assertEqual(self.manifest["legacy_docx"]["sha256"], builder.DOCX_SHA256)
+        self.assertNotIn("docx_sha256", self.manifest)
 
     def test_default_build_uses_the_handbooks_selected_edition(self):
         with tempfile.TemporaryDirectory(prefix="xikari-handbook-default-") as directory:
@@ -199,10 +206,10 @@ class HandbookSourceTests(unittest.TestCase):
         self.assertEqual(stored["source_sha256"], hashlib.sha256(self.raw).hexdigest())
         self.assertEqual(stored["source_lines"], len(self.lines))
         self.assertEqual(stored["units"], units)
-        self.assertEqual(len(units), 415)
-        self.assertEqual(sum(unit["section_id"] is not None for unit in units), 391)
-        self.assertEqual(sum(unit["heading_level"] == 3 for unit in units), 142)
-        self.assertEqual(len({unit["lesson_key"] for unit in units}), 415)
+        self.assertEqual(len(units), 421)
+        self.assertEqual(sum(unit["section_id"] is not None for unit in units), 397)
+        self.assertEqual(sum(unit["heading_level"] == 3 for unit in units), 147)
+        self.assertEqual(len({unit["lesson_key"] for unit in units}), 421)
         covered = Counter()
         for unit in units:
             start, end = unit["source_start_line"], unit["source_end_line"]
@@ -316,12 +323,154 @@ class HandbookSourceTests(unittest.TestCase):
                 builder.build(root, self.source, WEBSITE / "public/downloads" / f"{builder.TITLE}.docx")
             self.assertFalse((root / "theory").exists())
 
-    def test_missing_word_edition_requires_an_explicit_path(self):
+    def test_default_build_keeps_a_labelled_legacy_word_download(self):
         with tempfile.TemporaryDirectory(prefix="xikari-handbook-docx-") as directory:
             destination = Path(directory) / "site"
-            with self.assertRaisesRegex(FileNotFoundError, r"--docx <path>"):
-                builder.build(destination, self.source)
-            self.assertFalse(destination.exists())
+            manifest = builder.build(destination, self.source)
+            self.assertEqual(manifest["legacy_docx"]["theory_version"], "v1")
+            legacy = destination / "public" / manifest["legacy_docx"]["path"].lstrip("/")
+            self.assertEqual(hashlib.sha256(legacy.read_bytes()).hexdigest(), builder.DOCX_SHA256)
+
+    def test_explicit_missing_word_download_fails_before_creating_pages(self):
+        with tempfile.TemporaryDirectory(prefix="xikari-handbook-docx-") as directory:
+            root = Path(directory)
+            with self.assertRaisesRegex(FileNotFoundError, "Word edition not found"):
+                builder.build(root / "site", docx=root / "missing.docx")
+            self.assertFalse((root / "site").exists())
+
+
+class BilingualHandbookTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.raw = (ROOT / "source/en" / builder.EN_FILE).read_bytes()
+        cls.lines, cls.pages = builder.split_source(cls.raw.decode("utf-8"), "en")
+        cls.manifest = json.loads((WEBSITE / "public/en/source-map.json").read_text(encoding="utf-8"))
+
+    def test_english_source_and_author_original_downloads_retain_bytes(self):
+        downloads = WEBSITE / "public/downloads"
+        self.assertEqual((downloads / builder.EN_FILE).read_bytes(), self.raw)
+        self.assertEqual((downloads / "xikari-conditions-en.original.md").read_bytes(),
+                         (ROOT / "source/en/upstream/xikari-conditions-en.md").read_bytes())
+        self.assertEqual(self.manifest["source_sha256"], hashlib.sha256(self.raw).hexdigest())
+        self.assertEqual(self.manifest["canonical_chinese_sha256"], builder.SOURCE_SHA256)
+
+    def test_all_numbered_sections_keep_the_same_route_and_anchor_across_languages(self):
+        chinese = json.loads((WEBSITE / "public/source-map.json").read_text(encoding="utf-8"))
+        numbered = {key: route for key, route in chinese["sections"].items() if builder.SECTION.match(key)}
+        english = {key: route for key, route in self.manifest["sections"].items() if builder.SECTION.match(key)}
+        self.assertEqual(len(numbered), 397)
+        self.assertEqual(english, {key: "/en" + route for key, route in numbered.items()})
+        self.assertEqual(len(self.pages), 65)
+
+    def test_english_source_pages_preserve_the_entire_manuscript_including_license(self):
+        recovered = []
+        for page in self.pages:
+            rendered = (WEBSITE / page.path).read_text(encoding="utf-8")
+            expected = "".join(self.lines[page.start:page.end]).rstrip().splitlines()
+            self.assertEqual(restore_original(rendered, page), expected, page.path)
+            recovered.extend(self.lines[page.start:page.end])
+        self.assertEqual("".join(recovered).encode("utf-8"), self.raw)
+        self.assertIn("copyright-license", self.manifest["sections"])
+        self.assertIn("mit-license", self.manifest["sections"])
+
+    def test_translator_notes_resolve_on_every_split_page(self):
+        originals = {match.group(1): match.group(2) for line in self.lines
+                     if (match := builder.FOOTNOTE_DEFINITION.match(line))}
+        observed = set()
+        copied = 0
+        for page in self.pages:
+            rendered = (WEBSITE / page.path).read_text(encoding="utf-8")
+            definitions = {match.group(1): html.unescape(match.group(2)) for line in rendered.splitlines()
+                           if (match := builder.FOOTNOTE_DEFINITION.match(line))}
+            references = set(builder.FOOTNOTE_REFERENCE.findall(rendered))
+            self.assertLessEqual(references, set(definitions), page.path)
+            for key, value in definitions.items():
+                self.assertEqual(value, originals[key], key)
+            observed.update(references)
+            copied += "source-note-copies:start" in rendered
+        self.assertEqual(observed, set(originals))
+        self.assertEqual(len(observed), 45)
+        self.assertGreater(copied, 0)
+
+    def test_inline_code_and_fenced_code_keep_literal_punctuation(self):
+        sample = builder.Page("en/theory/sample.md", "Sample", 0, 7, None, 1)
+        lines = ["# Sample\n", "`claim_type=O` and ``x_<ID>{t}`value``\n", "\n",
+                 "```text\n", "x_<ID>{t} & input\n", "```\n", "x_{t+1}\n"]
+        rendered = builder.render_page(sample, lines, {})
+        self.assertIn("`claim_type=O`", rendered)
+        self.assertIn("``x_<ID>{t}`value``", rendered)
+        self.assertIn("```text\nx_<ID>{t} & input\n```", rendered)
+        self.assertIn("x&#95;&#123;t+1&#125;", rendered)
+        self.assertEqual(restore_original(rendered, sample), [line.rstrip() for line in lines])
+
+    @unittest.skipUnless(shutil.which("node") and
+                         (WEBSITE / "node_modules/vitepress/dist/node/index.js").is_file(),
+                         "The website's VitePress dependencies are not installed")
+    def test_markdown_escapes_and_code_render_without_visible_entity_spelling(self):
+        # Reversing generated Markdown is insufficient: \&#95; can reverse to \_
+        # while rendering as the visible characters "&#95;". Compare the actual
+        # Markdown renderer's text output for every affected manuscript line.
+        examples = [r"x\_{t+1}=x\_t−k x\_{t−d}",
+                    r"M(F\_t(x)) and F̄\_t(M(x))",
+                    r"`claim_type=O` and ``x_<ID>{t}`value``",
+                    r"\_literal\_ &amp; input \{value\} \\< limit",
+                    "```text\nx_<ID>{t} & input\n```"]
+        examples += [line.rstrip() for line in self.lines if r"\_" in line]
+        self.assertGreater(len(examples), 10)
+        generated = []
+        for text in examples:
+            lines = ["# Sample\n", text + "\n"]
+            page = builder.Page("en/theory/sample.md", "Sample", 0, len(lines), None, 1)
+            rendered = builder.render_page(page, lines, {}) if "[^" not in text else builder.safe_html(text)
+            generated.append(rendered.split('<div v-pre class="theory-source">\n\n', 1)[-1]
+                             .removeprefix("# Sample {#part-title-None}\n").removesuffix("\n\n</div>\n"))
+        module = (WEBSITE / "node_modules/vitepress/dist/node/index.js").as_uri()
+        script = ("import { createMarkdownRenderer } from %s;\n"
+                  "import { readFileSync } from 'node:fs';\n"
+                  "const md = await createMarkdownRenderer(process.argv[1], {}, '/');\n"
+                  "const baseline = await createMarkdownRenderer(process.argv[1], { html: false }, '/');\n"
+                  # Formula braces are source text, not VitePress attributes;
+                  # the generated edition must protect them from that extension.
+                  "baseline.core.ruler.disable('curly_attributes');\n"
+                  "const values = JSON.parse(readFileSync(0, 'utf8'));\n"
+                  "console.log(JSON.stringify(values.map(([original, generated]) => "
+                  "[baseline.render(original), md.render(generated)])));\n") % json.dumps(module)
+        result = subprocess.run(["node", "--input-type=module", "-e", script, str(WEBSITE)],
+                                input=json.dumps(list(zip(examples, generated))),
+                                capture_output=True, text=True, encoding="utf-8", check=True)
+
+        class VisibleText(HTMLParser):
+            def __init__(self):
+                super().__init__(convert_charrefs=True)
+                self.parts = []
+
+            def handle_data(self, data):
+                self.parts.append(data)
+
+        def visible(markup):
+            parser = VisibleText()
+            parser.feed(markup)
+            return "".join(parser.parts).strip()
+
+        outputs = json.loads(result.stdout)
+        for original, (before, after) in zip(examples, outputs):
+            self.assertEqual(visible(after), visible(before), original)
+            self.assertNotIn("&amp;#95;", after, original)
+        self.assertEqual(visible(outputs[0][1]), "x_{t+1}=x_t−k x_{t−d}")
+
+    def test_unknown_english_footnote_fails_without_emitting_an_unresolved_reference(self):
+        page = builder.Page("en/theory/sample.md", "Sample", 0, 2, None, 1)
+        with self.assertRaisesRegex(ValueError, "Undefined translator notes"):
+            builder.render_page(page, ["# Sample\n", "Text[^missing].\n"], {})
+
+    def test_bilingual_build_is_reproducible_in_a_clean_directory(self):
+        with tempfile.TemporaryDirectory(prefix="xikari-bilingual-") as directory:
+            root = Path(directory)
+            manifests = builder.build_all(root)
+            self.assertEqual(set(manifests), {"zh", "en"})
+            self.assertEqual(manifests["en"]["pages"], self.manifest["pages"])
+            self.assertEqual(manifests["en"]["annotation_sections"], [])
+            self.assertEqual((root / "public/downloads" / builder.EN_FILE).read_bytes(), self.raw)
 
 
 if __name__ == "__main__":
