@@ -42,3 +42,9 @@ Several other symbols recur throughout the book. `S*=<B,X,R,I,T,SP,K>` gives the
 F1–F6 are identifiers for formal propositions. Used on their own, F and F* can denote a dynamic update, a functional criterion, or a repair target according to their local definitions. Use of the same letter does not establish that the object is the same. G3 tests only historical conditional increments beyond the given current representation. When mediated by a carrier, learning, accumulation, sustained effects, and intertemporal reproduction are tested under their respective mechanism contracts. They do not all require positive support from G3.
 
 </div>
+
+<SectionLesson section="app-b" />
+
+<div v-pre class="theory-source">
+
+</div>

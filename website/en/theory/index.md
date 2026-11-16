@@ -16,6 +16,13 @@ Objects, Conditions, Effects, and Bounded Action
 
 v2 · November 2026
 
+</div>
+
+<SectionLesson section="front-title" />
+
+<div v-pre class="theory-source">
+
+
 ## Scope and Reading Approach {#reading-scope}
 
 This book examines how empirical objects form structures, the relations through which they operate, and how conditions and events change their states. A structural judgment always concerns a specific object, question, time window, and set of available materials. Whether different judgments can be connected depends on conditions concerning representation, evidence, mechanisms, resources, and permissions. The book develops structural explanation, event projection, conditional foresight, and bounded choice in separate treatments. This allows bodies of domain knowledge to be checked against one another while retaining their own objects and methods. The common thread is to identify which conditions support objects and relations, which effects can be transmitted across periods, and which distinctions must be preserved in conversions of representation and action.
@@ -25,6 +32,13 @@ The universal layer addresses the empirical world in a broad sense. Human action
 Judgments about the future require the target, horizon, baseline, and failure conditions to be stated. Recommendations require normative premises and the price to be paid to be disclosed. Actual adoption and execution also require the applicable protections, review, and authorization. Definitions, formal proofs, teaching scenarios, domain experience, and effects of actual use each bear their own evidential responsibilities; one must not stand in for evidence for another.
 
 Parts 1 and 2 explain the reading approach and evidential responsibilities. Parts 3–6 develop the universal grammar, conditional propositions, empirical testing, scale transformations, and mechanisms of operation. Parts 7–11 address human experience, collective prototypes, actors, multi-circle configurations, and dynamic projection. Parts 12–16 discuss foresight, choice, tools, norms, intervention, and governance. Appendix A provides the full interfaces for human variables. Appendix B provides a terminology index. Appendix C presents the common method and self-contained formal arguments. Appendix D connects explanations and applications across 32 domains.
+
+</div>
+
+<SectionLesson section="front-scope" />
+
+<div v-pre class="theory-source">
+
 
 ## Contents by Part {#contents}
 
@@ -78,5 +92,11 @@ The book's basic commitment is to provide an analytical language that can be che
 [^tn-foresight-00]: Translator's note: Here, foresight requires registration of a target, horizon, and baseline, as well as calibration; it is more restrictive than scenario planning.
 
 [^tn-contract-00]: Translator's note: A contract (合同) is an agreement registered and frozen before results are known, closer to pre-registration than to a legal document.
+
+</div>
+
+<SectionLesson section="front-contents" />
+
+<div v-pre class="theory-source">
 
 </div>

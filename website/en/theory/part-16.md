@@ -18,6 +18,13 @@ Tool implementations should turn these boundaries into verifiable governance con
 
 This Part’s status and permission rules apply to the framework’s own text, modules, formal assertions, governance changes, and related high-impact uses. The rules do not claim to replace legal procedures in different jurisdictions or treat an external institution as nonexistent or invalid merely because it has not adopted these record formats. The legal validity, normative justification, and actual protection of an external institution, and whether the framework endorses its use, must still be judged separately.
 
+</div>
+
+<SectionLesson section="intro-16-part" />
+
+<div v-pre class="theory-source">
+
+
 ## 16.1 GOV-01 Framework Self-Diagnosis[^tn-diagnosis-17] and Separation of Objects {#section-16-1}
 
 Self-diagnosis begins by specifying what is being examined. A blanket judgment that the whole framework is “healthy” cannot serve as the starting point.
@@ -31,6 +38,13 @@ For practice, check how users actually diagnose, manage, teach, make public stat
 For the community, check who controls naming, merging, interpretation, and publication, and who bears the consequences of misuse.
 
 Each self-diagnosis must record at least the object type, version, rights holders, route for submitting counterexamples, harm observed, falsification conditions, and judgment ceiling. If dependence on jargon, cognitive lock-in, an expert monopoly, accommodation of commercial interests, or a veneer of AI compliance has already caused harm, the affected module may be restricted, suspended, or assessed for replacement.
+
+</div>
+
+<SectionLesson section="16.1" />
+
+<div v-pre class="theory-source">
+
 
 ## 16.2 GOV-02 Consensus Procedure and Authority Over Versions {#section-16-2}
 
@@ -56,6 +70,13 @@ Each objection must have a `disposition`, grounds for how it was handled, eviden
 
 `applied` indicates only that the governance change meets the framework’s conditions for internal adoption. It does not establish that the change works in reality or confer permission for external action. Upholding a correct decision for stated reasons can constitute an adequate review. If correction is needed and does not occur, a record of responding cannot count as completion. The value of participation, causal feedback, actual change to the text, eligibility for internal adoption, and real-world protection are judged separately. Emergency duties still operate under their independent authority, scope, validity period, and review conditions.
 
+</div>
+
+<SectionLesson section="16.2" />
+
+<div v-pre class="theory-source">
+
+
 ## 16.3 GOV-03 Correcting Empirical Assertions and Choosing Which Question Families to Keep {#section-16-3}
 
 Correction starts by distinguishing three objects. A proposition about a specific instance can be overturned by counterevidence suited to it. A generalization across instances or a claim about coverage can be limited by counterexamples within its scope. G1–G4 as a classification of questions have no independent empirical truth value. Whether to keep, restrict, or retire them depends on whether they omit important questions, reduce confusion, what they cost to use, and their net benefit relative to a domain method or a simpler baseline. Positive results in several instances do not establish that a question family exhausts reality or that the classification is optimal.
@@ -80,6 +101,13 @@ Repeated counterexamples, consistent misjudgment of a kind of subject, ever-expa
 
 The consequences of a counterexample should match the claim it actually bears on. First check the object, measurement, auxiliary conditions, mechanism, and scope of extrapolation. Then decide whether to make a local correction or replace the core. Do not attribute every anomaly to the core or reclassify every anomaly as falling outside it. A local revision requires independent grounds and new testable consequences. Conditions must not be added after the fact merely to explain a known failure.
 
+</div>
+
+<SectionLesson section="16.3" />
+
+<div v-pre class="theory-source">
+
+
 ## 16.4 GOV-04 Tracking Cases, Counterexamples, Assertions, and Forecasts {#section-16-4}
 
 The five kinds of authoritative record are linked. Each serves its own purpose and cannot substitute for another.
@@ -100,6 +128,13 @@ A formal judgment made in the framework’s name must have a corresponding `CLAI
 
 Governance changes have seven additional runtime registries: canonical actor, evidence, relationships of interest, authorization, external review, objections, and the structured `VERSION-LOG`. Every `evidence_ref` must resolve to an evidence record with integrity status `verified`. Reviewers, members who make the decision, and subjects of authorization must use a `canonical actor ID`. Check each one’s relationship to the proposer for funding, evaluation, identity, promotion, control, and commercial interests. Aliases can be used only for retrieval and cannot substitute for identity. The issuer of authorization must not also be its holder or the proposer.
 
+</div>
+
+<SectionLesson section="16.4" />
+
+<div v-pre class="theory-source">
+
+
 ## 16.5 GOV-05 The Pre-Concept Gate and Ceiling on Conceptual Validity {#section-16-5}
 
 The framework must not force something into the category of “structural domain” and then use its own concept to prove that classification. Before formal mapping, answer in plain language. Can the parts be observed together? Is there a minimum boundary? Do actions within it repeatedly affect one another? Is there a shared problem, direction, risk, or constraint? Who bears the costs of maintaining it? Can results or bad news change subsequent practice?
@@ -115,6 +150,13 @@ Diagnostic level. External observable material permits judgments with low to mod
 Strong-judgment level. The object, evidence, scale, responsibility, and observation checks have all passed.
 
 Action level. Requires external review, appeal, anti-retaliation, compensation, and withdrawal in addition to normative choice under Part 14, J authorization, and O procedures.
+
+</div>
+
+<SectionLesson section="16.5" />
+
+<div v-pre class="theory-source">
+
 
 ## 16.6 GOV-06 Absence Signals, Protective Opacity, and Suppressive Opacity {#section-16-6}
 
@@ -132,6 +174,13 @@ Classification must answer four questions. Who is protected? Who benefits? Who c
 
 The time limits and conditions for lifting opacity govern continued review of the grounds for confidentiality. They do not require sensitive material to be disclosed automatically on a particular date. Review may continue protection or disclose only what is sufficient for a limited judgment. Inability to confirm that opacity is justified does not establish suppression. A confidentiality label also cannot conceal falsified records, evasion of responsibility, or obstruction of credible verification.
 
+</div>
+
+<SectionLesson section="16.6" />
+
+<div v-pre class="theory-source">
+
+
 ## 16.7 GOV-07 Operating Limits of Stage 6 and Stopping Observational Recursion {#section-16-7}
 
 The qualified reference for this module is `governance.module.GOV-07 → hsp.domain.human_intentional_collective → hsp.state.S6`. It applies only to objects that independent runtime records confirm are human intentional collectives and whose status includes `hsp.state.S6`. It does not apply to individual humans, nonhuman systems, or human collectives that have yet to meet S6. Stage 6 here is no universal level of the world broadly conceived.
@@ -142,6 +191,13 @@ Observational recursion may expand only when a new response changes boundaries, 
 
 After stopping, do not keep asking “what the object really is.” State only that a particular response pattern can be confirmed under current observation conditions. Further judgment requires external review or new external evidence that distinguishes the alternatives.
 
+</div>
+
+<SectionLesson section="16.7" />
+
+<div v-pre class="theory-source">
+
+
 ## 16.8 GOV-08 Malicious Compliance and Auditing Selective Evidence {#section-16-8}
 
 Malicious compliance occurs when forms, evidence chains, reviews, and appeals are completed selectively while sources are still manipulated, weak signals filtered, inaction dressed up, or responsibility obscured. It differs from open violation. Check each of ten signals. There is only one source. Counterexamples are dismissed as noise or emotion. Open assertions become labels. Appeals never change outcomes. Supposedly independent parties are controlled by the same chain of power. AI reports lack original materials and external verification. Diagnostic language is used to justify inaction or avoid accountability. Potential fields, entropy increase, and stages are used to dress up inaction. Love, mission, the larger interest, or professional expertise are invoked to continue extracting from people with little power. People who appeal are subsequently described as irrational because they appealed.
@@ -150,6 +206,13 @@ Three or more signals block strong judgments. At five or more signals, record a 
 
 Three and five are procedural thresholds for starting protection and review. They are neither constants read from nature nor calibrated probabilities of malice. A trigger means a strong judgment should not proceed under present conditions. It does not establish that anyone deliberately deceived others. Review must state dependencies among the signals, costs of false alarms and misses, and the particular circumstances. Any change to the thresholds should disclose its grounds through the version procedure. Thresholds must not be changed on the spot after a case outcome is known.
 
+</div>
+
+<SectionLesson section="16.8" />
+
+<div v-pre class="theory-source">
+
+
 ## 16.9 GOV-09 AI Boundaries and What Process Outputs Can Establish {#section-16-9}
 
 AI can organize materials and verify their identity, propose and compare mechanisms, form grounded judgments and critiques that can be refuted, recommend options under disclosed objectives, normative premises, and constraints, and draft institutional arrangements, plans, and commentary for deliberation. Outputs should state the current choice, key grounds, costs, strongest opposing case, and conditions that would change it. They should also present in full the substantive analysis already conducted. AI must not invent sources or protection conditions. Fluent text, internal scores, and completion of a procedure cannot establish the commissioning party’s good faith, effective anti-retaliation, or actual repair. AI cannot substitute for independent review or bearing responsibility. It cannot independently make a high-risk real-world decision or substitute a claim that the procedure passed for a decision by a subject with authority. An analytical recommendation does not amount to actual adoption. High-risk decisions and real-world execution still require the applicable procedures for strong judgments, protection, normative choice, and authorization.
@@ -157,6 +220,13 @@ AI can organize materials and verify their identity, propose and compare mechani
 AI outputs should check original facts, testimony from affected positions, counterexamples, feedback from people with little power, external review, records of appeals changing outcomes, who controls the evidence, and AI’s selection and rewriting of material, according to the task and proposed conclusion. For each, state how it relates to the conclusion, whether it is available, and what limits follow from its absence. The count of missing items alone does not determine the ceiling for the whole output. Do not make a factual finding without decisive evidence for it. Retain competing explanations when causal identification lacks discriminating evidence. Without adequate protection and review, do not certify actual safety, consent, fairness, repair, or eligibility for high-impact adoption. Evaluations of arguments in texts, local factual judgments, and conditional recommendations under explicit premises that are unaffected by the gaps can stand separately. Give reasons for any finding of inapplicability. It must not substitute for an unknown or bypass a real risk. Outputs still governed by strong-judgment and real-world action provisions remain subject to their requirements.
 
 Process outputs do not establish what holds in reality. Fluent prose, automatic scoring, internal stress tests, consistency matrices, validation passes, report counts, and complete forms cannot establish repair, consent, safety, or effectiveness.
+
+</div>
+
+<SectionLesson section="16.9" />
+
+<div v-pre class="theory-source">
+
 
 ## 16.10 GOV-10 Six Components of Weak-Signal Protection {#section-16-10}
 
@@ -176,11 +246,25 @@ WS6 Evidence of write-back. After a signal is taken up, actual changes to rules,
 
 If any component is missing, the output may say only that “the risk to weak signals has been recognized.” It must not claim that “weak signals have been protected.” One weak signal does not directly establish a conclusion. It also does not automatically disappear because it is infrequent, anonymous, emotional, or incomplete in form.
 
+</div>
+
+<SectionLesson section="16.10" />
+
+<div v-pre class="theory-source">
+
+
 ## 16.11 GOV-11 An Intermediate Path Without Institutional Infrastructure {#section-16-11}
 
 Families, intimate relationships, friendships, small teams, and temporary communities often lack independent reviewers, stable appeal procedures, and complete evidence chains. They can still involve ongoing harm, control of information, relational dependence, and risks to reputation or safety. `NO-INFRASTRUCTURE-PATH` does not simulate institutions that are absent, require people affected to take risks gathering evidence, or equate “cannot be reviewed” with “no facts can be recorded.”
 
 It can output only a protective open assertion. State the current material, the continuing pattern that most warrants concern, prohibited uses, escalation signals, withdrawal signals, and a low-risk next step. The objective moves from “proving who is wrong” to reducing exposure, preserving records, restoring support, seeking an outside perspective, and observing subsequent signals. It must not be used for punishment, dossiers, eligibility decisions, public classification, or deprivation of resources.
+
+</div>
+
+<SectionLesson section="16.11" />
+
+<div v-pre class="theory-source">
+
 
 ## 16.12 GOV-12 Protection of Subjects Unable to Exit {#section-16-12}
 
@@ -189,6 +273,13 @@ Children, people with severe dependencies, people whose income sources are contr
 People should not have to remain exposed to prove their circumstances. Allow submission through a representative, delayed expression, phased disclosure, outside arrangements to take over, preservation of evidence, and refusal of direct dialogue. The objective of protection under conditions that prevent exit is to reduce harm, preserve subjecthood, and expand future choices. An ideal exit must not be forced.
 
 The tasks taken on by a trusted representative must be specified. Record the grounds and scope separately for assisting understanding and expression, submitting materials for someone, handling a matter delegated by the person, and making a decision on the person’s behalf. A representative’s statement cannot automatically be recorded as the person’s own expression or consent. Preserve means of communication the person can use, conflicts of interest, conditions for refusing or changing support, review of objections, and continuity of necessary support. If the person’s wishes remain unclear, state the support efforts made, grounds for interpretation, and uncertainty. Substitute decisions and emergency measures in records or institutions also require separate checks on their institutional basis and normative disputes. Kinship, professional qualifications, or convenience of representation do not establish full standing to represent. Recording requirements must not be used to interrupt necessary support or force disclosure. See the Committee on the Rights of Persons with Disabilities, General Comment No. 1 (2014) and its 2018 corrigendum. For representation and authorization, see M07 and D.21.
+
+</div>
+
+<SectionLesson section="16.12" />
+
+<div v-pre class="theory-source">
+
 
 ## 16.13 GOV-13 Complex Trauma and the Absence of a Healthy Baseline {#section-16-13}
 
@@ -199,6 +290,13 @@ For the latter two, `TRAUMA-NO-HEALTHY-BASELINE` asks what minimum safety means 
 Treatment, clinical care, caregiving, child protection, or legal tasks requiring particular qualifications should be handled under the corresponding professional procedures. Expertise and credentials do not confer authority over the whole of someone’s life. Goals the person values, communication they can understand, objections, and refusal must still be addressed in the relevant procedure. Emergency duties and authority over particular matters require independent grounds that apply to the case. The framework cannot infer them into existence. State scope, validity period, review, and continuity of support separately. The framework cannot use its theory to invent a healthy past. See §1.3, §2.8, and §14.2 for limits on authority, and §15.3.8 for emergency tasks.
 
 “Trauma-built” is a candidate description of the formation history of some structures. It does not designate complex post-traumatic stress disorder or another clinical diagnosis. Harm that calls for protection now can be recorded first. The formation history, particular psychological mechanisms, and professional classification each need evidence. Present harm cannot be used to infer that every relationship was formed by trauma. People do not have to establish that an ideal past once existed to receive support.
+
+</div>
+
+<SectionLesson section="16.13" />
+
+<div v-pre class="theory-source">
+
 
 ## 16.14 GOV-14 Keeping Open-Ended Undertaking, Normative Premises, and Metaphorical Drift Separate {#section-16-14}
 
@@ -214,6 +312,13 @@ Normative premises must be disclosed and referred to Part 14. The framework open
 
 The status of a concept used across domains must be marked as metaphor, analogy, candidate mechanism, corroborating empirical evidence, formal model, or verified rule. “Resembles” must not be rewritten as “follows.” Cases from physics, biology, or animal behavior do not directly establish conclusions about human organizations or institutions. Each metaphor must specify similarities, differences, risks of misuse, and evidence that would lead to stopping its use.
 
+</div>
+
+<SectionLesson section="16.14" />
+
+<div v-pre class="theory-source">
+
+
 ## 16.15 GOV-15 Knowledge Lineage and Source Transparency {#section-16-15}
 
 For each concept that can be traced, record its intellectual affinities, specific source, version, what was retained, adapted, or abandoned, cross-cultural and cross-domain risks, and what the source can and cannot support. Acknowledging intellectual affinities does not weaken the framework. It reduces mystification and dogmatism.
@@ -221,6 +326,13 @@ For each concept that can be traced, record its intellectual affinities, specifi
 Theoretical material cannot substitute for case evidence, a single case for a universal rule, an internal summary for original records, or an AI summary for a traceable source. The framework establishes interfaces for interoperability with other theories. It does not present itself as an overarching framework that absorbs them all.
 
 Connections among bodies of knowledge should preserve where disagreements arise. Some theories estimate different outcomes. Some propose competing mechanisms for the same outcome. Some adopt different value premises. Common naming must not erase these differences. When retaining a method, state what it adds to the current task that can be distinguished. If a domain method already suffices, it should be possible to use only that method.
+
+</div>
+
+<SectionLesson section="16.15" />
+
+<div v-pre class="theory-source">
+
 
 ## 16.16 GOV-16 Usage-Threshold Debt and Accessibility Audits {#section-16-16}
 
@@ -232,17 +344,38 @@ Without equivalent routes for appeal, protection, and withdrawal, the framework 
 
 Usage-threshold debt also includes the labor of maintainers and collaborators. More fields, charts, or complete reading do not automatically produce understanding and fairness. Their value must show up in clearer questions, counterexamples that are addressed, better limits on transfer, and the actual ability of people affected to correct results. People who need assistance expressing themselves should not first have to demonstrate independently the full ability to express themselves before receiving support that makes expression possible.
 
+</div>
+
+<SectionLesson section="16.16" />
+
+<div v-pre class="theory-source">
+
+
 ## 16.17 GOV-17 Tool Use, Commercialization, Weaponization, and Risks of Forking {#section-16-17}
 
 Courses, consulting, AI tools, organizational software, scorecards, review forms, and public standards that use the framework must retain evidence tracing, downgrading of judgments, protection for low-power positions, access to appeal, anti-retaliation, human review, stopping, and withdrawal. They must not present a lightweight template as a complete diagnosis, internal certification as external review, or AI output as an independent investigation. Customer satisfaction must not stand in for evidence of effectiveness. Do not force a strong diagnosis to make a delivery, let the paying party alone control evidence, feedback, and public framing, or let “framework certification” create a new monopoly on eligibility.
 
 Users with sustained disagreements over core commitments may create a fork. A fork does not amount to betrayal. Running different frameworks under the same name without acknowledging a fork creates a greater risk. Each fork must state which empirical question families it retains, which boundaries it abandons, which concepts it changes, and what new risks of misuse arise.
 
+</div>
+
+<SectionLesson section="16.17" />
+
+<div v-pre class="theory-source">
+
+
 ## 16.18 GOV-18 Retiring Open Assertions Captured by Power {#section-16-18}
 
 An open assertion is only a target for correction under uncertainty. It must be retired if it is repeatedly cited as a conclusion, enters performance evaluation, records, discipline, eligibility, resource allocation, or public memory, or is used to suppress appeal. Retirement is also required if media, organizations, or AI reduce it to a label, if it becomes a basis for prolonged exclusion or deprivation of resources under the name of “observe first,” or if the judgment is retained while its withdrawal conditions are lost.
 
 After retirement, state explicitly that action on its basis must cease. Restate the evidence limits, alternative explanations, and withdrawal conditions. Delete or flag records that have already been misused. If harm has occurred, proceed to repair, compensation, and examination of the chain of responsibility. If misuse cannot be stopped, the framework must decline to endorse the use.
+
+</div>
+
+<SectionLesson section="16.18" />
+
+<div v-pre class="theory-source">
+
 
 ## 16.19 GOV-19 Version Write-Back and the Feedback Loop {#section-16-19}
 
@@ -256,6 +389,13 @@ Register text identity, theory version, structured contract version, software ve
 
 The endpoint of governance feedback should match the problem. A typo correction concerns the authoritative text and its propagation. Correcting a numerical value in the source also requires checking the calculations that depend on it. Use beyond authority must be traced to actual execution and remedy. Upholding a correct decision for stated reasons can constitute adequate review. If an erroneous decision is overturned but the change has yet to take effect, only the changed decision is confirmed. The version log and hashes locate changes. They cannot substitute for the meaning or real effects of those changes.
 
+</div>
+
+<SectionLesson section="16.19" />
+
+<div v-pre class="theory-source">
+
+
 ## 16.20 GOV-20 External Review Packages and Gates for Public Release {#section-16-20}
 
 Internal stress testing is an internal wind tunnel for finding misuse of terms, misjudgment of paths, and inconsistencies. It must not be used to establish that the framework is reliable in reality or better than alternatives, or for marketing or certification.
@@ -266,6 +406,13 @@ Reviewers cannot establish external status by declaring it themselves. Reviewers
 
 Every strong judgment for public release must pass nine checks individually: complete traceability, source quality, handling of counterexamples, affected positions, shifts in burden, adversarial testing for misuse, public language, external review, and the strong-judgment kit. If any item fails, the judgment must not be published as a strong judgment. Passing all of them yields only `publishable`. It still confers no authorization to act.
 
+</div>
+
+<SectionLesson section="16.20" />
+
+<div v-pre class="theory-source">
+
+
 ### 16.20.1 Organizing Methods and Reviewing a Sample {#section-16-20-1}
 
 Instructions for use and reference entries organized from the original text may be reviewed by sampling within a stated scope. Before sampling, state the population, categories, selection basis, and question to be judged. Cover different mechanisms, objects, and output types. Include entries concerning high-impact use, conversion across scales, or theoretical boundaries. A small convenience sample cannot represent categories it does not cover.
@@ -273,6 +420,13 @@ Instructions for use and reference entries organized from the original text may 
 If review finds omitted concepts, widened scope of application, or confusion between the original and derived material, expand review of the relevant categories and trace the methods and conclusions that depend on the entry. Sampling results must distinguish entries actually reviewed from those not reviewed individually. Give the grounds and scope of a decision to adopt the entire batch separately. Permission to sample, passing procedural checks, or finding no errors so far in the sample does not amount to item-by-item confirmation by the author. These cannot substitute for substantive review of real-world high-impact judgments.
 
 An empirical judgment offered by the author that serves as a theoretical method should be entered in the relevant part of the original text with its applicable objects, grounds, counterexamples, and stopping conditions. Editorial suggestions that have not entered the original text remain candidates. Supplementary method entries must not create a separate theory attributed to the author. Entry into the original text changes its textual status and does not automatically turn personal experience into a universal empirical proposition or proof of effectiveness.
+
+</div>
+
+<SectionLesson section="16.20.1" />
+
+<div v-pre class="theory-source">
+
 
 ## 16.21 GOV-21 Benign Demise of the Framework and Interfaces for Replacement {#section-16-21}
 
@@ -282,11 +436,25 @@ Replacement must state how far this framework can judge, where it starts to fail
 
 The stronger the framework’s explanatory power, the more important it is to preserve withdrawal. Greater publication capability requires greater protection for counterexamples from people with little power. Greater automation requires treating AI output as auxiliary material. No structural diagnosis can erase a person’s particular circumstances or dissolve responsibility into complexity, stages, potential fields, entropy increase, or love.
 
+</div>
+
+<SectionLesson section="16.21" />
+
+<div v-pre class="theory-source">
+
+
 ## 16.22 GOV-22 Multi-Circle Complexity and Governance of Foresight {#section-16-22}
 
 Multi-circle capability creates five kinds of governance debt. Object debt arises when circles are treated as entities because they are named. Variable debt arises when candidates from residuals are automatically filled in as facts. Complexity debt arises when variables and paths grow without out-of-sample gains. Calibration debt arises when forecasts are published without registering results. Power debt arises when predictions are used for screening, monitoring, punishment, or manipulation. When any debt exceeds its threshold set in advance, the framework should reduce the model, downgrade the output, suspend high-impact use, or retire the relevant module.
 
 The forecast registry must retain successes, failures, unresolved results, invalidated targets, and results that cannot be evaluated. Do not publish only hits. External reviewers can check model versions, input cutoffs, simple baselines, metrics, and outcome write-back. A claim of foresight capability is automatically downgraded if long-term calibration deteriorates, errors concentrate in particular groups, the complex model ceases to outperform the baseline, or results continue to depend on variables added after the fact.
+
+</div>
+
+<SectionLesson section="16.22" />
+
+<div v-pre class="theory-source">
+
 
 ## 16.23 GOV-23 Governing Personality, Privacy, and Overreach by Automation {#section-16-23}
 
@@ -325,5 +493,11 @@ External procedures in each setting must determine who participates in consensus
 A missing parameter blocks only judgments and uses that depend on it. Other conclusions with independent grounds are retained within their own scope. Keep unknowns preserved for protection, lack of the ability to observe, genuine inapplicability, and outstanding evidence needs separate. In actual use, also assess proportionality by comparing whether extra recording can change the judgment and reduce harm with the delays, exposure, and maintenance costs it creates.
 
 [^tn-diagnosis-17]: Translator's note: Diagnosis here is an assessment of a specified object against stated criteria within this framework.
+
+</div>
+
+<SectionLesson section="16.25" />
+
+<div v-pre class="theory-source">
 
 </div>

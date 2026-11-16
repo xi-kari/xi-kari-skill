@@ -10,9 +10,23 @@ title: "Part 6 Operation and Evolution"
 
 This Part develops explanations of processes from object contracts[^tn-contract-07]. Operation, feedback, learning, maintenance, load, phase, and systemic selection cannot be used interchangeably in an account. They are treated through conditional mechanisms with distinct inferential premises and enabling conditions. The mechanisms also differ in their counterfactuals and stopping points. Naming a mechanism does not supply sufficient conditions. Only when the checks on dependencies, conditions, minimum evidence, and competing explanations all pass may a mechanism instance be registered within the specified SP/T/K.
 
+</div>
+
+<SectionLesson section="intro-06-part" />
+
+<div v-pre class="theory-source">
+
+
 ## 6.1 Operation Registration {#section-6-1}
 
 An operation record must include at least inputs, a specified carrier or channel, state transitions, outputs, environmental conditions, a time window, and possible traces. If the output returns, also register the return channel, the receiving position, and the fields that change. For a claim about intertemporal effects, first distinguish historical formation, transmission by current carriers, and additional historical increments under §4.5. Check the materials on timing and mechanism for each. Only a claim about an additional historical increment requires a comparison between a history-aware model and a model in which the current state is sufficient. If the operation crosses scales, also complete the D3/E5 mapping. This registration makes it possible to test each delay, loss, alternative channel, and gap in evidence, as well as the limits of extrapolation, without forcing a complex process into a linear chain.
+
+</div>
+
+<SectionLesson section="6.1" />
+
+<div v-pre class="theory-source">
+
 
 ## 6.2 CM-FEEDBACK Effective Feedback {#section-6-2}
 
@@ -23,6 +37,13 @@ The enabling conditions are as follows. A prior state or output enters a later p
 Prior state or output → return signal → transmission through the specified channel → signal uptake at the receiving position → change in a subsequent state, probability, or constraint → review against a blocking counterfactual
 
 Minimum evidence includes a G2-instance that passed its pre-registration check, the return channel and receiving position, temporal order, the changed fields, the subsequent difference, and a comparison with no return or a blocked channel. Do not register effective feedback if the signal arrives but the subsequent transition is unchanged, if an independent common input explains the change, or if the difference is unchanged after the return channel is cut. Effective feedback establishes only that the return caused a subsequent change on that occasion. It does not amount to learning, repair, or a positive outcome. It requires no durable historical trace.
+
+</div>
+
+<SectionLesson section="6.2" />
+
+<div v-pre class="theory-source">
+
 
 ### 6.2.1 Feedback Delay and the Stability Interval {#section-6-2-1}
 
@@ -78,6 +99,13 @@ When the write-back produces an update to a rule or state that can be retained, 
 
 Thus, neither feedback nor write-back amounts to learning. The evidence requirements increase from one of the three to the next. Having an appeal entry point or making a public response cannot satisfy them all at once.
 
+</div>
+
+<SectionLesson section="6.4" />
+
+<div v-pre class="theory-source">
+
+
 ## 6.5 CM-MAINTENANCE Maintenance and Preservation–Dissipation {#section-6-5}
 
 Basic inferential dependencies: D0 and G2. E4, CAUSAL, and EVIDENCE are method checks. D1 specifies the state terms used here. Maintenance requires advance declaration of the current K or a functional criterion F, together with a maintenance window. A G2-instance must identify replenishment, replacement, correction, or removal as the specified channel that changes how K/F continues to hold. The comparison must also cover maintenance, reduced maintenance, mismatched maintenance, and cessation of maintenance.
@@ -93,6 +121,13 @@ A need for maintenance does not imply that an object should persist indefinitely
 Maintenance analysis must also distinguish tasks during normal operation, migration, failure, and recovery. Interface standards specify conditions under which interoperability is possible. Actual compatibility still depends on implementation versions, business semantics, environment and load, testing, and on-site adaptation. The existence of parts does not imply that their specifications fit, their quality can be verified, personnel can reach the site, or personnel are authorized to shut the system down. Additional maintenance work can take place outside the original object and be supplied by users, households, contractors, or other institutions. Central work orders and operational outputs alone cannot account for the total amount of maintenance.
 
 Test redundancy against failure conditions. A count of backups alone is insufficient. Two paths may share a power source, software state, transport channel, supplier, operator, or approval node. They can substitute for each other in normal operation and still fail together during a fault. Spare capacity, exposure to common causes, the time needed to switch, on-site skills, and the actual authority to switch should be verified separately. The communications, roads, fuel, spare parts, and personnel on which recovery depends should be included in the same window. Adding backups, reducing coupling, and retaining independent local operation are only candidates. Their net effects depend on the specific failure and the cost of maintenance.
+
+</div>
+
+<SectionLesson section="6.5" />
+
+<div v-pre class="theory-source">
+
 
 ## 6.6 CM-LOAD Load, Capacity, and Recovery {#section-6-6}
 
@@ -131,6 +166,13 @@ The mechanism judgments have the following branches.
 
 The phase conclusion should be withdrawn if a continuous trend fully explains the change within the same state distribution, if the threshold shifts arbitrarily with the binning, or if K had already ceased to hold before the transition. Record the result as continuous change, an effect of how the measurements were partitioned, or object conversion/dissolution, respectively. A reversible phase need not have a historical path. Only the historical-increment hysteresis branch adds G3. Phases do not form a mandatory S0–S6 sequence of maturation. A new phase does not thereby rank higher, become better, or carry greater authorization.
 
+</div>
+
+<SectionLesson section="6.7" />
+
+<div v-pre class="theory-source">
+
+
 ## 6.8 CM-SELECTION Variation–Differential Retention–Reproduction {#section-6-8}
 
 Basic inferential dependencies: D1. E4, CAUSAL, and EVIDENCE are method checks. This mechanism has its own operationalization. It does not follow automatically from the definition of “evolution has occurred,” and a conceptual explanation or the framework’s account cannot establish it directly.
@@ -145,6 +187,13 @@ The three outputs must be kept separate.
 
 Change without D amounts to change alone. A one-off difference with no R, no entry into the next round, and no repeated rounds is a one-off outcome. Do not register a selection pattern if the random-drift model is already sufficient. If retention remains unchanged after the candidate reproduction channel is perturbed, do not register that specific mechanism. One instance of persistence does not amount to differential retention. What is retained does not thereby become better, more advanced, or more justified. Systemic selection is distinct from choice by an acting subject and from collective governance choice. A choice by an acting subject requires a subject, options, and evidence of a decision. Collective governance choice requires normative premises, J-axis authorization, and O procedures.
 
+</div>
+
+<SectionLesson section="6.8" />
+
+<div v-pre class="theory-source">
+
+
 ## 6.9 Conditions for Coevolution {#section-6-9}
 
 A candidate for coevolution may be proposed when two candidate objects change each other’s environments, feasible paths, specified channels, or retention conditions and the effects in both directions are traceable within their respective time windows. The record must separately include the two objects’ D0 contracts and K, their respective SP/T, the G2 channels in both directions, temporal order, differences in speed, and the shared environment outside the two objects. Obtain separate evidence under §4.5 for carrier effects across rounds. Add the corresponding G3-instance separately only for claims of historical conditional increments beyond the current representation.
@@ -153,11 +202,25 @@ Joint change, synchronized fluctuations, and long-term correlation cannot substi
 
 A shared final state does not establish a shared mechanism. Two processes can converge on the same fixed point while having different update rules, speeds of return, transients, and responses to intervention. A simpler representation may suffice if the only question concerns the long-run terminal value. The original conclusion does not automatically extend to questions about whether the target can be reached by a deadline or about targeted operations. Analyses of recovery, coevolution, and cross-circle continuation must retain these differences as required by the question. Convergence of the curves cannot substitute for identifying the mechanism.
 
+</div>
+
+<SectionLesson section="6.9" />
+
+<div v-pre class="theory-source">
+
+
 ## 6.10 Dissolution, Object Conversion, and the Limits of Repair {#section-6-10}
 
 The criterion for dissolution is that the original K no longer holds. If the original K fails but another object contract can hold, object conversion should be distinguished from termination. A phase change is distinguished from dissolution only if the original K continues to hold. Dissolution does not automatically count as failure, and persistence does not automatically count as success.
 
 Repair uses the target K* or F* made public before results as its criterion. It can make use of old traces, and it can change components, boundaries, relations, interfaces, carriers, and scale positions. It does not turn back time to an earlier state. A claim about a repair window requires K*/F* and a comparison of how intervening at different times affects the attainability of the target and cost. Use the carrier route to obtain evidence about current constraints formed through history. G3 is additionally required only for a claim of a historical conditional residual beyond the current representation. Even if these empirical conditions hold, whether the goal is normatively justified, who chooses it, who is responsible, and who may implement it are still subject to review under the N layer, the J axis, and O1–O4.
+
+</div>
+
+<SectionLesson section="6.10" />
+
+<div v-pre class="theory-source">
+
 
 ### 6.10.1 Formation, Maintenance, Recovery, and Replication {#section-6-10-1}
 
@@ -176,6 +239,13 @@ The four are judged separately, and none can vouch for another. All four are als
 
 For each of the six conditional mechanisms, complete the object and scale declaration, inferential dependencies, enabling conditions, mechanism chain, minimum evidence, competing explanations, counterexamples, and failure boundary in that order. If any item is missing, retain only a candidate mechanism or a question to check. Feedback alone does not establish learning. Instantaneous load does not establish accumulation, and a basic phase does not establish hysteresis. A selection pattern neither establishes a mechanism nor warrants a value judgment. Maintenance and repair do not establish a duty to persist. Conceptual explanations and teaching examples only illustrate how to use the contracts. They supply no external empirical support.
 
+</div>
+
+<SectionLesson section="6.11" />
+
+<div v-pre class="theory-source">
+
+
 ## 6.12 Operation with Multiple Asynchronous Clocks {#section-6-12}
 
 A multi-circle joint state includes at least immediate, interactive, organizational, institutional, and long-term clocks. An event can first change fast variables, then change expectations about relationships through repeated interaction, then change resources through organizational decisions, and only then potentially lead to institutional write-back. If these changes are compressed into one moment, a delay can be misread as a lack of effect, or a short-term fluctuation as long-term evolution.
@@ -193,6 +263,13 @@ Each mechanism should declare its update clock and its bridges across clocks. Th
 
 The table records how changes actually carry forward. Legal validity, normative justification, and authorization do not serve as criteria for establishing that an event occurred. Rule changes and their execution must enter the process record if there is corresponding factual evidence, even when they violate rules, exceed authorization, or are contested. Record their authorization and legal status separately. Explaining how they formed and what consequences they had does not amount to permitting their implementation. Conversely, authorization, issuance of a rule, or an institution’s announcement of completion cannot substitute for evidence of actual execution.
 
+</div>
+
+<SectionLesson section="6.12" />
+
+<div v-pre class="theory-source">
+
+
 ## 6.13 Cross-Circle Cascades and Coevolution {#section-6-13}
 
 A cascade occurs when a local change in one circle[^tn-circle-07] triggers changes in other circles through overlapping membership, bridging interfaces, shared resources, network propagation, or top-down institutional transmission. The object, channel, scale, and evidence must be checked again at each step. The first step holding does not warrant assuming that all later steps hold. Capacity limits, filtering, delays, offsetting effects, and local exclusion zones can cut a cascade short.
@@ -204,6 +281,13 @@ Also distinguish one failure triggering the next, multiple failures jointly obst
 Coevolution requires at least two objects to change one another’s selection environments, transition probabilities, or constraints over a period of time while retaining their independent K. If one object is simply absorbed by another, record it as nesting or object conversion. Synchronized changes due solely to a common external environment do not qualify as coevolution. If a return signal changes no subsequent state, classify the observed relationship only as coupling or shared exposure.
 
 Multi-circle cascades and coevolution carry no inherent direction of value. Tighter coupling can improve coordination or increase vulnerability and diffuse responsibility. Decoupling can reduce efficiency or protect local autonomy and the ability to limit losses. Evaluation and action still belong to the normative layer.
+
+</div>
+
+<SectionLesson section="6.13" />
+
+<div v-pre class="theory-source">
+
 
 ## 6.14 The Search Order for Mechanisms and Paths {#section-6-14}
 
@@ -220,5 +304,11 @@ The search order may be adjusted in light of missed cases, misclassifications, a
 [^tn-contract-07]: Translator's note: A contract here is an analytical agreement registered and frozen before results, akin to pre-registration.
 
 [^tn-circle-07]: Translator's note: Circles may be parallel, nested, overlapping, or bridged.
+
+</div>
+
+<SectionLesson section="6.14" />
+
+<div v-pre class="theory-source">
 
 </div>

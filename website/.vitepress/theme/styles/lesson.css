@@ -167,6 +167,9 @@
 .xk-plate__no { font-family: var(--xk-font-display); font-weight: 900; color: var(--xk-ink); margin-right: .7em; }
 .xk-plate__zoom { display: block; width: 100%; padding: 0; }
 .xk-plate__zoom:hover img { opacity: .92; }
+.xk-figure-description { margin-top: 14px; border-top: 1px solid var(--xk-rule); padding-top: 12px; }
+.xk-figure-description summary { cursor: pointer; font-weight: 700; font-size: 13px; }
+.xk-figure-description p { margin: 10px 0 0; font-size: 14px; line-height: 1.7; }
 
 /* teaching scenario (assumed) and real case (sourced) */
 .xk-tag {

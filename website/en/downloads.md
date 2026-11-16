@@ -51,4 +51,4 @@ f59bcdb483027736ef973b43ffc0c0ce37d9cb5e67ab3f05c6c67d22a62e65a1
 
 ## Explanatory coverage
 
-The source text is complete in English. The English site includes fourteen concept pages, eight case pages, and [24 selected section guides](/en/guide/selected-guides). The longer Chinese research lectures have not all been translated. The democratic-authorization page explicitly identifies its separately preserved older Chinese research report and evidence cutoff.
+The source text and [all 421 on-page reading lessons](/en/guide/selected-guides) are available in English, including the lessons’ examples, questions and answers, source notes, and figure descriptions. The English site also includes fourteen concept pages and eight case pages. Downloadable historical research manuscripts, source registers, excerpts, and original diagrams remain in Chinese and are labeled accordingly. The democratic-authorization page explicitly identifies its separately preserved older Chinese research report and evidence cutoff.

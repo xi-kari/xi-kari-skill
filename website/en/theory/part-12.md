@@ -10,6 +10,13 @@ title: "Part 12 Conditional Foresight and Bounded Choice"
 
 Projection unfolds conditions and paths. Conditional foresight goes further by making judgments about the future that can fail. Bounded choice compares what can be done, how to do it, when to stop, and when to refrain within the bounds of values, protection, and authorization. This Part places foresight and choice together to form a closed loop of work. Their separate contracts[^tn-contract-13] prevent “a consequence was predicted” from being taken to mean “there is therefore authority to make others take on an action.” Comparing and recommending options are analytical outputs and can be completed when normative premises and constraints are clear. Real-world adoption and execution must separately undergo the applicable protection, review, and authorization procedures.
 
+</div>
+
+<SectionLesson section="intro-12-part" />
+
+<div v-pre class="theory-source">
+
+
 ## 12.1 Keeping the Four Outputs Separate {#section-12-1}
 
 Explanation, projection, conditional foresight, and bounded choice must be labeled separately.
@@ -22,6 +29,13 @@ Explanation, projection, conditional foresight, and bounded choice must be label
 | Bounded choice | Compare and recommend options under explicit normative premises. Real-world adoption separately undergoes protection, review, and authorization | Analysis requires normative premises, evidence, options, costs, and the people affected. Real-world adoption also requires N, PF, J, O, and C12 | A refutable analytical recommendation or an authorized record of bounded choice, with their statuses kept separate |
 
 Explanation can generate candidates for projection, but it cannot automatically establish what will happen. Projection can generate candidate forecasts, but it cannot count every path as a success. Foresight can inform comparisons between options, but it cannot automatically generate values or authority. Even a bounded choice that passes its checks does not guarantee successful execution in reality. Stopping, rollback, and outcome write-back are still required.
+
+</div>
+
+<SectionLesson section="12.1" />
+
+<div v-pre class="theory-source">
+
 
 ## 12.2 Conditional Forecast Registration {#section-12-2}
 
@@ -39,17 +53,38 @@ The target must be decidable. For example, “the relationship will improve” m
 | Signals | What would strengthen or weaken support for a path? | Looking only for supporting evidence |
 | Write-back | What is the source of the outcome, and when is it appended? | Letting failures disappear |
 
+</div>
+
+<SectionLesson section="12.2" />
+
+<div v-pre class="theory-source">
+
+
 ### 12.2.1 Limits of Local Predictability {#section-12-2-1}
 
 Every predictability claim must specify its object, state region, scale and circles, time window, allowable error, available information, computing and observation resources, model version, baseline, abstention conditions, and failure conditions. This framework cannot directly answer whether the world as a whole is predictable. It can test only whether a particular task gains a limited increment within explicit bounds.
 
 Classifications, levels, intervals, and probabilities carry different responsibilities for measurement and expression. They do not form a ladder of precision that every task has to climb. The chosen form of expression must be supported by the target, units, generation method, identification conditions, and calibration status. If there is no basis even for a qualitative direction, retain it as unknown. Direction is not the default when probability is unavailable. For known probabilities in formal models and for empirical probabilities, state the assumptions and limits of extrapolation separately. Text patterns and AI must not be used to invent real-world parameters. When citing an existing mathematical or physical theory, also register its original object, assumptions, mathematical limits or scaling laws, error, domain of validity, object mapping, counterexamples, and exit conditions. Borrowing the form of its equations alone is insufficient.
 
+</div>
+
+<SectionLesson section="12.2.1" />
+
+<div v-pre class="theory-source">
+
+
 ### 12.2.2 Evaluation of Recursive Foresight by Order {#section-12-2-2}
 
 Freeze and evaluate the first, second, and third orders separately. They must not be combined into a single overall hit rate. Each order must be compared with state continuation without further recursion, a direct longer-horizon judgment, and a shallower order followed by simple continuation. If going to the third order adds only narrative without stable out-of-sample gains, it may be retained as an exploratory scenario. It does not qualify as evidence of foresight capability.
 
 Without new external material, the source lineage of every child run still ends at the same frozen starting point. Post-processing can add reasoning within the model and reveal sensitivity and hidden consequences. It cannot manufacture evidence about reality. When actual intermediate outcomes arrive, a new frozen run should be created and compared with the original recursive paths. The outcomes must not be fed back into the old paths.
+
+</div>
+
+<SectionLesson section="12.2.2" />
+
+<div v-pre class="theory-source">
+
 
 ## 12.3 Simple Baselines and Incremental Capability {#section-12-3}
 
@@ -58,6 +93,13 @@ A multi-circle model claimed to improve foresight must be compared with simple m
 Common baselines include continuing the current trend, carrying forward the most recent state, using historical frequencies, using only the actor state, using only the primary circle state, and using an existing model in the domain. Comparisons should use the same target, horizon, data cutoff, and evaluation metrics. If a complex model improves explanation but does not improve prediction, record the outcome as “a gain in explanation is present, and a gain in foresight is not supported.”
 
 Model complexity also has costs. More variables increase missing data, measurement error, privacy risk, overfitting, and maintenance debt. If a multi-circle model works in only a few cases, its domain of application should be restricted. If gains disappear over time, it should be downgraded or retired. If the simple baseline performs equally well, it should be preferred.
+
+</div>
+
+<SectionLesson section="12.3" />
+
+<div v-pre class="theory-source">
+
 
 ## 12.4 Probability, Levels, and Time Windows {#section-12-4}
 
@@ -77,6 +119,13 @@ Real-world probabilities, actors’ subjective beliefs, decision weights, a mode
 When probabilities cannot be determined reliably, a path may be investigated first because its consequences are severe, the response window is short, or it is easy to distinguish. Disclose the reason for the priority and the budget for investigating it, and retain the probability as unknown. Percentages must not be invented to establish an ordering. An action comparison still has to state normative objectives, distributional consequences, and feasible choices separately. An ordering by probability does not directly determine the order of recommendations.
 
 Probabilities and levels have different meanings. A model’s conditional probability under given assumptions, uncertainty in an individual judgment, empirical calibration in a long series of repeated tasks, and normative priority must not use one number as though they referred to the same thing. A posterior can be obtained from a small sample and an explicit prior, but its real-world applicability still depends on the model. A large sample cannot repair an incorrect definition of what is observed. Without evidence, even the direction can remain unknown. Reducing the claim to direction alone does not automatically make it reliable. 〔Studies 03.04, 07.07〕
+
+</div>
+
+<SectionLesson section="12.4" />
+
+<div v-pre class="theory-source">
+
 
 ## 12.5 Calibration and Evaluation {#section-12-5}
 
@@ -107,6 +156,13 @@ For example, suppose a forecast registered in advance assigns an event probabili
 
 After a change in the response regime, first check whether the original target is still the same question. If the target is retained, report the performance change as observed. If the target shifts to a different response regime or population, create a new registration and retain the old results. Reflexivity must not be used to cancel a score that can be computed. One successful response must not be used to rescue all incorrect predictions after the fact.
 
+</div>
+
+<SectionLesson section="12.5" />
+
+<div v-pre class="theory-source">
+
+
 ## 12.6 Early Signals, Contrary Signals, and Trigger Points {#section-12-6}
 
 An early signal is an observable change that the path’s mechanism should produce first. A smaller version of the outcome does not suffice. A contrary signal indicates that a key condition of the path is failing or that a competing path is gaining support. Both must be registered before results to avoid collecting only supporting material.
@@ -128,11 +184,25 @@ When the horizon ends, the result can be supported, unsupported, unresolved, tar
 
 Changing the target, horizon, or scope of circles after results, or merging several paths into “it happened to some extent,” cannot preserve the original forecast’s eligibility to count as a success. A new interpretation can be recorded in a new version. The old record remains.
 
+</div>
+
+<SectionLesson section="12.7" />
+
+<div v-pre class="theory-source">
+
+
 ## 12.8 The Bridge From Foresight to Bounded Choice {#section-12-8}
 
 Foresight outputs answer only questions about conditional consequences. An analytical recommendation requires explicit normative premises, evidence, affected positions, options, costs and benefits, and conditions for revising the judgment. A recommendation does not confer permission to execute. Before real-world adoption, the record must also include explicit normative premises, the choosing subject, jurisdiction, affected positions, rights floors, options, the distribution of costs and benefits, authorization, stopping, appeal, rollback, and remedy. N, PF, J, O, and C12 still apply. Prediction provides no shortcut.
 
 Prediction cannot automatically confer authorization. Even an extremely probable path does not show that anyone has authority to compel others to bear the cost of avoiding it. Even the highest average benefit does not show that the rights of positions in the minority may be ignored. Even if the model recommends taking no action, continuing harm and responsibility arising from inaction still require review.
+
+</div>
+
+<SectionLesson section="12.8" />
+
+<div v-pre class="theory-source">
+
 
 ## 12.9 The Option Set Must Include Action and No Action {#section-12-9}
 
@@ -148,6 +218,13 @@ When generating options, check the applicability of each of six categories: main
 | No action | Avoid overstepping authority or taking high-risk action | Bias toward the default, continuing consequences, and responsibility for inaction |
 
 Taking no action does not mean that nothing happens. Other actors, circles, resources, and clocks are still changing. The no-action option must have a baseline time, expected path, observation plan, conditions for reopening the decision, and a responsible party.
+
+</div>
+
+<SectionLesson section="12.9" />
+
+<div v-pre class="theory-source">
+
 
 ## 12.10 A Common Card for Comparing Options {#section-12-10}
 
@@ -168,17 +245,38 @@ If options cannot be compared on a single scale, retain the outcomes on multiple
 
 The value of information can be written as a limited formal object. Let a denote the action, θ the state, Z the information, and U the utility accepted in advance. Then `EVSI=E_Z[max_a E(U|Z)]−max_a E(U)`. EVSI is nonnegative when Z is free to obtain and can be ignored, and when the action set and objective remain unchanged. Actual investigation has costs in time, privacy, and resources. It may miss a window or change the available actions. Its net value should be counted separately. Two clues may change the action only if both are obtained. The value of understanding can exist independently and need not all be converted into this quantity for decision-making. 〔Studies 07.08, formal statement of conditions〕
 
+</div>
+
+<SectionLesson section="12.10" />
+
+<div v-pre class="theory-source">
+
+
 ### 12.10.1 From Identifiable Answers to Feasible Choices {#section-12-10-1}
 
 A question can have a sufficient answer while action remains infeasible. There can also be a commonly acceptable action before all states have been identified. For each state z compatible with the available material, let `A_ok(z)` denote the actions acceptable under the disclosed minimum protections, resources, and valid permissions. In a finite, single-round deterministic choice, if the intersection `∩ A_ok(z)` is nonempty, the common options can be compared without first distinguishing all states. This gives one condition under which bounded action is possible while unknowns remain. If the intersection is empty, “there is a solution for every state” is insufficient to establish that the right one can be chosen now. Check whether obtaining more evidence, waiting, narrowing the task, or taking a protective action with independent grounds could change the conditions.
 
 The intersection concerns only the credible states listed and the explicit constraints. It does not guarantee that unknown states will never arise. Risk probabilities, costs, or normative tolerance can support other choice rules, but they must be stated explicitly. The worst-case criterion must not be concealed as the only rational one. Permissible randomized or sequential strategies must also be analyzed separately for their respective objectives. The single-round condition above does not rule them out.
 
+</div>
+
+<SectionLesson section="12.10.1" />
+
+<div v-pre class="theory-source">
+
+
 ### 12.10.2 Joint Feasibility of Multiple Options {#section-12-10-2}
 
 When several actions are feasible individually, also check whether implementing them at the same time would draw on the same capacity, budget, staff, and stopping channels. If two units of service must both be completed in the current period and it has capacity for only one unit, each is feasible on its own but they are infeasible together. Added capacity next period cannot recover a deadline already missed in this period. Adding capacity in the same period or adjusting the deadline with adequate grounds and authorization can yield a new feasible option. It must not be used to rewrite the old task as completed.
 
 Joint comparison should therefore account for resource use, task dependencies, and key deadlines together so different departments do not commit the same resource twice. Parallel work shortens waiting only when conditions allow. Where investigation, authorization, implementation, and taking effect depend on one another in sequence, they must still follow that order. Treating completion of the first node as proof that the last affected person is already protected misjudges both timing and coverage.
+
+</div>
+
+<SectionLesson section="12.10.2" />
+
+<div v-pre class="theory-source">
+
 
 ## 12.11 Action Ceilings and Trials to Obtain Information {#section-12-11}
 
@@ -194,11 +292,25 @@ A trial to obtain information still carries responsibility, however small the ac
 | Strong evidence, but the action is irreversible and protection requirements are unmet | Suspend and complete the procedures and protections |
 | Urgent safety threat | Take only the minimum protective action under external emergency authorization, and review it as soon as possible |
 
+</div>
+
+<SectionLesson section="12.11" />
+
+<div v-pre class="theory-source">
+
+
 ## 12.12 Outcome Write-Back and Model Learning {#section-12-12}
 
 Writing back outcomes for foresight and choices is append-only. The record includes the time of outcome observation, source, actual outcome, match to paths, calibration metrics, comparison with the simple baseline, unexpected effects, review at affected positions, model updates, downgraded assertions, retired variables or paths, and the next review.
 
 Action outcomes must not be evaluated only against the main target. Also check side effects, cross-circle spillovers, cost distribution, appeals, people unable to exit, and long-term clocks. One success does not establish that a mechanism holds universally. One failure may be due to a deviation in execution. Use the frozen contract to distinguish evidence about the mechanism from deviations in execution. Explanations about execution must not be used arbitrarily to rescue the model.
+
+</div>
+
+<SectionLesson section="12.12" />
+
+<div v-pre class="theory-source">
+
 
 ## 12.13 A Complete Example of Foresight and Choice {#section-12-13}
 
@@ -208,17 +320,38 @@ Early signals include actual changes in working hours, handling of appeals, stat
 
 Bounded choice should compare at least maintaining the status quo, responding only through public relations, immediately adjusting resources, starting with a reversible pilot for working hours and appeals, delaying major reorganization to gather information, allowing team members to transfer, and taking no structural action for now while strengthening protection and observation. Each option requires checking permissions, people unable to exit, the distribution of costs, reputational effects across circles and effects on families, stopping, and remedy. The model can show which options are more likely to change the path under which conditions. The final choice still depends on normative premises, lawful authorization, and procedures for the people affected. Under these conditions, the model should also state its current analytical recommendation, why other options were not selected, the costs, and the conditions for revising the judgment. A recommendation does not change the status of execution permission that has yet to be obtained.
 
+</div>
+
+<SectionLesson section="12.13" />
+
+<div v-pre class="theory-source">
+
+
 ## 12.14 When to Choose Not to Act {#section-12-14}
 
 Taking no action can be prudent or evasive. Taking no action for now or limiting activity to protective observation can be warranted when the object and facts are unclear, an action is irreversible and evidence insufficient, permissions are missing, or the protection floor is unmet. It can also be warranted when the proposed action is expected to shift costs to people unable to exit, neither the simple baseline nor the complex model can distinguish the paths, or external intervention could interrupt an ongoing recovery.
 
 Taking no action requires stricter review when harm is ongoing, inaction reinforces entrenched advantages, the responsible subject has a clear statutory duty or commitment, or people in low-power positions cannot exit on their own. The same applies when delay would create irreversible lock-in or when “waiting for more evidence” is used to defer indefinitely. Even without the main action, minimum protection, disclosure, appeal channels, or temporary uptake may be needed.
 
+</div>
+
+<SectionLesson section="12.14" />
+
+<div v-pre class="theory-source">
+
+
 ## 12.15 Where This Part Stops {#section-12-15}
 
 The conditional foresight layer may publish judgments with a target, horizon, baseline, signals, calibration, and write-back. When norms, protection, and authorization are all clear, the bounded choice layer can compare action, delay, exploration, exit, and no action, and provide a conditional, withdrawable choice record. Even when execution has not been authorized, an analytical recommendation can still be completed within what the evidence and explicit normative premises allow. It must fully explain the options, opposing arguments, distributional consequences, and conditions for revising the judgment. Its status for real-world adoption must be recorded separately.
 
 These layers cannot guarantee the future, eliminate conflicts of value, replace law, professional norms, participation by people affected, or real-world authorization, or turn model accuracy into a qualification to rule. Any use that exceeds these boundaries should be blocked by the tool gate in Part 13 and governed, suspended, or retired under Part 16.
+
+</div>
+
+<SectionLesson section="12.15" />
+
+<div v-pre class="theory-source">
+
 
 ## 12.16 Format for Publication to Readers {#section-12-16}
 
@@ -239,5 +372,11 @@ Interpretation after publication is also subject to governance. If readers mista
 [^tn-contract-13]: Translator's note: A contract here is an analytical agreement registered and frozen before results, akin to pre-registration.
 
 [^tn-circle-13]: Translator's note: Circles may be parallel, nested, overlapping, or bridged.
+
+</div>
+
+<SectionLesson section="12.16" />
+
+<div v-pre class="theory-source">
 
 </div>

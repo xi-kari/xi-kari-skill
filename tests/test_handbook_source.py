@@ -27,8 +27,10 @@ LESSON_BOUNDARY = re.compile(r'\n</div>\n\n<SectionLesson section="[^"]+" />\n\n
 
 def restore_original(generated, page):
     body = generated.split('<div v-pre class="theory-source">\n\n', 1)[1].rsplit("\n\n</div>", 1)[0]
-    body = LESSON_BOUNDARY.sub("", body)
+    # A copied note can begin a source block immediately after its final lesson.
+    # Remove the copies before merging blocks so their separator stays intact.
     body = re.sub(r"\n\n<!-- source-note-copies:start -->.*?<!-- source-note-copies:end -->", "", body, flags=re.S)
+    body = LESSON_BOUNDARY.sub("", body)
     recovered = []
     for line in body.rstrip().splitlines():
         match = re.match(r"^(#+) (.*?) \{#[^}]+\}$", line)

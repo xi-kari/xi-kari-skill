@@ -10,11 +10,25 @@ title: "Part 5 Cross-Scale and Cross-Circle Transformations"
 
 When an object, observation, or action moves from SP0 to SP1, this Part asks what expands, what contracts, which positions are incomparable, what justifies a conversion bridge, and what information the conversion loses. The general process is called scale transformation. The nine axes are compared using a product partial order. The term scale elevation applies only when the relation in that order is strict.
 
+</div>
+
+<SectionLesson section="intro-05-part" />
+
+<div v-pre class="theory-source">
+
+
 ## 5.1 Contract[^tn-contract-06] Roles and Unambiguous References {#section-5-1}
 
 A scale axis is one of nine definitions of kind D with the role `scale_axis_definition`. The nine conversion operators are procedures of kind O with the role `scale_transformation_operator`. U01–U11 are definitions of kind D for universal primitives and have the role `universal_primitive_definition`. Definitions and procedures make no claim to empirical truth. Specific claims of cross-layer causation must link to a pre-registered `root-instance`. The same requirement applies to object conversion. A null conclusion must also link to such an instance.
 
 Always use qualified IDs for scale entities, from `scale_axis:A` to `scale_axis:J`, from `scale_operator:M01` to `scale_operator:M09`, and from `universal_primitive:U01` to `universal_primitive:U11`. The identifier `scale_axis:O` denotes organizational level. The expression `claim_type=O` denotes an operational procedure. The only dependencies are `inferential_requires`, `protocol_requires`, `specializes`, and `applies_to`. Protocols[^tn-protocol-06] use formal IDs such as `CAUSAL`, `EVIDENCE`, `ANALOGY`, and `SOURCE`. They must not use Chinese abbreviations or bare axis names.
+
+</div>
+
+<SectionLesson section="5.1" />
+
+<div v-pre class="theory-source">
+
 
 ## 5.2 Nine-Axis States and Axis-by-Axis Comparison {#section-5-2}
 
@@ -42,6 +56,13 @@ Comparison on each axis must satisfy reflexivity, antisymmetry, and transitivity
 
 The primary quantity compared on an axis does not suffice by itself. If the axis record includes auxiliary states such as boundary channels, time-lag models, interfaces, error models, intervention semantics, or protective omissions, `expands` also requires composable, semantics-preserving mappings for these fields. If the primary extent increases and the auxiliary semantics conflict with no mapping between them, the relation may only be recorded as `incomparable` or `unknown`. This prevents a “wider extent” from passing as a “higher state on the entire axis.”
 
+</div>
+
+<SectionLesson section="5.2" />
+
+<div v-pre class="theory-source">
+
+
 ## 5.3 Product Partial Order and Transformation Classification {#section-5-3}
 
 SP0≼SP1 if and only if all nine axes are `equal` or `expands`. The strict relation SP0≺SP1 additionally requires at least one axis to be `expands`. The machine applies the classification rules in this order:
@@ -62,6 +83,13 @@ Thus, macro-level aggregation that also compresses resolution is typically `mixe
 
 If a J state stored “one source + a set of subjects + a set of objects + a set of actions” as independent fields, it would generate object–action combinations that had never been authorized. The `authorization_tuple_contract` requires each atomic tuple to bind exactly one source, one decision-making subject, one object, and one action and to preserve the geographic area, validity period, withdrawal conditions, evidence, and independent review. Multiple objects or actions must be split into multiple tuples. Only normalized atomic tuples with a valid status enter the set comparison. The witness for J-axis expansion must list, in `comparison_payload`, the complete tuples added on the target side and absent from the source side, along with independent evidence of their validity. It must align with `j_authorization` in the record. Arbitrary strings, tuple IDs, self-assertions, actual control, observation coverage, increased influence, a higher position in the organization, and expansions on other axes cannot make J `expands`.
 
+</div>
+
+<SectionLesson section="5.3" />
+
+<div v-pre class="theory-source">
+
+
 ## 5.4 Operator Outcome Statuses and the Null-Conclusion Check {#section-5-4}
 
 The `operator_ids` of each atomic record must contain exactly one operator. Then `selected_operator_branch` selects exactly one internal branch from that operator’s branch registry. Finally, `claim_mode` declares the mode of this evaluation as `descriptive_mapping` (descriptive mapping), `root_hypothesis` (an instance of a family of empirical questions), `causal` (causal bridge), `object_conversion` (object conversion), or `intervention_conversion` (intervention conversion). The branch registry specifies which modes each branch allows. The three fields must be compatible and must be frozen before the results are read. Failure at the positive-support check must not lead to a switch of branch or a fallback to a looser descriptive mode. Material from one mode must not be used to rescue another. If an actual process contains multiple operators, it must be broken into an ordered chain of atomic records. The target object and SP1 at each step must align with the source object and SP0 at the next step. Each step must register its own outcome status, evidence, loss, and error. A single overall result cannot close the individual steps.
@@ -78,15 +106,36 @@ All operator procedures use the same four outcome statuses:
 
 “The result was not statistically significant,” “the outcome appeared unchanged after cutting the link,” “the effect disappeared,” “the simple model performed comparably,” and “the evidence for the target was insufficient” do not by themselves warrant `null_supported`. This rule applies to every operator from M01 to M09, including the ones concerned with cross-layer causation.
 
+</div>
+
+<SectionLesson section="5.4" />
+
+<div v-pre class="theory-source">
+
+
 ## 5.5 The Nine Scale Transformation Operators {#section-5-5}
 
 Each operator has a distinct `semantic_signature`. The aggregation statement for M01 must not be copied and passed off as that of another operator.
+
+</div>
+
+<SectionLesson section="5.5" />
+
+<div v-pre class="theory-source">
+
 
 ### 5.5.1 M01 Aggregation {#section-5-5-1}
 
 The signature is “unit-to-population partition aggregation.” At minimum, the bridge must cover a mapping for each unit, membership and exclusions, weights and missingness, alternative aggregation rules, and heterogeneity. Information loss includes distribution tails, order, covariances, local temporal sequences, and the visibility of minority positions. The procedure fails if the aggregate cannot be reproduced under the registered rules, if a reasonable alternative rule reverses the direction, or if an aggregate association is imputed to individuals as an attribute. Even when aggregation is supported, the aggregate result must not be used to take direct action concerning members.
 
 An aggregation comparison first fixes the estimand. Average improvement among a region’s current residents and improvement in a fixed cohort of pre-disaster residents are two different questions. People who moved away, died, could not attend, or did not apply must not be silently assigned zero need. Where needed, show the fixed cohort, the current cross-section, entrants, and those who exit side by side. A crude rate and a standardized rate can both be correct. Only if the rates are claimed to answer the same question but disagree should the measurement definitions, selection, or errors of inference be examined further. 〔Studies 03.04–03.05, 22.07, 24.01, 29.04, 31.04〕
+
+</div>
+
+<SectionLesson section="5.5.1" />
+
+<div v-pre class="theory-source">
+
 
 ### 5.5.2 M02 Nesting {#section-5-5-2}
 
@@ -100,15 +149,36 @@ The absence of a conditional increment after controlling for the current state a
 
 A record must select one branch from `descriptive_nesting`, `cross_layer_causal`, `object_conversion`, and `intervention_conversion` and bind it to the corresponding descriptive, causal, object conversion, or intervention conversion mode. Boundary material from descriptive nesting must not be used to support the other three branches.
 
+</div>
+
+<SectionLesson section="5.5.2" />
+
+<div v-pre class="theory-source">
+
+
 ### 5.5.3 M03 Network Propagation {#section-5-5-3}
 
 The signature is “transmission along paths with timing.” The nodes, edges, directions, weights, capacity, and sampling boundary must be registered. The record must also include candidate and alternative paths, delay, and loss. Connection or synchronization yields only candidates. If the outcome is unchanged after the path is cut and the null-conclusion check has not passed, the status remains `unsupported_or_undecided`. Network sampling can miss weak edges, off-network positions, and bridges between networks. Retaining only endpoint impacts cannot recover the order of propagation. Centrality does not amount to intent, responsibility, or authority to act.
 
 Observe tie strength, bridge position, centrality, and mobilizable resources separately. Four contacts can come from four institutions yet share the same information source. An acquaintance can also offer an actual referral that others are unwilling to make. Network position helps locate channels. Their capacity, cost, substitutability, and arrival time determine whether they are actually usable for the specified task. Testing for multiple sources of social support differs from testing for independence among sources of factual information. 〔Studies 26.01–26.02〕
 
+</div>
+
+<SectionLesson section="5.5.3" />
+
+<div v-pre class="theory-source">
+
+
 ### 5.5.4 M04 Accumulation Over Time {#section-5-5-4}
 
 The signature is “longitudinal composition within a window.” The time reference, baseline, window, time lag, durability threshold, and accumulation, decay, and recovery rules must be frozen. The comparisons must address common trends, seasonality, cohorts, and alternative windows. An effect that disappears after controls are applied or changes with the window indicates only insufficient positive support. A finding of “no accumulation” must not be published unless the null-conclusion check passes. Basic temporal composition does not establish G3 in advance. A `G3-instance` is linked only if historical terms still provide a conditional increment after controlling for the current state.
+
+</div>
+
+<SectionLesson section="5.5.4" />
+
+<div v-pre class="theory-source">
+
 
 ### 5.5.5 M05 Institutionalization {#section-5-5-5}
 
@@ -116,15 +186,36 @@ The signature is “durable institutional write-back.” It separates five judgm
 
 `selected_operator_branch` allows only `institutional_fact`, `institutional_causal_effect`, `institutional_object_conversion`, and `institutional_intervention_conversion`. A legal validity review, governance quality, normative justification, adequacy of protection, or a judgment about whether to continue cannot serve as a positive or null conclusion for `institutional_fact`.
 
+</div>
+
+<SectionLesson section="5.5.5" />
+
+<div v-pre class="theory-source">
+
+
 ### 5.5.6 M06 Emergence {#section-5-5-6}
 
 The signature is “interaction generates a pattern at the target scale.” The source units, interaction rules, target object, and target pattern must be compared with a pre-registered simple additive model using the same metric. Comparable performance by the simple additive model supports “additivity is sufficient” only if the sufficiency or equivalence, statistical power or sensitivity, and tolerance checks pass. Otherwise, the result remains unresolved. A unique micro-level cause cannot be inferred from the macro-level pattern, which does not by itself establish downward causation. A downward constraint requires a specified channel, causal evidence suited to the claim, and a D3/E5 mapping. Additional claims about scale closure or the conversion of an object or intervention require separate evidence under G4.
+
+</div>
+
+<SectionLesson section="5.5.6" />
+
+<div v-pre class="theory-source">
+
 
 ### 5.5.7 M07 Delegation/Representation {#section-5-5-7}
 
 The signature is “classification of facts about representation and optional transfer of authorization.” The claim to represent, actual acts in another’s stead, contested or self-appointed representation, valid delegation, and transfer of J-axis authority must be recorded separately. Even without authorization, the acts performed, their impacts, and the associated responsibility may still be recorded. Expansion of J must not be registered in that case. Invalid authorization triggers a stop or a downgrade. It cannot erase the acts already performed or their consequences. A majority, visibility, influence, self-assertion, or actual control does not amount to valid delegation.
 
 The record must select one branch from `representation_claim`, `actual_acts`, `delegation_validity`, and `J_transfer`. Even if one of the first three branches is supported, it cannot change J. J may expand only if `J_transfer`, structured authorization tuples, independent evidence of validity, and `j_authorization` all pass.
+
+</div>
+
+<SectionLesson section="5.5.7" />
+
+<div v-pre class="theory-source">
+
 
 ### 5.5.8 M08 Compression/Abstraction {#section-5-5-8}
 
@@ -136,9 +227,23 @@ Consider a finite, nonempty state domain and a real-valued target q. If the deco
 
 Successive conversions must preserve the same final query. Let f:X→Z and h:Z→W. The first stage is sufficient for the final target q, with q=g∘f. The final representation h∘f remains sufficient if and only if g is constant on every preimage under h restricted to the actual image f(X). Unreachable intermediate values need not be constrained. Completing a different local task at the second stage cannot resolve the original final query. See Appendix C.6–C.7 for the condition and its proof.
 
+</div>
+
+<SectionLesson section="5.5.8" />
+
+<div v-pre class="theory-source">
+
+
 ### 5.5.9 M09 Horizontal Transfer {#section-5-5-9}
 
 The signature is “analogical transfer across domains.” The mappings, differences, discontinuities, prohibited mappings, chain of responsibility in the target domain, and differences on the J axis must be registered. Material from the source domain only generates target candidates. Both `supported` and `null_supported` must come from independent target instances. If target evidence is insufficient, the status is `not_evaluated` or `unsupported_or_undecided`. This insufficiency does not establish the absence of the target mechanism. An analogy creates no authorization to act in the target domain.
+
+</div>
+
+<SectionLesson section="5.5.9" />
+
+<div v-pre class="theory-source">
+
 
 ## 5.6 Limits of Universal Primitives Across Scales {#section-5-6}
 
@@ -153,6 +258,13 @@ U10 registers only candidate traces, their carriers, and their retention windows
 The basic phase pattern under U11 requires neither G3 nor G4. Test causal triggering separately under G2. For continuation or delayed recovery sustained by the current carrier, obtain evidence under §4.5. Test hysteresis of the kind that adds a historical increment beyond the current representation separately under G3. Test object conversion separately under G4.
 
 Likewise, U01 only registers candidate objects and does not guarantee G1 in advance. The definition of a relation under U05 does not establish causation. The channel fields under U06 do not establish a channel effect.
+
+</div>
+
+<SectionLesson section="5.6" />
+
+<div v-pre class="theory-source">
+
 
 ## 5.7 Unified Scale Transformation Record {#section-5-7}
 
@@ -198,6 +310,13 @@ The record chain supplies only the order of composition. Support does not automa
 
 Evaluation of the chain must also specify whether the final task is consistent with the tasks at the individual steps and whether shared resources have been committed more than once. Two tasks can each be feasible with one unit of capacity and yet be infeasible together if they share that unit in the same period. If time limits, resources, or permitted strategies are legitimately changed, the new joint option should be evaluated. Representational sufficiency, joint causal response, and joint resource feasibility each have their own criteria. Passing one cannot substitute for passing the other two.
 
+</div>
+
+<SectionLesson section="5.7" />
+
+<div v-pre class="theory-source">
+
+
 ## 5.8 Machine Validation and the Protection Floor {#section-5-8}
 
 Machine validation checks the consistency of fields, references, versions, and outcome statuses and verifies that the recorded axis relations have been combined correctly. It cannot replace domain comparators in judgments about geometry, organizational graphs, causal abstraction, network embedding, object identity, or authorization validity. Without substantive comparisons and independent materials about the objects, a complete record or algorithmic output cannot justify registering scale elevation. Whatever schema or registry the implementation uses, it must meet the same requirements for traceability and review.
@@ -206,11 +325,25 @@ The four missingness statuses form a closed vocabulary. `unknown` means currentl
 
 `carrying_vehicles` and `responsible_subjects` must be recorded in separate fields. Uptake, visibility, being affected, and greater capability do not by themselves create responsibility. Whenever there is an effect on the rights of humans or sentient subjects, on the allocation of their scarce resources, on their exposure to risk, or on how they are treated in practice, the protection floor must identify low-power positions and local exclusion zones. It must provide safe submission, anti-retaliation, stopping provisions, appeal, review, and rollback. In these cases, it must not be marked not applicable. Insufficient protection lowers both the judgment ceiling and the action ceiling. Downstream actions cannot inherit conditional inapplicability from purely descriptive records. A change of use requires reopening the protection review.
 
+</div>
+
+<SectionLesson section="5.8" />
+
+<div v-pre class="theory-source">
+
+
 ## 5.9 Evidence Boundaries and Independent Support {#section-5-9}
 
 The names, IDs, semantic signatures, and classifications of M01–M09 specify only how a transformation should be described and tested. They provide no empirical support that the transformation occurred, the mapping is valid, or the target property holds. Internal concept labels, examples, field completeness, and results reported by the algorithm itself must not be entered into `source_evidence` or `target_evidence` in place of materials about the objects.
 
 Every actual transformation must obtain independent, resolvable materials separately for the source and target objects. It must specify the mapping, what is preserved, changed, or lost, the error, and the competing explanations, and undergo the same outcome classification and the same positive-support and null-conclusion checks. Source-domain materials can only generate candidates for the target. Without independent support on the target side, the conclusion remains a mapping awaiting testing or unknown.
+
+</div>
+
+<SectionLesson section="5.9" />
+
+<div v-pre class="theory-source">
+
 
 ## 5.10 Cross-Circle Relation Transformation {#section-5-10}
 
@@ -230,11 +363,25 @@ Multiple memberships require retaining the same actor’s distinct roles, visibl
 
 Translation involves both tasks and permissions. Accurately relaying what someone said, helping both sides understand each other, having permission to publish that person’s exact words, and signing an agreement on their behalf are four distinct capabilities or qualifications. The same translation can suffice to book an appointment and may still be insufficient to preserve poetic rhythm or distinctions in legal status. Insufficiency for the latter task does not justify retroactively recording the former as never completed. The limited translation that succeeds should be retained, and the meanings and rights that did not transfer should be made explicit. 〔Studies 12.10, 26.08–26.09〕
 
+</div>
+
+<SectionLesson section="5.10" />
+
+<div v-pre class="theory-source">
+
+
 ### 5.10.1 Three Kinds of Transformation Must Be Kept Separate {#section-5-10-1}
 
 Scale transformation asks which variables are preserved, changed, or lost for the same question between one scale profile and another. Cross-circle relation transformation asks how parallelism, containment, overlap, bridging, competition, or temporary relations among candidate circles are updated. Representational or discursive recasting asks how a payload with an identified source enters the vocabulary, variables, or expressions of the target task. All three can occur together, but they must be split into ordered records.
 
 Recasting is a kind of operating contract that gives its own account of what is preserved, changed, and lost. It can use propagation, compression, horizontal transfer, or other operators. Contracts are linked according to their respective inputs, outputs, criteria, and failure conditions. Operators must not be added solely because names differ, and failures of different operations must not be merged into a single overall status.
+
+</div>
+
+<SectionLesson section="5.10.1" />
+
+<div v-pre class="theory-source">
+
 
 ### 5.10.2 Recasting Loss Audit {#section-5-10-2}
 
@@ -255,6 +402,13 @@ Whether the target representation retains a needed distinction and whether the a
 
 When both kinds of failure occur, the same unavoidable error should not be counted again as an additional failure of the rule. If the target answer is nonunique within a preimage, no deterministic rule using only the current representation can answer correctly for all source states. This by itself establishes that the representation is insufficient. If the target answer is unique in another nonempty preimage but the actual rule gives the wrong answer, that provides a sufficient witness to an independent error in the rule. When the actual internal representation is unknown, the original material’s continued public availability does not establish that those implementing the rule had the distinction available to them at the time. The existence of material, timely access to it, and actual use must be checked separately.
 
+</div>
+
+<SectionLesson section="5.10.2" />
+
+<div v-pre class="theory-source">
+
+
 ### 5.10.3 Effective Variables, Closure, and Returning in Response to Residuals {#section-5-10-3}
 
 An effective variable is a candidate variable proposed for a target scale or task. The proposal is to compress the state and improve explanation for a prespecified task. The intended improvement may also concern foresight[^tn-foresight-06] or the comparison of options. It must be tied to an object, scale, time window, task, measurement, and simple baseline. Error, failure, and retirement must also be specified for the variable. Effectiveness does not establish that the variable is a real entity, a root cause, a universal variable, or a basis for authorization.
@@ -262,6 +416,13 @@ An effective variable is a candidate variable proposed for a target scale or tas
 The target representation carries no presumption of dynamic closure. For static descriptions or same-scale queries, first check sources, conversion rules, and answers to the task, using F1 and F4 when necessary. Check formal dynamical models for closure under F2 and obtain separate evidence for their real-world mappings. G-specific fields that do not apply to a descriptive mapping may be marked `not_applicable` with reasons. Apply the positive-support and null-conclusion checks of the relevant G4 instance only when seeking formal empirical support under §4.6 for scale closure, object conversion, or intervention conversion. A scale change must not be fabricated to meet a format requirement. Failure to find a significant increment does not by itself establish closure. When an increment occurs, register the corresponding impact as a candidate for memory, noise, hysteresis, an unresolved term, or a residual. The shape alone must not be used to name a new entity.
 
 The unified scale transformation record must specify the target task in its purpose and semantics fields. Its transformation, evidence, and loss fields must record the parent representation, collapsed differences, return point, reconstruction test, and candidate effective variables for the target. If the information is missing, retain an explicit missingness status. A complete table cannot establish that all of the source semantics have been preserved.
+
+</div>
+
+<SectionLesson section="5.10.3" />
+
+<div v-pre class="theory-source">
+
 
 ## 5.11 Representing Parallelism and Nesting Together {#section-5-11}
 
@@ -276,5 +437,11 @@ When several circles share an environment but have no direct channel, the model 
 [^tn-circle-06]: Translator's note: Circles may be parallel, nested, overlapping, or bridged.
 
 [^tn-foresight-06]: Translator's note: Foresight in this book requires a registered target, horizon, and baseline, along with calibration.
+
+</div>
+
+<SectionLesson section="5.11" />
+
+<div v-pre class="theory-source">
 
 </div>

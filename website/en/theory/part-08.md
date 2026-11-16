@@ -8,6 +8,13 @@ title: "Part 8 Human State Prototypes"
 
 # Part 8 Human State Prototypes {#part-title-8}
 
+</div>
+
+<SectionLesson section="intro-08-part" />
+
+<div v-pre class="theory-source">
+
+
 ## 8.1 What This Part Explains {#section-8-1}
 
 S0–S6 apply only to human intentional collectives. These are teams, organizations, institutions, movements, communities, or governance arrangements that people form around a shared problem, commitment, goal, or arrangement of meaning that they can articulate. They continue to operate through roles, resources, rules, relations, and feedback. The prototypes do not express universal laws and cannot be applied directly to individual personality, a purely physical system, the evolution of a species, or the universe as a whole. Even within their domain of application, S0–S6 do not form a ladder of maturity, a required historical sequence, or a ranking of value.
@@ -15,6 +22,13 @@ S0–S6 apply only to human intentional collectives. These are teams, organizati
 The numbers serve only to distinguish prototypes and make them easy to find. They let us ask, “What structural configuration predominates now in this object, in this subsystem, and within this time window?” They do not warrant saying, “The number is higher, so the people are better, the institutional arrangements more justified, or the civilization more advanced.” A large collective can have S5 at its center, S3 at its periphery, S6 in a technical unit, and still have S1 in its intergenerational uptake. The same function can also show two prototypes at once. Such cases should be registered as `parallel` or `mixed` without collapsing the complexity into a single “overall stage.”
 
 A state prototype yields only a descriptive classification that can be withdrawn. It confers no authorization to act. Any real-world intervention must separately state its normative premises and pass C12. It must compare options including taking no action, obtain atomic J authorization covering the specific subject, object, action, geographic area, and validity period, and be subject to O procedures and to appeal and rollback. A state label cannot serve as evidence for these checks.
+
+</div>
+
+<SectionLesson section="8.1" />
+
+<div v-pre class="theory-source">
+
 
 ## 8.2 Minimum Contract[^tn-contract-09] for State Judgments {#section-8-2}
 
@@ -33,6 +47,13 @@ For each judgment, first freeze the object’s `object_id`, the identity criteri
 
 The five missing-data statuses must be kept separate. `not_collected` means that the data can be obtained but have not been collected. `not_observable` means that they are unobservable under the current permissions, safety conditions, or measurement conditions. Subjects in vulnerable positions must not be required to expose themselves to complete a form. `not_applicable` requires an applicability check. `conflicted` means that qualifying sources conflict with one another. `unknown` means that attempts have been made and the distinction still cannot be made. A missing key entry, counterevidence, or scale field by itself supports only `unknown` or suspension of the relevant classification. `mixed` and `parallel` each require positive evidence of multiple prototypes and their corresponding positions. Lack of knowledge must not be renamed as a mixture. Local materials already established are retained within their original scope.
 
+</div>
+
+<SectionLesson section="8.2" />
+
+<div v-pre class="theory-source">
+
+
 ### 8.2.1 Runtime Classification Record {#section-8-2-1}
 
 A prototype card yields a reviewable classification only when entered in a closed runtime record. The record must freeze all of the following together: `record_id`, the object and its identity criterion, the nine-axis scale, time window, subsystem scope, classification mode, candidate states, candidate paths, results for the five kinds of conditions, missing data, evidence about the object, uncertainty, independent review, appeal, rollback, and the boundary of non-authorization. Each entry, exit, observation, counterexample, and falsification result uses the same structure, `item_id + state_id + status + evidence_refs + reason`. The results must cover each candidate prototype item by item. A single overall assessment cannot substitute for them.
@@ -45,7 +66,21 @@ The U, H, G, and C IDs serve four distinct purposes in this Part. U provides int
 
 Descriptions of S0–S6 configurations do not require the multiple-interval pattern of CM-PHASE. An object that meets the necessary conditions of one prototype throughout the observed window may still receive a corresponding limited classification. That classification does not establish that a phase transition has occurred. A further claim about multiple intervals, a threshold, or a mechanism of phase transition is checked under CM-PHASE and the relevant G instance. Conversely, establishing a formal pattern with two intervals does not by itself show that an object fits a particular human collective prototype.
 
+</div>
+
+<SectionLesson section="8.2.1" />
+
+<div v-pre class="theory-source">
+
+
 ## 8.3 S0–S6 State Prototypes {#section-8-3}
+
+</div>
+
+<SectionLesson section="8.3" />
+
+<div v-pre class="theory-source">
+
 
 ### 8.3.1 S0 Prototype of Coalescence Around an Anchor {#section-8-3-1}
 
@@ -64,6 +99,13 @@ S0 describes a “candidate collective taking shape.” It confers no designatio
 
 S0 permits only a finding of compatibility with the prototype of coalescence around an anchor for the specified object, scale, and window. It cannot establish that participants lack capability, value, or willingness. It cannot authorize support, dissolution, screening, or exclusion.
 
+</div>
+
+<SectionLesson section="8.3.1" />
+
+<div v-pre class="theory-source">
+
+
 ### 8.3.2 S1 Prototype of a Generative Core Taking Shape {#section-8-3-2}
 
 Under S1, a candidate anchor, object boundaries, and at least one generative role can already be identified repeatedly across decisions. Basic rules, language, resource channels, and the first carriers of memory are taking shape. The main work of translation, decision-making, resource mobilization, conflict handling, or repair of relationships remains concentrated in one or a few generative roles. Independent parties able to take up the work are scarce. Centrality describes structural dependence and does not establish the legitimacy of leadership.
@@ -80,6 +122,13 @@ Under S1, a candidate anchor, object boundaries, and at least one generative rol
 | Contract links | U01/U02/U03/U04/U06/U07/U09/U11, H1/H2/H3/H4, G1/G2/G3, C1/C2/C3/C5/C9/C10/C11/C12. |
 
 S1 must not be read as “immature,” “backward,” or “should be integrated.” It cannot confer permanent leadership, greater power, or standing to impose institutional arrangements or replace others on generative actors.
+
+</div>
+
+<SectionLesson section="8.3.2" />
+
+<div v-pre class="theory-source">
+
 
 ### 8.3.3 S2 Prototype of Initial Expansion and Differentiated Uptake {#section-8-3-3}
 
@@ -98,6 +147,13 @@ S2 describes continued expansion of boundaries, membership, the population serve
 
 S2 does not permit labeling people who do not identify with the collective, who leave, or whose participation is unclear as “negative subjects” on that basis alone. A “need for dimensional expansion” cannot authorize enforcing uniform beliefs, restricting exit, or excluding dissenters.
 
+</div>
+
+<SectionLesson section="8.3.3" />
+
+<div v-pre class="theory-source">
+
+
 ### 8.3.4 S3 Prototype of Development Under Interconnected Constraints {#section-8-3-4}
 
 Under S3 the collective still operates or develops, but several recurring constraints have become connected. Approvals, resources, trust, responsibility, information, platforms, or external dependencies form mutually reinforcing bottlenecks that persistently fragment feedback, uptake, recovery, or the return flow of costs. The question is whether the problems form a connected structure that can be reviewed. The number of problems or the naming of a person as a barrier does not answer that question.
@@ -114,6 +170,13 @@ Under S3 the collective still operates or develops, but several recurring constr
 | Contract links | U02/U03/U05/U06/U07/U08/U09/U10/U11, H1/H2/H3/H4/H5, G2/G3/G4, C2/C3/C4/C5/C6/C7/C9/C10/C11/C12. |
 
 An S3 classification cannot authorize “breaking barriers,” purges, takeover, forced reform, or shifting transition costs to vulnerable positions. It indicates only that the constraint network and competing explanations should be distinguished further.
+
+</div>
+
+<SectionLesson section="8.3.4" />
+
+<div v-pre class="theory-source">
+
 
 ### 8.3.5 S4 Prototype of a Window for Structural Reconfiguration {#section-8-3-5}
 
@@ -132,6 +195,13 @@ S4 describes a genuine window for reconfiguring key structures. It gives no assu
 
 A “transition valley” is at most a description to be tested. It cannot justify unlimited costs, irreversible harm, the removal of appeal, or sacrifices imposed on those in low-power positions. S4 confers no authorization for dismantling, purges, or forced transfer.
 
+</div>
+
+<SectionLesson section="8.3.5" />
+
+<div v-pre class="theory-source">
+
+
 ### 8.3.6 S5 Prototype of Efficient Coordination and Flexible Expansion {#section-8-3-6}
 
 S5 describes coordination with relatively low losses among channels for resources, information, feedback, responsibility, uptake, and recovery in the current environment and time window. Local disturbances usually fail to produce lasting interconnected barriers. Boundaries can expand and contract with some flexibility. Resource advantages, costs shifted through outsourcing, silence, whitewashed metrics, or institutional loopholes can still make these conditions appear to hold when they do not. High output is therefore insufficient evidence, and long-term persistence does not prove legitimacy.
@@ -149,6 +219,13 @@ S5 describes coordination with relatively low losses among channels for resource
 
 S5 does not label an object as “good,” “mature,” or “ready to export its model.” Persistence, growth, and selection do not establish legitimacy. They cannot authorize expansion, replication, takeover, or demands that members take on more.
 
+</div>
+
+<SectionLesson section="8.3.6" />
+
+<div v-pre class="theory-source">
+
+
 ### 8.3.7 S6 Prototype of Adaptive Dynamic Balance {#section-8-3-7}
 
 S6 describes a collective with distributed uptake, effective feedback, and the capability to recover, update, and generate anew. Ordinary fluctuations do not lock in its direction for long. Autonomous units can stabilize locally, coordinate laterally, and receive backing from a higher level. A pool of potential successors, memory attached to positions, authorization, and handovers allow newcomers actually to enter and modify existing arrangements. The collective maintains function through continual calibration, with fluctuations still present.
@@ -165,6 +242,13 @@ S6 describes a collective with distributed uptake, effective feedback, and the c
 | Contract links | U01–U11, H1/H2/H3/H4/H5, G1/G2/G3/G4, C1–C12. |
 
 S6 does not mark an absolute final state, a society without conflict, or the end of history. A collective can regress, split, be taken over, transfer functions, enter X0, or collapse. The classification cannot confer decision-making authority over others on any object.
+
+</div>
+
+<SectionLesson section="8.3.7" />
+
+<div v-pre class="theory-source">
+
 
 ## 8.4 Library of Nonlinear Paths {#section-8-4}
 
@@ -190,6 +274,13 @@ State prototypes must be used together with the path library to avoid reverting 
 
 Path names likewise generate no value or responsibility. For example, `regression` does not amount to moral decline, `split` need not be failure, `merge` need not be progress, `takeover` is not automatically unlawful, and `external_carrier_migration` does not require individuals to flee on their own. Paths only allow competing explanations into the record. Mechanisms, justification, and action still require their own contracts.
 
+</div>
+
+<SectionLesson section="8.4" />
+
+<div v-pre class="theory-source">
+
+
 ## 8.5 X0 Orderly Exit and Benign Demise {#section-8-5}
 
 X0 does not designate an eighth state or S7, and it is not counted as an eighth stage. It is an independent life-cycle path for human collectives. Maintaining the original object must no longer serve the registered anchor, and its core functions must be able to be completed, terminated, or taken up more safely. Personnel, relationships, resources, memory, debts, and appeals must also be able to be dealt with explicitly. When these conditions hold, record how the object closes out its mission, transfers functions, releases resources, preserves memory, settles outstanding responsibilities, and retains limited weak ties.
@@ -198,9 +289,23 @@ X0 requires neither S5 nor S6. A temporary initiative in S0 can close in an orde
 
 The machine contract encodes this boundary with `origin_policy` set to `any_registered_origin`. There is no minimum state requirement. `required_state_ids` is empty, and `s5_or_s6_prerequisite` is always `false`. The entry and completion conditions for X0 must not refer to S0–S6 as eligibility requirements. The IDs may only describe the starting position and must not become a threshold for exit.
 
+</div>
+
+<SectionLesson section="8.5" />
+
+<div v-pre class="theory-source">
+
+
 ### 8.5.1 Candidate Entry for X0 {#section-8-5-1}
 
 First, the anchor has been fulfilled, ceased to apply, or been taken up by a safer object, or continuing to maintain the object chiefly serves the organization’s own persistence. This judgment must be independently reviewable. The center must not certify completion for itself after rewriting the goal. Second, personnel, functions, resources, relationships, records, debts, and irreplaceable values have been inventoried, and there are verifiable receiving parties or protective arrangements. Short-term setbacks, tight funding, leadership fatigue, or evasion of responsibility can create similar appearances. A narrative alone cannot justify a finding of “benign completion.”
+
+</div>
+
+<SectionLesson section="8.5.1" />
+
+<div v-pre class="theory-source">
+
 
 ### 8.5.2 Completion Conditions for X0 {#section-8-5-2}
 
@@ -235,6 +340,13 @@ Clustering is not a universal prerequisite for early warning. A single domain-sp
 
 Uptake cannot be assessed merely by asking whether there is a successor. Check whether a pool of potential successors, shadow roles, memory attached to positions, authorization paths, handover windows, translation of legitimacy, and protective conditions are actually in place. A clean departure by generative actors leaves a vacuum of authority if those taking up the work cannot enter. Frequent changes in personnel do not amount to adaptive renewal if key knowledge and permissions remain locked in the original center. Use H2 to distinguish uptake carriers, cost bearers, beneficiaries, rights to stop, and responsible parties. Use H3 to determine whether feedback actually changes fields and whether those changes are executed. Use H4 to examine power and observation channels, H5 to verify traces, and §4.5 to test actual continuity through the carrier. If a historical increment beyond the current representation is also claimed, test it under G3. For the candidate mechanism by which this kind of dependence strengthens across rounds, see §7.6.1.
 
+</div>
+
+<SectionLesson section="8.6" />
+
+<div v-pre class="theory-source">
+
+
 ## 8.7 Limits and Exclusions of the Current Prototypes {#section-8-7}
 
 S0–S6 are prototypes of human collective states. A proposed classification can be refuted, can lack necessary data, can apply in parallel, and can be withdrawn. Each candidate must be checked item by item for entry, exit, observations, counterexamples, falsification, scale, evidence, missing data, and the boundary of non-authorization. If these conditions are missing, retain only an impression or mark the classification unknown. The numbers do not represent a universal evolutionary path from 0 to 6. States allow regression, parallelism, mixing, jumps, dormancy, splits, mergers, takeover, functional transfer, and collapse.
@@ -247,6 +359,13 @@ The seven prototypes make no claim to exhaust the states of human collectives. I
 
 Prototype fit, interobserver agreement, stability across windows, and practical gains over using variables directly are distinct questions. Clear cards can make a classification easier to review but cannot establish that it is reliable or more effective than a specialist description. Without actual comparisons, do not report accuracy, predictive gains, or savings in reading time. If the task calls only for direct description of members, channels, and load, the prototypes may be skipped.
 
+</div>
+
+<SectionLesson section="8.7" />
+
+<div v-pre class="theory-source">
+
+
 ## 8.8 Boundary With Actor States and Multi-Circle Projection {#section-8-8}
 
 S0–S6 describe candidate states of human intentional collectives under a specified object contract. They do not describe individual personality, psychological maturity, or moral rank. Part 9 covers actors’ slow, intermediate-timescale, and fast variables. Part 10 covers parallel, nested, overlapping, bridging, competitive, and temporary relations among multiple collectives. Classifying a circle[^tn-circle-09] to which a person belongs as S2 does not imply that the person’s personality is at S2. A person displaying stable capability likewise does not imply that their circle is in S5 or S6.
@@ -258,5 +377,11 @@ Multi-circle projection can represent different circles as fitting different pro
 [^tn-diagnosis-09]: Translator's note: Diagnosis here denotes a nonclinical assessment of a collective configuration against the stated criteria.
 
 [^tn-circle-09]: Translator's note: Circles may be parallel, nested, overlapping, or bridged.
+
+</div>
+
+<SectionLesson section="8.8" />
+
+<div v-pre class="theory-source">
 
 </div>

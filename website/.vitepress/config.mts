@@ -243,7 +243,7 @@ export default defineConfig({
     root: { label: '简体中文', lang: 'zh-CN' },
     en: { label: 'English', lang: 'en', title: 'Xikari Reader',
       head: [['meta', { property: 'og:locale', content: 'en_US' }]],
-      description: 'Read On Conditions, Structure, and Transformation in English, with selected guides and cases.',
+      description: 'Read On Conditions, Structure, and Transformation in English, with all 421 reading lessons, examples, questions, and source notes.',
       themeConfig: { opening: openingParagraph('en'), xkBaseline: baselineDate('en'), xkLengths: sheetLengths('en'),
         xkSections: JSON.parse(readFileSync(sourceMapPath('en'), 'utf8')).sections, xkLessons: lessonIndex('en'), xkLessonCards: englishCards, sidebar: sidebar(englishTheorySidebar, englishLearningSidebar, '/en') }
     }

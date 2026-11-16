@@ -36,6 +36,10 @@
 
 `content/section-lessons.json` 保留导入的内容。限定核读后的补充可写入 `content/lesson-overrides.json`，其 `baseSha256` 必须匹配导入文件，`lessons` 按单元键给出完整字段替换。导入文件缺少的阅读单元（须已列在 `content/reading-units.json`），也可以在这里写出完整讲解；运行 `python scripts/build_theory.py` 后，原文页面会在该小节之后留出讲解位置。正文与搜索共同读取补充后的内容；完整交付原稿继续保留原始字节。
 
+英文讲解在 `content/en/section-lessons.json`，覆盖中文网页的全部 421 个单元。翻译保留各字段的完整段落、例子、问答、来源支持范围和限制；`translationOf` 记录对应中文单元的内容身份，`sourceHash` 与 `sourceRefs` 定位作者英文参考稿。`content/en/translation-manifest.json` 绑定中文导入稿、中文补充稿和英文讲解文件。源讲解改变后须核对受影响的译文再更新绑定，不能只改哈希使检查通过。
+
+原始研究附件及图版保持中文原件。英文界面明确标注下载材料的语言，并在原图旁显示译后的图注和完整替代文字。`sourceQuotes` 使用作者英文参考稿中实际存在的原句；讲解段落里的翻译与作者英文原句保持各自身份。
+
 ## 一个最小的例子
 
 ```json

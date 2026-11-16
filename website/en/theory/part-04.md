@@ -12,6 +12,13 @@ G1–G4 are four kinds of empirical question: whether a candidate grouping bring
 
 This Part separates empirical testing, the use of results, and formal proof. G instances answer factual questions; C contracts[^tn-contract-04] specify which limited outputs can be assembled from an existing basis; F propositions state necessary relations under explicit mathematical conditions. Registering the same result again does not add independent evidence, nor does the number of passes under root families or contracts measure the usefulness of the entire framework.
 
+</div>
+
+<SectionLesson section="intro-04-part" />
+
+<div v-pre class="theory-source">
+
+
 ## 4.1 Contracts for Root Instances {#section-4-1}
 
 This section provides a standard recording procedure for confirmatory testing. Under this procedure, each instance has two sections, pre-registration and results: pre-registration is completed before results are read, and the results section is appended after execution while preserving the original registration. What has not yet been run is explicitly recorded as not evaluated; times, observed values, or materials must not be fabricated. The two sections together determine what outcomes count as support, what outcomes count as refutation, and where conclusions may be extrapolated.
@@ -41,6 +48,13 @@ Whether an instance can support a C contract is also constrained by `support_eli
 
 The scale invariants shared by the four roots include the preselected subtype, success criterion, `decision_rule`, and `null_decision_rule`; these must be retained during scale transfer and must not be replaced. An appeal may challenge the candidate object, subtype, success criterion, N0, primary target or aggregation, model selection or ensembling, multiple comparisons, controls, positive threshold, null-conclusion rule, data split, extrapolation unit, contract version, pre-registration status, deviation record, and falsification conditions. If any item is shown to have changed after results, support eligibility must be reduced. A version produced after the fact must not overwrite the frozen record.
 
+</div>
+
+<SectionLesson section="4.1" />
+
+<div v-pre class="theory-source">
+
+
 ## 4.2 Human Empirical Instance Contracts {#section-4-2}
 
 H1, H4, and H5 are not universal empirical question families, but they are likewise abstract families of empirical hypotheses. They cannot acquire truth values through names, interface fields, or framework definitions. They use a separate `human_empirical_instance_contract`: in the identity fields, `claim_id` replaces `root_id`, and only H1, H4, and H5 are allowed. The remaining provisions governing the pre-registration section, results section, missing-value encoding, version freezing, stages, four result states, deviation disclosure, positive-support check, null-conclusion check, evidence references, and analysis artifacts are isomorphic to those in the root-instance contract. The corresponding instances are formally called H1-instance, H4-instance, and H5-instance; empirical truth belongs to these specific H-instance cases, not to abstract H propositions.
@@ -57,6 +71,13 @@ H1 must not treat “any favorable result establishes the claim” as a rule acr
 
 H2, H3, and H6 do not enter this empirical instance contract. H2 is a rule for distinguishing uptake and responsibility types. H3 is a classification rule for institutional write-back. H6 is the normative boundary of open-ended undertaking. They may constrain how an interface is classified or where it stops, but cannot produce empirical mechanism support merely through successful classification. Even if an H-instance receives `supported`, it increases only the strength of description or explanation; it does not generate value, responsibility, obligation, normative justification, authorization, or real-world action.
 
+</div>
+
+<SectionLesson section="4.2" />
+
+<div v-pre class="theory-source">
+
+
 ## 4.3 G1 Conditional Gain from Candidate Grouping {#section-4-3}
 
 Proposition: In an instance whose object, scale, time window, K, candidate grouping, and threshold have all been registered in advance, if the candidate grouping still achieves the predetermined out-of-sample gain relative to a complexity-matched N0 after controlling for the common environment, sampling or classification bias, and grouping leakage, and passes boundary-perturbation checks and review using independent time blocks or locations, then the grouping receives limited grouping-gain support under that SP/T/K.
@@ -64,6 +85,13 @@ Proposition: In an instance whose object, scale, time window, K, candidate group
 G1 does not test “whether this object ultimately exists in the world.” It tests whether the current candidate grouping explains predetermined out-of-sample differences better than a complexity-matched N0 that does not use information from the grouping. G1a permits only `out_of_sample_predictive_gain`; G1b permits only `out_of_sample_intervention_gain`. Neither subtypes nor criteria may be exchanged after results appear. The common environment, sampling procedure, classification bias, grouping leakage, and model complexity must enter the controls or competing explanations.
 
 The minimum positive support requires predetermined evaluation metrics and thresholds, an out-of-sample gain relative to N0, robustness to boundary perturbation, and review using independent time blocks or locations, with the instance also meeting support eligibility. If the out-of-sample gain does not pass the positive threshold, or the result is not reproduced under boundary perturbation or independent review, the default is only that G1 is not supported or that the result is unresolved. N0 may be supported, or the corresponding G1-instance refuted, only when the equivalence or sufficiency test and the checks for statistical power, sensitivity, and tolerance in the pre-registered `null_decision_rule` pass. If the object, grouping, success criterion, N0, decision rules, thresholds, data split, or leakage controls were not frozen before results, the instance is suspended. Passing G1 permits only the registration, within the specified SP/T/K, of the strength of grouping-gain support, the robustness of that gain to the boundary perturbations tested, and the grouping's applicable window. G1 support is only an eligibility relative to the declared explanatory or foresight task, not an overall threshold for object existence or object facts (see §10.1). It does not permit an ultimate ontological verdict, nor does it generate a subject, target, value, responsibility, or authorization.
+
+</div>
+
+<SectionLesson section="4.3" />
+
+<div v-pre class="theory-source">
+
 
 ## 4.4 G2 Specified-Channel Effects and Per-Dimension Boundedness {#section-4-4}
 
@@ -74,6 +102,13 @@ G2a pre-registers controlled identification and must preselect exactly one of `c
 G2 does not claim that all causal processes have currently visible channels, nor that all channels are bounded in every dimension. Measuring delay alone does not permit capacity, reliability, controllability, and loss to be declared established along with it. Shifting may be traced further only for quantities of the same type, or quantities with explicit type conversion, units, an accounting boundary, and accounting rules. If the preselected criterion does not produce a difference above the threshold, the default record is only that positive G2 is not supported or is unresolved. The instance may be refuted only if it was pre-registered for falsification or a null judgment and the corresponding null-conclusion rule passes. When common inputs, alternative channels, or measurement protocols can explain the difference, support for the candidate channel should be withdrawn; favorable results on criteria that were not preselected cannot rescue it. G2 can locate only candidate causal carrying and the limits of measured dimensions. It cannot create a unified cost across domains, still less turn a carrier into a responsible party.
 
 G2 tests specified channels and measured dimensions; it is not the sole entry point into all causal knowledge. If a qualified comparison identifies the total effect of a treatment while channels cannot yet be distinguished, the total effect should be retained and the channels marked unresolved; mechanisms must not be fabricated to fill in G2. If the total effect is near zero, that fact alone cannot negate local processes that offset or compensate for one another; the relevant processes still require independent evidence. When intervention implementation, common inputs, selection, or measurement conditions change, review the current claim again. Switching afterward to a favorable criterion does not recover the original confirmatory eligibility.
+
+</div>
+
+<SectionLesson section="4.4" />
+
+<div v-pre class="theory-source">
+
 
 ## 4.5 Historical Formation, Current Carriers, and G3 Conditional Increments {#section-4-5}
 
@@ -135,6 +170,13 @@ Approximate closure must be tied to an error quantity, initial conditions, targe
 
 These proofs provide structure under stated conditions; they do not confer real-world G4-instance support. Measurement, mapping, samples, operations, and error conditions must still be checked empirically, with the positive-support check and the null-conclusion check carried out separately. A formal proof of exact closure and failure to detect a deviation in limited data have different evidential statuses. Without sufficient sensitivity, the latter remains unresolved.
 
+</div>
+
+<SectionLesson section="4.6.1" />
+
+<div v-pre class="theory-source">
+
+
 ## 4.7 A Fictional Group of Root Instances {#section-4-7}
 
 The following m1–m4 serve only to show how the contracts work. They describe a fictional transport model with multiple layers, cite no external observations, and constitute no empirical support for any G proposition.
@@ -149,33 +191,89 @@ m4 / G4a. Before results, select only the closure-failure subtype and `condition
 
 This example shows that the four instances can generate further questions for one another, but do not replace one another. Passing m1 does not guarantee that m2's channel is effective; passing m2 does not guarantee m3's historical effect; and passing m3 does not guarantee m4's scale-closure failure.
 
+</div>
+
+<SectionLesson section="4.7" />
+
+<div v-pre class="theory-source">
+
+
 ## 4.8 Epistemic Constraints E1–E5 {#section-4-8}
+
+</div>
+
+<SectionLesson section="4.8" />
+
+<div v-pre class="theory-source">
+
 
 ### 4.8.1 E1 Constraint on Object Declaration {#section-4-8-1}
 
 For the current judgment, E1 requires the object, scope, scale, time window, necessary variables, and the object's identity conditions to be explicit; comparative claims must separately specify the corresponding baseline or null model. When a field is missing, state which inferred conclusion it limits and how, without canceling independently established source facts because of a missing format field. Incomplete D0 fields do not permit the analyst's grouping to be declared an objective structure; ordinary facts, textual meanings, and mathematical proofs are still reviewed under their own evidence and burden of argument.
 
+</div>
+
+<SectionLesson section="4.8.1" />
+
+<div v-pre class="theory-source">
+
+
 ### 4.8.2 E2 Observation Position and Model Limits {#section-4-8-2}
 
 Observation positions, measurement channels, and model choices limit what is visible; one record must not be treated as the object's entire state. Nor is it presupposed that every specific task must add perspectives. Whether a representation is sufficient depends on the target, horizon, environment, and admissible operations. Invisibility is not the same as nonexistence. When blind spots relevant to the task are substantial, evidence should be added, the use narrowed, or the judgment kept unresolved; whether probing is possible still requires comparing risks, windows, and authorization.
+
+</div>
+
+<SectionLesson section="4.8.2" />
+
+<div v-pre class="theory-source">
+
 
 ### 4.8.3 E3 Conditional Observational Participation {#section-4-8-3}
 
 Observational participation is registered only when observation, naming, scoring, or publication enters into actual causal coupling with the object. Temporal order alone, or a mechanism story that “being observed changes the object,” is insufficient to pass. A channel must be located, and a counterfactual established for no observation, alternative observation, or blockage.
 
+</div>
+
+<SectionLesson section="4.8.3" />
+
+<div v-pre class="theory-source">
+
+
 ### 4.8.4 E4 Retaining Competing Explanations and Residuals {#section-4-8-4}
 
 In an explanation, competing accounts that the materials permit and that are sufficient to change the judgment should be compared, and counterexamples and unexplained residuals retained. The competition must specify what is disputed: the size of an effect, its mechanism, contextual meaning, the scope of extrapolation, or normative premises. Compatible explanations can bear responsibilities at different layers. When no reasonable competing explanation is available, one must not be fabricated merely to fill a quota; the scope of the search and failure conditions must still be stated. Openness, love, complexity, or a sense of theoretical wholeness cannot fill gaps in evidence. How competing explanations that have not yet been distinguished limit action must be judged in conjunction with harm, reversibility, external obligations, and current permissions.
 
+</div>
+
+<SectionLesson section="4.8.4" />
+
+<div v-pre class="theory-source">
+
+
 ### 4.8.5 E5 Testing Cross-Scale Transfer {#section-4-8-5}
 
 Cross-scale transfer must pass D3's tests of the mapping, invariants, changed items, lost items, error, competing explanations, and residuals. The only hard inferential premise for E5 is D3; E1, E4, EVIDENCE, and ANALOGY are all method checks. They do not enter the inferential acyclic graph, nor masquerade as additional empirical causes. E5 does not depend on G4 being true; conversely, every G4-instance must pass E5. Expansion of observational scope does not imply expansion of authorization scope, and the J axis must not be extrapolated automatically along with the other scale axes.
+
+</div>
+
+<SectionLesson section="4.8.5" />
+
+<div v-pre class="theory-source">
+
 
 ## 4.9 Evidential Status of Human-Experience Clauses {#section-4-9}
 
 H1 (meaning and coordination), H4 (power, mediation, and reflexivity), and H5 (historical carriers) are families of empirical hypotheses awaiting testing. The specific factual assertions for all three are tested against their objects and evidence. This procedure grants eligibility for formal support only to an H-instance for which `human_empirical_instance_contract` has been completed and the corresponding criteria met; definitions, interfaces, and the framework's own formulations are not external empirical support. Without eligible external instance records, `empirical_evidence_records=[]`, and the evidential status is `requires_instance_evidence`.
 
 Thus, H1 must preselect exactly one outcome family among resources, action, or coordination in each case and test differences in meaning arrangements. H4 must preselect exactly one outcome family among evidence coverage, safety of expression, object behavior, or reflexive response in each case, then establish the channel and counterfactual for position, mediation, or disclosure conditions. H5, “historical trace carriers,” must preselect exactly one carrier family, one specific atomic carrier reference, and one durability criterion. Only if the family matches the subtype and the historical event, baseline, trace observables, threshold, and durability window were all frozen before results may a passing selected criterion permit registration of candidate traces within the specified carrier and window, and submission of predefined candidate historical variables to a G3-instance. Historical path increments beyond the current state and C4's corresponding repair window are assessed separately under G3/C4. Historical effects transmitted by current carriers and general effects of intervention timing obtain independent grounds under §4.5 and §6.10, respectively; protection, harm reduction, or repair actions separately undergo C12, explicit N premises, and O procedures. Proposition names, internal definitions, or this framework's own narrative cannot complete instance testing on behalf of these three hypothesis families.
+
+</div>
+
+<SectionLesson section="4.9" />
+
+<div v-pre class="theory-source">
+
 
 ## 4.10 Outcome Contracts and Mechanism Conditions C1–C12 {#section-4-10}
 
@@ -185,7 +283,21 @@ The C identifiers serve different argumentative tasks. C1, C2, the historical-in
 
 [^tn-contract-04]: Translator's note: A contract here is an analytical agreement registered and frozen before results, close to pre-registration; it is not a legal instrument.
 
+</div>
+
+<SectionLesson section="4.10" />
+
+<div v-pre class="theory-source">
+
+
 ## 4.11 Group 1: Objects, Carrying, and Feedback {#section-4-11}
+
+</div>
+
+<SectionLesson section="4.11" />
+
+<div v-pre class="theory-source">
+
 
 ### 4.11.1 C1 Grouping Gain and Its Robustness to Boundary Perturbation {#section-4-11-1}
 
@@ -201,6 +313,13 @@ Method checks: E1; E4; EVIDENCE
 
 The derivation first uses D0 to freeze the candidate object without presupposing that the grouping yields a gain, then reads the out-of-sample gain of the same G1-instance relative to a complexity-matched N0. Finally, boundary perturbation and independent review are combined to register the strength of support and applicable window.
 
+</div>
+
+<SectionLesson section="4.11.1" />
+
+<div v-pre class="theory-source">
+
+
 ### 4.11.2 C2 Carrying and Channel Constraints {#section-4-11-2}
 
 Inferential dependencies: D0; G2
@@ -214,6 +333,13 @@ Prohibited leaps: Do not treat quantities of different types or nonconvertible q
 Method checks: E1; E4; CAUSAL; EVIDENCE
 
 The derivation holds only for the specified channel, target transition, and measured dimensions. Quantities of the same type can be traced through equality of units; quantities of different types must go through explicit conversion or an accounting mapping. Unmeasured dimensions and quantities outside the boundary remain unknown, rather than being recorded as conserved, vanished, or costs already shifted.
+
+</div>
+
+<SectionLesson section="4.11.2" />
+
+<div v-pre class="theory-source">
+
 
 ### 4.11.3 C3 Effective Feedback and Feedback-Mediated Learning {#section-4-11-3}
 
@@ -237,7 +363,21 @@ The branches are registered as `C3-feedback` (a return channel, changes in subse
 | C2 | G2 passing the threshold; quantity types, units, equality or conversion mappings; measurement channel by channel and dimension by dimension; accounting boundary and window | A redundant channel replaces it completely; quantities of different types lack a mapping; common inputs explain the difference | When the channel, quantities of the same type, equality of units, or conversion mapping are insufficient, describe only inputs, occupation, loss, or candidate limits |
 | C3 | Return channel, temporal sequence, blocking counterfactual, and changed fields; carrier learning additionally has update retention, invocation over multiple rounds, and a task comparison; historical-increment learning additionally has G3 | Signals arrive but transitions do not change; updates are not retained or invoked; common inputs or proxy indicators explain the difference | With no return or subsequent change, describe only signal arrival; when evidence for the learning route is insufficient, stop at effective feedback; absence of G3 blocks only the historical-increment branch |
 
+</div>
+
+<SectionLesson section="4.11.3" />
+
+<div v-pre class="theory-source">
+
+
 ## 4.12 Group 2: History, Load, Scale, and Spillovers {#section-4-12}
+
+</div>
+
+<SectionLesson section="4.12" />
+
+<div v-pre class="theory-source">
+
 
 ### 4.12.1 C4 Historical Effects, Path Differences, and Repair Windows {#section-4-12-1}
 
@@ -252,6 +392,13 @@ Prohibited leaps: Equating trace preservation with a historical effect; equating
 Method checks: E1; E4; CAUSAL; EVIDENCE
 
 Evolution is first classified under D1; historical effects cannot be inferred from a definition. The current-carrier route checks formation, retention, invocation, and subsequent outcomes; the historical-conditional-increment route reads G3a's predictive gain or G3b's causal basis separately. A repair window compares how interventions at different times affect the attainability of K*/F* made public in advance and the price to be paid. The corresponding G3 responsibility is borne only when a historical residual beyond the current representation is also claimed.
+
+</div>
+
+<SectionLesson section="4.12.1" />
+
+<div v-pre class="theory-source">
+
 
 ### 4.12.2 C5 Load, Capacity, and Recovery {#section-4-12-2}
 
@@ -269,6 +416,13 @@ The basic branch freezes the types and units of demand, capacity, replenishment,
 
 The branches are registered as `C5-instant` (a demand–capacity mapping for quantities of the same type and measurement within the same window), `C5-carried-cumulative` (additional evidence under §4.5 of a current carrier, accumulation or recovery across windows, and subsequent effects), and `C5-cumulative` (the historical-increment kind; additionally G3, with a historical carrier and subsequent differences in capacity or recovery).
 
+</div>
+
+<SectionLesson section="4.12.2" />
+
+<div v-pre class="theory-source">
+
+
 ### 4.12.3 C6 Scale Closure and Object Conversion {#section-4-12-3}
 
 Inferential dependencies: D3; G4
@@ -282,6 +436,13 @@ Prohibited leaps: Using general correlation, unconditional coupling, or omission
 Method checks: E4; E5; EVIDENCE
 
 G4a separately tests conditional increments from excluded scale variables. G4b tests only its preselected item among noncommutation of object dynamics, noncommutation of intervention, failure of the pre-frozen K, change in effective relations, or change in intervention response. The G4-instance cited by C6 must have frozen both one subtype and one success criterion before results; switching is prohibited after results, whether between subtypes or within one subtype.
+
+</div>
+
+<SectionLesson section="4.12.3" />
+
+<div v-pre class="theory-source">
+
 
 ### 4.12.4 C7 Local Improvement and Cross-Boundary Spillover {#section-4-12-4}
 
@@ -306,7 +467,21 @@ First measure the predetermined improvement in the local target, then trace outp
 
 Crossing boundaries, crossing scales, and model closure answer different questions. Transmission at the same scale can have real effects. So can cost shifting across administrative boundaries. Synchronized changes caused by a common cause do not become cross-boundary effects through correlation alone. Existing domain evidence is retained according to its research design. When using C7's formal mechanism route, check the channel, mapping, and accounting conditions actually required by the claimed level. 〔Studies 04.05, 20.07, 26.02, 28.02〕
 
+</div>
+
+<SectionLesson section="4.12.4" />
+
+<div v-pre class="theory-source">
+
+
 ## 4.13 Group 3: Patterns of Evolution, Observation, Human Uptake, and Institutional Write-Back {#section-4-13}
+
+</div>
+
+<SectionLesson section="4.13" />
+
+<div v-pre class="theory-source">
+
 
 ### 4.13.1 C8 Variation–Differential Retention–Reproduction {#section-4-13-1}
 
@@ -324,6 +499,13 @@ C8 is a contract for testing a pattern that requires independent evidence; it ca
 
 The branches are registered as `C8-pattern` (V, D, R, the next round, repeated rounds, and comparison with random drift as a competing explanation) and `C8-mechanism` (additionally G2, with a specified retention or reproduction channel and channel perturbation or natural variation).
 
+</div>
+
+<SectionLesson section="4.13.1" />
+
+<div v-pre class="theory-source">
+
+
 ### 4.13.2 C9 Observation Channels and Reflexive Responses {#section-4-13-2}
 
 Inferential dependencies: G2
@@ -340,6 +522,13 @@ The derivation first freezes the observation position, measurement protocol, and
 
 The branches are registered as `C9-response` (an actual channel and counterfactual), `C9-carried-persistence` (additionally a current carrier, continuation or updating across windows, and causal comparison under §4.5), and `C9-persistent` (the historical-increment kind; additionally G3, with a historical conditional increment and review across windows).
 
+</div>
+
+<SectionLesson section="4.13.2" />
+
+<div v-pre class="theory-source">
+
+
 ### 4.13.3 C10 Human Uptake and Intertemporal Reproduction {#section-4-13-3}
 
 Inferential dependencies: G2
@@ -355,6 +544,13 @@ Method checks: H2; E4; CAUSAL; EVIDENCE
 C10 specializes to structures involving human action, care, maintenance, or institutional execution. The current-uptake branch uses G2 to locate a specified channel and separates uptake carriers, bearers of costs of the same type, beneficiaries, rights to stop, and responsible parties under H2. The intertemporal carrier branch must separately check continuation across consecutive cycles and its causal evidence; the historical-increment intertemporal branch additionally requires G3. H5 supports only historical traces within its contract's scope and cannot replace evidence of effects for either intertemporal route. H2 is an operational check, not an empirical cause.
 
 The branches are registered as `C10-current` (H2 typing and a channel specified by G2), `C10-carried-reproduction` (additionally intertemporal carriers, replenishment or replacement, actual continuation, and causal evidence under §4.5), `C10-intertemporal` (the historical-increment kind; additionally G3, with an intertemporal historical increment), and `C10-historical-carrier` (a carrier qualification on the historical-increment branch; additionally G3 and H5, with a human historical-carrier instance).
+
+</div>
+
+<SectionLesson section="4.13.3" />
+
+<div v-pre class="theory-source">
+
 
 ### 4.13.4 C11 Institutional Write-Back {#section-4-13-4}
 
@@ -377,7 +573,21 @@ C11 uses G2 to locate an institutional return channel, compares conditions with 
 | C10 | G2-instance; H2 typing and a cost mapping for quantities of the same type; comparisons of replenishment/rotation/load reduction/exit/replacement; intertemporal carriers additionally have evidence of continuation across consecutive cycles; the historical-increment intertemporal branch additionally has G3, and the trace qualification additionally has H5 | In the carrier branch, continuation does not occur or is explained by common inputs; in the historical-increment branch, the current state absorbs all historical differences | If H2 fields cannot be separated, register only a data gap; insufficient intertemporal evidence does not establish a reproduction mechanism; absence of G3 blocks only the historical-increment intertemporal branch; absence of H5 prevents its formal trace eligibility |
 | C11 | G2-instance; institutional return channel and a blocking counterfactual; changes in fields before and after, with actual execution; duration | Only a receipt or a statement of position; field changes are not executed; independent orders explain the changes | Without field changes, describe only intake; without execution, describe only record updating; intertemporal mechanisms must not be extrapolated from a single write-back |
 
+</div>
+
+<SectionLesson section="4.13.4" />
+
+<div v-pre class="theory-source">
+
+
 ## 4.14 Group 4: Normative Bridging Checks {#section-4-14}
+
+</div>
+
+<SectionLesson section="4.14" />
+
+<div v-pre class="theory-source">
+
 
 ### 4.14.1 C12 Check on the Validity of Normative Bridging {#section-4-14-1}
 
@@ -396,6 +606,13 @@ C12 is not an empirical inferred conclusion, but a check on procedural validity 
 | Minimum Evidence | Key Counterexamples | Failure Boundary |
 | --- | --- | --- |
 | O1 description freezing and evidence audit; O2 explicit N premises and conflicts; O3 authorization and comparison of options; O4 constrained execution and correction; protection floor and J axis | The same facts lead to different choices under different N; only N1 is present without a positive target; authorization does not cover the action; stopping, correction, or rollback is inaccessible | Real-world action must not begin if any required explicit N premise is missing. The same applies if the protection floor, J-axis authorization, or the O1–O4 record is missing. If only N1 is present, retain the negative check against overreach. |
+
+</div>
+
+<SectionLesson section="4.14.1" />
+
+<div v-pre class="theory-source">
+
 
 ## 4.15 Combined Conditions and Evidence Routes {#section-4-15}
 
@@ -426,25 +643,67 @@ D1 + V + D + R + next round + repeated rounds + comparison with random drift as 
 
 Listing the names of G instances alone does not constitute sufficient conditions for a mechanism; the corresponding additional conditions, method checks, bridging evidence, and limits of application must also hold. When conditions are complete, register limited results under the specific contract. When conditions are incomplete, identify the gap and the conclusion it blocks without withdrawing independently supported content. Even if every instance in a particular set of G1–G4 instances passes, this does not imply an S0–S6 stage, direction, value, responsibility, choice, or authorization; these conclusions each require their own classification, normative, and procedural contracts.
 
+</div>
+
+<SectionLesson section="4.15" />
+
+<div v-pre class="theory-source">
+
+
 ## 4.16 Scope and Stopping Points of Empirical Judgments {#section-4-16}
 
 Empirical judgments provide descriptions and limited explanations constrained by the object, scale, time window, evidence, and extrapolation unit. Specific factual assertions within G question families must be tested through instances; C registers existing results or combines mechanism conditions; F provides proofs under formal premises; and real-world mechanisms still require independent instance evidence. Definitions, identifiers, examples, and internal descriptions cannot determine whether an empirical proposition holds in the world. Further evaluation of value, responsibility, sacrifice, choice, or how the situation should be handled requires adding human-domain typing, normative reasons, and O1–O4 procedures. Empirical conclusions must not bypass these responsibilities on their own.
+
+</div>
+
+<SectionLesson section="4.16" />
+
+<div v-pre class="theory-source">
+
 
 ## 4.17 Common Method Constraints {#section-4-17}
 
 Method constraints govern how analysts construct, check, and use models; they do not claim how the world necessarily works. They may be questioned and revised, and their use must be evaluated through comparisons of actual reductions in error, gains in understanding, and costs of use.
 
+</div>
+
+<SectionLesson section="4.17" />
+
+<div v-pre class="theory-source">
+
+
 ### 4.17.1 CMC1 Tasks and Representations Must Be Declared Together {#section-4-17-1}
 
 Objects, layering, coarse and fine scales, and target variables are tied to the task, observation position, horizon, environment, and use. A conversion must check what is retained, collapsed, omitted, and added. It must not be presumed lossless, nor may it be claimed conversely that every conversion necessarily causes a task-relevant loss. Whether the target representation suffices to recover an answer, advance dynamics, or evaluate admissible interventions is tested separately; whether different orders of conversion are equivalent is also tested separately. The distinctions on which the task depends must be retained. Recovering every detail unconditionally is unnecessary.
+
+</div>
+
+<SectionLesson section="4.17.1" />
+
+<div v-pre class="theory-source">
+
 
 ### 4.17.2 CMC2 The Status of Materials and Scope of Support Must Be Traceable {#section-4-17-2}
 
 Reports, observations, model beliefs, and formal proofs retain their respective statuses. So do simulation outputs and execution receipts. Each inference specifies the new information, premises, and rules it uses. Processing the same data again must not be counted as a new independent observation. A simulated state can become the starting point of the next simulation, but recursive depth alone cannot add empirical support or raise a capability level. New computations or proofs can improve understanding of existing materials, but their gains come from inspectable arguments and must not be packaged as new real-world samples.
 
+</div>
+
+<SectionLesson section="4.17.2" />
+
+<div v-pre class="theory-source">
+
+
 ### 4.17.3 CMC3 Facts, Values, and Eligibility to Act Are Established Separately {#section-4-17-3}
 
 Facts, predictions, formal feasibility, and technical capability cannot by themselves generate value, responsibility, or authority to act. Analytical recommendations disclose normative targets, evidence, the price to be paid, and dissent. Real-world adoption additionally requires valid permissions, a protection floor, implementation resources, and conditions for stopping and remedy. Normative premises constrain choice; they do not in turn prove empirical mechanisms true.
+
+</div>
+
+<SectionLesson section="4.17.3" />
+
+<div v-pre class="theory-source">
+
 
 ### 4.17.4 Method Effectiveness and Evaluation of the Framework {#section-4-17-4}
 
@@ -452,29 +711,78 @@ G question families organize empirical testing; their number does not establish 
 
 The effect of an individual instance, a question family's rate of applicability within a particular set of objects, and the framework's net gain on a specified task are three different empirical targets. Sampling units, scopes of extrapolation, and evaluation rules must each be registered; a batch of successful instances or a large volume of reading materials must not be treated as proof of universal effectiveness.
 
+</div>
+
+<SectionLesson section="4.17.4" />
+
+<div v-pre class="theory-source">
+
+
 ## 4.18 Conditional Formal Propositions {#section-4-18}
 
 The following propositions hold within explicit mathematical objects. They provide checkable conditions for representation, conversion, and action, not unmeasured laws of reality. Real-world application must additionally check variable mappings, assumptions, errors, and scope of application under §2.1.2. Proving that a function exists does not guarantee that it is computable, available in time, implementable, or authorized for adoption.
+
+</div>
+
+<SectionLesson section="4.18" />
+
+<div v-pre class="theory-source">
+
 
 ### 4.18.1 F1 Task Recovery {#section-4-18-1}
 
 Let X be a nonempty state domain, with representation π:X→Y and Y=π(X), and target q:X→V. A decoder g:Y→V using only the representation and satisfying q=g∘π exists if and only if π(x)=π(x′) always implies q(x)=q(x′). When this holds, g is unique on Y. In other words, the same representation cannot merge states for which the current task requires different answers. See Appendix C.6 for the proof and for bounds on scalar recovery error on a finite state domain.
 
+</div>
+
+<SectionLesson section="4.18.1" />
+
+<div v-pre class="theory-source">
+
+
 ### 4.18.2 F2 Closure under Dynamics and Admissible Interventions {#section-4-18-2}
 
 Let F:X→X be deterministic one-step dynamics. A macro-level update F̄ satisfying π∘F=F̄∘π exists if and only if any two source states with the same representation still have the same representation after updating. If this holds throughout the state domain, evolution over any finite number of steps under fixed dynamics commutes. With an admissible action set U, this condition must hold separately for every `F_u`. Check whether each action can be implemented across the relevant source states sharing a representation. Check the different micro-level implementations as well. Sufficiency for static recovery does not automatically satisfy closure under dynamics or intervention; a stochastic model must also compare the complete transition probabilities to target blocks. See Appendix C.8 for the proof.
+
+</div>
+
+<SectionLesson section="4.18.2" />
+
+<div v-pre class="theory-source">
+
 
 ### 4.18.3 F3 Common Feasible Actions under Information Constraints {#section-4-18-3}
 
 For a finite, single-round deterministic task, let the current materials be compatible with a nonempty set of states `X_y`, and let each state x have a set of eligible actions `A_ok(x)` already determined according to the target, protections, resources, and valid permissions. An action based only on the current representation y that qualifies in every compatible state exists if and only if `∩_{x∈X_y}A_ok(x)` is nonempty. Identifying every state is therefore not a universal prerequisite for bounded action, while the availability of a solution in each state separately does not guarantee that the right choice can be made now. See Appendix C.12 for the proof; randomized and sequential strategies must establish their own conditions.
 
+</div>
+
+<SectionLesson section="4.18.3" />
+
+<div v-pre class="theory-source">
+
+
 ### 4.18.4 F4 Task Preservation through Successive Conversions {#section-4-18-4}
 
 Let f:X→Z and h:Z→W, with the first stage satisfying q=g∘f. The composition h∘f can still recover the same final target q if and only if g is constant on every fiber of h restricted to the actual image f(X). Completion of different local tasks at the individual steps cannot replace this shared-endpoint condition. Preservation under a functional representation, causal effects connected in sequence, and joint implementation using shared resources are checked separately; a single flag marking a connection cannot substitute for these different checks. See Appendix C.7 and C.12 for the proof and counterexamples.
 
+</div>
+
+<SectionLesson section="4.18.4" />
+
+<div v-pre class="theory-source">
+
+
 ### 4.18.5 F5 Error Propagation under Approximate Closure {#section-4-18-5}
 
 Let the target space have a metric d. Assume that the one-step projection error is no greater than ε at every state reached, and that the Lipschitz constant of the proposed macro-level update on the relevant region is no greater than L. Starting from the same initial representation, the error after t steps satisfies `e_t≤ε∑_{j=0}^{t−1}L^j`. This bound requires the error and region conditions to continue to hold at every step; mean fitting error cannot directly replace a state-by-state bound. When L&lt;1, there is an upper bound ε/(1−L); when L=1, it is tε; when L&gt;1, the upper bound may increase rapidly. See Appendix C.8 for the proof.
+
+</div>
+
+<SectionLesson section="4.18.5" />
+
+<div v-pre class="theory-source">
+
 
 ## 4.19 Task Families and Dynamic Refinement {#section-4-19}
 
@@ -499,5 +807,11 @@ Error tolerances require separate analysis. The condition “the two answers dif
 This section states a proposition about sets and dynamics in a finite model. Distinguishing states by input strings, forming equivalence classes, and refining them recursively have a direct mathematical connection to Moore’s work on sequential machines. The preservation of states and actions also connects to abstraction in controlled dynamics. The explicit finite model and proof in this section establish the conclusion without relying on additional optimality results for other classes of machines. 〔Moore, 1956, pp. 143 and 145–146; Ravindran and Barto, 2003〕 It neither declares that nature has a single correct hierarchy nor reduces people’s legitimate claims to the current predictive targets. Which targets must be preserved, which actions may be implemented, and what error is acceptable still have to be determined separately on the basis of domain facts, normative reasons, and real-world permissions. When these givens are challenged, they are handled under §2.14.
 
 [^tn-contract-05]: Translator's note: A contract here is an analytical agreement registered and frozen before results, close to pre-registration. It is not a legal instrument.
+
+</div>
+
+<SectionLesson section="4.19" />
+
+<div v-pre class="theory-source">
 
 </div>

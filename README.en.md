@@ -65,7 +65,7 @@ In an analysis, the modules separate judgments that are easily conflated and con
 
 The host must be able to read the complete Markdown files in the package, keep or restore the context of a long task, and output complete answers. Web search, Python and multi-agent collaboration use whatever the host already provides.
 
-1. **Download.** Open the [latest release](https://github.com/xi-kari/xi-kari-skill/releases/latest) and get the Windows package (`xi-kari-skill-<version>-windows.zip`). The same page has the per-file list `install-manifest.json` and `SHA256SUMS`; compare the hash of your download with that version's `SHA256SUMS`:
+1. **Download.** Open the [latest release](https://github.com/xi-kari/xi-kari-skill/releases/latest) and follow the download link on that page for the Windows package (`xi-kari-skill-<version>-windows.zip`). The same page provides download links for the per-file list `install-manifest.json` and `SHA256SUMS`; compare the hash of your download with that version's `SHA256SUMS`:
 
    ```powershell
    Get-FileHash -Path .\xi-kari-skill-*-windows.zip -Algorithm SHA256
@@ -200,7 +200,7 @@ Common invocations are in [host setup and clean working directories](references/
 <p><a href="https://xi-kari.github.io/xi-kari-skill/handbook/en/">
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset=".github/readme/handbook-en-dark.png">
-    <img alt="English reading site: Xikari: On Conditions, Structure, and Transformation. The complete v2 reference text with selected guides. The compass shows Parts 1–16, Appendices A–D and the 32 domains of Appendix D." src=".github/readme/handbook-en-light.png" width="100%">
+    <img alt="English reading site: Xikari: On Conditions, Structure, and Transformation. The complete v2 reference text with translations of all 421 reading lessons. The compass shows Parts 1–16, Appendices A–D and the 32 domains of Appendix D." src=".github/readme/handbook-en-light.png" width="100%">
   </picture>
 </a></p>
 
@@ -214,7 +214,7 @@ Common invocations are in [host setup and clean working directories](references/
 
 - **Authoritative text:** [`source/Xikari-条件结构与转化论.md`](source/Xikari-条件结构与转化论.md), with its identity (SHA-256) in [`source/source-manifest.json`](source/source-manifest.json). The source takes precedence over the skill's engineering guidance and over a model's prior understanding of terms with the same name.
 - **English reference edition:** [`source/en/Xikari-On-Conditions-Structure-and-Transformation.md`](source/en/Xikari-On-Conditions-Structure-and-Transformation.md), prepared from the [author-supplied manuscript](source/en/upstream/xikari-conditions-en.md) with reproducible reading-format adjustments and the original bytes preserved. It shares every section and part identifier with the Chinese; [`source/en/source-manifest.json`](source/en/source-manifest.json) records both identities. Where the translation appears to differ from the Chinese, the Chinese governs. Terms are listed in the [Chinese–English glossary](references/glossary-en.md).
-- **[English reading site](https://xi-kari.github.io/xi-kari-skill/handbook/en/):** the complete v2 reference text across 65 pages and 397 numbered sections, with English navigation, search and selected section guides. Language switching lets readers consult the corresponding Chinese text. The [Chinese site](https://xi-kari.github.io/xi-kari-skill/handbook/) has explanation entries for all 421 reading units, including front matter and part introductions. Those extended Chinese research lectures have not all been translated; the English guide coverage is listed separately.
+- **[English reading site](https://xi-kari.github.io/xi-kari-skill/handbook/en/):** the complete v2 reference text across 65 pages and 397 numbered sections, with English navigation, search, and full translations of all 421 on-page Chinese reading lessons. These include argument steps, examples, cases, questions and answers, and source notes. Language switching keeps corresponding passages accessible. Original figures have English descriptions; downloadable historical research files retain their original Chinese language and dates.
 - **[Concept lessons](https://xi-kari.github.io/xi-kari-skill/handbook/en/concepts/)** and **[real cases](https://xi-kari.github.io/xi-kari-skill/handbook/en/cases/):** English explanations organized around questions and distinctions, with sourced cases such as the Mars Climate Orbiter's unit interface and Toyota's andon response process. Cases retain their evidence and limits.
 - **[Term index](https://xi-kari.github.io/xi-kari-skill/handbook/en/theory/appendix-b.html):** the numbering scheme and glossary of Appendix B.
 - **[Downloads](https://xi-kari.github.io/xi-kari-skill/handbook/en/downloads.html):** the Chinese v2 Markdown, the English reading text and the author's unchanged English original. The retained Word file is explicitly labeled as the first edition and does not represent v2. Historical research materials retain their own version and source information.

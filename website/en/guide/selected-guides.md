@@ -1,13 +1,13 @@
 ---
-title: "Selected English section guides"
-description: "The precise coverage of the English explanatory layer, alongside the complete English theory."
+title: "English lesson directory"
+description: "Find translations of all 421 Chinese reading lessons alongside the complete English theory."
 ---
 
-# Selected English section guides
+# English lesson directory
 
-The complete English theory contains **397 numbered sections**. This explanatory layer currently covers **24 selected sections**, listed below. Each guide is placed after its source section and includes an explanation, a distinction, a labeled teaching example, a question with an answer, and boundaries.
+The complete English theory contains **397 numbered sections**. All **421 Chinese reading lessons**, including front matter and part introductions, have English translations placed after the corresponding source passage. The translations include the full explanations, examples, case notes, counterexamples, questions and answers, and source records shown on the Chinese site.
 
-These are v2-aligned reading guides. They are **not a complete translation of the Chinese long-form research lectures**. The English theory remains available for sections without a guide, and the [Chinese site](/) retains its fuller explanatory collection and original research files.
+Use the [searchable directory of all 421 lessons](/en/#lessons) to find a unit by number, title, or key point. The links below offer a few starting points through that complete collection. Original figures have English descriptions; downloadable historical research manuscripts and attachments remain in Chinese and retain their original dates.
 
 | Source section | English guide |
 | --- | --- |

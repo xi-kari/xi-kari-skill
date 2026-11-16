@@ -14,6 +14,13 @@ All 11 variables are interfaces with `claim_type=H` and `contract_role=human_var
 
 Applying this Part requires first completing the D0 object contract[^tn-contract-08] and registering the scale. Any judgment in the human domain must specify the effective object, comparison conditions, time window, and observation position. It must also specify evidence coverage, affected positions, and authorization on the J axis. Technologies, crises, resources, institutional conditions, and statistical trends do not acquire intent by having impacts. Visibility, disagreement, or proximity to a disturbance does not automatically make a person, group, or dissenter a mechanism, source, or responsible party.
 
+</div>
+
+<SectionLesson section="intro-07-part" />
+
+<div v-pre class="theory-source">
+
+
 ## 7.1 Role Boundaries for H1–H6 Human-Domain Propositions {#section-7-1}
 
 H1–H6 have different roles. Three are empirical hypotheses that require instance testing, two are operational or classification rules, and one is a normative boundary. How each proposition can hold depends on its role.
@@ -31,21 +38,56 @@ The outputs of H1–H6 are limited to empirical descriptions, classification res
 
 The evidence status of H1, H4, and H5 is `requires_instance_evidence`. They follow the same structure as a G-instance for two-stage contracts, the four outcome statuses, the positive-support check, the null-conclusion check, disclosure of deviations, evidence references, and analytical artifacts. The identity field is `claim_id`, and it may contain only H1, H4, or H5. An H1-instance must preselect exactly one outcome criterion among resource allocation, action choice, and coordination outcomes. An H4-instance must preselect exactly one criterion among evidence coverage, safety of expression, object behavior, and reflexive response. An H5-instance must preselect exactly one `carrier_family_id`, one nonempty atomic carrier reference consistent with that family, and one durability criterion. A list of multiple carriers or a family mismatch makes the instance ineligible. Unselected criteria must not be used to rescue a test after the results. Failure at the positive-support check does not automatically support the null model. An H5-instance establishes only a trace within the specified carrier and window. Obtain separate evidence under §4.5 for future effects of the current carrier. A historical increment beyond the current representation requires a separate, independent G3-instance. Internal definitions, concept labels, and the framework’s own statements do not count as external empirical support.
 
+</div>
+
+<SectionLesson section="7.1" />
+
+<div v-pre class="theory-source">
+
+
 ## 7.2 Three Sets of Strong Types That Must Be Kept Distinct {#section-7-2}
 
 Separating the types keeps the subsequent questions, evidence requirements, and limits on responsibility distinct. The types specify what materials an instance must supply. Their definitions do not assert that the corresponding facts about the world already hold. Each claim requires grounds directly relevant to it. A single record can support multiple distinct facts, but their dependence on that source must be retained and the record must not be counted repeatedly as independent validation. A single case can have several types registered. Establishing one type cannot settle the others on its own. Formal independence relations among strong types use `human_strong_type:<ID>`. Bare IDs, Chinese display names, and labels for the group must not be used in its place.
+
+</div>
+
+<SectionLesson section="7.2" />
+
+<div v-pre class="theory-source">
+
 
 ### 7.2.1 GC Generative Condition {#section-7-2-1}
 
 GC asks “What conditions make generation possible or more likely?” Resources, technologies, institutions, relationships, trauma, crises, and windows of opportunity can all be candidate conditions. Conditions have no intent. The condition inventory first records when the conditions arose, changed, or were removed, and what the actual exposure was. A claim that a condition makes generation more likely also requires a comparison suited to that claim, a difference in outcomes, a candidate channel, and competing explanations. GC, GS, and GE are tested separately. Observing a condition neither identifies the generative subject nor establishes that a generative event has occurred.
 
+</div>
+
+<SectionLesson section="7.2.1" />
+
+<div v-pre class="theory-source">
+
+
 ### 7.2.2 GS Generative Subject {#section-7-2-2}
 
 GS asks “Who can understand and carry out acts of initiation, translation, or handover?” The identity of the subject, capability, resources, actual actions, and authorization status must be verified separately. Technologies, crises, platforms, metrics, and resource windows must not be registered as subjects. Evidence of subject status cannot be inferred merely from the occurrence of an event. GS does not automatically correspond to the full set of responsible parties.
 
+</div>
+
+<SectionLesson section="7.2.2" />
+
+<div v-pre class="theory-source">
+
+
 ### 7.2.3 GE Generative Event {#section-7-2-3}
 
 GE asks “What state transition took shape, and when?” First use the same measurement contract to record the state before generation, the time of the event, the state afterward, and the criteria used. Competing events during the same period and a bridge to the mechanism are used to explain further how the event formed. The absence of an identified mechanism must not be written up as nonoccurrence of an observed event. GE can result from action by a subject or from emergence without a subject. A generative subject must not be invented for emergence without a subject. The event must not be personified.
+
+</div>
+
+<SectionLesson section="7.2.3" />
+
+<div v-pre class="theory-source">
+
 
 ### 7.2.4 CV Uptake Carrier {#section-7-2-4}
 
@@ -62,19 +104,47 @@ CV asks “Who or what actually executes, transmits, maintains, records, provide
 
 RS asks “Who bears what responsibility for what, and on what basis?” Responsibilities arising from conduct, decisions, authorization, oversight, benefit, and remedy must be registered separately. Specify knowledge, control, scope, period, appeal, and remedy. Evidence for RS must be independent of who is most visible, who actually takes up the work, and who bears the consequences. Someone carrying out the work with limited authority must not become the default primary responsible party merely because they are the most visible.
 
+</div>
+
+<SectionLesson section="7.2.5" />
+
+<div v-pre class="theory-source">
+
+
 ### 7.2.6 IS Source of Destabilization {#section-7-2-6}
 
 IS asks “Where does a disturbance enter or accumulate?” The record must include where the disturbance first appeared or accumulated, its point of entry, temporal order, differences in exposure, and alternative sources. Finding a source does not establish malice, a mechanism, or full responsibility. A dissenter’s status must not be registered directly as a source.
 
+</div>
+
+<SectionLesson section="7.2.6" />
+
+<div v-pre class="theory-source">
+
+
 ### 7.2.7 IM Mechanism of Destabilization {#section-7-2-7}
 
 IM asks “Through what causal path does a disturbance change a state, boundary, feedback, rhythm, or orientation?” The evidence must show, at each step, the mediating links, temporal order, evidence for the bridge, conditions under which the claim can fail, and competing mechanisms. People, groups, and dissenters must not be directly labeled as mechanisms. A story about a mechanism must not substitute for causal evidence.
+
+</div>
+
+<SectionLesson section="7.2.7" />
+
+<div v-pre class="theory-source">
+
 
 ### 7.2.8 IB Behavior of Destabilization {#section-7-2-8}
 
 IB asks “What actions, instances of inaction, or outputs were actually observed?” Original records, logs, or observations from multiple sources must retain the subject or carrier, context, scale, and time window. Observed behavior does not establish its source or mechanism and does not by itself establish malice or full responsibility. For silence and absence, distinguish nonoccurrence, unobservability, and concealment for protection.
 
 IS, IM, and IB provide a cross-cutting classification of destabilization that extends beyond HV09. They all apply to HV02 Boundaries and Interfaces, HV06 Drive–Uptake Chain, HV07 Feedback Write-Back, HV08 Conditional Potential Field, HV09 Structural Load, and HV10 Evolutionary Phase. A case may separately register source, mechanism, and behavior at these interfaces, but independent evidence must be submitted for each. The source must not be inferred directly from visible behavior. A person or dissenter must not be labeled a mechanism. The location of a source cannot by itself establish malice or full responsibility.
+
+</div>
+
+<SectionLesson section="7.2.8" />
+
+<div v-pre class="theory-source">
+
 
 ## 7.3 A Unified Interface for the 11 Variables {#section-7-3}
 
@@ -84,13 +154,34 @@ The four kinds of formal dependency must be kept separate. `inferential_requires
 
 See Appendix A for the complete interface cards for the 11 variables.
 
+</div>
+
+<SectionLesson section="7.3" />
+
+<div v-pre class="theory-source">
+
+
 ### 7.3.1 HV01 Structural Domain {#section-7-3-1}
 
 D0 declares only a candidate object. It does not establish that a structural domain holds. A limited effective structural domain may be registered within the scope of a pre-registered G1-instance only if that instance shows that a candidate grouping achieves an out-of-sample or extrapolation gain beyond the threshold relative to a matched N0, under the preselected outcome, model class, sample or extrapolation unit, and threshold. Observable signals include differences in relations and constraints inside and outside the boundary, entry and exit records, repeated co-occurrence of common problems or institutional rules, and whether the grouping gain remains stable after changing the grouping rules. Without a passing G1-instance, HV01 can still supply HV02–HV11 with a reference to a candidate object, with its boundary, time window, and uncertainty stated, for factual description, applicability checks, and judgments in the relevant domain. It cannot label the grouping as an effective structural domain with a gain supported by G1. The existence of a legally constituted organization, a traceable relationship, or a specific service recipient can have separate documentary and observational grounds. The grouping’s out-of-sample value must be compared separately. Naming does not create a community, and shared circumstances do not establish a common will.
 
+</div>
+
+<SectionLesson section="7.3.1" />
+
+<div v-pre class="theory-source">
+
+
 ### 7.3.2 HV02 Boundaries and Interfaces {#section-7-3-2}
 
 The effective object is a boundary that selectively affects flows of resources, information, rights, or responsibilities. Membership status, admission and exit, cross-boundary flows, gatekeeping nodes, grounds for refusal, and discrepancies between formal and actual boundaries must be observed together. The basic route depends only on the object interface of HV01. It may register an inventory of boundaries, accessibility, and the risk of exclusion, with no strict G1 or G2 requirement. The selective-effect route may register the selective effect of a boundary for a specified channel, window, and position only if it also has an eligible G2-instance and passes the causal check. A subset of members, formal representatives, or highly visible positions must not be taken directly as representative of everyone affected.
+
+</div>
+
+<SectionLesson section="7.3.2" />
+
+<div v-pre class="theory-source">
+
 
 ### 7.3.3 HV03 Orientation Anchor {#section-7-3-3}
 
@@ -100,9 +191,23 @@ Meaning acts through more than an individual’s private beliefs. Forms of addre
 
 When translating concepts from different traditions into the framework, the questions they answer in their original practice, the authority to interpret them, the obligations, and the disputes should be preserved. Similar names alone are insufficient. Religious identities, sources of norms, legal qualifications, and personal beliefs sometimes share the same translated term and can still perform different functions. Comparison may yield partial comparability, an inability to align some local features, or insufficient material. There is no need to conclude that entire traditions are closed off from one another. Assessing task-relevant loss of meaning in translation must take into account both the analyst’s task and the practical questions faced by those affected. A classification can suffice for an administrative count without necessarily explaining who can draw water, inherit, speak, or refuse.
 
+</div>
+
+<SectionLesson section="7.3.3" />
+
+<div v-pre class="theory-source">
+
+
 ### 7.3.4 HV04 Generative Node {#section-7-3-4}
 
 A generative node must be split into three independent contracts for GC, GS, and GE. Each records the nine-axis scale of the conditions, subject, or event, respectively. The type classification route has no strict dependency on HV03. Complete strong-type fields do not establish causal generation. The mechanism route may register a candidate mechanism of generation within the specified channel only with an additional eligible G2-instance. Observable signals include changes in conditions, the subject’s capability and actual actions, the state transition from before to after the event, and the bridge from local to aggregate levels in emergence without a subject. Technologies, crises, and windows of resources can only be candidates for GC and acquire no intent. Generative events and generative subjects cannot substitute for one another.
+
+</div>
+
+<SectionLesson section="7.3.4" />
+
+<div v-pre class="theory-source">
+
 
 ### 7.3.5 HV05 Action Uptake Layer {#section-7-3-5}
 
@@ -110,17 +215,38 @@ The effective object is a person, position, procedure, facility, or institutiona
 
 Uptake of care work requires distinguishing the execution of tasks from the management work of identifying needs, scheduling, reminding, checking, and being on call. Add records of these burdens only if they are relevant to the current objective. Someone else doing one task can be genuine help. That alone does not establish that all the management work has been taken over. The resources and support available to those taking over and the conditions under which they may refuse must be included in the same evaluation. A heavy burden may result from shared scarcity and does not by itself establish that anyone was maliciously compelled to take it on. The scope and duration of existing duties, responsibility for continuing the work, and the safety of those harmed require separate grounds.
 
+</div>
+
+<SectionLesson section="7.3.5" />
+
+<div v-pre class="theory-source">
+
+
 ### 7.3.6 HV06 Drive–Uptake Chain {#section-7-3-6}
 
 The effective object is a traceable chain that converts orientation and generation into sustained action. Local segments may be registered independently first. Only the full candidate chain route requires interface records for HV03, HV04, and HV05 together, linked segment by segment in a common mapping of object, scale, window, and quantities. The effective channel route additionally requires an eligible G2-instance. Every segment must record inputs, outputs, delay, loss, points of interruption, resources, and costs. A claim that “there is drive” must not fill a gap in uptake. One pass through the whole chain does not establish intertemporal reproduction. An intertemporal historical increment must be tested separately in a G3-instance. Historical carriers may be put forward as candidates only by an H5-instance.
 
 An effect at each segment is still insufficient to establish an effect for the chain as a whole. Assessment of the whole chain must retain correspondence within the same case, the shared scope of support, joint response, temporal order, capacity, and the endpoint outcome. Edge means obtained separately cannot be multiplied directly. See §11.6 for a formal counterexample with two positive mean effects and zero effect for the chain as a whole. This restriction applies to unconditional combination. It does not invalidate a limited total effect already supported by a design that meets the requirements.
 
+</div>
+
+<SectionLesson section="7.3.6" />
+
+<div v-pre class="theory-source">
+
+
 ### 7.3.7 HV07 Feedback Write-Back {#section-7-3-7}
 
 The effective object is a return channel capable of changing a subsequent institutional state or transition. Basic write-back classification relies on D2 and H3 and has no strict dependency on HV05. Evidence of submission, evidence of intake, the field versions before and after, actual execution, entry into effect, and duration must be observed separately. Signal arrival alone, intake alone, a statement of position alone, and field changes without execution all fall short of effective write-back. The causal feedback route also requires a G2-instance. The route for learning through a carrier additionally requires an update that can be retained, repeated use, a prespecified task comparison, and corresponding causal evidence. Only historical-increment learning adds a G3-instance. A single write-back does not establish learning.
 
 The number of decisions changed does not define the quality of review. Upholding the original decision for stated reasons can fulfill the relevant procedural responsibility and may improve explanations, records, or subsequent handling. These changes should be registered under the actual object. If the target state does not change, do not register effective write-back for that target. This does not negate the value of hearing the parties and of fair procedure. An erroneous change of decision can still constitute write-back without constituting a correction.
+
+</div>
+
+<SectionLesson section="7.3.7" />
+
+<div v-pre class="theory-source">
+
 
 ### 7.3.8 HV08 Conditional Potential Field {#section-7-3-8}
 
@@ -131,6 +257,13 @@ The effective object is a set of conditions that change the probability of actio
 The effects of power extend beyond masking existing facts or suppressing existing wishes. Eligibility classifications, examinations and records, task training, spatial arrangements, and rewards and penalties can change which options are actually feasible, which capabilities are recognized, what behavior is treated as normal, and how actors understand themselves. The proposal of categories, adoption by institutions, allocation of resources or opportunities, responses by those concerned, and subsequent feedback must be traced step by step. The existence of a category does not establish that it has been applied. Its application does not establish that everyone accepts it.
 
 A person can accept, use strategically, conceal, reinterpret, or reject a given status. Researchers must not infer that a person identifies with that status directly from public compliance. They must not prejudge all classifications as false or harmful. Capability, communication, legal effect, belief in legitimacy, and normative justification each require separate evidence. An institutional arrangement may provide services and a status with recourse to appeal. It may also create exclusion. The specific channels, alternative arrangements, and consequences at different positions should be compared. These are questions about candidate mechanisms for H4 and the relevant interfaces. They cannot replace the conditions for empirical support.
+
+</div>
+
+<SectionLesson section="7.3.8" />
+
+<div v-pre class="theory-source">
+
 
 ### 7.3.9 HV09 Structural Load {#section-7-3-9}
 
@@ -151,11 +284,25 @@ The same total hours can correspond to very different continuous blocks of avail
 
 S0–S6 and X0 apply only to human intentional collectives that are taking shape or operating. Meaning, generation, uptake, and the formation of institutions are aspects to be checked. They need not all be mature before description can begin. Populations for which there is no evidence of intentionality, technical systems, and categories drawn solely from similarities do not directly qualify for these prototypes. The component interfaces of HV03, HV04, HV05, and HV07 are shared inputs to the checks for all routes. The dependency is on four kinds of auditable assessment record. It does not require all four components to be established empirically. The status of a record may be `missing`, `not_applicable`, or `unsupported`. Accordingly, the basic route determines only applicability, inapplicability, or whether components are missing. For descriptions under the S0–S6 prototypes, directly verify the entry conditions, observations, counterexamples, and falsification materials under §8.2–8.3. No prior observation of a second range of operation is required. Check the multiple intervals and thresholds required by the mechanism only for a further claim of a phase pattern and transition that meet CM-PHASE. A causal phase transition separately requires a G2-instance. Obtain separate evidence under §4.5 for phase continuation or delayed recovery sustained by the current carrier. Hysteresis or path differences of the historical-increment kind require a separate G3-instance. Phase descriptions allow skipping phases, parallelism, mixing, moving back, splitting, merging, dormancy, absorption, and functional transfer. X0 designates a conversion path and carries no “lower” rank. Naming a phase does not authorize advancement, elimination, or moral ranking.
 
+</div>
+
+<SectionLesson section="7.3.10" />
+
+<div v-pre class="theory-source">
+
+
 ### 7.3.11 HV11 Open-Ended Undertaking {#section-7-3-11}
 
 The effective object is a human undertaking arrangement in which action, cost, direction, voluntariness, conditions for refusal, and consequences must be reviewed separately. HV11 has no strict dependency on HV05. R0 may first register the facts of the action, costs, direction, risk of coercion, and gaps in the right to stop. The R1 description of bounded voluntary undertaking requires evidence of the action and its costs and a clear direction. Voluntariness, the genuine ability to refuse, and conditions for exit or negotiation require separate support. Competing explanations such as dependence, fear, interests, and acting for show must also be checked. The outcome must be recorded according to what happened as realized, unrealized, harmful, or unknown. Structural success is not a prerequisite for R1. R2’s causal judgment about structural consequences additionally requires a G2-instance and corresponding causal evidence. A causal effect does not establish voluntariness retroactively, and R1 does not guarantee R2 in advance. HV11 is constrained by H6 and N4 and does not authorize any protective measure on its own. It must not be used to diagnose personality or love, or to elevate an individual undertaking to a group obligation.
 
 Open-ended undertaking is a limited category for reviewing particular actions and arrangements for undertaking. It does not define love, detect it, or rank personalities. Relaxed companionship, expressions of concern by people whose capabilities are limited, unsuccessful acts of creation, private mourning, and refusals that produce no new structure retain their experiential significance and value even without high costs or detectable structural consequences. Conversely, high costs, sustained contributions, and statements of good intent do not automatically establish free consent, fair distribution, or justified obligations. When materials are insufficient, labels applied from outside should be stated less strongly. The parties still have standing to be heard, to be protected, and to refuse.
+
+</div>
+
+<SectionLesson section="7.3.11" />
+
+<div v-pre class="theory-source">
+
 
 ## 7.4 Elevation, Evidence, and Action Ceilings {#section-7-4}
 
@@ -164,6 +311,13 @@ When human variables are transferred across scales, compare SP0 and SP1 axis by 
 All variables retain interfaces for counterexamples, appeal, and rollback. Their `appeal` and `rollback` fields reference the shared `appeal_and_rollback_rule`. An appeal channel must be safely accessible and provide anti-retaliation protection. Depending on the risks and context, ways to submit anonymously, through a representative, with low exposure, or after a delay should be available. These allow people in low-power positions, people being evaluated, people taking up the work, people excluded, dissenters, and people unable to speak publicly to submit counterevidence. An appeal must also trigger a review independent of the original judgment or decision chain. The original decision maker must not close it by simply reaffirming the decision. The variables can generate only these procedural requirements. They cannot directly set up or operate the channels.
 
 Once rollback is authorized, it must actually change or restore the object, records, rules, resources, tasks, rights, or state of downstream judgments. Specify who is responsible for execution and the completion deadline, and retain the version history and verification of completion. Publishing a statement, accepting an appeal, or promising future improvements does not count as completing rollback. Judgment levels cannot exceed evidence coverage, and action levels cannot exceed authorization on the J axis. Even when H1, H4, and H5 receive instance support, they only increase the strength of description or explanation and do not automatically generate a normative conclusion. Any protection, harm reduction, repair, attribution of responsibility, resource reallocation, or formal action still must separately pass C12, rely on explicit N premises at runtime, obtain J authorization, and follow O1–O4 procedures.
+
+</div>
+
+<SectionLesson section="7.4" />
+
+<div v-pre class="theory-source">
+
 
 ## 7.5 Interface for Actor–Circle Mutual Constitution {#section-7-5}
 
@@ -178,6 +332,13 @@ When HV01–HV11 are applied in multi-circle operation, do not treat people as p
 
 Personality hypotheses may serve only as candidates for an actor’s slow variables. S0–S6 may serve only as state prototypes for human intentional collectives. The two must not be applied to one another. An individual must not be labeled as a “lower stage,” and a member’s personality must not be used to infer a circle’s state. Materials about individuals may enter a judgment about a circle only through an explicit mechanism of aggregation, representation, or propagation, or an explicit institutional mechanism.
 
+</div>
+
+<SectionLesson section="7.5" />
+
+<div v-pre class="theory-source">
+
+
 ## 7.6 Practice, Institutional Reproduction, and Institutional Change {#section-7-6}
 
 Human structures can change outside formal reforms and can be sustained without changes to fields. Actors continually interpret and invoke rules, allocate resources, handle exceptions, teach skills, and confirm eligibility. These practices can reproduce existing relations or gradually change how the structures actually operate. Written rules, public claims, everyday working rules, and actual consequences must be kept distinct. Practices can change while documents stay the same. Practices can also continue after documents change. These possibilities must be recorded separately. Formal write-back is still classified under H3. Everyday institutionalization and habit formation must not be equated with a single write-back on the basis of naming alone.
@@ -185,6 +346,13 @@ Human structures can change outside formal reforms and can be sustained without 
 In analyzing a round of change, first reconstruct separately the rules, resources, and relations already in place, the actors’ projects and sets of available options under those conditions, the interactions that followed, and the arrangements later retained, reorganized, or interrupted. The next round may inherit results from the previous one. Later success must not be entered retroactively as an initial condition. Temporal sequence cannot by itself establish causation. Those involved may be unable to articulate fully the knowledge they exercise in skilled practice. Reflection and innovation are also constrained by time, resources, power, and others’ responses.
 
 Generation and reproduction admit competing mechanisms. Compliance can arise from acceptance, dependence, the risk of punishment, or convention. Similar organizational forms can result from technological effects, coercive requirements, occupational training, or imitation of exemplars. Each explanation must identify the process materials that can distinguish it from competing explanations and state its failure conditions. Individual action does not disappear merely because it is subject to conditions. A structural explanation does not automatically absolve people who are informed and genuinely able to choose of responsibility.
+
+</div>
+
+<SectionLesson section="7.6" />
+
+<div v-pre class="theory-source">
+
 
 ### 7.6.1 Mutual Reinforcement of Allocation and Capability {#section-7-6-1}
 
