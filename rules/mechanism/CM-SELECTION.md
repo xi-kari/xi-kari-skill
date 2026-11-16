@@ -7,7 +7,7 @@
     "6.8",
     "6.11"
   ],
-  "theory_sha256": "18a7cc167faa3eda68a04b21313f833be6583abf1a2a47523a246a5f8a7eaee6",
+  "theory_sha256": "6ef2e508474d4ac1ad07d7e4e068955342c405b5f680afcfc40d68cca3d0149c",
   "status": "draft",
   "applies_to": [
     "human_collective",

@@ -1,11 +1,14 @@
 <script setup lang="ts">
+import { useLocale } from '../composables/locale'
+const { t, isEnglish, localePath } = useLocale()
 import { reactive, watch } from 'vue'
 import { pageHref, useNav, type NavGroup } from '../composables/nav'
-import { projectHome, topLinks } from '../composables/links'
+import { projectHome, useTopLinks } from '../composables/links'
 
 defineProps<{ open: boolean }>()
 const emit = defineEmits<{ (e: 'close'): void }>()
 const { groups, route, currentGroup } = useNav()
+const topLinks = useTopLinks()
 
 const opened = reactive<Record<string, boolean>>({})
 watch(currentGroup, (group) => { if (group) opened[group.text] = true }, { immediate: true })
@@ -15,11 +18,11 @@ const hasLessons = () => groups.value.some((group) => group.items.some((item) =>
 </script>
 
 <template>
-  <nav id="xk-nav" class="xk-nav" aria-label="全书目录">
+  <nav id="xk-nav" class="xk-nav" :aria-label="t('全书目录', 'Book contents')">
     <div class="xk-nav__scroll">
       <div class="xk-nav__head">
-        <p class="xk-aside__title">全书目录</p>
-        <button type="button" class="xk-tool xk-drawer-close" aria-label="关闭目录" @click="emit('close')">
+        <p class="xk-aside__title">{{ t('全书目录', 'Book contents') }}</p>
+        <button type="button" class="xk-tool xk-drawer-close" :aria-label="t('关闭目录', 'Close contents')" @click="emit('close')">
           <svg class="xk-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" /></svg>
         </button>
       </div>
@@ -31,7 +34,7 @@ const hasLessons = () => groups.value.some((group) => group.items.some((item) =>
           :aria-current="item.match(route) ? 'page' : undefined"
           @click="emit('close')"
         >{{ item.text }}</a>
-        <a :href="projectHome" target="_self">项目主页</a>
+        <a :href="projectHome" target="_self">{{ t('项目主页', 'Project') }}</a>
       </div>
       <section
         v-for="group in groups"
@@ -41,7 +44,7 @@ const hasLessons = () => groups.value.some((group) => group.items.some((item) =>
       >
         <button type="button" class="xk-nav__group-head" :aria-expanded="isOpen(group)" @click="toggle(group)">
           <span class="xk-nav__group-title">{{ group.text }}</span>
-          <span class="xk-nav__group-count" :title="`${group.items.length} 篇`">{{ group.items.length }}</span>
+          <span class="xk-nav__group-count" :title="t(`${group.items.length} 篇`, `${group.items.length} pages`)">{{ group.items.length }}</span>
           <span class="xk-nav__group-fold" aria-hidden="true"><svg class="xk-nav__chev xk-icon" viewBox="0 0 24 24"><path d="m9 6 6 6-6 6" /></svg></span>
         </button>
         <div class="xk-nav__group-body" :inert="!isOpen(group) || undefined">
@@ -56,14 +59,14 @@ const hasLessons = () => groups.value.some((group) => group.items.some((item) =>
               >
                 <span v-if="item.no" class="xk-nav__no">{{ item.no }}</span>
                 <span class="xk-nav__text">{{ item.title }}</span>
-                <span v-if="item.lessons" class="xk-nav__count" :title="`本篇有 ${item.lessons} 处讲解`">{{ item.lessons }}</span>
+                <span v-if="item.lessons" class="xk-nav__count" :title="t(`本篇有 ${item.lessons} 处讲解`, `${item.lessons} reading notes on this page`)">{{ item.lessons }}</span>
                 <span v-if="item.route === route" class="xk-nav__marker" aria-hidden="true" />
               </a>
             </li>
           </ul>
         </div>
       </section>
-      <p v-if="hasLessons()" class="xk-nav__note">每条右格的数字，是这一篇已有的讲解处数。</p>
+      <p v-if="hasLessons()" class="xk-nav__note">{{ t('每条右格的数字，是这一篇已有的讲解处数。', 'Numbers on the right count the available reading notes for each page.') }}</p>
     </div>
   </nav>
 </template>

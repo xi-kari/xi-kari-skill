@@ -3,6 +3,8 @@ import { join, relative } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { defineConfig } from 'vitepress'
 import type MarkdownIt from 'markdown-it'
+import footnote from 'markdown-it-footnote'
+import englishTheorySidebar from './en-theory-sidebar.json'
 import theorySidebar from './theory-sidebar.json'
 import { buildLessonIndex, isLocatorNote, sourceTitle } from './theme/composables/lessonKeys'
 import { prefsHeadScript } from './theme/composables/prefs'
@@ -10,20 +12,21 @@ import { loadLessons } from '../scripts/lesson_data.mjs'
 
 const WEBSITE = fileURLToPath(new URL('..', import.meta.url))
 const SOURCE_MAP = join(WEBSITE, 'public/source-map.json')
+const sourceMapPath = (locale = 'zh') => locale === 'en' ? join(WEBSITE, 'public/en/source-map.json') : SOURCE_MAP
 
 /** Lessons are read from disk (and re-read when the file changes) so edits show up on reload. */
-function lessons(): Record<string, any> {
-  return loadLessons(WEBSITE)
+function lessons(locale = 'zh'): Record<string, any> {
+  return loadLessons(WEBSITE, locale)
 }
 
 /** Where every written lesson sits: key, page and heading. Small enough to ship with each page. */
-function lessonIndex() {
-  const sections = JSON.parse(readFileSync(SOURCE_MAP, 'utf8')).sections as Record<string, string>
-  return buildLessonIndex(lessons(), sections)
+function lessonIndex(locale = 'zh') {
+  const sections = JSON.parse(readFileSync(sourceMapPath(locale), 'utf8')).sections as Record<string, string>
+  return buildLessonIndex(lessons(locale), sections)
 }
 
-function lessonSearchHtml(section: string) {
-  const lesson = lessons()[section]
+function lessonSearchHtml(section: string, locale = 'zh') {
+  const lesson = lessons(locale)[section]
   if (!lesson) return ''
   const escape = (value: string) => value.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
   const fields = [lesson.lead, ...(lesson.explanation || []).filter((text: unknown) => !isLocatorNote(text)), ...(lesson.argumentSteps || []),
@@ -38,14 +41,14 @@ function lessonSearchHtml(section: string) {
     lesson.applicability?.reason, ...(lesson.openQuestions || []),
     ...(lesson.sources || []).flatMap((item: any) => [sourceTitle(item), item.locator, ...(item.claim_support || []), ...(item.limits || [])]),
     lesson.summary]
-  return `<h3 id="explain-${section.toLowerCase().replaceAll('.', '-')}">讲解：${escape(lesson.title)}</h3>` + fields.filter(Boolean).map(value => `<p>${escape(String(value))}</p>`).join('')
+  return `<h3 id="explain-${section.toLowerCase().replaceAll('.', '-')}">${locale === 'en' ? 'Reading note: ' : '讲解：'}${escape(lesson.title)}</h3>` + fields.filter(Boolean).map(value => `<p>${escape(String(value))}</p>`).join('')
 }
 
 /** The first paragraph of 范围与阅读方式, shown on the home page exactly as written. */
-function openingParagraph(): string {
+function openingParagraph(locale = 'zh'): string {
   try {
-    const text = readFileSync(join(WEBSITE, 'theory/index.md'), 'utf8')
-    const after = text.split(/^## 范围与阅读方式.*$/m)[1] || ''
+    const text = readFileSync(join(WEBSITE, locale === 'en' ? 'en/theory/index.md' : 'theory/index.md'), 'utf8')
+    const after = text.split(locale === 'en' ? /^## Scope and.*$/m : /^## 范围与阅读方式.*$/m)[1] || ''
     const paragraph = after.split(/\r?\n\s*\r?\n/).map((part) => part.trim()).find(Boolean) || ''
     return paragraph
       .replace(/&#(\d+);/g, (_, code) => String.fromCodePoint(Number(code)))
@@ -88,11 +91,11 @@ function tableFrames(md: MarkdownIt) {
   md.renderer.rules.table_close = (tokens, idx, options, _env, self) => self.renderToken(tokens, idx, options) + '</div>'
 }
 
-/** The date the published text was fixed, from the same record the project page reads. */
-function baselineDate(): string {
+/** The date of this handbook's selected edition, independent of skill upgrades. */
+function baselineDate(locale = 'zh'): string {
   try {
-    const status = JSON.parse(readFileSync(join(WEBSITE, '../docs/data/research-status.json'), 'utf8'))
-    const match = String(status?.theory?.baselineDate || '').match(/^(\d{4})-(\d{2})-(\d{2})$/)
+    const source = JSON.parse(readFileSync(sourceMapPath(locale), 'utf8'))
+    const match = String(source?.source_date || '').match(/^(\d{4})-(\d{2})-(\d{2})$/)
     return match ? `${match[1]}.${match[2]}.${match[3]}` : ''
   } catch {
     return ''
@@ -110,16 +113,18 @@ function countHan(text: string): number {
 }
 
 /** Length of every sheet of the book in Chinese characters, keyed by route, for the strip board. */
-function sheetLengths(): Record<string, number> {
+function sheetLengths(locale = 'zh'): Record<string, number> {
   const lengths: Record<string, number> = {}
-  const root = join(WEBSITE, 'theory')
+  const prefix = locale === 'en' ? '/en/theory/' : '/theory/'
+  const root = join(WEBSITE, locale === 'en' ? 'en/theory' : 'theory')
   const walk = (directory: string) => {
     for (const entry of readdirSync(directory, { withFileTypes: true })) {
       const path = join(directory, entry.name)
       if (entry.isDirectory()) walk(path)
       else if (entry.name.endsWith('.md')) {
-        const route = '/theory/' + relative(root, path).replace(/\\/g, '/').replace(/(^|\/)index\.md$/, '$1').replace(/\.md$/, '')
-        lengths[route] = countHan(readFileSync(path, 'utf8'))
+        const route = prefix + relative(root, path).replace(/\\/g, '/').replace(/(^|\/)index\.md$/, '$1').replace(/\.md$/, '')
+        const text = readFileSync(path, 'utf8')
+        lengths[route] = locale === 'en' ? (text.match(/\b[A-Za-z]+(?:['’-][A-Za-z]+)*\b/g) || []).length : countHan(text)
       }
     }
   }
@@ -141,6 +146,12 @@ const learningSidebar = [
     { text: '承接与责任', link: '/concepts/responsibility' },
     { text: '支持与恢复', link: '/concepts/recovery' },
     { text: '预测与行动', link: '/concepts/prediction' },
+    { text: '地位与作用', link: '/concepts/status-and-effects' },
+    { text: '问题冻结与重开', link: '/concepts/reopening-questions' },
+    { text: '四种结果', link: '/concepts/four-outcomes' },
+    { text: '配置与能力', link: '/concepts/allocation-and-capability' },
+    { text: '受影响位置', link: '/concepts/affected-positions' },
+    { text: '全有损失的选择', link: '/concepts/choices-with-loss' },
   ] },
   { text: '真实案例', collapsed: true, items: [
     { text: '案例总览', link: '/cases/' },
@@ -160,8 +171,83 @@ const learningSidebar = [
   ] },
 ]
 
+const englishLabels: Record<string, string> = {
+  '地位与作用': 'Status and effects', '问题冻结与重开': 'Freezing and reopening questions',
+  '四种结果': 'Four distinct outcomes', '配置与能力': 'Allocation and capability',
+  '受影响位置': 'Affected positions', '全有损失的选择': 'Choices with unavoidable losses',
+  '开始理解': 'Start here', '阅读首页': 'Reader home', '概念图解': 'Concept guides', '概念总览': 'Concept overview',
+  '反馈与学习': 'Feedback and learning', '历史与载体': 'History and carriers', '局部与整链': 'Local and whole-chain validity',
+  '表示与尺度': 'Representation and scale', '联合可行性': 'Joint feasibility', '承接与责任': 'Handoff and responsibility',
+  '支持与恢复': 'Support and recovery', '预测与行动': 'Prediction and action', '真实案例': 'Cases', '案例总览': 'Case overview',
+  '火星气候轨道器': 'Mars Climate Orbiter', '丰田安灯系统': 'Toyota andon system', '民主授权的边界': 'Limits of democratic authorization',
+  'GitLab：服务恢复与数据完整': 'GitLab: recovery and data integrity', '弗林特饮水投诉': 'Flint water complaints',
+  '伦敦出租车学员': 'London taxi trainees', '飓风伊恩与预报锥': 'Hurricane Ian and the forecast cone',
+  '大西洋慈善基金会的档案': 'Atlantic Philanthropies archives', '继续阅读': 'Further reading', '理论原文': 'Complete text',
+  '使用指南': 'Reader guide', '下载原文与技能': 'Downloads and skill'
+}
+function localizedSidebar(groups: any[]): any[] {
+  return groups.filter(group => !group.zhOnly).map(group => ({ ...group, text: englishLabels[group.text] || group.text,
+    ...(group.link ? { link: '/en' + group.link } : {}),
+    ...(group.items ? { items: localizedSidebar(group.items) } : {}) }))
+}
+const englishLearningSidebar = localizedSidebar(learningSidebar)
+function sidebar(theory: any[], learning: any[], prefix = '') {
+  return { [prefix + '/']: theory, [prefix + '/theory/']: theory,
+    ...Object.fromEntries(['/concepts/', '/cases/', '/guide/', '/downloads'].map(path => [prefix + path, learning])) }
+}
+function pageRoutes(): string[] {
+  const routes: string[] = []
+  const walk = (directory: string) => {
+    for (const item of readdirSync(directory, { withFileTypes: true })) {
+      if (item.name.startsWith('.') || ['node_modules', 'public', 'content', 'scripts'].includes(item.name)) continue
+      const path = join(directory, item.name)
+      if (item.isDirectory()) walk(path)
+      else if (item.name.endsWith('.md') && item.name !== 'LESSONS.md')
+        routes.push('/' + relative(WEBSITE, path).replace(/\\/g, '/').replace(/(^|\/)index\.md$/, '$1').replace(/\.md$/, ''))
+    }
+  }
+  walk(WEBSITE)
+  return routes
+}
+const englishSearchTranslations = {
+  button: { buttonText: 'Search the book', buttonAriaLabel: 'Search the book' },
+  modal: { displayDetails: 'Show context', resetButtonTitle: 'Clear search', backButtonTitle: 'Close search',
+    noResultsText: 'No results found. Try a concept, section number, or shorter query.',
+    footer: { selectText: 'Open', navigateText: 'Navigate', closeText: 'Close' } }
+}
+const englishCards = lessonIndex('en').map(ref => ({ ...ref, title: lessons('en')[ref.key].title, lead: lessons('en')[ref.key].lead }))
+
+function routeAnchors(): Record<string, string[]> {
+  const routes: Record<string, string[]> = { '/': ['#map', '#lessons'], '/en/': ['#map', '#lessons'] }
+  for (const locale of ['zh', 'en']) {
+    const source = JSON.parse(readFileSync(sourceMapPath(locale), 'utf8'))
+    const add = (href: string) => {
+      const [route, anchor] = href.split('#')
+      if (anchor) (routes[route] ||= []).push('#' + anchor)
+    }
+    for (const href of Object.values(source.sections)) add(String(href))
+    for (const href of Object.values(source.parts)) add(String(href))
+    for (const note of lessonIndex(locale)) {
+      const slug = note.key.toLowerCase().replaceAll('.', '-')
+      add(`${note.route}#lesson-${slug}`)
+      add(`${note.route}#explain-${slug}`)
+    }
+  }
+  return routes
+}
+
+
 export default defineConfig({
   lang: 'zh-CN',
+  locales: {
+    root: { label: '简体中文', lang: 'zh-CN' },
+    en: { label: 'English', lang: 'en', title: 'Xikari Reader',
+      head: [['meta', { property: 'og:locale', content: 'en_US' }]],
+      description: 'Read On Conditions, Structure, and Transformation in English, with selected guides and cases.',
+      themeConfig: { opening: openingParagraph('en'), xkBaseline: baselineDate('en'), xkLengths: sheetLengths('en'),
+        xkSections: JSON.parse(readFileSync(sourceMapPath('en'), 'utf8')).sections, xkLessons: lessonIndex('en'), xkLessonCards: englishCards, sidebar: sidebar(englishTheorySidebar, englishLearningSidebar, '/en') }
+    }
+  },
   title: 'Xikari 原文精读',
   description: '沿《Xikari-条件结构与转化论》的原文顺序阅读，在对应章节之后查看讲解、图示与案例。',
   base: '/xi-kari-skill/handbook/',
@@ -180,6 +266,7 @@ export default defineConfig({
   ],
   markdown: {
     config(md) {
+      md.use(footnote)
       headingNumbers(md)
       tableFrames(md)
     },
@@ -191,42 +278,44 @@ export default defineConfig({
     } catch {
       return
     }
-    if (pageData.relativePath.startsWith('theory/')) {
+    const locale = pageData.relativePath.startsWith('en/') ? 'en' : 'zh'
+    if (/^(en\/)?theory\//.test(pageData.relativePath)) {
       pageData.frontmatter.xkChars = (text.match(/[\u3400-\u9fff]/g) || []).length
+      pageData.frontmatter.xkWords = (text.match(/\b[A-Za-z]+(?:['’-][A-Za-z]+)*\b/g) || []).length
     }
     // each page carries only the lessons placed on it
     const keys = [...text.matchAll(/<SectionLesson section="([^"]+)"/g)].map((match) => match[1])
     if (keys.length) {
-      const all = lessons()
+      const all = lessons(locale)
       pageData.frontmatter.xkLessons = Object.fromEntries(keys.filter((key) => all[key]).map((key) => [key, all[key]]))
     }
   },
   themeConfig: {
+    xkRoutes: pageRoutes(),
+    xkRouteAnchors: routeAnchors(),
+    xkEnglishLessonSlugs: Object.keys(lessons('en')).map(key => key.toLowerCase().replaceAll('.', '-')),
+    xkSourceAnchors: Object.fromEntries(Object.entries(JSON.parse(readFileSync(SOURCE_MAP, 'utf8')).sections).map(([key, value]) => [key.toLowerCase().replaceAll('.', '-'), '#' + String(value).split('#')[1]])),
     opening: openingParagraph(),
     xkBaseline: baselineDate(),
+    xkEdition: JSON.parse(readFileSync(SOURCE_MAP, 'utf8')).theory_version,
     xkLengths: sheetLengths(),
     xkLessons: lessonIndex(),
-    sidebar: {
-      '/': theorySidebar,
-      '/theory/': theorySidebar,
-      '/concepts/': learningSidebar,
-      '/cases/': learningSidebar,
-      '/guide/': learningSidebar,
-      '/downloads': learningSidebar,
-    },
+    xkSections: JSON.parse(readFileSync(SOURCE_MAP, 'utf8')).sections,
+    sidebar: { ...sidebar(theorySidebar, learningSidebar), ...sidebar(englishTheorySidebar, englishLearningSidebar, '/en') },
     search: {
       provider: 'local',
       options: {
+        locales: { en: { translations: englishSearchTranslations } },
         _render(src, env, md) {
           return md.render(src.replace(/<SectionLesson section="([^"]+)"\s*\/>/g,
-            (_match, section) => lessonSearchHtml(section)), env)
+            (_match, section) => lessonSearchHtml(section, env.relativePath?.startsWith('en/') ? 'en' : 'zh')), env)
         },
         detailedView: true,
         miniSearch: {
           options: {
             tokenize(text) {
               if (typeof Intl.Segmenter !== 'undefined') {
-                return Array.from(new Intl.Segmenter('zh', { granularity: 'word' }).segment(text))
+                return Array.from(new Intl.Segmenter(['en', 'zh'], { granularity: 'word' }).segment(text))
                   .filter((segment) => segment.isWordLike)
                   .map((segment) => segment.segment)
               }

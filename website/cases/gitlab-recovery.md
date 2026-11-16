@@ -82,3 +82,9 @@ concepts: [recovery-scope, repair-criteria]
 ## 来源
 
 - GitLab，[Postmortem of database outage of January 31](https://about.gitlab.com/blog/postmortem-of-database-outage-of-january-31/)，2017年2月10日发布。
+
+## 与 v2 原文接续
+
+[§6.10.1](../theory/part-06#section-6-10-1)把形成、维持、恢复和复制分别判断。此案已有的服务恢复结果可以保留；当时恢复手段是否补齐、下一次故障能否恢复，须按各自条件继续判断，不能由一次服务恢复全部代答。
+
+本次更新调整理论阅读连接，案例的来源身份、证据截止与原有事实范围保持不变，未据换版声称已完成新的外部调查。

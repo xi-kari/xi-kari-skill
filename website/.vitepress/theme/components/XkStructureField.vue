@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import { computed, onMounted, onUnmounted, ref } from 'vue'
+import { useLocale } from '../composables/locale'
+
+const { t, isEnglish } = useLocale()
 
 /**
  * The home drawing: twelve objects that keep re-forming into four arrangements the
@@ -10,36 +13,36 @@ import { computed, onMounted, onUnmounted, ref } from 'vue'
 type Point = [number, number]
 interface Arrangement { label: string; ref: string; anchor: Point; leader: Point; nodes: Point[]; faint: number[]; rings: [number, number, number, number][]; path: number[] }
 
-const ARRANGEMENTS: Arrangement[] = [
+const ARRANGEMENTS = computed<Arrangement[]>(() => [
   {
-    label: '结构对象', ref: '§3.1', anchor: [418, 52], leader: [392, 118],
+    label: t('结构对象', 'Structural object'), ref: '§3.1', anchor: [418, 52], leader: [392, 118],
     nodes: [[280, 236], [216, 178], [348, 172], [206, 286], [334, 304], [268, 334], [376, 240], [138, 186], [422, 288], [46, 116], [516, 352], [506, 96]],
     faint: [11],
     rings: [[280, 236, 152, .85], [280, 236, 152, 0], [280, 236, 152, 0]],
     path: [9, 7, 1, 0, 4, 6, 8, 10]
   },
   {
-    label: '局部与整链', ref: '§2.4.2', anchor: [40, 70], leader: [176, 232],
+    label: t('局部与整链', 'Local and whole chain'), ref: '§2.4.2', anchor: [40, 70], leader: [176, 232],
     nodes: [[248, 212], [182, 252], [314, 246], [182, 372], [314, 380], [446, 372], [380, 206], [116, 214], [446, 242], [50, 258], [512, 204], [248, 96]],
     faint: [3, 4, 5, 11],
     rings: [[280, 236, 40, 0], [280, 236, 40, 0], [280, 236, 40, 0]],
     path: [9, 7, 1, 0, 2, 6, 8, 10]
   },
   {
-    label: '有效反馈', ref: '§3.3', anchor: [214, 44], leader: [272, 96],
+    label: t('有效反馈', 'Effective feedback'), ref: '§3.3', anchor: [214, 44], leader: [272, 96],
     nodes: [[414, 144], [280, 106], [470, 236], [232, 238], [328, 238], [280, 300], [414, 328], [146, 144], [280, 366], [90, 236], [146, 328], [280, 196]],
     faint: [3, 4, 5, 11],
     rings: [[280, 236, 40, 0], [280, 236, 40, 0], [280, 236, 40, 0]],
     path: [9, 7, 1, 0, 2, 6, 8, 10, 9]
   },
   {
-    label: '跨尺度变换', ref: '第五部分', anchor: [392, 40], leader: [404, 104],
+    label: t('跨尺度变换', 'Cross-scale transformation'), ref: t('第五部分', 'Part 5'), anchor: [392, 40], leader: [404, 104],
     nodes: [[280, 176], [155, 236], [405, 236], [232, 272], [328, 272], [280, 361], [280, 111], [101, 172], [459, 300], [186, 401], [430, 117], [374, 401]],
     faint: [],
     rings: [[280, 236, 60, .75], [280, 236, 125, .6], [280, 236, 190, .45]],
     path: [0, 6, 10]
   }
-]
+])
 
 /* every edge that appears in any arrangement, with where it is drawn and how */
 const EDGE_SETS: [number, number, string?][][] = [
@@ -71,13 +74,13 @@ const ease = (t: number) => (t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3
 const mix = (a: number, b: number, t: number) => a + (b - a) * t
 
 const frame = computed(() => {
-  const total = clock.value % (CYCLE * ARRANGEMENTS.length)
+  const total = clock.value % (CYCLE * ARRANGEMENTS.value.length)
   const index = Math.floor(total / CYCLE)
   const within = total - index * CYCLE
   const t = within < HOLD ? 0 : ease((within - HOLD) / MORPH)
-  const from = ARRANGEMENTS[index]
-  const to = ARRANGEMENTS[(index + 1) % ARRANGEMENTS.length]
-  const toIndex = (index + 1) % ARRANGEMENTS.length
+  const from = ARRANGEMENTS.value[index]
+  const to = ARRANGEMENTS.value[(index + 1) % ARRANGEMENTS.value.length]
+  const toIndex = (index + 1) % ARRANGEMENTS.value.length
   const nodes = from.nodes.map((p, i) => ({
     x: mix(p[0], to.nodes[i][0], t),
     y: mix(p[1], to.nodes[i][1], t),
@@ -157,7 +160,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <svg ref="root" class="xk-sf" viewBox="0 0 560 470" role="img" aria-label="结构示意：结构对象、局部与整链、有效反馈、跨尺度变换四种关系形态轮流出现">
+  <svg ref="root" class="xk-sf" viewBox="0 0 560 470" role="img" :aria-label="t('结构示意：结构对象、局部与整链、有效反馈、跨尺度变换四种关系形态轮流出现', 'Structural diagram cycling through four relationships: a structural object, local and whole chain, effective feedback, and cross-scale transformation')">
     <g aria-hidden="true">
       <path class="xk-sf__dim" d="M14 452h532M14 444v16M546 444v16M14 452l12-4.5v9zM546 452l-12-4.5v9z" />
       <circle v-for="(ring, i) in frame.rings" :key="`r${i}`" class="xk-sf__bound" :cx="ring.cx" :cy="ring.cy" :r="ring.r" :opacity="ring.o" />
@@ -176,8 +179,8 @@ onUnmounted(() => {
       <g v-for="label in frame.labels" :key="label.a.label" :opacity="label.o">
         <path class="xk-sf__label-line" :d="`M${label.a.anchor[0] + 2} ${label.a.anchor[1] + 10}L${label.a.leader[0]} ${label.a.leader[1]}`" />
         <circle :cx="label.a.leader[0]" :cy="label.a.leader[1]" r="2.5" fill="currentColor" />
-        <text class="xk-sf__label" :x="label.a.anchor[0]" :y="label.a.anchor[1]">{{ label.a.label }}</text>
-        <text class="xk-sf__caption" :x="label.a.anchor[0]" :y="label.a.anchor[1] + 22">{{ label.a.ref }}</text>
+        <text :text-anchor="isEnglish && label.a.anchor[0] > 350 ? 'end' : 'start'" class="xk-sf__label" :x="label.a.anchor[0]" :y="label.a.anchor[1]">{{ label.a.label }}</text>
+        <text :text-anchor="isEnglish && label.a.anchor[0] > 350 ? 'end' : 'start'" class="xk-sf__caption" :x="label.a.anchor[0]" :y="label.a.anchor[1] + 22">{{ label.a.ref }}</text>
       </g>
     </g>
   </svg>

@@ -193,7 +193,9 @@ class ProjectPageTests(unittest.TestCase):
         self.assertIn('#usage', links)
         self.assertIn('#research', links)
         version = self.package['version']
-        self.assertIn(f'https://github.com/xi-kari/xi-kari-skill/releases/download/v{version}/xi-kari-skill-{version}-windows.zip', links)
+        self.assertIn('https://github.com/xi-kari/xi-kari-skill/releases', links)
+        self.assertIn(version, self.html)
+        self.assertFalse(any('/releases/download/' in link for link in links))
         self.assertIn(self.status['theory']['sourceUrl'], links)
         self.assertIn('https://github.com/xi-kari/xi-kari-skill/blob/main/docs/INSTALL.md', links)
         self.assertNotIn('https://github.com/xi-kari/xi-kari-skill#安装', links)

@@ -119,7 +119,7 @@ printing:
 | `hero-*.png` | the project page's briefing strip and plan view |
 | `hero-en-*.png` | the same view with its words set in English, for `README.en.md` |
 | `routes-*.png`, `routes-en-*.png` | the eight routes against the eleven modules, drawn by `src/routes.html` |
-| `handbook-*.png` | the station band of the handbook's home page |
+| `handbook-*.png`, `handbook-en-*.png` | the station band of the Chinese and English handbook home pages |
 | `outputs-*.png` | the three generated pages, built by the packaged tools and framed by `src/outputs.html`; also used by the project page |
 
 `src/capture.cjs` takes every one of them, together with the project page's
@@ -164,7 +164,7 @@ and take the figures in a third:
 node .github/readme/src/capture.cjs "$PWD/tests/dom/node_modules/playwright-core"
 ```
 
-`--only hero`, `hero-en`, `handbook`, `routes`, `outputs` or `card` retakes a
+`--only hero`, `hero-en`, `handbook`, `handbook-en`, `routes`, `outputs` or `card` retakes a
 single figure. On one machine repeated runs give identical files.
 
 Retake after the opening of either site changes, after a route or module
@@ -194,10 +194,30 @@ The concept lessons, real cases and full-text reading site are authored in
 `skill-package.json` and does not include this website.
 
 Run `npm ci --prefix website`, then `npm run build --prefix website` to generate
-the static handbook. The build reads the unchanged canonical manuscript in
-`source/`, checks its identity, splits it into reading pages and preserves the
-complete Markdown and Word downloads. To supply a missing Word download, run
-`python website/scripts/build_theory.py --docx <path>` with the matching edition.
+the static handbook. `python website/scripts/build_theory.py` prepares both
+languages by default; `--language zh`, `--language en` and `--language all`
+select the output. It reads the unchanged Chinese v2 manuscript and English
+reference edition in `source/`, checks their recorded identities, and generates
+65 pages and 397 numbered sections for each language. The English routes live
+under `en/theory/`, with the same section identifiers as Chinese.
+
+The public downloads distinguish the Chinese v2 manuscript
+(`downloads/Xikari-条件结构与转化论.md`), the English reading edition
+(`downloads/Xikari-On-Conditions-Structure-and-Transformation.md`) and the
+unchanged author-supplied English original
+(`downloads/xikari-conditions-en.original.md`). The retained Word download is
+the first edition, not a v2 export: link it as
+`downloads/Xikari-条件结构与转化论.v1.docx` and label its edition. The old Word URL
+is kept for existing links. Never give an old Word file the current manuscript's
+identity just because its filename is unchanged.
+
+Each language has its own source map, reading-unit list and generated sidebar:
+`public/source-map.json`, `content/reading-units.json` and
+`.vitepress/theory-sidebar.json` for Chinese; `public/en/source-map.json`,
+`content/en/reading-units.json` and `.vitepress/en-theory-sidebar.json` for
+English. The maps record language, theory version, source identity and the
+separate legacy Word identity. Keep translator notes resolvable on every split
+page that cites them, and check rendered code fields as well as source bytes.
 
 The source, concept lessons and case explanations have separate responsibilities.
 Keep original text unchanged; cite actual primary sources for real case facts.
@@ -221,25 +241,37 @@ second-level heading; lesson text, body text and quotations use system fonts.
 Rerun it after headings, index titles or theme strings change, and use
 `--check` to list uncovered characters without writing. The subset,
 `fonts/source.json` and `styles/fonts.css` are committed; the licence is
-`website/public/licenses/NotoSansSC-OFL.txt`. The home page's baseline date is
-read from `docs/data/research-status.json`, the same record the project page
-uses.
+`website/public/licenses/NotoSansSC-OFL.txt`. The handbook's baseline date comes
+from its source map. The project page separately retains the original
+research-completion date in `docs/data/research-status.json`; a manuscript or
+website update does not reconfirm that historical research.
 
 Section explanations live in `website/content/section-lessons.json`, keyed by
 the stable reading unit; reviewed supplements in
 `website/content/lesson-overrides.json` replace whole fields of an imported
 lesson or supply the whole lesson for a unit the import lacks. `website/LESSONS.md` lists every field and the module it
 draws; the build attaches each page's lessons to that page only. The generator recreates `reading-units.json` from the
-canonical source and accepts all 415 numbered and unnumbered units; once the
+canonical source and accepts all 421 numbered and unnumbered units; once the
 supplements apply, every unit has a lesson. Each
 explanation follows its own original text; a parent section's introduction
 precedes the original child sections. Merge reviewed `sections.json` results
 into the matching keys and keep all substantive text in renderable fields.
 Search includes those explanations and resolves them to the source section.
 
+The English explanation file is `website/content/en/section-lessons.json`.
+It uses the same stable section keys and renderable fields. English source
+coverage is complete; English explanation coverage is selective and must be
+listed as such. Do not label Chinese research lectures as English translations.
+Both languages provide concept pages, cases, a reading guide and downloads.
+Language switching should preserve the corresponding section when one exists;
+search and reading controls use the active language. Historical imported
+lectures, evidence records and source slices retain their original identity,
+even when a current explanation points into v2.
+
 Verify source coverage with `python -m unittest discover -s tests -p test_handbook_source.py`.
 The full build checks page links. Before publication, also check native static
-URLs, section anchors, Chinese search, download identities, diagrams, teaching
+URLs, section anchors, language switching, Chinese and English search,
+download identities, diagrams, teaching
 interactions, desktop/mobile layouts and both themes in a browser.
 
 ## English reference edition
@@ -249,21 +281,27 @@ manifest. The Chinese manuscript in `source/` remains the only theory authority;
 the edition serves English terminology, quotation and English readers, and the
 skill reads it only as `references/english.md` describes.
 
-The edition is generated, not edited by hand. It is built from the page-by-page
-translation, which is maintained outside this repository:
+The reading edition is generated, not edited by hand. The current edition uses
+the author's single-file English manuscript, preserved byte for byte in
+`source/en/upstream/xikari-conditions-en.md`:
 
 ```powershell
-python scripts/build_english_edition.py --from <translation directory>
+python scripts/build_english_edition.py --from-file <english-manuscript.md>
 python scripts/build_english_edition.py --check
 ```
 
-The translation directory holds `source-manifest.json`, the Chinese page
-snapshots, the English pages and `termbase.csv`. The build refuses a translation
-made from Chinese text other than `source/`, omits the Chinese glosses that the
-web pages place after terms, gives the definitional tuples in English while
-keeping the Chinese in translator's notes, turns links between web pages into
-in-book anchors, prefixes each page's translator's notes, and regenerates
-`references/glossary-en.md` from the termbase.
+The import normalizes encoding and line endings only in the reading copy,
+removes Chinese parenthetical glosses outside notes, code and link targets,
+and removes stale “(in Chinese)” labels from links to the text's own anchors.
+It preserves definitional tuples, translator notes, copyright and license
+wording. The manifest names the original file, its bytes and hash, the reading
+copy's identity, and the precise format adaptations. A semantic revision needs
+an updated translation; these format steps do not translate missing content.
+
+The older `--from <translation directory>` route remains available for a
+page-by-page translation with `source-manifest.json`, Chinese page snapshots,
+English pages and `termbase.csv`. Its transformations differ from the single-file
+import; do not describe the current edition as having gone through that route.
 
 `--check` only reads. It verifies the edition's bytes against its manifest, that
 the manifest translates the current Chinese source, and that every section ID,

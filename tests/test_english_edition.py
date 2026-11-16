@@ -42,7 +42,7 @@ class EnglishEditionTests(unittest.TestCase):
         self.assertTrue(result['ok'], result['problems'])
         zh = json.loads((ROOT / 'source/source-manifest.json').read_text(encoding='utf-8'))
         self.assertEqual(self.manifest['translates']['sha256'], zh['sha256'])
-        self.assertEqual((result['sections'], result['parts']), (391, 21))
+        self.assertEqual((result['sections'], result['parts']), (397, 21))
         self.assertEqual(result['blocks'], self.manifest['alignment']['blocks'])
 
     def test_every_section_and_part_shares_its_identifier_and_order(self):
@@ -56,19 +56,49 @@ class EnglishEditionTests(unittest.TestCase):
         self.assertEqual(edition.GLOSS.findall(body), [])
         self.assertNotRegex(body, r'\]\(#[^)]*\) \(in Chinese\)')
         self.assertNotIn('](/works/', body)
-        self.assertIn('`A* = <actor ID, observation window,', body)
-        self.assertIn('M(SP0→SP1)=<retained variables,', body)
+        self.assertIn('`A* = <行动者 ID，观察窗，', body)
+        self.assertIn('M(SP0→SP1)=<保留变量,', body)
+        self.assertIn('The full tuple in English is `A* = <actor ID, observation window,', self.text)
         for line in body.splitlines():
             if line.startswith(('#', '|')) and CJK.search(line):
                 self.fail(f'Chinese left in a heading or table row: {line[:80]}')
 
-    def test_translator_notes_are_marked_and_keep_the_chinese_tuples(self):
-        notes = re.findall(r'(?m)^\[\^(p\d\d-tn-[^\]]+)\]:', self.text)
+    def test_translator_notes_and_original_tuples_retain_supplied_wording(self):
+        notes = re.findall(r'(?m)^\[\^(tn-[^\]]+)\]:', self.text)
         self.assertTrue(notes)
         self.assertEqual(len(notes), len(set(notes)))
-        self.assertIn('The Chinese edition writes this as `A* = <行动者 ID，', self.text)
-        for ref in set(re.findall(r'\[\^(p\d\d-tn-[^\]]+)\](?!:)', self.text)):
+        upstream = ROOT / 'source/en' / self.manifest['imported_from']['source_file']
+        original = upstream.read_text(encoding='utf-8')
+        self.assertEqual(edition.NOTE_DEF.findall(self.text), edition.NOTE_DEF.findall(original))
+        for _, chinese, _, _ in edition.TUPLES:
+            self.assertEqual(self.text.count(chinese), original.count(chinese))
+        for ref in set(re.findall(r'\[\^(tn-[^\]]+)\](?!:)', self.text)):
             self.assertIn(ref, notes)
+
+    def test_supplied_edition_is_reproducible_and_retains_legal_material(self):
+        imported = self.manifest['imported_from']
+        original = (ROOT / 'source/en' / imported['source_file']).read_bytes()
+        self.assertEqual(edition.sha256(original), imported['sha256'])
+        self.assertEqual(len(original), imported['bytes'])
+        self.assertEqual(imported['sha256'], 'f59bcdb483027736ef973b43ffc0c0ce37d9cb5e67ab3f05c6c67d22a62e65a1')
+        upstream_text = original.decode('utf-8-sig').replace('\r\n', '\n')
+        self.assertEqual(edition.adapt_uploaded_file(upstream_text), self.text)
+        _, original_notices = edition.edition_body(upstream_text)
+        body, reading_notices = edition.edition_body(self.text)
+        self.assertEqual(original_notices, reading_notices)
+        self.assertEqual(reading_notices, self.manifest['non_body_material'])
+        self.assertEqual(len(reading_notices), 2)
+        self.assertIn('## Copyright and License', self.text)
+        self.assertNotIn('## Copyright and License', body)
+
+    def test_edition_notices_do_not_hide_missing_or_extra_theory_body(self):
+        zh = reader.SOURCE.read_text(encoding='utf-8')
+        body, _ = edition.edition_body(self.text)
+        paragraph = next(block for block in edition.blocks(body) if block.startswith('Some relations specify'))
+        result = edition.alignment(zh, self.text.replace(paragraph, '', 1))
+        self.assertTrue(result['problems'])
+        injected = self.text.replace('### MIT License', '## 99.1 Extra theory section\n\n### MIT License', 1)
+        self.assertTrue(edition.alignment(zh, injected)['problems'])
 
     def test_check_reports_a_stale_translation_without_writing(self):
         with tempfile.TemporaryDirectory() as temporary:
@@ -90,11 +120,44 @@ class EnglishEditionTests(unittest.TestCase):
             self.assertTrue(any('different Chinese source' in problem for problem in result['problems']))
             self.assertEqual(before, {path: path.read_bytes() for path in root.rglob('*') if path.is_file()})
 
+    def test_check_rejects_changed_source_bytes_and_stale_alignment_counts(self):
+        for damage in ('source_bytes', 'alignment_counts', 'imported_source'):
+            with self.subTest(damage=damage), tempfile.TemporaryDirectory() as temporary:
+                root = Path(temporary)
+                shutil.copytree(ROOT / 'source', root / 'source')
+                manifest_path = root / 'source/en/source-manifest.json'
+                if damage == 'source_bytes':
+                    source_path = root / 'source' / self.manifest['translates']['source_file']
+                    source_path.write_bytes(source_path.read_bytes().replace('v2'.encode(), 'v3'.encode(), 1))
+                    expected = 'Chinese source bytes differ'
+                elif damage == 'alignment_counts':
+                    manifest = json.loads(manifest_path.read_text(encoding='utf-8'))
+                    manifest['alignment']['sections'] -= 1
+                    manifest_path.write_text(json.dumps(manifest), encoding='utf-8')
+                    expected = 'alignment counts differ'
+                else:
+                    source_path = root / 'source/en' / self.manifest['imported_from']['source_file']
+                    source_path.write_bytes(source_path.read_bytes().replace(b'v2', b'v3', 1))
+                    expected = 'Imported English source bytes differ'
+                before = {path: path.read_bytes() for path in root.rglob('*') if path.is_file()}
+                saved = (edition.ROOT, edition.ZH_MANIFEST, edition.EN_DIR, edition.EN_MANIFEST)
+                try:
+                    edition.ROOT, edition.ZH_MANIFEST = root, root / 'source/source-manifest.json'
+                    edition.EN_DIR, edition.EN_MANIFEST = root / 'source/en', manifest_path
+                    result = edition.check()
+                finally:
+                    edition.ROOT, edition.ZH_MANIFEST, edition.EN_DIR, edition.EN_MANIFEST = saved
+                self.assertFalse(result['ok'])
+                self.assertTrue(any(expected in problem for problem in result['problems']))
+                self.assertEqual(before, {path: path.read_bytes() for path in root.rglob('*') if path.is_file()})
+
     def test_glossary_keeps_the_core_distinctions(self):
         glossary = (ROOT / 'references/glossary-en.md').read_text(encoding='utf-8')
         for chinese, english in [('圈层', 'circle'), ('推演', 'projection'), ('条件前瞻', 'conditional foresight'),
                                  ('有限选择', 'bounded choice'), ('授权', 'authorization'), ('处置权', 'authority to act'),
-                                 ('修复', 'repair'), ('恢复', 'recovery'), ('简单基线', 'simple baseline')]:
+                                 ('修复', 'repair'), ('恢复', 'recovery'), ('简单基线', 'simple baseline'),
+                                 ('分组增益', 'grouping gain'), ('对象事实', 'object facts'),
+                                 ('构成关系', 'constitutive relation')]:
             self.assertRegex(glossary, rf'(?m)^\| {re.escape(chinese)} \| {re.escape(english)} \|')
 
     def test_english_resources_are_installed(self):

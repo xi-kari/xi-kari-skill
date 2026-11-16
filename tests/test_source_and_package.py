@@ -83,6 +83,14 @@ class SourceAndPackageTests(unittest.TestCase):
     def test_packaged_bytes_match_and_exclude_development(self):
         with tempfile.TemporaryDirectory() as directory:
             result = builder.build(ROOT, Path(directory))
+            theory_manifest = json.loads((ROOT / 'source/source-manifest.json').read_text(encoding='utf-8'))
+            protected = {'source/' + theory_manifest['source_file']}
+            english_manifest_path = ROOT / 'source/en/source-manifest.json'
+            if english_manifest_path.exists():
+                english_manifest = json.loads(english_manifest_path.read_text(encoding='utf-8'))
+                protected.add('source/en/' + english_manifest['source_file'])
+                if 'imported_from' in english_manifest:
+                    protected.add('source/en/' + english_manifest['imported_from']['source_file'])
             with zipfile.ZipFile(Path(directory) / result['archive']) as zf:
                 self.assertIsNone(zf.testzip())
                 self.assertEqual(result['archive_root'], 'xi-kari-skill')
@@ -95,10 +103,74 @@ class SourceAndPackageTests(unittest.TestCase):
                     row = next(x for x in result['files'] if x['path'] == relative)
                     self.assertEqual(hashlib.sha256(zf.read(name)).hexdigest(), row['sha256'])
                     raw = (ROOT / relative).read_bytes()
-                    theory_path = 'source/' + json.loads((ROOT / 'source/source-manifest.json').read_text(encoding='utf-8'))['source_file']
-                    if not relative.endswith('.woff2') and relative != theory_path:
+                    if not relative.endswith('.woff2') and relative not in protected:
                         raw = raw.replace(b'\r\n', b'\n')
                     self.assertEqual(zf.read(name), raw)
+
+    def imported_english_package(self, root):
+        original = b'\xef\xbb\xbf# Imported English\r\n\r\nOriginal wording.\r\n'
+        source = b'# Chinese source\n'
+        english = b'# English reading edition\n'
+        source_manifest = {'source_file': 'theory.md', 'sha256': hashlib.sha256(source).hexdigest(),
+                           'bytes': len(source)}
+        english_manifest = {
+            'source_file': 'edition.md', 'sha256': hashlib.sha256(english).hexdigest(),
+            'bytes': len(english), 'translates': {'sha256': source_manifest['sha256']},
+            'imported_from': {'source_file': 'upstream/original.md',
+                              'sha256': hashlib.sha256(original).hexdigest(), 'bytes': len(original)},
+        }
+        contents = {
+            'SKILL.md': b'Instructions.\r\n',
+            'source/theory.md': source,
+            'source/source-manifest.json': json.dumps(source_manifest).encode(),
+            'source/en/edition.md': english,
+            'source/en/source-manifest.json': json.dumps(english_manifest).encode(),
+            'source/en/upstream/original.md': original,
+        }
+        metadata = {'name': 'xi-kari-skill', 'version': '1.0.0',
+                    'files': ['skill-package.json', *contents]}
+        contents['skill-package.json'] = json.dumps(metadata).encode()
+        for name, data in contents.items():
+            path = root / name
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_bytes(data)
+        return original, english_manifest, metadata
+
+    def test_imported_english_original_keeps_bom_and_crlf_bytes_in_archive(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            original, english_manifest, _ = self.imported_english_package(root / 'input')
+            result = builder.build(root / 'input', root / 'output')
+            with zipfile.ZipFile(root / 'output' / result['archive']) as archive:
+                prefix = result['archive_root'] + '/'
+                self.assertEqual(archive.read(prefix + 'source/en/upstream/original.md'), original)
+                self.assertEqual(archive.read(prefix + 'SKILL.md'), b'Instructions.\n')
+            row = next(item for item in result['files'] if item['path'] == 'source/en/upstream/original.md')
+            self.assertEqual(row['sha256'], english_manifest['imported_from']['sha256'])
+            self.assertEqual(row['bytes'], english_manifest['imported_from']['bytes'])
+
+    def test_missing_or_mismatched_imported_english_source_fails_before_writing(self):
+        for damage in ('missing_payload', 'changed_bytes', 'wrong_byte_count', 'invalid_metadata', 'escaping_path'):
+            with self.subTest(damage=damage), tempfile.TemporaryDirectory() as directory:
+                root = Path(directory)
+                package = root / 'input'
+                original, manifest, metadata = self.imported_english_package(package)
+                if damage == 'missing_payload':
+                    metadata['files'].remove('source/en/upstream/original.md')
+                    (package / 'skill-package.json').write_text(json.dumps(metadata), encoding='utf-8')
+                elif damage == 'changed_bytes':
+                    (package / 'source/en/upstream/original.md').write_bytes(original.replace(b'Original', b'Modified'))
+                elif damage == 'wrong_byte_count':
+                    manifest['imported_from']['bytes'] += 1
+                elif damage == 'invalid_metadata':
+                    manifest['imported_from'] = None
+                else:
+                    manifest['imported_from']['source_file'] = '../theory.md'
+                (package / 'source/en/source-manifest.json').write_text(json.dumps(manifest), encoding='utf-8')
+                output = root / 'output'
+                with self.assertRaisesRegex(ValueError, 'English imported'):
+                    builder.build(package, output)
+                self.assertFalse(output.exists())
 
     def test_package_rejects_path_escape_and_case_collision(self):
         with tempfile.TemporaryDirectory() as directory:

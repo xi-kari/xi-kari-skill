@@ -54,3 +54,9 @@ concepts: [representation-loss, local-and-whole-chain]
 
 - [实际承接与责任依据](../concepts/responsibility)
 - [从局部作用到整条链](../concepts/chain)
+
+## 与 v2 原文接续
+
+[§6.10.1](../theory/part-06#section-6-10-1)提醒读者，形成接口安排与让它持续、可恢复或可复制运行，证据不同。此案仍主要说明实际接口与执行问题，不因v2新增概念就改写为已经验证全部新机制。
+
+本次更新调整理论阅读连接，案例的来源身份、证据截止与原有事实范围保持不变，未据换版声称已完成新的外部调查。

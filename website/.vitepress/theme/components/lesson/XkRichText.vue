@@ -4,7 +4,7 @@ import { useData, withBase } from 'vitepress'
 import { inlineRuns, resolveDestination } from '../../composables/richText'
 const props = defineProps<{ text: unknown }>()
 const { theme } = useData()
-const sections = computed(() => Object.fromEntries((theme.value.xkLessons || []).map((item: any) => [item.key, `${item.route}${item.route.endsWith('/') ? '' : '.html'}#${item.anchor}`])))
+const sections = computed(() => theme.value.xkSections || Object.fromEntries((theme.value.xkLessons || []).map((item: any) => [item.key, `${item.route}${item.route.endsWith('/') ? '' : '.html'}#${item.anchor}`])))
 const runs = computed(() => inlineRuns(props.text, sections.value))
 const assetBase = inject<ComputedRef<string>>('xk-lesson-assets', computed(() => '/'))
 const href = (value: unknown) => {

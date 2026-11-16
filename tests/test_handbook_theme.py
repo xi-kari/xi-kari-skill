@@ -139,15 +139,16 @@ class HandbookThemeTests(unittest.TestCase):
             with self.subTest(file=path.relative_to(THEME).as_posix()):
                 self.assertEqual(sorted(set(re.findall(r'var\((--xk-[a-z0-9-]+)', text)) - defined), [])
 
-    def test_home_page_baseline_comes_from_the_project_record(self):
+    def test_home_page_baseline_comes_from_the_handbooks_selected_edition(self):
         config = (WEBSITE / '.vitepress/config.mts').read_text(encoding='utf-8')
-        self.assertIn('docs/data/research-status.json', config)
+        self.assertNotIn('docs/data/research-status.json', config)
+        self.assertIn('source?.source_date', config)
         home = (THEME / 'components/XkHome.vue').read_text(encoding='utf-8')
         self.assertIn('xkBaseline', home)
         self.assertNotRegex(home, r'20\d\d\s*年\s*\d+\s*月\s*\d+\s*日')
-        status = json.loads((ROOT / 'docs/data/research-status.json').read_text(encoding='utf-8'))
+        source_map = json.loads((WEBSITE / 'public/source-map.json').read_text(encoding='utf-8'))
         built = (ROOT / 'docs/handbook/index.html').read_text(encoding='utf-8')
-        self.assertIn(status['theory']['baselineDate'].replace('-', '.'), built)
+        self.assertIn(source_map['source_date'].replace('-', '.'), built)
 
 
 if __name__ == '__main__':

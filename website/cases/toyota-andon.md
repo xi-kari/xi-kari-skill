@@ -36,3 +36,9 @@ concepts: [effective-feedback, carrier-and-responsibility, carried-learning]
 - [实际承接与责任依据](../concepts/responsibility)
 - [从收到信息到有效反馈](../concepts/feedback)
 - [更新怎样保留并在后来被调用](../concepts/history)
+
+## 与 v2 原文接续
+
+[§7.6.1](../theory/part-07#section-7-6-1)可用于提出任务、训练与接续如何相互影响的问题；该机制需要至少两轮材料，不能由一份流程介绍认定。流程规定、实际运行、效果和长期能力各自取证。
+
+本次更新调整理论阅读连接，案例的来源身份、证据截止与原有事实范围保持不变，未据换版声称已完成新的外部调查。

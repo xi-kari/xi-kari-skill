@@ -53,6 +53,20 @@ def build(root: Path, output: Path) -> dict:
             raise ValueError('English edition translates a different theory source')
         protected.add(english_path)
         english_sha256 = english_manifest['sha256']
+        if 'imported_from' in english_manifest:
+            imported = english_manifest['imported_from']
+            if not isinstance(imported, dict) or not isinstance(imported.get('source_file'), str):
+                raise ValueError('Invalid English imported-source manifest')
+            relative = PurePosixPath(imported['source_file'])
+            if (not relative.parts or relative.is_absolute() or '..' in relative.parts
+                    or '\\' in imported['source_file'] or ':' in imported['source_file']):
+                raise ValueError('Invalid English imported-source path')
+            imported_path = 'source/en/' + imported['source_file']
+            original = payload.get(imported_path)
+            if (original is None or hashlib.sha256(original).hexdigest() != imported.get('sha256')
+                    or len(original) != imported.get('bytes')):
+                raise ValueError('English imported source does not match its manifest or is not packaged')
+            protected.add(imported_path)
     for name, data in payload.items():
         if name not in protected and (Path(name).suffix in {'.md', '.py', '.css', '.js', '.json', '.yaml', '.yml'} or Path(name).name == 'LICENSE'):
             payload[name] = data.decode('utf-8').replace('\r\n', '\n').encode('utf-8')

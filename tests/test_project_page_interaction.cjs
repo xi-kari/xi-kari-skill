@@ -58,7 +58,7 @@ async function load({fail = false, invalid = false, partial = false, hash = ''} 
   assert.equal(d.querySelector('[data-delivery-meter]').getAttribute('aria-valuetext'), '620 项研究任务已全部完成');
   assert.equal(d.querySelector('[data-delivery-total]').textContent, '620 / 620 项研究任务已完成。');
   assert.equal(d.querySelector('[data-snapshot-date]').textContent, '2026.10.14');
-  assert.equal(d.querySelector('[data-page-date]').textContent, '2026.10.14');
+  assert.equal(d.querySelector('[data-page-date]').textContent, '2026.11.16');
   assert.equal(d.querySelector('#research-01').open, true);
   const search = d.querySelector('[data-research-search]');
   search.value = '货币'; search.dispatchEvent(new w.Event('input'));

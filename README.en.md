@@ -12,13 +12,13 @@
 <p align="center">
   <a href="https://github.com/xi-kari/xi-kari-skill/releases/latest"><b>Download</b></a>&nbsp;·
   <a href="https://xi-kari.github.io/xi-kari-skill/">Project&nbsp;page&nbsp;(Chinese)</a>&nbsp;·
-  <a href="https://xi-kari.github.io/xi-kari-skill/handbook/">Reading&nbsp;site&nbsp;(Chinese)</a>&nbsp;·
+  <a href="https://xi-kari.github.io/xi-kari-skill/handbook/en/">Reading&nbsp;site</a>&nbsp;·
   <a href="docs/INSTALL.md">Installation&nbsp;guide&nbsp;(Chinese)</a>&nbsp;·
   <a href="https://github.com/xi-kari/xi-kari-skill/discussions">Discussions&nbsp;(Chinese)</a>
 </p>
 
 <p align="center">
-  <a href="https://github.com/xi-kari/xi-kari-skill/releases/latest"><img alt="Latest release" src="https://img.shields.io/github/v/release/xi-kari/xi-kari-skill?style=flat-square&amp;label=release&amp;color=1F4FC4"></a>
+  <a href="skill-package.json"><img alt="Skill version 6.3.0" src="https://img.shields.io/badge/skill-6.3.0-1F4FC4?style=flat-square"></a>
   <a href="https://github.com/xi-kari/xi-kari-skill/actions/workflows/windows.yml"><img alt="Windows tests" src="https://img.shields.io/github/actions/workflow/status/xi-kari/xi-kari-skill/windows.yml?branch=main&amp;style=flat-square&amp;label=Windows%20CI"></a>
   <img alt="Optional tools need Python 3.10 or later" src="https://img.shields.io/badge/python-3.10%2B%20%28optional%29-33415E?style=flat-square">
   <a href="LICENSE"><img alt="MIT License" src="https://img.shields.io/badge/license-MIT-33415E?style=flat-square"></a>
@@ -28,7 +28,7 @@
 
 It is built for questions that need both clear thinking and a decision: why an institution keeps failing, how a plan will affect different people, which of several explanations holds up, whether to keep, adjust, probe or exit now. The skill starts only when you name it and does not take over ordinary conversation.
 
-The skill works in English and Chinese. Ask in English and the whole answer is in English. The theory's authoritative text is Chinese; the package also carries an aligned English reference edition and a Chinese–English glossary, used for English terminology and quotations (see [Working in English](references/english.md)).
+The skill works in English and Chinese. Ask in English and the whole answer is in English. The theory's authoritative text is Chinese; the package also carries the author's aligned English reference edition and a Chinese–English glossary, used for English terminology and quotations (see [Working in English](references/english.md)). Both the skill and the [bilingual reading site](https://xi-kari.github.io/xi-kari-skill/handbook/en/) use v2, with the full text available in English.
 
 ## Start here
 
@@ -36,7 +36,7 @@ The skill works in English and Chinese. Ask in English and the whole answer is i
 | --- | --- |
 | Install it and ask a first question | [Quick start](#quick-start) · [Installation guide](docs/INSTALL.md) (in Chinese) |
 | See how it handles different kinds of question | [Modules organized by question](#modules-organized-by-question) · [Project page](https://xi-kari.github.io/xi-kari-skill/) (in Chinese) |
-| Read the theory itself | [English reference edition](source/en/Xikari-On-Conditions-Structure-and-Transformation.md) · [Reading site](https://xi-kari.github.io/xi-kari-skill/handbook/) (in Chinese) |
+| Read the theory itself | [English reading site](https://xi-kari.github.io/xi-kari-skill/handbook/en/) · [Reference manuscript](source/en/Xikari-On-Conditions-Structure-and-Transformation.md) · [Chinese site](https://xi-kari.github.io/xi-kari-skill/handbook/) |
 | Know what it delivers and which tools come with it | [What you get](#what-you-get) · [Bundled tools](#bundled-tools) |
 | Know what it does not claim and does not do | [Conditional foresight and its limits](#conditional-foresight-and-its-limits) · [Boundaries](#boundaries) |
 | Work in English | [Working in English](references/english.md) · [Glossary](references/glossary-en.md) |
@@ -51,6 +51,15 @@ The skill works in English and Chinese. Ask in English and the whole answer is i
 - **Complete delivery, sized to the question.** The conclusion and key numbers come first. A question with a definite answer gets one or two paragraphs of grounds and conditions; a complex analysis is developed in full, and a long text is written when you ask for one. Clauses and plans are written to be used as they stand, with the explanation after them.
 - **One question can keep going.** Follow-ups, new material, counterexamples and requests for a combined draft all build on the existing work and revise from the earliest affected point instead of starting over each turn.
 - **It derives further from what is established, and says how far each step reaches.** Ask what else follows, and it works along the definitions, transformations and compositions of the source text to statements the question never asked for. Each one names its starting points and how it was reached, and whether it is a consequence that must hold within a stated model, a requirement a definition places on a claim, or a candidate still to be tested, with its strongest rival and the observation that would reject it. A restatement does not count as new, and *not found* always names the scope searched.
+
+In an analysis, the modules separate judgments that are easily conflated and connect them back to the original question:
+
+| Difficulty in the question | How the skill handles it |
+| --- | --- |
+| The target, membership or constraints are themselves disputed | The [question contract](modules/contract/MODULE.md) retains the challenge and the reasons for its treatment; reopening a question records its relation to the old one and preserves the old result |
+| A qualification or authorization is established, but the expected effects have not followed | The [mechanism module](modules/mechanism/MODULE.md) examines constitutive status, participants' understanding, actual fulfillment and normative legitimacy separately, with evidence appropriate to each |
+| Something worked in one place and is to be maintained, restored or replicated | The [projection module](modules/dynamics/MODULE.md) checks formation, maintenance, recovery and replication separately; one success does not establish the conditions for the other outcomes |
+| Every option, including waiting, carries losses | [Bounded choice](modules/choice/MODULE.md) compares affected positions, protections, resources and joint feasibility, and recommends under stated premises while retaining losses, remedial responsibilities and conditions for reconsideration; adoption requires its own authorization |
 
 ## Quick start
 
@@ -146,7 +155,7 @@ Long tasks can continue across sessions. When the session or model changes, the 
 
 <sub>The screenshots were produced by the bundled tools, with Chinese interfaces. The reading page uses Part 1 of the book as sample content; the condition-model page and comparison table come from the bundled, explicitly fictional teaching examples, whose numbers are not real-world facts.</sub>
 
-**Version scope:** the current package is `v6.2.0`; the screenshots show the tools' interfaces, and each version's features are described in its [release notes](https://github.com/xi-kari/xi-kari-skill/releases).
+**Version scope:** the current package is `v6.3.0`; the screenshots show the tools' interfaces, and each version's features are described in its [release notes](https://github.com/xi-kari/xi-kari-skill/releases).
 
 - **Complete answer `xi-kari-answer.md`.** Produced at the first complete delivery or when you ask for a combined draft: the central judgment first, then evaluation of the material, structural relations, comparison of mechanisms, cases and counterexamples, paths, responses to objections, the verdict and the options.
 - **Offline reading page.** A single HTML file, generated from the complete draft, that makes no network connections. Under the title a track chart, drawn from the text's own counts, sets each section as a fix at its true distance; the track fills in as you read, pressing a fix goes to that section, and once the chart has scrolled away the same track stays in view under the bar. The contents list marks the current section as you read; there is full-text search, adjustable text size and a print layout; night mode follows the system and can be switched by hand; footnotes preview on hover and link back. Select a passage and “Ask about selection” turns it, with its location, into a follow-up question for you to copy back into the conversation. Formulas are typeset with the bundled KaTeX. Use `--lang en` for an English interface.
@@ -188,26 +197,27 @@ Common invocations are in [host setup and clean working directories](references/
 
 ## Source text and reading
 
-<p><a href="https://xi-kari.github.io/xi-kari-skill/handbook/">
+<p><a href="https://xi-kari.github.io/xi-kari-skill/handbook/en/">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset=".github/readme/handbook-dark.png">
-    <img alt="Home page of the reading site (in Chinese): Xikari: On Conditions, Structure, and Transformation, by Xikari. Read the source in order, with explanations, diagrams and sourced cases after each section. The book is drawn as a compass rose: Parts 1–16 on the main ring, Appendices A–D inside it, and the 32 domains of Appendix D on the rim." src=".github/readme/handbook-light.png" width="100%">
+    <source media="(prefers-color-scheme: dark)" srcset=".github/readme/handbook-en-dark.png">
+    <img alt="English reading site: Xikari: On Conditions, Structure, and Transformation. The complete v2 reference text with selected guides. The compass shows Parts 1–16, Appendices A–D and the 32 domains of Appendix D." src=".github/readme/handbook-en-light.png" width="100%">
   </picture>
 </a></p>
 
 | The book | What it covers |
 | --- | --- |
-| [Parts 1–2](source/en/Xikari-On-Conditions-Structure-and-Transformation.md#part_1) | reading method and evidential responsibility |
-| [Parts 3–6](source/en/Xikari-On-Conditions-Structure-and-Transformation.md#part_3) | universal grammar, conditional propositions, empirical testing, scale transformation and mechanisms of operation |
-| [Parts 7–11](source/en/Xikari-On-Conditions-Structure-and-Transformation.md#part_7) | human experience, collective prototypes, actors, multi-circle objects and dynamic projection |
-| [Parts 12–16](source/en/Xikari-On-Conditions-Structure-and-Transformation.md#part_12) | foresight, choice, tools, norms, intervention and governance |
-| [Appendices A–D](source/en/Xikari-On-Conditions-Structure-and-Transformation.md#part_17) | Human Variable Interface Cards; Numbering Scheme and Glossary; Common Method Kernel and Cross-Disciplinary Bridging; A Map of Domain Explanations and Applications |
+| [Parts 1–2](https://xi-kari.github.io/xi-kari-skill/handbook/en/theory/part-01.html) | reading method and evidential responsibility |
+| [Parts 3–6](https://xi-kari.github.io/xi-kari-skill/handbook/en/theory/part-03.html) | universal grammar, conditional propositions, empirical testing, scale transformation and mechanisms of operation |
+| [Parts 7–11](https://xi-kari.github.io/xi-kari-skill/handbook/en/theory/part-07.html) | human experience, collective prototypes, actors, multi-circle objects and dynamic projection |
+| [Parts 12–16](https://xi-kari.github.io/xi-kari-skill/handbook/en/theory/part-12.html) | foresight, choice, tools, norms, intervention and governance |
+| [Appendices A–D](https://xi-kari.github.io/xi-kari-skill/handbook/en/theory/appendix-a/) | Human Variable Interface Cards; Numbering Scheme and Glossary; Common Method Kernel and Cross-Disciplinary Bridging; A Map of Domain Explanations and Applications |
 
 - **Authoritative text:** [`source/Xikari-条件结构与转化论.md`](source/Xikari-条件结构与转化论.md), with its identity (SHA-256) in [`source/source-manifest.json`](source/source-manifest.json). The source takes precedence over the skill's engineering guidance and over a model's prior understanding of terms with the same name.
-- **English reference edition:** [`source/en/Xikari-On-Conditions-Structure-and-Transformation.md`](source/en/Xikari-On-Conditions-Structure-and-Transformation.md). It is translated from that authoritative text, shares every section and part identifier with it, and records the Chinese SHA-256 it translates in [`source/en/source-manifest.json`](source/en/source-manifest.json). It is a reference translation: where it appears to differ from the Chinese, the Chinese governs. Terms are listed in the [Chinese–English glossary](references/glossary-en.md).
-- **[Term index](source/en/Xikari-On-Conditions-Structure-and-Transformation.md#part_18):** the numbering scheme and glossary of Appendix B.
-- **[Reading site](https://xi-kari.github.io/xi-kari-skill/handbook/)** (in Chinese): read the source in order, with explanations, diagrams and sourced cases after each section; search concepts, cases and the text, or [download](https://xi-kari.github.io/xi-kari-skill/handbook/downloads.html) the full Chinese text as Markdown or Word.
-- **[Concept lessons](https://xi-kari.github.io/xi-kari-skill/handbook/concepts/)** and **[real cases](https://xi-kari.github.io/xi-kari-skill/handbook/cases/)** (in Chinese): from a question to a distinction — for example, “Do comments received already count as feedback?” — and cases such as the Mars Climate Orbiter's unit interface, Toyota's andon response process, GitLab's database recovery, the Flint water complaints and Hurricane Ian's forecast cone; the case index offers reading routes by question.
+- **English reference edition:** [`source/en/Xikari-On-Conditions-Structure-and-Transformation.md`](source/en/Xikari-On-Conditions-Structure-and-Transformation.md), prepared from the [author-supplied manuscript](source/en/upstream/xikari-conditions-en.md) with reproducible reading-format adjustments and the original bytes preserved. It shares every section and part identifier with the Chinese; [`source/en/source-manifest.json`](source/en/source-manifest.json) records both identities. Where the translation appears to differ from the Chinese, the Chinese governs. Terms are listed in the [Chinese–English glossary](references/glossary-en.md).
+- **[English reading site](https://xi-kari.github.io/xi-kari-skill/handbook/en/):** the complete v2 reference text across 65 pages and 397 numbered sections, with English navigation, search and selected section guides. Language switching lets readers consult the corresponding Chinese text. The [Chinese site](https://xi-kari.github.io/xi-kari-skill/handbook/) has explanation entries for all 421 reading units, including front matter and part introductions. Those extended Chinese research lectures have not all been translated; the English guide coverage is listed separately.
+- **[Concept lessons](https://xi-kari.github.io/xi-kari-skill/handbook/en/concepts/)** and **[real cases](https://xi-kari.github.io/xi-kari-skill/handbook/en/cases/):** English explanations organized around questions and distinctions, with sourced cases such as the Mars Climate Orbiter's unit interface and Toyota's andon response process. Cases retain their evidence and limits.
+- **[Term index](https://xi-kari.github.io/xi-kari-skill/handbook/en/theory/appendix-b.html):** the numbering scheme and glossary of Appendix B.
+- **[Downloads](https://xi-kari.github.io/xi-kari-skill/handbook/en/downloads.html):** the Chinese v2 Markdown, the English reading text and the author's unchanged English original. The retained Word file is explicitly labeled as the first edition and does not represent v2. Historical research materials retain their own version and source information.
 - **[Historical field tests](https://github.com/xi-kari/xi-kari-skill/discussions?discussions_q=)** (in Chinese): Discussions keep historical analyses based on Xikari 8.3 for reference; they do not represent the current theory or the current skill.
 - **[Project page](https://xi-kari.github.io/xi-kari-skill/)** (in Chinese): introduction, usage and research progress.
 
@@ -229,7 +239,7 @@ xi-kari-skill/
 ├── source/               theory source and identity manifest (authoritative text)
 │   └── en/               English reference edition and its manifest
 ├── modules/              eleven analysis, judgment and generation modules
-├── rules/                39 derived rule cards with source anchors
+├── rules/                41 derived rule cards with source anchors
 ├── cases/                teaching demonstrations and runnable registration inputs
 ├── references/           guides: reading, modules, continuation, collaboration, tools, English
 ├── scripts/              optional Python tools (standard library); build, check, evaluation
