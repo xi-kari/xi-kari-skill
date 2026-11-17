@@ -481,6 +481,7 @@
 .xk-mobile-nav { display: none; }
 .xk-mobile-nav a { padding: 9px 10px; border-radius: 3px; font-size: 15px; font-weight: 700; color: var(--xk-ink-2); }
 .xk-mobile-nav a[aria-current] { color: var(--xk-loc-ink); background: var(--xk-loc); }
+.xk-mobile-nav .xk-nav-language { display: none; }
 @media (max-width: 1023px) {
   .xk-mobile-nav { display: grid; gap: 2px; margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid var(--xk-rule); }
 }
@@ -495,6 +496,8 @@
   .xk-search-btn .xk-icon { width: 20px; height: 20px; }
   .xk-tool { width: 40px; height: 40px; }
   .xk-tool--github { display: none; }
+  .xk-tool--language-in-nav { display: none; }
+  .xk-mobile-nav .xk-nav-language { display: block; }
   .xk-sheet { padding: 26px 18px 56px; }
   .xk-aside {
     top: auto;
@@ -519,14 +522,12 @@ html.xk-locked { overflow: hidden; }
 @media (min-width: 1024px) { .xk-app.is-home .xk-nav { display: none; } }
 
 .xk-tool--language { width: auto; min-width: 38px; padding: 0 7px; font-size: 12px; font-weight: 700; white-space: nowrap; }
-html[lang="en"] {
-  --xk-font-sans: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, "Noto Sans", sans-serif;
-  --xk-font-song: Georgia, "Times New Roman", "Noto Serif", serif;
-}
-html[lang="en"] .xk-brand__name { font-size: 16px; }
 html[lang="en"] .xk-topnav a { padding-inline: 8px; }
 @media (min-width: 761px) { html[lang="en"] .xk-search-btn { min-width: 148px; } }
 html[lang="en"] .xk-tb__nowrap { white-space: normal; }
+@media (max-width: 760px) {
+  .xk-tb > div:not(.xk-tb__lessons) .xk-tb__nowrap { white-space: normal; }
+}
 html[lang="en"] .xk-outline { hyphens: auto; }
 html[lang="en"] .xk-bubble__bottom { font-size: 9px; letter-spacing: 0; }
 @media (max-width: 1180px) { html[lang="en"] .xk-tool--home { display: none; } }

@@ -32,7 +32,16 @@
 .xk-model__controls { display: flex; flex-wrap: wrap; gap: 14px 22px; }
 .xk-model__control { display: grid; gap: 6px; flex: 1 1 200px; }
 .xk-model__label { font-size: 13px; font-weight: 700; color: var(--xk-ink-2); }
-.xk-model .xk-seg button { height: 34px; font-size: 13.5px; }
+.xk-model .xk-seg { min-width: 0; max-width: 100%; grid-auto-columns: minmax(0, 1fr); }
+.xk-model .xk-seg button {
+  min-width: 0;
+  height: auto;
+  min-height: 34px;
+  padding: 6px 10px;
+  white-space: normal;
+  font-size: 13.5px;
+  line-height: 1.45;
+}
 
 /* feedback: a three-fix signal path */
 .xk-fb__tabs { margin: 0 0 4px; }

@@ -67,3 +67,5 @@ jobs:
         run: npm run build --prefix website
       - name: Test bilingual handbook in Chrome
         run: node tests/test_handbook_locale.cjs "$PWD/tests/dom/node_modules/playwright-core"
+      - name: Test handbook controls on narrow screens
+        run: node tests/test_handbook_controls.cjs "$PWD/tests/dom/node_modules/playwright-core"

@@ -10,6 +10,19 @@ const futureCapacity = ref(1)
 const possible = computed(() => deadline.value === 2 && futureCapacity.value >= 1)
 const secondOpen = computed(() => deadline.value === 2)
 
+function moveRadio(event: KeyboardEvent, control: 'deadline' | 'capacity') {
+  if (!['ArrowRight', 'ArrowDown', 'ArrowLeft', 'ArrowUp', 'Home', 'End'].includes(event.key)) return
+  event.preventDefault()
+  const values = control === 'deadline' ? [1, 2] : [0, 1, 2]
+  const current = control === 'deadline' ? deadline.value : futureCapacity.value
+  const step = ['ArrowRight', 'ArrowDown'].includes(event.key) ? 1 : -1
+  const next = event.key === 'Home' ? 0 : event.key === 'End' ? values.length - 1
+    : (values.indexOf(current) + step + values.length) % values.length
+  if (control === 'deadline') deadline.value = values[next]
+  else futureCapacity.value = values[next]
+  ;(event.currentTarget as HTMLElement).querySelectorAll<HTMLButtonElement>('[role="radio"]')[next]?.focus()
+}
+
 const track = ref<HTMLElement>()
 const firstBox = ref<HTMLElement>()
 const secondBox = ref<HTMLElement>()
@@ -63,15 +76,15 @@ onUnmounted(() => window.removeEventListener('resize', place))
       <div class="xk-model__controls">
         <div class="xk-model__control">
           <span :id="`${id}-deadline`" class="xk-model__label">{{ t('两项任务的截止时间', 'Deadline for both tasks') }}</span>
-          <div class="xk-seg" role="radiogroup" :aria-labelledby="`${id}-deadline`">
-            <button type="button" role="radio" :aria-checked="deadline === 1" @click="deadline = 1">{{ t('第一期结束', 'End of period 1') }}</button>
-            <button type="button" role="radio" :aria-checked="deadline === 2" @click="deadline = 2">{{ t('允许延至第二期', 'Allow until period 2') }}</button>
+          <div class="xk-seg" role="radiogroup" :aria-labelledby="`${id}-deadline`" @keydown="moveRadio($event, 'deadline')">
+            <button type="button" role="radio" :aria-checked="deadline === 1" :tabindex="deadline === 1 ? 0 : -1" @click="deadline = 1">{{ t('第一期结束', 'End of period 1') }}</button>
+            <button type="button" role="radio" :aria-checked="deadline === 2" :tabindex="deadline === 2 ? 0 : -1" @click="deadline = 2">{{ t('允许延至第二期', 'Allow until period 2') }}</button>
           </div>
         </div>
         <div class="xk-model__control">
           <span :id="`${id}-capacity`" class="xk-model__label">{{ t('第二期的新增容量', 'Additional capacity in period 2') }}</span>
-          <div class="xk-seg" role="radiogroup" :aria-labelledby="`${id}-capacity`">
-            <button v-for="value in [0, 1, 2]" :key="value" type="button" role="radio" :aria-checked="futureCapacity === value" @click="futureCapacity = value">{{ t(`${value} 个时段`, `${value} time slots`) }}</button>
+          <div class="xk-seg" role="radiogroup" :aria-labelledby="`${id}-capacity`" @keydown="moveRadio($event, 'capacity')">
+            <button v-for="value in [0, 1, 2]" :key="value" type="button" role="radio" :aria-checked="futureCapacity === value" :tabindex="futureCapacity === value ? 0 : -1" @click="futureCapacity = value">{{ t(`${value} 个时段`, `${value} time ${value === 1 ? 'slot' : 'slots'}`) }}</button>
           </div>
         </div>
       </div>

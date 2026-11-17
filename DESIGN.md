@@ -537,7 +537,7 @@ A red plate with white XK Display lettering (.9375rem), a 2px white border insid
 Label over value in ruled cells: a tracked label in third ink (.75rem, tracking .08em) above a value at 700 (.9375rem). Numbers inside a strip are designators.
 
 - **Briefing strip** (project page): six cells of identity facts above the plan view, five below 1280px, three on phones.
-- **Identity strip** (handbook home): book, author, baseline, structure, lesson count.
+- **Identity strip** (handbook home): book, author, baseline, structure, lesson count. The edition shares the baseline cell; an edition update does not add a sixth cell.
 - **Page strip** (handbook reading page): the sheet number at 30px, its group, length and lesson count, and the position rose with a magenta wedge on this sheet's sector.
 - **Locator strip** (handbook, below 1280px): sheet number, current section, source-only switch.
 - **Pager**: two cells, previous and next, each with a direction label, the sheet number in cobalt and the title in XK Display.
@@ -579,7 +579,7 @@ Left-aligned, ruled at 1px, with a 2px rule over the header and tabular numerals
 The handbook's index, drawn as flight progress strips.
 
 - **Rack** (reading pages): bays headed by a tinted designator strip (title, count, fold), each sheet a 34px strip of ruled cells: number, title, lesson count. The current sheet has a 2px magenta holder around its strip and a magenta number; the holder travels down the rack when the sheet turns.
-- **Board** (home): the same strips at 54px with the sheet's length under its title. Hover tints the strip and turns its number cell into an ink sign.
+- **Board** (home): the same strips at 54px with the sheet's length under its title. Hover tints the strip and turns its number cell into an ink sign. In both languages it follows the identity strip directly, in four bays: Parts 1–6, 7–12, 13–16, and the appendices with references. Appendix A and D each occupy one strip with aggregate lengths and lesson counts; their individual sheets remain in the reading navigation. Edition and language guidance do not interrupt this first view.
 - **Outline:** section links on a 1.5px rail; a 4 by 22px magenta marker slides to the section being read. Reading settings sit under a 1.5px ink rule: source only, text size, body face, copy link.
 
 ### Lessons

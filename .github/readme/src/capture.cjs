@@ -312,7 +312,8 @@ function buildPages() {
 
   (async () => {
     // a fixed colour profile and no GPU make repeated runs byte-identical on one machine
-    const browser = await chromium.launch({ channel: 'chrome', headless: true, args: ['--disable-gpu', '--force-color-profile=srgb'] });
+    const executablePath = process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH;
+    const browser = await chromium.launch({ ...(executablePath ? { executablePath } : { channel: 'chrome' }), headless: true, args: ['--disable-gpu', '--force-color-profile=srgb'] });
     let work = null;
     try {
     work = wanted('outputs') ? buildPages() : null;
@@ -340,7 +341,7 @@ function buildPages() {
         await tab.waitForSelector('.xk-station__rose svg');
         await settle(tab);
         keep(path.join(README, `handbook${suffix}-${name}.png`), await tab.locator('.xk-station').screenshot(),
-          `Browser capture of the ${language} station band on the handbook's home page in the ${theme} theme; its action signs are hidden. Taken by .github/readme/src/capture.cjs.`);
+          `Browser capture of the ${language} station band on the handbook's home page in the ${theme} theme; its action signs are hidden. Taken by .github/readme/src/capture.cjs on ${process.platform}, Chromium ${browser.version()}.`);
       }
 
       if (wanted('routes')) {

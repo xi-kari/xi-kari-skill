@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useLocale } from '../composables/locale'
+import { useLocale, useLanguageSwitch } from '../composables/locale'
 const { t, isEnglish, localePath } = useLocale()
 import { reactive, watch } from 'vue'
 import { pageHref, useNav, type NavGroup } from '../composables/nav'
@@ -9,6 +9,7 @@ defineProps<{ open: boolean }>()
 const emit = defineEmits<{ (e: 'close'): void }>()
 const { groups, route, currentGroup } = useNav()
 const topLinks = useTopLinks()
+const languageLink = useLanguageSwitch()
 
 const opened = reactive<Record<string, boolean>>({})
 watch(currentGroup, (group) => { if (group) opened[group.text] = true }, { immediate: true })
@@ -27,6 +28,13 @@ const hasLessons = () => groups.value.some((group) => group.items.some((item) =>
         </button>
       </div>
       <div class="xk-mobile-nav">
+        <a
+          class="xk-nav-language"
+          :href="pageHref(languageLink)"
+          :hreflang="isEnglish ? 'zh-CN' : 'en'"
+          :aria-label="t('切换到英文，保留对应章节', 'Read the corresponding Chinese section')"
+          @click="emit('close')"
+        >{{ t('English · 英文阅读', '中文 · Chinese edition') }}</a>
         <a
           v-for="item in topLinks"
           :key="item.link"
