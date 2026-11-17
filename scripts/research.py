@@ -57,6 +57,118 @@ ACTIVE = {'open', 'under_investigation', 'partially_resolved'}
 MAX_ITEMS = 2000
 MAX_RENDER_BYTES = 32 * 1024 * 1024
 
+LABELS = {
+    'zh': {
+        'kinds': KINDS, 'statuses': STATUSES, 'categories': CATEGORIES, 'issue_statuses': ISSUE_STATUSES,
+        'input_kinds': {'source': '来源', 'premise': '前提', 'mapping': '映射'},
+        'input_statuses': {'known': '已取得或已明确', 'unknown': '未知，尚未取得', 'synthetic': '合成材料'},
+        'materiality': {'major': '重大', 'minor': '次要'},
+        'notice': NOTICE, 'ref': '{label}（{id}）', 'sep': '；', 'cat_sep': '、',
+        'question': '研究问题：{}', 'current': '## 当前判断', 'summary_refs': '综合所据结论：{}。',
+        'stopped_head': '**综合判断引用了已撤回或已被反驳的结论，须复核其用法：**',
+        'stopped_item': '- {path}（起点状态：{status}）。',
+        'stopped_tail': '该提示不自动撤回下游判断：记录反驳结果与继续把旧结论当作成立前提须由作者区分。路径仅示例，不穷举所有依赖。',
+        'synthetic': '本报告使用合成材料：{}。相应结果只用于教学或模型示意，不作现实效果证据。',
+        'theory_report': '**理论版本提示：** 理论问题候选 {} 所据原文与当前随包原文不是同一版本，相关命题尚未对当前原文复核。',
+        'major': '**影响当前判断的重大未决：**', 'major_item': '- {label}：{consequence}',
+        'scope': '## 范围与方法', 'argument': '## 研究论证',
+        'identity': '判断身份：{kind}；状态：{status}。', 'depends': '依据及前提：{}。',
+        'unknown_dep': '**尚依赖未知输入：** {path}。该部分仍需作者复核，未由本工具补成事实。',
+        'stopped_dep': ('**依赖状态复核：** {path}（起点状态：{status}）。'
+                        '请区分记录反驳结果与继续使用旧前提；不自动判定本项失效。'),
+        'limits': '本项限制：', 'related': '关联问题 {label}：{consequence}', 'successors': '后继问题：{}。',
+        'change': '可能改判的条件：', 'assessment': '## 解释范围与问题评估',
+        'see_issues': '问题的已做工作、剩余缺口和下一步见同目录的 [问题报告](research-issues.md)。',
+        'sources': '## 材料、前提与映射',
+        'bound_note': '下列快照仅展示作者绑定；用 impact-mapping 显式提供所据快照后核验依赖，不证明语义正确。',
+        'input_identity': '类型：{kind}；记录状态：{status}。', 'locator': '出处或位置：{}',
+        'no_locator': '尚未取得，保留未知',
+        'snapshot': '映射快照：{id} / {version}；字节 SHA-256：{sha}；引用节点：{nodes}。',
+        'manual_mapping': '本项为人工映射说明，未绑定可自动追踪的领域包快照；来源更正须人工回查下游。',
+        'issues_title': '# {} · 解释边界与问题', 'issues_question': '对应研究问题：{}',
+        'see_report': '主体论证见 [研究报告](research-report.md)。',
+        'no_issues': '本次记录未提出具体问题项；这一结果只覆盖上述评估范围，不表示理论或研究普遍无误。',
+        'categories_line': '分类：{}。', 'affected_line': '受影响结论：{findings}；影响程度：{materiality}。',
+        'successors_issue': '后继问题：{}。替代不表示原缺口已经解决。',
+        'fields': (('current_work', '已经完成的工作'), ('why_unresolved', '仍未解决的具体原因'),
+                   ('consequence', '对主报告的影响'), ('next_work', '下一项工作'),
+                   ('status_reason', '当前状态依据'), ('resolution_scope', '已解决与仍未解决的范围')),
+        'theory_head': '### 理论问题候选的具体命中位置', 'theory_anchor': '原文位置：§{}',
+        'theory_sha': '所据原文字节 SHA-256：{}', 'theory_notice': '**理论版本提示：** {}',
+        'theory_subject': '本候选', 'theory_scope': '原命题范围与前提：{}', 'theory_challenge': '具体挑战：{}',
+        'theory_tail': '这是待评估的理论问题候选；记录结构不证明原命题已被反驳。',
+        'issue_label': '{id}：{title}（{status}）',
+    },
+    'en': {
+        'kinds': {'descriptive': 'descriptive judgment', 'causal': 'causal judgment',
+                  'interpretive': 'interpretive judgment', 'normative': 'normative judgment',
+                  'model_result': 'result within a model', 'candidate': 'candidate', 'unknown': 'unknown',
+                  'conditional_projection': 'conditional projection'},
+        'statuses': {'supported': 'supported within the stated scope', 'proposed': 'proposed for examination',
+                     'contested': 'contested', 'unknown': 'unknown', 'refuted': 'refuted', 'withdrawn': 'withdrawn'},
+        'categories': {'material_gap': 'insufficient material',
+                       'identification_limit': 'limits of method and identification',
+                       'domain_method': 'domain knowledge or method needed',
+                       'mapping_gap': 'gap in mapping or concepts', 'theory_candidate': 'candidate theory problem',
+                       'normative_disagreement': 'normative disagreement',
+                       'implementation_gap': 'gap in the skill or the product'},
+        'issue_statuses': {'open': 'open', 'under_investigation': 'under investigation',
+                           'partially_resolved': 'partly resolved', 'resolved_within_scope': 'resolved within a stated scope',
+                           'withdrawn': 'withdrawn', 'superseded': 'superseded by later issues'},
+        'input_kinds': {'source': 'source', 'premise': 'premise', 'mapping': 'mapping'},
+        'input_statuses': {'known': 'obtained or stated', 'unknown': 'unknown, not yet obtained',
+                           'synthetic': 'synthetic material'},
+        'materiality': {'major': 'major', 'minor': 'minor'},
+        'notice': ('This tool checks only the record structure, references and dependencies and typesets the '
+                   "author's text. It does not show that sources are true, that the argument suffices, that the "
+                   'research is complete or that any real-world effect has occurred.'),
+        'ref': '{label} ({id})', 'sep': '; ', 'cat_sep': '; ',
+        'question': 'Research question: {}', 'current': '## Current judgment', 'summary_refs': 'Findings the judgment rests on: {}.',
+        'stopped_head': '**The overall judgment cites findings that have been withdrawn or refuted; review how they are used:**',
+        'stopped_item': '- {path} (status at the start: {status}).',
+        'stopped_tail': ('This notice does not withdraw any downstream judgment. The author must distinguish recording a '
+                         'refutation from still treating the old finding as a premise. The path is an example, not '
+                         'every dependency.'),
+        'synthetic': 'This report uses synthetic material: {}. The results serve teaching or illustrating a model and are not evidence of real-world effects.',
+        'theory_report': ('**Theory version notice:** candidate theory problem {} rests on a source text that differs from '
+                          'the bundled text; the proposition has not been rechecked against the current text.'),
+        'major': '**Major open issues affecting the current judgment:**', 'major_item': '- {label}: {consequence}',
+        'scope': '## Scope and method', 'argument': '## Research argument',
+        'identity': 'Kind of judgment: {kind}; status: {status}.', 'depends': 'Rests on: {}.',
+        'unknown_dep': ('**Still depends on unknown input:** {path}. This part still needs the author\'s review; '
+                        'the tool has not filled it in as fact.'),
+        'stopped_dep': ('**Dependency status to review:** {path} (status at the start: {status}). Distinguish recording '
+                        'a refutation from still using the old premise; this finding is not judged void automatically.'),
+        'limits': 'Limits of this finding:', 'related': 'Related issue {label}: {consequence}',
+        'successors': 'Succeeded by: {}.', 'change': 'What would change this judgment:',
+        'assessment': '## Scope of explanation and assessment of issues',
+        'see_issues': 'Work done, remaining gaps and next steps for each issue are in the [issues report](research-issues.md) in the same folder.',
+        'sources': '## Materials, premises and mappings',
+        'bound_note': ('The snapshots below only show the author\'s bindings; supply the bound snapshot to impact-mapping '
+                       'to check dependencies. A binding does not show that the mapping is right.'),
+        'input_identity': 'Kind: {kind}; record status: {status}.', 'locator': 'Source or location: {}',
+        'no_locator': 'not yet obtained; kept as unknown',
+        'snapshot': 'Mapping snapshot: {id} / {version}; byte SHA-256: {sha}; nodes cited: {nodes}.',
+        'manual_mapping': ('This is a manual mapping note with no traceable domain-pack snapshot; after a source '
+                           'correction, check its dependents by hand.'),
+        'issues_title': '# {} · Limits of explanation and issues', 'issues_question': 'Research question: {}',
+        'see_report': 'The main argument is in the [research report](research-report.md).',
+        'no_issues': ('No specific issue was raised in this record. That covers only the assessment scope above; '
+                      'it does not mean the theory or the research is free of problems.'),
+        'categories_line': 'Categories: {}.', 'affected_line': 'Findings affected: {findings}; materiality: {materiality}.',
+        'successors_issue': 'Succeeded by: {}. Being superseded does not mean the original gap is resolved.',
+        'fields': (('current_work', 'Work already done'), ('why_unresolved', 'Why it is still unresolved'),
+                   ('consequence', 'Consequence for the main report'), ('next_work', 'Next piece of work'),
+                   ('status_reason', 'Basis for the current status'), ('resolution_scope', 'What is and is not resolved')),
+        'theory_head': '### Where the candidate theory problem bears', 'theory_anchor': 'Source location: §{}',
+        'theory_sha': 'Byte SHA-256 of the source text relied on: {}', 'theory_notice': '**Theory version notice:** {}',
+        'theory_subject': 'This candidate', 'theory_scope': 'Scope and premises of the proposition: {}',
+        'theory_challenge': 'Specific challenge: {}',
+        'theory_tail': 'This is a candidate theory problem awaiting assessment; the record does not show that the proposition has been refuted.',
+        'issue_label': '{id}: {title} ({status})',
+    },
+}
+
 
 class ResearchError(ValueError):
     """An invalid or unsafe research operation."""
@@ -349,10 +461,6 @@ def impact(data, changed) -> dict:
     }
 
 
-def _issue_label(item):
-    return f'{item["id"]}：{item["title"]}（{ISSUE_STATUSES[item["status"]]}）'
-
-
 def impact_mapping(data, mapping_path: Path, changed) -> dict:
     """Bridge one explicitly supplied, frozen mapping snapshot to research.
 
@@ -416,21 +524,22 @@ def impact_mapping(data, mapping_path: Path, changed) -> dict:
     }
 
 
-def _source_lines(data):
-    lines = ['## 材料、前提与映射', '']
+def _source_lines(data, text):
+    lines = [text['sources'], '']
     if any('mapping_ref' in item for item in data['inputs']):
-        lines += ['下列快照仅展示作者绑定；用 impact-mapping 显式提供所据快照后核验依赖，不证明语义正确。', '']
+        lines += [text['bound_note'], '']
     for item in data['inputs']:
         lines += [f'### {item["id"]} · {item["label"]}', '',
-                  f'类型：{item["kind"]}；记录状态：{item["status"]}。', '', item['content'], '',
-                  f'出处或位置：{item["locator"] or "尚未取得，保留未知"}', '']
+                  text['input_identity'].format(kind=text['input_kinds'][item['kind']],
+                                                status=text['input_statuses'][item['status']]), '',
+                  item['content'], '', text['locator'].format(item['locator'] or text['no_locator']), '']
         if item['kind'] == 'mapping':
             if 'mapping_ref' in item:
                 ref = item['mapping_ref']
-                lines += [f'映射快照：{ref["id"]} / {ref["version"]}；字节 SHA-256：{ref["sha256"]}；'
-                          f'引用节点：{", ".join(ref["node_ids"])}。', '']
+                lines += [text['snapshot'].format(id=ref['id'], version=ref['version'], sha=ref['sha256'],
+                                                  nodes=', '.join(ref['node_ids'])), '']
             else:
-                lines += ['本项为人工映射说明，未绑定可自动追踪的领域包快照；来源更正须人工回查下游。', '']
+                lines += [text['manual_mapping'], '']
     return lines
 
 
@@ -451,12 +560,27 @@ class _DocumentLines(list):
         return self
 
 
-def render_documents(data) -> dict[str, str]:
+def render_documents(data, lang: str = 'zh') -> dict[str, str]:
+    """Typeset the authored pair; lang selects fixed labels, never translates the author's text."""
+    if lang not in LABELS:
+        raise ResearchError(f'不支持的语言：{lang}；可用 zh 或 en。')
+    text = LABELS[lang]
     validation = validate_research(data)
     children = dependency_children(data)
     unknown_paths = dependency_paths(children, validation['unknown_inputs'])
     stopped = {item['id']: item for item in data['findings'] if item['status'] in {'refuted', 'withdrawn'}}
     stopped_paths = dependency_paths(children, stopped)
+    names = {item['id']: item['label'] for item in data['inputs']}
+    names.update({item['id']: item['title'] for item in data['findings']})
+
+    def refs(keys):
+        # Readers see what a judgment rests on; the ID stays for tracing.
+        return text['sep'].join(text['ref'].format(label=names[key], id=key) for key in keys)
+
+    def issue_label(item):
+        return text['issue_label'].format(id=item['id'], title=item['title'],
+                                          status=text['issue_statuses'][item['status']])
+
     # Propagate issue membership once in dependency order. Per-issue calls to
     # impact would repeatedly validate the whole record and build unused paths.
     issue_bits = {item['id']: 0 for item in data['findings']}
@@ -469,77 +593,75 @@ def render_documents(data) -> dict[str, str]:
     budget = [0]
     major = [item for item in data['issues'] if item['materiality'] == 'major' and item['status'] in ACTIVE]
     lines = _DocumentLines(['<!-- xikari-research-report -->', '', f'# {data["title"]}', '',
-             f'研究问题：{data["question"]}', '', '## 当前判断', '', data['summary'], '',
-             f'综合所据结论：{", ".join(data["summary_refs"])}。', ''], budget)
+                            text['question'].format(data['question']), '', text['current'], '', data['summary'], '',
+                            text['summary_refs'].format(refs(data['summary_refs'])), ''], budget)
     affected_summary = [key for key in data['summary_refs'] if key in stopped_paths]
     if affected_summary:
-        lines += ['**综合判断引用了已撤回或已被反驳的结论，须复核其用法：**', '']
+        lines += [text['stopped_head'], '']
         for key in affected_summary:
             path = stopped_paths[key]
-            lines += [f'- {" → ".join(path)}（起点状态：{STATUSES[stopped[path[0]]["status"]]}）。', '']
-        lines += ['该提示不自动撤回下游判断：记录反驳结果与继续把旧结论当作成立前提须由作者区分。路径仅示例，不穷举所有依赖。', '']
+            lines += [text['stopped_item'].format(path=' → '.join(path),
+                                                  status=text['statuses'][stopped[path[0]]['status']]), '']
+        lines += [text['stopped_tail'], '']
     if validation['synthetic_inputs']:
-        lines += ['本报告使用合成材料：' + ', '.join(validation['synthetic_inputs'])
-                  + '。相应结果只用于教学或模型示意，不作现实效果证据。', '']
+        lines += [text['synthetic'].format(refs(validation['synthetic_inputs'])), '']
     if validation['theory_bindings_not_current']:
-        lines += ['**理论版本提示：** 理论问题候选 '
-                  + ', '.join(row['issue'] for row in validation['theory_bindings_not_current'])
-                  + ' 所据原文与当前随包原文不是同一版本，相关命题尚未对当前原文复核。', '']
+        lines += [text['theory_report'].format(
+            ', '.join(row['issue'] for row in validation['theory_bindings_not_current'])), '']
     if major:
-        lines += ['**影响当前判断的重大未决：**', '']
+        lines += [text['major'], '']
         for item in major:
-            lines += [f'- {_issue_label(item)}：{item["consequence"]}', '']
-    lines += ['## 范围与方法', '', data['scope'], '', data['method'], '', '## 研究论证', '']
+            lines += [text['major_item'].format(label=issue_label(item), consequence=item['consequence']), '']
+    lines += [text['scope'], '', data['scope'], '', data['method'], '', text['argument'], '']
     for item in data['findings']:
         lines += [f'### {item["id"]} · {item["title"]}', '',
-                  f'判断身份：{KINDS[item["kind"]]}；状态：{STATUSES[item["status"]]}。', '',
-                  item['body'], '', f'依据及前提：{", ".join(item["depends_on"])}。', '']
+                  text['identity'].format(kind=text['kinds'][item['kind']], status=text['statuses'][item['status']]), '',
+                  item['body'], '', text['depends'].format(refs(item['depends_on'])), '']
         if item['id'] in unknown_paths:
-            lines += ['**尚依赖未知输入：** ' + ' → '.join(unknown_paths[item['id']])
-                      + '。该部分仍需作者复核，未由本工具补成事实。', '']
+            lines += [text['unknown_dep'].format(path=' → '.join(unknown_paths[item['id']])), '']
         if item['id'] in stopped_paths and item['id'] not in stopped:
             path = stopped_paths[item['id']]
-            lines += ['**依赖状态复核：** ' + ' → '.join(path)
-                      + f'（起点状态：{STATUSES[stopped[path[0]]["status"]]}）。请区分记录反驳结果与继续使用旧前提；不自动判定本项失效。', '']
+            lines += [text['stopped_dep'].format(path=' → '.join(path),
+                                                 status=text['statuses'][stopped[path[0]]['status']]), '']
         if item['limitations']:
-            lines += ['本项限制：', ''] + [f'- {entry}' for entry in item['limitations']] + ['']
+            lines += [text['limits'], ''] + [f'- {entry}' for entry in item['limitations']] + ['']
         related = [issue for index, issue in enumerate(data['issues']) if issue_bits[item['id']] & (1 << index)]
         for issue in related:
-            lines += [f'关联问题 {_issue_label(issue)}：{issue["consequence"]}', '']
+            lines += [text['related'].format(label=issue_label(issue), consequence=issue['consequence']), '']
             if issue['status'] == 'superseded':
-                lines += [f'后继问题：{", ".join(issue["superseded_by"])}。', '']
-        lines += ['可能改判的条件：', ''] + [f'- {entry}' for entry in item['change_conditions']] + ['']
-    lines += ['## 解释范围与问题评估', '', data['issue_assessment'], '',
-              '问题的已做工作、剩余缺口和下一步见同目录的 [问题报告](research-issues.md)。', '']
-    lines += _source_lines(data) + [f'> {NOTICE}', '']
+                lines += [text['successors'].format(', '.join(issue['superseded_by'])), '']
+        lines += [text['change'], ''] + [f'- {entry}' for entry in item['change_conditions']] + ['']
+    lines += [text['assessment'], '', data['issue_assessment'], '', text['see_issues'], '']
+    lines += _source_lines(data, text) + [f'> {text["notice"]}', '']
 
-    boundary = _DocumentLines(['<!-- xikari-research-issues -->', '', f'# {data["title"]}：解释边界与问题', '',
-                f'对应研究问题：{data["question"]}', '', data['issue_assessment'], '',
-                '主体论证见 [研究报告](research-report.md)。', ''], budget)
+    boundary = _DocumentLines(['<!-- xikari-research-issues -->', '', text['issues_title'].format(data['title']), '',
+                               text['issues_question'].format(data['question']), '', data['issue_assessment'], '',
+                               text['see_report'], ''], budget)
     if not data['issues']:
-        boundary += ['本次记录未提出具体问题项；这一结果只覆盖上述评估范围，不表示理论或研究普遍无误。', '']
+        boundary += [text['no_issues'], '']
     for item in data['issues']:
-        boundary += [f'## {_issue_label(item)}', '',
-                     '分类：' + '、'.join(CATEGORIES[key] for key in item['categories']) + '。', '',
-                     f'受影响结论：{", ".join(item["affected_findings"])}；影响程度：{item["materiality"]}。', '']
+        boundary += [f'## {issue_label(item)}', '',
+                     text['categories_line'].format(text['cat_sep'].join(text['categories'][key]
+                                                                         for key in item['categories'])), '',
+                     text['affected_line'].format(findings=refs(item['affected_findings']),
+                                                  materiality=text['materiality'][item['materiality']]), '']
         if item['status'] == 'superseded':
-            boundary += [f'后继问题：{", ".join(item["superseded_by"])}。替代不表示原缺口已经解决。', '']
-        for key, label in (('current_work', '已经完成的工作'), ('why_unresolved', '仍未解决的具体原因'),
-                           ('consequence', '对主报告的影响'), ('next_work', '下一项工作'),
-                           ('status_reason', '当前状态依据'), ('resolution_scope', '已解决与仍未解决的范围')):
-            boundary += [f'**{label}：**', '', item[key] or '未提供；不补造已完成工作。', '']
+            boundary += [text['successors_issue'].format(', '.join(item['superseded_by'])), '']
+        for key, label in text['fields']:
+            # Optional fields that are empty for this status are left out rather
+            # than shown as an empty promise of further work.
+            if item[key]:
+                boundary += [f'**{label}{"：" if lang == "zh" else ":"}**', '', item[key], '']
         if 'theory' in item:
             theory = item['theory']
-            boundary += ['### 理论问题候选的具体命中位置', '',
-                         f'原文位置：§{theory["anchor"]}', '', theory['proposition'], '',
-                         f'所据原文字节 SHA-256：{theory["source_sha256"]}', '']
+            boundary += [text['theory_head'], '', text['theory_anchor'].format(theory['anchor']), '',
+                         theory['proposition'], '', text['theory_sha'].format(theory['source_sha256']), '']
             if theory['source_sha256'] != theory_index()['sha256']:
-                boundary += ['**理论版本提示：** ' + domain_mapping.theory_version_warning(
-                    domain_mapping.theory_binding(theory['source_sha256']), '本候选'), '']
-            boundary += [f'原命题范围与前提：{theory["scope"]}', '',
-                         f'具体挑战：{theory["challenge"]}', '',
-                         '这是待评估的理论问题候选；记录结构不证明原命题已被反驳。', '']
-    boundary += [f'> {NOTICE}', '']
+                boundary += [text['theory_notice'].format(domain_mapping.theory_version_warning(
+                    domain_mapping.theory_binding(theory['source_sha256']), text['theory_subject'], lang)), '']
+            boundary += [text['theory_scope'].format(theory['scope']), '',
+                         text['theory_challenge'].format(theory['challenge']), '', text['theory_tail'], '']
+    boundary += [f'> {text["notice"]}', '']
     return {'research-report.md': '\n'.join(lines), 'research-issues.md': '\n'.join(boundary)}
 
 
@@ -631,6 +753,8 @@ def main(argv=None):
     commands.add_parser('validate', help='校验结构、身份字段和依赖，不判断正文质量')
     render = commands.add_parser('render', help='同时生成主体和问题报告')
     render.add_argument('--output', type=Path, required=True, help='安装目录外的全新输出目录')
+    render.add_argument('--lang', choices=sorted(LABELS), default='zh',
+                        help='固定标签与说明的语言：zh（默认）或 en；不翻译作者正文')
     changes = commands.add_parser('impact', help='由变更 ID 追踪受影响结论')
     changes.add_argument('--changed', action='append', required=True, help='可重复的输入或结论 ID')
     bridge = commands.add_parser('impact-mapping', help='由显式映射旧快照追踪研究中的已绑定依赖')
@@ -646,7 +770,7 @@ def main(argv=None):
         elif args.command == 'impact-mapping':
             result = impact_mapping(data, args.mapping, args.changed)
         else:
-            output = write_documents(render_documents(data), args.output)
+            output = write_documents(render_documents(data, args.lang), args.output)
             result = {'output': str(output.resolve()), 'files': ['research-report.md', 'research-issues.md'],
                       'notice': NOTICE}
         chunks = []

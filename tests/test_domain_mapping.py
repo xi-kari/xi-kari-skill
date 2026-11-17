@@ -481,10 +481,39 @@ class MappingTests(unittest.TestCase):
         self.assertLess(result_index, source_index)
         self.assertLess(text.index(data['outputs'][0]['text']), source_index)
         self.assertLess(source_index, text.index('## 对应、区别与证据'))
-        self.assertIn('词与语境匹配策略：normalized', text)
+        self.assertIn('词与语境匹配策略：规范化匹配', text)
         data['outputs'] = []
         text = mapping.render_markdown(data)
         self.assertLess(text.index('尚未提供成文'), text.index('## 来源范围'))
+
+
+class LanguageTests(unittest.TestCase):
+    def test_chinese_render_names_fixed_values_in_chinese(self):
+        text = mapping.render_markdown(example())
+        for raw in ('对应类型：partial', '层次：term', '层次：measurement', '：partial**', '：unknown**',
+                    '：not_claimed**', '（synthetic）', '（planned）', '复核：not_requested'):
+            self.assertNotIn(raw, text)
+        for label in ('对应类型：部分对应', '层次：测量', '**语义对应：部分支持**', '**正式实例资格：未申请**',
+                      '（合成材料）', '（计划中）', '目标侧独立复核：未申请'):
+            self.assertIn(label, text)
+
+    def test_english_render_has_english_fixed_labels_and_keeps_authored_text(self):
+        data = example()
+        text = mapping.render_markdown(data, 'en')
+        for label in ('# Domain mapping and how to use it', '## Domain statements already written',
+                      '## Sources and their scope', '## Correspondences, distinctions and evidence',
+                      'kind of correspondence: partial correspondence', '**Semantic correspondence: partly supported.**',
+                      '**Formal-instance eligibility: not claimed.**', 'denominator=', 'Independent review on the target side'):
+            self.assertIn(label, text)
+        for fixed in ('# 领域映射与使用说明', '## 已写成的领域表述', '## 来源范围', '对应类型：', '当地含义：', '目标侧独立复核：', '依据：'):
+            self.assertNotIn(fixed, text)
+        self.assertIn(data['outputs'][0]['text'], text)
+        data['entries'][3]['fields'][0]['denominator'] = None
+        self.assertIn('denominator=unknown (not supplied', mapping.render_markdown(data, 'en'))
+        data['theory_sha256'] = '0' * 64
+        self.assertIn('Theory version notice', mapping.render_markdown(data, 'en'))
+        with self.assertRaises(mapping.MappingError):
+            mapping.render_markdown(data, 'fr')
 
 
 class OutputTests(unittest.TestCase):

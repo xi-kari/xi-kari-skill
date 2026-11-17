@@ -16,7 +16,7 @@ python scripts/research.py --research assets/examples/research.json render --out
 python scripts/research.py --research assets/examples/research.json impact --changed S-register
 ```
 
-`--output` 使用宿主认可的安装目录外路径，并须是尚不存在的目录；Windows 可使用 `C:\Tasks\example\research-result`。`render` 同时发布 `research-report.md` 与 `research-issues.md`。如需 Word 或阅读版，继续使用现有的 `render_docx.py`、`render_answer.py`，不把 JSON 或问题台账当作最终正文。
+`--output` 使用宿主认可的安装目录外路径，并须是尚不存在的目录；Windows 可使用 `C:\Tasks\example\research-result`。`render` 同时发布 `research-report.md` 与 `research-issues.md`；`--lang en` 只把固定标题、标签和提示换成英文，作者正文保持原样。如需 Word 或阅读版，继续使用现有的 `render_docx.py`、`render_answer.py`，不把 JSON 或问题台账当作最终正文。
 
 重复 `--changed` 可以同时列出若干变更 ID。变更可以是来源、前提、映射或已有结论；工具返回受影响和相对独立的结论、关联问题、一条传播路径及摘要是否需要复核。它不自动撤回结论，不声称记录之外没有隐藏依赖。
 

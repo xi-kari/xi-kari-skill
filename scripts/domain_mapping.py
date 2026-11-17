@@ -75,8 +75,17 @@ def theory_binding(value: str) -> str:
     return 'previous_version' if value in reference['previous'] else 'other_version'
 
 
-def theory_version_warning(status: str, subject: str) -> str:
+def theory_version_warning(status: str, subject: str, lang: str = 'zh') -> str:
     """One plain statement shared by validation, query, tracing and rendering."""
+    if lang == 'en':
+        if status == 'previous_version':
+            return (f'{subject} is bound to the previous theory text, which differs from the bundled text. Its '
+                    'section references keep the meaning of that version and have not been rechecked against the '
+                    'current text. The older snapshot can still be queried, traced and rendered; save a new version '
+                    'after reviewing what is affected.')
+        return (f'{subject} is bound to a theory hash that differs from the bundled text and is not the previous '
+                'version recorded in the source manifest; its section references have not been rechecked against '
+                'the current text. An earlier snapshot can still be queried and traced; for a new record, check the hash.')
     if status == 'previous_version':
         return (f'{subject}绑定的是上一版理论原文，与当前随包原文不同：小节引用按所据版本保留，'
                 '未对当前原文复核。旧快照仍可查询、追踪与渲染；复核受影响内容后另存新版。')
@@ -452,9 +461,9 @@ def impact(mapping, changed: list[str]) -> dict:
             'notice': '这是已登记依赖的复核范围，不断言结论已经错误；未登记的依赖无法自动发现。不会改写原始材料或成果。'}
 
 
-def _md(value):
+def _md(value, unknown=UNKNOWN):
     if value is None:
-        return UNKNOWN
+        return unknown
     return re.sub(r'([\\`*_{}\[\]<>#+!|])', r'\\\1', str(value))
 
 
@@ -476,65 +485,169 @@ def _json_output(value):
     return _bounded_join(encoder.iterencode(value))
 
 
-def render_markdown(mapping) -> str:
+LABELS = {
+    'zh': {
+        'title': '# 领域映射与使用说明', 'unknown': UNKNOWN, 'notice': NOTICE, 'sep': '；',
+        'domain': '领域：{domain}；版本：{version}。', 'task': '任务：{}', 'scope': '适用范围：{}',
+        'theory': '理论文本 SHA-256：{}。', 'theory_notice': '**理论版本提示：** {}', 'theory_subject': '领域包',
+        'outputs': '## 已写成的领域表述', 'no_outputs': '尚未提供成文；工具不会据词表编造研究结果。',
+        'output_head': '### {title}（{id}）', 'output_refs': '依赖映射：{entries}；直接来源：{sources}。', 'none': '无',
+        'sources': '## 来源范围', 'no_sources': '尚未提供来源。',
+        'source_line': '- {id}：{title}（{kind}）；位置：{locator}；版本：{version}；范围：{scope}',
+        'entries': '## 对应、区别与证据', 'entry_head': '### {terms}（{id}）',
+        'entry_identity': '语境：{context}；层次：{layer}；对应类型：{kind}。', 'policy': '词与语境匹配策略：{}。',
+        'needs_context': '须给出语境才查询的词：{}。', 'local': '当地含义：{}', 'target': '目标含义：{}',
+        'no_target': '无对应（保留领域原词，理由见下文）', 'not_applicable_target': '不适用（具体原因见下文）',
+        'entry_refs': '来源：{sources}；理论小节：{anchors}；依赖映射：{depends}。', 'not_given': '未提供',
+        'no_anchor': '未使用', 'no_dependency': '无已登记依赖',
+        'lists': (('preserved', '保留的区别'), ('excluded', '不能推出与不对应'), ('unknowns', '未决事项')),
+        'list_head': '**{}：**', 'empty_list': '- 未登记；不表示该类问题不存在。',
+        'assessments': (('semantic', '语义对应'), ('factual', '事实与机制证据'), ('formal', '正式实例资格')),
+        'assessment_head': '**{label}：{status}**。{rationale}', 'assessment_scope': '范围：{scope}；依据：{basis}。',
+        'field': '字段 {name}：单位={unit}；分母={denominator}；时间窗={window}。{policy} 来源：{sources}。',
+        'method': '方法 {name}（{status}）：{scope}；来源：{sources}。',
+        'review': '目标侧独立复核：{status}。{rationale} 记录：{basis}。',
+        'unresolved': '## 保留的未知或争议位置',
+        'source_kinds': {'document': '文档', 'user_material': '用户材料', 'synthetic': '合成材料'},
+        'layers': {'term': '词义', 'relation': '关系', 'role': '角色', 'task': '任务', 'measurement': '测量',
+                   'method': '方法', 'exception': '例外'},
+        'kinds': {'definition_equivalence': '定义对应', 'role_instantiation': '角色或对象实例化',
+                  'partial_correspondence': '部分对应', 'observation_interface': '观察接口',
+                  'heuristic_analogy': '类比候选', 'unmapped': '不对应', 'not_applicable': '不适用', 'unknown': '未知'},
+        'statuses': {'supported': '有支持', 'partial': '部分支持', 'unknown': '未知', 'disputed': '有争议',
+                     'not_claimed': '未申请', 'not_applicable': '不适用'},
+        'method_statuses': {'planned': '计划中', 'performed': '已执行', 'unavailable': '无法执行'},
+        'review_statuses': {'not_requested': '未申请', 'pending': '待复核', 'reviewed': '已复核', 'not_applicable': '不适用'},
+        'policies': {'normalized': '规范化匹配（NFKC、大小写与空白）', 'exact': '逐字匹配'},
+    },
+    'en': {
+        'title': '# Domain mapping and how to use it', 'unknown': 'unknown (not supplied; no default filled in)',
+        'notice': ('This tool checks only data structure, references and dependencies; every assessment status comes '
+                   'from the input. Semantic correspondence, factual evidence and formal-instance eligibility do not '
+                   'stand in for one another, and the tool does not judge whether a source is reliable or the theory applies.'),
+        'sep': '; ', 'domain': 'Domain: {domain}; version: {version}.', 'task': 'Task: {}', 'scope': 'Scope: {}',
+        'theory': 'Theory text SHA-256: {}.', 'theory_notice': '**Theory version notice:** {}',
+        'theory_subject': 'This mapping pack',
+        'outputs': '## Domain statements already written',
+        'no_outputs': 'No written statement has been supplied; the tool does not compose research results from the term list.',
+        'output_head': '### {title} ({id})', 'output_refs': 'Mapping entries relied on: {entries}; direct sources: {sources}.',
+        'none': 'none', 'sources': '## Sources and their scope', 'no_sources': 'No sources have been supplied.',
+        'source_line': '- {id}: {title} ({kind}); location: {locator}; version: {version}; scope: {scope}',
+        'entries': '## Correspondences, distinctions and evidence', 'entry_head': '### {terms} ({id})',
+        'entry_identity': 'Context: {context}; layer: {layer}; kind of correspondence: {kind}.',
+        'policy': 'Matching of terms and context: {}.', 'needs_context': 'Terms answered only with a context: {}.',
+        'local': 'Local meaning: {}', 'target': 'Target meaning: {}',
+        'no_target': 'no correspondence (the domain term is kept; reasons below)',
+        'not_applicable_target': 'not applicable (reasons below)',
+        'entry_refs': 'Sources: {sources}; theory sections: {anchors}; mapping entries relied on: {depends}.',
+        'not_given': 'not supplied', 'no_anchor': 'none used', 'no_dependency': 'no registered dependency',
+        'lists': (('preserved', 'Distinctions kept'), ('excluded', 'What cannot be inferred or does not correspond'),
+                  ('unknowns', 'Open points')),
+        'list_head': '**{}:**', 'empty_list': '- None recorded; this does not mean there is no such problem.',
+        'assessments': (('semantic', 'Semantic correspondence'), ('factual', 'Factual and mechanism evidence'),
+                        ('formal', 'Formal-instance eligibility')),
+        'assessment_head': '**{label}: {status}.** {rationale}', 'assessment_scope': 'Scope: {scope}; basis: {basis}.',
+        'field': 'Field {name}: unit={unit}; denominator={denominator}; time window={window}. {policy} Sources: {sources}.',
+        'method': 'Method {name} ({status}): {scope}; sources: {sources}.',
+        'review': 'Independent review on the target side: {status}. {rationale} Records: {basis}.',
+        'unresolved': '## Unknown or disputed points kept open',
+        'source_kinds': {'document': 'document', 'user_material': 'user material', 'synthetic': 'synthetic material'},
+        'layers': {'term': 'term', 'relation': 'relation', 'role': 'role', 'task': 'task', 'measurement': 'measurement',
+                   'method': 'method', 'exception': 'exception'},
+        'kinds': {'definition_equivalence': 'definition correspondence', 'role_instantiation': 'role or object instantiation',
+                  'partial_correspondence': 'partial correspondence', 'observation_interface': 'observation interface',
+                  'heuristic_analogy': 'analogy candidate', 'unmapped': 'no correspondence',
+                  'not_applicable': 'not applicable', 'unknown': 'unknown'},
+        'statuses': {'supported': 'supported', 'partial': 'partly supported', 'unknown': 'unknown',
+                     'disputed': 'disputed', 'not_claimed': 'not claimed', 'not_applicable': 'not applicable'},
+        'method_statuses': {'planned': 'planned', 'performed': 'performed', 'unavailable': 'unavailable'},
+        'review_statuses': {'not_requested': 'not requested', 'pending': 'pending', 'reviewed': 'reviewed',
+                            'not_applicable': 'not applicable'},
+        'policies': {'normalized': 'normalized (NFKC, case and spacing)', 'exact': 'exact, character for character'},
+    },
+}
+
+
+def render_markdown(mapping, lang: str = 'zh') -> str:
+    """Typeset the supplied mapping; lang selects fixed labels, never translates authored text."""
+    if lang not in LABELS:
+        raise MappingError(f'不支持的语言：{lang}；可用 zh 或 en。')
+    text = LABELS[lang]
     report = validate_mapping(mapping)
-    lines = ['<!-- xikari-domain-mapping -->', '', '# 领域映射与使用说明', '',
-             f"领域：{_md(mapping['domain'])}；版本：{_md(mapping['version'])}。", '',
-             f"任务：{_md(mapping['task'])}", '', f"适用范围：{_md(mapping['scope'])}", '',
-             NOTICE, '', '## 已写成的领域表述', '']
+
+    def md(value):
+        return _md(value, text['unknown'])
+
+    def joined(values, empty):
+        return md(', '.join(values) or empty)
+
+    lines = ['<!-- xikari-domain-mapping -->', '', text['title'], '',
+             text['domain'].format(domain=md(mapping['domain']), version=md(mapping['version'])), '',
+             text['task'].format(md(mapping['task'])), '', text['scope'].format(md(mapping['scope'])), '']
     if 'theory_sha256' in mapping:
-        lines[8:8] = [f"理论文本 SHA-256：{mapping['theory_sha256']}。", '']
+        lines += [text['theory'].format(mapping['theory_sha256']), '']
         if report['theory_status'] != 'current':
-            lines[10:10] = [f"**理论版本提示：** {_md(report['warnings'][0])}", '']
+            lines += [text['theory_notice'].format(md(theory_version_warning(
+                report['theory_status'], text['theory_subject'], lang))), '']
+    lines += [text['notice'], '', text['outputs'], '']
     if not mapping['outputs']:
-        lines += ['尚未提供成文；工具不会据词表编造研究结果。', '']
+        lines += [text['no_outputs'], '']
     for row in mapping['outputs']:
-        lines += [f"### {_md(row['title'])}（{_md(row['id'])}）", '', _md(row['text']), '',
-                  f"依赖映射：{_md(', '.join(row['entry_ids']) or '无')}；直接来源：{_md(', '.join(row['source_ids']) or '无')}。", '']
-    lines += ['## 来源范围', '']
+        lines += [text['output_head'].format(title=md(row['title']), id=md(row['id'])), '', md(row['text']), '',
+                  text['output_refs'].format(entries=joined(row['entry_ids'], text['none']),
+                                             sources=joined(row['source_ids'], text['none'])), '']
+    lines += [text['sources'], '']
     if not mapping['sources']:
-        lines += ['尚未提供来源。', '']
+        lines += [text['no_sources'], '']
     for row in mapping['sources']:
-        lines += [f"- {_md(row['id'])}：{_md(row['title'])}（{_md(row['kind'])}）；"
-                  f"位置：{_md(row['locator'])}；版本：{_md(row['version'])}；范围：{_md(row['scope'])}"]
-    lines += ['', '## 对应、区别与证据', '']
+        lines += [text['source_line'].format(id=md(row['id']), title=md(row['title']),
+                                             kind=text['source_kinds'][row['kind']], locator=md(row['locator']),
+                                             version=md(row['version']), scope=md(row['scope']))]
+    lines += ['', text['entries'], '']
     for row in mapping['entries']:
         if row['mapping_kind'] == 'unmapped':
-            target_description = '无对应（保留领域原词，理由见下文）'
+            target_description = text['no_target']
         elif row['mapping_kind'] == 'not_applicable':
-            target_description = '不适用（具体原因见下文）'
+            target_description = text['not_applicable_target']
         else:
-            target_description = _md(row['target_meaning'])
-        lines += [f"### {_md(' / '.join(row['terms']))}（{_md(row['id'])}）", '',
-                  f"语境：{_md(row['context'])}；层次：{_md(row['layer'])}；对应类型：{_md(row['mapping_kind'])}。", '',
-                  f"词与语境匹配策略：{row.get('match_policy', 'normalized')}。", '',
-                  *([f"须给出语境才查询的词：{_md(' / '.join(row['context_required_terms']))}。", '']
-                    if row.get('context_required_terms') else []),
-                  f"当地含义：{_md(row['local_meaning'])}", '', f"目标含义：{target_description}", '',
-                  f"来源：{_md(', '.join(row['source_ids']) or '未提供')}；理论小节：{_md(', '.join(row['theory_anchors']) or '未使用')}；"
-                  f"依赖映射：{_md(', '.join(row['depends_on']) or '无已登记依赖')}。", '']
-        for key, title in (('preserved', '保留的区别'), ('excluded', '不能推出与不对应'), ('unknowns', '未决事项')):
-            lines += [f"**{title}：**", '']
-            lines += [f'- {_md(item)}' for item in row[key]] or ['- 未登记；不表示该类问题不存在。']
+            target_description = md(row['target_meaning'])
+        lines += [text['entry_head'].format(terms=md(' / '.join(row['terms'])), id=md(row['id'])), '',
+                  text['entry_identity'].format(context=md(row['context']), layer=text['layers'][row['layer']],
+                                                kind=text['kinds'][row['mapping_kind']]), '',
+                  text['policy'].format(text['policies'][row.get('match_policy', 'normalized')]), '']
+        if row.get('context_required_terms'):
+            lines += [text['needs_context'].format(md(' / '.join(row['context_required_terms']))), '']
+        lines += [text['local'].format(md(row['local_meaning'])), '', text['target'].format(target_description), '',
+                  text['entry_refs'].format(sources=joined(row['source_ids'], text['not_given']),
+                                            anchors=joined(row['theory_anchors'], text['no_anchor']),
+                                            depends=joined(row['depends_on'], text['no_dependency'])), '']
+        for key, title in text['lists']:
+            lines += [text['list_head'].format(title), '']
+            lines += [f'- {md(item)}' for item in row[key]] or [text['empty_list']]
             lines.append('')
-        for name, label in (('semantic', '语义对应'), ('factual', '事实与机制证据'), ('formal', '正式实例资格')):
+        for name, label in text['assessments']:
             assessment = row['assessments'][name]
-            lines += [f"**{label}：{_md(assessment['status'])}**。{_md(assessment['rationale'])}", '',
-                      f"范围：{_md(assessment['scope'])}；依据：{_md(', '.join(assessment['basis']) or '未提供')}。", '']
+            lines += [text['assessment_head'].format(label=label, status=text['statuses'][assessment['status']],
+                                                     rationale=md(assessment['rationale'])), '',
+                      text['assessment_scope'].format(scope=md(assessment['scope']),
+                                                      basis=joined(assessment['basis'], text['not_given'])), '']
         for field in row.get('fields', []):
-            lines += [f"字段 {_md(field['name'])}：单位={_md(field['unit'])}；分母={_md(field['denominator'])}；"
-                      f"时间窗={_md(field['time_window'])}。{_md(field['missing_policy'])} "
-                      f"来源：{_md(', '.join(field['source_ids']) or '未提供')}。", '']
+            lines += [text['field'].format(name=md(field['name']), unit=md(field['unit']),
+                                           denominator=md(field['denominator']), window=md(field['time_window']),
+                                           policy=md(field['missing_policy']),
+                                           sources=joined(field['source_ids'], text['not_given'])), '']
         for method in row.get('methods', []):
-            lines += [f"方法 {_md(method['name'])}（{_md(method['status'])}）：{_md(method['scope'])}；"
-                      f"来源：{_md(', '.join(method['source_ids']) or '未提供')}。", '']
+            lines += [text['method'].format(name=md(method['name']), status=text['method_statuses'][method['status']],
+                                            scope=md(method['scope']),
+                                            sources=joined(method['source_ids'], text['not_given'])), '']
         if 'target_review' in row:
             review = row['target_review']
-            lines += [f"目标侧独立复核：{_md(review['status'])}；{_md(review['rationale'])}；"
-                      f"记录：{_md(', '.join(review['basis']) or '未提供')}。", '']
+            lines += [text['review'].format(status=text['review_statuses'][review['status']],
+                                            rationale=md(review['rationale']),
+                                            basis=joined(review['basis'], text['not_given'])), '']
     if report['unresolved_fields']:
-        lines += ['## 保留的未知或争议位置', '']
-        lines += [f'- {_md(item)}' for item in report['unresolved_fields']]
+        lines += [text['unresolved'], '']
+        lines += [f'- {md(item)}' for item in report['unresolved_fields']]
         lines.append('')
     return _bounded_join(lines, '\n')
 
@@ -593,6 +706,8 @@ def main(argv=None) -> int:
     changes.add_argument('--changed', nargs='+', required=True)
     render = commands.add_parser('render', help='把已提供的映射和成文渲染为说明')
     render.add_argument('--output', '-o', type=Path, required=True)
+    render.add_argument('--lang', choices=sorted(LABELS), default='zh',
+                        help='固定标签与说明的语言：zh（默认）或 en；不翻译作者正文')
     args = parser.parse_args(argv)
     try:
         mapping, snapshot_sha256 = read_snapshot(args.mapping)
@@ -606,7 +721,7 @@ def main(argv=None) -> int:
         else:
             if args.output.resolve() == args.mapping.resolve():
                 raise MappingError('输出不能覆盖输入映射，请使用新路径。')
-            target = write_document(render_markdown(mapping), args.output)
+            target = write_document(render_markdown(mapping, args.lang), args.output)
             result = {'output': str(target.resolve()), 'notice': NOTICE}
         print(_json_output(result))
         return 0

@@ -57,6 +57,10 @@ class ResearchDomainIntegrationTests(unittest.TestCase):
         destination = self.work / 'research-output'
         self.command('research.py', '--research', source, 'validate')
         self.command('research.py', '--research', source, 'render', '--output', destination)
+        self.command('research.py', '--research', source, 'render', '--lang', 'en',
+                     '--output', self.work / 'research-output-en')
+        self.assertIn('## Current judgment',
+                      (self.work / 'research-output-en' / 'research-report.md').read_text(encoding='utf-8'))
         report = (destination / 'research-report.md').read_text(encoding='utf-8')
         issues = (destination / 'research-issues.md').read_text(encoding='utf-8')
         for content in (report, issues):
@@ -104,6 +108,9 @@ class ResearchDomainIntegrationTests(unittest.TestCase):
                 destination = self.work / (name + '.md')
                 self.command('domain_mapping.py', '--mapping', source, 'render', '--output', destination)
                 self.assertIn(mapping['outputs'][0]['text'], destination.read_text(encoding='utf-8'))
+                english = self.work / (name + '.en.md')
+                self.command('domain_mapping.py', '--mapping', source, 'render', '--lang', 'en', '--output', english)
+                self.assertIn('## Correspondences, distinctions and evidence', english.read_text(encoding='utf-8'))
 
     def test_installed_mapping_revision_reaches_the_research_report(self):
         mapping = self.install / 'assets/examples/domain-mapping.json'

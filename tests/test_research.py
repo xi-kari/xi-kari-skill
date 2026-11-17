@@ -208,6 +208,46 @@ class ResearchMeaningTests(unittest.TestCase):
             research.validate_research(data)
 
 
+class ResearchLanguageTests(unittest.TestCase):
+    def test_chinese_report_names_every_fixed_value_in_chinese(self):
+        documents = research.render_documents(example())
+        both = documents['research-report.md'] + documents['research-issues.md']
+        for raw in ('类型：source', '记录状态：synthetic', '记录状态：unknown', '类型：mapping', '影响程度：major'):
+            self.assertNotIn(raw, both)
+        for label in ('类型：来源；记录状态：合成材料', '影响程度：重大', '两期合成结业登记（S-register）'):
+            self.assertIn(label, both)
+        self.assertNotIn('未提供；不补造已完成工作', both)
+
+    def test_english_report_uses_english_fixed_labels_and_keeps_authored_text(self):
+        data = example()
+        documents = research.render_documents(data, 'en')
+        report, issues = documents['research-report.md'], documents['research-issues.md']
+        for label in ('## Current judgment', '## Scope and method', '## Research argument',
+                      'Kind of judgment: descriptive judgment; status: supported within the stated scope.',
+                      'Rests on: ', '**Still depends on unknown input:** S-followup → F-employment',
+                      'What would change this judgment:', 'Kind: source; record status: synthetic material.'):
+            self.assertIn(label, report)
+        for label in ('Limits of explanation and issues', 'Categories: limits of method and identification.',
+                      'materiality: major', '**Work already done:**'):
+            self.assertIn(label, issues)
+        for fixed in ('判断身份', '依据及前提', '本项限制', '可能改判的条件', '研究问题：', '类型：', '分类：'):
+            self.assertNotIn(fixed, report + issues)
+        self.assertIn(data['findings'][0]['body'], report)
+        self.assertIn(data['issues'][0]['why_unresolved'], issues)
+        with self.assertRaises(research.ResearchError):
+            research.render_documents(data, 'fr')
+
+    def test_english_theory_version_notice(self):
+        data = example()
+        issue = data['issues'][0]
+        issue['categories'] = ['theory_candidate']
+        issue['theory'] = {'proposition': 'Synthetic proposition.', 'anchor': '2.13', 'source_sha256': '0' * 64,
+                           'scope': 'Test only.', 'challenge': 'Recheck against the bound version.'}
+        documents = research.render_documents(data, 'en')
+        self.assertIn('Theory version notice', documents['research-report.md'])
+        self.assertIn('not been rechecked against the current text', documents['research-issues.md'])
+
+
 class ResearchValidationTests(unittest.TestCase):
     def test_superseded_issues_require_existing_acyclic_successors(self):
         edits = [
