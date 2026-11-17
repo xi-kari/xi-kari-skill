@@ -461,15 +461,32 @@ def impact(data, changed) -> dict:
     }
 
 
-def impact_mapping(data, mapping_path: Path, changed) -> dict:
+def impact_mapping(data, mapping_path: Path, changed=None, against: Path | None = None) -> dict:
     """Bridge one explicitly supplied, frozen mapping snapshot to research.
 
     A locator is never opened implicitly. Unbound or other-snapshot inputs stay
     outside this check; their downstream findings are not called independent.
+    With against, the changed nodes are those the newer snapshot of the same
+    pack removed or modified relative to the bound one.
     """
     validation = validate_research(data)
     mapping, digest = read_snapshot(mapping_path)
-    mapping_result = domain_mapping.impact(mapping, changed)
+    comparison = None
+    if against is not None:
+        if changed:
+            raise ResearchError('changed 与 against 只能二选一：要么列出变更节点，要么给出新快照自动比较。')
+        newer, newer_digest = read_snapshot(against)
+        comparison = domain_mapping.diff_mappings(mapping, newer, digest, newer_digest)
+        changed = comparison['changed_nodes']
+    if changed:
+        mapping_result = domain_mapping.impact(mapping, changed)
+    elif comparison is not None:
+        # Nothing traceable changed; bindings are still verified below.
+        report = domain_mapping.validate_mapping(mapping)
+        mapping_result = {'changed': [], 'paths': {}, 'theory_status': report['theory_status'],
+                          'warnings': report['warnings']}
+    else:
+        raise ResearchError('changed 须为至少一个映射来源、条目或成果 ID，或改用 against 给出新快照。')
     nodes = {row['id'] for group in ('sources', 'entries', 'outputs') for row in mapping[group]}
     verified = []
     unchecked = []
@@ -519,6 +536,7 @@ def impact_mapping(data, mapping_path: Path, changed) -> dict:
         'paths': {key: paths[key] for key in affected},
         'mapping_paths': mapping_result['paths'],
         'mapping_theory_status': mapping_result['theory_status'],
+        'mapping_diff': comparison,
         'warnings': validation['warnings'] + mapping_result['warnings'],
         'notice': '只对显式给定的已绑定映射快照和已声明依赖定位复核；未绑定或其他快照的映射列为未核验，其下游不宣称独立。作者仍须读新材料、修订正文及问题，并更新绑定；字节匹配不证明映射正确。',
     }
@@ -759,7 +777,9 @@ def main(argv=None):
     changes.add_argument('--changed', action='append', required=True, help='可重复的输入或结论 ID')
     bridge = commands.add_parser('impact-mapping', help='由显式映射旧快照追踪研究中的已绑定依赖')
     bridge.add_argument('--mapping', required=True, type=Path, help='mapping_ref 所据的原始映射快照')
-    bridge.add_argument('--changed', action='append', required=True, help='可重复的映射来源、条目或成文成果 ID')
+    choice = bridge.add_mutually_exclusive_group(required=True)
+    choice.add_argument('--changed', action='append', help='可重复的映射来源、条目或成文成果 ID')
+    choice.add_argument('--against', type=Path, help='同一领域包的新快照；自动取出变动或删除的节点')
     args = parser.parse_args(argv)
     try:
         data = read_research(args.research)
@@ -768,7 +788,7 @@ def main(argv=None):
         elif args.command == 'impact':
             result = impact(data, args.changed)
         elif args.command == 'impact-mapping':
-            result = impact_mapping(data, args.mapping, args.changed)
+            result = impact_mapping(data, args.mapping, args.changed, args.against)
         else:
             output = write_documents(render_documents(data, args.lang), args.output)
             result = {'output': str(output.resolve()), 'files': ['research-report.md', 'research-issues.md'],

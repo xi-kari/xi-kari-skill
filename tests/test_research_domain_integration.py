@@ -145,6 +145,19 @@ class ResearchDomainIntegrationTests(unittest.TestCase):
                               '--mapping', newer, '--changed', 's-completion', success=False)
         self.assertIn('SHA-256', result.stderr)
         self.assertEqual(result.stdout, '')
+        compared = json.loads(self.command('domain_mapping.py', '--mapping', mapping, 'diff',
+                                           '--against', newer).stdout)
+        self.assertTrue(compared['content_identical'])
+        self.assertFalse(compared['bytes_identical'])
+        corrected = json.loads(mapping.read_text(encoding='utf-8'))
+        corrected['sources'][2]['scope'] = '更正后的记录范围。'
+        corrected_path = self.work / 'mapping-corrected.json'
+        corrected_path.write_text(json.dumps(corrected, ensure_ascii=False), encoding='utf-8')
+        derived = json.loads(self.command('research.py', '--research', path, 'impact-mapping',
+                                          '--mapping', mapping, '--against', corrected_path).stdout)
+        self.assertEqual(derived['changed_mapping_nodes'], ['s-completion'])
+        self.assertEqual(set(derived['affected_findings']),
+                         {'F-completion', 'F-causal', 'F-employment', 'F-definition', 'F-use'})
 
     def test_snapshots_remain_traceable_after_the_bundled_theory_changes(self):
         # Keep the shared install untouched: simulate the update in a copy.

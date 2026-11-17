@@ -58,9 +58,10 @@ python scripts/research.py --research assets/examples/research.json impact --cha
 
 ```text
 python scripts/research.py --research /outside/task/research.json impact-mapping --mapping /outside/task/mapping-old.json --changed s-definition
+python scripts/research.py --research /outside/task/research.json impact-mapping --mapping /outside/task/mapping-old.json --against /outside/task/mapping-new.json
 ```
 
-命令显式读取原稿所据旧快照，核对包 ID、版本、原始字节摘要与节点存在，再从领域来源、条目或已成文成果沿映射成果、研究输入、结论传播到摘要和问题；成文成果本身被更正时，也可直接把它列为变更。可重复 `--changed`。仅文件换行或格式变化也会改变字节摘要；保留原始快照，不用重新排版文件冒充同一文件。缺快照或指定快照没有任何匹配绑定时明确失败；同 ID、同版本的摘要冲突或节点缺失一律失败，不返回假“无影响”。同时存在其他版本的绑定按下述未核验范围处理。
+命令显式读取原稿所据旧快照，核对包 ID、版本、原始字节摘要与节点存在，再从领域来源、条目或已成文成果沿映射成果、研究输入、结论传播到摘要和问题；成文成果本身被更正时，也可直接把它列为变更。可重复 `--changed`；也可改用 `--against <新快照>`，由两份快照的逐记录比较自动取出删除或改动的节点，比较结果放在 `mapping_diff`，两种方式只能选一种。新快照只有新增或排版变化时，绑定照常核验，受影响结论为空。仅文件换行或格式变化也会改变字节摘要；保留原始快照，不用重新排版文件冒充同一文件。缺快照或指定快照没有任何匹配绑定时明确失败；同 ID、同版本的摘要冲突或节点缺失一律失败，不返回假“无影响”。同时存在其他版本的绑定按下述未核验范围处理。
 
 一次处理一个指定快照。其他包、其他版本和人工映射列入 `unverified_mapping_inputs`，其下游列为 `unassessed_findings`，不会归入 `independent_findings`。已有受影响结论同时依赖未核验输入时仍列为受影响，未核验输入清单和 `summary_has_unassessed_dependencies` 保留覆盖缺口。跨包相同节点名不自动连接。确认绑定但变更与本稿无已声明依赖时，才允许受影响集合为空。
 

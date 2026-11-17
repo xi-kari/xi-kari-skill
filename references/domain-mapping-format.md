@@ -17,6 +17,7 @@ python scripts/domain_mapping.py --mapping assets/examples/domain-mapping.json v
 python scripts/domain_mapping.py --mapping assets/examples/domain-mapping.json lookup --term 反馈
 python scripts/domain_mapping.py --mapping assets/examples/domain-mapping.json lookup --term 反馈 --context 学习者对课程的问卷
 python scripts/domain_mapping.py --mapping assets/examples/domain-mapping.json impact --changed s-course
+python scripts/domain_mapping.py --mapping ../task/mapping-old.json diff --against ../task/mapping-new.json
 python scripts/domain_mapping.py --mapping assets/examples/domain-mapping.json render --output ../task/领域说明.md
 ```
 
@@ -100,7 +101,7 @@ CLI `validate` 返回 `id`、`version` 和 `snapshot_sha256`，可用于研究�
 
 `outputs` 每项包含 `id`、`title`、`text`、`entry_ids` 和 `source_ids`。`text` 是分析者已经写成的具体领域说明，至少关联一项映射或直接来源。渲染器在任务与范围之后先呈现这份实际成果，再列来源、映射、三类评估、测量口径、专业方法、不能推出的结论及未知位置；对应类型、层次与各类状态显示为可读名称，`render --lang en` 给出英文固定标签，不翻译作者文字；不会凭词表替作者生成实际研究结论。没有 `outputs` 时在相同位置明确尚未提供成文。输入文字按普通文本呈现，不执行其中的 HTML 或链接指令。
 
-新材料改变词义或证据时，先对旧版运行 `impact` 确认现有依赖范围，再另存新版 JSON，修订受影响的对应、完整正文和问题报告。被影响不等于被否定；支持独立成立的旧判断可以保留。继续研究的主张与问题记录见[研究模块](../modules/research/MODULE.md)，无需再复制一套同义账本。
+新材料改变词义或证据时，先对旧版运行 `impact` 确认现有依赖范围，再另存新版 JSON，修订受影响的对应、完整正文和问题报告。两份快照都在手时，`diff --against <新快照>` 按记录 ID 比较同一领域包：列出新增、删除和改动的来源、条目与成果及改动字段，把删除或改动的节点作为 `changed_nodes` 交给旧快照的 `impact`，结果在 `old_impact` 中给出。只调整顺序或排版不产生节点变动；新增节点在旧快照中没有下游，列为 `added_nodes` 供作者判断是否改用；只改了范围、理论版本等包级字段时没有可传播的节点，须人工判断。不同 `id` 的两个包不比较。字段不同不等于语义改变，字段相同也不证明语义未变。被影响不等于被否定；支持独立成立的旧判断可以保留。继续研究的主张与问题记录见[研究模块](../modules/research/MODULE.md)，无需再复制一套同义账本。
 
 所有写入必须在安装目录之外。`render` 不覆盖已有输出，也不覆盖输入文件；它使用写锁、临时文件和同文件系统的原子不覆盖发布。遇到已有锁、外部写入竞争或不支持硬链接的文件系统时失败并保留已有文件，不静默降为覆盖写入。换用支持该操作的外部目录或新文件名后重试。只读的 `validate`、`lookup`、`impact` 不创建结果文件，返回 JSON，可由宿主直接用于当前任务。
 

@@ -461,6 +461,62 @@ def impact(mapping, changed: list[str]) -> dict:
             'notice': '这是已登记依赖的复核范围，不断言结论已经错误；未登记的依赖无法自动发现。不会改写原始材料或成果。'}
 
 
+PACK_FIELDS = ('schema_version', 'id', 'version', 'domain', 'task', 'scope', 'theory_sha256')
+
+
+def diff_mappings(old, new, old_sha256: str | None = None, new_sha256: str | None = None) -> dict:
+    """Compare two snapshots of one pack by record ID, then scope the old snapshot's review.
+
+    Records are compared by parsed content, so reordering or reformatting alone
+    changes no node. changed_nodes are the old snapshot's removed or modified
+    sources, entries and outputs: exactly what impact on that snapshot needs.
+    Additions have no dependents in the old snapshot and are listed separately.
+    """
+    old_report, new_report = validate_mapping(old), validate_mapping(new)
+    if old['id'] != new['id']:
+        raise MappingError(f"两份快照不是同一领域包：{old['id']} 与 {new['id']}；不同包不按同名节点比较。")
+
+    def canonical(value):
+        return json.dumps(value, ensure_ascii=False, sort_keys=True, allow_nan=False)
+
+    groups = {}
+    changed = []
+    added_all = []
+    for group in ('sources', 'entries', 'outputs'):
+        before = {row['id']: row for row in old[group]}
+        after = {row['id']: row for row in new[group]}
+        modified = {}
+        for identifier in sorted(set(before) & set(after)):
+            fields = sorted(key for key in set(before[identifier]) | set(after[identifier])
+                            if canonical(before[identifier].get(key)) != canonical(after[identifier].get(key)))
+            if fields:
+                modified[identifier] = fields
+        removed = sorted(set(before) - set(after))
+        added = sorted(set(after) - set(before))
+        groups[group] = {'added': added, 'removed': removed, 'modified': modified}
+        changed += removed + list(modified)
+        added_all += added
+    pack_fields = [key for key in PACK_FIELDS if canonical(old.get(key)) != canonical(new.get(key))]
+    changed = sorted(changed)
+    result = {
+        'format': FORMAT, 'id': old['id'],
+        'old_snapshot': {'version': old['version'], 'sha256': old_sha256, 'theory_status': old_report['theory_status']},
+        'new_snapshot': {'version': new['version'], 'sha256': new_sha256, 'theory_status': new_report['theory_status']},
+        'bytes_identical': old_sha256 is not None and old_sha256 == new_sha256,
+        'content_identical': canonical(old) == canonical(new),
+        'pack_fields_changed': pack_fields, 'groups': groups,
+        'changed_nodes': changed, 'added_nodes': sorted(added_all),
+        'old_impact': impact(old, changed) if changed else None,
+        'warnings': old_report['warnings'] + [warning for warning in new_report['warnings']
+                                              if warning not in old_report['warnings']],
+        'notice': ('按记录 ID 比较两份快照：变动或删除的节点交给旧快照的 impact 定位复核范围；新增节点在旧快照中没有下游，'
+                   '需作者判断是否应改用。字段不同不等于语义改变，字段相同也不证明语义未变。'),
+    }
+    if pack_fields and not changed:
+        result['notice'] += ' 本次只有包级字段改变（如范围或理论版本），没有可沿依赖传播的节点，须人工判断它对全部条目的影响。'
+    return result
+
+
 def _md(value, unknown=UNKNOWN):
     if value is None:
         return unknown
@@ -704,6 +760,8 @@ def main(argv=None) -> int:
     query.add_argument('--context', help='可选：已登记语境的精确文本')
     changes = commands.add_parser('impact', help='追踪来源、映射条目或成文成果变更后的已登记依赖')
     changes.add_argument('--changed', nargs='+', required=True)
+    compare = commands.add_parser('diff', help='按记录比较旧快照与新快照，并在旧快照上定位复核范围')
+    compare.add_argument('--against', type=Path, required=True, help='同一领域包的新快照')
     render = commands.add_parser('render', help='把已提供的映射和成文渲染为说明')
     render.add_argument('--output', '-o', type=Path, required=True)
     render.add_argument('--lang', choices=sorted(LABELS), default='zh',
@@ -718,6 +776,9 @@ def main(argv=None) -> int:
             result = lookup(mapping, args.term, args.context)
         elif args.command == 'impact':
             result = impact(mapping, args.changed)
+        elif args.command == 'diff':
+            newer, newer_sha256 = read_snapshot(args.against)
+            result = diff_mappings(mapping, newer, snapshot_sha256, newer_sha256)
         else:
             if args.output.resolve() == args.mapping.resolve():
                 raise MappingError('输出不能覆盖输入映射，请使用新路径。')

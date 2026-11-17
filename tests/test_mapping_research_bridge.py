@@ -153,6 +153,62 @@ class MappingResearchBridgeTests(unittest.TestCase):
         self.assertNotIn('M-response', result['affected_mapping_inputs'])
         self.assertTrue(result['affected_findings'])
 
+    def newer_snapshot(self, change):
+        newer = copy.deepcopy(self.mapping)
+        change(newer)
+        path = Path(self.temp.name) / 'mapping-new.json'
+        path.write_text(json.dumps(newer, ensure_ascii=False, indent=1), encoding='utf-8')
+        return path
+
+    def test_newer_snapshot_supplies_the_changed_nodes(self):
+        def correct_course(newer):
+            newer['sources'][0]['scope'] = '更正后的范围：只支持评语已经发出。'
+        newer = self.newer_snapshot(correct_course)
+        derived = research.impact_mapping(self.data, self.mapping_path, against=newer)
+        explicit = self.run_bridge('s-course')
+        self.assertEqual(derived['mapping_diff']['changed_nodes'], ['s-course'])
+        self.assertEqual(derived['mapping_diff']['groups']['sources']['modified'], {'s-course': ['scope']})
+        for key in ('affected_findings', 'independent_findings', 'affected_issues', 'summary_needs_review'):
+            self.assertEqual(derived[key], explicit[key], key)
+        self.assertIsNone(explicit['mapping_diff'])
+
+    def test_reformatted_or_added_only_snapshot_changes_no_finding(self):
+        def add_entry(newer):
+            extra = copy.deepcopy(newer['entries'][3])
+            extra['id'] = 'm-new'
+            extra['terms'] = ['新增条目']
+            newer['entries'].append(extra)
+        newer = self.newer_snapshot(add_entry)
+        result = research.impact_mapping(self.data, self.mapping_path, against=newer)
+        self.assertEqual(result['mapping_diff']['changed_nodes'], [])
+        self.assertEqual(result['mapping_diff']['added_nodes'], ['m-new'])
+        self.assertEqual(result['affected_findings'], [])
+        self.assertEqual(result['verified_mapping_inputs'], ['M-response', 'M-completion'])
+        with self.assertRaisesRegex(research.ResearchError, '二选一'):
+            research.impact_mapping(self.data, self.mapping_path, ['s-course'], against=newer)
+        with self.assertRaises(research.ResearchError):
+            research.impact_mapping(self.data, self.mapping_path, [])
+
+    def test_diff_reports_records_not_bytes_and_refuses_another_pack(self):
+        mapping = research.domain_mapping
+        same = mapping.diff_mappings(self.mapping, copy.deepcopy(self.mapping), 'a', 'b')
+        self.assertTrue(same['content_identical'])
+        self.assertFalse(same['bytes_identical'])
+        self.assertEqual((same['changed_nodes'], same['added_nodes'], same['old_impact']), ([], [], None))
+        newer = copy.deepcopy(self.mapping)
+        newer['entries'].reverse()
+        self.assertEqual(mapping.diff_mappings(self.mapping, newer)['changed_nodes'], [])
+        del newer['outputs'][0]
+        newer['scope'] = '新范围'
+        changed = mapping.diff_mappings(self.mapping, newer)
+        self.assertEqual(changed['groups']['outputs']['removed'], ['o-feedback'])
+        self.assertEqual(changed['pack_fields_changed'], ['scope'])
+        self.assertEqual(changed['old_impact']['affected_outputs'], ['o-feedback'])
+        other = copy.deepcopy(self.mapping)
+        other['id'] = 'another-pack'
+        with self.assertRaises(mapping.MappingError):
+            mapping.diff_mappings(self.mapping, other)
+
     def test_unknown_changed_node_is_an_error_and_does_not_edit_input(self):
         before = copy.deepcopy(self.data)
         with self.assertRaises(ValueError):
