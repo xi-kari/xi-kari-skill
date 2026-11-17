@@ -5,6 +5,7 @@ import importlib.util
 import json
 from pathlib import Path
 import re
+import shutil
 import subprocess
 import sys
 import tempfile
@@ -137,6 +138,44 @@ class ResearchDomainIntegrationTests(unittest.TestCase):
                               '--mapping', newer, '--changed', 's-completion', success=False)
         self.assertIn('SHA-256', result.stderr)
         self.assertEqual(result.stdout, '')
+
+    def test_snapshots_remain_traceable_after_the_bundled_theory_changes(self):
+        # Keep the shared install untouched: simulate the update in a copy.
+        updated = self.work / 'updated-install'
+        shutil.copytree(self.install, updated)
+        try:
+            mapping = self.work / 'theory-old-mapping.json'
+            mapping.write_bytes((self.install / 'assets/examples/domain-mapping.json').read_bytes())
+            identity = json.loads(self.command('domain_mapping.py', '--mapping', mapping, 'validate').stdout)
+            self.assertEqual(identity['theory_status'], 'current')
+            study = json.loads((self.install / 'assets/examples/research.json').read_text(encoding='utf-8'))
+            study['inputs'][-1]['mapping_ref'] = {
+                'id': identity['id'], 'version': identity['version'],
+                'sha256': identity['snapshot_sha256'], 'node_ids': ['m-completion'],
+            }
+            path = self.work / 'theory-old-research.json'
+            path.write_text(json.dumps(study, ensure_ascii=False), encoding='utf-8')
+            source = updated / 'source' / 'Xikari-条件结构与转化论.md'
+            source.write_bytes(source.read_bytes() + '\n'.encode('utf-8'))
+
+            def run(script, *args):
+                process = subprocess.run([sys.executable, str(updated / 'scripts' / script), *map(str, args)],
+                                         cwd=self.work, capture_output=True, text=True, encoding='utf-8', timeout=30)
+                self.assertEqual(process.returncode, 0, process.stderr)
+                return json.loads(process.stdout)
+
+            report = run('domain_mapping.py', '--mapping', mapping, 'validate')
+            self.assertEqual(report['theory_status'], 'other_version')
+            self.assertTrue(report['warnings'])
+            traced = run('domain_mapping.py', '--mapping', mapping, 'impact', '--changed', 's-completion')
+            self.assertIn('m-completion', traced['affected_entries'])
+            bridged = run('research.py', '--research', path, 'impact-mapping',
+                          '--mapping', mapping, '--changed', 's-completion')
+            self.assertIn('F-completion', bridged['affected_findings'])
+            self.assertEqual(bridged['mapping_theory_status'], 'other_version')
+            self.assertTrue(bridged['warnings'])
+        finally:
+            shutil.rmtree(updated)
 
     def test_both_tools_reject_writing_into_the_installed_package(self):
         self.command('research.py', '--research', self.install / 'assets/examples/research.json',

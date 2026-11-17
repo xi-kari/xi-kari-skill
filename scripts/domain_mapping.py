@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import argparse
 from collections import deque
+from functools import lru_cache
 import hashlib
 import json
 import os
@@ -44,6 +45,43 @@ UNKNOWN = '未知（未提供，不补默认值）'
 
 class MappingError(ValueError):
     """Invalid or inconsistent mapping input."""
+
+
+@lru_cache(maxsize=1)
+def theory_reference() -> dict:
+    """Identify the bundled theory text and its sections; not a theory-content review.
+
+    The manifest's previous identity, when recorded, lets an older snapshot be
+    named precisely. Any other differing hash is reported, never silently trusted.
+    """
+    source_dir = Path(__file__).resolve().parents[1] / 'source'
+    raw = (source_dir / 'Xikari-条件结构与转化论.md').read_bytes()
+    sections, _ = build_index(raw.decode('utf-8-sig').splitlines())
+    previous = {}
+    try:
+        manifest = json.loads((source_dir / 'source-manifest.json').read_text(encoding='utf-8-sig'))
+    except (OSError, ValueError):
+        manifest = {}
+    if isinstance(manifest, dict) and isinstance(manifest.get('previous_source_sha256'), str):
+        previous[manifest['previous_source_sha256']] = str(manifest.get('previous_source_identity') or '')
+    return {'sha256': hashlib.sha256(raw).hexdigest(), 'sections': frozenset(sections), 'previous': previous}
+
+
+def theory_binding(value: str) -> str:
+    """Classify a well-formed theory hash against the bundled text."""
+    reference = theory_reference()
+    if value == reference['sha256']:
+        return 'current'
+    return 'previous_version' if value in reference['previous'] else 'other_version'
+
+
+def theory_version_warning(status: str, subject: str) -> str:
+    """One plain statement shared by validation, query, tracing and rendering."""
+    if status == 'previous_version':
+        return (f'{subject}绑定的是上一版理论原文，与当前随包原文不同：小节引用按所据版本保留，'
+                '未对当前原文复核。旧快照仍可查询、追踪与渲染；复核受影响内容后另存新版。')
+    return (f'{subject}绑定的理论散列与当前随包原文不同，也不是来源清单记录的上一版：小节引用未对当前原文复核。'
+            '若是更早的快照，仍可查询与追踪；若是新建记录，请核对散列。')
 
 
 def _object(value, allowed, required, where):
@@ -313,16 +351,19 @@ def validate_mapping(mapping) -> dict:
     uses_theory = any(row['theory_anchors'] for row in entries.values())
     if uses_theory and 'theory_sha256' not in mapping:
         raise MappingError('使用理论小节的领域包须提供theory_sha256，不能省略理论版本。')
+    theory_status, warnings = 'not_bound', []
     if 'theory_sha256' in mapping:
-        source = Path(__file__).resolve().parents[1] / 'source' / 'Xikari-条件结构与转化论.md'
-        raw = source.read_bytes()
-        if hashlib.sha256(raw).hexdigest() != mapping['theory_sha256']:
-            raise MappingError('领域包绑定的理论版本与当前原文不同，请复核映射后另存新版。')
-        sections, _ = build_index(raw.decode('utf-8-sig').splitlines())
-        for row in entries.values():
-            for anchor in row['theory_anchors']:
-                if anchor not in sections:
-                    raise MappingError(f"映射 {row['id']}引用了当前理论不存在的小节: {anchor}")
+        theory_status = theory_binding(mapping['theory_sha256'])
+        if theory_status == 'current':
+            sections = theory_reference()['sections']
+            for row in entries.values():
+                for anchor in row['theory_anchors']:
+                    if anchor not in sections:
+                        raise MappingError(f"映射 {row['id']}引用了当前理论不存在的小节: {anchor}")
+        else:
+            # An older snapshot stays readable so its dependents can be traced;
+            # its section IDs belong to the bound text and are not rechecked here.
+            warnings.append(theory_version_warning(theory_status, '领域包'))
     graph = _graph(mapping)
     incoming = {identifier: 0 for identifier in graph}
     for children in graph.values():
@@ -341,11 +382,12 @@ def validate_mapping(mapping) -> dict:
         raise MappingError('映射依赖含循环，不能把相互引用作为独立依据；请拆成共同来源。')
     return {'format': FORMAT, 'valid': True, 'id': mapping['id'], 'version': mapping['version'],
             'source_count': len(sources), 'entry_count': len(entries), 'output_count': len(outputs),
+            'theory_status': theory_status, 'warnings': warnings,
             'unresolved_fields': sorted(unknown), 'notice': NOTICE}
 
 
 def lookup(mapping, term: str, context: str | None = None) -> dict:
-    validate_mapping(mapping)
+    report = validate_mapping(mapping)
     needles = {policy: _match_key(term, policy) for policy in MATCH_POLICIES}
     contexts = ({policy: _match_key(context, policy) for policy in MATCH_POLICIES}
                 if context is not None else None)
@@ -361,11 +403,12 @@ def lookup(mapping, term: str, context: str | None = None) -> dict:
             'status': status,
             'ambiguous': len(matches) > 1, 'matches': matches,
             'context_options': list(dict.fromkeys(row['context'] for row in term_matches)),
+            'theory_status': report['theory_status'], 'warnings': report['warnings'],
             'notice': NOTICE + ' 查询按各条目的match_policy匹配词和语境；默认normalized，exact保留全部字符。所有匹配均保留，不猜测语境。'}
 
 
 def impact(mapping, changed: list[str]) -> dict:
-    validate_mapping(mapping)
+    report = validate_mapping(mapping)
     _strings(changed, 'changed', nonempty=True)
     sources, entries, outputs = _index(mapping)
     permitted = set(sources) | set(entries)
@@ -386,6 +429,7 @@ def impact(mapping, changed: list[str]) -> dict:
             'affected_outputs': sorted(set(paths) & set(outputs)),
             'unaffected_outputs': sorted(set(outputs) - set(paths)),
             'paths': {identifier: paths[identifier] for identifier in sorted(paths)},
+            'theory_status': report['theory_status'], 'warnings': report['warnings'],
             'notice': '这是已登记依赖的复核范围，不断言结论已经错误；未登记的依赖无法自动发现。不会改写原始材料或成果。'}
 
 
@@ -421,6 +465,8 @@ def render_markdown(mapping) -> str:
              NOTICE, '', '## 已写成的领域表述', '']
     if 'theory_sha256' in mapping:
         lines[8:8] = [f"理论文本 SHA-256：{mapping['theory_sha256']}。", '']
+        if report['theory_status'] != 'current':
+            lines[10:10] = [f"**理论版本提示：** {_md(report['warnings'][0])}", '']
     if not mapping['outputs']:
         lines += ['尚未提供成文；工具不会据词表编造研究结果。', '']
     for row in mapping['outputs']:

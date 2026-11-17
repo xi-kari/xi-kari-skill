@@ -176,8 +176,35 @@ class ResearchMeaningTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, '不存在'):
             research.validate_research(data)
         issue['theory']['anchor'] = '2.13'
-        issue['theory']['source_sha256'] = '0' * 64
-        with self.assertRaisesRegex(ValueError, '原文不一致'):
+        issue['theory']['source_sha256'] = '0' * 63
+        with self.assertRaisesRegex(ValueError, 'SHA-256'):
+            research.validate_research(data)
+
+    def test_earlier_theory_binding_stays_readable_and_is_flagged_in_both_reports(self):
+        data = example()
+        issue = data['issues'][0]
+        issue['categories'] = ['theory_candidate']
+        issue['theory'] = {'proposition': '合成测试命题，不是实际引用。', 'anchor': '99.999',
+                           'source_sha256': '0' * 64,
+                           'scope': '仅用于版本测试。', 'challenge': '需由作者按所据版本回查。'}
+        result = research.validate_research(data)
+        self.assertEqual(result['theory_bindings_not_current'],
+                         [{'issue': issue['id'], 'source_sha256': '0' * 64, 'binding': 'other_version'}])
+        self.assertTrue(result['warnings'])
+        changed = research.impact(data, ['S-register'])
+        self.assertIn('F-completion', changed['affected_findings'])
+        self.assertEqual(changed['warnings'], result['warnings'])
+        documents = research.render_documents(data)
+        self.assertIn('理论版本提示', documents['research-report.md'])
+        self.assertIn('理论版本提示', documents['research-issues.md'])
+        self.assertIn('未对当前原文复核', documents['research-issues.md'])
+        previous = next(iter(research.theory_index()['previous']), None)
+        if previous:
+            issue['theory']['source_sha256'] = previous
+            self.assertEqual(research.validate_research(data)['theory_bindings_not_current'][0]['binding'],
+                             'previous_version')
+        issue['theory']['source_sha256'] = research.theory_index()['sha256']
+        with self.assertRaisesRegex(ValueError, '不存在'):
             research.validate_research(data)
 
 

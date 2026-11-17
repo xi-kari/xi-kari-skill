@@ -367,25 +367,54 @@ class MappingTests(unittest.TestCase):
         data = example(); del data['theory_sha256']
         with self.assertRaises(mapping.MappingError):
             mapping.validate_mapping(data)
-        data = example(); data['theory_sha256'] = '0' * 64
-        with self.assertRaisesRegex(mapping.MappingError, '版本'):
-            mapping.validate_mapping(data)
-        data = example(); data['entries'][0]['theory_anchors'] = ['99.999']
+        data = example()
+        self.assertEqual(mapping.validate_mapping(data)['theory_status'], 'current')
+        self.assertEqual(mapping.validate_mapping(data)['warnings'], [])
+        data['entries'][0]['theory_anchors'] = ['99.999']
         with self.assertRaisesRegex(mapping.MappingError, '不存在'):
             mapping.validate_mapping(data)
         data = example(); del data['theory_sha256']
         for row in data['entries']:
             row['theory_anchors'] = []
-        self.assertTrue(mapping.validate_mapping(data)['valid'])
+        result = mapping.validate_mapping(data)
+        self.assertTrue(result['valid'])
+        self.assertEqual(result['theory_status'], 'not_bound')
 
     def test_explicit_theory_binding_is_checked_even_without_anchors(self):
         data = example()
         for row in data['entries']:
             row['theory_anchors'] = []
         self.assertTrue(mapping.validate_mapping(data)['valid'])
-        data['theory_sha256'] = '0' * 64
-        with self.assertRaisesRegex(mapping.MappingError, '版本'):
+        data['theory_sha256'] = '0' * 63
+        with self.assertRaisesRegex(mapping.MappingError, 'SHA-256'):
             mapping.validate_mapping(data)
+
+    def test_snapshot_bound_to_an_earlier_theory_stays_queryable_and_traceable(self):
+        data = example()
+        data['theory_sha256'] = '0' * 64
+        data['entries'][0]['theory_anchors'] = ['99.999']
+        report = mapping.validate_mapping(data)
+        self.assertTrue(report['valid'])
+        self.assertEqual(report['theory_status'], 'other_version')
+        self.assertTrue(any('未对当前原文复核' in warning for warning in report['warnings']))
+        found = mapping.lookup(data, '反馈', '学习者对课程的问卷')
+        self.assertEqual([row['id'] for row in found['matches']], ['m-survey'])
+        self.assertEqual(found['theory_status'], 'other_version')
+        traced = mapping.impact(data, ['s-course'])
+        self.assertTrue(traced['affected_entries'])
+        self.assertEqual(traced['warnings'], report['warnings'])
+        self.assertIn('理论版本提示', mapping.render_markdown(data))
+        previous = next(iter(mapping.theory_reference()['previous']), None)
+        if previous:
+            data['theory_sha256'] = previous
+            self.assertEqual(mapping.validate_mapping(data)['theory_status'], 'previous_version')
+
+    def test_shipped_mappings_are_bound_to_the_current_theory(self):
+        for path in [EXAMPLE, *sorted((ROOT / 'assets/domains').glob('*.json'))]:
+            with self.subTest(path=path.name):
+                report = mapping.validate_mapping(json.loads(path.read_text(encoding='utf-8-sig')))
+                self.assertEqual(report['theory_status'], 'current',
+                                 'update the shipped mapping after reviewing the changed theory text')
 
     def test_render_contains_authored_prose_and_all_limits_not_invented_results(self):
         data = example()

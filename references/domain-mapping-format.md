@@ -26,7 +26,7 @@ python scripts/domain_mapping.py --mapping assets/examples/domain-mapping.json r
 
 `impact --changed s-course` 指出教师评语、后续响应及依赖它们的两段表述需要复核；独立的完成比例表述保留。结果的 `paths` 给出一条实际登记的依赖路径，`affected_entries` 包含被直接改动的映射条目及其后继，`affected_outputs` 与 `unaffected_outputs` 区分现有成果。沿来源、条目、字段、方法、三类评估和目标侧复核的来源引用统一追踪。它不表示受影响结论已错误，也不会重写输入文件或正文。没有登记的依赖无法自动发现。
 
-CLI `validate` 返回 `id`、`version` 和 `snapshot_sha256`，可用于研究工具的 `mapping_ref`。摘要计算于本次解析使用的同一份原始字节快照，包括 UTF-8 BOM、空白和换行；即使语义相同，另存字节不同也得到不同摘要。它只标识具体输入版本，不证明映射内容正确，也不是理论文本的 `theory_sha256`。
+CLI `validate` 返回 `id`、`version` 和 `snapshot_sha256`，可用于研究工具的 `mapping_ref`；`theory_status` 为 `current`、`previous_version`（来源清单记录的上一版）、`other_version` 或 `not_bound`，非当前版本时 `warnings` 说明影响。摘要计算于本次解析使用的同一份原始字节快照，包括 UTF-8 BOM、空白和换行；即使语义相同，另存字节不同也得到不同摘要。它只标识具体输入版本，不证明映射内容正确，也不是理论文本的 `theory_sha256`。
 
 `lookup` 返回 `context_options`，列出同词实际登记的语境以供核对。词已匹配、指定语境未匹配时，状态为 `context_not_found`，`matches` 仍为空；没有词项时为 `unmapped`。提示不会把短语猜成完整语境，也不会在多个义项间自动择一。
 
@@ -41,7 +41,7 @@ CLI `validate` 返回 `id`、`version` 和 `snapshot_sha256`，可用于研究�
 | `schema_version` | 整数 `1`，不是字符串或布尔值 |
 | `id`、`version` | 领域包标识和本包版本；不是现实事实有效期 |
 | `domain`、`task`、`scope` | 具体领域、所求任务与地区、机构、系统版本或材料范围；不能写成无限适用 |
-| `theory_sha256` | 使用理论小节时必填；只要填写，就必须与随包中文原文的 SHA-256 一致，即使本包没有小节引用。理论版本变化后先复核再另存新版 |
+| `theory_sha256` | 使用理论小节时必填。与随包中文原文一致时，工具核对每个小节确实存在；理论更新后的旧快照仍可校验、查询、追踪与渲染，结果给出 `theory_status` 和版本警告，小节引用不按当前原文核对。复核受影响内容后另存新版；随包领域包须绑定当前原文 |
 | `sources` | 来源列表，可以暂时为空；不能用空来源声明已经建立对应 |
 | `entries` | 至少一项实际对应或有理由的未知/不对应 |
 | `outputs` | 已写成的领域表述，可以为空；为空时渲染器明确尚未提供成文 |

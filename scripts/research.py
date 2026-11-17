@@ -25,7 +25,6 @@ sys.dont_write_bytecode = True
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 try:
     import domain_mapping
-    from read_source import build_index
     from xikari_paths import require_external_output
 finally:
     sys.path.pop(0)
@@ -66,10 +65,9 @@ class ResearchError(ValueError):
 @lru_cache(maxsize=1)
 def theory_index():
     """Locate bundled section IDs and source version; not a theory-content review."""
-    source = Path(__file__).resolve().parents[1] / 'source' / 'Xikari-条件结构与转化论.md'
-    raw = source.read_bytes()
-    sections, _parts = build_index(raw.decode('utf-8-sig').splitlines())
-    return {'anchors': frozenset(sections), 'sha256': hashlib.sha256(raw).hexdigest()}
+    reference = domain_mapping.theory_reference()
+    return {'anchors': reference['sections'], 'sha256': reference['sha256'],
+            'previous': reference['previous']}
 
 
 def read_snapshot(path: Path) -> tuple[dict, str]:
@@ -216,6 +214,7 @@ def validate_research(data) -> dict:
         raise ResearchError('summary_refs 只能引用已有结论 ID。')
     graph = {item['id']: list(item['depends_on']) for item in findings}
     order = topological_order(graph, input_ids)
+    older_theory = []
     for item in issues:
         object_fields(item, {'id', 'title', 'categories', 'affected_findings', 'materiality',
                              'status', 'current_work', 'why_unresolved', 'consequence', 'next_work',
@@ -248,10 +247,17 @@ def validate_research(data) -> dict:
                 text(theory, key, item['id'] + '.theory')
             if not ANCHOR.fullmatch(theory['anchor']):
                 raise ResearchError('theory.anchor 须为不含 § 的小节编号，如 4.17.4。')
-            if theory['source_sha256'] != theory_index()['sha256']:
-                raise ResearchError('theory.source_sha256 与随包原文不一致；请回查版本及受影响命题。')
-            if theory['anchor'] not in theory_index()['anchors']:
-                raise ResearchError(f'theory.anchor 不存在于随包原文：{theory["anchor"]}')
+            if not re.fullmatch(r'[0-9a-f]{64}', theory['source_sha256']):
+                raise ResearchError('theory.source_sha256 须为所据原文字节的小写 SHA-256。')
+            binding = domain_mapping.theory_binding(theory['source_sha256'])
+            if binding == 'current':
+                if theory['anchor'] not in theory_index()['anchors']:
+                    raise ResearchError(f'theory.anchor 不存在于随包原文：{theory["anchor"]}')
+            else:
+                # Kept readable after a theory update; the anchor belongs to the
+                # bound text, and both reports carry the version notice.
+                older_theory.append({'issue': item['id'], 'source_sha256': theory['source_sha256'],
+                                     'binding': binding})
     issue_ids = {item['id'] for item in issues}
     successor_graph = {}
     for item in issues:
@@ -263,12 +269,15 @@ def validate_research(data) -> dict:
         topological_order(successor_graph, set())
     except ResearchError as exc:
         raise ResearchError('问题替代关系存在循环；请保留可追踪的后继问题。') from exc
+    warnings = [domain_mapping.theory_version_warning(row['binding'], f'理论问题候选 {row["issue"]} ')
+                for row in older_theory]
     return {
         'format': FORMAT, 'structure_valid': True,
         'input_count': len(inputs), 'finding_count': len(findings), 'issue_count': len(issues),
         'unknown_inputs': [item['id'] for item in inputs if item['status'] == 'unknown'],
         'synthetic_inputs': [item['id'] for item in inputs if item['status'] == 'synthetic'],
         'unverified_mapping_inputs': [item['id'] for item in inputs if item['kind'] == 'mapping'],
+        'theory_bindings_not_current': older_theory, 'warnings': warnings,
         'finding_order': order, 'notice': NOTICE,
     }
 
@@ -320,7 +329,7 @@ def dependency_paths(children, changed):
 
 def impact(data, changed) -> dict:
     """Find dependent findings; changes request review, never automatic rejection."""
-    validate_research(data)
+    validation = validate_research(data)
     if (not isinstance(changed, (list, tuple)) or not changed
             or any(not isinstance(key, str) for key in changed)):
         raise ResearchError('changed 须为至少一个已知输入或结论 ID。')
@@ -335,6 +344,7 @@ def impact(data, changed) -> dict:
         'affected_issues': [item['id'] for item in data['issues'] if set(item['affected_findings']) & set(affected)],
         'summary_needs_review': bool(set(data['summary_refs']) & set(affected)),
         'paths': {key: paths[key] for key in affected},
+        'warnings': validation['warnings'],
         'notice': '这里只沿已声明依赖定位需复核范围，不自动撤回、改写或升级判断；漏记依赖须由作者补足。',
     }
 
@@ -349,7 +359,7 @@ def impact_mapping(data, mapping_path: Path, changed) -> dict:
     A locator is never opened implicitly. Unbound or other-snapshot inputs stay
     outside this check; their downstream findings are not called independent.
     """
-    validate_research(data)
+    validation = validate_research(data)
     mapping, digest = read_snapshot(mapping_path)
     mapping_result = domain_mapping.impact(mapping, changed)
     nodes = {row['id'] for group in ('sources', 'entries', 'outputs') for row in mapping[group]}
@@ -400,6 +410,8 @@ def impact_mapping(data, mapping_path: Path, changed) -> dict:
         'summary_has_unassessed_dependencies': bool(set(data['summary_refs']) & set(unchecked_paths)),
         'paths': {key: paths[key] for key in affected},
         'mapping_paths': mapping_result['paths'],
+        'mapping_theory_status': mapping_result['theory_status'],
+        'warnings': validation['warnings'] + mapping_result['warnings'],
         'notice': '只对显式给定的已绑定映射快照和已声明依赖定位复核；未绑定或其他快照的映射列为未核验，其下游不宣称独立。作者仍须读新材料、修订正文及问题，并更新绑定；字节匹配不证明映射正确。',
     }
 
@@ -469,6 +481,10 @@ def render_documents(data) -> dict[str, str]:
     if validation['synthetic_inputs']:
         lines += ['本报告使用合成材料：' + ', '.join(validation['synthetic_inputs'])
                   + '。相应结果只用于教学或模型示意，不作现实效果证据。', '']
+    if validation['theory_bindings_not_current']:
+        lines += ['**理论版本提示：** 理论问题候选 '
+                  + ', '.join(row['issue'] for row in validation['theory_bindings_not_current'])
+                  + ' 所据原文与当前随包原文不是同一版本，相关命题尚未对当前原文复核。', '']
     if major:
         lines += ['**影响当前判断的重大未决：**', '']
         for item in major:
@@ -516,8 +532,11 @@ def render_documents(data) -> dict[str, str]:
             theory = item['theory']
             boundary += ['### 理论问题候选的具体命中位置', '',
                          f'原文位置：§{theory["anchor"]}', '', theory['proposition'], '',
-                         f'所据原文字节 SHA-256：{theory["source_sha256"]}', '',
-                         f'原命题范围与前提：{theory["scope"]}', '',
+                         f'所据原文字节 SHA-256：{theory["source_sha256"]}', '']
+            if theory['source_sha256'] != theory_index()['sha256']:
+                boundary += ['**理论版本提示：** ' + domain_mapping.theory_version_warning(
+                    domain_mapping.theory_binding(theory['source_sha256']), '本候选'), '']
+            boundary += [f'原命题范围与前提：{theory["scope"]}', '',
                          f'具体挑战：{theory["challenge"]}', '',
                          '这是待评估的理论问题候选；记录结构不证明原命题已被反驳。', '']
     boundary += [f'> {NOTICE}', '']
