@@ -460,6 +460,46 @@ class ResourceScheduleTests(unittest.TestCase):
             with self.assertRaises(InputError):
                 ft.resource_schedule(**schedule_input([value]))
 
+    def test_capacity_certificate_decides_counting_infeasibility_before_search(self):
+        tasks = [task(f"t{i}", list(range(9)), end_by=9) for i in range(10)]
+        data = {"horizon": 9, "resources": [{"id": "reviewer", "capacity": [1] * 9}],
+                "tasks": tasks, "search_budget": 1_000_000}
+        result = ft.resource_schedule(**data)
+        self.assertEqual(result["status"], "infeasible_in_model")
+        self.assertTrue(result["decision_complete"])
+        self.assertEqual(result["attempted_starts"], 0)
+        certificate = result["capacity_certificate"]
+        self.assertEqual((certificate["resource_id"], certificate["interval"]), ("reviewer", [0, 9]))
+        self.assertEqual((certificate["required"], certificate["available"]), (10, 9))
+        self.assertEqual(len(certificate["task_ids"]), 10)
+        data["tasks"] = tasks[:9]
+        feasible = ft.resource_schedule(**data)
+        self.assertEqual(feasible["status"], "feasible_in_model")
+        self.assertIsNone(feasible["capacity_certificate"])
+
+    def test_capacity_certificates_appear_only_on_enumerated_infeasible_models(self):
+        rng = random.Random(20261117)
+        fired = 0
+        for _ in range(400):
+            horizon = rng.randint(2, 5)
+            tasks = []
+            for index in range(rng.randint(1, 4)):
+                tasks.append(task(f"t{index}", sorted(rng.sample(range(horizon), rng.randint(1, horizon))),
+                                  duration=rng.randint(1, 2), demand=rng.randint(0, 2), end_by=horizon,
+                                  predecessors=[value["id"] for value in tasks if rng.random() < 0.2]))
+            data = {"horizon": horizon, "resources": [{"id": "reviewer",
+                                                       "capacity": [rng.randint(0, 2) for _ in range(horizon)]}],
+                    "tasks": tasks, "search_budget": 1_000_000}
+            result = ft.resource_schedule(**data)
+            menus = [value["start_slots"] for value in tasks]
+            exists = any(independent_schedule_valid(data, dict(zip([value["id"] for value in tasks], choice)))
+                         for choice in product(*menus))
+            self.assertEqual(result["status"] == "feasible_in_model", exists)
+            if result["capacity_certificate"]:
+                fired += 1
+                self.assertFalse(exists)
+        self.assertGreater(fired, 0)
+
     def test_budget_exhaustion_not_infeasibility_and_empty_tasks_trivial(self):
         data = schedule_input([task("a", [0])], budget=0)
         result = ft.resource_schedule(**data)
@@ -793,6 +833,16 @@ class EnvelopeAndCLITests(unittest.TestCase):
                 self.assertEqual(ft.main(["--model", str(source), "compute"]), 2)
             self.assertEqual(stdout.getvalue(), "")
             self.assertIn("output limit", json.loads(stderr.getvalue())["error"])
+
+    def test_assumptions_and_boundaries_are_prose_statements(self):
+        model = envelope("common_actions", {"admissible": {"s": ["A"]}, "action_universe": ["A"]})
+        model["assumptions"] = ["这是一条较长的假设说明，回指实际来源与抽取方法。" * 15]
+        self.assertGreater(len(model["assumptions"][0]), 256)
+        self.assertEqual(ft.validate_model(model)["status"], "valid_model")
+        for bad in ([], ["x" * 4001], ["same", "same"], [""], [7]):
+            model["assumptions"] = bad
+            with self.subTest(bad=str(bad)[:20]), self.assertRaisesRegex(InputError, "statements"):
+                ft.validate_model(model)
 
     def test_validate_is_not_compute_and_preserves_supplied_model(self):
         data = envelope("task_partition", {"states": ["a", "b"], "actions": [],

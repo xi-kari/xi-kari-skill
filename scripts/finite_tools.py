@@ -52,6 +52,17 @@ def _names(values, label, *, nonempty=True):
     return list(values)
 
 
+def _texts(values, label, *, max_items=256, max_length=4000):
+    """Prose statements such as assumptions: nonempty, distinct and bounded."""
+    if not isinstance(values, list) or not values or len(values) > max_items:
+        raise InputError(f"{label} must be a nonempty list of at most {max_items} statements")
+    if any(not isinstance(v, str) or not v.strip() or len(v) > max_length for v in values):
+        raise InputError(f"{label} must contain nonempty statements of at most {max_length} characters each")
+    if len(set(values)) != len(values):
+        raise InputError(f"{label} contains duplicate statements")
+    return list(values)
+
+
 def _mapping(value, keys, label):
     if not isinstance(value, dict) or set(value) != set(keys):
         raise InputError(f"{label} must define exactly the declared keys")
@@ -399,6 +410,34 @@ def _records(value, label, maximum, *, nonempty=False):
     _names([record.get("id") for record in value], label + " IDs", nonempty=nonempty)
 
 
+def _capacity_certificate(tasks, starts_by_task, resource_ids, capacities):
+    """Sound infeasibility proof found before search, or None.
+
+    Every allowed placement of a task lies inside the span from its earliest
+    allowed start to its latest allowed finish. Tasks whose span lies inside
+    [a, b) must use demand x duration of a resource there; if that exceeds the
+    calendar's total capacity in [a, b), no schedule exists. A None result
+    proves nothing; the complete search still decides.
+    """
+    spans = {task["id"]: (min(starts_by_task[task["id"]]),
+                          max(starts_by_task[task["id"]]) + task["duration"]) for task in tasks}
+    edges = sorted({edge for span in spans.values() for edge in span})
+    for resource in resource_ids:
+        prefix = [0]
+        for value in capacities[resource]:
+            prefix.append(prefix[-1] + value)
+        for index, left in enumerate(edges):
+            for right in edges[index + 1:]:
+                inside = [task for task in tasks if task["demands"][resource]
+                          and spans[task["id"]][0] >= left and spans[task["id"]][1] <= right]
+                required = sum(task["demands"][resource] * task["duration"] for task in inside)
+                available = prefix[right] - prefix[left]
+                if required > available:
+                    return {"resource_id": resource, "interval": [left, right], "required": required,
+                            "available": available, "task_ids": [task["id"] for task in inside]}
+    return None
+
+
 def resource_schedule(horizon, resources, tasks, search_budget, *, _validate_only=False):
     """Exact finite search over declared integer starts; tasks are nonpreemptive.
 
@@ -506,19 +545,23 @@ def resource_schedule(horizon, resources, tasks, search_budget, *, _validate_onl
                 return False
         return False
 
-    found = False if blockers else search(0)
+    certificate = None if blockers else _capacity_certificate(tasks, starts_by_task, resource_ids, capacities)
+    found = False if blockers or certificate else search(0)
     status = "feasible_in_model" if found else "search_incomplete" if exhausted else "infeasible_in_model"
     return {
         "contract": "finite integer-slot nonpreemptive resource schedule", "status": status,
         "attempted_starts": attempts, "search_budget": search_budget,
         "decision_complete": not exhausted, "tasks_without_individual_start": blockers,
+        "capacity_certificate": certificate,
         "schedule": ([{"task_id": name, "start": assignment[name][0], "end": assignment[name][1],
                        "demands": task_by_id[name]["demands"]} for name in task_ids] if found else None),
         "resource_usage": usage if found else None,
         "scope": "Only listed starts, integer half-open intervals [start,end), fixed demands and explicit flags. "
                  "All declared tasks must finish by their individual deadlines. No unlisted resource, "
                  "person assignment, authority, review quality or actual intervention is inferred. "
-                 "Infeasibility concerns this finite model; an exhausted budget does not prove infeasibility.",
+                 "Infeasibility concerns this finite model; an exhausted budget does not prove infeasibility. "
+                 "A capacity certificate shows tasks that must run inside one interval needing more of a resource "
+                 "than its calendar offers there.",
     }
 
 
@@ -695,7 +738,7 @@ def validate_model(model):
         raise InputError("title must be nonempty text")
     _boolean(model["fictional"], "fictional")
     for field in ("assumptions", "boundaries"):
-        _names(model[field], field)
+        _texts(model[field], field)
     operator = model["operator"]
     if not isinstance(operator, str) or operator not in OPERATORS:
         raise InputError(f"operator must be one of {', '.join(OPERATORS)}")
