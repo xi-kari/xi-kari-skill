@@ -37,9 +37,9 @@
       "layer": "role",
       "local_meaning": "在该框架中承担产品价值和Product Backlog管理的accountability。",
       "mapping_kind": "partial_correspondence",
-      "target_meaning": "区分角色所载职责、委派的工作与实际承担情况。",
+      "target_meaning": "按行动承接层（§7.3.5）分开框架问责、实际执行与维护的岗位或个人、决定与授权、停止权和受益；领导作用落在议程、资源、解释、授权与纠错（D.16），不以个人特质承担全部成败。",
       "theory_anchors": [
-        "7.3",
+        "7.3.5",
         "D.16"
       ],
       "source_ids": [
@@ -98,9 +98,10 @@
       "layer": "role",
       "local_meaning": "在该框架中制订Sprint计划并遵守Definition of Done的团队角色。",
       "mapping_kind": "partial_correspondence",
-      "target_meaning": "将计划、执行和具体完成证据分别核对。",
+      "target_meaning": "对应行动承接层中实际执行的位置（§7.3.5）：计划、实际执行、质量依据与完成证据分别核对；承接能力不产生无限承接义务，隐性维护与补缺另记（D.16）。",
       "theory_anchors": [
-        "7.3"
+        "7.3.5",
+        "D.16"
       ],
       "source_ids": [
         "org-src-scrum"
@@ -205,9 +206,9 @@
       "layer": "relation",
       "local_meaning": "Product Owner可委派相关工作，但依该框架仍保有相应accountability。",
       "mapping_kind": "partial_correspondence",
-      "target_meaning": "分开提出委派、实际接收、实际执行和职责转移。",
+      "target_meaning": "按行动承接层（§7.3.5）把提出委派、实际接收、实际执行与问责是否转移分开；责任归属另据组织的制度资格判断。",
       "theory_anchors": [
-        "7.3"
+        "7.3.5"
       ],
       "source_ids": [
         "org-src-scrum"
@@ -268,9 +269,9 @@
       "layer": "task",
       "local_meaning": "Increment所要求质量状态的正式描述；工作须达到该完成条件。",
       "mapping_kind": "partial_correspondence",
-      "target_meaning": "将此完成口径与实际发布及用户结果分别核对。",
+      "target_meaning": "对应任务终点（§13.11.2）：较窄终点真实完成即可承认，较宽终点不能由前端成功回执代替；Definition of Done 只界定 Increment 的完成，发布、外部状态变化与用户后果是执行链上的其他环节。",
       "theory_anchors": [
-        "7.3"
+        "13.11.2"
       ],
       "source_ids": [
         "org-src-scrum"
@@ -324,9 +325,10 @@
       "layer": "method",
       "local_meaning": "联合设置任务开始时间，同时满足前后次序与资源互斥。",
       "mapping_kind": "partial_correspondence",
-      "target_meaning": "在同一资源与期限模型中核对多项方案。",
+      "target_meaning": "对应多项方案的联合可行性（§12.10.2）：分别可行的任务共用容量、人员与停止通道时须联合核算；本期容量不足时，下期增容补不回已错过的期限（C.12）。",
       "theory_anchors": [
-        "12.10"
+        "12.10.2",
+        "C.12"
       ],
       "source_ids": [
         "org-src-jobshop"
@@ -394,9 +396,10 @@
       "layer": "measurement",
       "local_meaning": "在明示模型中可分配给任务的资源容量与时段。",
       "mapping_kind": "observation_interface",
-      "target_meaning": "把总量与逐任务时段、资格及期限分开。",
+      "target_meaning": "对应结构负荷的任务—容量关系（§7.3.9）：在同一窗口登记余量、积压与恢复；任务依赖连续时段时另记可用整段的长度与可预期性，不把零散空闲相加成同一容量。",
       "theory_anchors": [
-        "12.10"
+        "7.3.9",
+        "12.10.2"
       ],
       "source_ids": [
         "org-src-jobshop"
@@ -525,8 +528,10 @@
       "layer": "relation",
       "local_meaning": null,
       "mapping_kind": "unknown",
-      "target_meaning": null,
-      "theory_anchors": [],
+      "target_meaning": "若作为反馈写回（§7.3.7）使用，须分别观察提交与受理凭证、字段前后版本、实际执行、生效与持续；只到达、只受理、只表态或只改字段都不是有效写回，有理由维持原决定也可以完成程序责任。",
+      "theory_anchors": [
+        "7.3.7"
+      ],
       "source_ids": [],
       "depends_on": [],
       "preserved": [

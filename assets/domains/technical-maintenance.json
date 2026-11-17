@@ -47,9 +47,10 @@
       "layer": "measurement",
       "local_meaning": "所定义服务可用程度的测量；可采用明示请求成功或时间口径，不能混用。",
       "mapping_kind": "observation_interface",
-      "target_meaning": "将指标、观察点和用户任务终点分开。",
+      "target_meaning": "按 D.28 逐层分开标准文本符合、实现互通、业务语义一致、压力下可靠与人能实际使用；可用性指标只回答所定义的测量层，不代替用户任务终点（§13.11.2）。",
       "theory_anchors": [
-        "D.28"
+        "D.28",
+        "13.11.2"
       ],
       "source_ids": [
         "tech-src-slo"
@@ -223,8 +224,9 @@
       "layer": "task",
       "local_meaning": "请求已接受处理，但处理尚未完成。",
       "mapping_kind": "partial_correspondence",
-      "target_meaning": "核对任务终点究竟是接收、执行还是后续结果。",
+      "target_meaning": "对应执行链（§13.11.2）：请求被接收、执行、外部状态变化与任务后果是不同环节；202 只到“已接收”，其后各环节另需对象状态证据，超时表示结果未知而非未执行。",
       "theory_anchors": [
+        "13.11.2",
         "D.28"
       ],
       "source_ids": [
@@ -336,7 +338,7 @@
       "layer": "measurement",
       "local_meaning": "进程能否响应，与能否服务某类请求，是不同检查。",
       "mapping_kind": "partial_correspondence",
-      "target_meaning": "保留观测对象和用户任务的差别。",
+      "target_meaning": "对应维护合同（§6.5）：维护主张须先声明当前 K 或功能判据 F 与维护窗口；健康检查只观察所定义的探测点，探测成功不说明 K/F 在用户任务上保持。",
       "theory_anchors": [
         "6.5",
         "D.28"
@@ -397,7 +399,7 @@
       "layer": "task",
       "local_meaning": "重启、部分功能恢复和目标负荷下恢复需按实际系统分别核对。",
       "mapping_kind": "partial_correspondence",
-      "target_meaning": "检查恢复所需容量、依赖和启动条件，并列剩余限制。",
+      "target_meaning": "按 §6.5 分开正常运行、迁移、故障与恢复中的任务；恢复所依赖的通信、道路、燃料、备件和人员纳入同一窗口，重启只是候选维护通道，须与减维护、错配维护和停止比较。",
       "theory_anchors": [
         "6.5"
       ],
@@ -468,7 +470,7 @@
       "layer": "relation",
       "local_meaning": "该SRE章讨论故障经正反馈扩大，以及负荷和重试的作用。",
       "mapping_kind": "partial_correspondence",
-      "target_meaning": "用事件、依赖和负荷证据区分逐跳传播与共同原因。",
+      "target_meaning": "按 §6.13 区分一处故障触发下一处、多个故障共同阻碍恢复与共同外因同时损坏多处：前者需逐跳传导证据，后两者分别查恢复依赖与共因暴露；级联可被容量、过滤和延迟截断。",
       "theory_anchors": [
         "6.13"
       ],
@@ -531,8 +533,11 @@
       "layer": "exception",
       "local_meaning": null,
       "mapping_kind": "unknown",
-      "target_meaning": null,
-      "theory_anchors": [],
+      "target_meaning": "D.28：名义审批不构成真实否决，拒绝或停止信号须真正到达执行器；停止的完成另分发出、确认、在途终止与补救（§13.11.2）。",
+      "theory_anchors": [
+        "D.28",
+        "13.11.2"
+      ],
       "source_ids": [],
       "depends_on": [],
       "preserved": [
@@ -580,7 +585,7 @@
       "layer": "measurement",
       "local_meaning": "记录服务端或客户端的指标，并保留其单位与聚合口径。",
       "mapping_kind": "observation_interface",
-      "target_meaning": "用明确测量支持有限服务判断。",
+      "target_meaning": "观察接口：测量位置、聚合窗口和分母决定指标回答哪一层；按 D.28 不把一层的测量（如服务端延迟）当作人能实际使用的证据。",
       "theory_anchors": [
         "D.28"
       ],

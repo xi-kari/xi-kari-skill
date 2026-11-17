@@ -86,7 +86,7 @@
       "layer": "method",
       "local_meaning": "评估、测量并描述个体学习成果的过程或方法。",
       "mapping_kind": "partial_correspondence",
-      "target_meaning": "把所测任务、结果与所声称的学习范围对齐。",
+      "target_meaning": "对应 D.25 的分列：教育目的、可进入的学习、实际知识技能、测验解释、资格授予与后续机会分开；测验能测量某种知识，不因此证明机会公平，也不单独证明载体型学习机制（§6.3）。",
       "theory_anchors": [
         "6.3",
         "D.25"
@@ -157,8 +157,10 @@
       "layer": "term",
       "local_meaning": null,
       "mapping_kind": "unknown",
-      "target_meaning": null,
-      "theory_anchors": [],
+      "target_meaning": "D.25 区分通知发出、账户激活、家长到会、行政出勤改善与知识增长；参与还可能增加翻译、照护和维护劳动。",
+      "theory_anchors": [
+        "D.25"
+      ],
       "source_ids": [
         "edu-src-microcredential"
       ],
@@ -206,8 +208,10 @@
       "layer": "task",
       "local_meaning": null,
       "mapping_kind": "unknown",
-      "target_meaning": null,
-      "theory_anchors": [],
+      "target_meaning": "D.25：未结业不自动取消局部学习，已结业也不能用来承诺就业；完成规则须由具体课程材料确定。",
+      "theory_anchors": [
+        "D.25"
+      ],
       "source_ids": [],
       "depends_on": [],
       "preserved": [
@@ -254,7 +258,7 @@
       "layer": "term",
       "local_meaning": "将一个情境所学用于新情境；其表现取决于学习和新任务的关系。",
       "mapping_kind": "partial_correspondence",
-      "target_meaning": "分别观察原任务完成、新任务表现及后续学习。",
+      "target_meaning": "对应 §6.3 的三分：支持下完成任务、撤除支持后的独立迁移与后续生活结果分别判断；主张迁移需与之相称的独立任务或样本外评价。",
       "theory_anchors": [
         "6.3"
       ],
@@ -313,7 +317,7 @@
       "layer": "measurement",
       "local_meaning": "有提示条件下的表现，与无提示表现分开记录。",
       "mapping_kind": "partial_correspondence",
-      "target_meaning": "保留支持条件，不用一种结果取消或冒充另一种。",
+      "target_meaning": "对应 §6.3：必要支持可以是任务的组成部分，此时无支持失败不取消已有成功；原目标若是独立迁移，才需相称的撤援比较，辅助成绩不能替代独立技能。",
       "theory_anchors": [
         "6.3"
       ],
@@ -436,9 +440,10 @@
       "layer": "measurement",
       "local_meaning": "在明示标准和分母下统计有记录支持达标的人数比例；这是本包工作口径。",
       "mapping_kind": "observation_interface",
-      "target_meaning": "分开有效测评者中的比例、固定人群中的已知结果和缺失。",
+      "target_meaning": "观察接口：比例只回答所述标准、分母与时点下的记录；累计创办、年度在办、名额与实际学习人数不能混用，未结业也不自动取消局部学习（D.25）；比例变化不单独证明反馈介导学习（§6.3）。",
       "theory_anchors": [
-        "6.3"
+        "6.3",
+        "D.25"
       ],
       "source_ids": [
         "edu-src-microcredential",
@@ -512,9 +517,8 @@
       "layer": "method",
       "local_meaning": "按参与、完成、测评、迁移、发证和认可分别陈述已有证据。",
       "mapping_kind": "partial_correspondence",
-      "target_meaning": "为不同结果选择相应材料，不从一个端点跨推全部结果。",
+      "target_meaning": "按 D.25 分列证书展示、招聘响应、取得岗位、工资与净岗位创造，以及参与、完成、测评与迁移；资格更正及时进入录取条件可以是真实的下游改善，仍不等于最终位置已经取得。",
       "theory_anchors": [
-        "6.3",
         "D.25"
       ],
       "source_ids": [
