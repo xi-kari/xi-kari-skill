@@ -24,11 +24,12 @@
 
 ```bash
 python scripts/domain_mapping.py --mapping assets/domains/organization-work.json lookup --term "委派"
+python scripts/domain_mapping.py --mapping assets/domains/organization-work.json lookup --term "委派" --context "Product Owner管理工作被委派"
 python scripts/domain_mapping.py --mapping assets/domains/education-learning.json impact --changed edu-src-transfer
 python scripts/domain_mapping.py --mapping assets/domains/technical-maintenance.json render --output /任务目录/技术服务说明.md
 ```
 
-最后一条命令中的 `/任务目录/技术服务说明.md` 应换成当前环境的实际外部路径。查询仅匹配已登记词形和语境；未命中时不猜义项。变更追踪只列已登记依赖的复核范围，不自动宣告结论错误。渲染使用包内现成文字，不生成未取得的现实材料；来源复核或任务实例化后需更新对应数据与说明。
+最后一条命令中的 `/任务目录/技术服务说明.md` 应换成当前环境的实际外部路径。查询仅匹配已登记词形和语境；未命中时不猜义项。“完成”“成功”“可用”等日常词登记为须给语境，单独查询返回 `context_required` 与可选语境，不把包内窄义项当成一般含义。变更追踪只列已登记依赖的复核范围，不自动宣告结论错误。渲染使用包内现成文字，不生成未取得的现实材料；来源复核或任务实例化后需更新对应数据与说明。
 
 ## 身份与来源怎么读
 

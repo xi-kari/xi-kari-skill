@@ -47,6 +47,44 @@ class MappingTests(unittest.TestCase):
         self.assertEqual(missing['matches'], [])
         self.assertEqual(set(missing['context_options']), {'教师对作业的评语', '学习者对课程的问卷'})
 
+    def test_common_word_with_a_narrow_registered_sense_needs_its_context(self):
+        data = example()
+        row = data['entries'][3]
+        row['terms'] = ['完成率', '课程完成比例', '比例']
+        row['context_required_terms'] = ['比例']
+        mapping.validate_mapping(data)
+        withheld = mapping.lookup(data, '比例')
+        self.assertEqual(withheld['status'], 'context_required')
+        self.assertEqual(withheld['matches'], [])
+        self.assertEqual(withheld['context_required_entries'], [row['id']])
+        self.assertEqual(withheld['context_options'], [row['context']])
+        self.assertEqual([r['id'] for r in mapping.lookup(data, '比例', row['context'])['matches']], [row['id']])
+        self.assertEqual(mapping.lookup(data, '比例', '另一机构的比例')['status'], 'context_not_found')
+        self.assertEqual(mapping.lookup(data, '完成率')['status'], 'matched')
+        self.assertEqual(mapping.lookup(data, '完成率')['context_required_entries'], [])
+        # One context-dependent sense withholds every sense of the same word.
+        data['entries'][0]['context_required_terms'] = ['反馈']
+        both = mapping.lookup(data, '反馈')
+        self.assertEqual((both['status'], both['matches']), ('context_required', []))
+        self.assertEqual(both['context_required_entries'], ['m-comments'])
+        self.assertEqual([r['id'] for r in mapping.lookup(data, '反馈', '学习者对课程的问卷')['matches']], ['m-survey'])
+        self.assertIn('须给出语境才查询的词', mapping.render_markdown(data))
+        for bad in ([], ['不在词表'], ['比例', '比例'], [1]):
+            broken = copy.deepcopy(data)
+            broken['entries'][3]['context_required_terms'] = bad
+            with self.subTest(bad=bad), self.assertRaises(mapping.MappingError):
+                mapping.validate_mapping(broken)
+
+    def test_shipped_packs_withhold_common_words_until_context_is_given(self):
+        for path in sorted((ROOT / 'assets/domains').glob('*.json')):
+            data = json.loads(path.read_text(encoding='utf-8'))
+            marked = [(row, term) for row in data['entries'] for term in row.get('context_required_terms', [])]
+            self.assertTrue(marked, path.name)
+            for row, term in marked:
+                with self.subTest(pack=path.name, term=term):
+                    self.assertEqual(mapping.lookup(data, term)['status'], 'context_required')
+                    self.assertIn(row['id'], [r['id'] for r in mapping.lookup(data, term, row['context'])['matches']])
+
     def test_alias_and_unicode_variants_retain_same_record_not_extra_support(self):
         data = example()
         data['entries'][0]['terms'].append('Teacher FEEDBACK')

@@ -39,6 +39,10 @@
         "服务可用性",
         "availability"
       ],
+      "context_required_terms": [
+        "可用",
+        "availability"
+      ],
       "context": "明示用户任务和窗口下的服务指标",
       "layer": "measurement",
       "local_meaning": "所定义服务可用程度的测量；可采用明示请求成功或时间口径，不能混用。",
@@ -158,6 +162,10 @@
         "200 OK",
         "成功"
       ],
+      "context_required_terms": [
+        "200",
+        "成功"
+      ],
       "context": "HTTP请求成功响应",
       "layer": "term",
       "local_meaning": "RFC 9110中的请求成功状态；响应内容的含义依请求方法。",
@@ -205,6 +213,10 @@
       "terms": [
         "202",
         "202 Accepted",
+        "已接受"
+      ],
+      "context_required_terms": [
+        "202",
         "已接受"
       ],
       "context": "HTTP异步处理接受状态",
@@ -264,6 +276,10 @@
         "403 Forbidden",
         "拒绝"
       ],
+      "context_required_terms": [
+        "403",
+        "拒绝"
+      ],
       "context": "HTTP服务器拒绝履行请求",
       "layer": "exception",
       "local_meaning": "服务器理解请求但拒绝履行；拒绝原因不必仅与凭据有关。",
@@ -309,6 +325,10 @@
     {
       "id": "tech-health",
       "terms": [
+        "健康",
+        "健康检查"
+      ],
+      "context_required_terms": [
         "健康",
         "健康检查"
       ],
@@ -366,6 +386,10 @@
     {
       "id": "tech-recovery",
       "terms": [
+        "恢复",
+        "重启"
+      ],
+      "context_required_terms": [
         "恢复",
         "重启"
       ],
@@ -437,6 +461,9 @@
         "级联",
         "cascading failure"
       ],
+      "context_required_terms": [
+        "级联"
+      ],
       "context": "依赖和负荷变化相关的故障扩展",
       "layer": "relation",
       "local_meaning": "该SRE章讨论故障经正反馈扩大，以及负荷和重试的作用。",
@@ -496,6 +523,10 @@
         "有权限",
         "变更批准"
       ],
+      "context_required_terms": [
+        "许可",
+        "有权限"
+      ],
       "context": "对具体维护或使用动作的有效许可",
       "layer": "exception",
       "local_meaning": null,
@@ -540,6 +571,10 @@
         "观测",
         "延迟",
         "请求率"
+      ],
+      "context_required_terms": [
+        "观测",
+        "延迟"
       ],
       "context": "特定测量位置与聚合窗口",
       "layer": "measurement",

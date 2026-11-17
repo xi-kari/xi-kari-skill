@@ -78,6 +78,10 @@
         "测评",
         "assessment"
       ],
+      "context_required_terms": [
+        "测评",
+        "assessment"
+      ],
       "context": "该建议中的学习成果评估",
       "layer": "method",
       "local_meaning": "评估、测量并描述个体学习成果的过程或方法。",
@@ -145,6 +149,10 @@
         "参与",
         "出勤"
       ],
+      "context_required_terms": [
+        "参与",
+        "出勤"
+      ],
       "context": "具体短课程的参与口径",
       "layer": "term",
       "local_meaning": null,
@@ -191,6 +199,9 @@
         "结业",
         "完成"
       ],
+      "context_required_terms": [
+        "完成"
+      ],
       "context": "具体课程的完成规则",
       "layer": "task",
       "local_meaning": null,
@@ -232,6 +243,10 @@
     {
       "id": "edu-transfer",
       "terms": [
+        "迁移",
+        "transfer"
+      ],
+      "context_required_terms": [
         "迁移",
         "transfer"
       ],
@@ -290,6 +305,9 @@
       "terms": [
         "提示",
         "有支持的表现"
+      ],
+      "context_required_terms": [
+        "提示"
       ],
       "context": "迁移评估中的提示条件",
       "layer": "measurement",
@@ -360,6 +378,9 @@
       "terms": [
         "认可",
         "资格认可"
+      ],
+      "context_required_terms": [
+        "认可"
       ],
       "context": "接收机构对证书用途的决定",
       "layer": "relation",
@@ -483,6 +504,9 @@
       "terms": [
         "成果说明",
         "学习成果报告"
+      ],
+      "context_required_terms": [
+        "成果说明"
       ],
       "context": "短课程的多端点成果陈述",
       "layer": "method",

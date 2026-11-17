@@ -30,6 +30,8 @@ CLI `validate` 返回 `id`、`version` 和 `snapshot_sha256`，可用于研究�
 
 `lookup` 返回 `context_options`，列出同词实际登记的语境以供核对。词已匹配、指定语境未匹配时，状态为 `context_not_found`，`matches` 仍为空；没有词项时为 `unmapped`。提示不会把短语猜成完整语境，也不会在多个义项间自动择一。
 
+“完成”“成功”“反馈”这类日常词在包里往往只登记了一个窄义项。条目可用 `context_required_terms` 标出这些词：不给语境查询时状态为 `context_required`，`matches` 为空，`context_required_entries` 列出相关条目，`context_options` 给出可选语境；同一个词只要在任一条目中需要语境，查询就须给出语境。专业写法（如 `200 OK`、`Definition of Done`）不受影响。这样，唯一登记的窄义项不会被当成该词的一般含义。
+
 查询的 `matched` 只表示命中一条记录，不表示对应关系成立。例如命中的条目仍可为 `mapping_kind: "unknown"`、`target_meaning: null`；应继续读条目身份、未决项和三层评估，不能把检索成功当作事实支持。
 
 ## 顶层合同
@@ -58,6 +60,7 @@ CLI `validate` 返回 `id`、`version` 和 `snapshot_sha256`，可用于研究�
 | --- | --- |
 | `id`、`terms` | 稳定 ID 与非空的词/同义表达列表；同词可以出现于不同条目以保留多义 |
 | `match_policy` | 可选，`normalized`（默认）或 `exact`；同时作用于词与语境。大小写或字符差异有意义时明确使用 `exact`，同条目禁止当前策略下的重复词 |
+| `context_required_terms` | 可选，非空且无重复，只能列出本条 `terms` 中的词。列出的词须给出已登记语境才返回本条；适用于在别处另有通常含义的日常词 |
 | `context` | 具体使用语境；查询可用完整文本限定它 |
 | `layer` | `term`、`relation`、`role`、`task`、`measurement`、`method` 或 `exception` |
 | `local_meaning`、`target_meaning` | 当地含义与目标含义；真正未知时用 `null`，不填猜测或默认值 |

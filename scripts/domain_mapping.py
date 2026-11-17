@@ -247,12 +247,17 @@ def validate_mapping(mapping) -> dict:
         where = f"映射 {row['id']}"
         keys = {'id', 'terms', 'context', 'layer', 'local_meaning', 'mapping_kind', 'target_meaning',
                 'theory_anchors', 'source_ids', 'depends_on', 'preserved', 'excluded', 'unknowns', 'assessments'}
-        _object(row, keys | {'fields', 'methods', 'target_review', 'match_policy'}, keys, where)
+        _object(row, keys | {'fields', 'methods', 'target_review', 'match_policy', 'context_required_terms'},
+                keys, where)
         policy = row.get('match_policy', 'normalized')
         _enum(policy, MATCH_POLICIES, where + '.match_policy')
         terms = _strings(row['terms'], where + '.terms', nonempty=True)
         if len({_match_key(term, policy) for term in terms}) != len(terms):
             raise MappingError(f'{where}.terms含当前匹配策略下重复的词。')
+        if 'context_required_terms' in row:
+            required_terms = _strings(row['context_required_terms'], where + '.context_required_terms', nonempty=True)
+            if set(required_terms) - set(terms):
+                raise MappingError(f'{where}.context_required_terms只能列出本条terms中的词。')
         _text(row['context'], where + '.context')
         _enum(row['layer'], LAYERS, where + '.layer')
         _enum(row['mapping_kind'], KINDS, where + '.mapping_kind')
@@ -391,18 +396,31 @@ def lookup(mapping, term: str, context: str | None = None) -> dict:
     needles = {policy: _match_key(term, policy) for policy in MATCH_POLICIES}
     contexts = ({policy: _match_key(context, policy) for policy in MATCH_POLICIES}
                 if context is not None else None)
+    def keys(row, values):
+        policy = row.get('match_policy', 'normalized')
+        return {_match_key(value, policy) for value in values}
+
     term_matches = [row for row in mapping['entries']
-               if needles[row.get('match_policy', 'normalized')]
-               in {_match_key(value, row.get('match_policy', 'normalized')) for value in row['terms']}]
-    matches = [row for row in term_matches
-               if (contexts is None or contexts[row.get('match_policy', 'normalized')]
-                    == _match_key(row['context'], row.get('match_policy', 'normalized')))]
-    status = ('matched' if len(matches) == 1 else 'ambiguous' if matches
-              else 'context_not_found' if term_matches and context is not None else 'unmapped')
+                    if needles[row.get('match_policy', 'normalized')] in keys(row, row['terms'])]
+    # A common word registered with a narrow sense is not answered without its
+    # context: returning the one registered sense would look like a general meaning.
+    needs_context = [row['id'] for row in term_matches
+                     if needles[row.get('match_policy', 'normalized')]
+                     not in keys(row, set(row['terms']) - set(row.get('context_required_terms', [])))]
+    if context is None and needs_context:
+        matches = []
+        status = 'context_required'
+    else:
+        matches = [row for row in term_matches
+                   if (contexts is None or contexts[row.get('match_policy', 'normalized')]
+                       == _match_key(row['context'], row.get('match_policy', 'normalized')))]
+        status = ('matched' if len(matches) == 1 else 'ambiguous' if matches
+                  else 'context_not_found' if term_matches and context is not None else 'unmapped')
     return {'format': FORMAT, 'term': term, 'context': context,
             'status': status,
             'ambiguous': len(matches) > 1, 'matches': matches,
             'context_options': list(dict.fromkeys(row['context'] for row in term_matches)),
+            'context_required_entries': needs_context,
             'theory_status': report['theory_status'], 'warnings': report['warnings'],
             'notice': NOTICE + ' 查询按各条目的match_policy匹配词和语境；默认normalized，exact保留全部字符。所有匹配均保留，不猜测语境。'}
 
@@ -490,6 +508,8 @@ def render_markdown(mapping) -> str:
         lines += [f"### {_md(' / '.join(row['terms']))}（{_md(row['id'])}）", '',
                   f"语境：{_md(row['context'])}；层次：{_md(row['layer'])}；对应类型：{_md(row['mapping_kind'])}。", '',
                   f"词与语境匹配策略：{row.get('match_policy', 'normalized')}。", '',
+                  *([f"须给出语境才查询的词：{_md(' / '.join(row['context_required_terms']))}。", '']
+                    if row.get('context_required_terms') else []),
                   f"当地含义：{_md(row['local_meaning'])}", '', f"目标含义：{target_description}", '',
                   f"来源：{_md(', '.join(row['source_ids']) or '未提供')}；理论小节：{_md(', '.join(row['theory_anchors']) or '未使用')}；"
                   f"依赖映射：{_md(', '.join(row['depends_on']) or '无已登记依赖')}。", '']
@@ -566,7 +586,7 @@ def main(argv=None) -> int:
     parser.add_argument('--mapping', type=Path, required=True, help='有版本和来源的领域映射JSON')
     commands = parser.add_subparsers(dest='command', required=True)
     commands.add_parser('validate', help='核对结构、引用、循环及未知；不核实事实')
-    query = commands.add_parser('lookup', help='精确词义查询，多义保留全部结果')
+    query = commands.add_parser('lookup', help='精确词义查询，多义保留全部结果；泛用词须给出已登记语境')
     query.add_argument('--term', required=True)
     query.add_argument('--context', help='可选：已登记语境的精确文本')
     changes = commands.add_parser('impact', help='追踪来源、映射条目或成文成果变更后的已登记依赖')

@@ -30,6 +30,9 @@
         "Product Owner",
         "产品负责人"
       ],
+      "context_required_terms": [
+        "产品负责人"
+      ],
       "context": "采用Scrum Guide 2020的产品职责",
       "layer": "role",
       "local_meaning": "在该框架中承担产品价值和Product Backlog管理的accountability。",
@@ -84,6 +87,10 @@
     {
       "id": "org-developers",
       "terms": [
+        "Developers",
+        "开发者"
+      ],
+      "context_required_terms": [
         "Developers",
         "开发者"
       ],
@@ -190,6 +197,10 @@
         "委派",
         "delegation"
       ],
+      "context_required_terms": [
+        "委派",
+        "delegation"
+      ],
       "context": "Product Owner管理工作被委派",
       "layer": "relation",
       "local_meaning": "Product Owner可委派相关工作，但依该框架仍保有相应accountability。",
@@ -247,6 +258,10 @@
       "terms": [
         "Done",
         "Definition of Done",
+        "完成"
+      ],
+      "context_required_terms": [
+        "Done",
         "完成"
       ],
       "context": "Scrum Increment的质量完成口径",
@@ -371,6 +386,10 @@
         "资源可用",
         "可用时段"
       ],
+      "context_required_terms": [
+        "资源可用",
+        "可用时段"
+      ],
       "context": "任务需要的共享资源和连续时间",
       "layer": "measurement",
       "local_meaning": "在明示模型中可分配给任务的资源容量与时段。",
@@ -451,6 +470,9 @@
         "批准",
         "发布许可"
       ],
+      "context_required_terms": [
+        "批准"
+      ],
       "context": "具体组织对具体发布动作的有效权限",
       "layer": "exception",
       "local_meaning": null,
@@ -492,6 +514,10 @@
     {
       "id": "org-feedback",
       "terms": [
+        "反馈",
+        "收到意见"
+      ],
+      "context_required_terms": [
         "反馈",
         "收到意见"
       ],
