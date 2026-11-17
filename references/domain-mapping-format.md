@@ -24,7 +24,7 @@ python scripts/domain_mapping.py --mapping assets/examples/domain-mapping.json r
 
 例如协议方法名 `GET` 与 `get` 应由 `exact` 区分；自然语言的“Teacher Feedback”可按任务采用 `normalized`。一个词同时命中精确条目与另一条规范化义项时，仍返回全部候选，不自动优先前者。别名必须明确加入 `terms`，不能依赖工具猜测。已登记语境也遵守同一策略；采用 `exact` 时，用户须提供原样的语境文本。
 
-`impact --changed s-course` 指出教师评语、后续响应及依赖它们的两段表述需要复核；独立的完成比例表述保留。结果的 `paths` 给出一条实际登记的依赖路径，`affected_entries` 包含被直接改动的映射条目及其后继，`affected_outputs` 与 `unaffected_outputs` 区分现有成果。沿来源、条目、字段、方法、三类评估和目标侧复核的来源引用统一追踪。它不表示受影响结论已错误，也不会重写输入文件或正文。没有登记的依赖无法自动发现。
+`impact --changed s-course` 指出教师评语、后续响应及依赖它们的两段表述需要复核；独立的完成比例表述保留。结果的 `paths` 给出一条实际登记的依赖路径，`affected_entries` 包含被直接改动的映射条目及其后继，`affected_outputs` 与 `unaffected_outputs` 区分现有成果。沿来源、条目、字段、方法、三类评估和目标侧复核的来源引用统一追踪。变更 ID 可以是来源、映射条目或已成文成果；只更正一段成文时，复核范围就是这段成果及引用它的研究。它不表示受影响结论已错误，也不会重写输入文件或正文。没有登记的依赖无法自动发现。
 
 CLI `validate` 返回 `id`、`version` 和 `snapshot_sha256`，可用于研究工具的 `mapping_ref`；`theory_status` 为 `current`、`previous_version`（来源清单记录的上一版）、`other_version` 或 `not_bound`，非当前版本时 `warnings` 说明影响。摘要计算于本次解析使用的同一份原始字节快照，包括 UTF-8 BOM、空白和换行；即使语义相同，另存字节不同也得到不同摘要。它只标识具体输入版本，不证明映射内容正确，也不是理论文本的 `theory_sha256`。
 

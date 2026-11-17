@@ -635,7 +635,7 @@ def main(argv=None):
     changes.add_argument('--changed', action='append', required=True, help='可重复的输入或结论 ID')
     bridge = commands.add_parser('impact-mapping', help='由显式映射旧快照追踪研究中的已绑定依赖')
     bridge.add_argument('--mapping', required=True, type=Path, help='mapping_ref 所据的原始映射快照')
-    bridge.add_argument('--changed', action='append', required=True, help='可重复的映射来源或条目 ID')
+    bridge.add_argument('--changed', action='append', required=True, help='可重复的映射来源、条目或成文成果 ID')
     args = parser.parse_args(argv)
     try:
         data = read_research(args.research)

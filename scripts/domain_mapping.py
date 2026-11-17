@@ -411,10 +411,11 @@ def impact(mapping, changed: list[str]) -> dict:
     report = validate_mapping(mapping)
     _strings(changed, 'changed', nonempty=True)
     sources, entries, outputs = _index(mapping)
-    permitted = set(sources) | set(entries)
+    # An authored output can itself be corrected; it then reaches its readers.
+    permitted = set(sources) | set(entries) | set(outputs)
     for identifier in changed:
         if identifier not in permitted:
-            raise MappingError(f'变更ID不存在或不是来源/映射: {identifier}')
+            raise MappingError(f'变更ID不存在，须为来源、映射条目或成文成果: {identifier}')
     graph = _graph(mapping)
     paths = {identifier: [identifier] for identifier in sorted(changed)}
     queue = deque(sorted(changed))
@@ -568,7 +569,7 @@ def main(argv=None) -> int:
     query = commands.add_parser('lookup', help='精确词义查询，多义保留全部结果')
     query.add_argument('--term', required=True)
     query.add_argument('--context', help='可选：已登记语境的精确文本')
-    changes = commands.add_parser('impact', help='追踪来源或映射变更后的已登记依赖')
+    changes = commands.add_parser('impact', help='追踪来源、映射条目或成文成果变更后的已登记依赖')
     changes.add_argument('--changed', nargs='+', required=True)
     render = commands.add_parser('render', help='把已提供的映射和成文渲染为说明')
     render.add_argument('--output', '-o', type=Path, required=True)

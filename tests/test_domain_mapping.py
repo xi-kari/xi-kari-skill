@@ -213,9 +213,16 @@ class MappingTests(unittest.TestCase):
         data = example(); data['entries'][0]['depends_on'] = ['m-change']
         with self.assertRaisesRegex(mapping.MappingError, '循环'):
             mapping.validate_mapping(data)
-        for changed in (['absent'], ['o-feedback'], [], ['s-course', 's-course']):
+        for changed in (['absent'], [], ['s-course', 's-course']):
             with self.assertRaises(mapping.MappingError):
                 mapping.impact(example(), changed)
+
+    def test_a_corrected_output_is_itself_the_review_scope(self):
+        result = mapping.impact(example(), ['o-feedback'])
+        self.assertEqual(result['affected_entries'], [])
+        self.assertEqual(result['affected_outputs'], ['o-feedback'])
+        self.assertEqual(result['unaffected_outputs'], ['o-completion', 'o-response'])
+        self.assertEqual(result['paths'], {'o-feedback': ['o-feedback']})
 
     def test_supported_claim_requires_basis_but_not_formal_eligibility(self):
         data = example()

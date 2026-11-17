@@ -145,6 +145,14 @@ class MappingResearchBridgeTests(unittest.TestCase):
         result = self.run_bridge('s-course')
         self.assertEqual(set(result['affected_findings']), {'F-response', 'F-action', 'F-completion'})
 
+    def test_a_corrected_mapping_output_reaches_the_research_that_cites_it(self):
+        result = self.run_bridge('o-completion')
+        self.assertEqual(result['changed_mapping_nodes'], ['o-completion'])
+        self.assertEqual(result['affected_mapping_inputs'], ['M-completion'])
+        self.assertEqual(result['matched_mapping_nodes'], {'M-completion': ['o-completion']})
+        self.assertNotIn('M-response', result['affected_mapping_inputs'])
+        self.assertTrue(result['affected_findings'])
+
     def test_unknown_changed_node_is_an_error_and_does_not_edit_input(self):
         before = copy.deepcopy(self.data)
         with self.assertRaises(ValueError):
