@@ -621,7 +621,8 @@ class EnvelopeAndCLITests(unittest.TestCase):
                                                        "query": {"a": 0, "b": 1}})
 
     def run_cli(self, *args):
-        return subprocess.run([sys.executable, str(SCRIPT), *map(str, args)], capture_output=True, text=True)
+        return subprocess.run([sys.executable, str(SCRIPT), *map(str, args)],
+                              capture_output=True, text=True, encoding="utf-8")
 
     def test_validate_is_not_compute_and_preserves_supplied_model(self):
         data = envelope("task_partition", {"states": ["a", "b"], "actions": [],
