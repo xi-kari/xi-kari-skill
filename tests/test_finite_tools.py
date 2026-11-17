@@ -1,6 +1,8 @@
 """Independent finite-model checks; these do not test empirical usefulness."""
 
 from itertools import combinations, product
+from fractions import Fraction
+import io
 import random
 import unittest
 
@@ -201,6 +203,26 @@ class TaskPartitionTests(unittest.TestCase):
 
 
 class RepresentationTests(unittest.TestCase):
+    def test_minimax_against_independent_half_integer_decoder_enumeration(self):
+        # Four states, all two-label representations and three-valued queries.
+        # Enumerate decoder choices instead of reusing the extrema formula.
+        states = ["a", "b", "c", "d"]
+        candidate_values = [Fraction(i, 2) for i in range(-2, 3)]
+        for labels in product(["left", "right"], repeat=4):
+            representation = dict(zip(states, labels))
+            for values in product([-1, 0, 1], repeat=4):
+                query = dict(zip(states, values))
+                result = f1_representation_audit(representation, query)
+                labels_used = list(dict.fromkeys(labels))
+                best = min(max(abs(decoder[representation[s]] - query[s]) for s in states)
+                           for choices in product(candidate_values, repeat=len(labels_used))
+                           for decoder in [dict(zip(labels_used, choices))])
+                self.assertEqual(Fraction(result["scalar_error_bound"]
+                                          ["minimum_possible_global_worst_case_error"]["exact"]), best)
+                expected_pairs = {frozenset([a, b]) for a, b in combinations(states, 2)
+                                  if representation[a] == representation[b] and query[a] != query[b]}
+                self.assertEqual({frozenset(row["states"]) for row in result["conflict_pairs"]}, expected_pairs)
+
     def test_required_two_kinds_of_error_coexist(self):
         result = f1_representation_audit(
             {"s0": "0", "s1": "0", "s2": "1"},
@@ -379,6 +401,34 @@ def independent_schedule_exists(data):
 
 
 class ResourceScheduleTests(unittest.TestCase):
+    def test_multiresource_calendars_and_task_permutations_against_complete_assignments(self):
+        rng = random.Random(20261117)
+        for _ in range(100):
+            ids = ["a", "b", "c", "d"]
+            data = {"horizon": 4, "search_budget": 10000,
+                    "resources": [{"id": r, "capacity": [rng.randrange(4) for _ in range(4)]}
+                                  for r in ["reviewer", "room"]], "tasks": []}
+            for index, name in enumerate(ids):
+                value = task(name, [0, 1, 2, 3], duration=rng.randrange(1, 4),
+                             predecessors=[p for p in ids[:index] if rng.randrange(4) == 0],
+                             ready_at=rng.randrange(3), end_by=rng.randrange(1, 5))
+                value["demands"] = {r: rng.randrange(3) for r in ["reviewer", "room"]}
+                data["tasks"].append(value)
+            expected = independent_schedule_exists(data)
+            for permutation in (list(data["tasks"]), list(reversed(data["tasks"]))):
+                data["tasks"] = permutation
+                actual = ft.resource_schedule(**data)
+                self.assertTrue(actual["decision_complete"])
+                self.assertEqual(actual["status"] == "feasible_in_model", expected)
+                if expected:
+                    starts = {row["task_id"]: row["start"] for row in actual["schedule"]}
+                    self.assertTrue(independent_schedule_valid(data, starts))
+                    for resource in data["resources"]:
+                        expected_usage = [sum(t["demands"][resource["id"]] for t in data["tasks"]
+                                              if starts[t["id"]] <= slot < starts[t["id"]] + t["duration"])
+                                          for slot in range(data["horizon"])]
+                        self.assertEqual(actual["resource_usage"][resource["id"]], expected_usage)
+
     def test_individual_feasibility_does_not_compose(self):
         first, second = task("a", [0], 2), task("b", [0], 2)
         for value in (first, second):
@@ -486,6 +536,39 @@ def conditions(accepted, *, budget=100, mutable=(True, True)):
 
 
 class ConditionSearchTests(unittest.TestCase):
+    def test_multivalue_tables_permutation_and_partial_witnesses_against_direct_filter(self):
+        rng = random.Random(20261118)
+        ids = ["x", "y", "z"]
+        for _ in range(80):
+            current = {name: rng.randrange(3) for name in ids}
+            mutable = {name: bool(rng.randrange(2)) for name in ids}
+            accepted = [dict(zip(ids, values)) for values in product(range(3), repeat=3)
+                        if rng.randrange(3) == 0]
+            data = {"variables": [{"id": name, "current": current[name], "values": [0, 1, 2],
+                                    "mutable": mutable[name]} for name in ids],
+                    "admissible_assignments": accepted, "admissible_table_complete": True,
+                    "search_budget": 1000}
+            expected = {tuple(row[name] for name in ids) for row in accepted
+                        if all(mutable[name] or row[name] == current[name] for name in ids)}
+            changes = {values: frozenset(name for name, value in zip(ids, values) if value != current[name])
+                       for values in expected}
+            minimal = {values for values, changed in changes.items()
+                       if not any(other < changed for other in changes.values())}
+            for permuted in (False, True):
+                if permuted:
+                    data["variables"].reverse()
+                    for variable in data["variables"]:
+                        variable["values"].reverse()
+                result = ft.condition_search(**data)
+                self.assertEqual({tuple(row["assignment"][name] for name in ids)
+                                  for row in result["found_feasible_assignments"]}, expected)
+                self.assertEqual({tuple(row["assignment"][name] for name in ids)
+                                  for row in result["inclusion_minimal_changes"]}, minimal)
+                partial = ft.condition_search(**dict(data, search_budget=0))
+                self.assertEqual(partial["status"], "search_incomplete")
+                self.assertIsNone(partial["inclusion_minimal_changes"])
+                self.assertEqual(partial["found_feasible_assignments"], [])
+
     def test_complementary_changes_and_protected_fixed_variable(self):
         result = ft.condition_search(**conditions([(1, 1)]))
         self.assertEqual(result["inclusion_minimal_changes"][0]["changed_variables"], ["x", "y"])
@@ -563,6 +646,24 @@ def chain(pairs1=None, pairs2=None):
 
 
 class RelationChainTests(unittest.TestCase):
+    def test_four_layers_with_repeated_local_names_against_all_paths(self):
+        # 4096 relation triples; member labels are intentionally reused in
+        # different layers.  Only adjacency joins them, not global name equality.
+        layers = [{"id": str(i), "members": ["a", "b"]} for i in range(4)]
+        pairs = list(product(["a", "b"], repeat=2))
+        subsets = [[list(pair) for bit, pair in enumerate(pairs) if mask & (1 << bit)]
+                   for mask in range(16)]
+        for tables in product(subsets, repeat=3):
+            relations = [{"id": "r" + str(i), "from_layer": str(i), "to_layer": str(i + 1), "pairs": table}
+                         for i, table in enumerate(tables)]
+            expected = [path for path in product(["a", "b"], repeat=4)
+                        if all(list(path[i:i + 2]) in table for i, table in enumerate(tables))]
+            result = ft.relation_chain(layers, relations)
+            self.assertEqual(result["joint_witness"] is not None, bool(expected))
+            self.assertEqual(set(result["reachable_by_layer"][-1]["members"]), {path[-1] for path in expected})
+            if expected:
+                self.assertIn(tuple(row["member_id"] for row in result["joint_witness"]), expected)
+
     def test_local_existence_has_no_common_intermediate_object(self):
         result = ft.relation_chain(**chain())
         self.assertTrue(result["local_existence_counterexample"])
@@ -622,7 +723,76 @@ class EnvelopeAndCLITests(unittest.TestCase):
 
     def run_cli(self, *args):
         return subprocess.run([sys.executable, str(SCRIPT), *map(str, args)],
-                              capture_output=True, text=True, encoding="utf-8")
+                              capture_output=True, text=True, encoding="utf-8", timeout=30)
+
+    def test_cli_rejects_decimal_rounding_and_underflow_without_false_zero_loss(self):
+        cases = [("9007199254740992.0", "9007199254740993.0"),
+                 ("0", "1e-400"),
+                 ("0.12345678901234567890", "0.12345678901234567891")]
+        with tempfile.TemporaryDirectory() as temporary:
+            source = Path(temporary) / "model.json"
+            for left, right in cases:
+                with self.subTest(left=left, right=right):
+                    raw = json.dumps(self.data).replace('"a": 0, "b": 1', f'"a": {left}, "b": {right}')
+                    source.write_text(raw, encoding="utf-8")
+                    result = self.run_cli("--model", source, "compute")
+                    self.assertEqual(result.returncode, 2)
+                    self.assertEqual(result.stdout, "")
+                    self.assertIn("precision or underflow", json.loads(result.stderr)["error"])
+
+    def test_decimal_roundtrip_and_large_integer_inputs_keep_exact_numeric_meaning(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            source = Path(temporary) / "model.json"
+            for values, expected in [('"a": 0.10, "b": 0.3', "1/10"),
+                                     ('"a": 1e-100, "b": 3e-100', "1/" + str(10 ** 100)),
+                                     ('"a": 9007199254740992, "b": 9007199254740993', "1/2")]:
+                source.write_text(json.dumps(self.data).replace('"a": 0, "b": 1', values), encoding="utf-8")
+                result = self.run_cli("--model", source, "compute")
+                self.assertEqual(result.returncode, 0, result.stderr)
+                report = json.loads(result.stdout)
+                self.assertFalse(report["result"]["query_identifiable_from_representation"])
+                self.assertEqual(report["result"]["scalar_error_bound"]
+                                 ["minimum_possible_global_worst_case_error"]["exact"], expected)
+            source.write_text(json.dumps(self.data).replace('"schema_version": 1', '"schema_version": 1.0'), encoding="utf-8")
+            result = self.run_cli("--model", source, "validate")
+            self.assertEqual(result.returncode, 2)
+            self.assertIn("integer 1", json.loads(result.stderr)["error"])
+
+    def test_expanded_output_stops_encoding_at_limit_before_any_filesystem_effect(self):
+        consumed = []
+
+        def expanding_fragments(_report):
+            for index in range(10):
+                consumed.append(index)
+                yield "汉" * 20
+            raise AssertionError("encoder was exhausted after the output limit")
+
+        with tempfile.TemporaryDirectory() as temporary:
+            output = Path(temporary) / "new-parent" / "result.json"
+            with mock.patch.object(ft, "MAX_OUTPUT_BYTES", 100), \
+                    mock.patch.object(ft.json.JSONEncoder, "iterencode", side_effect=expanding_fragments), \
+                    mock.patch.object(ft.json, "dumps", side_effect=AssertionError("full unbounded serialization")):
+                with self.assertRaisesRegex(InputError, "output limit"):
+                    ft.write_result({}, output)
+            self.assertEqual(consumed, [0, 1])
+            self.assertFalse(output.parent.exists())
+
+    def test_utf8_byte_limit_includes_newline_and_no_partial_stdout(self):
+        report = {"含义": "字"}
+        expected = (json.dumps(report, ensure_ascii=False, indent=2) + "\n").encode("utf-8")
+        with tempfile.TemporaryDirectory() as temporary:
+            output = Path(temporary) / "result.json"
+            with mock.patch.object(ft, "MAX_OUTPUT_BYTES", len(expected)):
+                ft.write_result(report, output)
+            self.assertEqual(output.read_bytes(), expected)
+            source = Path(temporary) / "model.json"
+            source.write_text(json.dumps(self.data), encoding="utf-8")
+            stdout, stderr = io.StringIO(), io.StringIO()
+            with mock.patch.object(ft, "MAX_OUTPUT_BYTES", 50), \
+                    mock.patch.object(ft.sys, "stdout", stdout), mock.patch.object(ft.sys, "stderr", stderr):
+                self.assertEqual(ft.main(["--model", str(source), "compute"]), 2)
+            self.assertEqual(stdout.getvalue(), "")
+            self.assertIn("output limit", json.loads(stderr.getvalue())["error"])
 
     def test_validate_is_not_compute_and_preserves_supplied_model(self):
         data = envelope("task_partition", {"states": ["a", "b"], "actions": [],

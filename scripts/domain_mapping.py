@@ -29,12 +29,14 @@ finally:
 FORMAT = 'xikari-domain-mapping-1'
 MAX_BYTES = 4 * 1024 * 1024
 MAX_ROWS = 2000
+MAX_OUTPUT_BYTES = 32 * 1024 * 1024
 ID = re.compile(r'[A-Za-z0-9][A-Za-z0-9._-]{0,95}\Z')
 ANCHOR = re.compile(r'(?:[1-9][0-9]*|[A-D])(?:\.[0-9]+)+\Z')
 KINDS = {'definition_equivalence', 'role_instantiation', 'partial_correspondence',
          'observation_interface', 'heuristic_analogy', 'unmapped', 'not_applicable', 'unknown'}
 LAYERS = {'term', 'relation', 'role', 'task', 'measurement', 'method', 'exception'}
 STATUSES = {'supported', 'partial', 'unknown', 'disputed', 'not_claimed', 'not_applicable'}
+MATCH_POLICIES = {'normalized', 'exact'}
 NOTICE = ('本工具只核对数据结构、引用与依赖；评估状态均由输入提供。'
           '词义对应、事实证据和正式实例资格互不代证，不自动判断来源可信或理论适用。')
 UNKNOWN = '未知（未提供，不补默认值）'
@@ -58,6 +60,10 @@ def _text(value, where, nullable=False):
         return value
     if not isinstance(value, str) or not value.strip() or len(value) > 16000:
         raise MappingError(f'{where}须为非空文本，不超过16000字符。')
+    try:
+        value.encode('utf-8')
+    except UnicodeEncodeError as error:
+        raise MappingError(f'{where}须为有效Unicode文本，不能含孤立代理字符。') from error
     return value
 
 
@@ -93,7 +99,14 @@ def normalized_term(value):
     return ' '.join(unicodedata.normalize('NFKC', value).casefold().split())
 
 
-def read_mapping(path: Path) -> dict:
+def _match_key(value, policy):
+    """Preserve significant spelling for identifiers under an explicit policy."""
+    _text(value, '查询词或语境')
+    return value if policy == 'exact' else normalized_term(value)
+
+
+def read_snapshot(path: Path) -> tuple[dict, str]:
+    """Parse and identify the same single bounded byte snapshot."""
     with Path(path).open('rb') as stream:
         raw = stream.read(MAX_BYTES + 1)
     if len(raw) > MAX_BYTES:
@@ -111,9 +124,15 @@ def read_mapping(path: Path) -> dict:
         raise MappingError(f'JSON不能含非有限数: {value}')
 
     try:
-        return json.loads(raw.decode('utf-8-sig'), object_pairs_hook=pairs, parse_constant=constant)
+        mapping = json.loads(raw.decode('utf-8-sig'), object_pairs_hook=pairs, parse_constant=constant)
+        return mapping, hashlib.sha256(raw).hexdigest()
     except (json.JSONDecodeError, RecursionError) as error:
         raise MappingError(f'无法读取映射JSON: {error}') from error
+
+
+def read_mapping(path: Path) -> dict:
+    """Read the mapping while preserving the original public return shape."""
+    return read_snapshot(path)[0]
 
 
 def _index(mapping):
@@ -190,13 +209,17 @@ def validate_mapping(mapping) -> dict:
         where = f"映射 {row['id']}"
         keys = {'id', 'terms', 'context', 'layer', 'local_meaning', 'mapping_kind', 'target_meaning',
                 'theory_anchors', 'source_ids', 'depends_on', 'preserved', 'excluded', 'unknowns', 'assessments'}
-        _object(row, keys | {'fields', 'methods', 'target_review'}, keys, where)
+        _object(row, keys | {'fields', 'methods', 'target_review', 'match_policy'}, keys, where)
+        policy = row.get('match_policy', 'normalized')
+        _enum(policy, MATCH_POLICIES, where + '.match_policy')
         terms = _strings(row['terms'], where + '.terms', nonempty=True)
-        if len({normalized_term(term) for term in terms}) != len(terms):
-            raise MappingError(f'{where}.terms含规范化后重复的词。')
+        if len({_match_key(term, policy) for term in terms}) != len(terms):
+            raise MappingError(f'{where}.terms含当前匹配策略下重复的词。')
         _text(row['context'], where + '.context')
         _enum(row['layer'], LAYERS, where + '.layer')
         _enum(row['mapping_kind'], KINDS, where + '.mapping_kind')
+        if row['mapping_kind'] == 'unknown':
+            unknown.append(f"{row['id']}.mapping_kind")
         for key in ('local_meaning', 'target_meaning'):
             _text(row[key], where + '.' + key, nullable=True)
             known_absence = (key == 'target_meaning'
@@ -205,6 +228,8 @@ def validate_mapping(mapping) -> dict:
                 unknown.append(f"{row['id']}.{key}")
         for key in ('preserved', 'excluded', 'unknowns', 'theory_anchors'):
             _strings(row[key], where + '.' + key)
+        if row['unknowns']:
+            unknown.append(f"{row['id']}.unknowns")
         for anchor in row['theory_anchors']:
             if not ANCHOR.fullmatch(anchor):
                 raise MappingError(f'{where}.theory_anchors不是小节编号: {anchor}')
@@ -274,6 +299,8 @@ def validate_mapping(mapping) -> dict:
                 raise MappingError(f'{where}目标侧复核的申请状态与处理状态不一致。')
             if review['status'] == 'reviewed' and not review['basis']:
                 raise MappingError(f'{where}目标侧已复核必须有记录来源。')
+            if review['status'] == 'pending':
+                unknown.append(f"{row['id']}.target_review")
     for row in outputs.values():
         keys = {'id', 'title', 'text', 'entry_ids', 'source_ids'}
         _object(row, keys, keys, f"成果 {row['id']}")
@@ -283,9 +310,10 @@ def validate_mapping(mapping) -> dict:
         references(row['source_ids'], sources, '成果.source_ids')
         if not row['entry_ids'] and not row['source_ids']:
             raise MappingError(f"成果 {row['id']}须指出entry_ids或source_ids以便追踪依赖。")
-    if any(row['theory_anchors'] for row in entries.values()):
-        if 'theory_sha256' not in mapping:
-            raise MappingError('使用理论小节的领域包须提供theory_sha256，不能省略理论版本。')
+    uses_theory = any(row['theory_anchors'] for row in entries.values())
+    if uses_theory and 'theory_sha256' not in mapping:
+        raise MappingError('使用理论小节的领域包须提供theory_sha256，不能省略理论版本。')
+    if 'theory_sha256' in mapping:
         source = Path(__file__).resolve().parents[1] / 'source' / 'Xikari-条件结构与转化论.md'
         raw = source.read_bytes()
         if hashlib.sha256(raw).hexdigest() != mapping['theory_sha256']:
@@ -318,15 +346,22 @@ def validate_mapping(mapping) -> dict:
 
 def lookup(mapping, term: str, context: str | None = None) -> dict:
     validate_mapping(mapping)
-    needle = normalized_term(term)
-    wanted_context = normalized_term(context) if context is not None else None
-    matches = [row for row in mapping['entries']
-               if needle in {normalized_term(value) for value in row['terms']}
-               and (wanted_context is None or wanted_context == normalized_term(row['context']))]
+    needles = {policy: _match_key(term, policy) for policy in MATCH_POLICIES}
+    contexts = ({policy: _match_key(context, policy) for policy in MATCH_POLICIES}
+                if context is not None else None)
+    term_matches = [row for row in mapping['entries']
+               if needles[row.get('match_policy', 'normalized')]
+               in {_match_key(value, row.get('match_policy', 'normalized')) for value in row['terms']}]
+    matches = [row for row in term_matches
+               if (contexts is None or contexts[row.get('match_policy', 'normalized')]
+                    == _match_key(row['context'], row.get('match_policy', 'normalized')))]
+    status = ('matched' if len(matches) == 1 else 'ambiguous' if matches
+              else 'context_not_found' if term_matches and context is not None else 'unmapped')
     return {'format': FORMAT, 'term': term, 'context': context,
-            'status': 'unmapped' if not matches else 'ambiguous' if len(matches) > 1 else 'matched',
+            'status': status,
             'ambiguous': len(matches) > 1, 'matches': matches,
-            'notice': NOTICE + ' 查询采用Unicode、大小写与空白规范化后的精确匹配，不猜测语境。'}
+            'context_options': list(dict.fromkeys(row['context'] for row in term_matches)),
+            'notice': NOTICE + ' 查询按各条目的match_policy匹配词和语境；默认normalized，exact保留全部字符。所有匹配均保留，不猜测语境。'}
 
 
 def impact(mapping, changed: list[str]) -> dict:
@@ -360,14 +395,38 @@ def _md(value):
     return re.sub(r'([\\`*_{}\[\]<>#+!|])', r'\\\1', str(value))
 
 
+def _bounded_join(parts, separator=''):
+    """Check UTF-8 output size before publishing any part of the result."""
+    chunks = []
+    size = 0
+    separator_bytes = len(separator.encode('utf-8'))
+    for part in parts:
+        size += len(part.encode('utf-8')) + (separator_bytes if chunks else 0)
+        if size > MAX_OUTPUT_BYTES:
+            raise MappingError(f'输出超过{MAX_OUTPUT_BYTES}字节，请按实际任务拆分；未写出部分结果。')
+        chunks.append(part)
+    return separator.join(chunks)
+
+
+def _json_output(value):
+    encoder = json.JSONEncoder(ensure_ascii=False, indent=2, allow_nan=False)
+    return _bounded_join(encoder.iterencode(value))
+
+
 def render_markdown(mapping) -> str:
     report = validate_mapping(mapping)
     lines = ['<!-- xikari-domain-mapping -->', '', '# 领域映射与使用说明', '',
              f"领域：{_md(mapping['domain'])}；版本：{_md(mapping['version'])}。", '',
              f"任务：{_md(mapping['task'])}", '', f"适用范围：{_md(mapping['scope'])}", '',
-             NOTICE, '', '## 来源范围', '']
+             NOTICE, '', '## 已写成的领域表述', '']
     if 'theory_sha256' in mapping:
         lines[8:8] = [f"理论文本 SHA-256：{mapping['theory_sha256']}。", '']
+    if not mapping['outputs']:
+        lines += ['尚未提供成文；工具不会据词表编造研究结果。', '']
+    for row in mapping['outputs']:
+        lines += [f"### {_md(row['title'])}（{_md(row['id'])}）", '', _md(row['text']), '',
+                  f"依赖映射：{_md(', '.join(row['entry_ids']) or '无')}；直接来源：{_md(', '.join(row['source_ids']) or '无')}。", '']
+    lines += ['## 来源范围', '']
     if not mapping['sources']:
         lines += ['尚未提供来源。', '']
     for row in mapping['sources']:
@@ -383,6 +442,7 @@ def render_markdown(mapping) -> str:
             target_description = _md(row['target_meaning'])
         lines += [f"### {_md(' / '.join(row['terms']))}（{_md(row['id'])}）", '',
                   f"语境：{_md(row['context'])}；层次：{_md(row['layer'])}；对应类型：{_md(row['mapping_kind'])}。", '',
+                  f"词与语境匹配策略：{row.get('match_policy', 'normalized')}。", '',
                   f"当地含义：{_md(row['local_meaning'])}", '', f"目标含义：{target_description}", '',
                   f"来源：{_md(', '.join(row['source_ids']) or '未提供')}；理论小节：{_md(', '.join(row['theory_anchors']) or '未使用')}；"
                   f"依赖映射：{_md(', '.join(row['depends_on']) or '无已登记依赖')}。", '']
@@ -405,21 +465,17 @@ def render_markdown(mapping) -> str:
             review = row['target_review']
             lines += [f"目标侧独立复核：{_md(review['status'])}；{_md(review['rationale'])}；"
                       f"记录：{_md(', '.join(review['basis']) or '未提供')}。", '']
-    lines += ['## 已写成的领域表述', '']
-    if not mapping['outputs']:
-        lines += ['尚未提供成文；工具不会据词表编造研究结果。', '']
-    for row in mapping['outputs']:
-        lines += [f"### {_md(row['title'])}（{_md(row['id'])}）", '', _md(row['text']), '',
-                  f"依赖映射：{_md(', '.join(row['entry_ids']) or '无')}；直接来源：{_md(', '.join(row['source_ids']) or '无')}。", '']
     if report['unresolved_fields']:
         lines += ['## 保留的未知或争议位置', '']
         lines += [f'- {_md(item)}' for item in report['unresolved_fields']]
         lines.append('')
-    return '\n'.join(lines)
+    return _bounded_join(lines, '\n')
 
 
 def write_document(text: str, output: Path) -> Path:
     """Publish a complete file without clobbering an existing path, even in a race."""
+    if len(text.encode('utf-8')) > MAX_OUTPUT_BYTES:
+        raise MappingError(f'输出超过{MAX_OUTPUT_BYTES}字节，请按实际任务拆分；未写出部分结果。')
     output = Path(output)
     require_external_output(output, __file__)
     if os.path.lexists(output):
@@ -472,9 +528,10 @@ def main(argv=None) -> int:
     render.add_argument('--output', '-o', type=Path, required=True)
     args = parser.parse_args(argv)
     try:
-        mapping = read_mapping(args.mapping)
+        mapping, snapshot_sha256 = read_snapshot(args.mapping)
         if args.command == 'validate':
             result = validate_mapping(mapping)
+            result['snapshot_sha256'] = snapshot_sha256
         elif args.command == 'lookup':
             result = lookup(mapping, args.term, args.context)
         elif args.command == 'impact':
@@ -484,7 +541,7 @@ def main(argv=None) -> int:
                 raise MappingError('输出不能覆盖输入映射，请使用新路径。')
             target = write_document(render_markdown(mapping), args.output)
             result = {'output': str(target.resolve()), 'notice': NOTICE}
-        print(json.dumps(result, ensure_ascii=False, indent=2, allow_nan=False))
+        print(_json_output(result))
         return 0
     except (OSError, UnicodeError, MappingError, ValueError) as error:
         print(f'领域映射处理失败：{error}', file=sys.stderr)

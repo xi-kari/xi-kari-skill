@@ -9,9 +9,11 @@ from __future__ import annotations
 
 import argparse
 from collections import deque
+from decimal import Decimal, DecimalException
 from fractions import Fraction
 from itertools import combinations, product
 import hashlib
+import io
 import json
 import math
 import os
@@ -730,6 +732,44 @@ def _nonfinite(value):
     raise InputError(f"non-finite JSON number is unsupported: {value}")
 
 
+def _decimal_float(value):
+    """Never silently identify distinct decimal JSON numbers through rounding.
+
+    Operators work with Fraction(str(number)).  A parsed float is therefore
+    usable only when its decimal spelling retains the number the caller wrote.
+    This is decimal round-trip preservation, not exact binary representation:
+    ordinary 0.1 is supported, but underflow and excess precision are rejected.
+    Keep the float type, so integer-only fields still reject JSON 1.0.
+    """
+    parsed = float(value)
+    if not math.isfinite(parsed):
+        raise InputError("decimal number exceeds the supported finite range")
+    try:
+        preserved = Decimal(value) == Decimal(str(parsed))
+    except DecimalException as error:
+        raise InputError("decimal number exceeds the supported precision/range") from error
+    if not preserved:
+        raise InputError("decimal number would lose precision or underflow; "
+                         "use exact scaled integers and state the unit, or retain this model unresolved")
+    return parsed
+
+
+def _encode_report(report):
+    """Bound serialized UTF-8 bytes while encoding, before output or allocation
+    of the full expanded result.  Repeated conflict pairs can greatly exceed
+    the input size even though the in-memory report shares scalar objects.
+    """
+    encoder = json.JSONEncoder(ensure_ascii=False, indent=2, allow_nan=False)
+    output = io.BytesIO()
+    for fragment in encoder.iterencode(report):
+        encoded = fragment.encode("utf-8")
+        if output.tell() + len(encoded) + 1 > MAX_OUTPUT_BYTES:
+            raise InputError("result exceeds the 32 MiB output limit; use a smaller declared model")
+        output.write(encoded)
+    output.write(b"\n")
+    return output.getvalue()
+
+
 def read_model(path, case=None):
     with Path(path).open("rb") as stream:
         raw = stream.read(MAX_INPUT_BYTES + 1)
@@ -737,7 +777,7 @@ def read_model(path, case=None):
         raise InputError("model exceeds the 2 MiB input limit")
     try:
         model = json.loads(raw.decode("utf-8-sig"), object_pairs_hook=_object_pairs,
-                           parse_constant=_nonfinite)
+                           parse_constant=_nonfinite, parse_float=_decimal_float)
     except RecursionError as error:
         raise InputError("model nesting is too deep") from error
     source = {"path": str(Path(path).resolve()), "sha256": hashlib.sha256(raw).hexdigest(), "bytes": len(raw)}
@@ -773,9 +813,7 @@ def write_result(report, output):
     require_external_output(output, __file__)
     lock = output.with_name(output.name + ".lock")
     require_external_output(lock, __file__)
-    payload = (json.dumps(report, ensure_ascii=False, indent=2, allow_nan=False) + "\n").encode("utf-8")
-    if len(payload) > MAX_OUTPUT_BYTES:
-        raise InputError("result exceeds the 32 MiB output limit; use a smaller declared model")
+    payload = _encode_report(report)
     output.parent.mkdir(parents=True, exist_ok=True)
     temporary = None
     owns_lock = False
@@ -831,10 +869,8 @@ def main(argv=None):
             target = write_result(report, args.output)
             print(json.dumps({"output": str(target), "format": FORMAT, "notice": NOTICE}, ensure_ascii=False))
         else:
-            payload = json.dumps(report, ensure_ascii=False, indent=2, allow_nan=False)
-            if len(payload.encode("utf-8")) > MAX_OUTPUT_BYTES:
-                raise InputError("result exceeds the 32 MiB output limit")
-            print(payload)
+            payload = _encode_report(report)
+            sys.stdout.write(payload.decode("utf-8"))
         return 0
     except (InputError, OSError, UnicodeError, ValueError, RecursionError) as error:
         print(json.dumps({"format": FORMAT, "status": "invalid_input_or_io_error", "error": str(error)},

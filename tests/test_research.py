@@ -5,6 +5,7 @@ import importlib.util
 import json
 import os
 from pathlib import Path
+import random
 import subprocess
 import sys
 import tempfile
@@ -25,6 +26,72 @@ def example():
 
 
 class ResearchMeaningTests(unittest.TestCase):
+    def test_withdrawn_and_refuted_dependencies_are_visible_without_automatic_retraction(self):
+        for status in ('withdrawn', 'refuted'):
+            with self.subTest(status=status):
+                data = example()
+                data['issues'] = []
+                data['findings'][0]['status'] = status
+                data['summary_refs'] = ['F-use']
+                main = research.render_documents(data)['research-report.md']
+                summary = main.split('## 范围与方法')[0]
+                dependent = main.split('### F-use')[1].split('## 解释范围')[0]
+                independent = main.split('### F-definition')[1].split('### F-use')[0]
+                self.assertIn('F-completion → F-use', summary)
+                self.assertIn(research.STATUSES[status], dependent)
+                self.assertIn('不自动判定本项失效', dependent)
+                self.assertIn('状态：在声明范围内有支持', dependent)
+                self.assertNotIn('依赖状态复核', independent)
+
+    def test_superseded_issue_keeps_its_successors_visible_in_both_reports(self):
+        data = example()
+        successor = copy.deepcopy(data['issues'][0])
+        successor.update(id='I-revised', title='重新界定的识别问题')
+        data['issues'].append(successor)
+        data['issues'][0].update(status='superseded', superseded_by=['I-revised'],
+                                 status_reason='缩小原问题范围，剩余识别问题转入 I-revised。')
+        documents = research.render_documents(data)
+        for document in documents.values():
+            self.assertIn('后继问题：I-revised', document)
+            self.assertIn('重新界定的识别问题（未决）', document)
+        summary = documents['research-report.md'].split('## 范围与方法')[0]
+        self.assertNotIn('I-identification', summary)
+        self.assertIn('I-revised', summary)
+
+    def test_multiple_issue_propagation_matches_independent_dag_reachability(self):
+        rng = random.Random(74021)
+        for case in range(8):
+            data = example()
+            template = data['findings'][0]
+            data['findings'] = []
+            ancestors = {}
+            for index in range(18):
+                key = f'F{index}'
+                parents = [f'F{n}' for n in range(index) if rng.random() < .18]
+                node = copy.deepcopy(template)
+                node.update(id=key, depends_on=parents or ['S-register'])
+                data['findings'].append(node)
+                ancestors[key] = {key}
+                for parent in parents:
+                    ancestors[key].update(ancestors[parent])
+            data['summary_refs'] = ['F17']
+            issue_template = data['issues'][0]
+            data['issues'] = []
+            targets = []
+            for index in range(5):
+                target = f'F{rng.randrange(18)}'
+                issue = copy.deepcopy(issue_template)
+                issue.update(id=f'I{index}', affected_findings=[target])
+                data['issues'].append(issue)
+                targets.append(target)
+            rng.shuffle(data['findings'])
+            main = research.render_documents(data)['research-report.md']
+            for key, expected in ancestors.items():
+                section = main.split(f'### {key} ·', 1)[1].split('### ', 1)[0].split('## 解释范围', 1)[0]
+                for index, target in enumerate(targets):
+                    with self.subTest(case=case, finding=key, issue=index):
+                        self.assertEqual(f'关联问题 I{index}：' in section, target in expected)
+
     def test_example_retains_descriptive_causal_and_unknown_identities(self):
         data = example()
         report = research.render_documents(data)['research-report.md']
@@ -115,6 +182,39 @@ class ResearchMeaningTests(unittest.TestCase):
 
 
 class ResearchValidationTests(unittest.TestCase):
+    def test_superseded_issues_require_existing_acyclic_successors(self):
+        edits = [
+            lambda d: d['issues'][0].update(status='superseded'),
+            lambda d: d['issues'][0].update(status='superseded', superseded_by=[]),
+            lambda d: d['issues'][0].update(status='superseded', superseded_by=['F-use']),
+            lambda d: d['issues'][0].update(status='superseded', superseded_by=['I-identification']),
+            lambda d: d['issues'][0].update(superseded_by=['I-followup']),
+        ]
+        for edit in edits:
+            data = example()
+            edit(data)
+            with self.subTest(edit=edit), self.assertRaises(ValueError):
+                research.validate_research(data)
+        data = example()
+        data['issues'][0].update(status='superseded', superseded_by=['I-followup'])
+        data['issues'][1].update(status='superseded', superseded_by=['I-identification'])
+        with self.assertRaisesRegex(ValueError, '替代关系存在循环'):
+            research.validate_research(data)
+
+    def test_nul_in_list_content_cannot_reach_a_report(self):
+        for key in ('limitations', 'change_conditions'):
+            data = example()
+            data['findings'][0][key] = ['before\x00after']
+            with self.subTest(key=key), self.assertRaises(ValueError):
+                research.render_documents(data)
+
+    def test_render_budget_accounts_for_the_pair_not_only_one_report(self):
+        data = example()
+        documents = research.render_documents(data)
+        largest = max(len(value.encode('utf-8')) for value in documents.values())
+        with patch.object(research, 'MAX_RENDER_BYTES', largest + 100), self.assertRaisesRegex(ValueError, '渲染超过'):
+            research.render_documents(data)
+
     def test_cycle_unknown_dependency_and_duplicate_cross_kind_ids_rejected(self):
         edits = [
             lambda d: d['findings'][0]['depends_on'].append('F-use'),
@@ -304,6 +404,54 @@ class ResearchPublicationTests(unittest.TestCase):
 
 
 class ResearchCliTests(unittest.TestCase):
+    def test_two_real_processes_publish_one_complete_consistent_pair(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            output = root / 'shared'
+            processes = []
+            expected = []
+            for marker in ('A', 'B'):
+                data = example()
+                data['title'] = f'并发作者 {marker}'
+                path = root / f'{marker}.json'
+                path.write_text(json.dumps(data, ensure_ascii=False), encoding='utf-8')
+                expected.append(research.render_documents(data))
+                processes.append(subprocess.Popen(
+                    [sys.executable, str(SCRIPT), '--research', str(path), 'render', '--output', str(output)],
+                    stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, encoding='utf-8'))
+            results = [process.communicate(timeout=30) for process in processes]
+            self.assertEqual(sorted(process.returncode for process in processes), [0, 2])
+            for stdout, stderr in results:
+                self.assertNotIn('Traceback', stderr)
+            actual = {path.name: path.read_text(encoding='utf-8') for path in output.iterdir()}
+            self.assertIn(actual, expected)
+            self.assertFalse(list(root.glob('.research-*')))
+            self.assertFalse((root / 'shared.research.lock').exists())
+
+    def test_large_valid_dependency_amplification_fails_before_publishing(self):
+        data = example()
+        finding_template, issue_template = data['findings'][0], data['issues'][0]
+        data['findings'], data['issues'] = [], []
+        for index in range(500):
+            finding = copy.deepcopy(finding_template)
+            finding.update(id=f'F{index}', depends_on=['S-register'] if index == 0 else [f'F{index-1}'])
+            issue = copy.deepcopy(issue_template)
+            issue.update(id=f'I{index}', affected_findings=['F0'])
+            data['findings'].append(finding)
+            data['issues'].append(issue)
+        data['summary_refs'] = ['F499']
+        research.validate_research(data)
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            source, output = root / 'amplification.json', root / 'output'
+            source.write_text(json.dumps(data, ensure_ascii=False), encoding='utf-8')
+            process = self.run_cli(source, 'render', '--output', output)
+            self.assertEqual(process.returncode, 2)
+            self.assertIn('32 MiB', process.stderr)
+            self.assertNotIn('Traceback', process.stderr)
+            self.assertFalse(output.exists())
+            self.assertFalse(list(root.glob('.research-*')))
+
     def run_cli(self, source, *args):
         return subprocess.run([sys.executable, str(SCRIPT), '--research', str(source), *args],
                               capture_output=True, text=True, encoding='utf-8')

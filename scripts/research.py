@@ -24,6 +24,7 @@ import tempfile
 sys.dont_write_bytecode = True
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 try:
+    import domain_mapping
     from read_source import build_index
     from xikari_paths import require_external_output
 finally:
@@ -55,6 +56,7 @@ ISSUE_STATUSES = {
 }
 ACTIVE = {'open', 'under_investigation', 'partially_resolved'}
 MAX_ITEMS = 2000
+MAX_RENDER_BYTES = 32 * 1024 * 1024
 
 
 class ResearchError(ValueError):
@@ -70,7 +72,8 @@ def theory_index():
     return {'anchors': frozenset(sections), 'sha256': hashlib.sha256(raw).hexdigest()}
 
 
-def read_research(path: Path) -> dict:
+def read_snapshot(path: Path) -> tuple[dict, str]:
+    """Read once so the parsed record and its byte identity cannot diverge."""
     with Path(path).open('rb') as stream:
         raw = stream.read(4 * 1024 * 1024 + 1)
     if len(raw) > 4 * 1024 * 1024:
@@ -88,10 +91,15 @@ def read_research(path: Path) -> dict:
         raise ResearchError(f'JSON 不允许非有限数：{value}')
 
     try:
-        return json.loads(raw.decode('utf-8-sig'), object_pairs_hook=unique,
+        data = json.loads(raw.decode('utf-8-sig'), object_pairs_hook=unique,
                           parse_constant=nonfinite)
+        return data, hashlib.sha256(raw).hexdigest()
     except (json.JSONDecodeError, RecursionError) as exc:
         raise ResearchError(f'无效研究 JSON：{exc}') from exc
+
+
+def read_research(path: Path) -> dict:
+    return read_snapshot(path)[0]
 
 
 def object_fields(value, required, optional, where):
@@ -117,7 +125,7 @@ def text(item, key, where, required=True, limit=100000):
 def text_list(item, key, where, required=False):
     value = item[key]
     if (not isinstance(value, list) or len(value) > MAX_ITEMS
-            or any(not isinstance(v, str) or not v.strip() or len(v) > 100000 for v in value)
+            or any(not isinstance(v, str) or not v.strip() or '\x00' in v or len(v) > 100000 for v in value)
             or (required and not value)):
         raise ResearchError(f'{where}.{key} 须为{"非空" if required else ""}文本列表。')
     if len(set(value)) != len(value):
@@ -167,13 +175,25 @@ def validate_research(data) -> dict:
         used.add(value)
 
     for item in inputs:
-        object_fields(item, {'id', 'kind', 'label', 'content', 'locator', 'status'}, set(), '输入')
+        object_fields(item, {'id', 'kind', 'label', 'content', 'locator', 'status'}, {'mapping_ref'}, '输入')
         identifier(item, '输入')
         choice(item, 'kind', {'source', 'premise', 'mapping'}, item['id'])
         choice(item, 'status', {'known', 'unknown', 'synthetic'}, item['id'])
         for key in ('label', 'content'):
             text(item, key, item['id'])
         text(item, 'locator', item['id'], required=item['kind'] == 'source' and item['status'] != 'unknown')
+        if 'mapping_ref' in item:
+            if item['kind'] != 'mapping':
+                raise ResearchError('只有 mapping 输入可声明 mapping_ref。')
+            ref = item['mapping_ref']
+            object_fields(ref, {'id', 'version', 'sha256', 'node_ids'}, set(), item['id'] + '.mapping_ref')
+            for key in ('id', 'version', 'sha256'):
+                text(ref, key, item['id'] + '.mapping_ref')
+            if not ID.fullmatch(ref['id']) or not re.fullmatch(r'[0-9a-f]{64}', ref['sha256']):
+                raise ResearchError('mapping_ref 须提供有效包 ID 和小写字节 SHA-256。')
+            text_list(ref, 'node_ids', item['id'] + '.mapping_ref', required=True)
+            if any(not ID.fullmatch(key) for key in ref['node_ids']):
+                raise ResearchError('mapping_ref.node_ids 须为映射来源、条目或成果的 ID。')
     input_ids = {item['id'] for item in inputs}
     for item in findings:
         object_fields(item, {'id', 'title', 'kind', 'status', 'body', 'depends_on',
@@ -199,7 +219,7 @@ def validate_research(data) -> dict:
     for item in issues:
         object_fields(item, {'id', 'title', 'categories', 'affected_findings', 'materiality',
                              'status', 'current_work', 'why_unresolved', 'consequence', 'next_work',
-                             'status_reason', 'resolution_scope'}, {'theory'}, '问题')
+                             'status_reason', 'resolution_scope'}, {'theory', 'superseded_by'}, '问题')
         identifier(item, '问题')
         for key in ('title', 'current_work', 'why_unresolved', 'consequence', 'status_reason'):
             text(item, key, item['id'])
@@ -211,6 +231,12 @@ def validate_research(data) -> dict:
             raise ResearchError(f'{item["id"]} 引用未知结论。')
         choice(item, 'materiality', {'major', 'minor'}, item['id'])
         choice(item, 'status', ISSUE_STATUSES, item['id'])
+        if item['status'] == 'superseded':
+            if 'superseded_by' not in item:
+                raise ResearchError(f'{item["id"]} 被替代问题须用 superseded_by 引用后继问题。')
+            text_list(item, 'superseded_by', item['id'], required=True)
+        elif 'superseded_by' in item:
+            raise ResearchError(f'{item["id"]} 只有 superseded 状态可声明 superseded_by。')
         text(item, 'next_work', item['id'], required=item['status'] in ACTIVE)
         text(item, 'resolution_scope', item['id'], required=item['status'] in {'partially_resolved', 'resolved_within_scope'})
         if ('theory_candidate' in item['categories']) != ('theory' in item):
@@ -226,11 +252,23 @@ def validate_research(data) -> dict:
                 raise ResearchError('theory.source_sha256 与随包原文不一致；请回查版本及受影响命题。')
             if theory['anchor'] not in theory_index()['anchors']:
                 raise ResearchError(f'theory.anchor 不存在于随包原文：{theory["anchor"]}')
+    issue_ids = {item['id'] for item in issues}
+    successor_graph = {}
+    for item in issues:
+        successors = item.get('superseded_by', [])
+        if set(successors) - issue_ids:
+            raise ResearchError(f'{item["id"]} superseded_by 须引用已有问题 ID。')
+        successor_graph[item['id']] = successors
+    try:
+        topological_order(successor_graph, set())
+    except ResearchError as exc:
+        raise ResearchError('问题替代关系存在循环；请保留可追踪的后继问题。') from exc
     return {
         'format': FORMAT, 'structure_valid': True,
         'input_count': len(inputs), 'finding_count': len(findings), 'issue_count': len(issues),
         'unknown_inputs': [item['id'] for item in inputs if item['status'] == 'unknown'],
         'synthetic_inputs': [item['id'] for item in inputs if item['status'] == 'synthetic'],
+        'unverified_mapping_inputs': [item['id'] for item in inputs if item['kind'] == 'mapping'],
         'finding_order': order, 'notice': NOTICE,
     }
 
@@ -257,19 +295,18 @@ def topological_order(graph, input_ids):
     return order
 
 
-def impact(data, changed) -> dict:
-    """Find dependent findings; changes request review, never automatic rejection."""
-    validate_research(data)
-    if (not isinstance(changed, (list, tuple)) or not changed
-            or any(not isinstance(key, str) for key in changed)):
-        raise ResearchError('changed 须为至少一个已知输入或结论 ID。')
+def dependency_children(data):
+    """Build one reverse index after validation."""
     nodes = {item['id'] for item in data['inputs'] + data['findings']}
-    if set(changed) - nodes:
-        raise ResearchError(f'未知变更 ID：{sorted(set(changed) - nodes)}')
     children = {key: [] for key in nodes}
     for item in data['findings']:
         for ref in item['depends_on']:
             children[ref].append(item['id'])
+    return children
+
+
+def dependency_paths(children, changed):
+    """One shortest declared path per reachable node, not all supporting paths."""
     paths = {key: [key] for key in dict.fromkeys(changed)}
     queue = deque(paths)
     while queue:
@@ -278,6 +315,19 @@ def impact(data, changed) -> dict:
             if child not in paths:
                 paths[child] = paths[key] + [child]
                 queue.append(child)
+    return paths
+
+
+def impact(data, changed) -> dict:
+    """Find dependent findings; changes request review, never automatic rejection."""
+    validate_research(data)
+    if (not isinstance(changed, (list, tuple)) or not changed
+            or any(not isinstance(key, str) for key in changed)):
+        raise ResearchError('changed 须为至少一个已知输入或结论 ID。')
+    children = dependency_children(data)
+    if set(changed) - set(children):
+        raise ResearchError(f'未知变更 ID：{sorted(set(changed) - set(children))}')
+    paths = dependency_paths(children, changed)
     affected = [item['id'] for item in data['findings'] if item['id'] in paths]
     return {
         'changed': list(dict.fromkeys(changed)), 'affected_findings': affected,
@@ -293,21 +343,129 @@ def _issue_label(item):
     return f'{item["id"]}：{item["title"]}（{ISSUE_STATUSES[item["status"]]}）'
 
 
+def impact_mapping(data, mapping_path: Path, changed) -> dict:
+    """Bridge one explicitly supplied, frozen mapping snapshot to research.
+
+    A locator is never opened implicitly. Unbound or other-snapshot inputs stay
+    outside this check; their downstream findings are not called independent.
+    """
+    validate_research(data)
+    mapping, digest = read_snapshot(mapping_path)
+    mapping_result = domain_mapping.impact(mapping, changed)
+    nodes = {row['id'] for group in ('sources', 'entries', 'outputs') for row in mapping[group]}
+    verified = []
+    unchecked = []
+    affected_inputs = []
+    matched_nodes = {}
+    for item in data['inputs']:
+        if item['kind'] != 'mapping':
+            continue
+        ref = item.get('mapping_ref')
+        if not ref or (ref['id'], ref['version']) != (mapping['id'], mapping['version']):
+            unchecked.append(item['id'])
+            continue
+        if ref['sha256'] != digest:
+            raise ResearchError(f'{item["id"]} 绑定的映射字节 SHA-256 不匹配；请提供所据旧快照，不要用新版替代。')
+        absent = set(ref['node_ids']) - nodes
+        if absent:
+            raise ResearchError(f'{item["id"]} 引用映射快照中不存在的节点：{sorted(absent)}')
+        verified.append(item['id'])
+        affected_nodes = sorted(set(ref['node_ids']) & set(mapping_result['paths']))
+        if affected_nodes:
+            affected_inputs.append(item['id'])
+            matched_nodes[item['id']] = affected_nodes
+    if not verified:
+        raise ResearchError('没有与该包 ID、版本和字节摘要匹配的 mapping_ref；不能把未核验解释为空影响。')
+    children = dependency_children(data)
+    paths = dependency_paths(children, affected_inputs)
+    unchecked_paths = dependency_paths(children, unchecked)
+    affected = [item['id'] for item in data['findings'] if item['id'] in paths]
+    unassessed = [item['id'] for item in data['findings']
+                  if item['id'] in unchecked_paths and item['id'] not in paths]
+    affected_set = set(affected)
+    unassessed_set = set(unassessed)
+    return {
+        'mapping_snapshot': {'id': mapping['id'], 'version': mapping['version'], 'sha256': digest},
+        'changed_mapping_nodes': mapping_result['changed'],
+        'verified_mapping_inputs': verified, 'affected_mapping_inputs': affected_inputs,
+        'unverified_mapping_inputs': unchecked, 'matched_mapping_nodes': matched_nodes,
+        'affected_findings': affected, 'unassessed_findings': unassessed,
+        'independent_findings': [item['id'] for item in data['findings']
+                                 if item['id'] not in affected_set | unassessed_set],
+        'affected_issues': [item['id'] for item in data['issues']
+                            if set(item['affected_findings']) & affected_set],
+        'unassessed_issues': [item['id'] for item in data['issues']
+                              if set(item['affected_findings']) & unassessed_set],
+        'summary_needs_review': bool(set(data['summary_refs']) & affected_set),
+        'summary_has_unassessed_dependencies': bool(set(data['summary_refs']) & set(unchecked_paths)),
+        'paths': {key: paths[key] for key in affected},
+        'mapping_paths': mapping_result['paths'],
+        'notice': '只对显式给定的已绑定映射快照和已声明依赖定位复核；未绑定或其他快照的映射列为未核验，其下游不宣称独立。作者仍须读新材料、修订正文及问题，并更新绑定；字节匹配不证明映射正确。',
+    }
+
+
 def _source_lines(data):
     lines = ['## 材料、前提与映射', '']
+    if any('mapping_ref' in item for item in data['inputs']):
+        lines += ['下列快照仅展示作者绑定；用 impact-mapping 显式提供所据快照后核验依赖，不证明语义正确。', '']
     for item in data['inputs']:
         lines += [f'### {item["id"]} · {item["label"]}', '',
                   f'类型：{item["kind"]}；记录状态：{item["status"]}。', '', item['content'], '',
                   f'出处或位置：{item["locator"] or "尚未取得，保留未知"}', '']
+        if item['kind'] == 'mapping':
+            if 'mapping_ref' in item:
+                ref = item['mapping_ref']
+                lines += [f'映射快照：{ref["id"]} / {ref["version"]}；字节 SHA-256：{ref["sha256"]}；'
+                          f'引用节点：{", ".join(ref["node_ids"])}。', '']
+            else:
+                lines += ['本项为人工映射说明，未绑定可自动追踪的领域包快照；来源更正须人工回查下游。', '']
     return lines
+
+
+class _DocumentLines(list):
+    """Bound the complete rendered pair before retaining an amplified report."""
+
+    def __init__(self, values, budget):
+        super().__init__()
+        self.budget = budget
+        self += values
+
+    def __iadd__(self, values):
+        for value in values:
+            self.budget[0] += len(value.encode('utf-8')) + 1
+            if self.budget[0] > MAX_RENDER_BYTES:
+                raise ResearchError('双成果渲染超过 32 MiB；请按实际专题拆分，保留相关依赖与限制。')
+            self.append(value)
+        return self
 
 
 def render_documents(data) -> dict[str, str]:
     validation = validate_research(data)
+    children = dependency_children(data)
+    unknown_paths = dependency_paths(children, validation['unknown_inputs'])
+    stopped = {item['id']: item for item in data['findings'] if item['status'] in {'refuted', 'withdrawn'}}
+    stopped_paths = dependency_paths(children, stopped)
+    # Propagate issue membership once in dependency order. Per-issue calls to
+    # impact would repeatedly validate the whole record and build unused paths.
+    issue_bits = {item['id']: 0 for item in data['findings']}
+    for index, issue in enumerate(data['issues']):
+        for finding in issue['affected_findings']:
+            issue_bits[finding] |= 1 << index
+    for finding in validation['finding_order']:
+        for child in children[finding]:
+            issue_bits[child] |= issue_bits[finding]
+    budget = [0]
     major = [item for item in data['issues'] if item['materiality'] == 'major' and item['status'] in ACTIVE]
-    lines = ['<!-- xikari-research-report -->', '', f'# {data["title"]}', '',
+    lines = _DocumentLines(['<!-- xikari-research-report -->', '', f'# {data["title"]}', '',
              f'研究问题：{data["question"]}', '', '## 当前判断', '', data['summary'], '',
-             f'综合所据结论：{", ".join(data["summary_refs"])}。', '']
+             f'综合所据结论：{", ".join(data["summary_refs"])}。', ''], budget)
+    affected_summary = [key for key in data['summary_refs'] if key in stopped_paths]
+    if affected_summary:
+        lines += ['**综合判断引用了已撤回或已被反驳的结论，须复核其用法：**', '']
+        for key in affected_summary:
+            path = stopped_paths[key]
+            lines += [f'- {" → ".join(path)}（起点状态：{STATUSES[stopped[path[0]]["status"]]}）。', '']
+        lines += ['该提示不自动撤回下游判断：记录反驳结果与继续把旧结论当作成立前提须由作者区分。路径仅示例，不穷举所有依赖。', '']
     if validation['synthetic_inputs']:
         lines += ['本报告使用合成材料：' + ', '.join(validation['synthetic_inputs'])
                   + '。相应结果只用于教学或模型示意，不作现实效果证据。', '']
@@ -316,36 +474,40 @@ def render_documents(data) -> dict[str, str]:
         for item in major:
             lines += [f'- {_issue_label(item)}：{item["consequence"]}', '']
     lines += ['## 范围与方法', '', data['scope'], '', data['method'], '', '## 研究论证', '']
-    unknown = validation['unknown_inputs']
-    unknown_impacts = impact(data, unknown) if unknown else {'paths': {}}
-    issue_impacts = {issue['id']: set(impact(data, issue['affected_findings'])['affected_findings'])
-                     for issue in data['issues']}
     for item in data['findings']:
         lines += [f'### {item["id"]} · {item["title"]}', '',
                   f'判断身份：{KINDS[item["kind"]]}；状态：{STATUSES[item["status"]]}。', '',
                   item['body'], '', f'依据及前提：{", ".join(item["depends_on"])}。', '']
-        if item['id'] in unknown_impacts['paths']:
-            lines += ['**尚依赖未知输入：** ' + ' → '.join(unknown_impacts['paths'][item['id']])
+        if item['id'] in unknown_paths:
+            lines += ['**尚依赖未知输入：** ' + ' → '.join(unknown_paths[item['id']])
                       + '。该部分仍需作者复核，未由本工具补成事实。', '']
+        if item['id'] in stopped_paths and item['id'] not in stopped:
+            path = stopped_paths[item['id']]
+            lines += ['**依赖状态复核：** ' + ' → '.join(path)
+                      + f'（起点状态：{STATUSES[stopped[path[0]]["status"]]}）。请区分记录反驳结果与继续使用旧前提；不自动判定本项失效。', '']
         if item['limitations']:
             lines += ['本项限制：', ''] + [f'- {entry}' for entry in item['limitations']] + ['']
-        related = [issue for issue in data['issues'] if item['id'] in issue_impacts[issue['id']]]
+        related = [issue for index, issue in enumerate(data['issues']) if issue_bits[item['id']] & (1 << index)]
         for issue in related:
             lines += [f'关联问题 {_issue_label(issue)}：{issue["consequence"]}', '']
+            if issue['status'] == 'superseded':
+                lines += [f'后继问题：{", ".join(issue["superseded_by"])}。', '']
         lines += ['可能改判的条件：', ''] + [f'- {entry}' for entry in item['change_conditions']] + ['']
     lines += ['## 解释范围与问题评估', '', data['issue_assessment'], '',
               '问题的已做工作、剩余缺口和下一步见同目录的 [问题报告](research-issues.md)。', '']
     lines += _source_lines(data) + [f'> {NOTICE}', '']
 
-    boundary = ['<!-- xikari-research-issues -->', '', f'# {data["title"]}：解释边界与问题', '',
+    boundary = _DocumentLines(['<!-- xikari-research-issues -->', '', f'# {data["title"]}：解释边界与问题', '',
                 f'对应研究问题：{data["question"]}', '', data['issue_assessment'], '',
-                '主体论证见 [研究报告](research-report.md)。', '']
+                '主体论证见 [研究报告](research-report.md)。', ''], budget)
     if not data['issues']:
         boundary += ['本次记录未提出具体问题项；这一结果只覆盖上述评估范围，不表示理论或研究普遍无误。', '']
     for item in data['issues']:
         boundary += [f'## {_issue_label(item)}', '',
                      '分类：' + '、'.join(CATEGORIES[key] for key in item['categories']) + '。', '',
                      f'受影响结论：{", ".join(item["affected_findings"])}；影响程度：{item["materiality"]}。', '']
+        if item['status'] == 'superseded':
+            boundary += [f'后继问题：{", ".join(item["superseded_by"])}。替代不表示原缺口已经解决。', '']
         for key, label in (('current_work', '已经完成的工作'), ('why_unresolved', '仍未解决的具体原因'),
                            ('consequence', '对主报告的影响'), ('next_work', '下一项工作'),
                            ('status_reason', '当前状态依据'), ('resolution_scope', '已解决与仍未解决的范围')):
@@ -452,6 +614,9 @@ def main(argv=None):
     render.add_argument('--output', type=Path, required=True, help='安装目录外的全新输出目录')
     changes = commands.add_parser('impact', help='由变更 ID 追踪受影响结论')
     changes.add_argument('--changed', action='append', required=True, help='可重复的输入或结论 ID')
+    bridge = commands.add_parser('impact-mapping', help='由显式映射旧快照追踪研究中的已绑定依赖')
+    bridge.add_argument('--mapping', required=True, type=Path, help='mapping_ref 所据的原始映射快照')
+    bridge.add_argument('--changed', action='append', required=True, help='可重复的映射来源或条目 ID')
     args = parser.parse_args(argv)
     try:
         data = read_research(args.research)
@@ -459,11 +624,20 @@ def main(argv=None):
             result = validate_research(data)
         elif args.command == 'impact':
             result = impact(data, args.changed)
+        elif args.command == 'impact-mapping':
+            result = impact_mapping(data, args.mapping, args.changed)
         else:
             output = write_documents(render_documents(data), args.output)
             result = {'output': str(output.resolve()), 'files': ['research-report.md', 'research-issues.md'],
                       'notice': NOTICE}
-        print(json.dumps(result, ensure_ascii=False, indent=2))
+        chunks = []
+        size = 0
+        for chunk in json.JSONEncoder(ensure_ascii=False, indent=2, allow_nan=False).iterencode(result):
+            size += len(chunk.encode('utf-8'))
+            if size > MAX_RENDER_BYTES:
+                raise ResearchError('JSON 结果超过 32 MiB；请按实际专题拆分。')
+            chunks.append(chunk)
+        print(''.join(chunks))
         return 0
     except (OSError, UnicodeError, ResearchError, ValueError) as exc:
         print(f'研究成果处理失败：{exc}', file=sys.stderr)

@@ -104,6 +104,40 @@ class ResearchDomainIntegrationTests(unittest.TestCase):
                 self.command('domain_mapping.py', '--mapping', source, 'render', '--output', destination)
                 self.assertIn(mapping['outputs'][0]['text'], destination.read_text(encoding='utf-8'))
 
+    def test_installed_mapping_revision_reaches_the_research_report(self):
+        mapping = self.install / 'assets/examples/domain-mapping.json'
+        identity = json.loads(self.command('domain_mapping.py', '--mapping', mapping, 'validate').stdout)
+        study = json.loads((self.install / 'assets/examples/research.json').read_text(encoding='utf-8'))
+        study['inputs'][-1]['mapping_ref'] = {
+            'id': identity['id'], 'version': identity['version'],
+            'sha256': identity['snapshot_sha256'], 'node_ids': ['o-completion'],
+        }
+        study['findings'].append({
+            'id': 'F-independent', 'title': '同时改变招募与教学的记录', 'kind': 'descriptive',
+            'status': 'supported', 'body': '登记材料同时记录两项改变，不依赖完成口径的定义。',
+            'depends_on': ['S-changes'], 'limitations': [], 'change_conditions': ['该登记被更正。'],
+        })
+        path = self.work / 'bound-research.json'
+        path.write_text(json.dumps(study, ensure_ascii=False), encoding='utf-8')
+        original = path.read_bytes()
+        result = json.loads(self.command('research.py', '--research', path, 'impact-mapping',
+                                        '--mapping', mapping, '--changed', 's-completion').stdout)
+        self.assertEqual(set(result['affected_findings']),
+                         {'F-completion', 'F-causal', 'F-employment', 'F-definition', 'F-use'})
+        self.assertEqual(result['independent_findings'], ['F-independent'])
+        self.assertEqual(set(result['affected_issues']), {'I-identification', 'I-followup'})
+        self.assertTrue(result['summary_needs_review'])
+        self.assertEqual(path.read_bytes(), original)
+        destination = self.work / 'bound-research-output'
+        self.command('research.py', '--research', path, 'render', '--output', destination)
+        self.assertIn(identity['snapshot_sha256'], (destination / 'research-report.md').read_text(encoding='utf-8'))
+        newer = self.work / 'mapping-reformatted.json'
+        newer.write_bytes(mapping.read_bytes() + b'\n')
+        result = self.command('research.py', '--research', path, 'impact-mapping',
+                              '--mapping', newer, '--changed', 's-completion', success=False)
+        self.assertIn('SHA-256', result.stderr)
+        self.assertEqual(result.stdout, '')
+
     def test_both_tools_reject_writing_into_the_installed_package(self):
         self.command('research.py', '--research', self.install / 'assets/examples/research.json',
                      'render', '--output', self.install / 'forbidden-research', success=False)

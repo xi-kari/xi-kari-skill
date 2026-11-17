@@ -34,11 +34,37 @@ python scripts/research.py --research assets/examples/research.json impact --cha
 
 每项输入有 `id`, `kind`, `label`, `content`, `locator`, `status`。`kind` 为 `source`、`premise` 或 `mapping`；`status` 为 `known`、`unknown` 或 `synthetic`，表示记录者申明的材料状态，不是工具确认。已提供的来源须有可回查的 `locator`。未知来源可将位置留为空字符串，但应在 `content` 说明缺失的具体内容。合成来源要明确标识，渲染时会在主报告开头提示其使用范围。
 
+`known` 表示本稿使用的内容已取得或前提已明确，不表示其中的叙述、前提或映射已经证实。例如已取得一份有争议的访谈可记为来源 `known`，相关结论仍可为 `unknown` 或 `contested`；明确写出的假设也不因此成为现实事实。`unknown` 表示真正缺失的输入，不能用它隐藏已取得的反向材料。
+
+这份 JSON 是一次研究成稿的快照。已有 `evidence` 或 `claims` 时，`content` 只写本稿实际使用的必要摘要，`locator` 指既有来源、片段或主张 ID 与位置；原始片段及历史仍由原记录保存，不再复制整份台账。普通 `locator` 仅供作者回查，程序不会自动读取、下载或同步它。
+
 每项结论有 `id`, `title`, `kind`, `status`, `body`, `depends_on`, `limitations`, `change_conditions`。`body` 是作者的实际论证，不是让程序补写的提纲。`depends_on` 引用输入或其他结论 ID；它表示实质依赖，不能拿相互争论的立场制造循环。`limitations` 可以为空列表，不能用空字符串伪装限制；`change_conditions` 至少说明一个可能改判的条件。
 
 `kind` 可为 `descriptive`、`causal`、`interpretive`、`normative`、`model_result`、`candidate`、`unknown`、`conditional_projection`；`status` 可为 `supported`、`proposed`、`contested`、`unknown`、`refuted`、`withdrawn`。这些身份按作者实质判断填写，程序不会把描述升级为因果、模型内结果升级为现实事实，或把未知补为零。未知输入的依赖会在对应结论旁提示。
 
+已撤回或已被反驳的结论仍可保留作历史对象或反驳证据。若摘要或其他结论声明依赖它们，工具在相关位置显示状态与一条依赖路径，提醒作者区分“记录反驳结果”和“继续把旧判断当作成立前提”；它不自动撤回下游判断。提示路径不穷举全部依赖，也不判断正文是否已经恰当处理。
+
 现实前瞻仍由既有 `forecast.py` 登记和回写。研究格式不提供一个可绕过该责任的 `forecast` 身份。需要在研究中报告已登记前瞻时，引用其真实登记作为材料，并保持原判断的身份、期限与评价口径；不能把前瞻改名为条件推演来省略登记。
+
+## 领域映射的跨文件修订
+
+需要自动定位领域包更正的影响时，仅在相应 `kind: "mapping"` 输入增加可选的 `mapping_ref`：
+
+```json
+{"id":"具体领域包ID","version":"所据版本","sha256":"所据JSON原始字节的小写SHA-256","node_ids":["实际使用的条目或成果ID"]}
+```
+
+`node_ids` 可以引用映射包的来源、对应条目或已成文成果，只记录实际使用部分。用 `domain_mapping.py --mapping <文件> validate` 返回的 `id`、`version`、`snapshot_sha256` 填入前三项；它们是文件身份，不是语义认可。普通研究仍可使用没有绑定的人工映射说明。
+
+```text
+python scripts/research.py --research /outside/task/research.json impact-mapping --mapping /outside/task/mapping-old.json --changed s-definition
+```
+
+命令显式读取原稿所据旧快照，核对包 ID、版本、原始字节摘要与节点存在，再从领域来源/条目沿映射成果、研究输入、结论传播到摘要和问题。可重复 `--changed`。仅文件换行或格式变化也会改变字节摘要；保留原始快照，不用重新排版文件冒充同一文件。缺快照或指定快照没有任何匹配绑定时明确失败；同 ID、同版本的摘要冲突或节点缺失一律失败，不返回假“无影响”。同时存在其他版本的绑定按下述未核验范围处理。
+
+一次处理一个指定快照。其他包、其他版本和人工映射列入 `unverified_mapping_inputs`，其下游列为 `unassessed_findings`，不会归入 `independent_findings`。已有受影响结论同时依赖未核验输入时仍列为受影响，未核验输入清单和 `summary_has_unassessed_dependencies` 保留覆盖缺口。跨包相同节点名不自动连接。确认绑定但变更与本稿无已声明依赖时，才允许受影响集合为空。
+
+`validate` 和 `render` 只检查、展示绑定字段，均不读取外部映射文件，不宣称绑定已经核实。`impact-mapping` 的核验只证明这一份显式快照的引用关系；漏记依赖、对应是否正确、作者正文是否充分仍需实际审查。作者读取新材料、修订对应与研究正文和问题报告后，才更新绑定并另存新版；只替换摘要或散列不算完成修订。
 
 ## 问题与主报告同步
 
@@ -57,6 +83,8 @@ python scripts/research.py --research assets/examples/research.json impact --cha
 
 问题状态可为 `open`、`under_investigation`、`partially_resolved`、`resolved_within_scope`、`withdrawn`、`superseded`。未决和部分解决项须保留 `next_work`；部分解决或限定解决项须具体填写 `resolution_scope`。已讨论、已回复或已归档不能单独作为解决依据。工具检查文字是否提供，实际理由是否充分仍由作者核对。
 
+`superseded` 还须填写非空 `superseded_by` 列表，引用本记录中的后继问题 ID；允许拆为多个后继问题，不允许未知引用、自指或循环。其他状态不填写此字段。旧格式中仅写了 `superseded` 的记录应先补齐真实后继或改回与实际工作相符的状态，不能编造后继来通过校验。两份成果均保留后继指向，替代不表示缺口已经解决。
+
 `theory_candidate` 还须提供 `theory` 对象，字段为 `proposition`、`anchor`、`source_sha256`、`scope`、`challenge`：原命题、随包原文的小节号、所据原文字节散列、命题的前提与范围，以及具体反例、冲突或遗漏。`source_sha256` 须与当前随包原文一致；版本不同就先回查受影响命题，不能只改散列以消除错误。工具检查版本和锚点确实存在，但不证明引述准确或反例命中。理论对象只允许用于此分类，避免将材料空白误写为理论漏洞。
 
 重大且仍活跃的问题会在摘要后集中显示，其影响也会出现在对应结论及声明依赖的下游结论旁。独立的问题报告展开全部已做工作、缺口、影响与下一步。不能只修改问题附篇，却让主报告继续无条件宣称受影响结论。
@@ -65,10 +93,10 @@ python scripts/research.py --research assets/examples/research.json impact --cha
 
 ## 写入与修订
 
-记录使用全局唯一的 ASCII ID，拒绝未知字段、重复 JSON 键、重复 ID、未知引用、循环依赖及非有限数。输入最大 4 MiB，每类记录最多 2000 项；超过范围时按实际专题拆分。字符串不执行为代码，正文中保留的 Markdown 仍是作者内容。
+记录使用全局唯一的 ASCII ID，拒绝未知字段、重复 JSON 键、重复 ID、未知引用、循环依赖、NUL 字符及非有限数。输入最大 4 MiB，每类记录最多 2000 项。大量问题向下游传播会放大最终文本，双成果渲染总量另限 32 MiB，在写入前超限失败；超过范围时按实际专题拆分，并保留跨专题所需依赖与限制。字符串不执行为代码，正文中保留的 Markdown 仍是作者内容。
 
 双成果先在同一父目录的临时目录中写完并刷新，再在独占写锁内无覆盖发布。已有目录、文件或符号链接均被拒绝，没有 `--force`；修改后另写新版本目录，审阅后再由用户或宿主安排采用。Linux 使用无覆盖目录重命名，Windows 使用其拒绝覆盖的重命名行为；平台或文件系统不支持所需发布语义时明确失败，不退化成可能覆盖的写法。临时目录或锁因进程被强制终止而遗留时，不宣称发布成功，也不自动删除其他写入者的锁。
 
-API 对应 `validate_research(data)`、`render_documents(data)`、`impact(data, changed)`、`write_documents(documents, output)`。`validate` 返回的 `structure_valid` 只指结构与引用合同。正文的论证、竞争解释、材料质量以及边界是否充分，仍须回到[实际研究](research-work.md)、[完整答案](complete-answer.md)和原问题审阅。
+API 对应 `validate_research(data)`、`render_documents(data)`、`impact(data, changed)`、`impact_mapping(data, mapping_path, changed)`、`write_documents(documents, output)`。CLI JSON 结果也限制为 32 MiB，超限在输出任何部分前失败。`validate` 返回的 `structure_valid` 只指结构与引用合同。正文的论证、竞争解释、材料质量以及边界是否充分，仍须回到[实际研究](research-work.md)、[完整答案](complete-answer.md)和原问题审阅。
 
 完整合成示例见 [`assets/examples/research.json`](../assets/examples/research.json)。其中计算为 30/50 与 40/50，原因识别和就业随访分别保留未决；更正 `S-register` 会影响比例与其下游，`F-definition` 的本地词义区别仍保持相对独立。示例用于说明流程，不作为现实使用增益证据。
