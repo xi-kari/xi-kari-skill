@@ -64,7 +64,7 @@ const here = computed(() => {
         >{{ item.text }}</a>
       </nav>
       <div class="xk-topbar__tools">
-        <a class="xk-tool xk-tool--language" :href="pageHref(languageLink)" :hreflang="isEnglish ? 'zh-CN' : 'en'" :aria-label="t('切换到英文，保留对应章节', 'Read the corresponding Chinese section')">{{ isEnglish ? '中文' : 'EN' }}</a>
+        <a class="xk-tool xk-tool--language" :class="{ 'xk-tool--language-in-nav': hasNav }" :href="pageHref(languageLink)" :hreflang="isEnglish ? 'zh-CN' : 'en'" :aria-label="t('切换到英文，保留对应章节', 'Read the corresponding Chinese section')">{{ isEnglish ? '中文' : 'EN' }}</a>
         <a class="xk-tool xk-tool--home" :href="projectHome" target="_self">{{ t('项目主页', 'Project') }}</a>
         <button type="button" class="xk-search-btn" :aria-label="t('搜索全书', 'Search the book')" @click="emit('search')">
           <svg class="xk-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5" /><path d="m16 16 4.5 4.5" /></svg>

@@ -129,14 +129,17 @@ For the generated pages it runs `render_answer.py` on Part 1 of the source
 text, and `condition_lab.py` and `comparison.py` on the bundled examples, in a
 temporary folder.
 
-The figures are taken on Windows, in an installed Google Chrome that the
-script drives through `playwright-core` (Playwright's `chrome` channel;
-`playwright-core` brings no browser of its own). `src/routes.html` and the
+The capture script uses installed Google Chrome by default, driven through
+`playwright-core` (Playwright's `chrome` channel). Set
+`PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH` to use an installed Chromium executable;
+`playwright-core` brings no browser of its own. Capture provenance records the
+actual browser and platform. `src/routes.html` and the
 labels of `src/outputs.html` are set in an installed Noto Sans SC (the variable
 `NotoSansSC-VF.ttf` from noto-cjk, SIL OFL), and the script stops if it is
 missing; the frame's file names use Cascadia Mono, or Consolas without it. The
 project page's body text and the generated pages use their own font stacks,
-which the script reports. Retaking on another system changes the type.
+which the script reports. Retaking on another system changes the type, so
+compare versions using the same operating system, browser and installed fonts.
 
 Once, from the repository root, install the page-test and handbook packages
 and build the handbook (the build rewrites `docs/handbook/`; skip it when the
@@ -243,12 +246,18 @@ It shares the project page's chart vocabulary: the same paper, ink, cobalt,
 magenta and sign yellow, the source text drawn as a compass rose, and every
 sheet of the book handled as a ruled strip.
 
-The display face is one Noto Sans SC subset at weight 900 (SIL OFL 1.1), built
+The display face is one Noto Sans SC subset at weight 900 (SIL OFL 1.1), extended
 by `python website/scripts/build_fonts.py` (needs `fonttools` and `brotli`;
 `--font` names the variable font when it is not installed). It holds the
 characters of the theme's own strings, the book index and every first- and
 second-level heading; lesson text, body text and quotations use system fonts.
-Rerun it after headings, index titles or theme strings change, and use
+The committed subset preserves the original display glyphs and metrics. The
+builder adds only missing characters, using the original source or the pinned
+Noto Sans SC supplement; it rejects other source hashes instead of replacing
+the face. `fonts/source.json` records the preserved baseline, supplement source
+URL and hash, and the characters added from it. Keep the committed subset as
+the build input. A complete subset needs no source font or network request.
+Rerun the builder after headings, index titles or theme strings change, and use
 `--check` to list uncovered characters without writing. The subset,
 `fonts/source.json` and `styles/fonts.css` are committed; the licence is
 `website/public/licenses/NotoSansSC-OFL.txt`. The handbook's baseline date comes

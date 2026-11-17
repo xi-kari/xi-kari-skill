@@ -10,6 +10,41 @@ const { lessonsOn } = useLessonIndex()
 const query = ref('')
 const groups = computed(() => (theme.value.sidebar?.['/en/theory/'] || []) as SidebarEntry[])
 const cards = computed(() => theme.value.xkLessonCards || [])
+// Keep the original four bays: three runs of parts, then the four appendices.
+// The appendix strips include their child sheets, which remain in the book navigation.
+const columns = computed(() => {
+  const entries = groups.value.flatMap(group => group.items || []).filter(entry => entry.link)
+  const item = (entry: SidebarEntry) => {
+    const route = normalize(entry.link!)
+    const sheets = /^\/en\/theory\/appendix-[ad]\/$/.test(route)
+      ? entries.map(sheet => normalize(sheet.link!)).filter(sheet => sheet.startsWith(route))
+      : [route]
+    const words = sheets.reduce((sum, sheet) => sum + Number(theme.value.xkLengths?.[sheet] || 0), 0)
+    return {
+      link: entry.link!, no: sheetNo(entry.link!), title: shortTitle(entry.text),
+      lessons: sheets.reduce((sum, sheet) => sum + lessonsOn(sheet), 0),
+      length: words ? `${Math.max(100, Math.round(words / 100) * 100).toLocaleString('en')} words` : ''
+    }
+  }
+  const runs = [
+    { title: 'Introduction and structure', from: 1, to: 6 },
+    { title: 'Humans and projection', from: 7, to: 12 },
+    { title: 'Tools and governance', from: 13, to: 16 }
+  ]
+  return [
+    ...runs.map(({ title, from, to }) => ({
+      title, range: `Parts ${from}–${to}`,
+      items: entries.filter(entry => {
+        const no = sheetNo(entry.link!)
+        return (from === 1 && no === '00') || (/^\d+$/.test(no) && Number(no) >= from && Number(no) <= to)
+      }).map(item)
+    })),
+    {
+      title: 'Appendices and references', range: 'Appendices A–D, references',
+      items: entries.filter(entry => /^\/en\/theory\/(appendix-[a-d]\/?|references)$/.test(normalize(entry.link!))).map(item)
+    }
+  ]
+})
 const queryTerms = computed(() => query.value.trim().toLowerCase().split(/\s+/).filter(Boolean))
 const expandedGroups = reactive<Record<string, boolean>>({})
 const lessonGroups = computed(() => {
@@ -70,28 +105,30 @@ const notePath = (card: any) => `${card.route}#lesson-${card.key.toLowerCase().r
       <div><dt>Structure</dt><dd>16 parts, 4 appendices</dd></div>
       <div><dt>Reading notes</dt><dd>{{ cards.length }} units</dd></div>
     </dl>
-    <section class="xk-home__sec xk-english-scope">
-      <h2 class="xk-home__h">What is available in English</h2>
-      <p>The complete text is available in 65 reading pages, with all 397 numbered sections aligned to Chinese v2. All 421 Chinese reading lessons are translated, including explanations, argument steps, examples, questions and answers, and source notes. Original figures have English descriptions. Archived research files retain their original Chinese language and dates. The Chinese source governs if the two texts differ.</p>
-      <p><a class="xk-link" :href="pageHref('/en/guide/')">Using the reader and comparing languages</a></p>
-    </section>
     <section id="map" class="xk-home__sec" aria-labelledby="xk-h-map">
       <h2 id="xk-h-map" class="xk-home__h">The complete book</h2>
       <div class="xk-board xk-board--en">
-        <div v-for="group in groups" :key="group.text" class="xk-bay">
-          <h3 class="xk-bay__title">{{ group.text }}</h3>
+        <div v-for="column in columns" :key="column.title" class="xk-bay">
+          <h3 class="xk-bay__title">{{ column.title }}</h3>
+          <p class="xk-bay__range">{{ column.range }}</p>
           <ul>
-            <li v-for="entry in group.items || []" :key="entry.link">
-              <a v-if="entry.link" class="xk-strip" :href="pageHref(entry.link)">
-                <span class="xk-strip__no">{{ sheetNo(entry.link) }}</span>
-                <span class="xk-strip__title">{{ shortTitle(entry.text) }}</span>
-                <span v-if="lessonsOn(entry.link)" class="xk-strip__lessons" :title="`${lessonsOn(entry.link)} reading notes`">{{ lessonsOn(entry.link) }}</span>
+            <li v-for="entry in column.items" :key="entry.link">
+              <a class="xk-strip" :href="pageHref(entry.link)">
+                <span class="xk-strip__no">{{ entry.no }}</span>
+                <span class="xk-strip__title">{{ entry.title }}</span>
+                <span v-if="entry.length" class="xk-strip__len">{{ entry.length }}</span>
+                <span v-if="entry.lessons" class="xk-strip__lessons" :title="`${entry.lessons} reading notes`">{{ entry.lessons }}</span>
               </a>
             </li>
           </ul>
         </div>
       </div>
-      <p class="xk-board__note">Numbers on the right count the available English reading notes on each page.</p>
+      <p class="xk-board__note">Numbers on the right count the English reading notes covered by each strip.</p>
+    </section>
+    <section class="xk-home__sec xk-english-scope">
+      <h2 class="xk-home__h">What is available in English</h2>
+      <p>The complete text is available in 65 reading pages, with all 397 numbered sections aligned to Chinese v2. All 421 Chinese reading lessons are translated, including explanations, argument steps, examples, questions and answers, and source notes. Original figures have English descriptions. Archived research files retain their original Chinese language and dates. The Chinese source governs if the two texts differ.</p>
+      <p><a class="xk-link" :href="pageHref('/en/guide/')">Using the reader and comparing languages</a></p>
     </section>
     <section v-if="cards.length" id="lessons" class="xk-home__sec" aria-labelledby="xk-h-lessons">
       <h2 id="xk-h-lessons" class="xk-home__h">English reading notes</h2>

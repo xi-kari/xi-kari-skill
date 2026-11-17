@@ -43,6 +43,32 @@ const server = http.createServer((request, response) => {
       const page = await browser.newPage({ viewport });
       const errors = [];
       page.on('pageerror', error => errors.push(error.message));
+      async function switchLanguage() {
+        const toolbarLink = page.locator('.xk-tool--language');
+        if (await toolbarLink.isVisible()) {
+          await toolbarLink.click();
+          return;
+        }
+        await page.locator('.xk-topbar__menu').click();
+        const drawerLink = page.locator('#xk-nav .xk-nav-language');
+        await drawerLink.waitFor({ state: 'visible' });
+        assert.equal(await drawerLink.getAttribute('href'), await toolbarLink.getAttribute('href'),
+          'The phone language entry must preserve the same source section or lesson.');
+        await drawerLink.focus();
+        await page.keyboard.press('Enter');
+      }
+      async function checkHomeLayout() {
+        await page.evaluate(() => document.fonts.ready);
+        const geometry = await page.locator('.xk-idstrip').evaluate(strip => ({
+          tops: [...strip.children].map(cell => cell.getBoundingClientRect().top),
+          nextId: strip.nextElementSibling?.id
+        }));
+        assert.equal(geometry.nextId, 'map', 'The book map must follow the identity strip.');
+        if (viewport.width >= 1024) {
+          assert.ok(geometry.tops.every(top => Math.abs(top - geometry.tops[0]) < 1),
+            'Desktop identity cells must stay together in one row.');
+        }
+      }
       async function checkHeaderLayout() {
         const geometry = await page.locator('.xk-topbar__inner').evaluate(header => {
           const rect = element => { const box = element.getBoundingClientRect(); return { x: box.x, right: box.right }; };
@@ -59,9 +85,30 @@ const server = http.createServer((request, response) => {
         assert.ok(geometry.title.right <= geometry.brand.right + 0.5,
           `The visible brand title must stay inside its link instead of overlapping the language button at ${viewport.width}px.`);
       }
+      await page.goto(base);
+      await page.locator('.xk-station').waitFor({ state: 'visible' });
+      await checkHeaderLayout();
+      await checkHomeLayout();
       await page.goto(base + 'en/');
       await page.locator('.xk-station--en').waitFor({ state: 'visible' });
       await checkHeaderLayout();
+      await checkHomeLayout();
+      const titleOverlapsRose = await page.locator('.xk-station--en').evaluate(station => {
+        const rose = station.querySelector('.xk-station__rose svg').getBoundingClientRect();
+        return [...station.querySelectorAll('.xk-station__title, .xk-station__sub')].some(element => {
+          const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT);
+          while (walker.nextNode()) {
+            if (!walker.currentNode.textContent.trim()) continue;
+            const range = document.createRange();
+            range.selectNodeContents(walker.currentNode);
+            if ([...range.getClientRects()].some(box =>
+              Math.min(box.right, rose.right) - Math.max(box.left, rose.left) > 1 &&
+              Math.min(box.bottom, rose.bottom) - Math.max(box.top, rose.top) > 1)) return true;
+          }
+          return false;
+        });
+      });
+      assert.equal(titleOverlapsRose, false, 'English title text must not cross the book rose.');
       const directory = page.locator('#xk-lesson-directory');
       assert.equal(await directory.locator('.xk-lessons > a').count(), Object.keys(englishLessons).length);
       assert.equal(await directory.locator('.xk-lesson-group[open]').count(), 1, 'The complete directory opens one group by default.');
@@ -81,7 +128,7 @@ const server = http.createServer((request, response) => {
       await checkHeaderLayout();
       assert.match(await page.locator('#section-3-3').textContent(), /Effective Feedback/);
       assert.equal(await page.locator('.xk-search-btn').getAttribute('aria-label'), 'Search the book');
-      await page.locator('.xk-tool--language').click();
+      await switchLanguage();
       await page.waitForURL(/\/theory\/part-03\.html#section-3-3$/);
       await page.waitForFunction(() => document.documentElement.lang === 'zh-CN');
       assert.match(await page.locator('#section-3-3').textContent(), /有效反馈/);
@@ -92,7 +139,7 @@ const server = http.createServer((request, response) => {
       assert.ok(chineseLinks.length && chineseLinks.every(href => !href.includes('/en/')), 'Chinese searches must return Chinese pages.');
       await page.keyboard.press('Escape');
       await page.waitForFunction(() => !document.getElementById('localsearch-input'));
-      await page.locator('.xk-tool--language').click();
+      await switchLanguage();
       await page.waitForURL(/\/en\/theory\/part-03\.html#section-3-3$/);
       await page.waitForFunction(() => document.documentElement.lang === 'en');
 
@@ -153,10 +200,10 @@ const server = http.createServer((request, response) => {
       const materials = lesson.locator('.xk-lesson-materials');
       await materials.locator(':scope > summary').click();
       await materials.getByRole('link', { name: 'Complete lesson manuscript (Chinese)', exact: true }).waitFor({ state: 'visible' });
-      await page.locator('.xk-tool--language').click();
+      await switchLanguage();
       await page.waitForURL(/\/theory\/part-01\.html#lesson-1-1$/);
       await page.waitForFunction(() => document.documentElement.lang === 'zh-CN');
-      await page.locator('.xk-tool--language').click();
+      await switchLanguage();
       await page.waitForURL(/\/en\/theory\/part-01\.html#lesson-1-1$/);
       await page.waitForFunction(() => document.documentElement.lang === 'en');
 
@@ -174,7 +221,7 @@ const server = http.createServer((request, response) => {
         assert.ok(target && target.startsWith('#'));
         await footnote.click();
         assert.ok(await page.locator(`[id="${target.slice(1)}"]`).count(), 'A translation note must have an in-page destination.');
-        await page.locator('.xk-tool--language').click();
+        await switchLanguage();
         await page.waitForFunction(() => document.documentElement.lang === 'zh-CN');
         assert.equal(await page.evaluate(() => !location.hash || !!document.getElementById(decodeURIComponent(location.hash.slice(1)))), true,
           'A translated footnote must return to a real Chinese section, never a dangling footnote anchor.');
@@ -182,7 +229,7 @@ const server = http.createServer((request, response) => {
       const overflow = await page.evaluate(() => document.documentElement.scrollWidth > innerWidth + 2);
       assert.equal(overflow, false, `The ${viewport.width}px page must not overflow horizontally.`);
       await page.goto(base + 'en/theory/references.html#copyright-license');
-      await page.locator('.xk-tool--language').click();
+      await switchLanguage();
       await page.waitForFunction(() => document.documentElement.lang === 'zh-CN');
       assert.equal(await page.evaluate(() => !location.hash || !!document.getElementById(decodeURIComponent(location.hash.slice(1)))), true,
         'An English-only license anchor must not become a broken Chinese anchor.');
