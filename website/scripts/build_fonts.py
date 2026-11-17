@@ -85,6 +85,49 @@ def system_font(name: str) -> Path | None:
     return None
 
 
+def write_outputs(payloads: dict[Path, bytes]) -> None:
+    """Stage the complete font set, and restore prior files if a replacement fails."""
+    staged, backups, previous, changed = {}, {}, {}, []
+
+    def stage(path: Path, data: bytes, collection: dict) -> None:
+        descriptor, name = tempfile.mkstemp(prefix=".xikari-font-", suffix=".tmp", dir=path.parent)
+        collection[path] = Path(name)
+        with os.fdopen(descriptor, "wb") as stream:
+            stream.write(data)
+            stream.flush()
+            os.fsync(stream.fileno())
+
+    try:
+        for path, data in payloads.items():
+            previous[path] = path.read_bytes() if path.exists() else None
+            stage(path, data, staged)
+            if previous[path] is not None:
+                stage(path, previous[path], backups)
+        for path in payloads:
+            current = path.read_bytes() if path.exists() else None
+            if current != previous[path]:
+                raise ValueError(f"output changed while the font set was staged: {path}")
+            os.replace(staged[path], path)
+            changed.append(path)
+    except BaseException as error:
+        failed = []
+        for path in reversed(changed):
+            try:
+                if previous[path] is None:
+                    path.unlink()
+                else:
+                    os.replace(backups[path], path)
+            except OSError:
+                backup = backups.pop(path, None)
+                failed.append(f"{path} (backup: {backup})")
+        if failed:
+            raise OSError("font set could not be restored; recover from the retained backups: " + "; ".join(failed)) from error
+        raise
+    finally:
+        for temporary in (*staged.values(), *backups.values()):
+            temporary.unlink(missing_ok=True)
+
+
 def build(source: Path) -> dict:
     from fontTools import merge, subset
     from fontTools.ttLib import TTFont
@@ -134,8 +177,17 @@ def build(source: Path) -> dict:
         baseline.save(base_path)
         font.save(extra_path)
         combined = merge.Merger().merge([str(base_path), str(extra_path)])
+        # The merger stamps both fields independently of TTFont.recalcTimestamp.
+        combined["head"].created = baseline["head"].created
+        combined["head"].modified = max(baseline["head"].modified, font["head"].modified)
+        combined.recalcTimestamp = False
         combined.flavor = "woff2"
-        combined.save(target)
+        font_path = Path(temporary) / FILE
+        combined.save(font_path)
+        font_data = font_path.read_bytes()
+        combined.close()
+    baseline.close()
+    font.close()
     covered = existing | added
     supplements = previous.get("supplementalSources", [])
     supplement = next((item for item in supplements if item["sha256"] == source_hash), None)
@@ -151,8 +203,8 @@ def build(source: Path) -> dict:
         "family": FAMILY,
         "file": FILE,
         "weight": WEIGHT,
-        "bytes": target.stat().st_size,
-        "sha256": sha256(target),
+        "bytes": len(font_data),
+        "sha256": hashlib.sha256(font_data).hexdigest(),
         "source": previous["source"],
         "baseline": previous.get("baseline", {
             "sha256": previous["sha256"],
@@ -161,17 +213,20 @@ def build(source: Path) -> dict:
         "supplementalSources": supplements,
         "characters": "".join(sorted(covered)),
     }
-    RECORD.write_text(json.dumps(record, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    CSS_PATH.write_text(
+    css = (
         f"/* Preserved by website/scripts/build_fonts.py from {record['source']['family']} {record['source']['version']}.\n"
         "   Missing glyphs only are supplemented; see fonts/source.json.\n"
         "   SIL Open Font License 1.1, see public/licenses/NotoSansSC-OFL.txt. */\n"
         "@font-face {\n"
         f"  font-family: \"{FAMILY}\";\n  font-style: normal;\n  font-weight: {WEIGHT};\n"
         "  font-display: swap;\n"
-        f"  src: url(\"../fonts/{FILE}\") format(\"woff2\");\n}}\n",
-        encoding="utf-8",
+        f"  src: url(\"../fonts/{FILE}\") format(\"woff2\");\n}}\n"
     )
+    write_outputs({
+        target: font_data,
+        RECORD: (json.dumps(record, ensure_ascii=False, indent=2) + "\n").encode("utf-8"),
+        CSS_PATH: css.encode("utf-8"),
+    })
     return record
 
 

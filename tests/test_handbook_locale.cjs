@@ -139,6 +139,22 @@ const server = http.createServer((request, response) => {
       assert.ok(chineseLinks.length && chineseLinks.every(href => !href.includes('/en/')), 'Chinese searches must return Chinese pages.');
       await page.keyboard.press('Escape');
       await page.waitForFunction(() => !document.getElementById('localsearch-input'));
+      await page.waitForFunction(() => document.activeElement?.classList.contains('xk-search-btn'));
+      for (const [button, drawer, state, breakpoint] of [
+        ['.xk-topbar__menu', '#xk-nav', 'nav-open', 1024],
+        ['.xk-tool--aside', '#xk-aside', 'aside-open', 1280],
+      ]) {
+        if (viewport.width >= breakpoint) continue;
+        await page.locator(button).click();
+        await page.waitForFunction(selector => !!document.activeElement?.closest(selector), drawer);
+        await page.keyboard.press('Control+k');
+        await page.waitForFunction(() => document.activeElement?.id === 'localsearch-input');
+        await page.keyboard.press('Escape');
+        await page.waitForFunction(() => !document.getElementById('localsearch-input'));
+        await page.waitForFunction(() => document.activeElement?.classList.contains('xk-search-btn'));
+        assert.equal(await page.locator('.xk-app').evaluate((el, state) => el.classList.contains(state), state), false,
+          'Closing search opened from a drawer must return to a visible control.');
+      }
       await switchLanguage();
       await page.waitForURL(/\/en\/theory\/part-03\.html#section-3-3$/);
       await page.waitForFunction(() => document.documentElement.lang === 'en');

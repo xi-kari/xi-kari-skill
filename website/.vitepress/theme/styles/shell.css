@@ -525,6 +525,9 @@ html.xk-locked { overflow: hidden; }
 html[lang="en"] .xk-topnav a { padding-inline: 8px; }
 @media (min-width: 761px) { html[lang="en"] .xk-search-btn { min-width: 148px; } }
 html[lang="en"] .xk-tb__nowrap { white-space: normal; }
+@media (max-width: 760px) {
+  .xk-tb > div:not(.xk-tb__lessons) .xk-tb__nowrap { white-space: normal; }
+}
 html[lang="en"] .xk-outline { hyphens: auto; }
 html[lang="en"] .xk-bubble__bottom { font-size: 9px; letter-spacing: 0; }
 @media (max-width: 1180px) { html[lang="en"] .xk-tool--home { display: none; } }
