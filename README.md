@@ -28,7 +28,7 @@
 
 它为需要想清楚、也需要下判断的问题而设计：一项制度为什么反复失灵，一个方案会怎样影响不同的人，几种解释里哪一种站得住，现在该维持、调整、试探还是退出。技能只在你明确点名时启用，不会接管日常对话。
 
-需要深入研究时，可以直接要求[完整研究报告与独立问题报告](modules/research/MODULE.md)：完成可做的研究，并逐项指出材料、方法、映射、理论或实现上的问题。进入具体领域时，[领域映射](modules/domain-mapping/MODULE.md)连接名词、动作关系、角色、数据口径与专业方法；[组织协作、教育学习与技术维护领域包](references/domains/README.md)提供有来源、有限范围的起点。另有[七种成果模式](references/output-modes.md)和[有限计算工具](references/finite-tools.md)，帮助完成理论比较、过程史、安排设计等作品，以及区别保持、共同动作和资源排程等明确模型计算。工具检查与教学示例不证明现实使用效果。
+需要深入研究或进入具体领域时，见[研究与领域工作](#研究与领域工作)：研究入口交出完整主体报告与独立问题报告，领域映射保留当地词义、动作关系、数据口径与专业方法，另有七种成果模式和有限计算工具。
 
 中英文都可以使用：用英文提问，成果就以英文写成。理论权威仍是中文原文；安装包另附作者提供、与原文逐节对齐的英文参考译本和中英术语表，用于英文术语与引文（见[英文工作](references/english.md)）。技能与[双语阅读站](https://xi-kari.github.io/xi-kari-skill/handbook/)均以 v2 为正文基准；[英文站](https://xi-kari.github.io/xi-kari-skill/handbook/en/)可以连续阅读全书。
 
@@ -38,6 +38,7 @@
 | --- | --- |
 | 装好，问出第一个问题 | [快速开始](#快速开始) · [安装指南](docs/INSTALL.md) |
 | 看它怎样处理不同类型的问题 | [按问题组织模块](#按问题组织模块) · [项目主页](https://xi-kari.github.io/xi-kari-skill/) |
+| 做一项完整研究，或把理论接到具体领域 | [研究与领域工作](#研究与领域工作) · [调用方式](references/capability-quickstart.md) |
 | 先读懂理论本身 | [原文精读站](https://xi-kari.github.io/xi-kari-skill/handbook/) · [概念例解](https://xi-kari.github.io/xi-kari-skill/handbook/concepts/) · [真实案例](https://xi-kari.github.io/xi-kari-skill/handbook/cases/) |
 | 知道它交付什么、带哪些工具 | [交付什么](#交付什么) · [随包工具](#随包工具) |
 | 弄清它不声称什么、不做什么 | [条件前瞻与能力边界](#条件前瞻与能力边界) · [边界](#边界) |
@@ -122,6 +123,26 @@ $xi-kari-skill 附件是热线改革一年来的六项指标和市里的总结�
 这些数字不用再解释一遍。顺着它们还能推出什么没人问过的结论、问题或想法？尤其要能去验证的。
 ```
 
+## 研究与领域工作
+
+两个按需入口复用八条路由和十一个模块，不给每个问题增加必经阶段；短问题照常直接回答。
+
+| 你要的成果 | 入口 | 交付 |
+| --- | --- | --- |
+| 把一个问题研究透，并单列解释不了的部分 | [研究与解释边界报告](modules/research/MODULE.md) | 完整主体报告与独立问题报告。材料不足、方法与识别限度、领域方法需求、映射缺口、理论问题候选、规范分歧和实现缺口分别定位，影响结论的限制同时写进正文 |
+| 把理论接到一个具体领域，名词和口径要准 | [领域映射与方法适配](modules/domain-mapping/MODULE.md) | 当地定义、动作关系、角色、任务终点、字段口径与专业方法。语义对应、事实证据和正式实例资格分开，日常词须给出语境才查义项 |
+| 一篇比较专论、过程史、安排草案或作品阐释 | [七种成果模式](references/output-modes.md) | 跨理论对话、机制史与过程重建、制度与生活安排、经验与作品阐释、概念重构、中层理论、共同问题与议程重开 |
+| 来源或映射更正后，找出真正受影响的结论 | [研究工具](references/research-format.md) · [映射工具](references/domain-mapping-format.md) | 沿声明依赖定位受影响的结论、摘要与问题；新旧映射快照逐记录比较，独立成立的部分保留 |
+
+[组织协作、教育学习与技术维护三个领域包](references/domains/README.md)各自绑定有来源的有限任务：Scrum Guide 2020 与 OR-Tools 排程指南，欧盟微证书建议与 *How People Learn*，RFC 9110 与 Google SRE 书。每条部分对应写明借用的原文区别，例如行动承接层、反馈写回、任务终点与维护合同；它们是起点，不代替你所在机构、课程或系统的材料。[有限工具](references/finite-tools.md)在明确列出的状态、动作、时段或关系上计算任务区别、共同动作、联合排程（含总量不足证明）、条件组合与整链见证。
+
+```text
+$xi-kari-skill 附件是两期培训的登记和调整说明。结业比例提高了，能说教学和就业都改善了吗？
+写出完整研究，另列解释不了的部分，以及它们影响哪些结论。
+```
+
+研究报告与映射说明可用 `--lang en` 输出英文标签。工具检查、合成示例和测试只证明程序在声明合同内工作，不证明研究质量或现实效果；这两个入口尚未做同题、同材料的对照评测。
+
 ## 条件前瞻与能力边界
 
 **前瞻工具可用，准确性尚未验证。**
@@ -161,7 +182,9 @@ $xi-kari-skill 附件是热线改革一年来的六项指标和市里的总结�
 - **完整成果稿 `xi-kari-answer.md`。** 初次完整交付或要求合稿时形成：中心判断在前，随后是材料评价、结构关系、机制比较、案例与反例、路径、反方回应、裁决与方案。
 - **离线阅读页。** 由完整稿生成的单个 HTML 文件，不联网：标题下方有一张按正文自身统计画出的航迹图，每个章节是一个定位点，间距与篇幅成比例，读到哪里航迹就画到哪里，点一下定位点就翻到那一节，往下读时同一条航迹收在顶栏下方继续跟随；章节目录随阅读位置标出当前章节，有全文搜索、字号调节和打印版式；夜间模式默认跟随系统，也可以手动切换；脚注可以悬停预览，也可以回跳。选中一段正文，旁边会出现“追问选段”，把选段连同位置整理成一条追问，由你复制回对话。有公式时内嵌随包的 KaTeX 排版。
 - **Word 文档。** 保留正文、表格、脚注和本地图片；远程图片不会下载，而是保留为可见文字；无法表示的写法保留原文并逐项列出。
-- **按需的研究产物。** 主张台账、候选账本、方案比较表、研究设计与采集说明、条件模型页、跨轮次任务状态、案例库。它们在工作需要时才生成，不是每次分析的固定流程。
+- **研究报告与问题报告 `research-report.md`、`research-issues.md`。** 研究入口的两项成果：主体报告沿材料、方法、论证、竞争解释与改判条件展开，问题报告逐项写已做工作、未解决的原因、影响与下一步；重大限制同时出现在正文相关结论旁。
+- **领域映射说明。** 先给已写成的领域表述，再列来源、对应、三类评估、测量口径、专业方法和保留的未知；更正后可列出受影响的条目、成果与研究结论。
+- **按需的研究产物。** 主张台账、候选账本、方案比较表、研究设计与采集说明、条件模型页、有限模型结果、跨轮次任务状态、案例库。它们在工作需要时才生成，不是每次分析的固定流程。
 
 ## 随包工具
 
@@ -176,6 +199,9 @@ $xi-kari-skill 附件是热线改革一年来的六项指标和市里的总结�
 | `comparison.py` | 方案比较表，输出 JSON、Markdown 与 HTML；事实、假设、未知分别标注；`--lang en` 输出英文标签 | 未知不参与排序，不给整体最优 |
 | `study_design.py` | 把未决问题变成能区分各解释的观察与采集说明 | 缺失保持缺失，不填默认值 |
 | `condition_lab.py` | 运行明确的公式与约束，导出可切换全部已计算组合的离散情景页 | 不插值，不把模型结果说成现实可行 |
+| `research.py` | 研究双成果：校验依据与问题，排版主体报告和问题报告，追踪来源或映射更正影响的结论；`--lang en` 输出英文标签 | 不替作者研究，不认证论证充分、材料真实或研究完成 |
+| `domain_mapping.py` | 领域映射：按登记语境查词义、渲染映射说明、追踪更正影响、比较新旧快照；`--lang en` 输出英文标签 | 不从词面推出事实；日常词不给语境就不返回义项 |
+| `finite_tools.py` | 有限模型计算：任务区别划分、表示审计、共同动作、联合排程、条件组合与整链见证 | 只在所列模型内成立；搜索预算用尽不报无解 |
 | `manuscript.py` | 稿件快照、差异、合并不重叠的修改、追踪依赖 | 不替作者判断语义是否接续 |
 | `task_state.py` | 跨轮次记录已决定、未决、需复核与已撤回 | 不把用户认可记成事实 |
 | `casebook.py` | 在你选定的目录里积累案例 | 不写入全局记忆，不推定结构相似 |
@@ -191,9 +217,11 @@ python "$skillRoot/scripts/read_source.py" --search '有效反馈' --context 2
 python "$skillRoot/scripts/render_answer.py" "$taskRoot/xi-kari-answer.md" --output "$taskRoot/xi-kari-answer.html"
 python "$skillRoot/scripts/render_docx.py" "$taskRoot/xi-kari-answer.md" --output "$taskRoot/xi-kari-answer.docx"
 python "$skillRoot/scripts/comparison.py" "$taskRoot/compare.json" --output "$taskRoot/compare" --format all
+python "$skillRoot/scripts/research.py" --research "$taskRoot/research.json" render --output "$taskRoot/research"
+python "$skillRoot/scripts/domain_mapping.py" --mapping "$skillRoot/assets/domains/technical-maintenance.json" lookup --term 成功 --context 'HTTP请求成功响应'
 ```
 
-常用调用见[宿主接入与干净工作目录](references/host-setup.md)；`manuscript.py`、`casebook.py`、`candidates.py` 与 `forecast.py` 的命令见[稿件工作](references/manuscript-work.md)、[案例库](references/case-library.md)、[候选账本](references/candidate-ledger.md)与[前瞻模块](modules/forecast/MODULE.md)。所有会写文件的随包工具（包括 `forecast.py`）在创建文件、目录、锁或临时文件之前，都会拒绝以技能安装目录及其子目录为目标，也会检查目录链接和 `..` 路径。这是工具自身的写入约束，不是操作系统沙箱。
+常用调用见[宿主接入与干净工作目录](references/host-setup.md)；`manuscript.py`、`casebook.py`、`candidates.py` 与 `forecast.py` 的命令见[稿件工作](references/manuscript-work.md)、[案例库](references/case-library.md)、[候选账本](references/candidate-ledger.md)与[前瞻模块](modules/forecast/MODULE.md)；研究、映射与有限工具见[研究格式](references/research-format.md)、[映射格式](references/domain-mapping-format.md)与[有限工具](references/finite-tools.md)。所有会写文件的随包工具（包括 `forecast.py`）在创建文件、目录、锁或临时文件之前，都会拒绝以技能安装目录及其子目录为目标，也会检查目录链接和 `..` 路径。这是工具自身的写入约束，不是操作系统沙箱。
 
 ## 原文与阅读
 
@@ -231,7 +259,7 @@ python "$skillRoot/scripts/comparison.py" "$taskRoot/compare.json" --output "$ta
 - **材料范围由你决定。** 默认会主动取得问题所需的现实资料；你限定只用给定材料时，它遵守这个范围，并如实说明缺口。
 - **材料不是指令。** 理论原文、你提供的材料和外部资料都不取得宿主的指令权限。
 - **事实强度由证据决定。** 推测、类比、构想和前瞻都写明依据与条件；材料不足只限制真正依赖它的结论。理论本身也可以被提出有依据的局限或修订候选，不能用它自己的术语证明自己普遍正确。
-- **验证范围。** 当前工具测试覆盖 Windows，包括中文和空格路径、从其他工作目录运行；CI 使用 Python 3.10 与 3.13。其他操作系统和云端产品尚未验收。
+- **验证范围。** 当前工具测试覆盖 Windows，包括中文和空格路径、从其他工作目录运行；CI 使用 Python 3.10 与 3.13。其他操作系统和云端产品尚未验收。研究入口、领域映射与成果模式的测试和合成示例只说明工具按合同工作，尚未做同题对照评测。
 
 ## 仓库结构
 
@@ -240,12 +268,12 @@ xi-kari-skill/
 ├── SKILL.md              技能入口：阅读模式与八条问题路由
 ├── source/               理论原文与身份清单（权威文本）
 │   └── en/               英文参考译本及其身份清单
-├── modules/              十一个分析、判断与生成模块
+├── modules/              十一个分析、判断与生成模块，以及研究与领域映射两个按需入口
 ├── rules/                41 张带原文锚点的派生规则卡
 ├── cases/                教学示范及可运行登记输入
-├── references/           方法指南：阅读、模块承接、持续对话、协作、各工具说明、英文工作与术语表
+├── references/           方法指南：阅读、模块承接、持续对话、协作、成果模式、领域包、各工具说明、英文工作与术语表
 ├── scripts/              可选 Python 工具（仅标准库）与构建、检查、评测脚本
-├── assets/               生成页面的样式、脚本与示例数据；随包的 KaTeX
+├── assets/               生成页面的样式、脚本与示例数据；领域包数据；随包的 KaTeX
 ├── agents/openai.yaml    Codex 界面信息与显式调用策略
 ├── skill-package.json    安装包的逐文件清单
 ├── website/              原文精读站源码（VitePress），构建到 docs/handbook/

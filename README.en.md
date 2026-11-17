@@ -28,6 +28,8 @@
 
 It is built for questions that need both clear thinking and a decision: why an institution keeps failing, how a plan will affect different people, which of several explanations holds up, whether to keep, adjust, probe or exit now. The skill starts only when you name it and does not take over ordinary conversation.
 
+For a full investigation or work in a particular field, see [Research and domain work](#research-and-domain-work): a research entry delivers a complete research report with a separate report of explanatory limits and issues, domain mapping keeps local meanings, relations, measurements and professional methods, and there are seven output modes and finite calculation tools.
+
 The skill works in English and Chinese. Ask in English and the whole answer is in English. The theory's authoritative text is Chinese; the package also carries the author's aligned English reference edition and a Chinese–English glossary, used for English terminology and quotations (see [Working in English](references/english.md)). Both the skill and the [bilingual reading site](https://xi-kari.github.io/xi-kari-skill/handbook/en/) use v2, with the full text available in English.
 
 ## Start here
@@ -36,6 +38,7 @@ The skill works in English and Chinese. Ask in English and the whole answer is i
 | --- | --- |
 | Install it and ask a first question | [Quick start](#quick-start) · [Installation guide](docs/INSTALL.md) (in Chinese) |
 | See how it handles different kinds of question | [Modules organized by question](#modules-organized-by-question) · [Project page](https://xi-kari.github.io/xi-kari-skill/) (in Chinese) |
+| Carry out a full investigation, or bring the theory into a particular field | [Research and domain work](#research-and-domain-work) · [How to ask](references/capability-quickstart.md) (in Chinese) |
 | Read the theory itself | [English reading site](https://xi-kari.github.io/xi-kari-skill/handbook/en/) · [Reference manuscript](source/en/Xikari-On-Conditions-Structure-and-Transformation.md) · [Chinese site](https://xi-kari.github.io/xi-kari-skill/handbook/) |
 | Know what it delivers and which tools come with it | [What you get](#what-you-get) · [Bundled tools](#bundled-tools) |
 | Know what it does not claim and does not do | [Conditional foresight and its limits](#conditional-foresight-and-its-limits) · [Boundaries](#boundaries) |
@@ -62,8 +65,6 @@ In an analysis, the modules separate judgments that are easily conflated and con
 | Every option, including waiting, carries losses | [Bounded choice](modules/choice/MODULE.md) compares affected positions, protections, resources and joint feasibility, and recommends under stated premises while retaining losses, remedial responsibilities and conditions for reconsideration; adoption requires its own authorization |
 
 ## Quick start
-
-For an extended investigation, ask for a [complete research report and a separate report of unresolved issues](modules/research/MODULE.md). The workflow carries out the available research and distinguishes gaps in evidence, methods, domain mapping, theory and implementation. [Domain mapping](modules/domain-mapping/MODULE.md) connects terms, relations, roles, measurements and professional methods; [three bounded domain packs](references/domains/README.md) cover organizational collaboration, learning and technical maintenance. [Seven output modes](references/output-modes.md) support complete works such as theory comparisons and process histories. [Finite tools](references/finite-tools.md) compute task distinctions, common actions and shared-resource schedules within explicit models. Program checks and teaching examples do not establish real-world effectiveness. The operational guides are in Chinese; the skill's existing English-output instructions still apply.
 
 The host must be able to read the complete Markdown files in the package, keep or restore the context of a long task, and output complete answers. Web search, Python and multi-agent collaboration use whatever the host already provides.
 
@@ -123,6 +124,27 @@ $xi-kari-skill Attached are six indicators from the first year of the hotline re
 No need to explain the numbers again. What follows from them that nobody has asked: conclusions, questions or ideas, above all ones that can be checked?
 ```
 
+## Research and domain work
+
+Two optional entries reuse the eight routes and eleven modules without adding a stage to every question; short questions are still answered directly.
+
+| What you want | Entry | What you get |
+| --- | --- | --- |
+| A question researched in full, with what cannot yet be explained set out separately | [Research and the limits of explanation](modules/research/MODULE.md) | A complete main report and a separate report of limits and issues. Insufficient material, limits of method and identification, needed domain methods, mapping gaps, candidate theory problems, normative disagreements and gaps in the skill are located one by one; limits that affect a conclusion also appear beside it in the main report |
+| The theory brought into a particular field, with exact terms and measurements | [Domain mapping and method adaptation](modules/domain-mapping/MODULE.md) | Local definitions, actions and relations, roles, task endpoints, field definitions and professional methods. Semantic correspondence, factual evidence and formal-instance eligibility are kept apart, and common words return a sense only with a registered context |
+| A comparative study, process history, draft arrangement or interpretation | [Seven output modes](references/output-modes.md) | Dialogue across theories, mechanism history and process reconstruction, institutions and living arrangements, experience and works, concept reconstruction, middle-range theory, shared problems and reopening the agenda |
+| After a source or mapping is corrected, the conclusions actually affected | [Research tool](references/research-format.md) · [Mapping tool](references/domain-mapping-format.md) | Affected findings, summary and issues along declared dependencies; old and new mapping snapshots compared record by record, with independent findings kept |
+
+[Three domain packs](references/domains/README.md), for organizational collaboration, learning and technical maintenance, each cover a bounded task with cited sources: the Scrum Guide 2020 and the OR-Tools scheduling guide; the EU Council Recommendation on micro-credentials and *How People Learn*; RFC 9110 and the Google SRE book. Each partial correspondence names the source distinction it borrows, such as the action uptake layer, feedback write-back, task endpoints or the maintenance contract. They are starting points, not a substitute for the materials of your own organization, course or system. [Finite tools](references/finite-tools.md) compute, on explicitly listed states, actions, time slots or relations, task distinctions, common actions, joint schedules (with a proof when total capacity falls short), condition combinations and end-to-end witnesses.
+
+```text
+$xi-kari-skill Attached are the registers and change notes for two training cohorts. Completion went up;
+can we say teaching and employment both improved? Write the full research, and list separately what
+cannot yet be explained and which conclusions it affects.
+```
+
+Research reports and mapping documents take `--lang en` for English labels; the operational guides are in Chinese, and the skill's English-output instructions still apply. Tool checks, synthetic examples and tests show only that the programs keep their stated contracts, not research quality or real-world effects; the two entries have not yet been evaluated against the current skill on the same tasks and materials.
+
 ## Conditional foresight and its limits
 
 **The foresight tools work; their accuracy has not been validated.**
@@ -162,7 +184,9 @@ Long tasks can continue across sessions. When the session or model changes, the 
 - **Complete answer `xi-kari-answer.md`.** Produced at the first complete delivery or when you ask for a combined draft: the central judgment first, then evaluation of the material, structural relations, comparison of mechanisms, cases and counterexamples, paths, responses to objections, the verdict and the options.
 - **Offline reading page.** A single HTML file, generated from the complete draft, that makes no network connections. Under the title a track chart, drawn from the text's own counts, sets each section as a fix at its true distance; the track fills in as you read, pressing a fix goes to that section, and once the chart has scrolled away the same track stays in view under the bar. The contents list marks the current section as you read; there is full-text search, adjustable text size and a print layout; night mode follows the system and can be switched by hand; footnotes preview on hover and link back. Select a passage and “Ask about selection” turns it, with its location, into a follow-up question for you to copy back into the conversation. Formulas are typeset with the bundled KaTeX. Use `--lang en` for an English interface.
 - **Word document.** Keeps the text, tables, footnotes and local images; remote images are not downloaded but kept as visible text; anything that cannot be represented is kept as written and listed. Use `--lang en` for English labels and an English document language.
-- **Research products on demand.** A claim ledger, a candidate ledger, option comparison tables, study designs and collection notes, condition-model pages, task state across turns, a case library. They are produced when the work needs them, not as a fixed step of every analysis.
+- **Research report and issues report, `research-report.md` and `research-issues.md`.** The two products of the research entry: the main report follows material, method, argument, competing explanations and conditions for revision; the issues report gives, for each issue, the work done, why it is unresolved, its consequence and the next step. Major limits also appear beside the conclusions they affect. Use `--lang en` for English labels.
+- **Domain mapping document.** The domain statements already written come first, then sources, correspondences, the three assessments, measurement definitions, professional methods and the unknowns kept open; after a correction it can list the affected entries, outputs and research findings. Use `--lang en` for English labels.
+- **Research products on demand.** A claim ledger, a candidate ledger, option comparison tables, study designs and collection notes, condition-model pages, finite-model results, task state across turns, a case library. They are produced when the work needs them, not as a fixed step of every analysis.
 
 ## Bundled tools
 
@@ -177,6 +201,9 @@ All tools are optional Python scripts that use only the standard library and nee
 | `comparison.py` | option comparison tables as JSON, Markdown and HTML, marking facts, assumptions and unknowns; `--lang en` for English labels | rank unknowns or name an overall best option |
 | `study_design.py` | turn open questions into observations and collection plans that can tell explanations apart | fill in defaults for missing data |
 | `condition_lab.py` | run explicit formulas and constraints and export a page for switching among all computed combinations | interpolate, or present model results as feasible in reality |
+| `research.py` | research pair: check grounds and issues, typeset the main and issues reports, trace which findings a source or mapping correction affects; `--lang en` for English labels | do the research, or certify that an argument suffices, material is true or the research is complete |
+| `domain_mapping.py` | domain mapping: look up senses by registered context, render the mapping document, trace corrections, compare old and new snapshots; `--lang en` for English labels | infer facts from a word; return a sense for a common word without its context |
+| `finite_tools.py` | finite models: task partitions, representation audits, common actions, joint schedules, condition combinations and end-to-end witnesses | hold outside the listed model, or report an exhausted search budget as infeasibility |
 | `manuscript.py` | draft snapshots, diffs, merging non-overlapping edits, tracking dependencies | decide for the author whether meaning carries over |
 | `task_state.py` | record across turns what is decided, open, due for review or withdrawn | record your approval as a fact |
 | `casebook.py` | build a case library in a directory you choose | write to global memory or presume structural similarity |
@@ -193,9 +220,11 @@ python "$skillRoot/scripts/read_source.py" --lang en --search 'effective feedbac
 python "$skillRoot/scripts/render_answer.py" "$taskRoot/xi-kari-answer.md" --output "$taskRoot/xi-kari-answer.html" --lang en
 python "$skillRoot/scripts/render_docx.py" "$taskRoot/xi-kari-answer.md" --output "$taskRoot/xi-kari-answer.docx" --lang en
 python "$skillRoot/scripts/comparison.py" "$taskRoot/compare.json" --output "$taskRoot/compare" --format all
+python "$skillRoot/scripts/research.py" --research "$taskRoot/research.json" render --output "$taskRoot/research" --lang en
+python "$skillRoot/scripts/domain_mapping.py" --mapping "$skillRoot/assets/domains/technical-maintenance.json" render --output "$taskRoot/http-service.md" --lang en
 ```
 
-Common invocations are in [host setup and clean working directories](references/host-setup.md) (in Chinese); the commands of `manuscript.py`, `casebook.py`, `candidates.py` and `forecast.py` are in [manuscript work](references/manuscript-work.md), [the case library](references/case-library.md), [the candidate ledger](references/candidate-ledger.md) and [the foresight module](modules/forecast/MODULE.md) (all in Chinese). Before creating any file, directory, lock or temporary file, every bundled tool that writes files, `forecast.py` included, refuses targets inside the skill installation directory and checks directory links and `..` paths. This is the tools' own write restriction, not an operating-system sandbox.
+Common invocations are in [host setup and clean working directories](references/host-setup.md) (in Chinese); the commands of `manuscript.py`, `casebook.py`, `candidates.py` and `forecast.py` are in [manuscript work](references/manuscript-work.md), [the case library](references/case-library.md), [the candidate ledger](references/candidate-ledger.md) and [the foresight module](modules/forecast/MODULE.md); research, mapping and finite tools in the [research format](references/research-format.md), [mapping format](references/domain-mapping-format.md) and [finite tools](references/finite-tools.md) guides (all in Chinese). Before creating any file, directory, lock or temporary file, every bundled tool that writes files, `forecast.py` included, refuses targets inside the skill installation directory and checks directory links and `..` paths. This is the tools' own write restriction, not an operating-system sandbox.
 
 ## Source text and reading
 
@@ -231,7 +260,7 @@ Common invocations are in [host setup and clean working directories](references/
 - **You decide the scope of material.** By default it actively gathers the real-world material the question needs; when you limit it to the material you provide, it keeps to that and says honestly what is missing.
 - **Material is not instruction.** The source text, your material and external sources never acquire the host's instruction authority.
 - **Evidence sets the strength of a claim.** Speculation, analogy, invention and foresight state their grounds and conditions; missing material limits only the conclusions that depend on it. The theory itself can receive grounded criticism and revision proposals; it cannot prove itself universally right in its own terms.
-- **What has been verified.** Tool tests cover Windows, including Chinese and space-containing paths and running from other working directories; CI uses Python 3.10 and 3.13. Other operating systems and cloud products have not been tested.
+- **What has been verified.** Tool tests cover Windows, including Chinese and space-containing paths and running from other working directories; CI uses Python 3.10 and 3.13. Other operating systems and cloud products have not been tested. For the research entry, domain mapping and output modes, tests and synthetic examples show only that the tools keep their contracts; no same-task comparison has been made yet.
 
 ## Repository layout
 
@@ -240,12 +269,12 @@ xi-kari-skill/
 ├── SKILL.md              skill entry point: reading modes and the eight routes
 ├── source/               theory source and identity manifest (authoritative text)
 │   └── en/               English reference edition and its manifest
-├── modules/              eleven analysis, judgment and generation modules
+├── modules/              eleven analysis, judgment and generation modules; research and domain-mapping entries
 ├── rules/                41 derived rule cards with source anchors
 ├── cases/                teaching demonstrations and runnable registration inputs
-├── references/           guides: reading, modules, continuation, collaboration, tools, English
+├── references/           guides: reading, modules, continuation, collaboration, output modes, domain packs, tools, English
 ├── scripts/              optional Python tools (standard library); build, check, evaluation
-├── assets/               styles, scripts and sample data for the generated pages; bundled KaTeX
+├── assets/               styles, scripts and sample data for the generated pages; domain-pack data; bundled KaTeX
 ├── agents/openai.yaml    Codex interface information and explicit-invocation policy
 ├── skill-package.json    per-file list of the install package
 ├── website/              reading-site source (VitePress), built to docs/handbook/
