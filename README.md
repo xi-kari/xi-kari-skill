@@ -18,7 +18,7 @@
 </p>
 
 <p align="center">
-  <a href="skill-package.json"><img alt="技能版本 6.3.0" src="https://img.shields.io/badge/skill-6.3.0-1F4FC4?style=flat-square"></a>
+  <a href="skill-package.json"><img alt="技能版本 6.4.0" src="https://img.shields.io/badge/skill-6.4.0-1F4FC4?style=flat-square"></a>
   <a href="https://github.com/xi-kari/xi-kari-skill/actions/workflows/windows.yml"><img alt="Windows 测试状态" src="https://img.shields.io/github/actions/workflow/status/xi-kari/xi-kari-skill/windows.yml?branch=main&amp;style=flat-square&amp;label=Windows%20CI"></a>
   <img alt="可选工具需要 Python 3.10 或更新版本" src="https://img.shields.io/badge/python-3.10%2B%20%28%E5%8F%AF%E9%80%89%29-33415E?style=flat-square">
   <a href="LICENSE"><img alt="MIT 许可" src="https://img.shields.io/badge/license-MIT-33415E?style=flat-square"></a>
@@ -27,6 +27,8 @@
 **Xikari Skill** 是一个智能体技能（Agent Skill）。它以 Xikari 著《Xikari-条件结构与转化论》为理论来源，按问题组合原文问答、解释、推演、条件前瞻、有限选择、制度起草、理论评估与候选生成。十一个方法模块承接材料、对象、机制、路径、方案与候选，形成有理由、可反驳的完整判断。
 
 它为需要想清楚、也需要下判断的问题而设计：一项制度为什么反复失灵，一个方案会怎样影响不同的人，几种解释里哪一种站得住，现在该维持、调整、试探还是退出。技能只在你明确点名时启用，不会接管日常对话。
+
+需要深入研究时，可以直接要求[完整研究报告与独立问题报告](modules/research/MODULE.md)：完成可做的研究，并逐项指出材料、方法、映射、理论或实现上的问题。进入具体领域时，[领域映射](modules/domain-mapping/MODULE.md)连接名词、动作关系、角色、数据口径与专业方法；[组织协作、教育学习与技术维护领域包](references/domains/README.md)提供有来源、有限范围的起点。另有[七种成果模式](references/output-modes.md)和[有限计算工具](references/finite-tools.md)，帮助完成理论比较、过程史、安排设计等作品，以及区别保持、共同动作和资源排程等明确模型计算。工具检查与教学示例不证明现实使用效果。
 
 中英文都可以使用：用英文提问，成果就以英文写成。理论权威仍是中文原文；安装包另附作者提供、与原文逐节对齐的英文参考译本和中英术语表，用于英文术语与引文（见[英文工作](references/english.md)）。技能与[双语阅读站](https://xi-kari.github.io/xi-kari-skill/handbook/)均以 v2 为正文基准；[英文站](https://xi-kari.github.io/xi-kari-skill/handbook/en/)可以连续阅读全书。
 
@@ -154,7 +156,7 @@ $xi-kari-skill 附件是热线改革一年来的六项指标和市里的总结�
 
 <sub>截图由随包工具实际生成：阅读页以原文第一部分为示例内容；条件模型页与方案比较表来自随包的“明确虚构”教学示例，其中的数值不是现实事实。</sub>
 
-**版本范围**：当前安装包为 `v6.3.0`；截图用于展示工具界面，各版本的功能以相应的 [Release 说明](https://github.com/xi-kari/xi-kari-skill/releases)为准。
+**版本范围**：当前安装包为 `v6.4.0`；截图用于展示工具界面，各版本的功能以相应的 [Release 说明](https://github.com/xi-kari/xi-kari-skill/releases)为准。
 
 - **完整成果稿 `xi-kari-answer.md`。** 初次完整交付或要求合稿时形成：中心判断在前，随后是材料评价、结构关系、机制比较、案例与反例、路径、反方回应、裁决与方案。
 - **离线阅读页。** 由完整稿生成的单个 HTML 文件，不联网：标题下方有一张按正文自身统计画出的航迹图，每个章节是一个定位点，间距与篇幅成比例，读到哪里航迹就画到哪里，点一下定位点就翻到那一节，往下读时同一条航迹收在顶栏下方继续跟随；章节目录随阅读位置标出当前章节，有全文搜索、字号调节和打印版式；夜间模式默认跟随系统，也可以手动切换；脚注可以悬停预览，也可以回跳。选中一段正文，旁边会出现“追问选段”，把选段连同位置整理成一条追问，由你复制回对话。有公式时内嵌随包的 KaTeX 排版。

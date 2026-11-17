@@ -1,0 +1,640 @@
+{
+  "schema_version": 1,
+  "id": "domain-technical-maintenance",
+  "version": "1.0",
+  "domain": "技术系统与维护：HTTP服务观测与恢复",
+  "task": "核对协议结果、服务目标、观测位置、恢复终点与实际操作许可。",
+  "scope": "限定RFC 9110及所列SRE专业资料；详细说明见../../references/domains/technical-maintenance.md。无真实运行状态和许可结论。",
+  "sources": [
+    {
+      "id": "tech-src-rfc9110",
+      "title": "IETF RFC 9110: HTTP Semantics",
+      "locator": "https://www.rfc-editor.org/rfc/rfc9110.html",
+      "version": "June 2022, STD 97；正文核对2026-11-17",
+      "scope": "已核15.3.1、15.3.3、15.5.2、15.5.4、15.5.5；只支持协议语义，业务和实际实现另核。",
+      "kind": "document"
+    },
+    {
+      "id": "tech-src-slo",
+      "title": "Google SRE Book, Chapter 4: Service Level Objectives",
+      "locator": "https://sre.google/sre-book/service-level-objectives/",
+      "version": "官方在线章，无独立修订号；正文核对2026-11-17",
+      "scope": "已核Indicators、Objectives、Agreements、Collecting Indicators、Aggregation；不把历史产品举例当当前承诺。",
+      "kind": "document"
+    },
+    {
+      "id": "tech-src-cascade",
+      "title": "Google SRE Book, Chapter 22: Addressing Cascading Failures",
+      "locator": "https://sre.google/sre-book/addressing-cascading-failures/",
+      "version": "官方在线章，无独立修订号；正文核对2026-11-17",
+      "scope": "已核重试与负荷段落、Test Noncritical Backends、Immediate Steps；只支持有条件的故障与恢复方法，不诊断当前系统。",
+      "kind": "document"
+    }
+  ],
+  "entries": [
+    {
+      "id": "tech-availability",
+      "terms": [
+        "可用",
+        "服务可用性",
+        "availability"
+      ],
+      "context": "明示用户任务和窗口下的服务指标",
+      "layer": "measurement",
+      "local_meaning": "所定义服务可用程度的测量；可采用明示请求成功或时间口径，不能混用。",
+      "mapping_kind": "observation_interface",
+      "target_meaning": "将指标、观察点和用户任务终点分开。",
+      "theory_anchors": [
+        "D.28"
+      ],
+      "source_ids": [
+        "tech-src-slo"
+      ],
+      "depends_on": [],
+      "preserved": [
+        "分母、窗口、测量点和成功标准。"
+      ],
+      "excluded": [
+        "单次健康检查成功不能代替完整可用性结论。"
+      ],
+      "unknowns": [
+        "实际SLI、用户范围、分母与观测数据未知。"
+      ],
+      "assessments": {
+        "semantic": {
+          "status": "partial",
+          "basis": [
+            "tech-src-slo"
+          ],
+          "scope": "仅所列来源版本、当地语境与本条工作接口",
+          "rationale": "来源支持列明的专业区别；目标侧是有限工作对应，未证明两套概念完全等价。"
+        },
+        "factual": {
+          "status": "unknown",
+          "basis": [],
+          "scope": "具体组织、学习者或运行系统的实际情况与效果",
+          "rationale": "本包只有专业来源与工作接口，没有该现实任务材料；不填造具体事实。"
+        },
+        "formal": {
+          "status": "not_claimed",
+          "basis": [],
+          "scope": "普通领域说明与局部工作对应",
+          "rationale": "未申请正式理论实例资格；不影响已有专业词义的有限使用。"
+        }
+      },
+      "fields": [
+        {
+          "name": "availability_ratio",
+          "unit": "比例",
+          "denominator": "任务明确的合格请求或时间；不得混用",
+          "time_window": null,
+          "missing_policy": "未观测区间或客户端结果保持缺失，不自动计成功。",
+          "source_ids": [
+            "tech-src-slo"
+          ]
+        }
+      ],
+      "target_review": {
+        "requested": false,
+        "status": "not_requested",
+        "basis": [],
+        "rationale": "这是待检验的工程对应，未申请正式表述转义或取得目标侧独立复核。"
+      }
+    },
+    {
+      "id": "tech-slo",
+      "terms": [
+        "SLO",
+        "服务等级目标"
+      ],
+      "context": "Google SRE的目标用语",
+      "layer": "term",
+      "local_meaning": "由SLI测量的服务水平所对应的目标值或范围。",
+      "mapping_kind": "unmapped",
+      "target_meaning": null,
+      "theory_anchors": [],
+      "source_ids": [
+        "tech-src-slo"
+      ],
+      "depends_on": [
+        "tech-availability"
+      ],
+      "preserved": [
+        "指标和目标是不同对象。"
+      ],
+      "excluded": [
+        "目标值不是已达成事实，也不自动成为含补偿后果的协议。"
+      ],
+      "unknowns": [
+        "当前服务目标及其适用窗口未知。"
+      ],
+      "assessments": {
+        "semantic": {
+          "status": "supported",
+          "basis": [
+            "tech-src-slo"
+          ],
+          "scope": "仅所列来源版本、当地语境与本条工作接口",
+          "rationale": "来源支持此专业词义；保留领域原词，不强行改写成理论概念。"
+        },
+        "factual": {
+          "status": "unknown",
+          "basis": [],
+          "scope": "具体组织、学习者或运行系统的实际情况与效果",
+          "rationale": "本包只有专业来源与工作接口，没有该现实任务材料；不填造具体事实。"
+        },
+        "formal": {
+          "status": "not_claimed",
+          "basis": [],
+          "scope": "普通领域说明与局部工作对应",
+          "rationale": "未申请正式理论实例资格；不影响已有专业词义的有限使用。"
+        }
+      }
+    },
+    {
+      "id": "tech-200",
+      "terms": [
+        "200",
+        "200 OK",
+        "成功"
+      ],
+      "context": "HTTP请求成功响应",
+      "layer": "term",
+      "local_meaning": "RFC 9110中的请求成功状态；响应内容的含义依请求方法。",
+      "mapping_kind": "unmapped",
+      "target_meaning": null,
+      "theory_anchors": [],
+      "source_ids": [
+        "tech-src-rfc9110"
+      ],
+      "depends_on": [],
+      "preserved": [
+        "具体请求方法和资源。"
+      ],
+      "excluded": [
+        "不能由另一端点的200证明用户业务任务完成或现实操作获准。"
+      ],
+      "unknowns": [
+        "实际请求、应用是否遵守标准及业务结果未知。"
+      ],
+      "assessments": {
+        "semantic": {
+          "status": "supported",
+          "basis": [
+            "tech-src-rfc9110"
+          ],
+          "scope": "仅所列来源版本、当地语境与本条工作接口",
+          "rationale": "来源支持此专业词义；保留领域原词，不强行改写成理论概念。"
+        },
+        "factual": {
+          "status": "unknown",
+          "basis": [],
+          "scope": "具体组织、学习者或运行系统的实际情况与效果",
+          "rationale": "本包只有专业来源与工作接口，没有该现实任务材料；不填造具体事实。"
+        },
+        "formal": {
+          "status": "not_claimed",
+          "basis": [],
+          "scope": "普通领域说明与局部工作对应",
+          "rationale": "未申请正式理论实例资格；不影响已有专业词义的有限使用。"
+        }
+      }
+    },
+    {
+      "id": "tech-202",
+      "terms": [
+        "202",
+        "202 Accepted",
+        "已接受"
+      ],
+      "context": "HTTP异步处理接受状态",
+      "layer": "task",
+      "local_meaning": "请求已接受处理，但处理尚未完成。",
+      "mapping_kind": "partial_correspondence",
+      "target_meaning": "核对任务终点究竟是接收、执行还是后续结果。",
+      "theory_anchors": [
+        "D.28"
+      ],
+      "source_ids": [
+        "tech-src-rfc9110"
+      ],
+      "depends_on": [],
+      "preserved": [
+        "接受与完成的区别。"
+      ],
+      "excluded": [
+        "不由接受状态保证最终一定完成；若任务只要求确认接受，不额外追加无关终点。"
+      ],
+      "unknowns": [
+        "具体操作ID、后续状态与本次任务终点未知。"
+      ],
+      "assessments": {
+        "semantic": {
+          "status": "partial",
+          "basis": [
+            "tech-src-rfc9110"
+          ],
+          "scope": "仅所列来源版本、当地语境与本条工作接口",
+          "rationale": "来源支持列明的专业区别；目标侧是有限工作对应，未证明两套概念完全等价。"
+        },
+        "factual": {
+          "status": "unknown",
+          "basis": [],
+          "scope": "具体组织、学习者或运行系统的实际情况与效果",
+          "rationale": "本包只有专业来源与工作接口，没有该现实任务材料；不填造具体事实。"
+        },
+        "formal": {
+          "status": "not_claimed",
+          "basis": [],
+          "scope": "普通领域说明与局部工作对应",
+          "rationale": "未申请正式理论实例资格；不影响已有专业词义的有限使用。"
+        }
+      },
+      "target_review": {
+        "requested": false,
+        "status": "not_requested",
+        "basis": [],
+        "rationale": "这是待检验的工程对应，未申请正式表述转义或取得目标侧独立复核。"
+      }
+    },
+    {
+      "id": "tech-403",
+      "terms": [
+        "403",
+        "403 Forbidden",
+        "拒绝"
+      ],
+      "context": "HTTP服务器拒绝履行请求",
+      "layer": "exception",
+      "local_meaning": "服务器理解请求但拒绝履行；拒绝原因不必仅与凭据有关。",
+      "mapping_kind": "unmapped",
+      "target_meaning": null,
+      "theory_anchors": [],
+      "source_ids": [
+        "tech-src-rfc9110"
+      ],
+      "depends_on": [],
+      "preserved": [
+        "具体请求、服务器响应和已披露理由。"
+      ],
+      "excluded": [
+        "不证明整项服务宕机，也不直接证明制度或法律上的无权。"
+      ],
+      "unknowns": [
+        "实际拒绝原因及适用授权规则未知。"
+      ],
+      "assessments": {
+        "semantic": {
+          "status": "supported",
+          "basis": [
+            "tech-src-rfc9110"
+          ],
+          "scope": "仅所列来源版本、当地语境与本条工作接口",
+          "rationale": "来源支持此专业词义；保留领域原词，不强行改写成理论概念。"
+        },
+        "factual": {
+          "status": "unknown",
+          "basis": [],
+          "scope": "具体组织、学习者或运行系统的实际情况与效果",
+          "rationale": "本包只有专业来源与工作接口，没有该现实任务材料；不填造具体事实。"
+        },
+        "formal": {
+          "status": "not_claimed",
+          "basis": [],
+          "scope": "普通领域说明与局部工作对应",
+          "rationale": "未申请正式理论实例资格；不影响已有专业词义的有限使用。"
+        }
+      }
+    },
+    {
+      "id": "tech-health",
+      "terms": [
+        "健康",
+        "健康检查"
+      ],
+      "context": "进程与服务的健康观测",
+      "layer": "measurement",
+      "local_meaning": "进程能否响应，与能否服务某类请求，是不同检查。",
+      "mapping_kind": "partial_correspondence",
+      "target_meaning": "保留观测对象和用户任务的差别。",
+      "theory_anchors": [
+        "6.5",
+        "D.28"
+      ],
+      "source_ids": [
+        "tech-src-cascade"
+      ],
+      "depends_on": [],
+      "preserved": [
+        "探测种类、位置、时间及负荷条件。"
+      ],
+      "excluded": [
+        "一个绿灯不等于全部依赖、数据和用户任务正常。"
+      ],
+      "unknowns": [
+        "当前检查配置、结果及覆盖范围未知。"
+      ],
+      "assessments": {
+        "semantic": {
+          "status": "partial",
+          "basis": [
+            "tech-src-cascade"
+          ],
+          "scope": "仅所列来源版本、当地语境与本条工作接口",
+          "rationale": "来源支持列明的专业区别；目标侧是有限工作对应，未证明两套概念完全等价。"
+        },
+        "factual": {
+          "status": "unknown",
+          "basis": [],
+          "scope": "具体组织、学习者或运行系统的实际情况与效果",
+          "rationale": "本包只有专业来源与工作接口，没有该现实任务材料；不填造具体事实。"
+        },
+        "formal": {
+          "status": "not_claimed",
+          "basis": [],
+          "scope": "普通领域说明与局部工作对应",
+          "rationale": "未申请正式理论实例资格；不影响已有专业词义的有限使用。"
+        }
+      },
+      "target_review": {
+        "requested": false,
+        "status": "not_requested",
+        "basis": [],
+        "rationale": "这是待检验的工程对应，未申请正式表述转义或取得目标侧独立复核。"
+      }
+    },
+    {
+      "id": "tech-recovery",
+      "terms": [
+        "恢复",
+        "重启"
+      ],
+      "context": "故障后的任务恢复",
+      "layer": "task",
+      "local_meaning": "重启、部分功能恢复和目标负荷下恢复需按实际系统分别核对。",
+      "mapping_kind": "partial_correspondence",
+      "target_meaning": "检查恢复所需容量、依赖和启动条件，并列剩余限制。",
+      "theory_anchors": [
+        "6.5"
+      ],
+      "source_ids": [
+        "tech-src-cascade"
+      ],
+      "depends_on": [
+        "tech-health"
+      ],
+      "preserved": [
+        "恢复起步与恢复后服务端点。"
+      ],
+      "excluded": [
+        "更多实例、重启或切流不自动解决故障，可能改变负荷。"
+      ],
+      "unknowns": [
+        "当前故障机制、恢复判据和动作资格未知。"
+      ],
+      "assessments": {
+        "semantic": {
+          "status": "partial",
+          "basis": [
+            "tech-src-cascade"
+          ],
+          "scope": "仅所列来源版本、当地语境与本条工作接口",
+          "rationale": "来源支持列明的专业区别；目标侧是有限工作对应，未证明两套概念完全等价。"
+        },
+        "factual": {
+          "status": "unknown",
+          "basis": [],
+          "scope": "具体组织、学习者或运行系统的实际情况与效果",
+          "rationale": "本包只有专业来源与工作接口，没有该现实任务材料；不填造具体事实。"
+        },
+        "formal": {
+          "status": "not_claimed",
+          "basis": [],
+          "scope": "普通领域说明与局部工作对应",
+          "rationale": "未申请正式理论实例资格；不影响已有专业词义的有限使用。"
+        }
+      },
+      "methods": [
+        {
+          "name": "核对恢复依赖与分阶段服务结果",
+          "status": "planned",
+          "scope": "先检查当前系统与动作影响，再决定适用措施；未执行真实维护。",
+          "source_ids": [
+            "tech-src-cascade"
+          ]
+        }
+      ],
+      "target_review": {
+        "requested": false,
+        "status": "not_requested",
+        "basis": [],
+        "rationale": "这是待检验的工程对应，未申请正式表述转义或取得目标侧独立复核。"
+      }
+    },
+    {
+      "id": "tech-cascade",
+      "terms": [
+        "级联",
+        "cascading failure"
+      ],
+      "context": "依赖和负荷变化相关的故障扩展",
+      "layer": "relation",
+      "local_meaning": "该SRE章讨论故障经正反馈扩大，以及负荷和重试的作用。",
+      "mapping_kind": "partial_correspondence",
+      "target_meaning": "用事件、依赖和负荷证据区分逐跳传播与共同原因。",
+      "theory_anchors": [
+        "6.13"
+      ],
+      "source_ids": [
+        "tech-src-cascade"
+      ],
+      "depends_on": [
+        "tech-recovery"
+      ],
+      "preserved": [
+        "具体通道、时间与负荷条件。"
+      ],
+      "excluded": [
+        "同时报警不直接证明传播链；章节案例不证明当前系统同机制。"
+      ],
+      "unknowns": [
+        "当前系统的依赖、事件及负荷资料未知。"
+      ],
+      "assessments": {
+        "semantic": {
+          "status": "partial",
+          "basis": [
+            "tech-src-cascade"
+          ],
+          "scope": "仅所列来源版本、当地语境与本条工作接口",
+          "rationale": "来源支持列明的专业区别；目标侧是有限工作对应，未证明两套概念完全等价。"
+        },
+        "factual": {
+          "status": "unknown",
+          "basis": [],
+          "scope": "具体组织、学习者或运行系统的实际情况与效果",
+          "rationale": "本包只有专业来源与工作接口，没有该现实任务材料；不填造具体事实。"
+        },
+        "formal": {
+          "status": "not_claimed",
+          "basis": [],
+          "scope": "普通领域说明与局部工作对应",
+          "rationale": "未申请正式理论实例资格；不影响已有专业词义的有限使用。"
+        }
+      },
+      "target_review": {
+        "requested": false,
+        "status": "not_requested",
+        "basis": [],
+        "rationale": "这是待检验的工程对应，未申请正式表述转义或取得目标侧独立复核。"
+      }
+    },
+    {
+      "id": "tech-authority",
+      "terms": [
+        "许可",
+        "有权限",
+        "变更批准"
+      ],
+      "context": "对具体维护或使用动作的有效许可",
+      "layer": "exception",
+      "local_meaning": null,
+      "mapping_kind": "unknown",
+      "target_meaning": null,
+      "theory_anchors": [],
+      "source_ids": [],
+      "depends_on": [],
+      "preserved": [
+        "技术访问控制、组织批准、软件许可及用户授权分别核对。"
+      ],
+      "excluded": [
+        "HTTP成功或持有凭据不能代证其余许可。"
+      ],
+      "unknowns": [
+        "具体动作与相应适用规则、授权材料尚未提供。"
+      ],
+      "assessments": {
+        "semantic": {
+          "status": "unknown",
+          "basis": [],
+          "scope": "仅所列来源版本、当地语境与本条工作接口",
+          "rationale": "缺少具体机构或系统规则，未确认当地义项。"
+        },
+        "factual": {
+          "status": "unknown",
+          "basis": [],
+          "scope": "具体组织、学习者或运行系统的实际情况与效果",
+          "rationale": "本包只有专业来源与工作接口，没有该现实任务材料；不填造具体事实。"
+        },
+        "formal": {
+          "status": "not_claimed",
+          "basis": [],
+          "scope": "普通领域说明与局部工作对应",
+          "rationale": "未申请正式理论实例资格；不影响已有专业词义的有限使用。"
+        }
+      }
+    },
+    {
+      "id": "tech-observation",
+      "terms": [
+        "观测",
+        "延迟",
+        "请求率"
+      ],
+      "context": "特定测量位置与聚合窗口",
+      "layer": "measurement",
+      "local_meaning": "记录服务端或客户端的指标，并保留其单位与聚合口径。",
+      "mapping_kind": "observation_interface",
+      "target_meaning": "用明确测量支持有限服务判断。",
+      "theory_anchors": [
+        "D.28"
+      ],
+      "source_ids": [
+        "tech-src-slo"
+      ],
+      "depends_on": [
+        "tech-availability"
+      ],
+      "preserved": [
+        "客户端与服务端、平均与百分位、请求与重试分别记录。"
+      ],
+      "excluded": [
+        "平均负荷不替峰值，服务端延迟不自动替用户端延迟。"
+      ],
+      "unknowns": [
+        "真实测量点、采样策略及窗口未知。"
+      ],
+      "assessments": {
+        "semantic": {
+          "status": "partial",
+          "basis": [
+            "tech-src-slo"
+          ],
+          "scope": "仅所列来源版本、当地语境与本条工作接口",
+          "rationale": "来源支持列明的专业区别；目标侧是有限工作对应，未证明两套概念完全等价。"
+        },
+        "factual": {
+          "status": "unknown",
+          "basis": [],
+          "scope": "具体组织、学习者或运行系统的实际情况与效果",
+          "rationale": "本包只有专业来源与工作接口，没有该现实任务材料；不填造具体事实。"
+        },
+        "formal": {
+          "status": "not_claimed",
+          "basis": [],
+          "scope": "普通领域说明与局部工作对应",
+          "rationale": "未申请正式理论实例资格；不影响已有专业词义的有限使用。"
+        }
+      },
+      "fields": [
+        {
+          "name": "latency",
+          "unit": "毫秒或任务明确单位",
+          "denominator": "适用请求集，须由任务声明",
+          "time_window": null,
+          "missing_policy": "未记录客户端时间时不补算客户端体验。",
+          "source_ids": [
+            "tech-src-slo"
+          ]
+        },
+        {
+          "name": "request_rate",
+          "unit": "请求/秒",
+          "denominator": "须明示原始任务或包含重试的尝试",
+          "time_window": null,
+          "missing_policy": "未给聚合窗口时不跨窗口比较。",
+          "source_ids": [
+            "tech-src-slo"
+          ]
+        }
+      ],
+      "target_review": {
+        "requested": false,
+        "status": "not_requested",
+        "basis": [],
+        "rationale": "这是待检验的工程对应，未申请正式表述转义或取得目标侧独立复核。"
+      }
+    }
+  ],
+  "outputs": [
+    {
+      "id": "tech-output-brief",
+      "title": "HTTP服务状态与维护结论的范围",
+      "text": "HTTP状态应结合具体端点和任务解释：200的含义依请求方法，202只表明已接受而未完成，403也不直接表示整个服务不可用。服务是否达标须使用明确SLI、窗口和分母；进程健康、特定服务健康与用户完成任务分别核对。恢复方案还需要当前系统的依赖、负荷、启动条件和实际操作权限。现有专业来源能支持这些区别，但本包没有运行日志或授权材料，不能据此宣布任何现实服务已恢复或任何维护动作已获准。",
+      "entry_ids": [
+        "tech-availability",
+        "tech-slo",
+        "tech-200",
+        "tech-202",
+        "tech-403",
+        "tech-health",
+        "tech-recovery",
+        "tech-cascade",
+        "tech-authority",
+        "tech-observation"
+      ],
+      "source_ids": []
+    }
+  ],
+  "theory_sha256": "6ef2e508474d4ac1ad07d7e4e068955342c405b5f680afcfc40d68cca3d0149c"
+}

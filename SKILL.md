@@ -78,6 +78,17 @@ R8 交付候选：从已经成立或已明示的理解出发，沿原文的定�
 
 模块数量与智能体数量不对应。独立证据方向、分支或具体争议可以按[协作](references/collaboration.md)并行，前后紧密依赖的工作顺序承接。反方审查者只提出可核的具体问题，不颁发质量认证；多模型共识不是独立经验证据。
 
+## 研究、领域映射与专门成果
+
+两个可选任务入口复用上面的八条路由和十一个方法模块，不增加所有问题必经的阶段。
+
+- 用户要求研究某项内容并指出当前解释不了或有问题的部分时，调用[研究与解释边界报告](modules/research/MODULE.md)：完成取材、分析和论证，交付完整主体报告及单独汇总的问题，可同文分节、附篇或按需分文件。材料不足、方法限制、领域需求、映射缺口、理论问题候选、规范分歧和实现缺口分别定位；重大限制同时进入正文相关结论，不能只藏在附篇。
+- 用户要求进入具体领域、核对名词或提高专业表述的准确性时，调用[领域映射与方法适配](modules/domain-mapping/MODULE.md)：处理词义、动作关系、角色、任务终点、字段口径、专业方法和未对应项。先核[领域包](references/domains/README.md)的任务与版本范围，再接本题资料；语义对应、事实证据和正式合同资格分开，不靠词表推出现实事实。
+
+需要理论比较、过程史、制度与生活安排、经验意义阐释、概念重构、中层模型或共同问题书时，选[成果模式](references/output-modes.md)完成相应作品。它们可以单独调用，也可成为研究的一部分；短问题直接回答，不因存在模式就扩成项目。具体的表示、共同可行、恢复、接班、补证等操作见[能力操作](references/capability-operations.md)，只选与任务有关的部分；自然语言与工具调用例见[使用方式](references/capability-quickstart.md)。
+
+新材料改变来源、前提或映射时，可用研究与映射工具定位受影响的结论和下游内容；作者仍须实际复核并同步正文、摘要和问题报告，保留独立成立部分。程序检出引用关系或生成文档不证明语义正确，也不取得现实行动资格。
+
 ## 条件前瞻与规则库
 
 R4 按[条件前瞻模块](modules/forecast/MODULE.md)完成 F0—F12：适格、冻结、事件、状态、双通道与时钟、机制传播、路径、信号、基线表达、登记、按需选择、发布、到期回写。已有 M0—M5 内容直接使用，只有实际缺口需要补足。F12 在真实结果到来后执行，不等待未来结果才交付当前答案。
@@ -134,6 +145,9 @@ R4 按[条件前瞻模块](modules/forecast/MODULE.md)完成 F0—F12：适格�
 | 参数、容量、条件变化 | [条件模型](references/condition-lab.md)，`condition_lab.py` |
 | 同口径多方案比较 | [方案比较](references/comparison-table.md)，`comparison.py` |
 | 区分机制的观察与采集 | [实际研究](references/research-work.md)、[研究设计](references/study-design.md) |
+| 完整研究双成果、问题定位与来源变更影响 | [研究入口](modules/research/MODULE.md)、[研究格式](references/research-format.md)，`research.py` |
+| 领域词义、关系、歧义与映射变更影响 | [映射入口](modules/domain-mapping/MODULE.md)、[映射格式](references/domain-mapping-format.md)，`domain_mapping.py` |
+| 有限状态区别、共同动作、排程与关系接续 | [有限工具](references/finite-tools.md)，`finite_tools.py` |
 | 候选的来路、身份与检验状态 | [候选账本](references/candidate-ledger.md)，`candidates.py` |
 | 多轮稿件与用户外部编辑 | [稿件工作](references/manuscript-work.md) |
 | 跨轮已决定、未决、复核与撤回 | [任务状态](references/task-state.md)，`task_state.py` |

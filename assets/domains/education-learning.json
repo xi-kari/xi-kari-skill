@@ -1,0 +1,567 @@
+{
+  "schema_version": 1,
+  "id": "domain-education-learning",
+  "version": "1.0",
+  "domain": "教育与学习：短课程成果与迁移",
+  "task": "区分参与、结业、测评、迁移、微证书和认可的词义与证据。",
+  "scope": "只提供所列来源范围内的有限词义和工作接口；详细说明见../../references/domains/education-learning.md。无个人能力诊断或真实课程效果证据。",
+  "sources": [
+    {
+      "id": "edu-src-microcredential",
+      "title": "Council Recommendation 2022/C 243/02",
+      "locator": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32022H0627(02)",
+      "version": "16 June 2022；正文核对2026-11-17",
+      "scope": "已核第3—6段、附件I及注1；只支持该建议的微证书、测评、参与形式和认可区别，不代证当前个案资格。",
+      "kind": "document"
+    },
+    {
+      "id": "edu-src-transfer",
+      "title": "National Research Council: How People Learn, Chapter 3 Learning and Transfer",
+      "locator": "https://www.nationalacademies.org/read/9853/chapter/6",
+      "version": "Expanded Edition, 2000；正文核对2026-11-17",
+      "scope": "已核开头、初始学习及Active Versus Passive Approaches to Transfer；委员会报告原文，未把所引实验当成本包独立核过原作。",
+      "kind": "document"
+    }
+  ],
+  "entries": [
+    {
+      "id": "edu-microcredential",
+      "terms": [
+        "微证书",
+        "micro-credential"
+      ],
+      "context": "2022年欧盟理事会建议中的记录类型",
+      "layer": "term",
+      "local_meaning": "小量学习后经明确标准评估的学习成果记录。",
+      "mapping_kind": "unmapped",
+      "target_meaning": null,
+      "theory_anchors": [],
+      "source_ids": [
+        "edu-src-microcredential"
+      ],
+      "depends_on": [],
+      "preserved": [
+        "来源限定的记录类型与评估条件。"
+      ],
+      "excluded": [
+        "不直接等同于理论中的学习；不能把任何名为证书的材料都纳入此定义。"
+      ],
+      "unknowns": [
+        "具体课程是否采用该定义及证书实际内容未知。"
+      ],
+      "assessments": {
+        "semantic": {
+          "status": "supported",
+          "basis": [
+            "edu-src-microcredential"
+          ],
+          "scope": "仅所列来源版本、当地语境与本条工作接口",
+          "rationale": "来源支持此专业词义；保留领域原词，不强行改写成理论概念。"
+        },
+        "factual": {
+          "status": "unknown",
+          "basis": [],
+          "scope": "具体组织、学习者或运行系统的实际情况与效果",
+          "rationale": "本包只有专业来源与工作接口，没有该现实任务材料；不填造具体事实。"
+        },
+        "formal": {
+          "status": "not_claimed",
+          "basis": [],
+          "scope": "普通领域说明与局部工作对应",
+          "rationale": "未申请正式理论实例资格；不影响已有专业词义的有限使用。"
+        }
+      }
+    },
+    {
+      "id": "edu-assessment",
+      "terms": [
+        "测评",
+        "assessment"
+      ],
+      "context": "该建议中的学习成果评估",
+      "layer": "method",
+      "local_meaning": "评估、测量并描述个体学习成果的过程或方法。",
+      "mapping_kind": "partial_correspondence",
+      "target_meaning": "把所测任务、结果与所声称的学习范围对齐。",
+      "theory_anchors": [
+        "6.3",
+        "D.25"
+      ],
+      "source_ids": [
+        "edu-src-microcredential"
+      ],
+      "depends_on": [],
+      "preserved": [
+        "测评目标、标准和适用范围。"
+      ],
+      "excluded": [
+        "一个分数不自动证明稳定能力或课程因果效果。"
+      ],
+      "unknowns": [
+        "实际测评任务、评分标准及有效作答材料未知。"
+      ],
+      "assessments": {
+        "semantic": {
+          "status": "partial",
+          "basis": [
+            "edu-src-microcredential"
+          ],
+          "scope": "仅所列来源版本、当地语境与本条工作接口",
+          "rationale": "来源支持列明的专业区别；目标侧是有限工作对应，未证明两套概念完全等价。"
+        },
+        "factual": {
+          "status": "unknown",
+          "basis": [],
+          "scope": "具体组织、学习者或运行系统的实际情况与效果",
+          "rationale": "本包只有专业来源与工作接口，没有该现实任务材料；不填造具体事实。"
+        },
+        "formal": {
+          "status": "not_claimed",
+          "basis": [],
+          "scope": "普通领域说明与局部工作对应",
+          "rationale": "未申请正式理论实例资格；不影响已有专业词义的有限使用。"
+        }
+      },
+      "methods": [
+        {
+          "name": "核对目标、题目与评分规则",
+          "status": "planned",
+          "scope": "由专业评估者判断覆盖和可解释性，不能只凭总分认证。",
+          "source_ids": [
+            "edu-src-microcredential"
+          ]
+        }
+      ],
+      "target_review": {
+        "requested": false,
+        "status": "not_requested",
+        "basis": [],
+        "rationale": "这是待检验的工程对应，未申请正式表述转义或取得目标侧独立复核。"
+      }
+    },
+    {
+      "id": "edu-participation",
+      "terms": [
+        "参与",
+        "出勤"
+      ],
+      "context": "具体短课程的参与口径",
+      "layer": "term",
+      "local_meaning": null,
+      "mapping_kind": "unknown",
+      "target_meaning": null,
+      "theory_anchors": [],
+      "source_ids": [
+        "edu-src-microcredential"
+      ],
+      "depends_on": [],
+      "preserved": [
+        "参与形式与学习成果、评估类型分别记录。"
+      ],
+      "excluded": [
+        "来源列出参与形式，不替所有课程制定统一出勤阈值。"
+      ],
+      "unknowns": [
+        "本课程是否以同步出席、异步活动或其他口径计参与未知。"
+      ],
+      "assessments": {
+        "semantic": {
+          "status": "unknown",
+          "basis": [],
+          "scope": "仅所列来源版本、当地语境与本条工作接口",
+          "rationale": "缺少具体机构或系统规则，未确认当地义项。"
+        },
+        "factual": {
+          "status": "unknown",
+          "basis": [],
+          "scope": "具体组织、学习者或运行系统的实际情况与效果",
+          "rationale": "本包只有专业来源与工作接口，没有该现实任务材料；不填造具体事实。"
+        },
+        "formal": {
+          "status": "not_claimed",
+          "basis": [],
+          "scope": "普通领域说明与局部工作对应",
+          "rationale": "未申请正式理论实例资格；不影响已有专业词义的有限使用。"
+        }
+      }
+    },
+    {
+      "id": "edu-completion",
+      "terms": [
+        "结业",
+        "完成"
+      ],
+      "context": "具体课程的完成规则",
+      "layer": "task",
+      "local_meaning": null,
+      "mapping_kind": "unknown",
+      "target_meaning": null,
+      "theory_anchors": [],
+      "source_ids": [],
+      "depends_on": [],
+      "preserved": [
+        "完成规则和判定时点。"
+      ],
+      "excluded": [
+        "不能由课程标题或证书外观推出统一结业标准。"
+      ],
+      "unknowns": [
+        "未提供本课程的完成规则与判定记录。"
+      ],
+      "assessments": {
+        "semantic": {
+          "status": "unknown",
+          "basis": [],
+          "scope": "仅所列来源版本、当地语境与本条工作接口",
+          "rationale": "缺少具体机构或系统规则，未确认当地义项。"
+        },
+        "factual": {
+          "status": "unknown",
+          "basis": [],
+          "scope": "具体组织、学习者或运行系统的实际情况与效果",
+          "rationale": "本包只有专业来源与工作接口，没有该现实任务材料；不填造具体事实。"
+        },
+        "formal": {
+          "status": "not_claimed",
+          "basis": [],
+          "scope": "普通领域说明与局部工作对应",
+          "rationale": "未申请正式理论实例资格；不影响已有专业词义的有限使用。"
+        }
+      }
+    },
+    {
+      "id": "edu-transfer",
+      "terms": [
+        "迁移",
+        "transfer"
+      ],
+      "context": "所学内容在明示新情境中的运用",
+      "layer": "term",
+      "local_meaning": "将一个情境所学用于新情境；其表现取决于学习和新任务的关系。",
+      "mapping_kind": "partial_correspondence",
+      "target_meaning": "分别观察原任务完成、新任务表现及后续学习。",
+      "theory_anchors": [
+        "6.3"
+      ],
+      "source_ids": [
+        "edu-src-transfer"
+      ],
+      "depends_on": [],
+      "preserved": [
+        "新旧任务关系和观察时点。"
+      ],
+      "excluded": [
+        "原题记忆成功不代证广泛迁移；迁移不等同于一次无提示测试。"
+      ],
+      "unknowns": [
+        "实际新任务、时间和表现记录未知。"
+      ],
+      "assessments": {
+        "semantic": {
+          "status": "partial",
+          "basis": [
+            "edu-src-transfer"
+          ],
+          "scope": "仅所列来源版本、当地语境与本条工作接口",
+          "rationale": "来源支持列明的专业区别；目标侧是有限工作对应，未证明两套概念完全等价。"
+        },
+        "factual": {
+          "status": "unknown",
+          "basis": [],
+          "scope": "具体组织、学习者或运行系统的实际情况与效果",
+          "rationale": "本包只有专业来源与工作接口，没有该现实任务材料；不填造具体事实。"
+        },
+        "formal": {
+          "status": "not_claimed",
+          "basis": [],
+          "scope": "普通领域说明与局部工作对应",
+          "rationale": "未申请正式理论实例资格；不影响已有专业词义的有限使用。"
+        }
+      },
+      "target_review": {
+        "requested": false,
+        "status": "not_requested",
+        "basis": [],
+        "rationale": "这是待检验的工程对应，未申请正式表述转义或取得目标侧独立复核。"
+      }
+    },
+    {
+      "id": "edu-prompted",
+      "terms": [
+        "提示",
+        "有支持的表现"
+      ],
+      "context": "迁移评估中的提示条件",
+      "layer": "measurement",
+      "local_meaning": "有提示条件下的表现，与无提示表现分开记录。",
+      "mapping_kind": "partial_correspondence",
+      "target_meaning": "保留支持条件，不用一种结果取消或冒充另一种。",
+      "theory_anchors": [
+        "6.3"
+      ],
+      "source_ids": [
+        "edu-src-transfer"
+      ],
+      "depends_on": [
+        "edu-transfer"
+      ],
+      "preserved": [
+        "提示类型、程度及任务条件。"
+      ],
+      "excluded": [
+        "不为认证能力而擅自撤除必要支持；有提示结果也不冒充无提示结果。"
+      ],
+      "unknowns": [
+        "具体任务的支持方式及实际记录未知。"
+      ],
+      "assessments": {
+        "semantic": {
+          "status": "partial",
+          "basis": [
+            "edu-src-transfer"
+          ],
+          "scope": "仅所列来源版本、当地语境与本条工作接口",
+          "rationale": "来源支持列明的专业区别；目标侧是有限工作对应，未证明两套概念完全等价。"
+        },
+        "factual": {
+          "status": "unknown",
+          "basis": [],
+          "scope": "具体组织、学习者或运行系统的实际情况与效果",
+          "rationale": "本包只有专业来源与工作接口，没有该现实任务材料；不填造具体事实。"
+        },
+        "formal": {
+          "status": "not_claimed",
+          "basis": [],
+          "scope": "普通领域说明与局部工作对应",
+          "rationale": "未申请正式理论实例资格；不影响已有专业词义的有限使用。"
+        }
+      },
+      "fields": [
+        {
+          "name": "support_conditions",
+          "unit": "按任务记录提示、工具等类别",
+          "denominator": "不适用：本字段不是比例，不设置统计分母。",
+          "time_window": null,
+          "missing_policy": "未记录支持条件时标未知，不默认为无支持。",
+          "source_ids": [
+            "edu-src-transfer"
+          ]
+        }
+      ],
+      "target_review": {
+        "requested": false,
+        "status": "not_requested",
+        "basis": [],
+        "rationale": "这是待检验的工程对应，未申请正式表述转义或取得目标侧独立复核。"
+      }
+    },
+    {
+      "id": "edu-recognition",
+      "terms": [
+        "认可",
+        "资格认可"
+      ],
+      "context": "接收机构对证书用途的决定",
+      "layer": "relation",
+      "local_meaning": "按适用授予或接收规则决定认可用途；标准字段与证书组合不自动产生资格。",
+      "mapping_kind": "unmapped",
+      "target_meaning": null,
+      "theory_anchors": [],
+      "source_ids": [
+        "edu-src-microcredential"
+      ],
+      "depends_on": [
+        "edu-microcredential"
+      ],
+      "preserved": [
+        "授予者、接收者与认可用途。"
+      ],
+      "excluded": [
+        "不等于测评正确、就业保证或所有机构必须接受。"
+      ],
+      "unknowns": [
+        "具体接收机构、现行适用规则与实际决定未知。"
+      ],
+      "assessments": {
+        "semantic": {
+          "status": "supported",
+          "basis": [
+            "edu-src-microcredential"
+          ],
+          "scope": "仅所列来源版本、当地语境与本条工作接口",
+          "rationale": "来源支持此专业词义；保留领域原词，不强行改写成理论概念。"
+        },
+        "factual": {
+          "status": "unknown",
+          "basis": [],
+          "scope": "具体组织、学习者或运行系统的实际情况与效果",
+          "rationale": "本包只有专业来源与工作接口，没有该现实任务材料；不填造具体事实。"
+        },
+        "formal": {
+          "status": "not_claimed",
+          "basis": [],
+          "scope": "普通领域说明与局部工作对应",
+          "rationale": "未申请正式理论实例资格；不影响已有专业词义的有限使用。"
+        }
+      }
+    },
+    {
+      "id": "edu-rate",
+      "terms": [
+        "达标比例",
+        "通过率"
+      ],
+      "context": "明示人群和测评口径下的记录比例",
+      "layer": "measurement",
+      "local_meaning": "在明示标准和分母下统计有记录支持达标的人数比例；这是本包工作口径。",
+      "mapping_kind": "observation_interface",
+      "target_meaning": "分开有效测评者中的比例、固定人群中的已知结果和缺失。",
+      "theory_anchors": [
+        "6.3"
+      ],
+      "source_ids": [
+        "edu-src-microcredential",
+        "edu-src-transfer"
+      ],
+      "depends_on": [
+        "edu-assessment"
+      ],
+      "preserved": [
+        "分子、分母、标准、重试规则和时间。"
+      ],
+      "excluded": [
+        "不把未测者一律当零分，也不把比例称为课程效果。"
+      ],
+      "unknowns": [
+        "实际人数、分母规则和缺失原因未知。"
+      ],
+      "assessments": {
+        "semantic": {
+          "status": "partial",
+          "basis": [
+            "edu-src-microcredential",
+            "edu-src-transfer"
+          ],
+          "scope": "仅所列来源版本、当地语境与本条工作接口",
+          "rationale": "来源支持列明的专业区别；目标侧是有限工作对应，未证明两套概念完全等价。"
+        },
+        "factual": {
+          "status": "unknown",
+          "basis": [],
+          "scope": "具体组织、学习者或运行系统的实际情况与效果",
+          "rationale": "本包只有专业来源与工作接口，没有该现实任务材料；不填造具体事实。"
+        },
+        "formal": {
+          "status": "not_claimed",
+          "basis": [],
+          "scope": "普通领域说明与局部工作对应",
+          "rationale": "未申请正式理论实例资格；不影响已有专业词义的有限使用。"
+        }
+      },
+      "fields": [
+        {
+          "name": "meeting_criterion_rate",
+          "unit": "比例",
+          "denominator": "用户须声明有效测评者或固定人群；两者不混用",
+          "time_window": null,
+          "missing_policy": "分母、标准或结果缺失时保留未知；本字段不是官方标准。",
+          "source_ids": [
+            "edu-src-microcredential",
+            "edu-src-transfer"
+          ]
+        }
+      ],
+      "target_review": {
+        "requested": false,
+        "status": "not_requested",
+        "basis": [],
+        "rationale": "这是待检验的工程对应，未申请正式表述转义或取得目标侧独立复核。"
+      }
+    },
+    {
+      "id": "edu-outcome-record",
+      "terms": [
+        "成果说明",
+        "学习成果报告"
+      ],
+      "context": "短课程的多端点成果陈述",
+      "layer": "method",
+      "local_meaning": "按参与、完成、测评、迁移、发证和认可分别陈述已有证据。",
+      "mapping_kind": "partial_correspondence",
+      "target_meaning": "为不同结果选择相应材料，不从一个端点跨推全部结果。",
+      "theory_anchors": [
+        "6.3",
+        "D.25"
+      ],
+      "source_ids": [
+        "edu-src-microcredential",
+        "edu-src-transfer"
+      ],
+      "depends_on": [
+        "edu-participation",
+        "edu-completion",
+        "edu-rate",
+        "edu-transfer",
+        "edu-recognition"
+      ],
+      "preserved": [
+        "事实截止、规则版本、支持条件及尚未判断的终点。"
+      ],
+      "excluded": [
+        "此工作接口不声称等同于完整官方授证标准。"
+      ],
+      "unknowns": [
+        "现实课程材料尚未提供。"
+      ],
+      "assessments": {
+        "semantic": {
+          "status": "partial",
+          "basis": [
+            "edu-src-microcredential",
+            "edu-src-transfer"
+          ],
+          "scope": "仅所列来源版本、当地语境与本条工作接口",
+          "rationale": "来源支持列明的专业区别；目标侧是有限工作对应，未证明两套概念完全等价。"
+        },
+        "factual": {
+          "status": "unknown",
+          "basis": [],
+          "scope": "具体组织、学习者或运行系统的实际情况与效果",
+          "rationale": "本包只有专业来源与工作接口，没有该现实任务材料；不填造具体事实。"
+        },
+        "formal": {
+          "status": "not_claimed",
+          "basis": [],
+          "scope": "普通领域说明与局部工作对应",
+          "rationale": "未申请正式理论实例资格；不影响已有专业词义的有限使用。"
+        }
+      },
+      "target_review": {
+        "requested": false,
+        "status": "not_requested",
+        "basis": [],
+        "rationale": "这是待检验的工程对应，未申请正式表述转义或取得目标侧独立复核。"
+      }
+    }
+  ],
+  "outputs": [
+    {
+      "id": "edu-output-brief",
+      "title": "短课程成果应如何陈述",
+      "text": "短课程的参与、完成、测评、迁移和资格认可需要分别陈述。2022年欧盟建议中的微证书记录经明确标准评估的学习成果，字段齐全并不自动意味着官方认可。学习与迁移报告也不能仅靠原题分数推及所有新情境；支持和提示条件应保留。具体报告应先取得课程完成规则、测评口径与对应结果，再按明示分母报告已有记录。本包没有真实课程或学习者记录，因此尚不能填写实际参与、结业、达标或认可状态。",
+      "entry_ids": [
+        "edu-microcredential",
+        "edu-assessment",
+        "edu-participation",
+        "edu-completion",
+        "edu-transfer",
+        "edu-prompted",
+        "edu-recognition",
+        "edu-rate",
+        "edu-outcome-record"
+      ],
+      "source_ids": []
+    }
+  ],
+  "theory_sha256": "6ef2e508474d4ac1ad07d7e4e068955342c405b5f680afcfc40d68cca3d0149c"
+}

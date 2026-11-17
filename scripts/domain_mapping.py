@@ -1,0 +1,495 @@
+#!/usr/bin/env python3
+"""Look up, render and trace explicitly supplied domain mappings.
+
+This tool checks a bounded data contract, not the truth of definitions, evidence
+or formal-instance claims. It never infers a fact from a matched word.
+"""
+
+from __future__ import annotations
+
+import argparse
+from collections import deque
+import hashlib
+import json
+import os
+from pathlib import Path
+import re
+import sys
+import tempfile
+import unicodedata
+
+sys.dont_write_bytecode = True
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+try:
+    from xikari_paths import require_external_output
+    from read_source import build_index
+finally:
+    sys.path.pop(0)
+
+FORMAT = 'xikari-domain-mapping-1'
+MAX_BYTES = 4 * 1024 * 1024
+MAX_ROWS = 2000
+ID = re.compile(r'[A-Za-z0-9][A-Za-z0-9._-]{0,95}\Z')
+ANCHOR = re.compile(r'(?:[1-9][0-9]*|[A-D])(?:\.[0-9]+)+\Z')
+KINDS = {'definition_equivalence', 'role_instantiation', 'partial_correspondence',
+         'observation_interface', 'heuristic_analogy', 'unmapped', 'not_applicable', 'unknown'}
+LAYERS = {'term', 'relation', 'role', 'task', 'measurement', 'method', 'exception'}
+STATUSES = {'supported', 'partial', 'unknown', 'disputed', 'not_claimed', 'not_applicable'}
+NOTICE = ('本工具只核对数据结构、引用与依赖；评估状态均由输入提供。'
+          '词义对应、事实证据和正式实例资格互不代证，不自动判断来源可信或理论适用。')
+UNKNOWN = '未知（未提供，不补默认值）'
+
+
+class MappingError(ValueError):
+    """Invalid or inconsistent mapping input."""
+
+
+def _object(value, allowed, required, where):
+    if not isinstance(value, dict):
+        raise MappingError(f'{where}须为对象。')
+    extra = set(value) - set(allowed)
+    missing = set(required) - set(value)
+    if extra or missing:
+        raise MappingError(f'{where}未知字段={sorted(extra, key=str)!r}，缺少字段={sorted(missing, key=str)!r}。')
+
+
+def _text(value, where, nullable=False):
+    if nullable and value is None:
+        return value
+    if not isinstance(value, str) or not value.strip() or len(value) > 16000:
+        raise MappingError(f'{where}须为非空文本，不超过16000字符。')
+    return value
+
+
+def _list(value, where, nonempty=False):
+    if not isinstance(value, list) or len(value) > MAX_ROWS or (nonempty and not value):
+        raise MappingError(f'{where}须为{"非空" if nonempty else ""}列表，最多{MAX_ROWS}项。')
+    return value
+
+
+def _strings(value, where, nonempty=False):
+    _list(value, where, nonempty)
+    for item in value:
+        _text(item, where)
+    if len(value) != len(set(value)):
+        raise MappingError(f'{where}含重复项。')
+    return value
+
+
+def _enum(value, options, where):
+    if not isinstance(value, str) or value not in options:
+        raise MappingError(f'{where}须为以下值之一: {", ".join(sorted(options))}。')
+
+
+def _identifier(value, where):
+    if not isinstance(value, str) or not ID.fullmatch(value):
+        raise MappingError(f'{where}须为不超过96字符的字母数字标识（可含 . _ -）。')
+    return value
+
+
+def normalized_term(value):
+    """Unicode/case/space normalization only; never fuzzy or semantic matching."""
+    _text(value, '查询词或语境')
+    return ' '.join(unicodedata.normalize('NFKC', value).casefold().split())
+
+
+def read_mapping(path: Path) -> dict:
+    with Path(path).open('rb') as stream:
+        raw = stream.read(MAX_BYTES + 1)
+    if len(raw) > MAX_BYTES:
+        raise MappingError('领域映射超过4MiB，请按实际任务拆分。')
+
+    def pairs(items):
+        result = {}
+        for key, value in items:
+            if key in result:
+                raise MappingError(f'JSON含重复键: {key}')
+            result[key] = value
+        return result
+
+    def constant(value):
+        raise MappingError(f'JSON不能含非有限数: {value}')
+
+    try:
+        return json.loads(raw.decode('utf-8-sig'), object_pairs_hook=pairs, parse_constant=constant)
+    except (json.JSONDecodeError, RecursionError) as error:
+        raise MappingError(f'无法读取映射JSON: {error}') from error
+
+
+def _index(mapping):
+    sources = {row['id']: row for row in mapping['sources']}
+    entries = {row['id']: row for row in mapping['entries']}
+    outputs = {row['id']: row for row in mapping['outputs']}
+    return sources, entries, outputs
+
+
+def _dependencies(entry):
+    refs = set(entry['source_ids']) | set(entry['depends_on'])
+    for assessment in entry['assessments'].values():
+        refs.update(assessment['basis'])
+    for field in entry.get('fields', []):
+        refs.update(field['source_ids'])
+    for method in entry.get('methods', []):
+        refs.update(method['source_ids'])
+    refs.update(entry.get('target_review', {}).get('basis', []))
+    return refs
+
+
+def _graph(mapping):
+    sources, entries, outputs = _index(mapping)
+    children = {identifier: set() for identifier in (*sources, *entries, *outputs)}
+    for row in entries.values():
+        for parent in _dependencies(row):
+            children[parent].add(row['id'])
+    for row in outputs.values():
+        for parent in row['source_ids'] + row['entry_ids']:
+            children[parent].add(row['id'])
+    return children
+
+
+def validate_mapping(mapping) -> dict:
+    """Validate the explicit contract; report uncertainty without filling it."""
+    required = {'schema_version', 'id', 'version', 'domain', 'task', 'scope', 'sources', 'entries', 'outputs'}
+    _object(mapping, required | {'theory_sha256'}, required, '领域包')
+    if type(mapping['schema_version']) is not int or mapping['schema_version'] != 1:
+        raise MappingError('schema_version必须为整数1。')
+    _identifier(mapping['id'], '领域包.id')
+    for key in ('version', 'domain', 'task', 'scope'):
+        _text(mapping[key], f'领域包.{key}')
+    if 'theory_sha256' in mapping:
+        value = mapping['theory_sha256']
+        if not isinstance(value, str) or not re.fullmatch(r'[0-9a-f]{64}', value):
+            raise MappingError('theory_sha256须为小写SHA-256。')
+    seen = set()
+    unknown = []
+    for group in ('sources', 'entries', 'outputs'):
+        _list(mapping[group], group, nonempty=group == 'entries')
+        for row in mapping[group]:
+            if not isinstance(row, dict):
+                raise MappingError(f'{group}每项须为对象。')
+            identifier = _identifier(row.get('id'), f'{group}.id')
+            if identifier in seen:
+                raise MappingError(f'来源、映射与成果ID必须全局唯一: {identifier}')
+            seen.add(identifier)
+    sources, entries, outputs = _index(mapping)
+
+    def references(value, permitted, where):
+        _strings(value, where)
+        for identifier in value:
+            _identifier(identifier, where)
+            if identifier not in permitted:
+                raise MappingError(f'{where}引用不存在或类型不符: {identifier}')
+
+    for row in sources.values():
+        keys = {'id', 'title', 'locator', 'version', 'scope', 'kind'}
+        _object(row, keys, keys, f"来源 {row['id']}")
+        for key in keys - {'id', 'kind'}:
+            _text(row[key], f"来源 {row['id']}.{key}")
+        _enum(row['kind'], {'document', 'user_material', 'synthetic'}, '来源.kind')
+    for row in entries.values():
+        where = f"映射 {row['id']}"
+        keys = {'id', 'terms', 'context', 'layer', 'local_meaning', 'mapping_kind', 'target_meaning',
+                'theory_anchors', 'source_ids', 'depends_on', 'preserved', 'excluded', 'unknowns', 'assessments'}
+        _object(row, keys | {'fields', 'methods', 'target_review'}, keys, where)
+        terms = _strings(row['terms'], where + '.terms', nonempty=True)
+        if len({normalized_term(term) for term in terms}) != len(terms):
+            raise MappingError(f'{where}.terms含规范化后重复的词。')
+        _text(row['context'], where + '.context')
+        _enum(row['layer'], LAYERS, where + '.layer')
+        _enum(row['mapping_kind'], KINDS, where + '.mapping_kind')
+        for key in ('local_meaning', 'target_meaning'):
+            _text(row[key], where + '.' + key, nullable=True)
+            known_absence = (key == 'target_meaning'
+                             and row['mapping_kind'] in {'unmapped', 'not_applicable'})
+            if row[key] is None and not known_absence:
+                unknown.append(f"{row['id']}.{key}")
+        for key in ('preserved', 'excluded', 'unknowns', 'theory_anchors'):
+            _strings(row[key], where + '.' + key)
+        for anchor in row['theory_anchors']:
+            if not ANCHOR.fullmatch(anchor):
+                raise MappingError(f'{where}.theory_anchors不是小节编号: {anchor}')
+        references(row['source_ids'], sources, where + '.source_ids')
+        references(row['depends_on'], entries, where + '.depends_on')
+        if row['id'] in row['depends_on']:
+            raise MappingError(f'{where}不能依赖自己。')
+        assessments = row['assessments']
+        _object(assessments, {'semantic', 'factual', 'formal'}, {'semantic', 'factual', 'formal'}, where + '.assessments')
+        for name, assessment in assessments.items():
+            loc = where + '.assessments.' + name
+            _object(assessment, {'status', 'basis', 'scope', 'rationale'}, {'status', 'basis', 'scope', 'rationale'}, loc)
+            _enum(assessment['status'], STATUSES, loc + '.status')
+            references(assessment['basis'], sources, loc + '.basis')
+            _text(assessment['scope'], loc + '.scope')
+            _text(assessment['rationale'], loc + '.rationale')
+            if assessment['status'] in {'supported', 'partial', 'disputed'} and not assessment['basis']:
+                raise MappingError(f'{loc}的当前状态必须指出来源basis；工具不核实来源支持程度。')
+            if assessment['status'] in {'unknown', 'disputed'}:
+                unknown.append(f"{row['id']}.assessments.{name}")
+        if row['mapping_kind'] in {'unmapped', 'not_applicable'} and row['target_meaning'] is not None:
+            raise MappingError(f'{where}不对应/不适用时target_meaning必须为null，理由写在excluded。')
+        if row['mapping_kind'] not in {'unmapped', 'not_applicable', 'unknown'}:
+            if row['local_meaning'] is None or row['target_meaning'] is None:
+                raise MappingError(f'{where}声明对应时必须填写两端含义；尚未确定请用unknown。')
+            if not row['source_ids']:
+                raise MappingError(f'{where}声明对应时必须给出source_ids。')
+        if row['mapping_kind'] == 'definition_equivalence' and assessments['semantic']['status'] != 'supported':
+            raise MappingError(f'{where}定义对应需要有basis的语义支持声明；尚未支持请用unknown或部分对应。')
+        if row['mapping_kind'] in {'unknown', 'unmapped', 'not_applicable'} and not (row['unknowns'] or row['excluded']):
+            raise MappingError(f'{where}须说明未知、不对应或不适用的具体原因。')
+        _list(row.get('fields', []), where + '.fields')
+        names = set()
+        for field in row.get('fields', []):
+            field_keys = {'name', 'unit', 'denominator', 'time_window', 'missing_policy', 'source_ids'}
+            _object(field, field_keys, field_keys, where + '.fields')
+            _text(field['name'], where + '.fields.name')
+            if field['name'] in names:
+                raise MappingError(f'{where}字段名重复: {field["name"]}')
+            names.add(field['name'])
+            for key in ('unit', 'denominator', 'time_window'):
+                _text(field[key], where + '.fields.' + key, nullable=True)
+                if field[key] is None:
+                    unknown.append(f"{row['id']}.fields.{field['name']}.{key}")
+            _text(field['missing_policy'], where + '.fields.missing_policy')
+            references(field['source_ids'], sources, where + '.fields.source_ids')
+        _list(row.get('methods', []), where + '.methods')
+        for method in row.get('methods', []):
+            method_keys = {'name', 'status', 'scope', 'source_ids'}
+            _object(method, method_keys, method_keys, where + '.methods')
+            for key in ('name', 'scope'):
+                _text(method[key], where + '.methods.' + key)
+            _enum(method['status'], {'planned', 'performed', 'unavailable'}, where + '.methods.status')
+            references(method['source_ids'], sources, where + '.methods.source_ids')
+            if method['status'] == 'performed' and not method['source_ids']:
+                raise MappingError(f'{where}已执行的方法必须指向记录来源。')
+        if 'target_review' in row:
+            review = row['target_review']
+            review_keys = {'requested', 'status', 'basis', 'rationale'}
+            _object(review, review_keys, review_keys, where + '.target_review')
+            if type(review['requested']) is not bool:
+                raise MappingError(f'{where}.target_review.requested须为布尔值。')
+            _enum(review['status'], {'not_requested', 'pending', 'reviewed', 'not_applicable'}, where + '.target_review.status')
+            references(review['basis'], sources, where + '.target_review.basis')
+            _text(review['rationale'], where + '.target_review.rationale')
+            if review['requested'] != (review['status'] in {'pending', 'reviewed'}):
+                raise MappingError(f'{where}目标侧复核的申请状态与处理状态不一致。')
+            if review['status'] == 'reviewed' and not review['basis']:
+                raise MappingError(f'{where}目标侧已复核必须有记录来源。')
+    for row in outputs.values():
+        keys = {'id', 'title', 'text', 'entry_ids', 'source_ids'}
+        _object(row, keys, keys, f"成果 {row['id']}")
+        for key in ('title', 'text'):
+            _text(row[key], f"成果 {row['id']}.{key}")
+        references(row['entry_ids'], entries, '成果.entry_ids')
+        references(row['source_ids'], sources, '成果.source_ids')
+        if not row['entry_ids'] and not row['source_ids']:
+            raise MappingError(f"成果 {row['id']}须指出entry_ids或source_ids以便追踪依赖。")
+    if any(row['theory_anchors'] for row in entries.values()):
+        if 'theory_sha256' not in mapping:
+            raise MappingError('使用理论小节的领域包须提供theory_sha256，不能省略理论版本。')
+        source = Path(__file__).resolve().parents[1] / 'source' / 'Xikari-条件结构与转化论.md'
+        raw = source.read_bytes()
+        if hashlib.sha256(raw).hexdigest() != mapping['theory_sha256']:
+            raise MappingError('领域包绑定的理论版本与当前原文不同，请复核映射后另存新版。')
+        sections, _ = build_index(raw.decode('utf-8-sig').splitlines())
+        for row in entries.values():
+            for anchor in row['theory_anchors']:
+                if anchor not in sections:
+                    raise MappingError(f"映射 {row['id']}引用了当前理论不存在的小节: {anchor}")
+    graph = _graph(mapping)
+    incoming = {identifier: 0 for identifier in graph}
+    for children in graph.values():
+        for child in children:
+            incoming[child] += 1
+    queue = deque(identifier for identifier, count in incoming.items() if not count)
+    visited = 0
+    while queue:
+        node = queue.popleft()
+        visited += 1
+        for child in graph[node]:
+            incoming[child] -= 1
+            if not incoming[child]:
+                queue.append(child)
+    if visited != len(graph):
+        raise MappingError('映射依赖含循环，不能把相互引用作为独立依据；请拆成共同来源。')
+    return {'format': FORMAT, 'valid': True, 'id': mapping['id'], 'version': mapping['version'],
+            'source_count': len(sources), 'entry_count': len(entries), 'output_count': len(outputs),
+            'unresolved_fields': sorted(unknown), 'notice': NOTICE}
+
+
+def lookup(mapping, term: str, context: str | None = None) -> dict:
+    validate_mapping(mapping)
+    needle = normalized_term(term)
+    wanted_context = normalized_term(context) if context is not None else None
+    matches = [row for row in mapping['entries']
+               if needle in {normalized_term(value) for value in row['terms']}
+               and (wanted_context is None or wanted_context == normalized_term(row['context']))]
+    return {'format': FORMAT, 'term': term, 'context': context,
+            'status': 'unmapped' if not matches else 'ambiguous' if len(matches) > 1 else 'matched',
+            'ambiguous': len(matches) > 1, 'matches': matches,
+            'notice': NOTICE + ' 查询采用Unicode、大小写与空白规范化后的精确匹配，不猜测语境。'}
+
+
+def impact(mapping, changed: list[str]) -> dict:
+    validate_mapping(mapping)
+    _strings(changed, 'changed', nonempty=True)
+    sources, entries, outputs = _index(mapping)
+    permitted = set(sources) | set(entries)
+    for identifier in changed:
+        if identifier not in permitted:
+            raise MappingError(f'变更ID不存在或不是来源/映射: {identifier}')
+    graph = _graph(mapping)
+    paths = {identifier: [identifier] for identifier in sorted(changed)}
+    queue = deque(sorted(changed))
+    while queue:
+        node = queue.popleft()
+        for child in sorted(graph[node]):
+            if child not in paths:
+                paths[child] = paths[node] + [child]
+                queue.append(child)
+    return {'format': FORMAT, 'changed': sorted(changed),
+            'affected_entries': sorted(set(paths) & set(entries)),
+            'affected_outputs': sorted(set(paths) & set(outputs)),
+            'unaffected_outputs': sorted(set(outputs) - set(paths)),
+            'paths': {identifier: paths[identifier] for identifier in sorted(paths)},
+            'notice': '这是已登记依赖的复核范围，不断言结论已经错误；未登记的依赖无法自动发现。不会改写原始材料或成果。'}
+
+
+def _md(value):
+    if value is None:
+        return UNKNOWN
+    return re.sub(r'([\\`*_{}\[\]<>#+!|])', r'\\\1', str(value))
+
+
+def render_markdown(mapping) -> str:
+    report = validate_mapping(mapping)
+    lines = ['<!-- xikari-domain-mapping -->', '', '# 领域映射与使用说明', '',
+             f"领域：{_md(mapping['domain'])}；版本：{_md(mapping['version'])}。", '',
+             f"任务：{_md(mapping['task'])}", '', f"适用范围：{_md(mapping['scope'])}", '',
+             NOTICE, '', '## 来源范围', '']
+    if 'theory_sha256' in mapping:
+        lines[8:8] = [f"理论文本 SHA-256：{mapping['theory_sha256']}。", '']
+    if not mapping['sources']:
+        lines += ['尚未提供来源。', '']
+    for row in mapping['sources']:
+        lines += [f"- {_md(row['id'])}：{_md(row['title'])}（{_md(row['kind'])}）；"
+                  f"位置：{_md(row['locator'])}；版本：{_md(row['version'])}；范围：{_md(row['scope'])}"]
+    lines += ['', '## 对应、区别与证据', '']
+    for row in mapping['entries']:
+        if row['mapping_kind'] == 'unmapped':
+            target_description = '无对应（保留领域原词，理由见下文）'
+        elif row['mapping_kind'] == 'not_applicable':
+            target_description = '不适用（具体原因见下文）'
+        else:
+            target_description = _md(row['target_meaning'])
+        lines += [f"### {_md(' / '.join(row['terms']))}（{_md(row['id'])}）", '',
+                  f"语境：{_md(row['context'])}；层次：{_md(row['layer'])}；对应类型：{_md(row['mapping_kind'])}。", '',
+                  f"当地含义：{_md(row['local_meaning'])}", '', f"目标含义：{target_description}", '',
+                  f"来源：{_md(', '.join(row['source_ids']) or '未提供')}；理论小节：{_md(', '.join(row['theory_anchors']) or '未使用')}；"
+                  f"依赖映射：{_md(', '.join(row['depends_on']) or '无已登记依赖')}。", '']
+        for key, title in (('preserved', '保留的区别'), ('excluded', '不能推出与不对应'), ('unknowns', '未决事项')):
+            lines += [f"**{title}：**", '']
+            lines += [f'- {_md(item)}' for item in row[key]] or ['- 未登记；不表示该类问题不存在。']
+            lines.append('')
+        for name, label in (('semantic', '语义对应'), ('factual', '事实与机制证据'), ('formal', '正式实例资格')):
+            assessment = row['assessments'][name]
+            lines += [f"**{label}：{_md(assessment['status'])}**。{_md(assessment['rationale'])}", '',
+                      f"范围：{_md(assessment['scope'])}；依据：{_md(', '.join(assessment['basis']) or '未提供')}。", '']
+        for field in row.get('fields', []):
+            lines += [f"字段 {_md(field['name'])}：单位={_md(field['unit'])}；分母={_md(field['denominator'])}；"
+                      f"时间窗={_md(field['time_window'])}。{_md(field['missing_policy'])} "
+                      f"来源：{_md(', '.join(field['source_ids']) or '未提供')}。", '']
+        for method in row.get('methods', []):
+            lines += [f"方法 {_md(method['name'])}（{_md(method['status'])}）：{_md(method['scope'])}；"
+                      f"来源：{_md(', '.join(method['source_ids']) or '未提供')}。", '']
+        if 'target_review' in row:
+            review = row['target_review']
+            lines += [f"目标侧独立复核：{_md(review['status'])}；{_md(review['rationale'])}；"
+                      f"记录：{_md(', '.join(review['basis']) or '未提供')}。", '']
+    lines += ['## 已写成的领域表述', '']
+    if not mapping['outputs']:
+        lines += ['尚未提供成文；工具不会据词表编造研究结果。', '']
+    for row in mapping['outputs']:
+        lines += [f"### {_md(row['title'])}（{_md(row['id'])}）", '', _md(row['text']), '',
+                  f"依赖映射：{_md(', '.join(row['entry_ids']) or '无')}；直接来源：{_md(', '.join(row['source_ids']) or '无')}。", '']
+    if report['unresolved_fields']:
+        lines += ['## 保留的未知或争议位置', '']
+        lines += [f'- {_md(item)}' for item in report['unresolved_fields']]
+        lines.append('')
+    return '\n'.join(lines)
+
+
+def write_document(text: str, output: Path) -> Path:
+    """Publish a complete file without clobbering an existing path, even in a race."""
+    output = Path(output)
+    require_external_output(output, __file__)
+    if os.path.lexists(output):
+        raise MappingError(f'输出已存在，请使用新路径: {output}')
+    lock = output.with_name(output.name + '.lock')
+    require_external_output(lock, __file__)
+    output.parent.mkdir(parents=True, exist_ok=True)
+    temporary = None
+    owns_lock = False
+    try:
+        try:
+            descriptor = os.open(lock, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600)
+        except FileExistsError as error:
+            raise MappingError(f'输出存在写锁，未覆盖: {lock}') from error
+        owns_lock = True
+        os.close(descriptor)
+        require_external_output(output, __file__)
+        descriptor, name = tempfile.mkstemp(prefix='.domain-mapping-', suffix='.tmp', dir=output.parent)
+        temporary = Path(name)
+        with os.fdopen(descriptor, 'w', encoding='utf-8', newline='\n') as stream:
+            stream.write(text)
+            stream.flush()
+            os.fsync(stream.fileno())
+        try:
+            os.link(temporary, output)
+        except FileExistsError as error:
+            raise MappingError(f'输出已由其他写入者创建，未覆盖: {output}') from error
+        return output
+    finally:
+        if temporary is not None:
+            temporary.unlink(missing_ok=True)
+        if owns_lock:
+            lock.unlink(missing_ok=True)
+
+
+def main(argv=None) -> int:
+    for stream in (sys.stdout, sys.stderr):
+        if hasattr(stream, 'reconfigure'):
+            stream.reconfigure(encoding='utf-8')
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--mapping', type=Path, required=True, help='有版本和来源的领域映射JSON')
+    commands = parser.add_subparsers(dest='command', required=True)
+    commands.add_parser('validate', help='核对结构、引用、循环及未知；不核实事实')
+    query = commands.add_parser('lookup', help='精确词义查询，多义保留全部结果')
+    query.add_argument('--term', required=True)
+    query.add_argument('--context', help='可选：已登记语境的精确文本')
+    changes = commands.add_parser('impact', help='追踪来源或映射变更后的已登记依赖')
+    changes.add_argument('--changed', nargs='+', required=True)
+    render = commands.add_parser('render', help='把已提供的映射和成文渲染为说明')
+    render.add_argument('--output', '-o', type=Path, required=True)
+    args = parser.parse_args(argv)
+    try:
+        mapping = read_mapping(args.mapping)
+        if args.command == 'validate':
+            result = validate_mapping(mapping)
+        elif args.command == 'lookup':
+            result = lookup(mapping, args.term, args.context)
+        elif args.command == 'impact':
+            result = impact(mapping, args.changed)
+        else:
+            if args.output.resolve() == args.mapping.resolve():
+                raise MappingError('输出不能覆盖输入映射，请使用新路径。')
+            target = write_document(render_markdown(mapping), args.output)
+            result = {'output': str(target.resolve()), 'notice': NOTICE}
+        print(json.dumps(result, ensure_ascii=False, indent=2, allow_nan=False))
+        return 0
+    except (OSError, UnicodeError, MappingError, ValueError) as error:
+        print(f'领域映射处理失败：{error}', file=sys.stderr)
+        return 2
+
+
+if __name__ == '__main__':
+    raise SystemExit(main())

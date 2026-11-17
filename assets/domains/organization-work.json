@@ -1,0 +1,557 @@
+{
+  "schema_version": 1,
+  "id": "domain-organization-work",
+  "version": "1.0",
+  "domain": "组织与工作：Scrum职责与共享资源",
+  "task": "解释采用版本内的角色及完成语义，并为联合资源安排确定必要资料。",
+  "scope": "只覆盖明示采用Scrum Guide 2020的团队与有限排程；详细说明见../../references/domains/organization-work.md。无真实组织实例。",
+  "sources": [
+    {
+      "id": "org-src-scrum",
+      "title": "Scrum Guide 2020",
+      "locator": "https://scrumguides.org/scrum-guide.html",
+      "version": "November 2020；正文核对2026-11-17",
+      "scope": "已核Scrum Team及三项accountabilities、Increment、Definition of Done；仅框架词义，不证明实际组织采用。",
+      "kind": "document"
+    },
+    {
+      "id": "org-src-jobshop",
+      "title": "Google OR-Tools: The Job Shop Problem",
+      "locator": "https://developers.google.com/optimization/scheduling/job_shop",
+      "version": "在线官方指南，无固定修订号；正文核对2026-11-17",
+      "scope": "已核问题定义、变量与约束、目标；前置次序、资源互斥和不可中断任务的模型，不证明人员实际可用。",
+      "kind": "document"
+    }
+  ],
+  "entries": [
+    {
+      "id": "org-product-owner",
+      "terms": [
+        "Product Owner",
+        "产品负责人"
+      ],
+      "context": "采用Scrum Guide 2020的产品职责",
+      "layer": "role",
+      "local_meaning": "在该框架中承担产品价值和Product Backlog管理的accountability。",
+      "mapping_kind": "partial_correspondence",
+      "target_meaning": "区分角色所载职责、委派的工作与实际承担情况。",
+      "theory_anchors": [
+        "7.3",
+        "D.16"
+      ],
+      "source_ids": [
+        "org-src-scrum"
+      ],
+      "depends_on": [],
+      "preserved": [
+        "采用版本和职责范围。"
+      ],
+      "excluded": [
+        "不能译为任何组织的最终审批人，也不能由此确定预算或发布权。"
+      ],
+      "unknowns": [
+        "具体组织是否采用此定义、谁任此角色及其其他权限未知。"
+      ],
+      "assessments": {
+        "semantic": {
+          "status": "partial",
+          "basis": [
+            "org-src-scrum"
+          ],
+          "scope": "仅所列来源版本、当地语境与本条工作接口",
+          "rationale": "来源支持列明的专业区别；目标侧是有限工作对应，未证明两套概念完全等价。"
+        },
+        "factual": {
+          "status": "unknown",
+          "basis": [],
+          "scope": "具体组织、学习者或运行系统的实际情况与效果",
+          "rationale": "本包只有专业来源与工作接口，没有该现实任务材料；不填造具体事实。"
+        },
+        "formal": {
+          "status": "not_claimed",
+          "basis": [],
+          "scope": "普通领域说明与局部工作对应",
+          "rationale": "未申请正式理论实例资格；不影响已有专业词义的有限使用。"
+        }
+      },
+      "target_review": {
+        "requested": false,
+        "status": "not_requested",
+        "basis": [],
+        "rationale": "这是待检验的工程对应，未申请正式表述转义或取得目标侧独立复核。"
+      }
+    },
+    {
+      "id": "org-developers",
+      "terms": [
+        "Developers",
+        "开发者"
+      ],
+      "context": "Scrum团队内工作计划与质量职责",
+      "layer": "role",
+      "local_meaning": "在该框架中制订Sprint计划并遵守Definition of Done的团队角色。",
+      "mapping_kind": "partial_correspondence",
+      "target_meaning": "将计划、执行和具体完成证据分别核对。",
+      "theory_anchors": [
+        "7.3"
+      ],
+      "source_ids": [
+        "org-src-scrum"
+      ],
+      "depends_on": [],
+      "preserved": [
+        "团队角色与具体个人任务分配的区别。"
+      ],
+      "excluded": [
+        "名称不只表示软件程序员；框架角色不证明某人实际完成工作。"
+      ],
+      "unknowns": [
+        "实际成员、技能、任务分配及执行记录未知。"
+      ],
+      "assessments": {
+        "semantic": {
+          "status": "partial",
+          "basis": [
+            "org-src-scrum"
+          ],
+          "scope": "仅所列来源版本、当地语境与本条工作接口",
+          "rationale": "来源支持列明的专业区别；目标侧是有限工作对应，未证明两套概念完全等价。"
+        },
+        "factual": {
+          "status": "unknown",
+          "basis": [],
+          "scope": "具体组织、学习者或运行系统的实际情况与效果",
+          "rationale": "本包只有专业来源与工作接口，没有该现实任务材料；不填造具体事实。"
+        },
+        "formal": {
+          "status": "not_claimed",
+          "basis": [],
+          "scope": "普通领域说明与局部工作对应",
+          "rationale": "未申请正式理论实例资格；不影响已有专业词义的有限使用。"
+        }
+      },
+      "target_review": {
+        "requested": false,
+        "status": "not_requested",
+        "basis": [],
+        "rationale": "这是待检验的工程对应，未申请正式表述转义或取得目标侧独立复核。"
+      }
+    },
+    {
+      "id": "org-scrum-master",
+      "terms": [
+        "Scrum Master"
+      ],
+      "context": "Scrum的建立与团队有效性",
+      "layer": "role",
+      "local_meaning": "在该框架中负责建立Scrum并支持团队有效性的accountability。",
+      "mapping_kind": "unmapped",
+      "target_meaning": null,
+      "theory_anchors": [],
+      "source_ids": [
+        "org-src-scrum"
+      ],
+      "depends_on": [],
+      "preserved": [
+        "保留Scrum框架角色名称。"
+      ],
+      "excluded": [
+        "不直接对应行政主管、法律责任主体或统一的理论角色。"
+      ],
+      "unknowns": [
+        "实际任职和组织授权未知。"
+      ],
+      "assessments": {
+        "semantic": {
+          "status": "supported",
+          "basis": [
+            "org-src-scrum"
+          ],
+          "scope": "仅所列来源版本、当地语境与本条工作接口",
+          "rationale": "来源支持此专业词义；保留领域原词，不强行改写成理论概念。"
+        },
+        "factual": {
+          "status": "unknown",
+          "basis": [],
+          "scope": "具体组织、学习者或运行系统的实际情况与效果",
+          "rationale": "本包只有专业来源与工作接口，没有该现实任务材料；不填造具体事实。"
+        },
+        "formal": {
+          "status": "not_claimed",
+          "basis": [],
+          "scope": "普通领域说明与局部工作对应",
+          "rationale": "未申请正式理论实例资格；不影响已有专业词义的有限使用。"
+        }
+      }
+    },
+    {
+      "id": "org-delegation",
+      "terms": [
+        "委派",
+        "delegation"
+      ],
+      "context": "Product Owner管理工作被委派",
+      "layer": "relation",
+      "local_meaning": "Product Owner可委派相关工作，但依该框架仍保有相应accountability。",
+      "mapping_kind": "partial_correspondence",
+      "target_meaning": "分开提出委派、实际接收、实际执行和职责转移。",
+      "theory_anchors": [
+        "7.3"
+      ],
+      "source_ids": [
+        "org-src-scrum"
+      ],
+      "depends_on": [
+        "org-product-owner"
+      ],
+      "preserved": [
+        "工作委派与accountability保留。"
+      ],
+      "excluded": [
+        "发出委派消息不自动证明对方已接收执行或责任已转移。"
+      ],
+      "unknowns": [
+        "委派内容、实际接受和完成记录未知。"
+      ],
+      "assessments": {
+        "semantic": {
+          "status": "partial",
+          "basis": [
+            "org-src-scrum"
+          ],
+          "scope": "仅所列来源版本、当地语境与本条工作接口",
+          "rationale": "来源支持列明的专业区别；目标侧是有限工作对应，未证明两套概念完全等价。"
+        },
+        "factual": {
+          "status": "unknown",
+          "basis": [],
+          "scope": "具体组织、学习者或运行系统的实际情况与效果",
+          "rationale": "本包只有专业来源与工作接口，没有该现实任务材料；不填造具体事实。"
+        },
+        "formal": {
+          "status": "not_claimed",
+          "basis": [],
+          "scope": "普通领域说明与局部工作对应",
+          "rationale": "未申请正式理论实例资格；不影响已有专业词义的有限使用。"
+        }
+      },
+      "target_review": {
+        "requested": false,
+        "status": "not_requested",
+        "basis": [],
+        "rationale": "这是待检验的工程对应，未申请正式表述转义或取得目标侧独立复核。"
+      }
+    },
+    {
+      "id": "org-done",
+      "terms": [
+        "Done",
+        "Definition of Done",
+        "完成"
+      ],
+      "context": "Scrum Increment的质量完成口径",
+      "layer": "task",
+      "local_meaning": "Increment所要求质量状态的正式描述；工作须达到该完成条件。",
+      "mapping_kind": "partial_correspondence",
+      "target_meaning": "将此完成口径与实际发布及用户结果分别核对。",
+      "theory_anchors": [
+        "7.3"
+      ],
+      "source_ids": [
+        "org-src-scrum"
+      ],
+      "depends_on": [],
+      "preserved": [
+        "完成规则版本及其任务范围。"
+      ],
+      "excluded": [
+        "达到此条件不能代替未纳入其中的发布授权或用户效果证据。"
+      ],
+      "unknowns": [
+        "本地Definition of Done及条目是否达成未知。"
+      ],
+      "assessments": {
+        "semantic": {
+          "status": "partial",
+          "basis": [
+            "org-src-scrum"
+          ],
+          "scope": "仅所列来源版本、当地语境与本条工作接口",
+          "rationale": "来源支持列明的专业区别；目标侧是有限工作对应，未证明两套概念完全等价。"
+        },
+        "factual": {
+          "status": "unknown",
+          "basis": [],
+          "scope": "具体组织、学习者或运行系统的实际情况与效果",
+          "rationale": "本包只有专业来源与工作接口，没有该现实任务材料；不填造具体事实。"
+        },
+        "formal": {
+          "status": "not_claimed",
+          "basis": [],
+          "scope": "普通领域说明与局部工作对应",
+          "rationale": "未申请正式理论实例资格；不影响已有专业词义的有限使用。"
+        }
+      },
+      "target_review": {
+        "requested": false,
+        "status": "not_requested",
+        "basis": [],
+        "rationale": "这是待检验的工程对应，未申请正式表述转义或取得目标侧独立复核。"
+      }
+    },
+    {
+      "id": "org-joint-schedule",
+      "terms": [
+        "联合排程",
+        "job shop"
+      ],
+      "context": "有限不可中断任务共享同一资源",
+      "layer": "method",
+      "local_meaning": "联合设置任务开始时间，同时满足前后次序与资源互斥。",
+      "mapping_kind": "partial_correspondence",
+      "target_meaning": "在同一资源与期限模型中核对多项方案。",
+      "theory_anchors": [
+        "12.10"
+      ],
+      "source_ids": [
+        "org-src-jobshop"
+      ],
+      "depends_on": [],
+      "preserved": [
+        "同一资源不能重复分配，任务假设需要明示。"
+      ],
+      "excluded": [
+        "模型可行不等于真实人员有资格、有同意或已经执行。"
+      ],
+      "unknowns": [
+        "当前任务时长、资源日历和期限未知。"
+      ],
+      "assessments": {
+        "semantic": {
+          "status": "partial",
+          "basis": [
+            "org-src-jobshop"
+          ],
+          "scope": "仅所列来源版本、当地语境与本条工作接口",
+          "rationale": "来源支持列明的专业区别；目标侧是有限工作对应，未证明两套概念完全等价。"
+        },
+        "factual": {
+          "status": "unknown",
+          "basis": [],
+          "scope": "具体组织、学习者或运行系统的实际情况与效果",
+          "rationale": "本包只有专业来源与工作接口，没有该现实任务材料；不填造具体事实。"
+        },
+        "formal": {
+          "status": "not_claimed",
+          "basis": [],
+          "scope": "普通领域说明与局部工作对应",
+          "rationale": "未申请正式理论实例资格；不影响已有专业词义的有限使用。"
+        }
+      },
+      "methods": [
+        {
+          "name": "建立任务依赖与资源时段约束",
+          "status": "planned",
+          "scope": "只有任务确实不可拆分时采用连续加工假设；领域目标另定。",
+          "source_ids": [
+            "org-src-jobshop"
+          ]
+        }
+      ],
+      "target_review": {
+        "requested": false,
+        "status": "not_requested",
+        "basis": [],
+        "rationale": "这是待检验的工程对应，未申请正式表述转义或取得目标侧独立复核。"
+      }
+    },
+    {
+      "id": "org-resource",
+      "terms": [
+        "资源可用",
+        "可用时段"
+      ],
+      "context": "任务需要的共享资源和连续时间",
+      "layer": "measurement",
+      "local_meaning": "在明示模型中可分配给任务的资源容量与时段。",
+      "mapping_kind": "observation_interface",
+      "target_meaning": "把总量与逐任务时段、资格及期限分开。",
+      "theory_anchors": [
+        "12.10"
+      ],
+      "source_ids": [
+        "org-src-jobshop"
+      ],
+      "depends_on": [
+        "org-joint-schedule"
+      ],
+      "preserved": [
+        "资源标识、单位和占用区间。"
+      ],
+      "excluded": [
+        "总小时数足够不能代证连续时段存在。"
+      ],
+      "unknowns": [
+        "现实资源容量及可占用时段尚未提供。"
+      ],
+      "assessments": {
+        "semantic": {
+          "status": "partial",
+          "basis": [
+            "org-src-jobshop"
+          ],
+          "scope": "仅所列来源版本、当地语境与本条工作接口",
+          "rationale": "来源支持列明的专业区别；目标侧是有限工作对应，未证明两套概念完全等价。"
+        },
+        "factual": {
+          "status": "unknown",
+          "basis": [],
+          "scope": "具体组织、学习者或运行系统的实际情况与效果",
+          "rationale": "本包只有专业来源与工作接口，没有该现实任务材料；不填造具体事实。"
+        },
+        "formal": {
+          "status": "not_claimed",
+          "basis": [],
+          "scope": "普通领域说明与局部工作对应",
+          "rationale": "未申请正式理论实例资格；不影响已有专业词义的有限使用。"
+        }
+      },
+      "fields": [
+        {
+          "name": "duration",
+          "unit": "任务明示的时间单位",
+          "denominator": "不适用：本字段不是比例，不设置统计分母。",
+          "time_window": null,
+          "missing_policy": "未知时长不填零；本字段是工作接口，不是官方数据格式。",
+          "source_ids": [
+            "org-src-jobshop"
+          ]
+        },
+        {
+          "name": "capacity_calendar",
+          "unit": "同一资源的并行容量",
+          "denominator": "不适用：本字段不是比例，不设置统计分母。",
+          "time_window": null,
+          "missing_policy": "缺少资源时段时不生成现实可用性结论。",
+          "source_ids": [
+            "org-src-jobshop"
+          ]
+        }
+      ],
+      "target_review": {
+        "requested": false,
+        "status": "not_requested",
+        "basis": [],
+        "rationale": "这是待检验的工程对应，未申请正式表述转义或取得目标侧独立复核。"
+      }
+    },
+    {
+      "id": "org-release-authority",
+      "terms": [
+        "批准",
+        "发布许可"
+      ],
+      "context": "具体组织对具体发布动作的有效权限",
+      "layer": "exception",
+      "local_meaning": null,
+      "mapping_kind": "unknown",
+      "target_meaning": null,
+      "theory_anchors": [],
+      "source_ids": [],
+      "depends_on": [],
+      "preserved": [
+        "技术执行能力与本地有效权限分别核对。"
+      ],
+      "excluded": [
+        "Scrum角色名和可行排程都不自动授予发布许可。"
+      ],
+      "unknowns": [
+        "尚未取得具体组织的发布或授权规则。"
+      ],
+      "assessments": {
+        "semantic": {
+          "status": "unknown",
+          "basis": [],
+          "scope": "仅所列来源版本、当地语境与本条工作接口",
+          "rationale": "缺少具体机构或系统规则，未确认当地义项。"
+        },
+        "factual": {
+          "status": "unknown",
+          "basis": [],
+          "scope": "具体组织、学习者或运行系统的实际情况与效果",
+          "rationale": "本包只有专业来源与工作接口，没有该现实任务材料；不填造具体事实。"
+        },
+        "formal": {
+          "status": "not_claimed",
+          "basis": [],
+          "scope": "普通领域说明与局部工作对应",
+          "rationale": "未申请正式理论实例资格；不影响已有专业词义的有限使用。"
+        }
+      }
+    },
+    {
+      "id": "org-feedback",
+      "terms": [
+        "反馈",
+        "收到意见"
+      ],
+      "context": "具体组织的意见接收与后续处理",
+      "layer": "relation",
+      "local_meaning": null,
+      "mapping_kind": "unknown",
+      "target_meaning": null,
+      "theory_anchors": [],
+      "source_ids": [],
+      "depends_on": [],
+      "preserved": [
+        "表达、收到、处理理由与后续落实分别记录。"
+      ],
+      "excluded": [
+        "仅收到消息不证明后续改变；没有改判也不单独证明处理失效。"
+      ],
+      "unknowns": [
+        "当地反馈含义及接收、处理记录未知。"
+      ],
+      "assessments": {
+        "semantic": {
+          "status": "unknown",
+          "basis": [],
+          "scope": "仅所列来源版本、当地语境与本条工作接口",
+          "rationale": "缺少具体机构或系统规则，未确认当地义项。"
+        },
+        "factual": {
+          "status": "unknown",
+          "basis": [],
+          "scope": "具体组织、学习者或运行系统的实际情况与效果",
+          "rationale": "本包只有专业来源与工作接口，没有该现实任务材料；不填造具体事实。"
+        },
+        "formal": {
+          "status": "not_claimed",
+          "basis": [],
+          "scope": "普通领域说明与局部工作对应",
+          "rationale": "未申请正式理论实例资格；不影响已有专业词义的有限使用。"
+        }
+      }
+    }
+  ],
+  "outputs": [
+    {
+      "id": "org-output-brief",
+      "title": "职责与共同资源安排的有限说明",
+      "text": "若团队采用Scrum Guide 2020，应先按该框架解释Product Owner、Developers和Scrum Master，再用本地材料确认具体人和权限。委派工作、实际接收及完成不是同一事实；Definition of Done也不能替代未纳入其中的发布或用户结果。共享资源任务应联合核对时段和前后依赖，不能把分别可行相加。本包尚无具体团队记录，因此可以给出上述词义与核对方法，但不能断言谁已履职、排程已可执行或发布已获许可。",
+      "entry_ids": [
+        "org-product-owner",
+        "org-developers",
+        "org-scrum-master",
+        "org-delegation",
+        "org-done",
+        "org-joint-schedule",
+        "org-resource",
+        "org-release-authority",
+        "org-feedback"
+      ],
+      "source_ids": []
+    }
+  ],
+  "theory_sha256": "6ef2e508474d4ac1ad07d7e4e068955342c405b5f680afcfc40d68cca3d0149c"
+}
