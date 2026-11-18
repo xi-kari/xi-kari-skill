@@ -624,8 +624,12 @@ LABELS = {
 }
 
 
-def render_markdown(mapping, lang: str = 'zh') -> str:
-    """Typeset the supplied mapping; lang selects fixed labels, never translates authored text."""
+def render_markdown(mapping, lang: str = 'zh', embed: bool = False) -> str:
+    """Typeset the supplied mapping; lang selects fixed labels, never translates authored text.
+
+    embed=True returns the same content one heading level down, so it can stand
+    as a chapter of a complete answer such as xi-kari-answer.md.
+    """
     if lang not in LABELS:
         raise MappingError(f'不支持的语言：{lang}；可用 zh 或 en。')
     text = LABELS[lang]
@@ -637,7 +641,7 @@ def render_markdown(mapping, lang: str = 'zh') -> str:
     def joined(values, empty):
         return md(', '.join(values) or empty)
 
-    lines = ['<!-- xikari-domain-mapping -->', '', text['title'], '',
+    lines = [text['title'], '',
              text['domain'].format(domain=md(mapping['domain']), version=md(mapping['version'])), '',
              text['task'].format(md(mapping['task'])), '', text['scope'].format(md(mapping['scope'])), '']
     if 'theory_sha256' in mapping:
@@ -705,6 +709,9 @@ def render_markdown(mapping, lang: str = 'zh') -> str:
         lines += [text['unresolved'], '']
         lines += [f'- {md(item)}' for item in report['unresolved_fields']]
         lines.append('')
+    if embed:
+        # _md escapes every '#', so only the fixed headings can start with one.
+        lines = ['#' + line if line.startswith('#') else line for line in lines]
     return _bounded_join(lines, '\n')
 
 
@@ -766,6 +773,8 @@ def main(argv=None) -> int:
     render.add_argument('--output', '-o', type=Path, required=True)
     render.add_argument('--lang', choices=sorted(LABELS), default='zh',
                         help='固定标签与说明的语言：zh（默认）或 en；不翻译作者正文')
+    render.add_argument('--embed', action='store_true',
+                        help='标题整体降一级，作为完整稿（如 xi-kari-answer.md）中的一章')
     args = parser.parse_args(argv)
     try:
         mapping, snapshot_sha256 = read_snapshot(args.mapping)
@@ -782,8 +791,8 @@ def main(argv=None) -> int:
         else:
             if args.output.resolve() == args.mapping.resolve():
                 raise MappingError('输出不能覆盖输入映射，请使用新路径。')
-            target = write_document(render_markdown(mapping, args.lang), args.output)
-            result = {'output': str(target.resolve()), 'notice': NOTICE}
+            target = write_document(render_markdown(mapping, args.lang, args.embed), args.output)
+            result = {'output': str(target.resolve()), 'notice': LABELS[args.lang]['notice']}
         print(_json_output(result))
         return 0
     except (OSError, UnicodeError, MappingError, ValueError) as error:

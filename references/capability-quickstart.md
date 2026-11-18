@@ -35,7 +35,7 @@
 
 ```text
 python scripts/research.py --research assets/examples/research.json validate
-python scripts/research.py --research assets/examples/research.json render --output ../xikari-task/research
+python scripts/research.py --research assets/examples/research.json render --answer ../xikari-task/xi-kari-answer.md
 python scripts/research.py --research assets/examples/research.json impact --changed S-register
 
 python scripts/domain_mapping.py --mapping assets/examples/domain-mapping.json validate
@@ -44,7 +44,7 @@ python scripts/domain_mapping.py --mapping assets/examples/domain-mapping.json i
 python scripts/domain_mapping.py --mapping assets/examples/domain-mapping.json render --output ../xikari-task/mapping.md
 ```
 
-研究工具生成主体与问题两个文件，重大问题同时出现在相应正文处；映射查询遇到多个义项会返回歧义，不选一个假装唯一。变更影响只定位需要复核的内容，不自动宣布结论错误，也不自动改写源材料。输出已存在时换一个新位置，保留旧结果。
+研究工具生成一份完整稿，主体在前、解释边界与问题为末章，重大问题同时出现在相应正文处；问题报告须单独流转时改用 `render --output <新目录>` 生成两个文件。映射查询遇到多个义项会返回歧义，不选一个假装唯一。变更影响只定位需要复核的内容，不自动宣布结论错误，也不自动改写源材料。输出已存在时换一个新位置，保留旧结果。
 
 研究确实使用了一个领域包时，可用 [`mapping_ref`](research-format.md#领域映射的跨文件修订) 绑定实际用到的节点，再用 `research.py ... impact-mapping --mapping <所据旧快照> --changed <来源、条目或成果ID>` 跨文件定位。没有绑定的人工映射仍可用，但不属于自动传播范围；普通来源位置也不会被程序自动打开。修订仍须落实到完整正文，而不只是更新散列。
 

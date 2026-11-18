@@ -86,6 +86,7 @@ LABELS = {
         'snapshot': '映射快照：{id} / {version}；字节 SHA-256：{sha}；引用节点：{nodes}。',
         'manual_mapping': '本项为人工映射说明，未绑定可自动追踪的领域包快照；来源更正须人工回查下游。',
         'issues_title': '# {} · 解释边界与问题', 'issues_question': '对应研究问题：{}',
+        'answer_issues': '## 解释边界与问题',
         'see_report': '主体论证见 [研究报告](research-report.md)。',
         'no_issues': '本次记录未提出具体问题项；这一结果只覆盖上述评估范围，不表示理论或研究普遍无误。',
         'categories_line': '分类：{}。', 'affected_line': '受影响结论：{findings}；影响程度：{materiality}。',
@@ -93,6 +94,9 @@ LABELS = {
         'fields': (('current_work', '已经完成的工作'), ('why_unresolved', '仍未解决的具体原因'),
                    ('consequence', '对主报告的影响'), ('next_work', '下一项工作'),
                    ('status_reason', '当前状态依据'), ('resolution_scope', '已解决与仍未解决的范围')),
+        'answer_fields': (('current_work', '已经完成的工作'), ('why_unresolved', '仍未解决的具体原因'),
+                          ('consequence', '对前文判断的影响'), ('next_work', '下一项工作'),
+                          ('status_reason', '当前状态依据'), ('resolution_scope', '已解决与仍未解决的范围')),
         'theory_head': '### 理论问题候选的具体命中位置', 'theory_anchor': '原文位置：§{}',
         'theory_sha': '所据原文字节 SHA-256：{}', 'theory_notice': '**理论版本提示：** {}',
         'theory_subject': '本候选', 'theory_scope': '原命题范围与前提：{}', 'theory_challenge': '具体挑战：{}',
@@ -152,6 +156,7 @@ LABELS = {
         'manual_mapping': ('This is a manual mapping note with no traceable domain-pack snapshot; after a source '
                            'correction, check its dependents by hand.'),
         'issues_title': '# {} · Limits of explanation and issues', 'issues_question': 'Research question: {}',
+        'answer_issues': '## Limits of explanation and issues',
         'see_report': 'The main argument is in the [research report](research-report.md).',
         'no_issues': ('No specific issue was raised in this record. That covers only the assessment scope above; '
                       'it does not mean the theory or the research is free of problems.'),
@@ -160,6 +165,10 @@ LABELS = {
         'fields': (('current_work', 'Work already done'), ('why_unresolved', 'Why it is still unresolved'),
                    ('consequence', 'Consequence for the main report'), ('next_work', 'Next piece of work'),
                    ('status_reason', 'Basis for the current status'), ('resolution_scope', 'What is and is not resolved')),
+        'answer_fields': (('current_work', 'Work already done'), ('why_unresolved', 'Why it is still unresolved'),
+                          ('consequence', 'Consequence for the judgments above'), ('next_work', 'Next piece of work'),
+                          ('status_reason', 'Basis for the current status'),
+                          ('resolution_scope', 'What is and is not resolved')),
         'theory_head': '### Where the candidate theory problem bears', 'theory_anchor': 'Source location: §{}',
         'theory_sha': 'Byte SHA-256 of the source text relied on: {}', 'theory_notice': '**Theory version notice:** {}',
         'theory_subject': 'This candidate', 'theory_scope': 'Scope and premises of the proposition: {}',
@@ -573,13 +582,50 @@ class _DocumentLines(list):
         for value in values:
             self.budget[0] += len(value.encode('utf-8')) + 1
             if self.budget[0] > MAX_RENDER_BYTES:
-                raise ResearchError('双成果渲染超过 32 MiB；请按实际专题拆分，保留相关依赖与限制。')
+                raise ResearchError('研究成果渲染超过 32 MiB；请按实际专题拆分，保留相关依赖与限制。')
             self.append(value)
         return self
 
 
 def render_documents(data, lang: str = 'zh') -> dict[str, str]:
     """Typeset the authored pair; lang selects fixed labels, never translates the author's text."""
+    return _compose(data, lang, combined=False)
+
+
+def render_answer(data, lang: str = 'zh', appendices=()) -> str:
+    """One complete draft for xi-kari-answer.md: the main report, then the
+    limits-and-issues chapter, then the materials and any bound mapping
+    chapters. The reading page and Word export work from this single file."""
+    return _compose(data, lang, combined=True, appendices=tuple(appendices))['answer']
+
+
+def mapping_chapter(data, mapping_path: Path, lang: str = 'zh') -> str:
+    """Typeset one explicitly supplied mapping snapshot that this research is bound to.
+
+    Only a snapshot whose package ID, version and byte SHA-256 match a
+    mapping_ref is accepted, so the chapter shows what the findings relied on.
+    """
+    validate_research(data)
+    mapping, digest = read_snapshot(mapping_path)
+    domain_mapping.validate_mapping(mapping)
+    nodes = {row['id'] for group in ('sources', 'entries', 'outputs') for row in mapping[group]}
+    bound = False
+    for item in data['inputs']:
+        ref = item.get('mapping_ref')
+        if not ref or (ref['id'], ref['version']) != (mapping['id'], mapping['version']):
+            continue
+        if ref['sha256'] != digest:
+            raise ResearchError(f'{item["id"]} 绑定的映射字节 SHA-256 不匹配；请附入所据快照，不要用新版替代。')
+        absent = set(ref['node_ids']) - nodes
+        if absent:
+            raise ResearchError(f'{item["id"]} 引用映射快照中不存在的节点：{sorted(absent)}')
+        bound = True
+    if not bound:
+        raise ResearchError('没有与该包 ID、版本和字节摘要匹配的 mapping_ref；未绑定的领域包不附入完整稿。')
+    return domain_mapping.render_markdown(mapping, lang, embed=True)
+
+
+def _compose(data, lang: str, combined: bool, appendices: tuple[str, ...] = ()) -> dict[str, str]:
     if lang not in LABELS:
         raise ResearchError(f'不支持的语言：{lang}；可用 zh 或 en。')
     text = LABELS[lang]
@@ -610,7 +656,7 @@ def render_documents(data, lang: str = 'zh') -> dict[str, str]:
             issue_bits[child] |= issue_bits[finding]
     budget = [0]
     major = [item for item in data['issues'] if item['materiality'] == 'major' and item['status'] in ACTIVE]
-    lines = _DocumentLines(['<!-- xikari-research-report -->', '', f'# {data["title"]}', '',
+    lines = _DocumentLines([f'# {data["title"]}', '',
                             text['question'].format(data['question']), '', text['current'], '', data['summary'], '',
                             text['summary_refs'].format(refs(data['summary_refs'])), ''], budget)
     affected_summary = [key for key in data['summary_refs'] if key in stopped_paths]
@@ -649,36 +695,50 @@ def render_documents(data, lang: str = 'zh') -> dict[str, str]:
             if issue['status'] == 'superseded':
                 lines += [text['successors'].format(', '.join(issue['superseded_by'])), '']
         lines += [text['change'], ''] + [f'- {entry}' for entry in item['change_conditions']] + ['']
-    lines += [text['assessment'], '', data['issue_assessment'], '', text['see_issues'], '']
-    lines += _source_lines(data, text) + [f'> {text["notice"]}', '']
-
-    boundary = _DocumentLines(['<!-- xikari-research-issues -->', '', text['issues_title'].format(data['title']), '',
-                               text['issues_question'].format(data['question']), '', data['issue_assessment'], '',
-                               text['see_report'], ''], budget)
+    if combined:
+        # The issues become the draft's closing chapter, one level down.
+        lines += [text['answer_issues'], '', data['issue_assessment'], '']
+        boundary, level = lines, '###'
+        fields = text['answer_fields']
+    else:
+        lines += [text['assessment'], '', data['issue_assessment'], '', text['see_issues'], '']
+        lines += _source_lines(data, text) + [f'> {text["notice"]}', '']
+        boundary = _DocumentLines([text['issues_title'].format(data['title']), '',
+                                   text['issues_question'].format(data['question']), '', data['issue_assessment'], '',
+                                   text['see_report'], ''], budget)
+        level = '##'
+        fields = text['fields']
     if not data['issues']:
         boundary += [text['no_issues'], '']
     for item in data['issues']:
-        boundary += [f'## {issue_label(item)}', '',
+        boundary += [f'{level} {issue_label(item)}', '',
                      text['categories_line'].format(text['cat_sep'].join(text['categories'][key]
                                                                          for key in item['categories'])), '',
                      text['affected_line'].format(findings=refs(item['affected_findings']),
                                                   materiality=text['materiality'][item['materiality']]), '']
         if item['status'] == 'superseded':
             boundary += [text['successors_issue'].format(', '.join(item['superseded_by'])), '']
-        for key, label in text['fields']:
+        for key, label in fields:
             # Optional fields that are empty for this status are left out rather
             # than shown as an empty promise of further work.
             if item[key]:
                 boundary += [f'**{label}{"：" if lang == "zh" else ":"}**', '', item[key], '']
         if 'theory' in item:
             theory = item['theory']
-            boundary += [text['theory_head'], '', text['theory_anchor'].format(theory['anchor']), '',
+            boundary += ['#' + text['theory_head'] if combined else text['theory_head'], '',
+                         text['theory_anchor'].format(theory['anchor']), '',
                          theory['proposition'], '', text['theory_sha'].format(theory['source_sha256']), '']
             if theory['source_sha256'] != theory_index()['sha256']:
                 boundary += [text['theory_notice'].format(domain_mapping.theory_version_warning(
                     domain_mapping.theory_binding(theory['source_sha256']), text['theory_subject'], lang)), '']
             boundary += [text['theory_scope'].format(theory['scope']), '',
                          text['theory_challenge'].format(theory['challenge']), '', text['theory_tail'], '']
+    if combined:
+        lines += _source_lines(data, text)
+        for chapter in appendices:
+            lines += [chapter.rstrip('\n'), '']
+        lines += [f'> {text["notice"]}', '']
+        return {'answer': '\n'.join(lines)}
     boundary += [f'> {text["notice"]}', '']
     return {'research-report.md': '\n'.join(lines), 'research-issues.md': '\n'.join(boundary)}
 
@@ -761,6 +821,48 @@ def write_documents(documents, output: Path) -> Path:
             lock.unlink(missing_ok=True)
 
 
+def write_answer(text: str, output: Path) -> Path:
+    """Publish one complete draft without replacing any existing path, even in a race."""
+    output = Path(output)
+    require_external_output(output, __file__)
+    if not isinstance(text, str) or not text.strip():
+        raise ResearchError('完整稿正文须为非空文本。')
+    if len(text.encode('utf-8')) > MAX_RENDER_BYTES:
+        raise ResearchError('完整稿超过 32 MiB；请按实际专题拆分，保留相关依赖与限制。')
+    if os.path.lexists(output):
+        raise ResearchError(f'输出已存在，未覆盖：{output}；请指定新文件。')
+    lock = output.with_name(output.name + '.research.lock')
+    require_external_output(lock, __file__)
+    output.parent.mkdir(parents=True, exist_ok=True)
+    temporary = None
+    owns_lock = False
+    try:
+        try:
+            descriptor = os.open(lock, os.O_CREAT | os.O_EXCL | os.O_WRONLY, 0o600)
+        except FileExistsError as exc:
+            raise ResearchError(f'输出有写入者或遗留锁：{lock}；未自动覆盖。') from exc
+        owns_lock = True
+        os.close(descriptor)
+        require_external_output(output, __file__)
+        descriptor, name = tempfile.mkstemp(prefix='.research-answer-', suffix='.tmp', dir=output.parent)
+        temporary = Path(name)
+        with os.fdopen(descriptor, 'w', encoding='utf-8', newline='\n') as stream:
+            stream.write(text)
+            stream.flush()
+            os.fsync(stream.fileno())
+        try:
+            # A hard link creates the destination only if it is still absent.
+            os.link(temporary, output)
+        except FileExistsError as exc:
+            raise ResearchError('输出在写入期间已出现，未覆盖。') from exc
+        return output
+    finally:
+        if temporary is not None:
+            temporary.unlink(missing_ok=True)
+        if owns_lock:
+            lock.unlink(missing_ok=True)
+
+
 def main(argv=None):
     for stream in (sys.stdout, sys.stderr):
         if hasattr(stream, 'reconfigure'):
@@ -769,8 +871,13 @@ def main(argv=None):
     parser.add_argument('--research', required=True, type=Path, help='已经完成的作者研究内容 JSON')
     commands = parser.add_subparsers(dest='command', required=True)
     commands.add_parser('validate', help='校验结构、身份字段和依赖，不判断正文质量')
-    render = commands.add_parser('render', help='同时生成主体和问题报告')
-    render.add_argument('--output', type=Path, required=True, help='安装目录外的全新输出目录')
+    render = commands.add_parser('render', help='同时生成主体和问题报告，或生成一份完整稿')
+    target = render.add_mutually_exclusive_group(required=True)
+    target.add_argument('--output', type=Path, help='安装目录外的全新输出目录，写入两份报告')
+    target.add_argument('--answer', type=Path,
+                        help='安装目录外的新 Markdown 文件，如 xi-kari-answer.md：主体在前，解释边界与问题为末章')
+    render.add_argument('--mapping', type=Path, action='append', default=[],
+                        help='仅用于 --answer，可重复：mapping_ref 所据的领域包快照，附为完整稿末尾的映射说明章')
     render.add_argument('--lang', choices=sorted(LABELS), default='zh',
                         help='固定标签与说明的语言：zh（默认）或 en；不翻译作者正文')
     changes = commands.add_parser('impact', help='由变更 ID 追踪受影响结论')
@@ -789,10 +896,21 @@ def main(argv=None):
             result = impact(data, args.changed)
         elif args.command == 'impact-mapping':
             result = impact_mapping(data, args.mapping, args.changed, args.against)
+        elif args.answer is not None:
+            if args.answer.resolve() in {path.resolve() for path in [args.research, *args.mapping]}:
+                raise ResearchError('完整稿不能覆盖研究 JSON 或映射快照，请使用新路径。')
+            if len({path.resolve() for path in args.mapping}) != len(args.mapping):
+                raise ResearchError('同一映射快照只能附入一次。')
+            chapters = [mapping_chapter(data, path, args.lang) for path in args.mapping]
+            output = write_answer(render_answer(data, args.lang, chapters), args.answer)
+            result = {'output': str(output.resolve()), 'mapping_chapters': len(chapters),
+                      'notice': LABELS[args.lang]['notice']}
         else:
+            if args.mapping:
+                raise ResearchError('--mapping 只用于 --answer 完整稿；双成果目录不附入映射说明。')
             output = write_documents(render_documents(data, args.lang), args.output)
             result = {'output': str(output.resolve()), 'files': ['research-report.md', 'research-issues.md'],
-                      'notice': NOTICE}
+                      'notice': LABELS[args.lang]['notice']}
         chunks = []
         size = 0
         for chunk in json.JSONEncoder(ensure_ascii=False, indent=2, allow_nan=False).iterencode(result):

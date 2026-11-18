@@ -553,5 +553,162 @@ class ResearchCliTests(unittest.TestCase):
             self.assertFalse(output.exists())
 
 
+
+MAPPING = ROOT / 'assets' / 'examples' / 'domain-mapping.json'
+
+
+def bound_example(node_ids=('m-completion',)):
+    """The example research with its mapping input bound to the shipped mapping snapshot."""
+    data = example()
+    mapping = json.loads(MAPPING.read_text(encoding='utf-8'))
+    data['inputs'][-1]['mapping_ref'] = {
+        'id': mapping['id'], 'version': mapping['version'],
+        'sha256': research.hashlib.sha256(MAPPING.read_bytes()).hexdigest(), 'node_ids': list(node_ids)}
+    return data
+
+
+def headings(text):
+    return [line for line in text.splitlines() if line.startswith('#')]
+
+
+class ResearchAnswerTests(unittest.TestCase):
+    """One complete draft for xi-kari-answer.md instead of a pair of linked files."""
+
+    def test_complete_draft_keeps_issues_as_its_closing_chapter(self):
+        data = example()
+        text = research.render_answer(data)
+        titles = headings(text)
+        self.assertEqual([line for line in titles if line.startswith('# ')], ['# ' + data['title']])
+        order = ['## 当前判断', '## 范围与方法', '## 研究论证', '## 解释边界与问题', '## 材料、前提与映射']
+        self.assertEqual([line for line in titles if line in order], order)
+        for item in data['issues']:
+            self.assertIn(f'### {item["id"]}：', text)
+            self.assertNotIn(f'\n## {item["id"]}', text)
+        for item in data['findings']:
+            self.assertIn(f'### {item["id"]} · ', text)
+        self.assertIn(data['issue_assessment'], text)
+        self.assertIn('**对前文判断的影响：**', text)
+        for absent in ('<!--', 'research-issues.md', 'research-report.md', '对主报告的影响', '解释范围与问题评估'):
+            self.assertNotIn(absent, text)
+        self.assertTrue(text.rstrip().endswith('> ' + research.NOTICE))
+
+    def test_pair_keeps_its_cross_links_but_no_visible_marker(self):
+        documents = research.render_documents(example())
+        for name, content in documents.items():
+            self.assertTrue(content.startswith('# '), name)
+            self.assertNotIn('<!--', content)
+        self.assertIn('(research-issues.md)', documents['research-report.md'])
+        self.assertIn('(research-report.md)', documents['research-issues.md'])
+
+    def test_english_complete_draft_uses_english_fixed_labels_only(self):
+        data = example()
+        text = research.render_answer(data, 'en')
+        for label in ('## Current judgment', '## Research argument', '## Limits of explanation and issues',
+                      '## Materials, premises and mappings', '**Consequence for the judgments above:**',
+                      '### I-identification: '):
+            self.assertIn(label, text)
+        for fixed in ('当前判断', '解释边界与问题', '对前文判断的影响', '判断身份', '研究问题：', 'Consequence for the main report'):
+            self.assertNotIn(fixed, text)
+        self.assertIn(data['findings'][0]['body'], text)
+        self.assertTrue(text.rstrip().endswith('> ' + research.LABELS['en']['notice']))
+
+    def test_theory_candidate_sits_one_level_below_its_issue(self):
+        data = example()
+        issue = data['issues'][0]
+        issue['categories'] = ['theory_candidate']
+        issue['theory'] = {'proposition': '合成测试命题，不是实际引用。', 'anchor': '2.13',
+                           'source_sha256': research.theory_index()['sha256'],
+                           'scope': '仅用于结构校验测试。', 'challenge': '需由作者核对的具体挑战。'}
+        text = research.render_answer(data)
+        self.assertIn('\n#### 理论问题候选的具体命中位置\n', text)
+        self.assertIn('\n### 理论问题候选的具体命中位置\n', research.render_documents(data)['research-issues.md'])
+
+    def test_bound_mapping_becomes_a_chapter_before_the_closing_notice(self):
+        data = bound_example()
+        chapter = research.mapping_chapter(data, MAPPING)
+        self.assertTrue(chapter.startswith('## 领域映射与使用说明\n'))
+        self.assertFalse([line for line in headings(chapter) if line.startswith('# ')])
+        text = research.render_answer(data, appendices=[chapter])
+        self.assertLess(text.index('## 材料、前提与映射'), text.index('## 领域映射与使用说明'))
+        self.assertLess(text.index('## 领域映射与使用说明'), text.rindex('> ' + research.NOTICE))
+        self.assertEqual(len([line for line in headings(text) if line.startswith('# ')]), 1)
+        english = research.mapping_chapter(data, MAPPING, 'en')
+        self.assertTrue(english.startswith('## Domain mapping and how to use it\n'))
+
+    def test_only_the_bound_snapshot_can_be_attached(self):
+        with tempfile.TemporaryDirectory() as directory:
+            reformatted = Path(directory) / 'mapping.json'
+            reformatted.write_bytes(MAPPING.read_bytes() + b'\n')
+            with self.assertRaisesRegex(research.ResearchError, 'SHA-256'):
+                research.mapping_chapter(bound_example(), reformatted)
+        with self.assertRaisesRegex(research.ResearchError, '不存在'):
+            research.mapping_chapter(bound_example(['missing-node']), MAPPING)
+        with self.assertRaisesRegex(research.ResearchError, '没有.*匹配'):
+            research.mapping_chapter(example(), MAPPING)
+
+    def test_complete_draft_is_published_once_without_replacing_anything(self):
+        with tempfile.TemporaryDirectory() as directory:
+            target = Path(directory) / 'xi-kari-answer.md'
+            text = research.render_answer(example())
+            research.write_answer(text, target)
+            self.assertEqual(target.read_text(encoding='utf-8'), text)
+            with self.assertRaisesRegex(research.ResearchError, '已存在'):
+                research.write_answer('另一稿', target)
+            self.assertEqual(target.read_text(encoding='utf-8'), text)
+            lock = Path(directory) / 'second.md.research.lock'
+            lock.write_text('', encoding='utf-8')
+            with self.assertRaisesRegex(research.ResearchError, '锁'):
+                research.write_answer(text, Path(directory) / 'second.md')
+            self.assertTrue(lock.exists())
+            self.assertFalse((Path(directory) / 'second.md').exists())
+            self.assertEqual(sorted(p.name for p in Path(directory).iterdir()),
+                             ['second.md.research.lock', 'xi-kari-answer.md'])
+
+    def test_installed_output_is_rejected_for_the_complete_draft(self):
+        with self.assertRaises(OSError):
+            research.write_answer(research.render_answer(example()), ROOT / 'xi-kari-answer.md')
+        self.assertFalse((ROOT / 'xi-kari-answer.md').exists())
+
+    def test_cli_answer_and_mapping_options(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            source = root / 'research.json'
+            source.write_text(json.dumps(bound_example(), ensure_ascii=False), encoding='utf-8')
+
+            def run(*args):
+                return subprocess.run([sys.executable, str(SCRIPT), '--research', str(source), *map(str, args)],
+                                      capture_output=True, text=True, encoding='utf-8')
+
+            answer = root / 'xi-kari-answer.md'
+            result = run('render', '--answer', answer, '--mapping', MAPPING, '--lang', 'en')
+            self.assertEqual(result.returncode, 0, result.stderr)
+            summary = json.loads(result.stdout)
+            self.assertEqual(summary['mapping_chapters'], 1)
+            self.assertEqual(summary['notice'], research.LABELS['en']['notice'])
+            self.assertIn('## Domain mapping and how to use it', answer.read_text(encoding='utf-8'))
+            failures = [
+                ('render', '--answer', root / 'twice.md', '--mapping', MAPPING, '--mapping', MAPPING),
+                ('render', '--output', root / 'pair', '--mapping', MAPPING),
+                ('render', '--answer', source),
+                ('render', '--answer', root / 'self.md', '--mapping', root / 'self.md'),
+                ('render', '--answer', answer),
+            ]
+            for args in failures:
+                with self.subTest(args=args[1:3]):
+                    failed = run(*args)
+                    self.assertEqual(failed.returncode, 2)
+                    self.assertNotIn('Traceback', failed.stderr)
+                    self.assertEqual(failed.stdout, '')
+            self.assertEqual(sorted(p.name for p in root.iterdir()), ['research.json', 'xi-kari-answer.md'])
+            unbound = root / 'unbound.json'
+            unbound.write_text(EXAMPLE.read_text(encoding='utf-8'), encoding='utf-8')
+            failed = subprocess.run([sys.executable, str(SCRIPT), '--research', str(unbound), 'render',
+                                     '--answer', str(root / 'unbound.md'), '--mapping', str(MAPPING)],
+                                    capture_output=True, text=True, encoding='utf-8')
+            self.assertEqual(failed.returncode, 2)
+            self.assertIn('mapping_ref', failed.stderr)
+            self.assertFalse((root / 'unbound.md').exists())
+
+
 if __name__ == '__main__':
     unittest.main()

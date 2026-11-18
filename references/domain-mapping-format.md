@@ -19,6 +19,7 @@ python scripts/domain_mapping.py --mapping assets/examples/domain-mapping.json l
 python scripts/domain_mapping.py --mapping assets/examples/domain-mapping.json impact --changed s-course
 python scripts/domain_mapping.py --mapping ../task/mapping-old.json diff --against ../task/mapping-new.json
 python scripts/domain_mapping.py --mapping assets/examples/domain-mapping.json render --output ../task/领域说明.md
+python scripts/domain_mapping.py --mapping assets/examples/domain-mapping.json render --embed --output ../task/领域映射章.md
 ```
 
 示例材料是明确标注的合成记录，不是实际教育效果证据。`lookup --term 反馈` 返回教师评语与课程问卷两个义项；指定完整的已登记语境后才选出其中一项。查询按各条目的 `match_policy` 匹配，不模糊猜义。默认 `normalized` 做 NFKC、大小写与空白规范化；`exact` 保留词和语境的全部字符，适合大小写、符号或空白具有区分意义的标识符。未找到词或指定语境不匹配时返回 `unmapped` 与空 `matches`，这里只表示库中没有匹配记录，不是证明该词没有理论对应。成功查到条目也不改变条目内的事实状态。
@@ -99,7 +100,7 @@ CLI `validate` 返回 `id`、`version` 和 `snapshot_sha256`，可用于研究�
 
 ## 成文与修订
 
-`outputs` 每项包含 `id`、`title`、`text`、`entry_ids` 和 `source_ids`。`text` 是分析者已经写成的具体领域说明，至少关联一项映射或直接来源。渲染器在任务与范围之后先呈现这份实际成果，再列来源、映射、三类评估、测量口径、专业方法、不能推出的结论及未知位置；对应类型、层次与各类状态显示为可读名称，`render --lang en` 给出英文固定标签，不翻译作者文字；不会凭词表替作者生成实际研究结论。没有 `outputs` 时在相同位置明确尚未提供成文。输入文字按普通文本呈现，不执行其中的 HTML 或链接指令。
+`outputs` 每项包含 `id`、`title`、`text`、`entry_ids` 和 `source_ids`。`text` 是分析者已经写成的具体领域说明，至少关联一项映射或直接来源。渲染器在任务与范围之后先呈现这份实际成果，再列来源、映射、三类评估、测量口径、专业方法、不能推出的结论及未知位置；对应类型、层次与各类状态显示为可读名称，`render --lang en` 给出英文固定标签，不翻译作者文字；`render --embed` 把同样内容整体降一级标题，作为完整答案 `xi-kari-answer.md` 中正文论证之后的一章。研究记录已绑定该快照时，也可由 `research.py render --answer … --mapping <快照>` 直接附入完整稿。渲染器不会凭词表替作者生成实际研究结论。没有 `outputs` 时在相同位置明确尚未提供成文。输入文字按普通文本呈现，不执行其中的 HTML 或链接指令。
 
 新材料改变词义或证据时，先对旧版运行 `impact` 确认现有依赖范围，再另存新版 JSON，修订受影响的对应、完整正文和问题报告。两份快照都在手时，`diff --against <新快照>` 按记录 ID 比较同一领域包：列出新增、删除和改动的来源、条目与成果及改动字段，把删除或改动的节点作为 `changed_nodes` 交给旧快照的 `impact`，结果在 `old_impact` 中给出。只调整顺序或排版不产生节点变动；新增节点在旧快照中没有下游，列为 `added_nodes` 供作者判断是否改用；只改了范围、理论版本等包级字段时没有可传播的节点，须人工判断。不同 `id` 的两个包不比较。字段不同不等于语义改变，字段相同也不证明语义未变。被影响不等于被否定；支持独立成立的旧判断可以保留。继续研究的主张与问题记录见[研究模块](../modules/research/MODULE.md)，无需再复制一套同义账本。
 

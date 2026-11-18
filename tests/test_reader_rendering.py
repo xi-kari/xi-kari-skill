@@ -83,6 +83,12 @@ class ReaderRenderingTests(unittest.TestCase):
         self.assertIn('C#', ''.join(Document(output).text))
         self.assertIn('坏地址', ''.join(Document(output).text))
 
+    def test_escaped_markdown_punctuation_reads_as_the_character(self):
+        output = renderer().render_document('# 转义\n\n比较 a\\<b\\>c、x\\_y、\\[1\\] 与 \\#2。\n')
+        text = ''.join(Document(output).text)
+        self.assertIn('比较 a<b>c、x_y、[1] 与 #2。', text)
+        self.assertNotIn('\\', text.split('比较', 1)[1].split('。', 1)[0])
+
     def test_longform_blocks_and_nested_lists_preserve_content(self):
         source = '# 标题\n\n段落 **强调**，含 [链接](https://example.com)。\n\n## 同名\n\n> 引文\n> 第二行\n\n3. 第三项\n   - 内层甲\n   - 内层乙\n4. 第四项\n\n| 项目 | 意义 |\n| :--- | ---: |\n| 原文 | a\\|b |\n\n```python\nprint("<hello>")\n```\n\n## 同名\n\n末尾完整。'
         output = renderer().render_document(source)

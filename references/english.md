@@ -104,8 +104,10 @@ Identifiers stay as written: G1–G4, E1–E5, C1–C12, F1–F6, H1–H6, HV01�
 | 完整学习；分层阅读实验 | full study (`full`); layered reading experiment (`layered`) |
 | 研究与解释边界报告 | research and the limits of explanation |
 | 主体研究报告；解释边界与问题报告 | main research report; report of explanatory limits and issues |
+| 完整稿；解释边界与问题（末章）；对前文判断的影响 | complete draft; Limits of explanation and issues (the closing chapter); consequence for the judgments above |
 | 材料不足；方法与识别限度；领域知识或方法需要接入；映射或概念表达不足；理论问题候选；规范分歧；技能实现或成品缺口 | insufficient material; limits of method and identification; domain knowledge or method needed; gap in mapping or concepts; candidate theory problem; normative disagreement; gap in the skill or the product |
 | 领域映射与方法适配；领域包 | domain mapping and method adaptation; domain pack |
+| 领域映射与使用说明（映射章） | Domain mapping and how to use it (the mapping chapter) |
 | 定义对应；角色或对象实例化；部分对应；观察接口；类比候选；不对应；不适用；未知 | definition correspondence; role or object instantiation; partial correspondence; observation interface; analogy candidate; no correspondence; not applicable; unknown |
 | 语义对应；事实与机制证据；正式实例资格 | semantic correspondence; factual and mechanism evidence; formal-instance eligibility |
 | 目标侧独立复核；待检验转义 | independent review on the target side; recasting awaiting test |
@@ -127,10 +129,10 @@ In an R8 answer the identity word travels with each candidate: *must* is used on
 ## English files
 
 - Reading page: `render_answer.py … --lang en` gives an English interface and English reading statistics.
-- Word: `render_docx.py … --lang en` gives English labels and sets the document language to English.
+- Word: `render_docx.py … --lang en` gives English labels and sets the document language to English. Web and mail links become hyperlinks, links to headings jump to them, and a link a sent document cannot follow keeps its label with the destination in brackets.
 - Comparison table: `comparison.py … --lang en` gives English headers, basis marks, ordering notes and limits; the model's own titles, labels and notes are written in English by you.
-- Research reports: `research.py … render --lang en` gives English headings, labels and notices in both `research-report.md` and `research-issues.md`; the research record's titles, arguments and issues are written in English by you.
-- Domain mapping: `domain_mapping.py … render --lang en` gives English headings and labels. The three bundled domain packs are written in Chinese: when you use them for an English reader, give their content in English in the answer, or say that the rendered file keeps the Chinese entries.
+- Research: `research.py … render --answer xi-kari-answer.md --lang en` gives one complete draft with English headings, labels and notices — the report first, *Limits of explanation and issues* as its closing chapter, then the materials and, with `--mapping`, a chapter for each bound domain-pack snapshot. `render --output … --lang en` gives the pair `research-report.md` and `research-issues.md` instead, for an issues report that must travel on its own. The research record's titles, arguments and issues are written in English by you.
+- Domain mapping: `domain_mapping.py … render --lang en` gives English headings and labels; `--embed` sets the same content one heading level down as a chapter of the complete answer. The three bundled domain packs are written in Chinese: when you use them for an English reader, give their content in English in the answer, or say that the rendered file keeps the Chinese entries.
 - Finite models: `finite_tools.py` results use English field names and scope notes; only the one-line notice and command messages are Chinese.
 - Registers and ledgers (`forecast.py`, `claims.py`, `candidates.py`, `task_state.py`, `study_design.py`, `evidence.py`, `casebook.py`) store English text in their fields unchanged; their command messages are Chinese. The candidate ledger rendered by `candidates.py` and the condition-model page of `condition_lab.py` still have Chinese fixed labels: when you hand it to an English reader, say so, or describe its results in English in the answer.
 

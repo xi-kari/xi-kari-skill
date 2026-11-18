@@ -28,7 +28,7 @@
 
 It is built for questions that need both clear thinking and a decision: why an institution keeps failing, how a plan will affect different people, which of several explanations holds up, whether to keep, adjust, probe or exit now. The skill starts only when you name it and does not take over ordinary conversation.
 
-For a full investigation or work in a particular field, see [Research and domain work](#research-and-domain-work): a research entry delivers a complete research report with a separate report of explanatory limits and issues, domain mapping keeps local meanings, relations, measurements and professional methods, and there are seven output modes and finite calculation tools.
+For a full investigation or work in a particular field, see [Research and domain work](#research-and-domain-work): a research entry delivers one complete draft, the research report first and the limits of explanation and issues as its closing chapter, domain mapping keeps local meanings, relations, measurements and professional methods, and there are seven output modes and finite calculation tools.
 
 The skill works in English and Chinese. Ask in English and the whole answer is in English. The theory's authoritative text is Chinese; the package also carries the author's aligned English reference edition and a Chinese–English glossary, used for English terminology and quotations (see [Working in English](references/english.md)). Both the skill and the [bilingual reading site](https://xi-kari.github.io/xi-kari-skill/handbook/en/) use v2, with the full text available in English.
 
@@ -130,7 +130,7 @@ Two optional entries reuse the eight routes and eleven modules without adding a 
 
 | What you want | Entry | What you get |
 | --- | --- | --- |
-| A question researched in full, with what cannot yet be explained set out separately | [Research and the limits of explanation](modules/research/MODULE.md) | A complete main report and a separate report of limits and issues. Insufficient material, limits of method and identification, needed domain methods, mapping gaps, candidate theory problems, normative disagreements and gaps in the skill are located one by one; limits that affect a conclusion also appear beside it in the main report |
+| A question researched in full, with what cannot yet be explained set out separately | [Research and the limits of explanation](modules/research/MODULE.md) | One complete draft: the main report first, the limits of explanation and issues as its closing chapter; it can also be split into two files when needed. Insufficient material, limits of method and identification, needed domain methods, mapping gaps, candidate theory problems, normative disagreements and gaps in the skill are located one by one; limits that affect a conclusion also appear beside it in the main report |
 | The theory brought into a particular field, with exact terms and measurements | [Domain mapping and method adaptation](modules/domain-mapping/MODULE.md) | Local definitions, actions and relations, roles, task endpoints, field definitions and professional methods. Semantic correspondence, factual evidence and formal-instance eligibility are kept apart, and common words return a sense only with a registered context |
 | A comparative study, process history, draft arrangement or interpretation | [Seven output modes](references/output-modes.md) | Dialogue across theories, mechanism history and process reconstruction, institutions and living arrangements, experience and works, concept reconstruction, middle-range theory, shared problems and reopening the agenda |
 | After a source or mapping is corrected, the conclusions actually affected | [Research tool](references/research-format.md) · [Mapping tool](references/domain-mapping-format.md) | Affected findings, summary and issues along declared dependencies; old and new mapping snapshots compared record by record, with independent findings kept |
@@ -143,7 +143,7 @@ can we say teaching and employment both improved? Write the full research, and l
 cannot yet be explained and which conclusions it affects.
 ```
 
-Research reports and mapping documents take `--lang en` for English labels; the operational guides are in Chinese, and the skill's English-output instructions still apply. Tool checks, synthetic examples and tests show only that the programs keep their stated contracts, not research quality or real-world effects; the two entries have not yet been evaluated against the current skill on the same tasks and materials.
+The complete research draft and mapping documents take `--lang en` for English labels, and the draft goes straight to the reading page and the Word export; the operational guides are in Chinese, and the skill's English-output instructions still apply. Tool checks, synthetic examples and tests show only that the programs keep their stated contracts, not research quality or real-world effects; the two entries have not yet been evaluated against the current skill on the same tasks and materials.
 
 ## Conditional foresight and its limits
 
@@ -183,9 +183,9 @@ Long tasks can continue across sessions. When the session or model changes, the 
 
 - **Complete answer `xi-kari-answer.md`.** Produced at the first complete delivery or when you ask for a combined draft: the central judgment first, then evaluation of the material, structural relations, comparison of mechanisms, cases and counterexamples, paths, responses to objections, the verdict and the options.
 - **Offline reading page.** A single HTML file, generated from the complete draft, that makes no network connections. Under the title a track chart, drawn from the text's own counts, sets each section as a fix at its true distance; the track fills in as you read, pressing a fix goes to that section, and once the chart has scrolled away the same track stays in view under the bar. The contents list marks the current section as you read; there is full-text search, adjustable text size and a print layout; night mode follows the system and can be switched by hand; footnotes preview on hover and link back. Select a passage and “Ask about selection” turns it, with its location, into a follow-up question for you to copy back into the conversation. Formulas are typeset with the bundled KaTeX. Use `--lang en` for an English interface.
-- **Word document.** Keeps the text, tables, footnotes and local images; remote images are not downloaded but kept as visible text; anything that cannot be represented is kept as written and listed. Use `--lang en` for English labels and an English document language.
-- **Research report and issues report, `research-report.md` and `research-issues.md`.** The two products of the research entry: the main report follows material, method, argument, competing explanations and conditions for revision; the issues report gives, for each issue, the work done, why it is unresolved, its consequence and the next step. Major limits also appear beside the conclusions they affect. Use `--lang en` for English labels.
-- **Domain mapping document.** The domain statements already written come first, then sources, correspondences, the three assessments, measurement definitions, professional methods and the unknowns kept open; after a correction it can list the affected entries, outputs and research findings. Use `--lang en` for English labels.
+- **Word document.** Keeps the text, tables, footnotes and local images; web links can be clicked, and links to headings jump to those sections; remote images are not downloaded but kept as visible text; anything that cannot be represented is kept as written and listed. Use `--lang en` for English labels and an English document language.
+- **Complete research draft.** The two products of the research entry come together in one `xi-kari-answer.md` by default: the main report follows material, method, argument, competing explanations and conditions for revision; the closing chapter, *Limits of explanation and issues*, gives for each issue the work done, why it is unresolved, its consequence for the judgments above and the next step. Major limits also appear in the opening judgment and beside the conclusions they affect. The domain packs relied on can be added as a chapter. When the issues report must travel on its own, the draft can be split into `research-report.md` and `research-issues.md`. Use `--lang en` for English labels.
+- **Domain mapping document.** The domain statements already written come first, then sources, correspondences, the three assessments, measurement definitions, professional methods and the unknowns kept open; it can stand alone or form a chapter of the complete draft; after a correction it can list the affected entries, outputs and research findings. Use `--lang en` for English labels.
 - **Research products on demand.** A claim ledger, a candidate ledger, option comparison tables, study designs and collection notes, condition-model pages, finite-model results, task state across turns, a case library. They are produced when the work needs them, not as a fixed step of every analysis.
 
 ## Bundled tools
@@ -201,14 +201,14 @@ All tools are optional Python scripts that use only the standard library and nee
 | `comparison.py` | option comparison tables as JSON, Markdown and HTML, marking facts, assumptions and unknowns; `--lang en` for English labels | rank unknowns or name an overall best option |
 | `study_design.py` | turn open questions into observations and collection plans that can tell explanations apart | fill in defaults for missing data |
 | `condition_lab.py` | run explicit formulas and constraints and export a page for switching among all computed combinations | interpolate, or present model results as feasible in reality |
-| `research.py` | research pair: check grounds and issues, typeset the main and issues reports, trace which findings a source or mapping correction affects; `--lang en` for English labels | do the research, or certify that an argument suffices, material is true or the research is complete |
-| `domain_mapping.py` | domain mapping: look up senses by registered context, render the mapping document, trace corrections, compare old and new snapshots; `--lang en` for English labels | infer facts from a word; return a sense for a common word without its context |
+| `research.py` | research products: check grounds and issues, typeset one complete draft (with the domain mapping relied on, if wanted) or the two reports, trace which findings a source or mapping correction affects; `--lang en` for English labels | do the research, or certify that an argument suffices, material is true or the research is complete |
+| `domain_mapping.py` | domain mapping: look up senses by registered context, render the mapping document or a chapter of the complete draft, trace corrections, compare old and new snapshots; `--lang en` for English labels | infer facts from a word; return a sense for a common word without its context |
 | `finite_tools.py` | finite models: task partitions, representation audits, common actions, joint schedules, condition combinations and end-to-end witnesses | hold outside the listed model, or report an exhausted search budget as infeasibility |
 | `manuscript.py` | draft snapshots, diffs, merging non-overlapping edits, tracking dependencies | decide for the author whether meaning carries over |
 | `task_state.py` | record across turns what is decided, open, due for review or withdrawn | record your approval as a fact |
 | `casebook.py` | build a case library in a directory you choose | write to global memory or presume structural similarity |
 | `render_answer.py` | generate the offline reading page | add, remove or reorder text |
-| `render_docx.py` | export a Word document | download remote images |
+| `render_docx.py` | export a Word document with working links | download remote images |
 
 PowerShell examples. `$skillRoot` is the skill directory the host actually loads; `$taskRoot` is a task directory of your choice outside the skill directory:
 
@@ -220,7 +220,7 @@ python "$skillRoot/scripts/read_source.py" --lang en --search 'effective feedbac
 python "$skillRoot/scripts/render_answer.py" "$taskRoot/xi-kari-answer.md" --output "$taskRoot/xi-kari-answer.html" --lang en
 python "$skillRoot/scripts/render_docx.py" "$taskRoot/xi-kari-answer.md" --output "$taskRoot/xi-kari-answer.docx" --lang en
 python "$skillRoot/scripts/comparison.py" "$taskRoot/compare.json" --output "$taskRoot/compare" --format all
-python "$skillRoot/scripts/research.py" --research "$taskRoot/research.json" render --output "$taskRoot/research" --lang en
+python "$skillRoot/scripts/research.py" --research "$taskRoot/research.json" render --answer "$taskRoot/xi-kari-answer.md" --lang en
 python "$skillRoot/scripts/domain_mapping.py" --mapping "$skillRoot/assets/domains/technical-maintenance.json" render --output "$taskRoot/http-service.md" --lang en
 ```
 

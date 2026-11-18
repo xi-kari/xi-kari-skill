@@ -76,6 +76,44 @@ class ResearchDomainIntegrationTests(unittest.TestCase):
         self.command('research.py', '--research', source, 'render', '--output', destination, success=False)
         self.assertEqual(before, {p.name: p.read_bytes() for p in destination.iterdir()})
 
+    def test_installed_complete_draft_reads_cleanly_on_the_page_and_in_word(self):
+        mapping = self.install / 'assets/examples/domain-mapping.json'
+        identity = json.loads(self.command('domain_mapping.py', '--mapping', mapping, 'validate').stdout)
+        study = json.loads((self.install / 'assets/examples/research.json').read_text(encoding='utf-8'))
+        study['inputs'][-1]['mapping_ref'] = {
+            'id': identity['id'], 'version': identity['version'],
+            'sha256': identity['snapshot_sha256'], 'node_ids': ['m-completion'],
+        }
+        source = self.work / 'answer-research.json'
+        source.write_text(json.dumps(study, ensure_ascii=False), encoding='utf-8')
+        labels = {'zh': ('## 解释边界与问题', '## 领域映射与使用说明'),
+                  'en': ('## Limits of explanation and issues', '## Domain mapping and how to use it')}
+        for lang, (issues, chapter) in labels.items():
+            with self.subTest(lang=lang):
+                answer = self.work / f'xi-kari-answer-{lang}.md'
+                self.command('research.py', '--research', source, 'render', '--lang', lang,
+                             '--answer', answer, '--mapping', mapping)
+                text = answer.read_text(encoding='utf-8')
+                self.assertEqual(sum(line.startswith('# ') for line in text.splitlines()), 1)
+                self.assertLess(text.index(issues), text.index(chapter))
+                self.assertNotIn('<!--', text)
+                page = self.work / f'xi-kari-answer-{lang}.html'
+                self.command('render_answer.py', answer, '--output', page, '--lang', lang)
+                body = page.read_text(encoding='utf-8')
+                body = body[body.index('<article'):body.rindex('</article>')]
+                self.assertNotIn('&lt;!--', body)
+                self.assertNotIn('href="file:', body)
+                self.assertNotIn('completion\\_rate', body)
+                word = self.work / f'xi-kari-answer-{lang}.docx'
+                summary = json.loads(self.command('render_docx.py', answer, '--output', word, '--lang', lang).stdout)
+                self.assertEqual(summary['unsupported'], [])
+                with zipfile.ZipFile(word) as archive:
+                    document = archive.read('word/document.xml').decode('utf-8')
+                words = ''.join(re.findall(r'<w:t[^>]*>([^<]*)</w:t>', document))
+                self.assertIn('completion_rate', words)
+                self.assertNotIn('\\', words)
+                self.assertNotIn('](', words)
+
     def test_installed_mapping_disambiguates_and_does_not_invent_missing_context(self):
         source = self.install / 'assets/examples/domain-mapping.json'
         result = json.loads(self.command('domain_mapping.py', '--mapping', source, 'lookup', '--term', '反馈').stdout)
