@@ -4,7 +4,7 @@
 
 # 研究双成果的数据与工具
 
-`research.py` 接收研究者已经完成的材料分析和公开论证，生成完整研究报告与独立问题报告，并沿声明的依赖定位修订范围。工具不取得材料、不替作者完成研究、不认证正文质量，也不因记录齐全提高事实或因果判断的强度。实际工作入口见[研究模块](../modules/research/MODULE.md)。
+`research.py` 接收研究者已经完成的材料分析和公开论证，生成一份完整稿或完整研究报告与独立问题报告，并沿声明的依赖定位修订范围。工具不取得材料、不替作者完成研究、不认证正文质量，也不因记录齐全提高事实或因果判断的强度。实际工作入口见[研究模块](../modules/research/MODULE.md)。
 
 §1.10 允许研究按其问题形成不同类型的认识成果；§2.13、§4.17.4、§16.3、§16.21 所涉及的识别、评估与方法责任不能由字段检查替代。这里的数据分类和命令是派生工程约定，不是追加理论定义。问题重开仍按 §2.14 保留旧问题与已有结果。
 
@@ -12,11 +12,14 @@
 
 ```bash
 python scripts/research.py --research assets/examples/research.json validate
+python scripts/research.py --research assets/examples/research.json render --answer /outside/task/xi-kari-answer.md
 python scripts/research.py --research assets/examples/research.json render --output /outside/task/research-result
 python scripts/research.py --research assets/examples/research.json impact --changed S-register
 ```
 
-`--output` 使用宿主认可的安装目录外路径，并须是尚不存在的目录；Windows 可使用 `C:\Tasks\example\research-result`。`render` 同时发布 `research-report.md` 与 `research-issues.md`；`--lang en` 只把固定标题、标签和提示换成英文，作者正文保持原样。如需 Word 或阅读版，继续使用现有的 `render_docx.py`、`render_answer.py`，不把 JSON 或问题台账当作最终正文。
+`render --answer` 写出一份完整稿，供作为 `xi-kari-answer.md` 交付：标题、研究问题、当前判断与重大未决在前，接范围与方法、研究论证，再以“解释边界与问题”为末章，逐项写出已做工作、未解决原因、对前文判断的影响和下一项工作，最后是材料、前提与映射。问题章与主体同在一稿，阅读页的目录和 Word 导航都能到达它，摘要和相关结论旁的重大限制照常显示。目标须是安装目录外尚不存在的文件，工具不覆盖已有稿件；修订后另写新文件。
+
+`render --output` 改为同时发布 `research-report.md` 与 `research-issues.md` 两份文件，用于用户要求问题报告单独流转的情形；两份文件以相对链接互指，须放在同一目录一起交付。`--output` 须是尚不存在的目录；Windows 可使用 `C:\Tasks\example\research-result`。两种输出都可加 `--lang en`，只把固定标题、标签和提示换成英文，作者正文保持原样。阅读页和 Word 用 `render_answer.py`、`render_docx.py` 从完整稿生成，不把 JSON 或问题台账当作最终正文。
 
 重复 `--changed` 可以同时列出若干变更 ID。变更可以是来源、前提、映射或已有结论；工具返回受影响和相对独立的结论、关联问题、一条传播路径及摘要是否需要复核。它不自动撤回结论，不声称记录之外没有隐藏依赖。
 
@@ -65,7 +68,15 @@ python scripts/research.py --research /outside/task/research.json impact-mapping
 
 一次处理一个指定快照。其他包、其他版本和人工映射列入 `unverified_mapping_inputs`，其下游列为 `unassessed_findings`，不会归入 `independent_findings`。已有受影响结论同时依赖未核验输入时仍列为受影响，未核验输入清单和 `summary_has_unassessed_dependencies` 保留覆盖缺口。跨包相同节点名不自动连接。确认绑定但变更与本稿无已声明依赖时，才允许受影响集合为空。
 
-`validate` 和 `render` 只检查、展示绑定字段，均不读取外部映射文件，不宣称绑定已经核实。`impact-mapping` 的核验只证明这一份显式快照的引用关系；漏记依赖、对应是否正确、作者正文是否充分仍需实际审查。作者读取新材料、修订对应与研究正文和问题报告后，才更新绑定并另存新版；只替换摘要或散列不算完成修订。
+完整稿需要附上所据领域映射时，重复 `--mapping <快照>` 指定绑定的快照：
+
+```text
+python scripts/research.py --research /outside/task/research.json render --answer /outside/task/xi-kari-answer.md --mapping /outside/task/mapping-old.json
+```
+
+每份快照须与某项 `mapping_ref` 的包 ID、版本和原始字节摘要一致，引用的节点也须存在；它们按给出顺序附为“领域映射与使用说明”章，置于材料一章之后、结尾提示之前。未绑定、已改动或重新排版的文件明确失败，不把未核验的映射附入成稿。附章只展示该快照的内容与身份，不证明对应正确。
+
+除此之外，`validate` 和 `render` 只检查、展示绑定字段，均不读取外部映射文件，不宣称绑定已经核实。`impact-mapping` 的核验只证明这一份显式快照的引用关系；漏记依赖、对应是否正确、作者正文是否充分仍需实际审查。作者读取新材料、修订对应与研究正文和问题报告后，才更新绑定并另存新版；只替换摘要或散列不算完成修订。
 
 ## 问题与主报告同步
 
@@ -84,20 +95,20 @@ python scripts/research.py --research /outside/task/research.json impact-mapping
 
 问题状态可为 `open`、`under_investigation`、`partially_resolved`、`resolved_within_scope`、`withdrawn`、`superseded`。未决和部分解决项须保留 `next_work`；部分解决或限定解决项须具体填写 `resolution_scope`。已讨论、已回复或已归档不能单独作为解决依据。工具检查文字是否提供，实际理由是否充分仍由作者核对。
 
-`superseded` 还须填写非空 `superseded_by` 列表，引用本记录中的后继问题 ID；允许拆为多个后继问题，不允许未知引用、自指或循环。其他状态不填写此字段。旧格式中仅写了 `superseded` 的记录应先补齐真实后继或改回与实际工作相符的状态，不能编造后继来通过校验。两份成果均保留后继指向，替代不表示缺口已经解决。
+`superseded` 还须填写非空 `superseded_by` 列表，引用本记录中的后继问题 ID；允许拆为多个后继问题，不允许未知引用、自指或循环。其他状态不填写此字段。旧格式中仅写了 `superseded` 的记录应先补齐真实后继或改回与实际工作相符的状态，不能编造后继来通过校验。主体与问题部分均保留后继指向，替代不表示缺口已经解决。
 
-`theory_candidate` 还须提供 `theory` 对象，字段为 `proposition`、`anchor`、`source_sha256`、`scope`、`challenge`：原命题、随包原文的小节号、所据原文字节散列、命题的前提与范围，以及具体反例、冲突或遗漏。`source_sha256` 记录所据原文的字节散列。与当前随包原文一致时，工具核对锚点确实存在；理论更新后，绑定旧版本的记录仍可校验、渲染和追踪，`validate` 列出 `theory_bindings_not_current` 与警告，两份成果都显示版本提示，锚点不按当前原文核对。版本不同时应回查受影响命题，不能只改散列来消除提示。工具不证明引述准确或反例命中。理论对象只允许用于此分类，避免将材料空白误写为理论漏洞。
+`theory_candidate` 还须提供 `theory` 对象，字段为 `proposition`、`anchor`、`source_sha256`、`scope`、`challenge`：原命题、随包原文的小节号、所据原文字节散列、命题的前提与范围，以及具体反例、冲突或遗漏。`source_sha256` 记录所据原文的字节散列。与当前随包原文一致时，工具核对锚点确实存在；理论更新后，绑定旧版本的记录仍可校验、渲染和追踪，`validate` 列出 `theory_bindings_not_current` 与警告，主体与问题部分都显示版本提示，锚点不按当前原文核对。版本不同时应回查受影响命题，不能只改散列来消除提示。工具不证明引述准确或反例命中。理论对象只允许用于此分类，避免将材料空白误写为理论漏洞。
 
-重大且仍活跃的问题会在摘要后集中显示，其影响也会出现在对应结论及声明依赖的下游结论旁。独立的问题报告展开全部已做工作、缺口、影响与下一步。不能只修改问题附篇，却让主报告继续无条件宣称受影响结论。
+重大且仍活跃的问题会在摘要后集中显示，其影响也会出现在对应结论及声明依赖的下游结论旁。问题章（或分文件时的独立问题报告）展开全部已做工作、缺口、影响与下一步。不能只修改问题附篇，却让主报告继续无条件宣称受影响结论。
 
 没有具体问题项时，`issues: []` 合法，但 `issue_assessment` 仍须说明评估范围。渲染结果会明确“本次未提出”不等于“普遍无问题”。
 
 ## 写入与修订
 
-记录使用全局唯一的 ASCII ID，拒绝未知字段、重复 JSON 键、重复 ID、未知引用、循环依赖、NUL 字符及非有限数。输入最大 4 MiB，每类记录最多 2000 项。大量问题向下游传播会放大最终文本，双成果渲染总量另限 32 MiB，在写入前超限失败；超过范围时按实际专题拆分，并保留跨专题所需依赖与限制。字符串不执行为代码，正文中保留的 Markdown 仍是作者内容。
+记录使用全局唯一的 ASCII ID，拒绝未知字段、重复 JSON 键、重复 ID、未知引用、循环依赖、NUL 字符及非有限数。输入最大 4 MiB，每类记录最多 2000 项。大量问题向下游传播会放大最终文本，完整稿或双成果的渲染总量另限 32 MiB，在写入前超限失败；超过范围时按实际专题拆分，并保留跨专题所需依赖与限制。字符串不执行为代码，正文中保留的 Markdown 仍是作者内容。
 
-双成果先在同一父目录的临时目录中写完并刷新，再在独占写锁内无覆盖发布。已有目录、文件或符号链接均被拒绝，没有 `--force`；修改后另写新版本目录，审阅后再由用户或宿主安排采用。Linux 使用无覆盖目录重命名，Windows 使用其拒绝覆盖的重命名行为；平台或文件系统不支持所需发布语义时明确失败，不退化成可能覆盖的写法。临时目录或锁因进程被强制终止而遗留时，不宣称发布成功，也不自动删除其他写入者的锁。
+完整稿先写入同目录临时文件并刷新，再在独占写锁内以硬链接无覆盖发布。双成果先在同一父目录的临时目录中写完并刷新，再在独占写锁内无覆盖发布。已有目录、文件或符号链接均被拒绝，没有 `--force`；修改后另写新版本目录，审阅后再由用户或宿主安排采用。Linux 使用无覆盖目录重命名，Windows 使用其拒绝覆盖的重命名行为；平台或文件系统不支持所需发布语义时明确失败，不退化成可能覆盖的写法。临时目录或锁因进程被强制终止而遗留时，不宣称发布成功，也不自动删除其他写入者的锁。
 
-API 对应 `validate_research(data)`、`render_documents(data)`、`impact(data, changed)`、`impact_mapping(data, mapping_path, changed)`、`write_documents(documents, output)`。CLI JSON 结果也限制为 32 MiB，超限在输出任何部分前失败。`validate` 返回的 `structure_valid` 只指结构与引用合同。正文的论证、竞争解释、材料质量以及边界是否充分，仍须回到[实际研究](research-work.md)、[完整答案](complete-answer.md)和原问题审阅。
+API 对应 `validate_research(data)`、`render_answer(data, lang, appendices)`、`mapping_chapter(data, mapping_path, lang)`、`write_answer(text, output)`、`render_documents(data, lang)`、`write_documents(documents, output)`、`impact(data, changed)`、`impact_mapping(data, mapping_path, changed, against)`。CLI JSON 结果也限制为 32 MiB，超限在输出任何部分前失败。`validate` 返回的 `structure_valid` 只指结构与引用合同。正文的论证、竞争解释、材料质量以及边界是否充分，仍须回到[实际研究](research-work.md)、[完整答案](complete-answer.md)和原问题审阅。
 
 完整合成示例见 [`assets/examples/research.json`](../assets/examples/research.json)。其中计算为 30/50 与 40/50，原因识别和就业随访分别保留未决；更正 `S-register` 会影响比例与其下游，`F-definition` 的本地词义区别仍保持相对独立。示例用于说明流程，不作为现实使用增益证据。
