@@ -82,6 +82,7 @@
    | --- | --- | --- |
    | Codex | 用户目录下的 `.agents/skills/`，或项目内的 `.agents/skills/` | `$xi-kari-skill` |
    | Claude Code | 用户目录下的 `.claude/skills/`，或项目内的 `.claude/skills/` | `/xi-kari-skill` |
+   | Gemini CLI、GitHub Copilot CLI、Cursor、OpenCode、Kimi Code CLI、Qwen Code | 同样读取用户目录下的 `.agents/skills/`，与 Codex 共用一份 | 在请求里点名 `xi-kari-skill` |
    | 其他支持 Agent Skills 的本地智能体 | 宿主实际配置的技能根目录 | 让宿主加载该目录的 `SKILL.md` |
 
 3. **点名使用。** 重新加载技能或开一个新对话，点名调用，把问题和材料一起交给它：
@@ -94,7 +95,7 @@
 
    在 Claude Code 中把开头换成 `/xi-kari-skill`；其他宿主可以直接写“使用 xi-kari-skill 分析……”。
 
-默认全读模式的首轮需要完整学习。实验性分层阅读可在请求中明确写“使用 layered 阅读”；其核心清单与补读要求见[阅读规则](references/full-source-study.md)。同一个问题的追问、补充和修改接着已有成果推进。升级前的备份方式和其他宿主的说明见[安装指南](docs/INSTALL.md)。
+默认全读模式的首轮需要完整学习。实验性分层阅读可在请求中明确写“使用 layered 阅读”；其核心清单与补读要求见[阅读规则](references/full-source-study.md)。同一个问题的追问、补充和修改接着已有成果推进。升级前的备份方式，以及 Google Antigravity 等目录不同的宿主，见[安装指南](docs/INSTALL.md)。
 
 ## 按问题组织模块
 

@@ -14,9 +14,13 @@ Get-FileHash -Path .\xi-kari-skill-*-windows.zip -Algorithm SHA256
 | --- | --- | --- |
 | Codex | 用户目录下`.agents/skills/xi-kari-skill/`；项目内可用`.agents/skills/xi-kari-skill/` | `$xi-kari-skill`或明确点名 |
 | Claude Code | 用户目录下`.claude/skills/xi-kari-skill/`；项目内可用`.claude/skills/xi-kari-skill/` | `/xi-kari-skill`或明确点名 |
+| Gemini CLI、GitHub Copilot CLI、Cursor、OpenCode、Kimi Code CLI、Qwen Code | 同样读取用户目录下`.agents/skills/xi-kari-skill/`，与Codex共用一份；项目内也读`.agents/skills/` | 在请求里明确点名`xi-kari-skill` |
+| Google Antigravity | 全局`~/.gemini/config/skills/xi-kari-skill/`；工作区内可用`.agents/skills/xi-kari-skill/` | 明确点名 |
 | 其他支持Agent Skills的本地智能体 | 宿主实际配置的技能根目录 | 让宿主加载该目录的`SKILL.md` |
 
-具体发现位置与调用策略由宿主决定，参见[Codex官方说明](https://learn.chatgpt.com/docs/build-skills)和[Claude Code官方说明](https://code.claude.com/docs/en/skills)。同一宿主通常只安装一份同名技能，避免重复入口。`agents/openai.yaml`为Codex提供界面信息与显式调用策略；其他宿主可以忽略该文件，按共同`SKILL.md`执行。云端服务的上传、目录发现及文件能力须按相应服务另行确认。
+具体发现位置与调用策略由宿主决定，参见[Codex官方说明](https://learn.chatgpt.com/docs/build-skills)和[Claude Code官方说明](https://code.claude.com/docs/en/skills)。表中其他宿主的位置取自它们的官方说明（[Gemini CLI](https://geminicli.com/docs/cli/skills/)、[GitHub Copilot CLI](https://docs.github.com/en/copilot/how-tos/copilot-cli/customize-copilot/add-skills)、[Cursor](https://cursor.com/docs/skills)、[OpenCode](https://opencode.ai/docs/skills/)、[Kimi Code CLI](https://moonshotai.github.io/kimi-cli/en/customization/skills.html)、[Qwen Code](https://qwenlm.github.io/qwen-code-docs/en/users/features/skills/)、[Google Antigravity](https://antigravity.google/docs/skills)，2026年11月核对），本项目没有在这些宿主中逐一验证。VS Code中的GitHub Copilot读取用户目录下`.copilot/skills/`，其本地会话也读`.claude/skills/`与`.agents/skills/`，见[VS Code说明](https://code.visualstudio.com/docs/agent-customization/agent-skills)。
+
+同一宿主通常只安装一份同名技能，避免重复入口。Cursor、OpenCode与Kimi Code CLI也读取`.claude/skills/`，Cursor与Kimi Code CLI还读取`.codex/skills/`；如果在这些目录里另放了一份，这些宿主会看到几份同名副本。几处副本保持同一版本，升级时一起替换。`agents/openai.yaml`为Codex提供界面信息与显式调用策略；其他宿主可以忽略该文件，按共同`SKILL.md`执行。云端服务的上传、目录发现及文件能力须按相应服务另行确认。
 
 更新时，先把旧技能目录完整备份到**技能扫描目录之外**，再换入新文件夹。不要将新旧文件混合，也不要把带`SKILL.md`的备份留在扫描目录中。若旧目录混入了自己的案例或工作文件，先迁到独立任务目录。
 
