@@ -1,0 +1,446 @@
+{
+  "schema_version": 1,
+  "title": "有限工具教学模型；全部为示意，非经验材料",
+  "fictional": true,
+  "models": {
+    "task-partition-h1": {
+      "schema_version": 1,
+      "title": "四状态任务划分：1",
+      "fictional": true,
+      "assumptions": [
+        "所有列出的动作对全部状态确定且全定义。",
+        "任务回答、转移关系均为教学设定。"
+      ],
+      "boundaries": [
+        "有限期限充分不自动等于动力闭合。",
+        "动作串长度不是现实经过时间。"
+      ],
+      "operator": "task_partition",
+      "input": {
+        "states": [
+          "a",
+          "b",
+          "c",
+          "d"
+        ],
+        "actions": [
+          "go"
+        ],
+        "transitions": {
+          "a": {
+            "go": "c"
+          },
+          "b": {
+            "go": "b"
+          },
+          "c": {
+            "go": "d"
+          },
+          "d": {
+            "go": "d"
+          }
+        },
+        "queries": {
+          "terminal": {
+            "a": 0,
+            "b": 0,
+            "c": 0,
+            "d": 1
+          }
+        },
+        "H": 1
+      }
+    },
+    "task-partition-h2": {
+      "schema_version": 1,
+      "title": "四状态任务划分：2",
+      "fictional": true,
+      "assumptions": [
+        "所有列出的动作对全部状态确定且全定义。",
+        "任务回答、转移关系均为教学设定。"
+      ],
+      "boundaries": [
+        "有限期限充分不自动等于动力闭合。",
+        "动作串长度不是现实经过时间。"
+      ],
+      "operator": "task_partition",
+      "input": {
+        "states": [
+          "a",
+          "b",
+          "c",
+          "d"
+        ],
+        "actions": [
+          "go"
+        ],
+        "transitions": {
+          "a": {
+            "go": "c"
+          },
+          "b": {
+            "go": "b"
+          },
+          "c": {
+            "go": "d"
+          },
+          "d": {
+            "go": "d"
+          }
+        },
+        "queries": {
+          "terminal": {
+            "a": 0,
+            "b": 0,
+            "c": 0,
+            "d": 1
+          }
+        },
+        "H": 2
+      }
+    },
+    "task-partition-stable": {
+      "schema_version": 1,
+      "title": "四状态任务划分：None",
+      "fictional": true,
+      "assumptions": [
+        "所有列出的动作对全部状态确定且全定义。",
+        "任务回答、转移关系均为教学设定。"
+      ],
+      "boundaries": [
+        "有限期限充分不自动等于动力闭合。",
+        "动作串长度不是现实经过时间。"
+      ],
+      "operator": "task_partition",
+      "input": {
+        "states": [
+          "a",
+          "b",
+          "c",
+          "d"
+        ],
+        "actions": [
+          "go"
+        ],
+        "transitions": {
+          "a": {
+            "go": "c"
+          },
+          "b": {
+            "go": "b"
+          },
+          "c": {
+            "go": "d"
+          },
+          "d": {
+            "go": "d"
+          }
+        },
+        "queries": {
+          "terminal": {
+            "a": 0,
+            "b": 0,
+            "c": 0,
+            "d": 1
+          }
+        },
+        "H": null
+      }
+    },
+    "representation-two-errors": {
+      "schema_version": 1,
+      "title": "表示损失与规则错误并存",
+      "fictional": true,
+      "assumptions": [
+        "只比较三个明示状态。"
+      ],
+      "boundaries": [
+        "最坏绝对误差界采用可取任意实数的解码器。",
+        "不检测真实记录当时是否可达。"
+      ],
+      "operator": "representation_audit",
+      "input": {
+        "representation": {
+          "s0": "0",
+          "s1": "0",
+          "s2": "1"
+        },
+        "query": {
+          "s0": 0,
+          "s1": 1,
+          "s2": 1
+        },
+        "actual_decoder": {
+          "0": 0,
+          "1": 0
+        }
+      }
+    },
+    "common-action-triple": {
+      "schema_version": 1,
+      "title": "两两相交而三者无共同动作",
+      "fictional": true,
+      "assumptions": [
+        "兼容状态、动作资格、确定性观察分组均由调用者给定。"
+      ],
+      "boundaries": [
+        "不生成概率价值、最优动作或现实授权。"
+      ],
+      "operator": "common_actions",
+      "input": {
+        "admissible": {
+          "s1": [
+            "A",
+            "B"
+          ],
+          "s2": [
+            "B",
+            "C"
+          ],
+          "s3": [
+            "A",
+            "C"
+          ]
+        },
+        "action_universe": [
+          "A",
+          "B",
+          "C"
+        ],
+        "observation": {
+          "s1": "g1",
+          "s2": "g1",
+          "s3": "g2"
+        }
+      }
+    },
+    "schedule-shared-capacity": {
+      "schema_version": 1,
+      "title": "单项各自可行，共享时段联合无解",
+      "fictional": true,
+      "assumptions": [
+        "每格是一个相同长度的教学时间单位。",
+        "任务连续、不可抢占、需求固定，资格/授权/材料标记均是假设已就绪。"
+      ],
+      "boundaries": [
+        "只判断给定时段和明示约束。",
+        "有排程不证明人工复核质量或实际干预成功。"
+      ],
+      "operator": "resource_schedule",
+      "input": {
+        "horizon": 3,
+        "resources": [
+          {
+            "id": "reviewer",
+            "capacity": [
+              1,
+              1,
+              1
+            ]
+          }
+        ],
+        "tasks": [
+          {
+            "id": "first",
+            "duration": 2,
+            "start_slots": [
+              0
+            ],
+            "demands": {
+              "reviewer": 1
+            },
+            "predecessors": [],
+            "ready_at": 0,
+            "end_by": 3,
+            "eligible": true,
+            "authorized": true,
+            "materials_ready": true
+          },
+          {
+            "id": "second",
+            "duration": 2,
+            "start_slots": [
+              0
+            ],
+            "demands": {
+              "reviewer": 1
+            },
+            "predecessors": [],
+            "ready_at": 0,
+            "end_by": 3,
+            "eligible": true,
+            "authorized": true,
+            "materials_ready": true
+          }
+        ],
+        "search_budget": 100
+      }
+    },
+    "schedule-final-endpoint": {
+      "schema_version": 1,
+      "title": "前序与末端截止共同满足的时段见证",
+      "fictional": true,
+      "assumptions": [
+        "各时段采用半开区间，前序完成后才能启动后续任务。"
+      ],
+      "boundaries": [
+        "模型不添加未列出的实际终点。"
+      ],
+      "operator": "resource_schedule",
+      "input": {
+        "horizon": 3,
+        "resources": [
+          {
+            "id": "reviewer",
+            "capacity": [
+              1,
+              1,
+              1
+            ]
+          }
+        ],
+        "tasks": [
+          {
+            "id": "first",
+            "duration": 1,
+            "start_slots": [
+              0
+            ],
+            "demands": {
+              "reviewer": 1
+            },
+            "predecessors": [],
+            "ready_at": 0,
+            "end_by": 3,
+            "eligible": true,
+            "authorized": true,
+            "materials_ready": true
+          },
+          {
+            "id": "final",
+            "duration": 2,
+            "start_slots": [
+              1
+            ],
+            "demands": {
+              "reviewer": 1
+            },
+            "predecessors": [
+              "first"
+            ],
+            "ready_at": 0,
+            "end_by": 3,
+            "eligible": true,
+            "authorized": true,
+            "materials_ready": true
+          }
+        ],
+        "search_budget": 100
+      }
+    },
+    "condition-complement": {
+      "schema_version": 1,
+      "title": "只有两条件同时改变才合格",
+      "fictional": true,
+      "assumptions": [
+        "合格表在给定菜单内完整；不在表中即不合格。",
+        "变化效果为教学指定，不来自经验估计。"
+      ],
+      "boundaries": [
+        "包含极小不等于最少个数或最低成本。",
+        "工具不能放松固定条件或证明干预现实有效。"
+      ],
+      "operator": "condition_search",
+      "input": {
+        "variables": [
+          {
+            "id": "x",
+            "current": 0,
+            "values": [
+              0,
+              1
+            ],
+            "mutable": true
+          },
+          {
+            "id": "y",
+            "current": 0,
+            "values": [
+              0,
+              1
+            ],
+            "mutable": true
+          }
+        ],
+        "admissible_assignments": [
+          {
+            "x": 1,
+            "y": 1
+          }
+        ],
+        "admissible_table_complete": true,
+        "search_budget": 100
+      }
+    },
+    "relation-local-without-chain": {
+      "schema_version": 1,
+      "title": "各段关系存在，整链缺共同中间对象",
+      "fictional": true,
+      "assumptions": [
+        "关系为明示有限二元关系；中间层对象的ID决定是否同一个对象。"
+      ],
+      "boundaries": [
+        "有限反例只证明局部存在不足以推出整链共同见证。",
+        "不否定独立获得的总效应，不认定现实机制就是本例。"
+      ],
+      "operator": "relation_chain",
+      "input": {
+        "layers": [
+          {
+            "id": "start",
+            "members": [
+              "a"
+            ]
+          },
+          {
+            "id": "middle",
+            "members": [
+              "b1",
+              "b2"
+            ]
+          },
+          {
+            "id": "end",
+            "members": [
+              "c"
+            ]
+          }
+        ],
+        "relations": [
+          {
+            "id": "r",
+            "from_layer": "start",
+            "to_layer": "middle",
+            "pairs": [
+              [
+                "a",
+                "b1"
+              ]
+            ]
+          },
+          {
+            "id": "s",
+            "from_layer": "middle",
+            "to_layer": "end",
+            "pairs": [
+              [
+                "b2",
+                "c"
+              ]
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

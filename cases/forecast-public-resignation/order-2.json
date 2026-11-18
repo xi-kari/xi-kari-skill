@@ -2,7 +2,7 @@
   "id": "TEACH-RESIGN-O2",
   "created_at": "2024-09-01T12:00:00Z",
   "theory_sha256": "6ef2e508474d4ac1ad07d7e4e068955342c405b5f680afcfc40d68cca3d0149c",
-  "skill_version": "6.3.0",
+  "skill_version": "6.4.0",
   "host_model": "teaching-scenario-no-live-model",
   "evidence_kind": "teaching",
   "order": 2,

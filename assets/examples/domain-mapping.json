@@ -1,0 +1,303 @@
+{
+  "schema_version": 1,
+  "id": "learning-example",
+  "version": "1.0",
+  "domain": "教育与学习（合成示例）",
+  "task": "区分两种反馈、后续响应与完成比例，保留未取得的效果证据。",
+  "scope": "只有下列合成记录，未代表任何真实机构、学习者或专业测量工具。",
+  "sources": [
+    {
+      "id": "s-course",
+      "title": "合成课程材料A",
+      "locator": "本例给定材料A：一名学习者提交作业后，教师写下两条评语。没有后续作业或阅读记录。",
+      "version": "示例1",
+      "scope": "只支持已提交与评语已发出，不支持后续学习效果。",
+      "kind": "synthetic"
+    },
+    {
+      "id": "s-survey",
+      "title": "合成课程材料B",
+      "locator": "本例给定材料B：三名学习者填写课程安排问卷。材料把这些意见称为反馈。",
+      "version": "示例1",
+      "scope": "只支持问卷意见已表达，不支持被采用。",
+      "kind": "synthetic"
+    },
+    {
+      "id": "s-completion",
+      "title": "合成课程材料C",
+      "locator": "本例给定材料C：课程结束时，10名登记学习者中8名完成提交要求。未给技能测验。",
+      "version": "示例1",
+      "scope": "给定记录比例，非真实项目效果。",
+      "kind": "synthetic"
+    }
+  ],
+  "entries": [
+    {
+      "id": "m-comments",
+      "terms": [
+        "反馈",
+        "教师评语"
+      ],
+      "context": "教师对作业的评语",
+      "layer": "term",
+      "local_meaning": "教师写给学习者的具体意见。",
+      "mapping_kind": "partial_correspondence",
+      "target_meaning": "信息已发出的环节；未据此断定接收、改变或学习效果。",
+      "theory_anchors": [
+        "5.10",
+        "13.1"
+      ],
+      "source_ids": [
+        "s-course"
+      ],
+      "depends_on": [],
+      "preserved": [
+        "意见发送与后续改变分别判断。"
+      ],
+      "excluded": [
+        "不能把收到或发出评语写成学习效果已发生。"
+      ],
+      "unknowns": [
+        "未给出学习者是否阅读、修改或迁移的记录。"
+      ],
+      "assessments": {
+        "semantic": {
+          "status": "partial",
+          "basis": [
+            "s-course"
+          ],
+          "scope": "仅本合成材料用语",
+          "rationale": "材料提供当地含义，只保留所列区别。"
+        },
+        "factual": {
+          "status": "unknown",
+          "basis": [],
+          "scope": "真实项目效果",
+          "rationale": "示例不是现实项目资料。"
+        },
+        "formal": {
+          "status": "not_claimed",
+          "basis": [],
+          "scope": "本次普通领域说明",
+          "rationale": "未申请正式实例资格，普通词义仍可按材料使用。"
+        }
+      },
+      "methods": [
+        {
+          "name": "核对评语与后续作业",
+          "status": "planned",
+          "scope": "只能在取得两端材料后比较具体修改，不能仅由发送记录作因果判断。",
+          "source_ids": [
+            "s-course"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "m-survey",
+      "terms": [
+        "反馈",
+        "课程问卷"
+      ],
+      "context": "学习者对课程的问卷",
+      "layer": "term",
+      "local_meaning": "学习者填写对课程安排的意见。",
+      "mapping_kind": "partial_correspondence",
+      "target_meaning": "参与者表达意见的渠道；是否影响课程安排另查。",
+      "theory_anchors": [
+        "5.10",
+        "13.1"
+      ],
+      "source_ids": [
+        "s-survey"
+      ],
+      "depends_on": [],
+      "preserved": [
+        "意见表达者、接收者和方向。"
+      ],
+      "excluded": [
+        "不能与教师向学习者发出评语混作同一个测量。"
+      ],
+      "unknowns": [
+        "问卷意见是否改变下一期安排未知。"
+      ],
+      "assessments": {
+        "semantic": {
+          "status": "partial",
+          "basis": [
+            "s-survey"
+          ],
+          "scope": "仅本合成材料用语",
+          "rationale": "材料提供当地含义，只保留所列区别。"
+        },
+        "factual": {
+          "status": "unknown",
+          "basis": [],
+          "scope": "真实项目效果",
+          "rationale": "示例不是现实项目资料。"
+        },
+        "formal": {
+          "status": "not_claimed",
+          "basis": [],
+          "scope": "本次普通领域说明",
+          "rationale": "未申请正式实例资格，普通词义仍可按材料使用。"
+        }
+      }
+    },
+    {
+      "id": "m-change",
+      "terms": [
+        "响应",
+        "按评语修改"
+      ],
+      "context": "学习者后续修改",
+      "layer": "relation",
+      "local_meaning": "针对教师评语而发生的可辨认修改。",
+      "mapping_kind": "partial_correspondence",
+      "target_meaning": "需要接收、理解及后续表现材料的关系候选。",
+      "theory_anchors": [
+        "5.10",
+        "13.1"
+      ],
+      "source_ids": [
+        "s-course"
+      ],
+      "depends_on": [
+        "m-comments"
+      ],
+      "preserved": [
+        "相对于原作业的具体改变。"
+      ],
+      "excluded": [
+        "不把外观修改视为独立迁移能力已经增长。"
+      ],
+      "unknowns": [
+        "本例没有后续作业，尚不能确认修改发生。"
+      ],
+      "assessments": {
+        "semantic": {
+          "status": "partial",
+          "basis": [
+            "s-course"
+          ],
+          "scope": "仅本合成材料用语",
+          "rationale": "材料提供当地含义，只保留所列区别。"
+        },
+        "factual": {
+          "status": "unknown",
+          "basis": [],
+          "scope": "真实项目效果",
+          "rationale": "示例不是现实项目资料。"
+        },
+        "formal": {
+          "status": "not_claimed",
+          "basis": [],
+          "scope": "本次普通领域说明",
+          "rationale": "未申请正式实例资格，普通词义仍可按材料使用。"
+        }
+      },
+      "target_review": {
+        "requested": false,
+        "status": "not_requested",
+        "basis": [],
+        "rationale": "这里只整理局部对应，未申请正式转义。"
+      }
+    },
+    {
+      "id": "m-completion",
+      "terms": [
+        "完成率",
+        "课程完成比例"
+      ],
+      "context": "课程结束时的完成记录",
+      "layer": "measurement",
+      "local_meaning": "完成既定提交要求人数除以纳入统计的报名人数。",
+      "mapping_kind": "partial_correspondence",
+      "target_meaning": "在给定分母和时点上的记录比例，不能替代学习效果。",
+      "theory_anchors": [
+        "5.10",
+        "13.1"
+      ],
+      "source_ids": [
+        "s-completion"
+      ],
+      "depends_on": [],
+      "preserved": [
+        "分子、分母及截止时点。"
+      ],
+      "excluded": [
+        "不代表知识增长、迁移或就业机会。"
+      ],
+      "unknowns": [
+        "未提供知识技能测量。"
+      ],
+      "assessments": {
+        "semantic": {
+          "status": "partial",
+          "basis": [
+            "s-completion"
+          ],
+          "scope": "仅本合成材料用语",
+          "rationale": "材料提供当地含义，只保留所列区别。"
+        },
+        "factual": {
+          "status": "supported",
+          "basis": [
+            "s-completion"
+          ],
+          "scope": "仅本合成材料的记录比例",
+          "rationale": "约定的8/10可算为80%；不能外推至真实项目。"
+        },
+        "formal": {
+          "status": "not_claimed",
+          "basis": [],
+          "scope": "本次普通领域说明",
+          "rationale": "未申请正式实例资格，普通词义仍可按材料使用。"
+        }
+      },
+      "fields": [
+        {
+          "name": "completion_rate",
+          "unit": "比例",
+          "denominator": "10名登记学习者，未另有排除者",
+          "time_window": "本例课程结束当日",
+          "missing_policy": "分母或完成记录缺失时保留未知，不补零。",
+          "source_ids": [
+            "s-completion"
+          ]
+        }
+      ]
+    }
+  ],
+  "outputs": [
+    {
+      "id": "o-feedback",
+      "title": "如何使用反馈一词",
+      "text": "本材料的“反馈”有两个方向：教师对作业给出评语，学习者对课程安排填写问卷。它们涉及不同的发出者、接收者和后续任务，应分别保留。现有材料只说明意见已发出，不能说明学习或课程安排已发生改变。",
+      "entry_ids": [
+        "m-comments",
+        "m-survey"
+      ],
+      "source_ids": []
+    },
+    {
+      "id": "o-response",
+      "title": "后续响应仍未确认",
+      "text": "评语已经发出，但没有学习者阅读和修改记录。因此，尚不能确认按评语修改已经发生，更不能由此宣布独立迁移能力提升。下一步需要与原作业对应的后续材料；该缺口不取消已有的评语发送记录。",
+      "entry_ids": [
+        "m-change"
+      ],
+      "source_ids": []
+    },
+    {
+      "id": "o-completion",
+      "title": "完成记录的有限结论",
+      "text": "在本合成记录的10名报名者与课程结束时点下，完成提交要求的比例为8/10，即80%。这是记录口径下的描述。没有技能测验时，完成比例不能代替知识增长或迁移结论。",
+      "entry_ids": [
+        "m-completion"
+      ],
+      "source_ids": []
+    }
+  ],
+  "theory_sha256": "6ef2e508474d4ac1ad07d7e4e068955342c405b5f680afcfc40d68cca3d0149c"
+}
