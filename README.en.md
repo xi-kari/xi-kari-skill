@@ -82,6 +82,7 @@ The host must be able to read the complete Markdown files in the package, keep o
    | --- | --- | --- |
    | Codex | `.agents/skills/` in your user folder or in the project | `$xi-kari-skill` |
    | Claude Code | `.claude/skills/` in your user folder or in the project | `/xi-kari-skill` |
+   | Gemini CLI, GitHub Copilot CLI, Cursor, OpenCode, Kimi Code CLI, Qwen Code | they also read `.agents/skills/` in your user folder, so one copy serves them and Codex | name `xi-kari-skill` in the request |
    | Other local agents that support Agent Skills | the skills root the host actually uses | have the host load that directory's `SKILL.md` |
 
 3. **Name it.** Reload skills or open a new conversation, name the skill, and give it the question together with the material:
@@ -95,7 +96,7 @@ The host must be able to read the complete Markdown files in the package, keep o
 
    In Codex start with `$xi-kari-skill`; in other hosts you can write “Use xi-kari-skill to analyze…”.
 
-In the default full-reading mode the first turn includes complete study of the Chinese text. For the experimental layered reading, say “use layered reading” in the request; its core list and supplementary reading are in the [reading rules](references/full-source-study.md) (in Chinese). Follow-ups, additions and revisions on the same question continue from the existing work. Backups before upgrading and notes for other hosts are in the [installation guide](docs/INSTALL.md) (in Chinese).
+In the default full-reading mode the first turn includes complete study of the Chinese text. For the experimental layered reading, say “use layered reading” in the request; its core list and supplementary reading are in the [reading rules](references/full-source-study.md) (in Chinese). Follow-ups, additions and revisions on the same question continue from the existing work. Backups before upgrading, and hosts that use a different folder such as Google Antigravity, are covered in the [installation guide](docs/INSTALL.md) (in Chinese).
 
 ## Modules organized by question
 

@@ -267,6 +267,7 @@
             <tbody>
               <tr><th scope="row">Codex</th><td data-label="技能目录">用户目录或项目内的 <code>.agents/skills/</code></td><td data-label="调用"><code>$xi-kari-skill</code></td></tr>
               <tr><th scope="row">Claude Code</th><td data-label="技能目录">用户目录或项目内的 <code>.claude/skills/</code></td><td data-label="调用"><code>/xi-kari-skill</code></td></tr>
+              <tr><th scope="row">Gemini CLI、Cursor 等</th><td data-label="技能目录">同样读取用户目录的 <code>.agents/skills/</code>，与 Codex 共用一份</td><td data-label="调用">在请求里点名 <code>xi-kari-skill</code></td></tr>
               <tr><th scope="row">其他本地智能体</th><td data-label="技能目录">宿主实际配置的技能根目录</td><td data-label="调用">让宿主加载该目录的 <code>SKILL.md</code></td></tr>
             </tbody>
           </table>
