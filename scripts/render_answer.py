@@ -788,7 +788,7 @@ class MarkdownReader:
                 end = text.find('\\)', i + 2)
                 if end >= 0:
                     result.append(self.math(text[i + 2:end], text[i:end + 2])); i = end + 2; continue
-            if text[i] == '\\' and i + 1 < len(text) and text[i + 1] in r'\`*_{}[]()#+-.!|>~$':
+            if text[i] == '\\' and i + 1 < len(text) and text[i + 1] in r'\`*_{}[]()#+-.!|<>~$':
                 result.append(escape(text[i + 1])); i += 2; continue
             if text[i] == '`':
                 run = re.match(r'`+', text[i:]).group()

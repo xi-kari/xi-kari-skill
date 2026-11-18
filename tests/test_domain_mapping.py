@@ -516,6 +516,27 @@ class LanguageTests(unittest.TestCase):
             mapping.render_markdown(data, 'fr')
 
 
+    def test_embedded_chapter_is_the_same_content_one_level_down(self):
+        data = example()
+        for lang, title in (('zh', '领域映射与使用说明'), ('en', 'Domain mapping and how to use it')):
+            with self.subTest(lang=lang):
+                standalone = mapping.render_markdown(data, lang)
+                chapter = mapping.render_markdown(data, lang, embed=True)
+                self.assertTrue(standalone.startswith(f'# {title}\n'))
+                self.assertTrue(chapter.startswith(f'## {title}\n'))
+                self.assertNotIn('<!--', standalone + chapter)
+                shifted = ['#' + line if line.startswith('#') else line for line in standalone.splitlines()]
+                self.assertEqual(chapter.splitlines(), shifted)
+                self.assertFalse([line for line in chapter.splitlines() if line.startswith('# ')])
+
+    def test_authored_hashes_cannot_become_headings_in_the_chapter(self):
+        data = example()
+        data['outputs'][0]['text'] = '# 作者正文里的井号\n## 第二行'
+        chapter = mapping.render_markdown(data, embed=True)
+        self.assertIn('\\# 作者正文里的井号', chapter)
+        self.assertNotIn('\n## 第二行', chapter)
+
+
 class OutputTests(unittest.TestCase):
     def test_output_budget_is_utf8_bytes_and_precedes_directory_creation(self):
         with mock.patch.object(mapping, 'MAX_OUTPUT_BYTES', 6):
@@ -669,6 +690,11 @@ except (module.MappingError, OSError):
             before_source = source.read_bytes()
             self.assertNotEqual(run(source, 'render', '--output', source).returncode, 0)
             self.assertEqual(source.read_bytes(), before_source)
+            chapter = Path(directory) / 'chapter.md'
+            result = run(source, 'render', '--embed', '--lang', 'en', '--output', chapter)
+            self.assertEqual(result.returncode, 0, result.stderr)
+            self.assertTrue(json.loads(result.stdout)['notice'].startswith('This tool checks only'))
+            self.assertTrue(chapter.read_text(encoding='utf-8').startswith('## Domain mapping and how to use it\n'))
 
 
 if __name__ == '__main__':

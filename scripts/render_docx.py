@@ -17,6 +17,7 @@ import re
 import struct
 import sys
 import tempfile
+from urllib.parse import unquote
 from xml.sax.saxutils import escape as _xml_escape
 import zipfile
 
@@ -28,7 +29,7 @@ finally:
     sys.path.pop(0)
 
 
-SUPPORTED = '标题、段落、粗体/斜体、行内代码、有序与无序列表、引用块、围栏代码块、管道表格、分隔线、脚注、本地图片'
+SUPPORTED = '标题、段落、粗体/斜体、行内代码、反斜杠转义、链接、有序与无序列表、引用块、围栏代码块、管道表格、分隔线、脚注、本地图片'
 
 
 DOCX_LABELS = {
@@ -52,10 +53,12 @@ DOCX_LABELS = {
         'same_file': '输入与输出不能是同一个文件',
         'failed': 'DOCX 生成失败：',
         'language': '',
+        'link_target': '（{dest}）',
     },
     'en': {
-        'supported': 'headings, paragraphs, bold and italic, inline code, ordered and unordered lists, block quotes, '
-                     'fenced code blocks, pipe tables, horizontal rules, footnotes and local images',
+        'supported': 'headings, paragraphs, bold and italic, inline code, backslash escapes, links, ordered and '
+                     'unordered lists, block quotes, fenced code blocks, pipe tables, horizontal rules, footnotes '
+                     'and local images',
         'code_language': 'Fenced code language {info} is not supported; kept as written',
         'container': 'Container syntax ::: is not supported; kept as written',
         'untitled_image': 'untitled image',
@@ -74,6 +77,7 @@ DOCX_LABELS = {
         'same_file': 'Input and output must not be the same file',
         'failed': 'DOCX could not be generated: ',
         'language': '<w:lang w:val="en-US"/>',
+        'link_target': ' ({dest})',
     },
 }
 MAX_IMAGE_BYTES = 20 * 1024 * 1024
@@ -100,6 +104,15 @@ _LIST = re.compile(r'^([ \t]*)([-+*]|\d+[.)])([ \t]+)(.*)$')
 _IMAGE_LINE = re.compile(r'^\s*!\[([^\]]*)\]\(([^)]+)\)\s*$')
 _FOOTNOTE_DEF = re.compile(r'^ {0,3}\[\^([^\]\n]+)\]:[ \t]?(.*)$')
 _FOOTNOTE_REF = re.compile(r'\[\^([^\]\n]+)\]')
+# Backslash escapes the reading page also honours. A doubled backslash stays as
+# written so Windows and UNC paths survive; ( and ) are left for math delimiters.
+_ESCAPABLE = r'`*_{}[]#+-.!|<>~$'
+_AUTOLINK = re.compile(r'<((?:https?://|mailto:)[^\s<>]+)>', re.I)
+_EXTERNAL = re.compile(r'(?:https?://|mailto:)\S+', re.I)
+_DOLLAR_CLOSE = re.compile(r'(?<![\\$])\$(?!\$)')
+# Bounds keep a paragraph full of unmatched brackets linear rather than quadratic.
+_MAX_LINK_LABEL = 1000
+_MAX_LINK_DESTINATION = 2048
 
 
 class DocxError(ValueError):
@@ -270,6 +283,39 @@ def parse_inline(text: str, numbers: dict[str, int] | None = None) -> list[dict]
     i, length = 0, len(text)
     while i < length:
         char = text[i]
+        math = _math_span(text, i)
+        if math:
+            # Math source stays exactly as written; escapes inside are TeX.
+            buffer.append(text[i:math])
+            i = math
+            continue
+        if char == '\\' and i + 1 < length:
+            if text[i + 1] == '\\':
+                buffer.append('\\\\')
+                i += 2
+                continue
+            if text[i + 1] in _ESCAPABLE:
+                buffer.append(text[i + 1])
+                i += 2
+                continue
+        if char == '<':
+            autolink = _AUTOLINK.match(text, i)
+            if autolink:
+                flush()
+                runs.append({'text': autolink.group(1), 'bold': False, 'italic': False, 'code': False,
+                             'sup': False, 'link': autolink.group(1)})
+                i = autolink.end()
+                continue
+        if char == '[' and not text.startswith('[^', i):
+            link = _inline_link(text, i)
+            if link:
+                label, destination, end = link
+                flush()
+                label_runs = parse_inline(label, numbers) or [
+                    {'text': destination, 'bold': False, 'italic': False, 'code': False, 'sup': False}]
+                runs.extend(dict(run, link=destination) for run in label_runs)
+                i = end
+                continue
         if char == '`':
             end = text.find('`', i + 1)
             if end != -1:
@@ -314,8 +360,144 @@ def parse_inline(text: str, numbers: dict[str, int] | None = None) -> list[dict]
     return runs
 
 
+def _math_span(text: str, start: int) -> int | None:
+    """End of a math span starting at ``start``, using the reading page's delimiters.
+
+    As on the reading page, ``\\[`` and ``$$`` open display math only when they
+    begin the block and its text closes them; elsewhere ``\\[`` is an escaped bracket.
+    """
+    if start == 0:
+        stripped = text.rstrip()
+        for opening, closing in (('\\[', '\\]'), ('$$', '$$')):
+            if text.startswith(opening) and len(stripped) >= 2 * len(opening) and stripped.endswith(closing):
+                return len(text)
+    if text.startswith('\\(', start):
+        end = text.find('\\)', start + 2)
+        return end + 2 if end != -1 else None
+    if text[start] == '$' and (start == 0 or text[start - 1] not in '$0123456789'):
+        close = _DOLLAR_CLOSE.search(text, start + 1)
+        if close:
+            end = close.start()
+            tex = text[start + 1:end]
+            numeric = bool(tex and tex[0].isdigit())
+            explicit = bool(re.search(r'[\\^_+=<>*/{}]', tex))
+            if (tex and not tex[0].isspace() and not tex[-1].isspace() and '`' not in tex
+                    and not text[end + 1:end + 2].isdigit() and (not numeric or explicit)):
+                return end + 1
+    return None
+
+
+def _inline_link(text: str, start: int) -> tuple[str, str, int] | None:
+    """Parse ``[label](destination "title")`` at ``start``; return label, destination and end."""
+    depth, i, limit = 0, start, min(len(text), start + _MAX_LINK_LABEL)
+    while i < limit:
+        if text[i] == '\\':
+            i += 2
+            continue
+        if text[i] == '[':
+            depth += 1
+        elif text[i] == ']':
+            depth -= 1
+            if depth == 0:
+                break
+        i += 1
+    else:
+        return None
+    if not text.startswith('(', i + 1):
+        return None
+    label, j, depth = text[start + 1:i], i + 2, 1
+    limit = min(len(text), j + _MAX_LINK_DESTINATION)
+    while j < limit:
+        if text[j] == '\\':
+            j += 2
+            continue
+        if text[j] == '(':
+            depth += 1
+        elif text[j] == ')':
+            depth -= 1
+            if depth == 0:
+                break
+        j += 1
+    else:
+        return None
+    inner = text[i + 2:j].strip()
+    if inner.startswith('<') and '>' in inner:
+        destination = inner[1:inner.index('>')]
+    else:
+        destination = inner.split()[0] if inner.split() else ''
+    if not destination:
+        return None
+    return label, destination, j + 1
+
+
+class _Links:
+    """Hyperlink targets of one document: external relationships and heading bookmarks."""
+
+    def __init__(self, lang: str):
+        self.lang = lang
+        self.external: dict[str, str] = {}
+        self.anchors: dict[str, str] = {}
+        self.bookmarks = 0
+
+    def heading(self, text: str) -> tuple[int, str]:
+        """Register a heading; the reading page's slug and its plain text both reach it."""
+        self.bookmarks += 1
+        name = f'_xk_h{self.bookmarks}'
+        text = re.sub(r'\[\^[^]]+\]', '', text)
+        plain = re.sub(r'\s+', ' ', ''.join(run['text'] for run in parse_inline(text))).strip()
+        slug = re.sub(r'[^\w\-\s]', '', plain.lower()).strip().replace(' ', '-')
+        self.anchors.setdefault(slug, name)
+        self.anchors.setdefault(plain, name)
+        return self.bookmarks, name
+
+    def target(self, destination: str) -> tuple[str, str] | None:
+        if destination.startswith('#'):
+            name = self.anchors.get(unquote(destination[1:]))
+            return ('anchor', name) if name else None
+        if _EXTERNAL.fullmatch(destination):
+            if destination not in self.external:
+                self.external[destination] = f'rIdLink{len(self.external) + 1}'
+            return 'external', self.external[destination]
+        return None
+
+    def relationships(self) -> list[str]:
+        return [f'<Relationship Id="{rel_id}" Type="http://schemas.openxmlformats.org/officeDocument/2006/'
+                f'relationships/hyperlink" Target="{escape_text(url)}" TargetMode="External"/>'
+                for url, rel_id in self.external.items()]
+
+
+def _runs_xml(runs: list[dict], links: '_Links | None' = None) -> str:
+    """Runs in order; consecutive runs of one link share a hyperlink element."""
+    parts, i = [], 0
+    while i < len(runs):
+        destination = runs[i].get('link')
+        if destination is None:
+            parts.append(_run_xml(runs[i]))
+            i += 1
+            continue
+        group = []
+        while i < len(runs) and runs[i].get('link') == destination:
+            group.append(runs[i])
+            i += 1
+        target = links.target(destination) if links is not None else None
+        if target is None:
+            # Not followable from a sent document: keep the label and show where it pointed.
+            parts += [_run_xml(run) for run in group]
+            label = ''.join(run['text'] for run in group)
+            if label != destination and not destination.startswith('#'):
+                lang = links.lang if links is not None else 'zh'
+                parts.append(_run_xml({'text': DOCX_LABELS[lang]['link_target'].format(dest=destination)}))
+            continue
+        attribute = f'r:id="{target[1]}"' if target[0] == 'external' else f'w:anchor="{target[1]}"'
+        parts.append(f'<w:hyperlink {attribute} w:history="1">'
+                     + ''.join(_run_xml(dict(run, hyperlink=True)) for run in group) + '</w:hyperlink>')
+    return ''.join(parts)
+
+
 def _run_xml(run: dict) -> str:
     props = []
+    if run.get('hyperlink'):
+        props.append('<w:rStyle w:val="Hyperlink"/>')
     if run.get('code'):
         props.append('<w:rFonts w:ascii="Consolas" w:hAnsi="Consolas" w:cs="Courier New"/>')
     if run.get('bold'):
@@ -329,7 +511,8 @@ def _run_xml(run: dict) -> str:
 
 
 def _paragraph_xml(runs: list[dict], style: str | None = None, indent: int | None = None,
-                   border: bool = False) -> str:
+                   border: bool = False, links: _Links | None = None,
+                   bookmark: tuple[int, str] | None = None) -> str:
     props = []
     if style:
         props.append(f'<w:pStyle w:val="{escape_text(style)}"/>')
@@ -338,11 +521,15 @@ def _paragraph_xml(runs: list[dict], style: str | None = None, indent: int | Non
     if border:
         props.append('<w:pBdr><w:bottom w:val="single" w:sz="6" w:space="1" w:color="999999"/></w:pBdr>')
     properties = f'<w:pPr>{"".join(props)}</w:pPr>' if props else ''
-    return f'<w:p>{properties}{"".join(_run_xml(run) for run in runs)}</w:p>'
+    content = _runs_xml(runs, links)
+    if bookmark is not None:
+        content = (f'<w:bookmarkStart w:id="{bookmark[0]}" w:name="{bookmark[1]}"/>'
+                   f'{content}<w:bookmarkEnd w:id="{bookmark[0]}"/>')
+    return f'<w:p>{properties}{content}</w:p>'
 
 
 def _table_xml(rows: list[list[str]], width: int = 3000,
-               numbers: dict[str, int] | None = None) -> str:
+               numbers: dict[str, int] | None = None, links: _Links | None = None) -> str:
     numbers = numbers or {}
     columns = len(rows[0])
     table_width = min(width * columns, TEXT_WIDTH_TWIPS)
@@ -360,7 +547,8 @@ def _table_xml(rows: list[list[str]], width: int = 3000,
             if not runs:
                 runs = [{'text': '', 'bold': False, 'italic': False, 'code': False, 'sup': False}]
             cells.append(f'<w:tc><w:tcPr><w:tcW w:w="{widths[column]}" w:type="dxa"/></w:tcPr>'
-                         + _paragraph_xml(runs, style='TableHeader' if header else None) + '</w:tc>')
+                         + _paragraph_xml(runs, style='TableHeader' if header else None, links=links)
+                         + '</w:tc>')
         body.append(f'<w:tr>{"".join(cells)}</w:tr>')
     return ('<w:tbl><w:tblPr><w:tblStyle w:val="TableGrid"/>'
             f'<w:tblW w:w="{table_width}" w:type="dxa"/><w:tblLayout w:type="fixed"/></w:tblPr>'
@@ -453,30 +641,35 @@ def build_document(source: str, title: str | None, source_path: Path | None, lan
     body: list[str] = []
     media: list[tuple[str, bytes]] = []
     relationships: list[str] = []
+    links = _Links(lang)
+    # Register every heading first so a link may point forwards as well as back.
+    headings = iter([links.heading(block['text']) for block in blocks if block['kind'] == 'heading'])
 
     for block in blocks:
         kind = block['kind']
         if kind in ('footnote',):
             continue
         if kind == 'heading':
-            body.append(_paragraph_xml(parse_inline(block['text'], numbers), style=f"Heading{block['level']}"))
+            body.append(_paragraph_xml(parse_inline(block['text'], numbers), style=f"Heading{block['level']}",
+                                       links=links, bookmark=next(headings)))
         elif kind == 'paragraph':
-            body.append(_paragraph_xml(parse_inline(block['text'], numbers)))
+            body.append(_paragraph_xml(parse_inline(block['text'], numbers), links=links))
         elif kind == 'quote':
-            body.append(_paragraph_xml(parse_inline(block['text'], numbers), style='Quote', indent=360))
+            body.append(_paragraph_xml(parse_inline(block['text'], numbers), style='Quote', indent=360,
+                                       links=links))
         elif kind == 'rule':
             body.append(_paragraph_xml([], border=True))
         elif kind == 'list_item':
             bullet = block['bullet']
             runs = [{'text': f'{bullet} ', 'bold': False, 'italic': False, 'code': False, 'sup': False}]
             body.append(_paragraph_xml(runs + parse_inline(block['text'], numbers), style='ListParagraph',
-                                       indent=360 * block['depth']))
+                                       indent=360 * block['depth'], links=links))
         elif kind == 'code':
             for line in block['lines'] or ['']:
                 runs = [{'text': line, 'bold': False, 'italic': False, 'code': True, 'sup': False}]
                 body.append(_paragraph_xml(runs, style='Code'))
         elif kind == 'table':
-            body.append(_table_xml(block['rows'], numbers=numbers))
+            body.append(_table_xml(block['rows'], numbers=numbers, links=links))
         elif kind == 'image':
             alt, dest = block['alt'], block['dest']
             label = alt or Path(dest).name or L['untitled_image']
@@ -526,7 +719,7 @@ def build_document(source: str, title: str | None, source_path: Path | None, lan
             runs = [{'text': f'{number}. ', 'bold': False, 'italic': False, 'code': False, 'sup': False}]
             runs += [{'text': f'[^{label}] ', 'bold': False, 'italic': False, 'code': False, 'sup': False}]
             runs += parse_inline(definitions[label], numbers)
-            body.append(_paragraph_xml(runs, style='FootnoteText'))
+            body.append(_paragraph_xml(runs, style='FootnoteText', links=links))
 
     if unsupported:
         body.append(_paragraph_xml([{'text': L['unsupported_heading'], 'bold': False, 'italic': False,
@@ -577,6 +770,7 @@ def build_document(source: str, title: str | None, source_path: Path | None, lan
                     'relationships/metadata/core-properties" Target="docProps/core.xml"/>'
                     '</Relationships>')
 
+    relationships += links.relationships()
     document_rels = ('<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'
                      '<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">'
                      '<Relationship Id="rIdStyles" Type="http://schemas.openxmlformats.org/officeDocument/2006/'
@@ -748,6 +942,8 @@ STYLES = ('<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'
           '<w:basedOn w:val="Normal"/>'
           '<w:pPr><w:spacing w:before="0" w:after="40"/></w:pPr>'
           '<w:rPr><w:sz w:val="18"/></w:rPr></w:style>'
+          '<w:style w:type="character" w:styleId="Hyperlink"><w:name w:val="Hyperlink"/>'
+          '<w:rPr><w:color w:val="0563C1"/><w:u w:val="single"/></w:rPr></w:style>'
           '<w:style w:type="table" w:styleId="TableGrid"><w:name w:val="Table Grid"/>'
           '<w:tblPr><w:tblBorders>'
           '<w:top w:val="single" w:sz="4" w:space="0" w:color="999999"/>'

@@ -576,6 +576,76 @@ class RenderDocxTests(unittest.TestCase):
         self.assertEqual(same.stdout, '')
         self.assertIn('失败', same.stderr)
 
+    def relationship_targets(self, output):
+        relationship_ns = '{http://schemas.openxmlformats.org/package/2006/relationships}'
+        with zipfile.ZipFile(output) as archive:
+            relationships = ET.fromstring(archive.read('word/_rels/document.xml.rels'))
+        return {item.get('Id'): (item.get('Target'), item.get('TargetMode'), item.get('Type'))
+                for item in relationships.findall(relationship_ns + 'Relationship')}
+
+    def test_markdown_escapes_match_the_reading_page_but_keep_paths_and_math(self):
+        cases = (
+            (r'a\<b\>c、x\_y、\[1\]、\#2、\*3\*、\|4、\`5\`', 'a<b>c、x_y、[1]、#2、*3*、|4、`5`'),
+            (r'D:\data\notes.csv 与 \\server\share', r'D:\data\notes.csv 与 \\server\share'),
+            (r'公式 \(a\_b + \{x\}\) 与 $x\_1$', r'公式 \(a\_b + \{x\}\) 与 $x\_1$'),
+            (r'\[ x\_1 = \{y\} \]', r'\[ x\_1 = \{y\} \]'),
+        )
+        for index, (source, expected) in enumerate(cases):
+            with self.subTest(source=source):
+                output, _ = self.render(source + '\n', out=f'escape{index}.docx')
+                self.assertEqual(''.join(all_text(output)), expected)
+
+    def test_external_links_become_hyperlinks_with_external_relationships(self):
+        text = ('# 来源\n\n见 [说明](https://example.com/a_(b) "题") 与 <https://x.org/p?q=1&r=2>，'
+                '邮件 [联系](mailto:a@b.org)。\n\n| 列 | 链接 |\n| --- | --- |\n| 甲 | [表内](https://example.com/t) |\n')
+        output, _ = self.render(text)
+        targets = self.relationship_targets(output)
+        hyperlink_type = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/hyperlink'
+        found = {}
+        for link in root_of(output).iter(W + 'hyperlink'):
+            rel_id = link.get('{http://schemas.openxmlformats.org/officeDocument/2006/relationships}id')
+            target, mode, kind = targets[rel_id]
+            self.assertEqual((mode, kind), ('External', hyperlink_type))
+            found[paragraph_text(link)] = target
+        self.assertEqual(found, {'说明': 'https://example.com/a_(b)', 'https://x.org/p?q=1&r=2': 'https://x.org/p?q=1&r=2',
+                                 '联系': 'mailto:a@b.org', '表内': 'https://example.com/t'})
+        self.assertNotIn('](', ''.join(all_text(output)))
+        with zipfile.ZipFile(output) as archive:
+            styles = archive.read('word/styles.xml').decode('utf-8')
+        self.assertIn('w:styleId="Hyperlink"', styles)
+
+    def test_heading_links_jump_to_bookmarks_forwards_and_back(self):
+        text = ('# 开头\n\n跳到 [附录](#第二节附录)、[英文](#second-part) 与 [原文标题](#第二节：附录)；'
+                '[不存在](#nope)。\n\n## 第二节：附录\n\n## Second part\n\n回到 [开头](#开头)。\n')
+        output, _ = self.render(text)
+        root = root_of(output)
+        bookmarks = {item.get(W + 'name') for item in root.iter(W + 'bookmarkStart')}
+        anchors = {paragraph_text(link): link.get(W + 'anchor') for link in root.iter(W + 'hyperlink')}
+        self.assertEqual(set(anchors), {'附录', '英文', '原文标题', '开头'})
+        self.assertTrue(set(anchors.values()) <= bookmarks)
+        self.assertEqual(anchors['附录'], anchors['原文标题'])
+        self.assertNotEqual(anchors['附录'], anchors['英文'])
+        joined = ''.join(all_text(output))
+        self.assertIn('不存在。', joined)
+        self.assertNotIn('#nope', joined)
+
+    def test_unfollowable_links_keep_label_and_destination_as_text(self):
+        text = '相对 [研究报告](research-report.md)，危险 [点我](javascript:alert(1))。\n'
+        output, _ = self.render(text)
+        self.assertEqual(list(root_of(output).iter(W + 'hyperlink')), [])
+        self.assertEqual(''.join(all_text(output)), '相对 研究报告（research-report.md），危险 点我（javascript:alert(1)）。')
+        target = module()
+        parts = target.build_parts(text, None, self.work / 'answer.md', 'en')
+        english = self.work / 'english.docx'
+        target.write_docx(english, parts, None)
+        self.assertIn('研究报告 (research-report.md)', ''.join(all_text(english)))
+        self.assertNotIn('External', ''.join(t[1] or '' for t in self.relationship_targets(english).values()))
+
+    def test_long_unmatched_brackets_stay_fast_and_literal(self):
+        text = '[' * 20000 + ' 与 ' + '](' * 20000 + '\n'
+        output, _ = self.render(text)
+        self.assertEqual(''.join(all_text(output)), text.strip())
+
     def test_deterministic_bytes(self):
         text = '# 标题\n\n段落 **粗体** 与 *斜体*。\n\n| 甲 | 乙 |\n| --- | --- |\n| 一 | 二 |\n'
         first, _ = self.render(text, name='first.md', out='first.docx')
