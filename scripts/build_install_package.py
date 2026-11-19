@@ -76,6 +76,11 @@ def build(root: Path, output: Path) -> dict:
         for name, data in payload.items():
             info = zipfile.ZipInfo(metadata['name'] + '/' + name, date_time=(2026, 10, 13, 0, 0, 0))
             info.compress_type = zipfile.ZIP_DEFLATED
+            # Record every entry the same way on any build host. Some unzip
+            # programs re-decode the names of archives marked as made on DOS,
+            # which breaks the Chinese file name of the theory text.
+            info.create_system = 3
+            info.external_attr = 0o600 << 16
             zf.writestr(info, data)
     raw = archive.read_bytes()
     manifest = {
