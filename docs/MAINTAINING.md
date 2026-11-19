@@ -329,6 +329,24 @@ Chinese source changes, the check fails until the affected passages of the
 translation are revised and the edition is rebuilt. Rebuilding also changes the
 English edition hash recorded in the install manifest.
 
+## Domain index
+
+`references/domain-index.md` lists the 32 sections of Appendix D with the
+cross-references and topic numbers each section gives, so that research and
+domain mapping can find where the manuscript itself places a field. It is
+generated from the Chinese manuscript, not edited by hand:
+
+```powershell
+python scripts/build_domain_index.py
+python scripts/build_domain_index.py --check
+```
+
+Titles, cross-references and topic numbers are copied from the source. The nine
+groups and the usage notes at the top belong to the script; change them there.
+`--check` only reads and fails when the committed file differs from what the
+current manuscript yields; CI runs it. The script stays in the repository and
+is not part of the install payload; the generated index is.
+
 ## Project page verification
 
 Check the data arithmetic, unique domain/topic/pending IDs, source-domain title

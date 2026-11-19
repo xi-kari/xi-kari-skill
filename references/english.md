@@ -114,6 +114,7 @@ Identifiers stay as written: G1–G4, E1–E5, C1–C12, F1–F6, H1–H6, HV01�
 | 成果模式 | output modes |
 | 跨理论对话与争论重建；机制史与过程重建；制度与生活安排设计 | dialogue across theories and reconstruction of debates; mechanism history and process reconstruction; designing institutions and living arrangements |
 | 经验、意义与作品阐释；概念重构与表达设计；中层理论与模型构造；共同问题与议程重开 | interpreting experience, meaning and works; concept reconstruction and expression design; building middle-range theories and models; shared problems and reopening the agenda |
+| 领域专论；领域入口索引 | domain study; index of domain entries |
 | 能力操作；有限工具 | capability operations; finite tools |
 
 File names and command arguments stay as they are: `contract.md`, `state.md`, `snapshot.md`, `paths.md`, `forecasts.json`, `candidates.json`, `xi-kari-answer.md`.

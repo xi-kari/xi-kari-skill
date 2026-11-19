@@ -179,6 +179,7 @@
     "references/capability-operations.md",
     "references/capability-quickstart.md",
     "references/output-modes.md",
+    "references/domain-index.md",
     "references/finite-tools.md",
     "scripts/domain_cards.py",
     "scripts/finite_tools.py",
@@ -192,6 +193,7 @@
     "references/output-modes/problem-reframing.md",
     "references/output-modes/process-history.md",
     "references/output-modes/theory-dialogue.md",
+    "references/output-modes/domain-study.md",
     "references/domains/README.md",
     "references/domains/education-learning.md",
     "references/domains/organization-work.md",
@@ -202,6 +204,7 @@
     "assets/examples/output-modes/middle-range-theory.md",
     "assets/examples/output-modes/problem-reframing.md",
     "assets/examples/output-modes/process-history.md",
-    "assets/examples/output-modes/theory-dialogue.md"
+    "assets/examples/output-modes/theory-dialogue.md",
+    "assets/examples/output-modes/domain-study.md"
   ]
 }

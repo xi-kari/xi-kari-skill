@@ -63,4 +63,4 @@
 
 单次研究不建台账。多轮、多人或主张很多的长期研究需要记录时，用已有的[材料目录](../../references/evidence-work.md)、[主张台账](../../references/claim-ledger.md)和[任务状态](../../references/task-state.md)；它们是工作材料，成稿始终是手写的正文，不由记录排版生成。未安排的后台研究不许诺。
 
-完成标准是当前可做的研究已实际完成、正文充分、问题定位准确且两项内容一致，不以文件数量或条目数量判断。更简单的领域方法已足以解决时直接采用。需要专门作品时选[成果模式](../../references/output-modes.md)；有限模型计算见[有限工具](../../references/finite-tools.md)，具体操作见[能力操作](../../references/capability-operations.md)。写法可参照[合成示例](../../assets/examples/research-answer.md)；实际任务的结论由自己的材料决定。
+完成标准是当前可做的研究已实际完成、正文充分、问题定位准确且两项内容一致，不以文件数量或条目数量判断。更简单的领域方法已足以解决时直接采用。需要专门作品时选[成果模式](../../references/output-modes.md)；用户要把一个领域做深、做成研究室水平的理论研究时，按其中的[领域专论](../../references/output-modes/domain-study.md)组织：先立领域自己的问题和文献，再逐条映射并用公认的案例检验。有限模型计算见[有限工具](../../references/finite-tools.md)，具体操作见[能力操作](../../references/capability-operations.md)。写法可参照[合成示例](../../assets/examples/research-answer.md)；实际任务的结论由自己的材料决定。
