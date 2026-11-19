@@ -151,7 +151,7 @@ The complete draft goes straight to the reading page and the Word export; the op
 
 **The foresight tools work; their accuracy has not been validated.**
 
-The [foresight module](modules/forecast/MODULE.md) (in Chinese) runs from eligibility checks, a frozen snapshot, mechanisms and paths through expression, registration, the handover to options, and write-back at resolution. Thirty-nine [derived rule cards](rules/README.md) (in Chinese) give retrieval and usage prompts; using one means going back to the complete source section. All cards are currently drafts awaiting the author's sampled review.
+The [foresight module](modules/forecast/MODULE.md) (in Chinese) runs from eligibility checks, a frozen snapshot, mechanisms and paths through expression, registration, the handover to options, and write-back at resolution. Forty-one [derived rule cards](rules/README.md) (in Chinese) give retrieval and usage prompts; using one means going back to the complete source section. All cards are currently drafts awaiting the author's sampled review.
 
 `scripts/forecast.py` provides `register`, `list`, `show`, `resolve`, `report` and `check`. Registration fixes the target, horizon, scope and input cutoff; outcomes are only appended; orders one to three are scored separately and compared with a pre-registered simple baseline. Reports support Brier score, log loss, direction and top-rank hits, interval scores and forecast windows where they apply, with paired baseline comparison and statistics on disagreement subsets; inapplicable or missing labels are never filled with zero.
 
