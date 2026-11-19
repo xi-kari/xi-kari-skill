@@ -153,9 +153,12 @@ function sectionGists(md: MarkdownIt) {
     }
     const tokens = state.tokens
     for (let i = tokens.length - 1; i >= 2; i--) {
-      if (tokens[i].type !== 'heading_close' || tokens[i].tag === 'h1') continue
+      if (tokens[i].type !== 'heading_close') continue
       const open = tokens[i - 2]
-      const gist = open?.type === 'heading_open' ? gists.get(open.attrGet('id') || '') : undefined
+      const id = open?.type === 'heading_open' ? open.attrGet('id') || '' : ''
+      // a part title or the book's title page carries no strip; a numbered section set as a page title does
+      if (tokens[i].tag === 'h1' && !id.startsWith('section-')) continue
+      const gist = gists.get(id)
       if (!gist) continue
       // the codes this section's own text uses, in the order they first appear
       const used: string[] = []

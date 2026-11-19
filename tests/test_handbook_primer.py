@@ -18,7 +18,7 @@ LOCALES = {
 }
 SENTENCE = re.compile(r'^## (?:[一二三四五六七八九十]+　|\d+\. )(.+)$', re.MULTILINE)
 SOURCE_LINK = re.compile(r'\]\(\.\./(theory/[^)#\s]+)#(section-[a-z0-9-]+)\)')
-GIST = re.compile(r'<h[234] id="(section-[a-z0-9-]+)"[^>]*>.*?</h[234]>\s*'
+GIST = re.compile(r'<h[1234] id="(section-[a-z0-9-]+)"[^>]*>.*?</h[1234]>\s*'
                   r'<div class="xk-gist"><span class="xk-gist__tag">([^<]*)</span>'
                   r'<span class="xk-gist__text">(.*?)</span>(<details class="xk-gist__codes">.*?</details>)?</div>', re.DOTALL)
 CODE_LINK = re.compile(r'<li><a href="([^"]+)"><b>([^<]+)</b>([^<]+)</a></li>')
@@ -113,6 +113,16 @@ class HandbookPrimerTests(unittest.TestCase):
                 own = {anchor: [code for _, code, _ in links] for anchor, links in legends.items()}
                 self.assertNotIn('D0', own.get('section-3-1', []))
                 self.assertIn('D0', {code for codes in own.values() for code in codes})
+
+    def test_a_numbered_section_set_as_a_page_title_carries_the_strip_and_a_part_title_does_not(self):
+        for prefix in ('', 'en/'):
+            with self.subTest(prefix=prefix):
+                domain = (BUILT / prefix / 'theory/appendix-d/d-18.html').read_text(encoding='utf-8')
+                self.assertEqual([anchor for anchor, _, _, _ in GIST.findall(domain)], ['section-d-18'])
+                card = (BUILT / prefix / 'theory/appendix-a/a-05.html').read_text(encoding='utf-8')
+                self.assertEqual([anchor for anchor, _, _, _ in GIST.findall(card)], ['section-a-5'])
+                part = (BUILT / prefix / 'theory/part-03.html').read_text(encoding='utf-8')
+                self.assertNotRegex(part, r'<h1 id="part-title-3"[^>]*>.*?</h1>\s*<div class="xk-gist">')
 
     def test_strips_are_presentation_and_leave_the_generated_source_pages_alone(self):
         for folder in ('theory', 'en/theory'):

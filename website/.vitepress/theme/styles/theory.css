@@ -41,7 +41,7 @@
 .xk-prose.is-theory h1 { font-size: 2.4em; margin-bottom: .7em; }
 .xk-prose .xk-part { color: var(--xk-blue); margin-right: .3em; }
 .xk-prose .xk-part__gap { font-size: 0; }
-.xk-prose.is-theory h1 + p { font-size: 1.05em; color: var(--xk-ink-2); }
+.xk-prose.is-theory h1 + p, .xk-prose.is-theory h1 + .xk-gist + p { font-size: 1.05em; color: var(--xk-ink-2); }
 
 .xk-prose.is-theory h1#book { font-size: 2.6em; margin: .2em 0 .45em; }
 .xk-prose.is-theory h1#book + p { font-family: var(--xk-font-sans); font-size: 1.2em; font-weight: 700; color: var(--xk-ink); margin-bottom: .25em; }
