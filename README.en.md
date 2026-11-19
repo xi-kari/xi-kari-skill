@@ -113,7 +113,7 @@ The host must be able to read the complete Markdown files in the package, keep o
 
    In Codex start with `$xi-kari-skill`; in other hosts you can write “Use xi-kari-skill to analyze…”.
 
-In the default full-reading mode the first turn includes complete study of the Chinese text. For the experimental layered reading, say “use layered reading” in the request; its core list and supplementary reading are in the [reading rules](references/full-source-study.md) (in Chinese). Follow-ups, additions and revisions on the same question continue from the existing work. Backups before upgrading, and hosts that use a different folder such as Google Antigravity, are covered in the [installation guide](docs/INSTALL.md) (in Chinese).
+In the default full-reading mode the first turn includes complete study of the Chinese text. For the experimental layered reading, say “use layered reading” in the request; its core list and supplementary reading are in the [reading rules](references/full-source-study.md) (in Chinese). For a quick judgment on an everyday question, say “use the ten sentences”: the skill then checks your question against the [ten sentences](references/ten-sentences.md) without reading the book, and says so at the top of its answer. That is not equivalent to full study. Follow-ups, additions and revisions on the same question continue from the existing work. Backups before upgrading, and hosts that use a different folder such as Google Antigravity, are covered in the [installation guide](docs/INSTALL.md) (in Chinese).
 
 ## Modules organized by question
 

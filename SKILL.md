@@ -1,6 +1,6 @@
 ---
 name: xi-kari-skill
-description: 以Xikari著《Xikari-条件结构与转化论》为理论来源，按问题路由组合概念问答、解释、推演、条件前瞻、有限选择、制度起草与候选生成；默认完整学习，显式授权时可做分层阅读实验，保留持续协作、明确判断与完整成果；中英文均可，英文工作使用随包对齐的英文参考译本与术语表，原文以中文为准。用户明确点名Xikari Skill、Xi-Kari Skill、xi-kari-skill、$xi-kari-skill或/xi-kari-skill时使用，其相关续问保持接续；不由无关普通请求自动激活。Works in English or Chinese with Xikari's theory On Conditions, Structure, and Transformation (the Chinese text governs; an aligned English reference edition is bundled) for concept questions, explanation, projection, conditional foresight, bounded choice, institutional drafting and generating candidates from an established analysis. Use only when the user explicitly names Xikari Skill, Xi-Kari Skill, xi-kari-skill, $xi-kari-skill or /xi-kari-skill, and for follow-ups on that task.
+description: 以Xikari著《Xikari-条件结构与转化论》为理论来源，按问题路由组合概念问答、解释、推演、条件前瞻、有限选择、制度起草与候选生成；默认完整学习，显式授权时可做分层阅读实验，用户明确要求时可只按十句话快速作答，保留持续协作、明确判断与完整成果；中英文均可，英文工作使用随包对齐的英文参考译本与术语表，原文以中文为准。用户明确点名Xikari Skill、Xi-Kari Skill、xi-kari-skill、$xi-kari-skill或/xi-kari-skill时使用，其相关续问保持接续；不由无关普通请求自动激活。Works in English or Chinese with Xikari's theory On Conditions, Structure, and Transformation (the Chinese text governs; an aligned English reference edition is bundled) for concept questions, explanation, projection, conditional foresight, bounded choice, institutional drafting and generating candidates from an established analysis. It studies the complete text by default and, on explicit request, can answer quickly from a ten-sentence primer. Use only when the user explicitly names Xikari Skill, Xi-Kari Skill, xi-kari-skill, $xi-kari-skill or /xi-kari-skill, and for follow-ups on that task.
 ---
 
 # Xikari Skill
@@ -17,7 +17,9 @@ description: 以Xikari著《Xikari-条件结构与转化论》为理论来源，
 
 `layered` 仅用于已明确授权的分层阅读实验。依 §1.5.3，读取共同核心、所选模块的 `reading` 和每张实际使用卡片锚点的完整小节，补足跨章依赖、竞争解释、排除项与反例。实验范围在任务上下文说明，不冒称全书覆盖。R7 理论评估、全书一致性、体系迁移以及无法判定路由的问题始终全读；依赖范围无法确定时也升级全读。
 
-核心阅读清单、分块方法与恢复规则见[阅读与学习](references/full-source-study.md)。默认全读与分层实验不能因时间或 token 成本自行互换。分层能否改为默认须完成同任务、同材料、同模型条件的 A/B 比较，预先确定允许差异，并由作者据结果决定；评测阈值尚待确定，不预宣告过关。
+`primer` 只在用户明确要求时使用：用户说“用十句话”“轻量”“快速看一下”，或要一个日常问题的快速判断并接受不读原文。只读[十句话](references/ten-sentences.md)，按其中“只按十句话作答”的做法直接回答，开头写明本次没有读原文。这一模式不说明路由、不运行模块，按问题本身的顺序作答；预判按第九句直接写进答案，不做可回写的登记。需要登记前瞻（R4）、制度起草（R6）、理论评估（R7）或原文的定义与条件（R1）时，说明原因并改用 `full` 或 `layered`。`primer` 与完整学习是否等效没有定论，不作默认，也不称为依原文作出的判断。
+
+核心阅读清单、分块方法与恢复规则见[阅读与学习](references/full-source-study.md)。默认全读、分层实验与十句话模式不能因时间或 token 成本自行互换。分层能否改为默认须完成同任务、同材料、同模型条件的 A/B 比较，预先确定允许差异，并由作者据结果决定；评测阈值尚待确定，不预宣告过关。
 
 理解须覆盖作者定义、适用条件、排除项、非等价关系、例子、反例、命题角色与跨章连接。对象事实与 G1 的分组增益分别取证；构成地位、当事人理解、实际兑现与规范正当分别判断。不能把收到意见当有效反馈、存续当正当、系统筛选当主体选择、U 与 HV 当一一等价、当前载体作用当 G3 历史增量。目录、摘要、记忆、卡片、历史回答与其他作者报告均不能代读所需原文。
 
