@@ -96,28 +96,39 @@ class HandbookPrimerTests(unittest.TestCase):
             with self.subTest(locale=locale):
                 content = WEBSITE / paths['content']
                 units = json.loads((content / 'reading-units.json').read_text(encoding='utf-8'))['units']
-                headings = {unit['section_id']: unit['title_exact'] for unit in units if unit.get('section_id')}
-                routes = {unit['website_source_route'] for unit in units if unit.get('website_source_route')}
+                headings = {unit['website_source_route']: unit['title_exact'] for unit in units if unit.get('website_source_route')}
                 rows = {(code, squeeze(name)) for code, name in TABLE_NAME.findall((ROOT / paths['source']).read_text(encoding='utf-8'))}
-                text = (BUILT / paths['built']).read_text(encoding='utf-8')
-                legends = {anchor: CODE_LINK.findall(codes) for anchor, _, _, codes in GIST.findall(text) if codes}
-                self.assertGreater(len(legends), 5)
-                page_route = ('/en/' if locale == 'en' else '/') + 'theory/part-03'
-                for anchor, links in legends.items():
+                # The English reference text still uses codes in its sentences, so one part shows many
+                # lists. The reworded Chinese keeps codes in headings and Appendix B, so its sections list
+                # few or none: every page is read for them.
+                pages = [BUILT / paths['built']] if locale == 'en' else sorted((BUILT / 'theory').rglob('*.html'))
+                legends = {}
+                for page in pages:
+                    page_route = '/' + page.relative_to(BUILT).as_posix().removesuffix('.html').removesuffix('index')
+                    for anchor, _, _, codes in GIST.findall(page.read_text(encoding='utf-8')):
+                        if codes:
+                            legends[page_route + '#' + anchor] = CODE_LINK.findall(codes)
+                for place, links in legends.items():
+                    page_route = place.split('#')[0]
                     codes = [code for _, code, _ in links]
-                    self.assertEqual(len(codes), len(set(codes)), anchor)
+                    self.assertEqual(len(codes), len(set(codes)), place)
                     for href, code, name in links:
                         name = html.unescape(name)
-                        # every name is the book's own: cut from the one heading that carries this code,
-                        # or written beside the code in the first cell of a table row
-                        owners = [title for title in headings.values() if code in title and squeeze(name) in squeeze(title.replace(code, ''))]
-                        self.assertTrue(len(owners) == 1 or (code, squeeze(name)) in rows, (anchor, code, name))
                         target = page_route + href if href.startswith('#') else href.replace('/xi-kari-skill/handbook', '').replace('.html#', '#')
-                        self.assertIn(target, routes, (anchor, code, href))
-                # a section does not list the code its own heading defines
-                own = {anchor: [code for _, code, _ in links] for anchor, links in legends.items()}
-                self.assertNotIn('D0', own.get('section-3-1', []))
-                self.assertIn('D0', {code for codes in own.values() for code in codes})
+                        self.assertIn(target, headings, (place, code, href))
+                        # every name is the book's own: cut from the heading of the section it leads to,
+                        # where the code stands, or written beside the code in the first cell of a table row
+                        title = headings[target]
+                        self.assertTrue((code in title and squeeze(name) in squeeze(title.replace(code, '')))
+                                        or (code, squeeze(name)) in rows, (place, code, name))
+                        # a code set in brackets after its name ("有效反馈（D2）") leaves no empty brackets
+                        self.assertNotRegex(name, r'[（(]\s*[)）]', (place, code))
+                if locale == 'en':
+                    part = {place.split('#')[1]: [code for _, code, _ in links] for place, links in legends.items()}
+                    self.assertGreater(len(part), 5)
+                    # a section does not list the code its own heading defines
+                    self.assertNotIn('D0', part.get('section-3-1', []))
+                    self.assertIn('D0', {code for codes in part.values() for code in codes})
 
     def test_a_numbered_section_set_as_a_page_title_carries_the_strip_and_a_part_title_does_not(self):
         for prefix in ('', 'en/'):

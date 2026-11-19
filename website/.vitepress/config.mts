@@ -88,6 +88,7 @@ function headingNumbers(md: MarkdownIt) {
 
 /**
  * Codes that the book names in a section heading of their own: 'D2' is 有效反馈 (§3.3).
+ * A heading sets the code before the name or in brackets after it (“有效反馈（D2）”).
  * Names and places are read from the reading units, which copy each heading exactly; a
  * heading that carries several codes or a range names no single code and is left out.
  */
@@ -104,7 +105,7 @@ function sectionTerms(locale = 'zh'): Map<string, SectionTerm> {
       const codes = [...title.matchAll(TERM_CODE)].map(match => match[0]).filter(code => /\d/.test(code) || /-[A-Z]/.test(code))
       if (codes.length !== 1 || /^[A-Z]+\d+-[A-Z]+\d+$/.test(codes[0]) || terms.has(codes[0])) continue
       const name = title.replace(codes[0], ' ')
-        .replace(/[（(](?:完整接口卡|full interface card)[)）]/i, '')
+        .replace(/[（(](?:完整接口卡|full interface card)[)）]/i, '').replace(/[（(]\s*[)）]/g, '')
         .replace(/^[\s|：:]+|[\s|：:]+$/g, '').replace(/\s{2,}/g, ' ')
         .replace(/(\p{Script=Han}|[、，）])\s+(?=\p{Script=Han}|（)/gu, '$1')
       if (name) terms.set(codes[0], { name, key: unit.section_id, href: unit.website_source_route })
