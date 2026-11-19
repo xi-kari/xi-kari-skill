@@ -41,6 +41,30 @@ class DomainIndexTests(unittest.TestCase):
         topics = sum(int(row['topics'][-2:]) for row in self.rows)
         self.assertEqual(topics, 296)
 
+    def test_topic_names_are_copied_from_each_section_and_number_296(self):
+        source = self.raw.decode('utf-8-sig')
+        listed = [line for line in self.text.splitlines() if re.match(r'- \*\*D\.\d\d\*\*　', line)]
+        self.assertEqual(len(listed), 32)
+        total = 0
+        for row, line in zip(self.rows, listed):
+            self.assertTrue(line.startswith(f"- **{row['id']}**　"), line[:20])
+            names = line.split('　', 1)[1]
+            self.assertIn('专题定位：' + names + '。', source, row['id'])
+            self.assertEqual(names.split('；'), row['titles'])
+            self.assertEqual(row['titles'][0].split(' ')[0], row['topics'].split('—')[0])
+            self.assertEqual(row['titles'][-1].split(' ')[0], row['topics'].split('—')[1])
+            total += len(row['titles'])
+        self.assertEqual(total, 296)
+        self.assertIn('18.02 银行、期限转换与挤兑', self.text)
+        self.assertIn('30.02 公地、共同资源与集体治理', self.text)
+
+    def test_builder_rejects_a_topic_list_that_does_not_match_its_numbers(self):
+        source = self.raw.decode('utf-8-sig')
+        broken = source.replace('30.02 公地、共同资源与集体治理；', '', 1)
+        self.assertNotEqual(broken, source)
+        with self.assertRaises(ValueError):
+            builder.domains(broken)
+
     def test_header_binds_the_bundled_text_and_all_thirty_two_sections(self):
         header = json.loads(self.text.split('\n')[1])
         manifest = json.loads((ROOT / 'source/source-manifest.json').read_text(encoding='utf-8-sig'))

@@ -35,7 +35,7 @@ $xikariOutput = Join-Path ([System.IO.Path]::GetTempPath()) ('xikari-check-' + [
 python scripts/build_install_package.py --output $xikariOutput
 ```
 
-`references/domain-index.md` 由 `scripts/build_domain_index.py` 从原文附录 D 生成，不手改；标题、正文连接和专题编号照录原文，分组与用法说明写在脚本里。附录 D 或脚本改动后重新生成并核对：
+`references/domain-index.md` 由 `scripts/build_domain_index.py` 从原文附录 D 生成，不手改；标题、正文连接、专题编号和专题名称照录原文，分组与用法说明写在脚本里。附录 D 或脚本改动后重新生成并核对：
 
 ```powershell
 python scripts/build_domain_index.py

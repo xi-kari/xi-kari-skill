@@ -30,16 +30,21 @@ GROUPS = (
 )
 INTRO = '''# 领域入口索引
 
-原文附录 D 为 32 个领域各写了一节：先保留这个领域自己的问题，再连回正文中适用的表示、证据、规范和行动边界。研究或映射进入一个领域时，从这里找到对应的小节。下表的标题、正文连接和专题编号照录原文，分组只是为了查找方便，不是原文的分类。
+原文附录 D 为 32 个领域各写了一节：先保留这个领域自己的问题，再连回正文中适用的表示、证据、规范和行动边界。研究或映射进入一个领域时，从这里找到对应的小节。标题、正文连接、专题编号和专题名称照录原文，分组只是为了查找方便，不是原文的分类。
 
 ## 怎样用
 
-1. **按问题找领域，通常不止一个。** 一个现实问题常同时落在几节里，例如一项公共服务的研究可能同时涉及治理、法律、组织和测量。先看标题，再看各节末尾的专题定位。
+1. **按问题找领域，通常不止一个。** 一个现实问题常同时落在几节里，例如一项公共服务的研究可能同时涉及治理、法律、组织和测量。先看领域标题，再到本页末尾的[专题定位](#专题定位)里按专题名找。
 2. **读完整小节，再读与本题有关的正文连接。** 用 `read_source.py --section D.16` 读小节全文；“正文连接”列出的是原文自己指回的位置，挑与本题有关的读。默认的完整阅读已经包含这些内容，这里只帮助定位；分层阅读时它们属于必须补读的依赖。
 3. **它是理论对这个领域的定位，不是这个领域的操作手册。** 小节告诉你哪些区别必须保留、哪些说法不能互相顶替。领域里的定义、数据、机制和程序仍取自领域自己的来源，见[领域映射](../modules/domain-mapping/MODULE.md)。
 4. **要把一个领域做深时**，按[领域专论](output-modes/domain-study.md)的要求组织：领域自己的问题和已有答案、理论的定位、逐条映射、用公认的案例检验、贡献与限度。
 
 ## 三十二个领域
+
+'''
+TOPICS = '''## 专题定位
+
+每个领域小节末尾列出的专题，名称照录原文。按专题名找到领域之后，仍读完整小节；专题名只是定位，不是该专题的内容。
 
 '''
 
@@ -49,7 +54,8 @@ def domains(text: str) -> list[dict]:
     for line in text.splitlines():
         heading = re.match(r'^## (D\.\d\d)　(.+)$', line)
         if heading:
-            current = {'id': heading.group(1), 'title': heading.group(2).strip(), 'links': '', 'topics': ''}
+            current = {'id': heading.group(1), 'title': heading.group(2).strip(), 'links': '', 'topics': '',
+                       'titles': []}
             rows.append(current)
         elif line.startswith('<a id="part_21"'):
             current = None
@@ -57,8 +63,16 @@ def domains(text: str) -> list[dict]:
             links, _, entry = line[len('正文连接：'):].partition('研究入口：')
             current['links'] = links.strip().rstrip('。')
             current['topics'] = entry.strip().rstrip('。')
+        elif current is not None and line.startswith('专题定位：'):
+            current['titles'] = line[len('专题定位：'):].strip().rstrip('。').split('；')
     if len(rows) != 32 or any(not row['links'] or not row['topics'] for row in rows):
         raise ValueError('Appendix D no longer has 32 domain sections with links and topic numbers')
+    for row in rows:
+        first, _, last = row['topics'].partition('—')
+        numbers = [title.split(' ', 1)[0] for title in row['titles']]
+        expected = [f'{first[:2]}.{number:02d}' for number in range(1, int(last[-2:]) + 1)]
+        if numbers != expected or first != expected[0] or any(' ' not in title for title in row['titles']):
+            raise ValueError(f"{row['id']}: the topic list does not match its topic numbers {row['topics']}")
     return rows
 
 
@@ -79,6 +93,9 @@ def render(raw: bytes) -> str:
     covered = [key for _, first, last in GROUPS for key in ordered[ordered.index(first):ordered.index(last) + 1]]
     if covered != ordered:
         raise ValueError('The groups must cover D.01 to D.32 once each, in order')
+    parts.append(TOPICS)
+    for row in rows:
+        parts.append('- **' + row['id'] + '**　' + '；'.join(row['titles']) + '\n')
     return ''.join(parts).rstrip('\n') + '\n'
 
 
