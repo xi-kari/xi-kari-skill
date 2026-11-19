@@ -75,7 +75,7 @@
 
 <section class="plate" id="top" aria-labelledby="page-title">
   <dl class="strip">
-    <div><dt>技能</dt><dd>Xikari Skill <span class="num">6.4.0</span></dd></div>
+    <div><dt>技能</dt><dd>Xikari Skill <span class="num">6.5.0</span></dd></div>
     <div class="strip-wide"><dt>理论来源</dt><dd>《Xikari-条件结构与转化论》<span class="strip-by">Xikari 著</span></dd></div>
     <div><dt>正文基线</dt><dd><time class="num" data-baseline-date datetime="2026-11-16">2026.11.16</time></dd></div>
     <div><dt>验证范围</dt><dd>Windows</dd></div>
@@ -168,9 +168,9 @@
           <tr><th scope="row">规则成立，效果却不明确</th><td>分别核对构成地位、当事人理解、实际兑现和规范正当，各自寻找相称依据。</td></tr>
           <tr><th scope="row">已有一次成功，准备推广</th><td>分别检查形成、维持、恢复和复制的条件，核对能力、配置、时间与承接安排。</td></tr>
           <tr><th scope="row">包括等待在内，各方案都有损失</th><td>比较受影响位置、保护、资源与联合可行性，提出明示前提下的推荐，并保留损失、补救责任和改判条件；现实采用另核授权。</td></tr>
-          <tr><th scope="row">要把问题研究透，并单列解释不了的部分</th><td>按需调用研究入口：完成取材、分析与论证，交出一份完整稿，主体报告在前、解释边界与问题为末章，需要时也可分成两份文件；材料、方法、映射、理论与实现上的缺口分别定位，影响结论的限制同时写进正文。</td></tr>
-          <tr><th scope="row">进入具体领域，名词和口径要准</th><td>按需调用领域映射：保留当地定义、动作关系、角色、数据口径与专业方法；日常词须给出语境才查义项，词义对应、事实证据与正式资格分开取证。</td></tr>
-          <tr><th scope="row">要一篇比较专论、过程史或安排草案</th><td>按所求作品选用七种成果模式之一；它们组织现有路由，不新增判断路线。更正来源或映射后，只沿声明的依赖复核受影响的结论。</td></tr>
+          <tr><th scope="row">要把问题研究透，并单列解释不了的部分</th><td>按需调用研究入口：完成取材、分析与论证，交出一份手写的完整稿，主体在前、解释边界与问题为末章，只说“研究一下”也这样交付。开头分清材料直接得出的结论和倾向性判断；每项问题写明影响与不影响哪些结论、做过什么、为何仍未解决和下一步。</td></tr>
+          <tr><th scope="row">进入具体领域，名词和口径要准</th><td>按需调用领域映射：保留当地定义、动作关系、角色、数据口径与专业方法，词义对应、事实证据与正式资格分开取证。核实过的本地用法可以存成领域卡，放在你选定的目录里，下次同一领域的任务先读它；经你同意才写入。</td></tr>
+          <tr><th scope="row">要一篇比较专论、过程史或安排草案</th><td>按所求作品选用七种成果模式之一；它们组织现有路由，不新增判断路线。来源或数据更正后，只改真正受影响的部分，并说明哪些结论变了、哪些没变。</td></tr>
         </tbody>
       </table>
     </div>
@@ -221,7 +221,7 @@
       <li><strong class="plaque">共识不当证据</strong><span>多模型共识不是独立经验证据。反方审查者只提出可核的具体问题，不颁发质量认证。</span></li>
       <li><strong class="plaque">未检验，不称发现</strong><span>生成的候选逐条写明起点、竞争项与否决条件。没有外部材料支持的，不写成事实、预测或建议执行；“未见”只相对写明的检索范围。</span></li>
     </ul>
-    <p class="aside">当前工具测试覆盖 Windows，包括中文和空格路径、从其他工作目录运行；CI 使用 Python 3.10 与 3.13。其他操作系统和云端产品尚未验收。研究入口、领域映射与成果模式的测试和合成示例只说明工具按合同工作，尚未做同题对照评测。</p>
+    <p class="aside">当前工具测试覆盖 Windows，包括中文和空格路径、从其他工作目录运行；CI 使用 Python 3.10 与 3.13。其他操作系统和云端产品尚未验收。研究入口与领域映射只做过一次小规模同题对照（一种宿主模型、合成材料、每种条件一次）；领域卡的长期积累、成果模式与有限工具还没有对照评测，程序测试与合成示例不证明现实效果。</p>
   </div>
 </section>
 
@@ -307,8 +307,8 @@
       <div><dt>完整成果稿 <code>xi-kari-answer.md</code></dt><dd>初次完整交付或要求合稿时形成：中心判断在前，随后是材料评价、结构关系、机制比较、案例与反例、路径、反方回应、裁决与方案。</dd></div>
       <div><dt>离线阅读页</dt><dd>由完整稿生成的单个 HTML 文件，不联网。标题下方的航迹图按各章节的篇幅画出全文，读到哪里画到哪里，往下读时收在顶栏下方继续跟随；另有章节目录、全文搜索、字号调节和打印版式；选中一段正文，可以把选段连同位置整理成一条追问。</dd></div>
       <div><dt>Word 文档</dt><dd>保留正文、表格、脚注和本地图片；网页链接可以点击，指向本文标题的链接跳到对应章节。远程图片不会下载，而是保留为可见文字；无法表示的写法保留原文并逐项列出。</dd></div>
-      <div><dt>研究完整稿</dt><dd>研究入口的两项成果默认合在一份完整稿里：主体报告沿材料、方法、论证、竞争解释与改判条件展开，末章“解释边界与问题”逐项写已做工作、未解决的原因、对前文判断的影响与下一步。重大限制同时出现在开头判断与相关结论旁；所据领域包可附为一章，需要时也可分成两份文件。</dd></div>
-      <div><dt>领域映射说明</dt><dd>先给已写成的领域表述，再列来源、对应、三类评估、测量口径和专业方法，可单独成文，也可作为完整稿中的一章；三个领域包覆盖组织协作、教育学习与技术维护中的有限任务，每条对应写明借用的原文区别。</dd></div>
+      <div><dt>研究完整稿</dt><dd>研究入口交付的完整稿由作者手写：主体沿材料、方法、论证、竞争解释与改判条件展开，末章“解释边界与问题”逐项写影响与不影响哪些结论、已做工作、未解决的原因与下一步。重大限制同时出现在开头判断与相关结论旁。</dd></div>
+      <div><dt>领域卡</dt><dd>记下本地定义、口径、专业方法和“不能推出什么”的 Markdown 卡片，带来源与修订记录，存在你选定的目录里，经你同意才新建或修改。随包三张样例覆盖组织协作、教育学习与技术维护中的有限任务，用来示范写法。</dd></div>
       <div><dt>按需的研究产物</dt><dd>主张台账、候选账本、方案比较表、研究设计与采集说明、条件模型页、有限模型结果、跨轮次任务状态、案例库。它们在工作需要时才生成，不是每次分析的固定流程。</dd></div>
     </dl>
     <details class="tools">
@@ -326,8 +326,7 @@
             <tr><th scope="row"><code>comparison.py</code></th><td>方案比较表，事实、假设、未知分别标注</td><td>未知不参与排序，不给整体最优</td></tr>
             <tr><th scope="row"><code>study_design.py</code></th><td>把未决问题变成能区分各解释的观察与采集说明</td><td>缺失保持缺失，不填默认值</td></tr>
             <tr><th scope="row"><code>condition_lab.py</code></th><td>运行明确的公式与约束，导出离散情景页</td><td>不插值，不把模型结果说成现实可行</td></tr>
-            <tr><th scope="row"><code>research.py</code></th><td>研究完整稿或两份报告的校验与排版，追踪来源或映射更正影响的结论</td><td>不替作者研究，不认证论证充分或材料真实</td></tr>
-            <tr><th scope="row"><code>domain_mapping.py</code></th><td>按登记语境查领域词义、渲染映射说明或完整稿中的一章、比较新旧快照</td><td>不从词面推出事实，日常词不给语境就不返回义项</td></tr>
+            <tr><th scope="row"><code>domain_cards.py</code></th><td>列出领域库里各卡的适用范围与更新日期，核对卡头、所据原文版本和小节引用</td><td>只读，不写任何文件，不判断卡片里的定义是否正确</td></tr>
             <tr><th scope="row"><code>finite_tools.py</code></th><td>有限模型里的任务划分、共同动作、联合排程、条件组合与整链见证</td><td>只在所列模型内成立，预算用尽不报无解</td></tr>
             <tr><th scope="row"><code>forecast.py</code></th><td>登记前瞻、追加结果，与预登记的简单基线比较并出报告</td><td>不把缺失或不适用的标签填为零，不合成总命中率</td></tr>
             <tr><th scope="row"><code>manuscript.py</code></th><td>稿件快照、差异、合并不重叠的修改、追踪依赖</td><td>不替作者判断语义是否接续</td></tr>
@@ -459,7 +458,7 @@
 
 <footer class="colophon">
   <div class="wrap">
-    <p class="colophon-id"><svg class="i" aria-hidden="true"><use href="#i-vor"/></svg>Xikari Skill <span class="num">6.4.0</span><span>MIT License · © 2026 xi-kari</span></p>
+    <p class="colophon-id"><svg class="i" aria-hidden="true"><use href="#i-vor"/></svg>Xikari Skill <span class="num">6.5.0</span><span>MIT License · © 2026 xi-kari</span></p>
     <nav aria-label="页脚导航">
       <a href="https://github.com/xi-kari/xi-kari-skill">项目源码</a>
       <a href="https://github.com/xi-kari/xi-kari-skill/discussions">讨论</a>

@@ -18,7 +18,7 @@
 </p>
 
 <p align="center">
-  <a href="skill-package.json"><img alt="技能版本 6.4.0" src="https://img.shields.io/badge/skill-6.4.0-1F4FC4?style=flat-square"></a>
+  <a href="skill-package.json"><img alt="技能版本 6.5.0" src="https://img.shields.io/badge/skill-6.5.0-1F4FC4?style=flat-square"></a>
   <a href="https://github.com/xi-kari/xi-kari-skill/actions/workflows/windows.yml"><img alt="Windows 测试状态" src="https://img.shields.io/github/actions/workflow/status/xi-kari/xi-kari-skill/windows.yml?branch=main&amp;style=flat-square&amp;label=Windows%20CI"></a>
   <img alt="可选工具需要 Python 3.10 或更新版本" src="https://img.shields.io/badge/python-3.10%2B%20%28%E5%8F%AF%E9%80%89%29-33415E?style=flat-square">
   <a href="LICENSE"><img alt="MIT 许可" src="https://img.shields.io/badge/license-MIT-33415E?style=flat-square"></a>
@@ -28,7 +28,7 @@
 
 它为需要想清楚、也需要下判断的问题而设计：一项制度为什么反复失灵，一个方案会怎样影响不同的人，几种解释里哪一种站得住，现在该维持、调整、试探还是退出。技能只在你明确点名时启用，不会接管日常对话。
 
-需要深入研究或进入具体领域时，见[研究与领域工作](#研究与领域工作)：研究入口交出一份完整稿，主体报告在前、解释边界与问题为末章，领域映射保留当地词义、动作关系、数据口径与专业方法，另有七种成果模式和有限计算工具。
+需要深入研究或进入具体领域时，见[研究与领域工作](#研究与领域工作)：研究入口交出一份完整稿，主体报告在前、解释边界与问题为末章，领域映射保留当地词义、动作关系、数据口径与专业方法，核实过的用法可以存成领域卡留给下一次，另有七种成果模式和有限计算工具。
 
 中英文都可以使用：用英文提问，成果就以英文写成。理论权威仍是中文原文；安装包另附作者提供、与原文逐节对齐的英文参考译本和中英术语表，用于英文术语与引文（见[英文工作](references/english.md)）。技能与[双语阅读站](https://xi-kari.github.io/xi-kari-skill/handbook/)均以 v2 为正文基准；[英文站](https://xi-kari.github.io/xi-kari-skill/handbook/en/)可以连续阅读全书。
 
@@ -130,19 +130,19 @@ $xi-kari-skill 附件是热线改革一年来的六项指标和市里的总结�
 
 | 你要的成果 | 入口 | 交付 |
 | --- | --- | --- |
-| 把一个问题研究透，并单列解释不了的部分 | [研究与解释边界报告](modules/research/MODULE.md) | 一份完整稿：主体报告在前，解释边界与问题为末章；需要时也可分成两份文件。材料不足、方法与识别限度、领域方法需求、映射缺口、理论问题候选、规范分歧和实现缺口分别定位，影响结论的限制同时写进正文 |
-| 把理论接到一个具体领域，名词和口径要准 | [领域映射与方法适配](modules/domain-mapping/MODULE.md) | 当地定义、动作关系、角色、任务终点、字段口径与专业方法。语义对应、事实证据和正式实例资格分开，日常词须给出语境才查义项 |
+| 把一个问题研究透，并知道哪里还解释不了 | [研究与解释边界报告](modules/research/MODULE.md) | 一份手写的完整稿：主体在前，解释边界与问题为末章，只说“研究一下”也这样交付。开头分清材料直接得出的结论和倾向性判断；每项问题写明影响与不影响哪些结论、做过什么、为何仍未解决和下一步 |
+| 把理论接到一个具体领域，名词和口径要准 | [领域映射与方法适配](modules/domain-mapping/MODULE.md) | 当地定义、动作关系、角色、任务终点、字段口径与专业方法。语义对应、事实证据和正式实例资格分开；纠缠在一起的说法给一张本题对照表 |
+| 让核实过的本地用法留给下一次 | [领域卡](references/domains/README.md) | 放在你选定目录里的 Markdown 卡片：任务开始先读范围相符的卡，任务结束提出值得存下的定义与口径，你同意后才写入 |
 | 一篇比较专论、过程史、安排草案或作品阐释 | [七种成果模式](references/output-modes.md) | 跨理论对话、机制史与过程重建、制度与生活安排、经验与作品阐释、概念重构、中层理论、共同问题与议程重开 |
-| 来源或映射更正后，找出真正受影响的结论 | [研究工具](references/research-format.md) · [映射工具](references/domain-mapping-format.md) | 沿声明依赖定位受影响的结论、摘要与问题；新旧映射快照逐记录比较，独立成立的部分保留 |
+| 来源或数据更正后，只改真正受影响的部分 | [持续对话](references/continuation.md) | 分清更正改了什么、没改什么，重算受影响的量，说明哪些结论变了、哪些没变；独立成立的部分保留 |
 
-[组织协作、教育学习与技术维护三个领域包](references/domains/README.md)各自绑定有来源的有限任务：Scrum Guide 2020 与 OR-Tools 排程指南，欧盟微证书建议与 *How People Learn*，RFC 9110 与 Google SRE 书。每条部分对应写明借用的原文区别，例如行动承接层、反馈写回、任务终点与维护合同；它们是起点，不代替你所在机构、课程或系统的材料。[有限工具](references/finite-tools.md)在明确列出的状态、动作、时段或关系上计算任务区别、共同动作、联合排程（含总量不足证明）、条件组合与整链见证。
+随包有[组织协作、教育学习与技术维护三张样例领域卡](references/domains/README.md)，各自绑定有来源的有限任务：Scrum Guide 2020 与 OR-Tools 排程指南，欧盟微证书建议与 *How People Learn*，RFC 9110 与 Google SRE 书。它们示范卡片怎样写，不代替你所在机构、课程或系统的材料；真正有用的是你在自己任务里积累的那些卡。[有限工具](references/finite-tools.md)在明确列出的状态、动作、时段或关系上计算任务区别、共同动作、联合排程（含总量不足证明）、条件组合与整链见证。
 
 ```text
-$xi-kari-skill 附件是两期培训的登记和调整说明。结业比例提高了，能说教学和就业都改善了吗？
-写出完整研究，另列解释不了的部分，以及它们影响哪些结论。
+$xi-kari-skill 研究一下附件里两期培训的登记和调整说明：结业比例提高了，能说教学和就业都改善了吗？
 ```
 
-研究完整稿与映射说明都可用 `--lang en` 输出英文标签；完整稿可直接交给阅读页和 Word 导出。工具检查、合成示例和测试只证明程序在声明合同内工作，不证明研究质量或现实效果；这两个入口尚未做同题、同材料的对照评测。
+完整稿可直接交给阅读页和 Word 导出；用英文提问时全文以英文写成。两个入口做过一次小规模的同题对照：同一句请求、同一份合成材料、同一种宿主模型，与不带入口的 6.3.0 各跑一次。带入口时，只说“研究一下”也会单列解释边界，核心判断与不带入口时一致。这只说明入口按设计起作用，不足以说明普遍增益。
 
 ## 条件前瞻与能力边界
 
@@ -178,13 +178,13 @@ $xi-kari-skill 附件是两期培训的登记和调整说明。结业比例提�
 
 <sub>截图由随包工具实际生成：阅读页以原文第一部分为示例内容；条件模型页与方案比较表来自随包的“明确虚构”教学示例，其中的数值不是现实事实。</sub>
 
-**版本范围**：当前安装包为 `v6.4.0`；截图用于展示工具界面，各版本的功能以相应的 [Release 说明](https://github.com/xi-kari/xi-kari-skill/releases)为准。
+**版本范围**：当前安装包为 `v6.5.0`；截图用于展示工具界面，各版本的功能以相应的 [Release 说明](https://github.com/xi-kari/xi-kari-skill/releases)为准。
 
 - **完整成果稿 `xi-kari-answer.md`。** 初次完整交付或要求合稿时形成：中心判断在前，随后是材料评价、结构关系、机制比较、案例与反例、路径、反方回应、裁决与方案。
 - **离线阅读页。** 由完整稿生成的单个 HTML 文件，不联网：标题下方有一张按正文自身统计画出的航迹图，每个章节是一个定位点，间距与篇幅成比例，读到哪里航迹就画到哪里，点一下定位点就翻到那一节，往下读时同一条航迹收在顶栏下方继续跟随；章节目录随阅读位置标出当前章节，有全文搜索、字号调节和打印版式；夜间模式默认跟随系统，也可以手动切换；脚注可以悬停预览，也可以回跳。选中一段正文，旁边会出现“追问选段”，把选段连同位置整理成一条追问，由你复制回对话。有公式时内嵌随包的 KaTeX 排版。
 - **Word 文档。** 保留正文、表格、脚注和本地图片；网页链接可以点击，指向本文标题的链接跳到对应章节；远程图片不会下载，而是保留为可见文字；无法表示的写法保留原文并逐项列出。
-- **研究完整稿。** 研究入口的两项成果默认合在一份 `xi-kari-answer.md` 里：主体报告沿材料、方法、论证、竞争解释与改判条件展开，末章“解释边界与问题”逐项写已做工作、未解决的原因、对前文判断的影响与下一步；重大限制同时出现在开头判断与相关结论旁。所据领域包可附为一章。问题报告须单独流转时，也可分成 `research-report.md` 与 `research-issues.md`。
-- **领域映射说明。** 先给已写成的领域表述，再列来源、对应、三类评估、测量口径、专业方法和保留的未知；可单独成文，也可作为完整稿中的一章；更正后可列出受影响的条目、成果与研究结论。
+- **研究完整稿。** 研究入口交付的 `xi-kari-answer.md` 由作者手写：主体沿材料、方法、论证、竞争解释与改判条件展开，末章“解释边界与问题”逐项写影响与不影响哪些结论、已做工作、未解决的原因与下一步；重大限制同时出现在开头判断与相关结论旁。
+- **领域卡。** 记下本地定义、口径、专业方法和“不能推出什么”的 Markdown 卡片，带来源与修订记录，存在你选定的目录里；经你同意才新建或修改。
 - **按需的研究产物。** 主张台账、候选账本、方案比较表、研究设计与采集说明、条件模型页、有限模型结果、跨轮次任务状态、案例库。它们在工作需要时才生成，不是每次分析的固定流程。
 
 ## 随包工具
@@ -200,8 +200,7 @@ $xi-kari-skill 附件是两期培训的登记和调整说明。结业比例提�
 | `comparison.py` | 方案比较表，输出 JSON、Markdown 与 HTML；事实、假设、未知分别标注；`--lang en` 输出英文标签 | 未知不参与排序，不给整体最优 |
 | `study_design.py` | 把未决问题变成能区分各解释的观察与采集说明 | 缺失保持缺失，不填默认值 |
 | `condition_lab.py` | 运行明确的公式与约束，导出可切换全部已计算组合的离散情景页 | 不插值，不把模型结果说成现实可行 |
-| `research.py` | 研究成果：校验依据与问题，排版一份完整稿（可附所据领域映射）或两份报告，追踪来源或映射更正影响的结论；`--lang en` 输出英文标签 | 不替作者研究，不认证论证充分、材料真实或研究完成 |
-| `domain_mapping.py` | 领域映射：按登记语境查词义、渲染映射说明或完整稿中的一章、追踪更正影响、比较新旧快照；`--lang en` 输出英文标签 | 不从词面推出事实；日常词不给语境就不返回义项 |
+| `domain_cards.py` | 领域卡：列出领域库里各卡的适用范围与更新日期，核对卡头、所据原文版本和小节引用 | 只读，不写任何文件；不判断卡片里的定义是否正确 |
 | `finite_tools.py` | 有限模型计算：任务区别划分、表示审计、共同动作、联合排程、条件组合与整链见证 | 只在所列模型内成立；搜索预算用尽不报无解 |
 | `manuscript.py` | 稿件快照、差异、合并不重叠的修改、追踪依赖 | 不替作者判断语义是否接续 |
 | `task_state.py` | 跨轮次记录已决定、未决、需复核与已撤回 | 不把用户认可记成事实 |
@@ -218,11 +217,10 @@ python "$skillRoot/scripts/read_source.py" --search '有效反馈' --context 2
 python "$skillRoot/scripts/render_answer.py" "$taskRoot/xi-kari-answer.md" --output "$taskRoot/xi-kari-answer.html"
 python "$skillRoot/scripts/render_docx.py" "$taskRoot/xi-kari-answer.md" --output "$taskRoot/xi-kari-answer.docx"
 python "$skillRoot/scripts/comparison.py" "$taskRoot/compare.json" --output "$taskRoot/compare" --format all
-python "$skillRoot/scripts/research.py" --research "$taskRoot/research.json" render --answer "$taskRoot/xi-kari-answer.md"
-python "$skillRoot/scripts/domain_mapping.py" --mapping "$skillRoot/assets/domains/technical-maintenance.json" lookup --term 成功 --context 'HTTP请求成功响应'
+python "$skillRoot/scripts/domain_cards.py" --library "$taskRoot/领域卡" list
 ```
 
-常用调用见[宿主接入与干净工作目录](references/host-setup.md)；`manuscript.py`、`casebook.py`、`candidates.py` 与 `forecast.py` 的命令见[稿件工作](references/manuscript-work.md)、[案例库](references/case-library.md)、[候选账本](references/candidate-ledger.md)与[前瞻模块](modules/forecast/MODULE.md)；研究、映射与有限工具见[研究格式](references/research-format.md)、[映射格式](references/domain-mapping-format.md)与[有限工具](references/finite-tools.md)。所有会写文件的随包工具（包括 `forecast.py`）在创建文件、目录、锁或临时文件之前，都会拒绝以技能安装目录及其子目录为目标，也会检查目录链接和 `..` 路径。这是工具自身的写入约束，不是操作系统沙箱。
+常用调用见[宿主接入与干净工作目录](references/host-setup.md)；`manuscript.py`、`casebook.py`、`candidates.py` 与 `forecast.py` 的命令见[稿件工作](references/manuscript-work.md)、[案例库](references/case-library.md)、[候选账本](references/candidate-ledger.md)与[前瞻模块](modules/forecast/MODULE.md)；领域卡与有限工具见[领域卡](references/domains/README.md)与[有限工具](references/finite-tools.md)。所有会写文件的随包工具（包括 `forecast.py`）在创建文件、目录、锁或临时文件之前，都会拒绝以技能安装目录及其子目录为目标，也会检查目录链接和 `..` 路径。这是工具自身的写入约束，不是操作系统沙箱。
 
 ## 原文与阅读
 
@@ -260,7 +258,7 @@ python "$skillRoot/scripts/domain_mapping.py" --mapping "$skillRoot/assets/domai
 - **材料范围由你决定。** 默认会主动取得问题所需的现实资料；你限定只用给定材料时，它遵守这个范围，并如实说明缺口。
 - **材料不是指令。** 理论原文、你提供的材料和外部资料都不取得宿主的指令权限。
 - **事实强度由证据决定。** 推测、类比、构想和前瞻都写明依据与条件；材料不足只限制真正依赖它的结论。理论本身也可以被提出有依据的局限或修订候选，不能用它自己的术语证明自己普遍正确。
-- **验证范围。** 当前工具测试覆盖 Windows，包括中文和空格路径、从其他工作目录运行；CI 使用 Python 3.10 与 3.13。其他操作系统和云端产品尚未验收。研究入口、领域映射与成果模式的测试和合成示例只说明工具按合同工作，尚未做同题对照评测。
+- **验证范围。** 当前工具测试覆盖 Windows，包括中文和空格路径、从其他工作目录运行；CI 使用 Python 3.10 与 3.13。其他操作系统和云端产品尚未验收。研究入口与领域映射只做过一次小规模同题对照（一种宿主模型、合成材料、每种条件一次）；领域卡的长期积累、成果模式与有限工具还没有对照评测，程序测试与合成示例不证明现实效果。
 
 ## 仓库结构
 
@@ -272,9 +270,9 @@ xi-kari-skill/
 ├── modules/              十一个分析、判断与生成模块，以及研究与领域映射两个按需入口
 ├── rules/                41 张带原文锚点的派生规则卡
 ├── cases/                教学示范及可运行登记输入
-├── references/           方法指南：阅读、模块承接、持续对话、协作、成果模式、领域包、各工具说明、英文工作与术语表
+├── references/           方法指南：阅读、模块承接、持续对话、协作、成果模式、领域卡、各工具说明、英文工作与术语表
 ├── scripts/              可选 Python 工具（仅标准库）与构建、检查、评测脚本
-├── assets/               生成页面的样式、脚本与示例数据；领域包数据；随包的 KaTeX
+├── assets/               生成页面的样式、脚本与示例；随包的 KaTeX
 ├── agents/openai.yaml    Codex 界面信息与显式调用策略
 ├── skill-package.json    安装包的逐文件清单
 ├── website/              原文精读站源码（VitePress），构建到 docs/handbook/

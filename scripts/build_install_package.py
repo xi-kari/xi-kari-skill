@@ -76,6 +76,11 @@ def build(root: Path, output: Path) -> dict:
         for name, data in payload.items():
             info = zipfile.ZipInfo(metadata['name'] + '/' + name, date_time=(2026, 10, 13, 0, 0, 0))
             info.compress_type = zipfile.ZIP_DEFLATED
+            # Record every entry the same way on any build host. Some unzip
+            # programs re-decode the names of archives marked as made on DOS,
+            # which breaks the Chinese file name of the theory text.
+            info.create_system = 3
+            info.external_attr = 0o600 << 16
             zf.writestr(info, data)
     raw = archive.read_bytes()
     manifest = {
@@ -88,8 +93,10 @@ def build(root: Path, output: Path) -> dict:
         "files": [{"path": name, "bytes": len(data), "sha256": hashlib.sha256(data).hexdigest()}
                   for name, data in payload.items()]
     }
-    (output / "install-manifest.json").write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    (output / "SHA256SUMS").write_text(f"{manifest['sha256']}  {archive.name}\n", encoding="utf-8")
+    # Same bytes on every build host: these two files are published beside the archive.
+    (output / "install-manifest.json").write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n",
+                                                  encoding="utf-8", newline="\n")
+    (output / "SHA256SUMS").write_text(f"{manifest['sha256']}  {archive.name}\n", encoding="utf-8", newline="\n")
     return manifest
 
 

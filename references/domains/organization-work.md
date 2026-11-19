@@ -1,27 +1,27 @@
 ---
-{"id":"DOMAIN-ORGANIZATION-WORK","title":"组织与工作：职责和共享资源安排","status":"draft","theory_sha256":"6ef2e508474d4ac1ad07d7e4e068955342c405b5f680afcfc40d68cca3d0149c","anchors":["3.4.1","7.3","7.3.5","7.3.7","7.3.9","7.6","12.10","12.10.2","13.11.2","C.12","D.16"]}
+{"id":"DOMAIN-ORGANIZATION-WORK","title":"组织与工作：职责和共享资源安排","status":"draft","scope":"采用 Scrum Guide 2020 语义的团队；OR-Tools 作业车间排程指南的约束表达；来源正文查阅于 2026-11-17","updated":"2026-11-17","theory_sha256":"6ef2e508474d4ac1ad07d7e4e068955342c405b5f680afcfc40d68cca3d0149c","anchors":["3.4.1","7.3","7.3.5","7.3.7","7.3.9","7.6","12.10","12.10.2","13.11.2","C.12","D.16"]}
 ---
 
 # 组织与工作：职责和共享资源安排
 
-配套[可查询数据](../../assets/domains/organization-work.json)包含9项记录与一段有来源的领域说明；调用方法见[领域包入口](README.md)。以下教学例不作为数据包的现实实例。
+随包样例卡，格式与用法见[领域卡](README.md)。文中的教学例不是现实记录。
 
 ## 适用任务
 
 用于采用 Scrum Guide 2020 语义的团队：解释谁承担哪类职责，核对某项工作是否达到明示完成条件，并检查多项任务能否共享设备、环境或人员时段。若团队只是借用了“Product Owner”“Sprint”等名称，先以实际制度材料定其义项，不把 Scrum 定义强加给它。
 
-本包不判定劳动法责任、采购权、预算权或发布许可。那些资格需要适用规则和具体授权材料；专业角色名称不能代证。排程也不代表成员同意加班或具备工作资格。
+本卡不判定劳动法责任、采购权、预算权或发布许可。那些资格需要适用规则和具体授权材料；专业角色名称不能代证。排程也不代表成员同意加班或具备工作资格。
 
 ## 来源与已核范围
 
 | 来源 | 版本、实际正文位置 | 可支持的范围 |
 |---|---|---|
 | [O1：Ken Schwaber、Jeff Sutherland，Scrum Guide](https://scrumguides.org/scrum-guide.html) | November 2020；Scrum Team、Developers、Product Owner、Scrum Master、Increment、Definition of Done；正文查阅 2026-11-17 | 该框架的职责及完成语义。不能证明现实团队实际依此运转 |
-| [O2：Google OR-Tools，The Job Shop Problem](https://developers.google.com/optimization/scheduling/job_shop) | 在线官方指南，页面未给出本包可锁定的固定发布版本；已读问题定义、示例、变量与约束、目标；正文查阅 2026-11-17 | 有前后次序、同资源互斥且任务不可中断的排程模型。不是所有人员工作的通用假设 |
+| [O2：Google OR-Tools，The Job Shop Problem](https://developers.google.com/optimization/scheduling/job_shop) | 在线官方指南，页面未给出本卡可锁定的固定发布版本；已读问题定义、示例、变量与约束、目标；正文查阅 2026-11-17 | 有前后次序、同资源互斥且任务不可中断的排程模型。不是所有人员工作的通用假设 |
 
 O1 中，Product Owner 承担产品价值及 Product Backlog 管理职责；部分工作可委派，相关 accountability 不因此自动转移。Developers 制订 Sprint 计划并遵守 Definition of Done；Scrum Master 负责建立 Scrum 并支持团队有效性。Increment 必须可用并符合 Definition of Done。以上只说明框架用法。[O1](https://scrumguides.org/scrum-guide.html)
 
-O2 将任务开始时间联合求解，同时保留前置次序、机器互斥和连续加工约束；它以总完工跨度为目标。本包只借用相应约束表达，不默认这个目标适合用户。[O2](https://developers.google.com/optimization/scheduling/job_shop)
+O2 将任务开始时间联合求解，同时保留前置次序、机器互斥和连续加工约束；它以总完工跨度为目标。本卡只借用相应约束表达，不默认这个目标适合用户。[O2](https://developers.google.com/optimization/scheduling/job_shop)
 
 ## 名词、动作和角色关系
 
@@ -84,3 +84,7 @@ O2 将任务开始时间联合求解，同时保留前置次序、机器互斥�
 ## 变更复核与退出
 
 Scrum 采用版本、Definition of Done、本地职责和委派、资源容量、工作资格、截止或统计分母变化时，只复核相关判断。若本地不用 Scrum，则保留排程方法，撤回不适用的角色定义；不以“偏离框架”替代对当地事实的描述。真实组织证据不足时可交付词义解释、可行性条件或资料清单，不补造具体执行情况。
+
+## 修订记录
+
+- 2026-11-17：依上列来源的已核正文建立。

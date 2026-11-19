@@ -46,7 +46,7 @@ python "$skillRoot/scripts/render_answer.py" --help
 python "$skillRoot/scripts/render_answer.py" "$taskRoot/xi-kari-answer.md" --output "$taskRoot/xi-kari-answer.html"
 ```
 
-研究成果先用 `research.py render --answer` 生成一份完整稿再交给本工具，问题章与正文同在一页。分成两份文件时，它们互指的相对链接在阅读页中换成本机绝对位置，HTML 移动或发出后就打不开，所以交付阅读页时用完整稿。
+研究成果用同一份完整稿生成阅读页，解释边界与问题一章和正文同在一页。稿件之间互指的相对链接在阅读页中会换成本机绝对位置，HTML 移动或发出后就打不开，所以不把问题章拆成另一个文件再互相链接。
 
 英文成果加 `--lang en`，页面语言、目录、搜索、追问面板、脚注与阅读统计改为英文；正文照原稿，不做翻译。生成器支持的Markdown语法和图形能力以实际实现为准；不支持的语法保留可见原文与原稿入口，不悄悄丢失。需要其他文档格式、复杂图形或交互模型时，使用宿主实际可用的相应工具，缺少能力时提供完整静态版本。
 

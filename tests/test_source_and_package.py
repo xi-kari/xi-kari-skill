@@ -210,6 +210,21 @@ class SourceAndPackageTests(unittest.TestCase):
             with zipfile.ZipFile(root / 'second' / second['archive']) as archive:
                 self.assertEqual(archive.read('xi-kari-skill/source/theory.md'), source)
 
+    def test_archive_entries_are_recorded_the_same_way_on_every_build_host(self):
+        with tempfile.TemporaryDirectory() as directory:
+            result = builder.build(ROOT, Path(directory))
+            with zipfile.ZipFile(Path(directory) / result['archive']) as archive:
+                entries = archive.infolist()
+            theory = [entry for entry in entries if entry.filename.endswith('/source/Xikari-条件结构与转化论.md')]
+            self.assertEqual(len(theory), 1)
+            # A name outside ASCII is stored as UTF-8 and flagged as such, and no
+            # entry is marked as made on DOS, where some unzip programs re-decode names.
+            self.assertTrue(theory[0].flag_bits & 0x800)
+            self.assertEqual({entry.create_system for entry in entries}, {3})
+            self.assertEqual({entry.external_attr for entry in entries}, {0o600 << 16})
+            for name in ('install-manifest.json', 'SHA256SUMS'):
+                self.assertNotIn(b'\r', (Path(directory) / name).read_bytes(), name)
+
 
 if __name__ == '__main__':
     unittest.main()
