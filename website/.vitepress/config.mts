@@ -6,7 +6,7 @@ import type MarkdownIt from 'markdown-it'
 import footnote from 'markdown-it-footnote'
 import englishTheorySidebar from './en-theory-sidebar.json'
 import theorySidebar from './theory-sidebar.json'
-import { buildLessonIndex, isLocatorNote, sourceTitle } from './theme/composables/lessonKeys'
+import { buildLessonIndex, isLocatorNote, normalize, sourceTitle } from './theme/composables/lessonKeys'
 import { prefsHeadScript } from './theme/composables/prefs'
 import { loadLessons } from '../scripts/lesson_data.mjs'
 
@@ -85,6 +85,44 @@ function headingNumbers(md: MarkdownIt) {
   })
 }
 
+/**
+ * One plain sentence under each numbered heading that has a lesson: the lesson's own lead,
+ * set before the source text so a reader knows what the section is about. It is drawn as
+ * part of the lesson, not of the source, and folds away in source-only reading.
+ */
+const gistCache = new Map<string, Map<string, string>>()
+function sectionGistsFor(relativePath: string): Map<string, string> {
+  if (!gistCache.has(relativePath)) {
+    const locale = relativePath.startsWith('en/') ? 'en' : 'zh'
+    const route = normalize('/' + relativePath)
+    const all = lessons(locale)
+    gistCache.set(relativePath, new Map(lessonIndex(locale)
+      .filter(ref => ref.route === route && ref.anchor && typeof all[ref.key]?.lead === 'string' && all[ref.key].lead.trim())
+      .map(ref => [ref.anchor, String(all[ref.key].lead).trim()])))
+  }
+  return gistCache.get(relativePath)!
+}
+function sectionGists(md: MarkdownIt) {
+  const escape = (value: string) => value.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
+  md.core.ruler.push('xk_section_gists', (state) => {
+    const relativePath = String(state.env?.relativePath || '')
+    if (state.env?.xkSearch || !/^(en\/)?theory\//.test(relativePath)) return
+    const gists = sectionGistsFor(relativePath)
+    if (!gists.size) return
+    const label = relativePath.startsWith('en/') ? 'In brief' : '一句话'
+    const tokens = state.tokens
+    for (let i = tokens.length - 1; i >= 2; i--) {
+      if (tokens[i].type !== 'heading_close' || tokens[i].tag === 'h1') continue
+      const open = tokens[i - 2]
+      const lead = open?.type === 'heading_open' ? gists.get(open.attrGet('id') || '') : undefined
+      if (!lead) continue
+      const gist = new state.Token('html_block', '', 0)
+      gist.content = `<p class="xk-gist"><span class="xk-gist__tag">${label}</span><span class="xk-gist__text">${escape(lead)}</span></p>\n`
+      tokens.splice(i + 1, 0, gist)
+    }
+  })
+}
+
 /** Wide tables scroll inside their own frame instead of widening the page. */
 function tableFrames(md: MarkdownIt) {
   md.renderer.rules.table_open = (tokens, idx, options, _env, self) => '<div class="xk-table">' + self.renderToken(tokens, idx, options)
@@ -135,6 +173,7 @@ function sheetLengths(locale = 'zh'): Record<string, number> {
 const learningSidebar = [
   { text: '开始理解', items: [
     { text: '阅读首页', link: '/' },
+    { text: '十句话入门', link: '/primer/' },
   ] },
   { text: '概念图解', collapsed: false, items: [
     { text: '概念总览', link: '/concepts/' },
@@ -175,7 +214,7 @@ const englishLabels: Record<string, string> = {
   '地位与作用': 'Status and effects', '问题冻结与重开': 'Freezing and reopening questions',
   '四种结果': 'Four distinct outcomes', '配置与能力': 'Allocation and capability',
   '受影响位置': 'Affected positions', '全有损失的选择': 'Choices with unavoidable losses',
-  '开始理解': 'Start here', '阅读首页': 'Reader home', '概念图解': 'Concept guides', '概念总览': 'Concept overview',
+  '开始理解': 'Start here', '阅读首页': 'Reader home', '十句话入门': 'Ten sentences', '概念图解': 'Concept guides', '概念总览': 'Concept overview',
   '反馈与学习': 'Feedback and learning', '历史与载体': 'History and carriers', '局部与整链': 'Local and whole-chain validity',
   '表示与尺度': 'Representation and scale', '联合可行性': 'Joint feasibility', '承接与责任': 'Handoff and responsibility',
   '支持与恢复': 'Support and recovery', '预测与行动': 'Prediction and action', '真实案例': 'Cases', '案例总览': 'Case overview',
@@ -193,7 +232,7 @@ function localizedSidebar(groups: any[]): any[] {
 const englishLearningSidebar = localizedSidebar(learningSidebar)
 function sidebar(theory: any[], learning: any[], prefix = '') {
   return { [prefix + '/']: theory, [prefix + '/theory/']: theory,
-    ...Object.fromEntries(['/concepts/', '/cases/', '/guide/', '/downloads'].map(path => [prefix + path, learning])) }
+    ...Object.fromEntries(['/primer/', '/concepts/', '/cases/', '/guide/', '/downloads'].map(path => [prefix + path, learning])) }
 }
 function pageRoutes(): string[] {
   const routes: string[] = []
@@ -268,6 +307,7 @@ export default defineConfig({
     config(md) {
       md.use(footnote)
       headingNumbers(md)
+      sectionGists(md)
       tableFrames(md)
     },
   },
@@ -307,6 +347,7 @@ export default defineConfig({
       options: {
         locales: { en: { translations: englishSearchTranslations } },
         _render(src, env, md) {
+          env.xkSearch = true // the lesson text below already carries each lead once
           return md.render(src.replace(/<SectionLesson section="([^"]+)"\s*\/>/g,
             (_match, section) => lessonSearchHtml(section, env.relativePath?.startsWith('en/') ? 'en' : 'zh')), env)
         },

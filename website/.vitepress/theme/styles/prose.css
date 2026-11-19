@@ -229,3 +229,13 @@
   .xk-prose p { text-align: left; }
   .xk-prose .concept-directory a { grid-template-columns: 1fr; }
 }
+
+/* the source sections a plain summary stands on */
+.xk-prose .xk-refs {
+  margin-top: -.25em;
+  font-family: var(--xk-font-sans);
+  font-size: .86em;
+  line-height: 1.75;
+  text-align: left;
+  color: var(--xk-ink-3);
+}

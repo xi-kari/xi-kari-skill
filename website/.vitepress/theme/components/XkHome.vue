@@ -115,9 +115,10 @@ const downloads = [
       <div class="xk-station__copy">
         <h1 id="xk-hero-title" class="xk-station__title"><span>条件结构</span><span>与转化论</span></h1>
         <p class="xk-station__sub">对象 条件 作用与有限行动</p>
-        <p class="xk-station__by">Xikari 著。沿原文顺序读，每一节之后接着看讲解、图示和有出处的案例。</p>
+        <p class="xk-station__by">Xikari 著。先用十句白话进门，再沿原文顺序读：每一节标题下有一句话说它在讲什么，原文之后接着是讲解、图示和有出处的案例。</p>
         <div class="xk-station__actions">
-          <a class="xk-sign xk-sign--go" :href="withBase('/theory/')">从开篇读起<svg class="xk-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15m-6-6 6 6-6 6" /></svg></a>
+          <a class="xk-sign xk-sign--go" :href="withBase('/primer/')">先读十句话<svg class="xk-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15m-6-6 6 6-6 6" /></svg></a>
+          <a class="xk-sign xk-sign--field" :href="withBase('/theory/')">从开篇读起</a>
           <a class="xk-sign xk-sign--field" :href="withBase('/concepts/')">先看讲解</a>
         </div>
       </div>

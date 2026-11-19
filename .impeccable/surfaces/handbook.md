@@ -11,7 +11,7 @@ Primary target: `website/`
 
 Related targets: `docs/handbook/`
 
-Mode: Read. Reading pages follow the complete original text in order; each explanation sits directly after the section it explains. Source text is generated from the authoritative manuscript and never edited by the theme; teaching examples are identified; historical reports are not relabeled as current analyses.
+Mode: Read. A primer of ten plain sentences is the first door for a new reader. Reading pages follow the complete original text in order; one plain sentence from the lesson sits under each numbered heading, and the full explanation sits directly after the section it explains. Source text is generated from the authoritative manuscript and never edited by the theme; teaching examples are identified; historical reports are not relabeled as current analyses.
 
 ## Direction contract
 
@@ -29,4 +29,4 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
 
 ## Reading aids kept
 
-Search (Ctrl/⌘ K or /), section links, collapsible rack, outline scroll-spy, persistent reading settings (source only, text size, body face), copy link, figure zoom, three interactive teaching models, index drawer and outline sheet on narrow screens, print and night themes. Field reference for lessons: `website/LESSONS.md`.
+The primer page and its sign on the station band, the one-sentence strip under each numbered heading, search (Ctrl/⌘ K or /), section links, collapsible rack, outline scroll-spy, persistent reading settings (source only, text size, body face), copy link, figure zoom, three interactive teaching models, index drawer and outline sheet on narrow screens, print and night themes. Field reference for lessons: `website/LESSONS.md`.

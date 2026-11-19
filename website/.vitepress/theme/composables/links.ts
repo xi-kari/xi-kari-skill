@@ -8,6 +8,7 @@ export const projectHome = '/xi-kari-skill/'
 
 /** The sections named in the top bar (and at the head of the index on narrow screens). */
 export const topLinks: TopLink[] = [
+  { text: '入门', link: '/primer/', match: (r) => r.startsWith('/primer/') },
   { text: '原文', link: '/theory/', match: (r) => r.startsWith('/theory/') && r !== '/theory/appendix-b' },
   { text: '术语', link: '/theory/appendix-b', match: (r) => r === '/theory/appendix-b' },
   { text: '讲解', link: '/concepts/', match: (r) => r.startsWith('/concepts/') },
@@ -17,7 +18,7 @@ export const topLinks: TopLink[] = [
 
 export function useTopLinks() {
   const { isEnglish, localePath } = useLocale()
-  const english = ['Text', 'Terms', 'Guides', 'Cases', 'Help']
+  const english = ['Primer', 'Text', 'Terms', 'Guides', 'Cases', 'Help']
   return computed(() => topLinks.map((item, index) => ({
     ...item,
     text: isEnglish.value ? english[index] : item.text,

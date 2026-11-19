@@ -265,6 +265,19 @@ from its source map. The project page separately retains the original
 research-completion date in `docs/data/research-status.json`; a manuscript or
 website update does not reconfirm that historical research.
 
+The primer, `website/primer/index.md` and `website/en/primer/index.md`, states
+the theory's working core in ten plain sentences, each with an example and the
+source sections it summarizes. It is an introduction, not a second source: keep
+its section links resolving, and keep the ten sentences in the two READMEs in
+step with it. The home page's first sign, the top bar and the learning sidebar
+lead to it.
+
+Under every numbered heading that has a lesson, the build sets that lesson's
+`lead` as a one-sentence strip before the source text (`sectionGists` in
+`.vitepress/config.mts`). The strip is drawn as part of the lesson and is hidden
+by the source-only setting; the generated theory pages and the source text are
+unchanged. A lead should therefore read as plain language on its own.
+
 Section explanations live in `website/content/section-lessons.json`, keyed by
 the stable reading unit; reviewed supplements in
 `website/content/lesson-overrides.json` replace whole fields of an imported
