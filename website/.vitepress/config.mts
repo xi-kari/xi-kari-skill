@@ -109,6 +109,40 @@ function sectionTerms(locale = 'zh'): Map<string, SectionTerm> {
         .replace(/(\p{Script=Han}|[、，）])\s+(?=\p{Script=Han}|（)/gu, '$1')
       if (name) terms.set(codes[0], { name, key: unit.section_id, href: unit.website_source_route })
     }
+    // A table may also name a code in the first cell of a row ("| H2 行动承接与责任分型 | ..."). Where
+    // several rows do, the one in the section whose heading announces that family (H1-H6) is its place.
+    const places = new Map(units.filter(unit => unit.section_id && unit.website_source_route)
+      .map(unit => [String(unit.website_source_route), { key: String(unit.section_id), title: String(unit.title_exact || '') }]))
+    const prefix = locale === 'en' ? '/en/theory/' : '/theory/'
+    const root = join(WEBSITE, locale === 'en' ? 'en/theory' : 'theory')
+    const rows = new Map<string, (SectionTerm & { family: boolean })[]>()
+    const walk = (directory: string) => {
+      for (const entry of readdirSync(directory, { withFileTypes: true })) {
+        const path = join(directory, entry.name)
+        if (entry.isDirectory()) { walk(path); continue }
+        if (!entry.name.endsWith('.md')) continue
+        const route = prefix + relative(root, path).replace(/\\/g, '/').replace(/(^|\/)index\.md$/, '$1').replace(/\.md$/, '')
+        let place: { key: string; title: string; href: string } | null = null
+        for (const line of readFileSync(path, 'utf8').split(/\r?\n/)) {
+          const heading = line.match(/^#{1,4}\s.*\{#(section-[a-z0-9-]+)\}\s*$/)
+          if (heading) {
+            const href = route + '#' + heading[1]
+            place = places.has(href) ? { ...places.get(href)!, href } : null
+            continue
+          }
+          const row = place && line.match(/^\|\s*([A-Z][A-Za-z0-9]*(?:-[A-Z0-9]+)*)\s+([^|]{2,40}?)\s*\|/)
+          if (!row || !(/\d/.test(row[1]) || /-[A-Z]/.test(row[1])) || terms.has(row[1])) continue
+          const stem = row[1].replace(/\d+$/, '').replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+          const family = new RegExp(stem + '\\d+\\s*[-—–]\\s*' + stem + '\\d+').test(place!.title)
+          rows.set(row[1], [...(rows.get(row[1]) || []), { name: row[2].trim(), key: place!.key, href: place!.href, family }])
+        }
+      }
+    }
+    try { walk(root) } catch { /* headings alone still name most codes */ }
+    for (const [code, found] of rows) {
+      const place = found.find(item => item.family) || found[0]
+      terms.set(code, { name: place.name, key: place.key, href: place.href })
+    }
     termCache.set(locale, terms)
   }
   return termCache.get(locale)!

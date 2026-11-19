@@ -12,8 +12,10 @@ WEBSITE = ROOT / 'website'
 BUILT = ROOT / 'docs' / 'handbook'
 LOCALES = {
     'zh': {'page': 'primer/index.md', 'map': 'public/source-map.json', 'content': 'content',
+           'source': 'source/Xikari-条件结构与转化论.md',
            'readme': 'README.md', 'built': 'theory/part-03.html', 'tag': '一句话'},
     'en': {'page': 'en/primer/index.md', 'map': 'public/en/source-map.json', 'content': 'content/en',
+           'source': 'source/en/Xikari-On-Conditions-Structure-and-Transformation.md',
            'readme': 'README.en.md', 'built': 'en/theory/part-03.html', 'tag': 'In brief'},
 }
 SENTENCE = re.compile(r'^## (?:[一二三四五六七八九十]+　|\d+\. )(.+)$', re.MULTILINE)
@@ -22,6 +24,7 @@ GIST = re.compile(r'<h[1234] id="(section-[a-z0-9-]+)"[^>]*>.*?</h[1234]>\s*'
                   r'<div class="xk-gist"><span class="xk-gist__tag">([^<]*)</span>'
                   r'<span class="xk-gist__text">(.*?)</span>(<details class="xk-gist__codes">.*?</details>)?</div>', re.DOTALL)
 CODE_LINK = re.compile(r'<li><a href="([^"]+)"><b>([^<]+)</b>([^<]+)</a></li>')
+TABLE_NAME = re.compile(r'^\|\s*([A-Z][A-Za-z0-9]*(?:-[A-Z0-9]+)*)\s+([^|]{2,40}?)\s*\|', re.MULTILINE)
 
 
 def squeeze(text: str) -> str:
@@ -95,6 +98,7 @@ class HandbookPrimerTests(unittest.TestCase):
                 units = json.loads((content / 'reading-units.json').read_text(encoding='utf-8'))['units']
                 headings = {unit['section_id']: unit['title_exact'] for unit in units if unit.get('section_id')}
                 routes = {unit['website_source_route'] for unit in units if unit.get('website_source_route')}
+                rows = {(code, squeeze(name)) for code, name in TABLE_NAME.findall((ROOT / paths['source']).read_text(encoding='utf-8'))}
                 text = (BUILT / paths['built']).read_text(encoding='utf-8')
                 legends = {anchor: CODE_LINK.findall(codes) for anchor, _, _, codes in GIST.findall(text) if codes}
                 self.assertGreater(len(legends), 5)
@@ -104,9 +108,10 @@ class HandbookPrimerTests(unittest.TestCase):
                     self.assertEqual(len(codes), len(set(codes)), anchor)
                     for href, code, name in links:
                         name = html.unescape(name)
-                        # every name is cut from a heading that carries this code and nothing else like it
+                        # every name is the book's own: cut from the one heading that carries this code,
+                        # or written beside the code in the first cell of a table row
                         owners = [title for title in headings.values() if code in title and squeeze(name) in squeeze(title.replace(code, ''))]
-                        self.assertEqual(len(owners), 1, (anchor, code, name))
+                        self.assertTrue(len(owners) == 1 or (code, squeeze(name)) in rows, (anchor, code, name))
                         target = page_route + href if href.startswith('#') else href.replace('/xi-kari-skill/handbook', '').replace('.html#', '#')
                         self.assertIn(target, routes, (anchor, code, href))
                 # a section does not list the code its own heading defines
