@@ -12,7 +12,7 @@
 | 某种安排如何形成、维持并走到今天 | [机制史与过程重建](output-modes/process-history.md) | R2；条件反事实另接 R3 |
 | 可以讨论和试行的完整制度或生活安排 | [制度与生活安排设计](output-modes/arrangement-design.md) | R6；需要推荐时承接 R5 |
 | 一段经验、作品或叙事表达了什么 | [经验、意义与作品阐释](output-modes/meaning-interpretation.md) | R2 的解释性任务；按材料选择方法，M9 成文 |
-| 解决实际用语混淆的一套概念与表达 | [概念重构](output-modes/concept-reconstruction.md) | R8；已有词义问答继续 R1 |
+| 一个词被混着用，要一套新说法并改写文本 | [概念重构](output-modes/concept-reconstruction.md) | 先用领域映射分清现有用法，再接 R8；写成用语条文时接 R6。已有词义问答继续 R1 |
 | 有范围、关系、推导和检验入口的新模型 | [中层理论构造](output-modes/middle-range-theory.md) | R8；要求体系评价时接 R7 |
 | 争点尚未对齐时，可以继续研究或协商的问题 | [共同问题与议程重开](output-modes/problem-reframing.md) | M0 与 R8；方案选择或制度修改草案再接 R5/R6 |
 
