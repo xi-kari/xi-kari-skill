@@ -93,7 +93,7 @@ class OutputModeExampleTests(unittest.TestCase):
 
     def test_supporting_guides_carry_what_the_domain_study_relies_on(self):
         sourcing = (ROOT / 'references/research-work.md').read_text(encoding='utf-8')
-        for phrase in ('追到原作', '经工具转述', '没打开', '文字层', '代读'):
+        for phrase in ('追到原作', '经工具转述', '没打开', '文字层', '代读', '引号只用于'):
             self.assertIn(phrase, sourcing)
         self.assertIn('复读所引的小节', (ROOT / 'modules/domain-mapping/MODULE.md').read_text(encoding='utf-8'))
         self.assertIn('领域专论', (ROOT / 'agents/reviewer.md').read_text(encoding='utf-8'))
