@@ -222,6 +222,8 @@ class SourceAndPackageTests(unittest.TestCase):
             self.assertTrue(theory[0].flag_bits & 0x800)
             self.assertEqual({entry.create_system for entry in entries}, {3})
             self.assertEqual({entry.external_attr for entry in entries}, {0o600 << 16})
+            for name in ('install-manifest.json', 'SHA256SUMS'):
+                self.assertNotIn(b'\r', (Path(directory) / name).read_bytes(), name)
 
 
 if __name__ == '__main__':

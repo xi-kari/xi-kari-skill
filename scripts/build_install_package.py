@@ -93,8 +93,10 @@ def build(root: Path, output: Path) -> dict:
         "files": [{"path": name, "bytes": len(data), "sha256": hashlib.sha256(data).hexdigest()}
                   for name, data in payload.items()]
     }
-    (output / "install-manifest.json").write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    (output / "SHA256SUMS").write_text(f"{manifest['sha256']}  {archive.name}\n", encoding="utf-8")
+    # Same bytes on every build host: these two files are published beside the archive.
+    (output / "install-manifest.json").write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n",
+                                                  encoding="utf-8", newline="\n")
+    (output / "SHA256SUMS").write_text(f"{manifest['sha256']}  {archive.name}\n", encoding="utf-8", newline="\n")
     return manifest
 
 
