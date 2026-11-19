@@ -82,15 +82,31 @@ class OutputModeExampleTests(unittest.TestCase):
             self.assertTrue('domain-study.md' in (ROOT / name).read_text(encoding='utf-8'), name)
         targets = set(links(guide))
         for name in ('references/domain-index.md', 'modules/research/MODULE.md', 'modules/domain-mapping/MODULE.md',
-                     'references/domains/README.md', 'agents/reviewer.md', 'references/study-design.md'):
+                     'references/domains/README.md', 'agents/reviewer.md', 'references/study-design.md',
+                     'references/research-work.md'):
             self.assertIn((ROOT / name).resolve(), targets, name)
-        for phrase in ('先立领域自己的问题和已有答案', '读到的范围', '领域方法更强', '解释边界与问题'):
+        for phrase in ('先立领域自己的问题和已有答案', '读到的范围', '领域方法更强', '解释边界与问题',
+                       '属于体系迁移', '复读所引的小节', '核对与审读', '每篇都做', '不写入任何领域库',
+                       '单列一节', '所查范围内未见', 'M0 立题'):
             self.assertIn(phrase, text)
+        self.assertIn((ROOT / 'references/generation.md').resolve(), targets)
+
+    def test_supporting_guides_carry_what_the_domain_study_relies_on(self):
+        sourcing = (ROOT / 'references/research-work.md').read_text(encoding='utf-8')
+        for phrase in ('追到原作', '经工具转述', '没打开', '文字层', '代读'):
+            self.assertIn(phrase, sourcing)
+        self.assertIn('复读所引的小节', (ROOT / 'modules/domain-mapping/MODULE.md').read_text(encoding='utf-8'))
+        self.assertIn('领域专论', (ROOT / 'agents/reviewer.md').read_text(encoding='utf-8'))
+        identities = '定义对应、角色或对象实例化、部分对应、观察接口、类比候选、不对应、不适用'
+        for name in ('references/output-modes/domain-study.md', 'references/domains/README.md',
+                     'modules/domain-mapping/MODULE.md'):
+            self.assertIn(identities, (ROOT / name).read_text(encoding='utf-8'), name)
 
     def test_domain_study_example_shows_each_part_the_guide_asks_for(self):
         text = (ROOT / 'assets/examples/output-modes/domain-study.md').read_text(encoding='utf-8')
         order = ['### 中心判断', '### 这个领域在问什么，已经知道什么', '### 理论怎样定位这个领域', '### 逐条对应',
-                 '### 用两个公认的案例检验', '### 贡献与限度', '### 解释边界与问题', '### 参考来源与读到的范围']
+                 '### 用两个公认的案例检验', '### 贡献与限度', '### 推出的候选（未经检验）', '### 解释边界与问题',
+                 '### 参考来源与读到的范围', '### 可以留给下一次的领域卡（草稿，未写入）', '方法附注：']
         positions = [text.find(title) for title in order]
         self.assertNotIn(-1, positions)
         self.assertEqual(positions, sorted(positions))
