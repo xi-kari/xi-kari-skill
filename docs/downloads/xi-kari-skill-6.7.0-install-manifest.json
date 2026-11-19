@@ -2,9 +2,9 @@
   "name": "xi-kari-skill",
   "version": "6.7.0",
   "archive": "xi-kari-skill-6.7.0-windows.zip",
-  "sha256": "38cfe85b58bc9abea164a8f332d5ddd352db0e0e4843b84b71760c93b36835be",
+  "sha256": "cef6334ffde0382fb85ef517d1c60d556f04d9fdc7c0c0879eaaaca56319749e",
   "archive_root": "xi-kari-skill",
-  "bytes": 1897722,
+  "bytes": 1897886,
   "file_count": 200,
   "theory_source_sha256": "6ef2e508474d4ac1ad07d7e4e068955342c405b5f680afcfc40d68cca3d0149c",
   "english_edition_sha256": "51795bb7988f2669a324a52666c320cfba1382f597f7b5c6a1431844572da1fb",
@@ -16,8 +16,8 @@
     },
     {
       "path": "SKILL.md",
-      "bytes": 25311,
-      "sha256": "10d44d7b96d5aee18d4f2a08b972bddfa8ae1e73e478392063db529e0fa62c2a"
+      "bytes": 25474,
+      "sha256": "188f2843fc97d889bcd49fb9a403b5541873fcffa628970f2c15df32388c5825"
     },
     {
       "path": "agents/openai.yaml",
@@ -656,8 +656,8 @@
     },
     {
       "path": "references/ten-sentences.md",
-      "bytes": 6841,
-      "sha256": "9cf4b1498f1f4cb70c22746bb17e97f9a5edab59db793fa189c4ac54c0580643"
+      "bytes": 7120,
+      "sha256": "b2d4df113b8afef770fb9bca8b003bd8e5f01ba092a3c7780468d20e0b217e2c"
     },
     {
       "path": "references/theory-core.md",
