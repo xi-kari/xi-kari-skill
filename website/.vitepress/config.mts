@@ -12,6 +12,7 @@ import { loadLessons } from '../scripts/lesson_data.mjs'
 
 const WEBSITE = fileURLToPath(new URL('..', import.meta.url))
 const SOURCE_MAP = join(WEBSITE, 'public/source-map.json')
+const SITE_BASE = '/xi-kari-skill/handbook/'
 const sourceMapPath = (locale = 'zh') => locale === 'en' ? join(WEBSITE, 'public/en/source-map.json') : SOURCE_MAP
 
 /** Lessons are read from disk (and re-read when the file changes) so edits show up on reload. */
@@ -86,19 +87,52 @@ function headingNumbers(md: MarkdownIt) {
 }
 
 /**
- * One plain sentence under each numbered heading that has a lesson: the lesson's own lead,
- * set before the source text so a reader knows what the section is about. It is drawn as
- * part of the lesson, not of the source, and folds away in source-only reading.
+ * Codes that the book names in a section heading of their own: 'D2' is 有效反馈 (§3.3).
+ * Names and places are read from the reading units, which copy each heading exactly; a
+ * heading that carries several codes or a range names no single code and is left out.
  */
-const gistCache = new Map<string, Map<string, string>>()
-function sectionGistsFor(relativePath: string): Map<string, string> {
+interface SectionTerm { name: string; key: string; href: string }
+const TERM_CODE = /(?<![A-Za-z0-9_-])[A-Z][A-Za-z0-9]*(?:-[A-Z0-9]+)*(?![A-Za-z0-9_])/g
+const termCache = new Map<string, Map<string, SectionTerm>>()
+function sectionTerms(locale = 'zh'): Map<string, SectionTerm> {
+  if (!termCache.has(locale)) {
+    const terms = new Map<string, SectionTerm>()
+    const units = JSON.parse(readFileSync(join(WEBSITE, locale === 'en' ? 'content/en' : 'content', 'reading-units.json'), 'utf8')).units as any[]
+    for (const unit of units) {
+      if (!unit.section_id || !unit.website_source_route) continue
+      const title = String(unit.title_exact || '').replace(/^\S+\s+/, '')
+      const codes = [...title.matchAll(TERM_CODE)].map(match => match[0]).filter(code => /\d/.test(code) || /-[A-Z]/.test(code))
+      if (codes.length !== 1 || /^[A-Z]+\d+-[A-Z]+\d+$/.test(codes[0]) || terms.has(codes[0])) continue
+      const name = title.replace(codes[0], ' ')
+        .replace(/[（(](?:完整接口卡|full interface card)[)）]/i, '')
+        .replace(/^[\s|：:]+|[\s|：:]+$/g, '').replace(/\s{2,}/g, ' ')
+        .replace(/(\p{Script=Han}|[、，）])\s+(?=\p{Script=Han}|（)/gu, '$1')
+      if (name) terms.set(codes[0], { name, key: unit.section_id, href: unit.website_source_route })
+    }
+    termCache.set(locale, terms)
+  }
+  return termCache.get(locale)!
+}
+function termPattern(terms: Map<string, SectionTerm>): RegExp {
+  const keys = [...terms.keys()].sort((a, b) => b.length - a.length).map(key => key.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))
+  return new RegExp('(?<![A-Za-z0-9_-])(?:' + keys.join('|') + ')(?![A-Za-z0-9_])', 'g')
+}
+
+/**
+ * What a reader needs before the source text of a numbered section: the lesson's own lead as
+ * one plain sentence, and the names of the codes the section uses, each linked to the section
+ * that defines it. Both are drawn as part of the lesson, not of the source, and fold away in
+ * source-only reading. The generated theory pages are not changed.
+ */
+const gistCache = new Map<string, Map<string, { key: string; lead: string }>>()
+function sectionGistsFor(relativePath: string): Map<string, { key: string; lead: string }> {
   if (!gistCache.has(relativePath)) {
     const locale = relativePath.startsWith('en/') ? 'en' : 'zh'
     const route = normalize('/' + relativePath)
     const all = lessons(locale)
     gistCache.set(relativePath, new Map(lessonIndex(locale)
       .filter(ref => ref.route === route && ref.anchor && typeof all[ref.key]?.lead === 'string' && all[ref.key].lead.trim())
-      .map(ref => [ref.anchor, String(all[ref.key].lead).trim()])))
+      .map(ref => [ref.anchor, { key: ref.key, lead: String(all[ref.key].lead).trim() }])))
   }
   return gistCache.get(relativePath)!
 }
@@ -109,16 +143,36 @@ function sectionGists(md: MarkdownIt) {
     if (state.env?.xkSearch || !/^(en\/)?theory\//.test(relativePath)) return
     const gists = sectionGistsFor(relativePath)
     if (!gists.size) return
-    const label = relativePath.startsWith('en/') ? 'In brief' : '一句话'
+    const english = relativePath.startsWith('en/')
+    const route = normalize('/' + relativePath)
+    const terms = sectionTerms(english ? 'en' : 'zh')
+    const pattern = terms.size ? termPattern(terms) : null
+    const hrefOf = (term: SectionTerm) => {
+      const [page, anchor] = term.href.split('#')
+      return escape(page === route ? '#' + anchor : SITE_BASE + page.replace(/^\//, '') + (page.endsWith('/') ? '' : '.html') + '#' + anchor)
+    }
     const tokens = state.tokens
     for (let i = tokens.length - 1; i >= 2; i--) {
       if (tokens[i].type !== 'heading_close' || tokens[i].tag === 'h1') continue
       const open = tokens[i - 2]
-      const lead = open?.type === 'heading_open' ? gists.get(open.attrGet('id') || '') : undefined
-      if (!lead) continue
-      const gist = new state.Token('html_block', '', 0)
-      gist.content = `<p class="xk-gist"><span class="xk-gist__tag">${label}</span><span class="xk-gist__text">${escape(lead)}</span></p>\n`
-      tokens.splice(i + 1, 0, gist)
+      const gist = open?.type === 'heading_open' ? gists.get(open.attrGet('id') || '') : undefined
+      if (!gist) continue
+      // the codes this section's own text uses, in the order they first appear
+      const used: string[] = []
+      for (let j = i + 1; pattern && j < tokens.length && tokens[j].type !== 'heading_open'; j++) {
+        if (tokens[j].type !== 'inline') continue
+        for (const match of tokens[j].content.matchAll(pattern)) {
+          if (terms.get(match[0])!.key !== gist.key && !used.includes(match[0])) used.push(match[0])
+        }
+      }
+      const codes = used.length
+        ? `<details class="xk-gist__codes"><summary>${english ? `Codes used in this section (${used.length})` : `本节用到的代号（${used.length}）`}</summary><ul>`
+          + used.map(code => `<li><a href="${hrefOf(terms.get(code)!)}"><b>${escape(code)}</b>${escape(terms.get(code)!.name)}</a></li>`).join('')
+          + '</ul></details>'
+        : ''
+      const block = new state.Token('html_block', '', 0)
+      block.content = `<div class="xk-gist"><span class="xk-gist__tag">${english ? 'In brief' : '一句话'}</span><span class="xk-gist__text">${escape(gist.lead)}</span>${codes}</div>\n`
+      tokens.splice(i + 1, 0, block)
     }
   })
 }
@@ -289,7 +343,7 @@ export default defineConfig({
   },
   title: 'Xikari 原文精读',
   description: '沿《Xikari-条件结构与转化论》的原文顺序阅读，在对应章节之后查看讲解、图示与案例。',
-  base: '/xi-kari-skill/handbook/',
+  base: SITE_BASE,
   srcExclude: ['public/**', 'content/**', 'LESSONS.md'],
   outDir: '../docs/handbook',
   lastUpdated: false,

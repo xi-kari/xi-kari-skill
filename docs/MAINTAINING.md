@@ -278,6 +278,14 @@ Under every numbered heading that has a lesson, the build sets that lesson's
 by the source-only setting; the generated theory pages and the source text are
 unchanged. A lead should therefore read as plain language on its own.
 
+Below the sentence, a closed disclosure lists the codes the section's own text
+uses, each with the name the book gives it and a link to the section that
+defines it. A code has a name here only when a section heading carries that one
+code (`3.3 D2 有效反馈` names D2); headings are read from
+`content/reading-units.json`, which copies them exactly. A heading with several
+codes or a range names no single code, so codes defined only in tables or
+ranges are not listed. A section does not list the code its own heading defines.
+
 Section explanations live in `website/content/section-lessons.json`, keyed by
 the stable reading unit; reviewed supplements in
 `website/content/lesson-overrides.json` replace whole fields of an imported

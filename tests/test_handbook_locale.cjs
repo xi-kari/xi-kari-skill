@@ -175,6 +175,12 @@ const server = http.createServer((request, response) => {
       await page.waitForFunction(() => document.querySelector('.xk-tool--language')?.getAttribute('href')?.endsWith('/theory/part-04.html'));
       assert.equal(await page.locator('.xk-app').evaluate(el => el.classList.contains('nav-open')), false);
       assert.match(await page.locator('h1').textContent(), /Empirical Questions/);
+      const codeRow = page.locator('.xk-prose .xk-gist__codes').first();
+      assert.equal(await codeRow.locator('li a').first().isVisible(), false, 'The code names stay closed until asked for.');
+      await codeRow.locator('summary').click();
+      assert.equal(await codeRow.locator('li a').first().isVisible(), true);
+      assert.match(await codeRow.locator('li a').first().getAttribute('href'), /#section-/, 'Each code leads to the section that defines it.');
+      assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth + 2), false, 'An open code row must fit the viewport.');
 
       if (viewport.width < 1280) await page.getByRole('button', { name: 'Page outline and reading settings', exact: true }).click();
       const settings = page.locator('#xk-aside');

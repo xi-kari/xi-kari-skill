@@ -65,7 +65,8 @@
 
 /* ───────────── one plain sentence before the source text ───────────── */
 /* The lesson's lead, set under the heading as a two-cell strip: an ink plaque and the sentence
-   on the lesson tint. It belongs to the lesson, so it folds away in source-only reading. */
+   on the lesson tint, with the names of the codes this section uses on a ruled row below.
+   It belongs to the lesson, so it folds away in source-only reading. */
 .xk-prose .xk-gist {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr);
@@ -92,6 +93,28 @@
   background: var(--xk-loc);
 }
 .xk-gist__text { padding: 8px 14px 9px; overflow-wrap: anywhere; }
+.xk-gist__codes { grid-column: 1 / -1; border-top: 1px solid var(--xk-note-edge); }
+.xk-gist__codes > summary {
+  padding: 6px 14px 7px;
+  font-size: .92em;
+  font-weight: 700;
+  color: var(--xk-ink-2);
+  cursor: pointer;
+}
+.xk-gist__codes > summary:hover { color: var(--xk-blue); }
+.xk-prose .xk-gist__codes > ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 18px;
+  margin: 0;
+  padding: 2px 14px 10px;
+  list-style: none;
+}
+.xk-prose .xk-gist__codes li { margin: 0; padding: 0; }
+.xk-prose .xk-gist__codes li::before { content: none; }
+.xk-prose .xk-gist__codes a { color: var(--xk-ink-2); text-decoration: none; }
+.xk-prose .xk-gist__codes a:hover { color: var(--xk-blue); text-decoration: underline; text-underline-offset: 3px; }
+.xk-gist__codes b { margin-right: .45em; font-weight: 800; color: var(--xk-ink); font-variant-numeric: tabular-nums; }
 html.xk-source-only .xk-gist { display: none; }
 
 /* ───────────── section numbers hang in the margin ───────────── */
