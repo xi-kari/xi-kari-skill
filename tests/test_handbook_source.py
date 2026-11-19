@@ -576,5 +576,29 @@ class LessonEditionNoticeTests(unittest.TestCase):
         self.assertIn(f'href="/xi-kari-skill/handbook/downloads/{builder.TITLE}.v2.md"', page)
 
 
+BACK_TO_SOURCE = re.compile(r"^## 回到原文\n(.*?)(?=^## |\Z)", re.M | re.S)
+
+
+class ConceptSourceQuoteTests(unittest.TestCase):
+    def test_quotes_under_back_to_the_source_stand_verbatim_in_a_section_they_link(self):
+        # A concept page ends with a quotation from the book and the sections it comes from.
+        # When the Chinese text is reworded, a quotation left in the old wording fails here.
+        source = builder.SOURCE.read_text(encoding="utf-8").splitlines(keepends=True)
+        units = json.loads((WEBSITE / "content/reading-units.json").read_text(encoding="utf-8"))["units"]
+        spans = {unit["website_source_route"]: "".join(source[unit["source_start_line"] - 1:unit["subtree_end_line"]])
+                 for unit in units if unit["website_source_route"]}
+        squash = lambda text: re.sub(r"\s+", "", text)
+        quoted = 0
+        for page in sorted((WEBSITE / "concepts").glob("*.md")):
+            for block in BACK_TO_SOURCE.findall(page.read_text(encoding="utf-8")):
+                links = re.findall(r"\]\((?:\.\.)?(/theory/[^)#\s]+#section-[a-z0-9-]+)\)", block)
+                for quote in re.findall(r"^> (.+)$", block, re.M):
+                    with self.subTest(page=page.name, quote=quote):
+                        self.assertTrue(links)
+                        self.assertTrue(any(squash(quote) in squash(spans[link]) for link in links))
+                    quoted += 1
+        self.assertGreaterEqual(quoted, 8)
+
+
 if __name__ == "__main__":
     unittest.main()
