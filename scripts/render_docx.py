@@ -187,6 +187,27 @@ def _block_start(lines: list[str], index: int) -> bool:
     return False
 
 
+def skip_header(lines: list[str]) -> list[str]:
+    """略去技能自带文件与领域卡开头的卡头：一行 ---、一行 JSON 对象、再一行 ---。"""
+    if len(lines) < 3 or lines[0].lstrip('\ufeff').strip() != '---' or lines[2].strip() != '---':
+        return lines
+    try:
+        header = json.loads(lines[1])
+    except ValueError:
+        return lines
+    if not isinstance(header, dict):
+        return lines
+    start = 3
+    while start < len(lines) and not lines[start].strip():
+        start += 1
+    return lines[start:]
+
+
+def source_lines(source: str) -> list[str]:
+    """统一换行后切成行，并略去开头的卡头。"""
+    return skip_header(source.replace('\r\n', '\n').replace('\r', '\n').split('\n'))
+
+
 def parse_blocks(lines: list[str], lang: str = 'zh') -> list[dict]:
     """把 Markdown 行序列解析成块列表；脚注定义单独收集为 footnote 块。"""
     blocks: list[dict] = []
@@ -632,7 +653,7 @@ def _footnote_numbers(blocks: list[dict], definitions: dict[str, str]) -> dict[s
 def build_document(source: str, title: str | None, source_path: Path | None, lang: str = 'zh') -> tuple[dict[str, bytes], list[str]]:
     """把 Markdown 文本渲染成 OOXML 部件；返回（部件名→字节, 未支持语法说明）。"""
     L = DOCX_LABELS[lang]
-    lines = source.replace('\r\n', '\n').replace('\r', '\n').split('\n')
+    lines = source_lines(source)
     blocks = parse_blocks(lines, lang)
     definitions = {block['label']: block['text'] for block in blocks if block['kind'] == 'footnote'}
     numbers = _footnote_numbers(blocks, definitions)
@@ -866,7 +887,7 @@ def PARTS_ORDER(parts: dict[str, bytes]) -> list[str]:
 def resolve_title(source: str, title: str | None, source_path: Path | None, lang: str = 'zh') -> str:
     """标题只作元数据：显式 --title 优先，否则取首个一级标题，再无则取文件名主干。"""
     if not title:
-        lines = source.replace('\r\n', '\n').replace('\r', '\n').split('\n')
+        lines = source_lines(source)
         title = next((block['text'] for block in parse_blocks(lines)
                       if block['kind'] == 'heading' and block['level'] == 1),
                      Path(source_path).stem if source_path is not None else DOCX_LABELS[lang]['default_title'])

@@ -582,6 +582,22 @@ def table_separator(line: str) -> bool:
     return bool('|' in line and all(re.fullmatch(r':?-{3,}:?', cell) for cell in split_cells(line)))
 
 
+def skip_header(lines: list[str]) -> list[str]:
+    """Leave out the header the skill's own files and domain cards open with: a rule, one JSON object, a rule."""
+    if len(lines) < 3 or lines[0].lstrip('\ufeff').strip() != '---' or lines[2].strip() != '---':
+        return lines
+    try:
+        header = json.loads(lines[1])
+    except ValueError:
+        return lines
+    if not isinstance(header, dict):
+        return lines
+    start = 3
+    while start < len(lines) and not lines[start].strip():
+        start += 1
+    return lines[start:]
+
+
 class MarkdownReader:
     def __init__(self, source_path: Path, lang: str = 'zh'):
         self.labels = LABELS[lang]
@@ -980,7 +996,7 @@ class MarkdownReader:
         return '\n'.join(output)
 
     def render(self, source: str) -> str:
-        lines = self.extract_footnotes(source.lstrip('\ufeff').splitlines())
+        lines = self.extract_footnotes(skip_header(source.lstrip('\ufeff').splitlines()))
         for line in lines:
             reference = REFERENCE.match(line)
             if reference and not reference.group(1).startswith('^'):
