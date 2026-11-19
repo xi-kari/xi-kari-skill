@@ -45,6 +45,23 @@ class EnglishEditionTests(unittest.TestCase):
         self.assertEqual((result['sections'], result['parts']), (397, 21))
         self.assertEqual(result['blocks'], self.manifest['alignment']['blocks'])
 
+    def test_translation_relation_accepts_only_the_recorded_wording_predecessor(self):
+        zh = {'sha256': 'b' * 64, 'wording_revision_of': {'sha256': 'a' * 64}}
+        self.assertEqual(reader.translation_relation(zh, {'translates': {'sha256': 'b' * 64}}), 'current')
+        self.assertEqual(reader.translation_relation(zh, {'translates': {'sha256': 'a' * 64}}),
+                         'wording-predecessor')
+        self.assertIsNone(reader.translation_relation(zh, {'translates': {'sha256': 'c' * 64}}))
+        self.assertIsNone(reader.translation_relation({'sha256': 'b' * 64}, {'translates': {'sha256': 'a' * 64}}))
+        self.assertIsNone(reader.translation_relation(zh, {}))
+
+    def test_reworded_source_keeps_sections_but_skips_paragraph_comparison(self):
+        zh = self.text.replace('\n\n', '\n\nextra\n\n', 1)
+        strict = edition.alignment(zh, self.text)
+        loose = edition.alignment(zh, self.text, compare_blocks=False)
+        self.assertTrue(any('paragraph blocks' in problem for problem in strict['problems']))
+        self.assertFalse(any('paragraph blocks' in problem for problem in loose['problems']))
+        self.assertEqual(loose['blocks'], strict['blocks'])
+
     def test_every_section_and_part_shares_its_identifier_and_order(self):
         zh_sections, zh_parts = reader.build_index(reader.SOURCE.read_text(encoding='utf-8').splitlines())
         en_sections, en_parts = reader.build_index(self.text.splitlines())

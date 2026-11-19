@@ -35,7 +35,7 @@ import sys
 
 sys.dont_write_bytecode = True
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from read_source import build_index  # noqa: E402
+from read_source import build_index, translation_relation  # noqa: E402
 sys.path.pop(0)
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -220,7 +220,12 @@ def assemble(directory: Path) -> tuple[str, list[dict]]:
     return "\n\n".join(parts) + "\n", provenance
 
 
-def alignment(zh_text: str, en_text: str) -> dict:
+def alignment(zh_text: str, en_text: str, compare_blocks: bool = True) -> dict:
+    """Check that the English edition shares the Chinese sections and parts.
+
+    Paragraph blocks are compared only when the English translates the current
+    Chinese wording; a reworded Chinese text keeps its sections but not its paragraphs.
+    """
     en_text, _ = edition_body(en_text)
     zh_lines, en_lines = zh_text.splitlines(), en_text.splitlines()
     zs, zp = build_index(zh_lines)
@@ -239,7 +244,7 @@ def alignment(zh_text: str, en_text: str) -> dict:
             counts[key] = len(blocks("\n".join(lines[item["start"]:max(item["start"] + 1, stop)])))
         return counts
 
-    if not problems:
+    if not problems and compare_blocks:
         zb, eb = section_blocks(zh_lines, zs), section_blocks(en_lines, es)
         uneven = [key for key in zb if zb[key] != eb.get(key)]
         if uneven:
@@ -249,7 +254,7 @@ def alignment(zh_text: str, en_text: str) -> dict:
     if leftover:
         problems.append(f"{len(leftover)} Chinese gloss(es) remain, e.g. {leftover[0]}")
     zh_blocks, en_blocks = blocks(zh_text), blocks(en_text)
-    if len(zh_blocks) != len(en_blocks):
+    if compare_blocks and len(zh_blocks) != len(en_blocks):
         problems.append(f"paragraph blocks {len(en_blocks)} != Chinese {len(zh_blocks)}")
     return {"sections": len(es), "parts": len(ep), "blocks": len(en_blocks), "problems": problems}
 
@@ -382,11 +387,13 @@ def check() -> dict:
         problems.append("Chinese source bytes differ from its manifest")
     if sha256(en_bytes) != en_manifest["sha256"] or len(en_bytes) != en_manifest["bytes"]:
         problems.append("English edition bytes differ from its manifest")
-    if en_manifest.get("translates", {}).get("sha256") != zh_manifest["sha256"]:
+    relation = translation_relation(zh_manifest, en_manifest)
+    if relation is None:
         problems.append("English edition translates a different Chinese source; rebuild it after revising the translation")
     if b"\r\n" in en_bytes:
         problems.append("English edition must use LF line endings")
-    report = alignment(zh_bytes.decode("utf-8-sig"), en_bytes.decode("utf-8"))
+    report = alignment(zh_bytes.decode("utf-8-sig"), en_bytes.decode("utf-8"),
+                       compare_blocks=relation != "wording-predecessor")
     problems.extend(report["problems"])
     if en_manifest.get("alignment") != {key: report[key] for key in ("sections", "parts", "blocks")}:
         problems.append("English alignment counts differ from its manifest")
@@ -407,7 +414,7 @@ def check() -> dict:
         if en_manifest.get("non_body_material") != edition_body(en_bytes.decode("utf-8"))[1]:
             problems.append("English copyright and license material differs from its manifest")
     return {"ok": not problems, "sha256": sha256(en_bytes), "translates": en_manifest.get("translates", {}).get("sha256"),
-            **{k: report[k] for k in ("sections", "parts", "blocks")}, "problems": problems}
+            "relation": relation, **{k: report[k] for k in ("sections", "parts", "blocks")}, "problems": problems}
 
 
 def main() -> int:
