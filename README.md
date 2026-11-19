@@ -18,7 +18,7 @@
 </p>
 
 <p align="center">
-  <a href="skill-package.json"><img alt="技能版本 6.5.0" src="https://img.shields.io/badge/skill-6.5.0-1F4FC4?style=flat-square"></a>
+  <a href="skill-package.json"><img alt="技能版本 6.6.0" src="https://img.shields.io/badge/skill-6.6.0-1F4FC4?style=flat-square"></a>
   <a href="https://github.com/xi-kari/xi-kari-skill/actions/workflows/windows.yml"><img alt="Windows 测试状态" src="https://img.shields.io/github/actions/workflow/status/xi-kari/xi-kari-skill/windows.yml?branch=main&amp;style=flat-square&amp;label=Windows%20CI"></a>
   <img alt="可选工具需要 Python 3.10 或更新版本" src="https://img.shields.io/badge/python-3.10%2B%20%28%E5%8F%AF%E9%80%89%29-33415E?style=flat-square">
   <a href="LICENSE"><img alt="MIT 许可" src="https://img.shields.io/badge/license-MIT-33415E?style=flat-square"></a>
@@ -179,7 +179,7 @@ $xi-kari-skill 研究一下附件里两期培训的登记和调整说明：结�
 
 <sub>截图由随包工具实际生成：阅读页以原文第一部分为示例内容；条件模型页与方案比较表来自随包的“明确虚构”教学示例，其中的数值不是现实事实。</sub>
 
-**版本范围**：当前安装包为 `v6.5.0`；截图用于展示工具界面，各版本的功能以相应的 [Release 说明](https://github.com/xi-kari/xi-kari-skill/releases)为准。
+**版本范围**：当前安装包为 `v6.6.0`；截图用于展示工具界面，各版本的功能以相应的 [Release 说明](https://github.com/xi-kari/xi-kari-skill/releases)为准。
 
 - **完整成果稿 `xi-kari-answer.md`。** 初次完整交付或要求合稿时形成：中心判断在前，随后是材料评价、结构关系、机制比较、案例与反例、路径、反方回应、裁决与方案。
 - **离线阅读页。** 由完整稿生成的单个 HTML 文件，不联网：标题下方有一张按正文自身统计画出的航迹图，每个章节是一个定位点，间距与篇幅成比例，读到哪里航迹就画到哪里，点一下定位点就翻到那一节，往下读时同一条航迹收在顶栏下方继续跟随；章节目录随阅读位置标出当前章节，有全文搜索、字号调节和打印版式；夜间模式默认跟随系统，也可以手动切换；脚注可以悬停预览，也可以回跳。选中一段正文，旁边会出现“追问选段”，把选段连同位置整理成一条追问，由你复制回对话。有公式时内嵌随包的 KaTeX 排版。
