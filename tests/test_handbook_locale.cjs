@@ -272,6 +272,9 @@ const server = http.createServer((request, response) => {
       await page.waitForURL(/\/primer\/$/);
       await page.locator('.xk-prose h1', { hasText: '十句话入门' }).waitFor({ state: 'visible' });
       assert.equal(await page.locator('.xk-prose h2').count(), 12, 'The primer states ten sentences, their limits and where to go next.');
+      // switch languages from a settled page: right after an in-app page turn the layout is still moving focus
+      await page.goto(base + 'primer/');
+      await page.locator('.xk-prose h1', { hasText: '十句话入门' }).waitFor({ state: 'visible' });
       await switchLanguage();
       await page.waitForFunction(() => document.documentElement.lang === 'en');
       await page.locator('.xk-prose h1', { hasText: 'Ten sentences to start with' }).waitFor({ state: 'visible' });
