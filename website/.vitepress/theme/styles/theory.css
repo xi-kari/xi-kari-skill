@@ -63,6 +63,37 @@
 }
 .xk-prose.is-theory #contents ~ p:has(> a:only-child) > a:hover { background: var(--xk-blue-wash); color: var(--xk-blue); }
 
+/* ───────────── one plain sentence before the source text ───────────── */
+/* The lesson's lead, set under the heading as a two-cell strip: an ink plaque and the sentence
+   on the lesson tint. It belongs to the lesson, so it folds away in source-only reading. */
+.xk-prose .xk-gist {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  margin: 0 0 1.6em;
+  font-family: var(--xk-font-sans);
+  font-size: .9em;
+  line-height: 1.7;
+  text-align: left;
+  color: var(--xk-ink);
+  background: var(--xk-note);
+  border-top: 1.5px solid var(--xk-ink);
+  border-bottom: 1px solid var(--xk-note-edge);
+}
+.xk-gist__tag {
+  display: grid;
+  place-items: center;
+  padding: 0 11px;
+  font-family: var(--xk-font-display);
+  font-weight: 900;
+  font-size: 12.5px;
+  line-height: 1.2;
+  white-space: nowrap;
+  color: var(--xk-loc-ink);
+  background: var(--xk-loc);
+}
+.xk-gist__text { padding: 8px 14px 9px; overflow-wrap: anywhere; }
+html.xk-source-only .xk-gist { display: none; }
+
 /* ───────────── section numbers hang in the margin ───────────── */
 .xk-prose .xk-num__gap { font-size: 0; }
 .xk-prose .xk-num__n {

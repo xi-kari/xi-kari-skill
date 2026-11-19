@@ -20,7 +20,7 @@ export function resolveDestination(value: unknown, assetBase = '/'): string | nu
   try {
     const resolved = new URL(target, 'https://xikari.invalid' + assetBase)
     if (resolved.origin !== 'https://xikari.invalid') return null
-    if (/^\/(?:en\/)?(theory|cases|concepts|guide|downloads)(\/|$)/.test(resolved.pathname) && !resolved.pathname.endsWith('/') && !/\.[a-z\d]+$/i.test(resolved.pathname)) resolved.pathname += '.html'
+    if (/^\/(?:en\/)?(theory|cases|concepts|guide|downloads|primer)(\/|$)/.test(resolved.pathname) && !resolved.pathname.endsWith('/') && !/\.[a-z\d]+$/i.test(resolved.pathname)) resolved.pathname += '.html'
     return resolved.pathname + resolved.search + resolved.hash
   } catch {
     return null

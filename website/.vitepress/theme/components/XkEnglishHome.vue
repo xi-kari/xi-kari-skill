@@ -90,7 +90,8 @@ const notePath = (card: any) => `${card.route}#lesson-${card.key.toLowerCase().r
         <p class="xk-station__sub">Objects, conditions, effects, and bounded action</p>
         <p class="xk-station__by">By Xikari. Read the complete English reference edition in the book’s original order, with full translations of the Chinese reading lessons, concept guides, and sourced cases.</p>
         <div class="xk-station__actions">
-          <a class="xk-sign xk-sign--go" :href="withBase('/en/theory/')">Start reading<svg class="xk-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15m-6-6 6 6-6 6" /></svg></a>
+          <a class="xk-sign xk-sign--go" :href="withBase('/en/primer/')">Ten sentences first<svg class="xk-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15m-6-6 6 6-6 6" /></svg></a>
+          <a class="xk-sign xk-sign--field" :href="withBase('/en/theory/')">Start reading</a>
           <a class="xk-sign xk-sign--field" :href="withBase('/en/concepts/')">Explore the guides</a>
         </div>
       </div>
