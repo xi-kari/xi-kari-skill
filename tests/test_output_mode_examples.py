@@ -87,14 +87,17 @@ class OutputModeExampleTests(unittest.TestCase):
             self.assertIn((ROOT / name).resolve(), targets, name)
         for phrase in ('先立领域自己的问题和已有答案', '读到的范围', '领域方法更强', '解释边界与问题',
                        '属于体系迁移', '复读所引的小节', '核对与审读', '每篇都做', '不写入任何领域库',
-                       '单列一节', '所查范围内未见', 'M0 立题'):
+                       '单列一节', '所查范围内未见', 'M0 立题', '方法附注在最后', '只做到了多少'):
             self.assertIn(phrase, text)
         self.assertIn((ROOT / 'references/generation.md').resolve(), targets)
 
     def test_supporting_guides_carry_what_the_domain_study_relies_on(self):
         sourcing = (ROOT / 'references/research-work.md').read_text(encoding='utf-8')
-        for phrase in ('追到原作', '经工具转述', '没打开', '文字层', '代读', '引号只用于'):
+        for phrase in ('追到原作', '经工具转述', '没打开', '文字层', '代读', '引号只用于', '承重的是'):
             self.assertIn(phrase, sourcing)
+        reading = (ROOT / 'references/full-source-study.md').read_text(encoding='utf-8')
+        for phrase in ('不要求全书同时留在上下文里', '不是放弃通读的理由', '不称完整覆盖'):
+            self.assertIn(phrase, reading)
         self.assertIn('复读所引的小节', (ROOT / 'modules/domain-mapping/MODULE.md').read_text(encoding='utf-8'))
         self.assertIn('领域专论', (ROOT / 'agents/reviewer.md').read_text(encoding='utf-8'))
         identities = '定义对应、角色或对象实例化、部分对应、观察接口、类比候选、不对应、不适用'
