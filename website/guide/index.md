@@ -14,7 +14,7 @@ description: 沿原文顺序阅读，在对应章节之后查看解释、图示�
 | 想分清的问题 | 原文与讲解 | 辅助导读 |
 | --- | --- | --- |
 | 地位成立与效果发生 | [§2.4.3](../theory/part-02#section-2-4-3) | [构成与因果](../concepts/status-and-effects) |
-| 问题已冻结，还能否质疑 | [§2.14](../theory/part-02#section-2-14) | [冻结与重开](../concepts/reopening-questions) |
+| 问题已固定，还能否质疑 | [§2.14](../theory/part-02#section-2-14) | [固定与重开](../concepts/reopening-questions) |
 | 成功一次，能否维持或复制 | [§6.10.1](../theory/part-06#section-6-10-1) | [四种结果](../concepts/four-outcomes) |
 | 为何越来越依赖同一个人 | [§7.6.1](../theory/part-07#section-7-6-1) | [配置与能力](../concepts/allocation-and-capability) |
 | 受影响者要追踪到哪里 | [§14.4.1](../theory/part-14#section-14-4-1) | [识别范围](../concepts/affected-positions) |

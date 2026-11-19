@@ -283,7 +283,7 @@ const learningSidebar = [
     { text: '支持与恢复', link: '/concepts/recovery' },
     { text: '预测与行动', link: '/concepts/prediction' },
     { text: '地位与作用', link: '/concepts/status-and-effects' },
-    { text: '问题冻结与重开', link: '/concepts/reopening-questions' },
+    { text: '问题的固定与重开', link: '/concepts/reopening-questions' },
     { text: '四种结果', link: '/concepts/four-outcomes' },
     { text: '配置与能力', link: '/concepts/allocation-and-capability' },
     { text: '受影响位置', link: '/concepts/affected-positions' },
@@ -308,7 +308,7 @@ const learningSidebar = [
 ]
 
 const englishLabels: Record<string, string> = {
-  '地位与作用': 'Status and effects', '问题冻结与重开': 'Freezing and reopening questions',
+  '地位与作用': 'Status and effects', '问题的固定与重开': 'Freezing and reopening questions',
   '四种结果': 'Four distinct outcomes', '配置与能力': 'Allocation and capability',
   '受影响位置': 'Affected positions', '全有损失的选择': 'Choices with unavoidable losses',
   '开始理解': 'Start here', '阅读首页': 'Reader home', '十句话入门': 'Ten sentences', '概念图解': 'Concept guides', '概念总览': 'Concept overview',
