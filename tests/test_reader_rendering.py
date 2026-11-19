@@ -130,7 +130,7 @@ class ReaderRenderingTests(unittest.TestCase):
         def sections(output):
             return [attrs['data-section-title'] for tag, attrs in Document(output).tags if 'data-reader-section' in attrs]
 
-        for source in (header + body, '﻿' + header + body, (header + body).replace('\n', '\r\n')):
+        for source in (header + body, '\ufeff' + header + body, (header + body).replace('\n', '\r\n')):
             with self.subTest(source=source[:8]):
                 output = module.render_document(source)
                 self.assertEqual(sections(output), sections(module.render_document(body)))

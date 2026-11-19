@@ -165,7 +165,7 @@ class RenderDocxTests(unittest.TestCase):
         header = '---\n{"id":"hotline-tickets","title":"热线工单","anchors":["2.4.3"]}\n---\n\n'
         body = '# 热线工单办理\n\n开头一句。\n\n## 一、口径\n\n正文。\n'
         plain, _ = self.render(body, out='plain.docx')
-        for index, source in enumerate((header + body, '﻿' + header + body, (header + body).replace('\n', '\r\n'))):
+        for index, source in enumerate((header + body, '\ufeff' + header + body, (header + body).replace('\n', '\r\n'))):
             with self.subTest(index=index):
                 output, _ = self.render(source, out=f'header-{index}.docx')
                 self.assertNotIn('hotline-tickets', ''.join(all_text(output)))

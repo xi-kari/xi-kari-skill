@@ -584,7 +584,7 @@ def table_separator(line: str) -> bool:
 
 def skip_header(lines: list[str]) -> list[str]:
     """Leave out the header the skill's own files and domain cards open with: a rule, one JSON object, a rule."""
-    if len(lines) < 3 or lines[0].lstrip('﻿').strip() != '---' or lines[2].strip() != '---':
+    if len(lines) < 3 or lines[0].lstrip('\ufeff').strip() != '---' or lines[2].strip() != '---':
         return lines
     try:
         header = json.loads(lines[1])

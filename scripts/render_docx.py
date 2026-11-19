@@ -189,7 +189,7 @@ def _block_start(lines: list[str], index: int) -> bool:
 
 def skip_header(lines: list[str]) -> list[str]:
     """略去技能自带文件与领域卡开头的卡头：一行 ---、一行 JSON 对象、再一行 ---。"""
-    if len(lines) < 3 or lines[0].lstrip('﻿').strip() != '---' or lines[2].strip() != '---':
+    if len(lines) < 3 or lines[0].lstrip('\ufeff').strip() != '---' or lines[2].strip() != '---':
         return lines
     try:
         header = json.loads(lines[1])
