@@ -12,15 +12,24 @@ WEBSITE = ROOT / 'website'
 BUILT = ROOT / 'docs' / 'handbook'
 LOCALES = {
     'zh': {'page': 'primer/index.md', 'map': 'public/source-map.json', 'content': 'content',
+           'source': 'source/Xikari-条件结构与转化论.md',
            'readme': 'README.md', 'built': 'theory/part-03.html', 'tag': '一句话'},
     'en': {'page': 'en/primer/index.md', 'map': 'public/en/source-map.json', 'content': 'content/en',
+           'source': 'source/en/Xikari-On-Conditions-Structure-and-Transformation.md',
            'readme': 'README.en.md', 'built': 'en/theory/part-03.html', 'tag': 'In brief'},
 }
 SENTENCE = re.compile(r'^## (?:[一二三四五六七八九十]+　|\d+\. )(.+)$', re.MULTILINE)
 SOURCE_LINK = re.compile(r'\]\(\.\./(theory/[^)#\s]+)#(section-[a-z0-9-]+)\)')
-GIST = re.compile(r'<h[234] id="(section-[a-z0-9-]+)"[^>]*>.*?</h[234]>\s*'
-                  r'<p class="xk-gist"><span class="xk-gist__tag">([^<]*)</span>'
-                  r'<span class="xk-gist__text">(.*?)</span></p>', re.DOTALL)
+GIST = re.compile(r'<h[1234] id="(section-[a-z0-9-]+)"[^>]*>.*?</h[1234]>\s*'
+                  r'<div class="xk-gist"><span class="xk-gist__tag">([^<]*)</span>'
+                  r'<span class="xk-gist__text">(.*?)</span>(<details class="xk-gist__codes">.*?</details>)?</div>', re.DOTALL)
+CODE_LINK = re.compile(r'<li><a href="([^"]+)"><b>([^<]+)</b>([^<]+)</a></li>')
+TABLE_NAME = re.compile(r'^\|\s*([A-Z][A-Za-z0-9]*(?:-[A-Z0-9]+)*)\s+([^|]{2,40}?)\s*\|', re.MULTILINE)
+
+
+def squeeze(text: str) -> str:
+    """Text without any spacing, for comparing a name with the heading it was cut from."""
+    return re.sub(r'\s+', '', text)
 
 
 def lessons(locale: str) -> dict:
@@ -77,10 +86,48 @@ class HandbookPrimerTests(unittest.TestCase):
                 expected = {href.split('#')[1]: all_lessons[key]['lead'].strip()
                             for key, href in sections.items()
                             if href.split('#')[0] == route and '#section-' in href and all_lessons.get(key, {}).get('lead')}
-                found = {anchor: (tag, html.unescape(text)) for anchor, tag, text in GIST.findall(page.read_text(encoding='utf-8'))}
+                found = {anchor: (tag, html.unescape(text)) for anchor, tag, text, _ in GIST.findall(page.read_text(encoding='utf-8'))}
                 self.assertGreater(len(expected), 10)
                 self.assertEqual({anchor: text for anchor, (tag, text) in found.items()}, expected)
                 self.assertEqual({tag for tag, _ in found.values()}, {paths['tag']})
+
+    def test_strips_name_the_codes_a_section_uses_from_the_books_own_headings(self):
+        for locale, paths in LOCALES.items():
+            with self.subTest(locale=locale):
+                content = WEBSITE / paths['content']
+                units = json.loads((content / 'reading-units.json').read_text(encoding='utf-8'))['units']
+                headings = {unit['section_id']: unit['title_exact'] for unit in units if unit.get('section_id')}
+                routes = {unit['website_source_route'] for unit in units if unit.get('website_source_route')}
+                rows = {(code, squeeze(name)) for code, name in TABLE_NAME.findall((ROOT / paths['source']).read_text(encoding='utf-8'))}
+                text = (BUILT / paths['built']).read_text(encoding='utf-8')
+                legends = {anchor: CODE_LINK.findall(codes) for anchor, _, _, codes in GIST.findall(text) if codes}
+                self.assertGreater(len(legends), 5)
+                page_route = ('/en/' if locale == 'en' else '/') + 'theory/part-03'
+                for anchor, links in legends.items():
+                    codes = [code for _, code, _ in links]
+                    self.assertEqual(len(codes), len(set(codes)), anchor)
+                    for href, code, name in links:
+                        name = html.unescape(name)
+                        # every name is the book's own: cut from the one heading that carries this code,
+                        # or written beside the code in the first cell of a table row
+                        owners = [title for title in headings.values() if code in title and squeeze(name) in squeeze(title.replace(code, ''))]
+                        self.assertTrue(len(owners) == 1 or (code, squeeze(name)) in rows, (anchor, code, name))
+                        target = page_route + href if href.startswith('#') else href.replace('/xi-kari-skill/handbook', '').replace('.html#', '#')
+                        self.assertIn(target, routes, (anchor, code, href))
+                # a section does not list the code its own heading defines
+                own = {anchor: [code for _, code, _ in links] for anchor, links in legends.items()}
+                self.assertNotIn('D0', own.get('section-3-1', []))
+                self.assertIn('D0', {code for codes in own.values() for code in codes})
+
+    def test_a_numbered_section_set_as_a_page_title_carries_the_strip_and_a_part_title_does_not(self):
+        for prefix in ('', 'en/'):
+            with self.subTest(prefix=prefix):
+                domain = (BUILT / prefix / 'theory/appendix-d/d-18.html').read_text(encoding='utf-8')
+                self.assertEqual([anchor for anchor, _, _, _ in GIST.findall(domain)], ['section-d-18'])
+                card = (BUILT / prefix / 'theory/appendix-a/a-05.html').read_text(encoding='utf-8')
+                self.assertEqual([anchor for anchor, _, _, _ in GIST.findall(card)], ['section-a-5'])
+                part = (BUILT / prefix / 'theory/part-03.html').read_text(encoding='utf-8')
+                self.assertNotRegex(part, r'<h1 id="part-title-3"[^>]*>.*?</h1>\s*<div class="xk-gist">')
 
     def test_strips_are_presentation_and_leave_the_generated_source_pages_alone(self):
         for folder in ('theory', 'en/theory'):

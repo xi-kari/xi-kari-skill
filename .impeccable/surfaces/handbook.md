@@ -29,4 +29,4 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
 
 ## Reading aids kept
 
-The primer page and its sign on the station band, the one-sentence strip under each numbered heading, search (Ctrl/⌘ K or /), section links, collapsible rack, outline scroll-spy, persistent reading settings (source only, text size, body face), copy link, figure zoom, three interactive teaching models, index drawer and outline sheet on narrow screens, print and night themes. Field reference for lessons: `website/LESSONS.md`.
+The primer page and its sign on the station band, the one-sentence strip under each numbered heading with the names of the codes that section uses, search (Ctrl/⌘ K or /), section links, collapsible rack, outline scroll-spy, persistent reading settings (source only, text size, body face), copy link, figure zoom, three interactive teaching models, index drawer and outline sheet on narrow screens, print and night themes. Field reference for lessons: `website/LESSONS.md`.
