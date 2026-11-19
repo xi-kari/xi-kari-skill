@@ -46,6 +46,6 @@ Get-FileHash -Path .\xi-kari-skill-*-windows.zip -Algorithm SHA256
 
 ## 阅读模式与前瞻记录
 
-默认完整阅读；在请求中明确指定 `layered` 可进行分层阅读实验。能力等效与合入阈值尚待评价，不能把实验入口当成结论。理论评估仍须全读。没有旧完整正序兼容路线。
+默认完整阅读；在请求中明确指定 `layered` 可进行分层阅读实验。日常问题想要一个快速判断，在请求中写“用十句话”：技能只按随包的十句话核对后作答，并在开头写明没有读原文。能力等效与合入阈值尚待评价，不能把实验入口当成结论。理论评估仍须全读。没有旧完整正序兼容路线。
 
 前瞻登记放在安装外的用户任务目录。先保存输入 JSON，再运行 `python scripts/forecast.py --registry <任务目录>/forecasts.json register --record <输入.json>`；到期以 `resolve --record <结果.json>` 追加。`report` 读取当前注册表，不自动调度到期任务，也不改写冻结记录。
