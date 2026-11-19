@@ -102,11 +102,11 @@ ANALOGY_LISTS = ('shared', 'differences', 'not_transferable', 'mapping')
 ANALOGY_LABELS = {
     'source_domain': '源域',
     'target_domain': '目标域',
-    'shared': '共享结构',
-    'differences': '关键差异',
-    'not_transferable': '不可迁移条件',
-    'mapping': '变量映射',
-    'test': '区分性检验',
+    'shared': '共有的结构',
+    'differences': '关键的差异',
+    'not_transferable': '不能迁移的条件',
+    'mapping': '变量之间的对应',
+    'test': '有区分力的检验',
 }
 BASE_KEYS = {'id', 'statement', 'kind', 'source', 'conditions', 'section'}
 CANDIDATE_KEYS = {

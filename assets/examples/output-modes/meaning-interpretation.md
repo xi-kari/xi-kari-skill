@@ -1,5 +1,5 @@
 ---
-{"id":"EXAMPLE-OUTPUT-MEANING-INTERPRETATION","theory_sha256":"6ef2e508474d4ac1ad07d7e4e068955342c405b5f680afcfc40d68cca3d0149c","anchors":["1.3","1.10","9.7","9.8","D.02","D.09","D.27"],"synthetic":true}
+{"id":"EXAMPLE-OUTPUT-MEANING-INTERPRETATION","theory_sha256":"2128af7cfa4c63b58207521a375aa34c2aea230d47e1c04a5afec3334e290d28","anchors":["1.3","1.10","9.7","9.8","D.02","D.09","D.27"],"synthetic":true}
 ---
 
 # 《钥匙》的细读

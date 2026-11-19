@@ -512,3 +512,27 @@ English renderings used by the reference edition in `source/en/`, in order of fi
 | 有限理性 | bounded rationality | locked | 学科标准义 |
 | 交往 | interaction | locked | 默认用法 |
 | 国家能力 | state capacity | locked | 政治学固定用法 |
+
+## Chinese wording of v2.1 and the English edition
+
+The English edition translates the v2 wording. v2.1 rewords some of the theory's own Chinese terms; the concepts are unchanged. When you quote or follow the English edition, use its rendering in the right-hand column.
+
+| v2.1 中文 | v2 中文 | English edition |
+| --- | --- | --- |
+| 结论规则（十二条） | 结果合同与机制条件（C1—C12） | outcome contracts and mechanism conditions (C1–C12) |
+| 依据；条件；可以得出；不能得出；还须满足 | 推理依赖；附加条件；允许结论；禁止跳跃；方法门 | Inferential dependencies; Additional conditions; Permitted conclusions; Prohibited leaps; Method checks |
+| 正式检验；一次分组增益检验等 | 根实例；G-instance | root instance; G-instance |
+| 人类经验假设的一次具体检验 | H-instance | H-instance |
+| 写定；事先定下；定格 | 冻结；冻结快照；事实冻结 | freeze; frozen snapshot; fact freeze |
+| 项 | 字段 | field |
+| 个案；一次检验 | 实例 | instance |
+| 十一个基本结构概念 | 原语（U01—U11） | universal primitives (U01–U11) |
+| 九种尺度变换 | 尺度变换算子（M01—M09） | scale transformation operators (M01–M09) |
+| 三组不可混装的类别 | 三组不可混装的强类型 | strong types |
+| 零结论判据 | 零结论门 | null-conclusion check |
+| 支持路线 | 路由 | support route |
+| 人类变量详表（附录 A） | 人类变量接口卡册 | Human Variable Interface Cards (Appendix A) |
+| 逐项授权；管辖与授权范围 | 原子授权、J 元组；J 轴 | atomic authorization tuples; J axis |
+| 零模型；同一性判据；尺度剖面 | N0；K；SP | null model (N0); identity criterion (K); scale profile (SP) |
+| 恢复原状；核查 | 回滚；审计 | rollback; audit |
+| 使用时；每次判断时 | 运行时 | at runtime |

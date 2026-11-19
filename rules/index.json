@@ -1,5 +1,5 @@
 {
-  "theory_sha256": "6ef2e508474d4ac1ad07d7e4e068955342c405b5f680afcfc40d68cca3d0149c",
+  "theory_sha256": "2128af7cfa4c63b58207521a375aa34c2aea230d47e1c04a5afec3334e290d28",
   "rules": [
     {
       "id": "CM-FEEDBACK",
@@ -10,7 +10,7 @@
         "6.2.1",
         "6.11"
       ],
-      "theory_sha256": "6ef2e508474d4ac1ad07d7e4e068955342c405b5f680afcfc40d68cca3d0149c",
+      "theory_sha256": "2128af7cfa4c63b58207521a375aa34c2aea230d47e1c04a5afec3334e290d28",
       "status": "draft",
       "applies_to": [
         "human_collective",
@@ -42,7 +42,7 @@
         "6.11",
         "2.14"
       ],
-      "theory_sha256": "6ef2e508474d4ac1ad07d7e4e068955342c405b5f680afcfc40d68cca3d0149c",
+      "theory_sha256": "2128af7cfa4c63b58207521a375aa34c2aea230d47e1c04a5afec3334e290d28",
       "status": "draft",
       "applies_to": [
         "human_collective",
@@ -75,7 +75,7 @@
         "6.11",
         "6.10.1"
       ],
-      "theory_sha256": "6ef2e508474d4ac1ad07d7e4e068955342c405b5f680afcfc40d68cca3d0149c",
+      "theory_sha256": "2128af7cfa4c63b58207521a375aa34c2aea230d47e1c04a5afec3334e290d28",
       "status": "draft",
       "applies_to": [
         "human_collective",
@@ -108,7 +108,7 @@
         "7.3.9",
         "6.10.1"
       ],
-      "theory_sha256": "6ef2e508474d4ac1ad07d7e4e068955342c405b5f680afcfc40d68cca3d0149c",
+      "theory_sha256": "2128af7cfa4c63b58207521a375aa34c2aea230d47e1c04a5afec3334e290d28",
       "status": "draft",
       "applies_to": [
         "human_collective",
@@ -140,7 +140,7 @@
         "6.11",
         "8.2.1"
       ],
-      "theory_sha256": "6ef2e508474d4ac1ad07d7e4e068955342c405b5f680afcfc40d68cca3d0149c",
+      "theory_sha256": "2128af7cfa4c63b58207521a375aa34c2aea230d47e1c04a5afec3334e290d28",
       "status": "draft",
       "applies_to": [
         "human_collective",
@@ -170,7 +170,7 @@
         "6.8",
         "6.11"
       ],
-      "theory_sha256": "6ef2e508474d4ac1ad07d7e4e068955342c405b5f680afcfc40d68cca3d0149c",
+      "theory_sha256": "2128af7cfa4c63b58207521a375aa34c2aea230d47e1c04a5afec3334e290d28",
       "status": "draft",
       "applies_to": [
         "human_collective",
@@ -201,7 +201,7 @@
         "8.2",
         "11.7"
       ],
-      "theory_sha256": "6ef2e508474d4ac1ad07d7e4e068955342c405b5f680afcfc40d68cca3d0149c",
+      "theory_sha256": "2128af7cfa4c63b58207521a375aa34c2aea230d47e1c04a5afec3334e290d28",
       "status": "draft",
       "applies_to": [
         "human_collective"
@@ -225,7 +225,7 @@
         "8.2",
         "11.7"
       ],
-      "theory_sha256": "6ef2e508474d4ac1ad07d7e4e068955342c405b5f680afcfc40d68cca3d0149c",
+      "theory_sha256": "2128af7cfa4c63b58207521a375aa34c2aea230d47e1c04a5afec3334e290d28",
       "status": "draft",
       "applies_to": [
         "human_collective"
@@ -249,7 +249,7 @@
         "8.2",
         "11.7"
       ],
-      "theory_sha256": "6ef2e508474d4ac1ad07d7e4e068955342c405b5f680afcfc40d68cca3d0149c",
+      "theory_sha256": "2128af7cfa4c63b58207521a375aa34c2aea230d47e1c04a5afec3334e290d28",
       "status": "draft",
       "applies_to": [
         "human_collective"
@@ -274,7 +274,7 @@
         "8.2",
         "11.7"
       ],
-      "theory_sha256": "6ef2e508474d4ac1ad07d7e4e068955342c405b5f680afcfc40d68cca3d0149c",
+      "theory_sha256": "2128af7cfa4c63b58207521a375aa34c2aea230d47e1c04a5afec3334e290d28",
       "status": "draft",
       "applies_to": [
         "human_collective"
@@ -293,13 +293,13 @@
     {
       "id": "PATH-split",
       "type": "path",
-      "title": "对象分裂与新合同",
+      "title": "对象分裂与新界定",
       "anchors": [
         "8.4",
         "8.2",
         "11.7"
       ],
-      "theory_sha256": "6ef2e508474d4ac1ad07d7e4e068955342c405b5f680afcfc40d68cca3d0149c",
+      "theory_sha256": "2128af7cfa4c63b58207521a375aa34c2aea230d47e1c04a5afec3334e290d28",
       "status": "draft",
       "applies_to": [
         "human_collective"
@@ -324,7 +324,7 @@
         "8.2",
         "11.7"
       ],
-      "theory_sha256": "6ef2e508474d4ac1ad07d7e4e068955342c405b5f680afcfc40d68cca3d0149c",
+      "theory_sha256": "2128af7cfa4c63b58207521a375aa34c2aea230d47e1c04a5afec3334e290d28",
       "status": "draft",
       "applies_to": [
         "human_collective"
@@ -349,7 +349,7 @@
         "8.2",
         "11.7"
       ],
-      "theory_sha256": "6ef2e508474d4ac1ad07d7e4e068955342c405b5f680afcfc40d68cca3d0149c",
+      "theory_sha256": "2128af7cfa4c63b58207521a375aa34c2aea230d47e1c04a5afec3334e290d28",
       "status": "draft",
       "applies_to": [
         "human_collective"
@@ -374,7 +374,7 @@
         "8.2",
         "11.7"
       ],
-      "theory_sha256": "6ef2e508474d4ac1ad07d7e4e068955342c405b5f680afcfc40d68cca3d0149c",
+      "theory_sha256": "2128af7cfa4c63b58207521a375aa34c2aea230d47e1c04a5afec3334e290d28",
       "status": "draft",
       "applies_to": [
         "human_collective"
@@ -399,7 +399,7 @@
         "8.2",
         "11.7"
       ],
-      "theory_sha256": "6ef2e508474d4ac1ad07d7e4e068955342c405b5f680afcfc40d68cca3d0149c",
+      "theory_sha256": "2128af7cfa4c63b58207521a375aa34c2aea230d47e1c04a5afec3334e290d28",
       "status": "draft",
       "applies_to": [
         "human_collective"
@@ -418,13 +418,13 @@
     {
       "id": "PATH-paradigm_replacement",
       "type": "path",
-      "title": "不同合同绕过旧对象",
+      "title": "不同界定绕过旧对象",
       "anchors": [
         "8.4",
         "8.2",
         "11.7"
       ],
-      "theory_sha256": "6ef2e508474d4ac1ad07d7e4e068955342c405b5f680afcfc40d68cca3d0149c",
+      "theory_sha256": "2128af7cfa4c63b58207521a375aa34c2aea230d47e1c04a5afec3334e290d28",
       "status": "draft",
       "applies_to": [
         "human_collective"
@@ -449,7 +449,7 @@
         "8.2",
         "11.7"
       ],
-      "theory_sha256": "6ef2e508474d4ac1ad07d7e4e068955342c405b5f680afcfc40d68cca3d0149c",
+      "theory_sha256": "2128af7cfa4c63b58207521a375aa34c2aea230d47e1c04a5afec3334e290d28",
       "status": "draft",
       "applies_to": [
         "human_collective"
@@ -475,7 +475,7 @@
         "8.2",
         "11.7"
       ],
-      "theory_sha256": "6ef2e508474d4ac1ad07d7e4e068955342c405b5f680afcfc40d68cca3d0149c",
+      "theory_sha256": "2128af7cfa4c63b58207521a375aa34c2aea230d47e1c04a5afec3334e290d28",
       "status": "draft",
       "applies_to": [
         "human_collective"
@@ -504,7 +504,7 @@
         "14.4.1",
         "14.5"
       ],
-      "theory_sha256": "6ef2e508474d4ac1ad07d7e4e068955342c405b5f680afcfc40d68cca3d0149c",
+      "theory_sha256": "2128af7cfa4c63b58207521a375aa34c2aea230d47e1c04a5afec3334e290d28",
       "status": "draft",
       "applies_to": [
         "human_collective"
@@ -530,7 +530,7 @@
         "8.2",
         "11.7"
       ],
-      "theory_sha256": "6ef2e508474d4ac1ad07d7e4e068955342c405b5f680afcfc40d68cca3d0149c",
+      "theory_sha256": "2128af7cfa4c63b58207521a375aa34c2aea230d47e1c04a5afec3334e290d28",
       "status": "draft",
       "applies_to": [
         "human_collective"
@@ -550,19 +550,19 @@
     {
       "id": "PATH-collapse",
       "type": "path",
-      "title": "原合同的非计划断裂",
+      "title": "原界定的非计划断裂",
       "anchors": [
         "8.4",
         "8.2",
         "11.7"
       ],
-      "theory_sha256": "6ef2e508474d4ac1ad07d7e4e068955342c405b5f680afcfc40d68cca3d0149c",
+      "theory_sha256": "2128af7cfa4c63b58207521a375aa34c2aea230d47e1c04a5afec3334e290d28",
       "status": "draft",
       "applies_to": [
         "human_collective"
       ],
       "triggers": [
-        "K失效",
+        "同一性判据失效",
         "承接断裂",
         "边界崩解"
       ],
@@ -585,7 +585,7 @@
         "8.3.1",
         "8.4"
       ],
-      "theory_sha256": "6ef2e508474d4ac1ad07d7e4e068955342c405b5f680afcfc40d68cca3d0149c",
+      "theory_sha256": "2128af7cfa4c63b58207521a375aa34c2aea230d47e1c04a5afec3334e290d28",
       "status": "draft",
       "applies_to": [
         "human_collective"
@@ -613,7 +613,7 @@
         "8.4",
         "7.6.1"
       ],
-      "theory_sha256": "6ef2e508474d4ac1ad07d7e4e068955342c405b5f680afcfc40d68cca3d0149c",
+      "theory_sha256": "2128af7cfa4c63b58207521a375aa34c2aea230d47e1c04a5afec3334e290d28",
       "status": "draft",
       "applies_to": [
         "human_collective"
@@ -641,7 +641,7 @@
         "8.3.3",
         "8.4"
       ],
-      "theory_sha256": "6ef2e508474d4ac1ad07d7e4e068955342c405b5f680afcfc40d68cca3d0149c",
+      "theory_sha256": "2128af7cfa4c63b58207521a375aa34c2aea230d47e1c04a5afec3334e290d28",
       "status": "draft",
       "applies_to": [
         "human_collective"
@@ -669,7 +669,7 @@
         "8.3.4",
         "8.4"
       ],
-      "theory_sha256": "6ef2e508474d4ac1ad07d7e4e068955342c405b5f680afcfc40d68cca3d0149c",
+      "theory_sha256": "2128af7cfa4c63b58207521a375aa34c2aea230d47e1c04a5afec3334e290d28",
       "status": "draft",
       "applies_to": [
         "human_collective"
@@ -697,7 +697,7 @@
         "8.3.5",
         "8.4"
       ],
-      "theory_sha256": "6ef2e508474d4ac1ad07d7e4e068955342c405b5f680afcfc40d68cca3d0149c",
+      "theory_sha256": "2128af7cfa4c63b58207521a375aa34c2aea230d47e1c04a5afec3334e290d28",
       "status": "draft",
       "applies_to": [
         "human_collective"
@@ -726,7 +726,7 @@
         "8.3.6",
         "8.4"
       ],
-      "theory_sha256": "6ef2e508474d4ac1ad07d7e4e068955342c405b5f680afcfc40d68cca3d0149c",
+      "theory_sha256": "2128af7cfa4c63b58207521a375aa34c2aea230d47e1c04a5afec3334e290d28",
       "status": "draft",
       "applies_to": [
         "human_collective"
@@ -754,7 +754,7 @@
         "8.3.7",
         "8.4"
       ],
-      "theory_sha256": "6ef2e508474d4ac1ad07d7e4e068955342c405b5f680afcfc40d68cca3d0149c",
+      "theory_sha256": "2128af7cfa4c63b58207521a375aa34c2aea230d47e1c04a5afec3334e290d28",
       "status": "draft",
       "applies_to": [
         "human_collective"
@@ -781,7 +781,7 @@
         "8.5.1",
         "8.5.2"
       ],
-      "theory_sha256": "6ef2e508474d4ac1ad07d7e4e068955342c405b5f680afcfc40d68cca3d0149c",
+      "theory_sha256": "2128af7cfa4c63b58207521a375aa34c2aea230d47e1c04a5afec3334e290d28",
       "status": "draft",
       "applies_to": [
         "human_collective"
@@ -807,7 +807,7 @@
         "11.6",
         "6.13"
       ],
-      "theory_sha256": "6ef2e508474d4ac1ad07d7e4e068955342c405b5f680afcfc40d68cca3d0149c",
+      "theory_sha256": "2128af7cfa4c63b58207521a375aa34c2aea230d47e1c04a5afec3334e290d28",
       "status": "draft",
       "applies_to": [
         "human_collective",
@@ -834,7 +834,7 @@
         "11.6",
         "6.13"
       ],
-      "theory_sha256": "6ef2e508474d4ac1ad07d7e4e068955342c405b5f680afcfc40d68cca3d0149c",
+      "theory_sha256": "2128af7cfa4c63b58207521a375aa34c2aea230d47e1c04a5afec3334e290d28",
       "status": "draft",
       "applies_to": [
         "human_collective",
@@ -862,7 +862,7 @@
         "11.6",
         "6.13"
       ],
-      "theory_sha256": "6ef2e508474d4ac1ad07d7e4e068955342c405b5f680afcfc40d68cca3d0149c",
+      "theory_sha256": "2128af7cfa4c63b58207521a375aa34c2aea230d47e1c04a5afec3334e290d28",
       "status": "draft",
       "applies_to": [
         "human_collective",
@@ -890,7 +890,7 @@
         "11.6",
         "6.13"
       ],
-      "theory_sha256": "6ef2e508474d4ac1ad07d7e4e068955342c405b5f680afcfc40d68cca3d0149c",
+      "theory_sha256": "2128af7cfa4c63b58207521a375aa34c2aea230d47e1c04a5afec3334e290d28",
       "status": "draft",
       "applies_to": [
         "human_collective",
@@ -918,7 +918,7 @@
         "11.6",
         "6.13"
       ],
-      "theory_sha256": "6ef2e508474d4ac1ad07d7e4e068955342c405b5f680afcfc40d68cca3d0149c",
+      "theory_sha256": "2128af7cfa4c63b58207521a375aa34c2aea230d47e1c04a5afec3334e290d28",
       "status": "draft",
       "applies_to": [
         "human_collective",
@@ -946,7 +946,7 @@
         "6.5",
         "4.4"
       ],
-      "theory_sha256": "6ef2e508474d4ac1ad07d7e4e068955342c405b5f680afcfc40d68cca3d0149c",
+      "theory_sha256": "2128af7cfa4c63b58207521a375aa34c2aea230d47e1c04a5afec3334e290d28",
       "status": "draft",
       "applies_to": [
         "technical_system",
@@ -975,7 +975,7 @@
         "12.6",
         "12.10.2"
       ],
-      "theory_sha256": "6ef2e508474d4ac1ad07d7e4e068955342c405b5f680afcfc40d68cca3d0149c",
+      "theory_sha256": "2128af7cfa4c63b58207521a375aa34c2aea230d47e1c04a5afec3334e290d28",
       "status": "draft",
       "applies_to": [
         "human_collective",
@@ -1006,7 +1006,7 @@
         "11.6",
         "11.7"
       ],
-      "theory_sha256": "6ef2e508474d4ac1ad07d7e4e068955342c405b5f680afcfc40d68cca3d0149c",
+      "theory_sha256": "2128af7cfa4c63b58207521a375aa34c2aea230d47e1c04a5afec3334e290d28",
       "status": "draft",
       "applies_to": [
         "human_collective",
@@ -1037,7 +1037,7 @@
         "12.6",
         "7.6.1"
       ],
-      "theory_sha256": "6ef2e508474d4ac1ad07d7e4e068955342c405b5f680afcfc40d68cca3d0149c",
+      "theory_sha256": "2128af7cfa4c63b58207521a375aa34c2aea230d47e1c04a5afec3334e290d28",
       "status": "draft",
       "applies_to": [
         "human_collective"
@@ -1064,7 +1064,7 @@
         "12.6",
         "12.7"
       ],
-      "theory_sha256": "6ef2e508474d4ac1ad07d7e4e068955342c405b5f680afcfc40d68cca3d0149c",
+      "theory_sha256": "2128af7cfa4c63b58207521a375aa34c2aea230d47e1c04a5afec3334e290d28",
       "status": "draft",
       "applies_to": [
         "human_collective",
@@ -1098,7 +1098,7 @@
         "6.14",
         "8.6"
       ],
-      "theory_sha256": "6ef2e508474d4ac1ad07d7e4e068955342c405b5f680afcfc40d68cca3d0149c",
+      "theory_sha256": "2128af7cfa4c63b58207521a375aa34c2aea230d47e1c04a5afec3334e290d28",
       "status": "draft",
       "applies_to": [
         "human_collective",
@@ -1131,7 +1131,7 @@
         "6.10",
         "2.4.1"
       ],
-      "theory_sha256": "6ef2e508474d4ac1ad07d7e4e068955342c405b5f680afcfc40d68cca3d0149c",
+      "theory_sha256": "2128af7cfa4c63b58207521a375aa34c2aea230d47e1c04a5afec3334e290d28",
       "status": "draft",
       "applies_to": [
         "human_collective",

@@ -41,7 +41,9 @@ class EnglishEditionTests(unittest.TestCase):
         result = edition.check()
         self.assertTrue(result['ok'], result['problems'])
         zh = json.loads((ROOT / 'source/source-manifest.json').read_text(encoding='utf-8'))
-        self.assertEqual(self.manifest['translates']['sha256'], zh['sha256'])
+        self.assertIn(result['relation'], ('current', 'wording-predecessor'))
+        expected = zh['sha256'] if result['relation'] == 'current' else zh['wording_revision_of']['sha256']
+        self.assertEqual(self.manifest['translates']['sha256'], expected)
         self.assertEqual((result['sections'], result['parts']), (397, 21))
         self.assertEqual(result['blocks'], self.manifest['alignment']['blocks'])
 

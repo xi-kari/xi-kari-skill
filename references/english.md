@@ -11,6 +11,7 @@ Read this when the user writes in English, asks for English output, or quotes th
 
 - `source/Xikari-条件结构与转化论.md` is the theory source and the only authority. Its definitions, conditions, exclusions, quantifiers, permissions and prohibitions govern.
 - `source/en/Xikari-On-Conditions-Structure-and-Transformation.md` is the reading edition of the user-supplied English translation of Chinese v2. Its original is preserved byte for byte in `source/en/upstream/xikari-conditions-en.md`. Both share every section ID (`1.1`, `4.17`, `C.12`, …) and part anchor with the Chinese source, so a § reference names the same passage in both. Verify the edition binding and reproducible format adaptations in `source/en/source-manifest.json`; structural alignment and matching hashes do not certify translation accuracy or author approval.
+- The current Chinese source is v2.1, a rewording of v2 that keeps every section, part anchor, research anchor and point of content. v2.1 writes the body in plain Chinese: the codes and record-format terms that the English edition still uses (`G3`, `HV05`, `CM-LOAD`, `snake_case` field names) appear in the Chinese only in the titles of the defining sections and in Appendix B. To find the Chinese name for a code, use Appendix B or the name–code table in [theory-core.md](theory-core.md). Paragraphs no longer correspond one to one, so align the two editions by section.
 - Use the English edition for English terminology, for quotations in English answers, and for readers who want to read the theory in English. It gains no authority of its own. Where it appears to differ from the Chinese on a definition, condition, quantifier, permission or prohibition, follow the Chinese, translate that passage directly, and tell the reader when the difference matters.
 - The reading edition omits parenthetical Chinese glosses from the prose and removes stale “(in Chinese)” labels from local links. It preserves the supplied definitional tuples (`A*`, `C*`, `MC*`, `M(SP0→SP1)`) and their English explanations in the translator's notes. Those notes retain their original `[^tn-…]` identifiers and wording; they are not the author's text and are never quoted as such. Copyright and license text is retained in full; it is not part of the Chinese–English body alignment.
 
@@ -26,7 +27,7 @@ python "$skillRoot/scripts/read_source.py" --lang en --section 12.2
 python "$skillRoot/scripts/read_source.py" --lang en --search "action ceiling"
 ```
 
-`--parallel` prints the Chinese and then the English text of the same sections. `--lang en` works with `--section`, `--part`, `--front`, `--chunk`, `--chunks`, `--list` and `--search`. `--check` verifies both editions and reports whether the English edition still translates the current Chinese source.
+`--parallel` prints the Chinese and then the English text of the same sections. `--lang en` works with `--section`, `--part`, `--front`, `--chunk`, `--chunks`, `--list` and `--search`. `--check` verifies both editions and reports whether the English edition translates the current Chinese wording or the earlier wording that the current text revises.
 
 ## Terminology
 
@@ -58,7 +59,7 @@ Modal force follows the Chinese: 须／必须 *must*; 应 *should*; 不得 *must
 
 Preserve the scope of the normative distinctions as well. In §14.4.1, proportionality concerns identifying indirect and more distant positions, not reduced protection for identified positions or permission to omit directly affected and known low-power positions. In §14.8, maintaining protection does not guarantee unchanged outcomes. In §14.9.1, a justified analytical recommendation when every option involves loss does not confer `authorized` status or waive non-waivable requirements. Do not turn a restriction on adoption into a ban on giving the analysis.
 
-Identifiers stay as written: G1–G4, E1–E5, C1–C12, F1–F6, H1–H6, HV01–HV11, U01–U11, M01–M09, CM-…, D0, K\*, N0, J, O1–O4, § numbers and `snake_case` field names.
+When you quote or translate the English edition, its identifiers stay as written: G1–G4, E1–E5, C1–C12, F1–F6, H1–H6, HV01–HV11, U01–U11, M01–M09, CM-…, D0, K\*, N0, J, O1–O4, § numbers and `snake_case` field names. In your own prose, name the concept, as the Chinese source now does; add the identifier only where the reader needs it to find the passage in the English edition.
 
 ## The skill's own vocabulary
 
@@ -109,7 +110,7 @@ Identifiers stay as written: G1–G4, E1–E5, C1–C12, F1–F6, H1–H6, HV01�
 | 领域映射与方法适配；领域卡；领域库 | domain mapping and method adaptation; domain card; domain library |
 | 本题对照表 | table of usages for this task |
 | 定义对应；角色或对象实例化；部分对应；观察接口；类比候选；不对应；不适用；未知 | definition correspondence; role or object instantiation; partial correspondence; observation interface; analogy candidate; no correspondence; not applicable; unknown |
-| 语义对应；事实与机制证据；正式实例资格 | semantic correspondence; factual and mechanism evidence; formal-instance eligibility |
+| 语义对应；事实与机制证据；正式检验的资格 | semantic correspondence; factual and mechanism evidence; eligibility for a formal test (a root instance in the English edition) |
 | 目标侧独立复核；待检验转义 | independent review on the target side; recasting awaiting test |
 | 成果模式 | output modes |
 | 跨理论对话与争论重建；机制史与过程重建；制度与生活安排设计 | dialogue across theories and reconstruction of debates; mechanism history and process reconstruction; designing institutions and living arrangements |

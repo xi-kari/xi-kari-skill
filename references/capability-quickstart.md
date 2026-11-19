@@ -1,5 +1,5 @@
 ---
-{"id":"capability-quickstart","theory_sha256":"6ef2e508474d4ac1ad07d7e4e068955342c405b5f680afcfc40d68cca3d0149c","anchors":["1.3","1.10","2.14","3.4.1","4.18","4.19","5.10.2","13.1"]}
+{"id":"capability-quickstart","theory_sha256":"2128af7cfa4c63b58207521a375aa34c2aea230d47e1c04a5afec3334e290d28","anchors":["1.3","1.10","2.14","3.4.1","4.18","4.19","5.10.2","13.1"]}
 ---
 
 # 研究与领域工作的调用方式
