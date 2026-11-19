@@ -73,9 +73,9 @@ concepts: [recovery-scope, repair-criteria]
 ## 对照概念与原文
 
 - [支持与恢复：依靠支持恢复的功能，算不算真的恢复](/concepts/recovery)
-- [§3.2 D1 基本状态词](/theory/part-03#section-3-2)
-- [§4.5 历史形成、当前载体与G3条件增量](/theory/part-04#section-4-5)
-- [§6.6 CM-LOAD 负荷、容量与恢复](/theory/part-06#section-6-6)
+- [§3.2 基本状态词（D1）](/theory/part-03#section-3-2)
+- [§4.5 历史形成、当前载体与历史增量（G3）](/theory/part-04#section-4-5)
+- [§6.6 负荷、容量与恢复（CM-LOAD）](/theory/part-06#section-6-6)
 - [§6.10 解体、对象转换与修复边界](/theory/part-06#section-6-10)
 - [附录D.31 风险、灾害、公共卫生、指挥与恢复](/theory/appendix-d/d-31#section-d-31)
 

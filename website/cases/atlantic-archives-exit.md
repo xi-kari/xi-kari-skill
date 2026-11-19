@@ -41,8 +41,8 @@ concepts: [orderly-exit, carrier-and-responsibility]
 ## 对照概念与原文
 
 - [实际承接与责任依据](/concepts/responsibility)
-- [§8.5 X0 有序退场与良性消亡](/theory/part-08#section-8-5)
-- [§8.5.2 X0 完成条件](/theory/part-08#section-8-5-2)
+- [§8.5 有序退场与良性消亡（X0）](/theory/part-08#section-8-5)
+- [§8.5.2 有序退场的完成条件](/theory/part-08#section-8-5-2)
 
 ## 资料来源
 

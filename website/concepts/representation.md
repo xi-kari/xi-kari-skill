@@ -39,7 +39,7 @@ description: "数据是否足够，取决于你到底要回答什么问题。"
 > 总量表示可以准确回答总量；增加一个与任务相关的变量，可以修复一部分不足
 
 - [附录C.9 双队列的任务差异](/theory/appendix-c#section-c-9)
-- [附录C.6 F1任务恢复与最坏误差](/theory/appendix-c#section-c-6)
+- [附录C.6 任务恢复与最坏误差（F1）](/theory/appendix-c#section-c-6)
 
 ## 这处区别能说明到哪里
 

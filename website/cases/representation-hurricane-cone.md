@@ -63,10 +63,10 @@ NHC没有让预报锥去回答潮水问题，而是另发风暴潮监视、警�
 ## 对照概念与原文
 
 - [平均数准确，为什么仍看不见局部过载](/concepts/representation)
-- [原文§3.4：D3 尺度变换](/theory/part-03#section-3-4)
-- [原文§4.18.1：F1 任务恢复](/theory/part-04#section-4-18-1)
+- [原文§3.4：尺度变换（D3）](/theory/part-03#section-3-4)
+- [原文§4.18.1：任务恢复（F1）](/theory/part-04#section-4-18-1)
 - [原文§4.19：任务族与动态精化](/theory/part-04#section-4-19)
-- [原文§14.6：J 轴、O1—O4 与有限授权](/theory/part-14#section-14-6)
+- [原文§14.6：授权范围、四步操作程序与有限授权（J 轴、O1—O4）](/theory/part-14#section-14-6)
 
 ## 来源
 

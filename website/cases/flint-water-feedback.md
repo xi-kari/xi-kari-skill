@@ -83,7 +83,7 @@ concepts: [effective-feedback, carried-learning]
 - [原文§6.2：有效反馈机制](/theory/part-06#section-6-2)
 - [原文§6.3：反馈介导学习](/theory/part-06#section-6-3)
 - [原文§6.4：反馈、制度写回与学习的虚拟申诉例](/theory/part-06#section-6-4)
-- [原文§2.1.1：领域证据与正式实例资格](/theory/part-02#section-2-1-1)
+- [原文§2.1.1：领域证据与正式检验的资格](/theory/part-02#section-2-1-1)
 
 ## 来源
 

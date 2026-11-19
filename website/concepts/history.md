@@ -42,8 +42,8 @@ v2将目标改变接到[§2.14问题重开](../theory/part-02#section-2-14)。�
 
 > 一次参数变化、一次成功、一次写回或材料归档，都不足以证明这一学习机制
 
-- [§4.5 历史形成、当前载体与G3条件增量](/theory/part-04#section-4-5)
-- [§6.3 CM-LEARNING 反馈介导学习](/theory/part-06#section-6-3)
+- [§4.5 历史形成、当前载体与历史增量（G3）](/theory/part-04#section-4-5)
+- [§6.3 反馈介导学习（CM-LEARNING）](/theory/part-06#section-6-3)
 - [§6.4 虚拟申诉例](/theory/part-06#section-6-4)
 
 ## 这处区别能说明到哪里
