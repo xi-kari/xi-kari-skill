@@ -32,6 +32,23 @@
 
 中英文都可以使用：用英文提问，成果就以英文写成。理论权威仍是中文原文；安装包另附作者提供、与原文逐节对齐的英文参考译本和中英术语表，用于英文术语与引文（见[英文工作](references/english.md)）。技能与[双语阅读站](https://xi-kari.github.io/xi-kari-skill/handbook/)均以 v2 为正文基准；[英文站](https://xi-kari.github.io/xi-kari-skill/handbook/en/)可以连续阅读全书。
 
+## 这套理论在防什么
+
+理论很长，核心可以用十句白话说完。它们防的是同一类毛病：手里的依据只够说到这里，嘴上却说到了那里。
+
+1. 先说清在谈什么：对象、问题、时间段、手头的材料。
+2. 同一个词、同一个数，先核对是不是同一回事。
+3. 一步成立，不等于下一步也成立：能解释不等于能预判，能预判不等于应该做，应该做不等于有权做。
+4. 两段各自成立，不等于能连起来。
+5. 概括的说法够不够用，看你问的是什么。
+6. 历史重要，但先看它是不是已经写进了现状。
+7. 有回音不等于有反馈，有反馈不等于学会了，学会了不等于修好了。
+8. 没看见不等于没有。
+9. 预判要先写下来，再看结果，还要比得过最笨的猜法。
+10. 事实推不出“应该”；依据够下结论的地方，就明确下结论。
+
+每句的例子和对应的原文小节见[十句话入门](https://xi-kari.github.io/xi-kari-skill/handbook/primer/)。技能做的事，是让智能体带着完整的原文，把这些区分落到你的具体问题上。
+
 ## 从这里开始
 
 | 你想做的事 | 从这里进入 |
@@ -39,7 +56,7 @@
 | 装好，问出第一个问题 | [快速开始](#快速开始) · [安装指南](docs/INSTALL.md) |
 | 看它怎样处理不同类型的问题 | [按问题组织模块](#按问题组织模块) · [项目主页](https://xi-kari.github.io/xi-kari-skill/) |
 | 做一项完整研究，或把理论接到具体领域 | [研究与领域工作](#研究与领域工作) · [调用方式](references/capability-quickstart.md) |
-| 先读懂理论本身 | [原文精读站](https://xi-kari.github.io/xi-kari-skill/handbook/) · [概念例解](https://xi-kari.github.io/xi-kari-skill/handbook/concepts/) · [真实案例](https://xi-kari.github.io/xi-kari-skill/handbook/cases/) |
+| 先读懂理论本身 | [十句话入门](https://xi-kari.github.io/xi-kari-skill/handbook/primer/) · [原文精读站](https://xi-kari.github.io/xi-kari-skill/handbook/) · [概念例解](https://xi-kari.github.io/xi-kari-skill/handbook/concepts/) · [真实案例](https://xi-kari.github.io/xi-kari-skill/handbook/cases/) |
 | 知道它交付什么、带哪些工具 | [交付什么](#交付什么) · [随包工具](#随包工具) |
 | 弄清它不声称什么、不做什么 | [条件前瞻与能力边界](#条件前瞻与能力边界) · [边界](#边界) |
 | 用英文工作或读书 | [English README](README.en.md) · [英文阅读站](https://xi-kari.github.io/xi-kari-skill/handbook/en/) · [英文工作](references/english.md) |
@@ -228,7 +245,7 @@ python "$skillRoot/scripts/domain_cards.py" --library "$taskRoot/领域卡" list
 <p><a href="https://xi-kari.github.io/xi-kari-skill/handbook/">
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset=".github/readme/handbook-dark.png">
-    <img alt="原文精读站首页：《Xikari-条件结构与转化论》，Xikari 著。沿原文顺序读，每一节之后接着看讲解、图示和有出处的案例。全书画成一枚罗盘：中圈是第 1—16 部分，内圈是附录 A—D，外沿是附录 D 的 32 个领域。" src=".github/readme/handbook-light.png" width="100%">
+    <img alt="原文精读站首页：《Xikari-条件结构与转化论》，Xikari 著。先用十句白话进门，再沿原文顺序读：每一节标题下有一句话说它在讲什么，原文之后接着是讲解、图示和有出处的案例。全书画成一枚罗盘：中圈是第 1—16 部分，内圈是附录 A—D，外沿是附录 D 的 32 个领域。" src=".github/readme/handbook-light.png" width="100%">
   </picture>
 </a></p>
 

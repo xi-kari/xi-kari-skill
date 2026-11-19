@@ -32,6 +32,23 @@ For a full investigation or work in a particular field, see [Research and domain
 
 The skill works in English and Chinese. Ask in English and the whole answer is in English. The theory's authoritative text is Chinese; the package also carries the author's aligned English reference edition and a Chinese–English glossary, used for English terminology and quotations (see [Working in English](references/english.md)). Both the skill and the [bilingual reading site](https://xi-kari.github.io/xi-kari-skill/handbook/en/) use v2, with the full text available in English.
 
+## What the theory guards against
+
+The theory is long. Its core fits in ten plain sentences, all aimed at one kind of mistake: your grounds carry you this far, and your words go further.
+
+1. Say first what you are talking about: the object, the question, the period, the material in hand.
+2. Same word, same number: check that they mean the same thing.
+3. One step holding does not make the next step hold. Explaining is not forecasting, forecasting is not deciding what should be done, and that is not being entitled to do it.
+4. Two links that each hold may still not connect.
+5. Whether a summary is enough depends on what you are asking.
+6. History matters, but first check whether it is already written into the present.
+7. A reply is not feedback, feedback is not learning, and learning is not repair.
+8. Not seen is not the same as not there.
+9. Write a forecast down first, then look at the outcome; it also has to beat the dullest guess.
+10. Facts alone do not yield “ought”; where the grounds are enough, state the conclusion plainly.
+
+[Ten sentences to start with](https://xi-kari.github.io/xi-kari-skill/handbook/en/primer/) gives an example for each and the sections of the source it summarizes. The skill's job is to have an agent apply these distinctions to your actual question with the complete text in hand.
+
 ## Start here
 
 | You want to | Go to |
@@ -39,7 +56,7 @@ The skill works in English and Chinese. Ask in English and the whole answer is i
 | Install it and ask a first question | [Quick start](#quick-start) · [Installation guide](docs/INSTALL.md) (in Chinese) |
 | See how it handles different kinds of question | [Modules organized by question](#modules-organized-by-question) · [Project page](https://xi-kari.github.io/xi-kari-skill/) (in Chinese) |
 | Carry out a full investigation, or bring the theory into a particular field | [Research and domain work](#research-and-domain-work) · [How to ask](references/capability-quickstart.md) (in Chinese) |
-| Read the theory itself | [English reading site](https://xi-kari.github.io/xi-kari-skill/handbook/en/) · [Reference manuscript](source/en/Xikari-On-Conditions-Structure-and-Transformation.md) · [Chinese site](https://xi-kari.github.io/xi-kari-skill/handbook/) |
+| Read the theory itself | [Ten sentences](https://xi-kari.github.io/xi-kari-skill/handbook/en/primer/) · [English reading site](https://xi-kari.github.io/xi-kari-skill/handbook/en/) · [Reference manuscript](source/en/Xikari-On-Conditions-Structure-and-Transformation.md) · [Chinese site](https://xi-kari.github.io/xi-kari-skill/handbook/) |
 | Know what it delivers and which tools come with it | [What you get](#what-you-get) · [Bundled tools](#bundled-tools) |
 | Know what it does not claim and does not do | [Conditional foresight and its limits](#conditional-foresight-and-its-limits) · [Boundaries](#boundaries) |
 | Work in English | [Working in English](references/english.md) · [Glossary](references/glossary-en.md) |
