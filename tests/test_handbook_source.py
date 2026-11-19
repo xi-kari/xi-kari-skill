@@ -18,6 +18,7 @@ from unittest import mock
 
 ROOT = Path(__file__).resolve().parents[1]
 WEBSITE = ROOT / "website"
+BUILT = ROOT / "docs" / "handbook"
 REWORDED_SHA256 = "5747a277dbf5a5cfb1583c0a172c3361710f4efee17d707ceb6151ce8cbaba3e"
 V2_SHA256 = "6ef2e508474d4ac1ad07d7e4e068955342c405b5f680afcfc40d68cca3d0149c"
 SPEC = importlib.util.spec_from_file_location("handbook_source", WEBSITE / "scripts/build_theory.py")
@@ -516,6 +517,63 @@ class BilingualHandbookTests(unittest.TestCase):
             self.assertEqual(manifests["en"]["pages"], self.manifest["pages"])
             self.assertEqual(manifests["en"]["annotation_sections"], [])
             self.assertEqual((root / "public/downloads" / builder.EN_FILE).read_bytes(), self.raw)
+
+
+LESSON_START = re.compile(r'<section id="lesson-[^"]+" class="xk-lesson[^"]*" data-section="([^"]+)"')
+EDITION_NOTICE = re.compile(r'<p class="xk-lesson__edition">(.*?)</p>', re.S)
+V2_NOTICE = ("本讲按 v2 原文（2026年11月16日）写成。原文后来只改写了表述，小节编号和结构没有变；"
+             "讲解里的行号、短引文和代号指的是 v2 原文，可在下载页取得。")
+
+
+def lesson_blocks(page):
+    """Each lesson of a built page, keyed by its reading unit."""
+    text = page.read_text(encoding="utf-8")
+    starts = [(match.start(), match.group(1)) for match in LESSON_START.finditer(text)]
+    ends = [start for start, _ in starts[1:]] + [len(text)]
+    return {key: text[start:end] for (start, key), end in zip(starts, ends)}
+
+
+class LessonEditionNoticeTests(unittest.TestCase):
+    PAGES = ["theory/index.html", "theory/part-03.html", "theory/appendix-a/a-05.html", "theory/references.html"]
+
+    def test_chinese_lessons_written_against_another_text_say_so_first(self):
+        identity = json.loads((WEBSITE / "content/reading-units.json").read_text(encoding="utf-8"))["source_sha256"]
+        lessons = json.loads((WEBSITE / "content/section-lessons.json").read_text(encoding="utf-8"))["lessons"]
+        supplements = json.loads((WEBSITE / "content/lesson-overrides.json").read_text(encoding="utf-8"))["lessons"]
+        for key, fields in supplements.items():
+            lessons[key] = {**lessons.get(key, {}), **fields}
+        noticed = 0
+        for name in self.PAGES:
+            for key, block in lesson_blocks(BUILT / name).items():
+                with self.subTest(page=name, lesson=key):
+                    notices = EDITION_NOTICE.findall(block)
+                    if lessons[key].get("sourceHash") in {None, identity}:
+                        self.assertEqual(notices, [])
+                        continue
+                    self.assertEqual(len(notices), 1)
+                    self.assertEqual(html.unescape(re.sub(r"<[^>]+>", "", notices[0])), V2_NOTICE)
+                    self.assertIn('href="/xi-kari-skill/handbook/downloads.html#v2-original"', notices[0])
+                    # the notice opens the lesson, directly under its heading
+                    self.assertRegex(block, r'</header>(?:<!--[^>]*-->|\s)*<p class="xk-lesson__edition">')
+                    noticed += 1
+        self.assertGreater(noticed, 20)
+
+    def test_english_lessons_bound_to_the_english_text_carry_no_notice(self):
+        identity = json.loads((WEBSITE / "content/en/reading-units.json").read_text(encoding="utf-8"))["source_sha256"]
+        lessons = json.loads((WEBSITE / "content/en/section-lessons.json").read_text(encoding="utf-8"))["lessons"]
+        seen = 0
+        for name in self.PAGES:
+            blocks = lesson_blocks(BUILT / "en" / name)
+            for key, block in blocks.items():
+                self.assertEqual(lessons[key]["sourceHash"], identity, key)
+                self.assertNotIn("xk-lesson__edition", block, key)
+            seen += len(blocks)
+        self.assertGreater(seen, 20)
+
+    def test_the_notice_leads_to_the_v2_download(self):
+        page = (BUILT / "downloads.html").read_text(encoding="utf-8")
+        self.assertIn('id="v2-original"', page)
+        self.assertIn(f'href="/xi-kari-skill/handbook/downloads/{builder.TITLE}.v2.md"', page)
 
 
 if __name__ == "__main__":

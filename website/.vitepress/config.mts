@@ -220,6 +220,11 @@ function tableFrames(md: MarkdownIt) {
   md.renderer.rules.table_close = (tokens, idx, options, _env, self) => self.renderToken(tokens, idx, options) + '</div>'
 }
 
+/** The text the reading units were cut from. A lesson bound to another text says so on the page. */
+function sourceIdentity(locale = 'zh'): string {
+  return String(JSON.parse(readFileSync(join(WEBSITE, locale === 'en' ? 'content/en' : 'content', 'reading-units.json'), 'utf8')).source_sha256 || '')
+}
+
 /** The date of this handbook's selected edition, independent of skill upgrades. */
 function baselineDate(locale = 'zh'): string {
   try {
@@ -374,7 +379,7 @@ export default defineConfig({
     en: { label: 'English', lang: 'en', title: 'Xikari Reader',
       head: [['meta', { property: 'og:locale', content: 'en_US' }]],
       description: 'Read On Conditions, Structure, and Transformation in English, with all 421 reading lessons, examples, questions, and source notes.',
-      themeConfig: { opening: openingParagraph('en'), xkBaseline: baselineDate('en'), xkLengths: sheetLengths('en'),
+      themeConfig: { opening: openingParagraph('en'), xkBaseline: baselineDate('en'), xkSourceSha256: sourceIdentity('en'), xkLengths: sheetLengths('en'),
         xkSections: JSON.parse(readFileSync(sourceMapPath('en'), 'utf8')).sections, xkLessons: lessonIndex('en'), xkLessonCards: englishCards, sidebar: sidebar(englishTheorySidebar, englishLearningSidebar, '/en') }
     }
   },
@@ -428,6 +433,7 @@ export default defineConfig({
     xkSourceAnchors: Object.fromEntries(Object.entries(JSON.parse(readFileSync(SOURCE_MAP, 'utf8')).sections).map(([key, value]) => [key.toLowerCase().replaceAll('.', '-'), '#' + String(value).split('#')[1]])),
     opening: openingParagraph(),
     xkBaseline: baselineDate(),
+    xkSourceSha256: sourceIdentity(),
     xkEdition: JSON.parse(readFileSync(SOURCE_MAP, 'utf8')).theory_version,
     xkLengths: sheetLengths(),
     xkLessons: lessonIndex(),

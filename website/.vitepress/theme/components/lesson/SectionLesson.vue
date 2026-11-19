@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useLocale } from '../../composables/locale'
-const { t, isEnglish } = useLocale()
+const { t, isEnglish, theme } = useLocale()
 import { computed, nextTick, onMounted, onUnmounted, provide, ref, watch } from 'vue'
 import { onContentUpdated, useData, withBase } from 'vitepress'
 import XkModIcon from './XkModIcon.vue'
@@ -8,7 +8,7 @@ import XkRichText from './XkRichText.vue'
 import FeedbackExplorer from '../explorers/FeedbackExplorer.vue'
 import JointExplorer from '../explorers/JointExplorer.vue'
 import PredictionExplorer from '../explorers/PredictionExplorer.vue'
-import { bubbleLabel, lessonSlug, sourceRef as refOf } from '../../composables/nav'
+import { bubbleLabel, lessonSlug, pageHref, sourceRef as refOf } from '../../composables/nav'
 import { isLocatorNote, sourceTitle } from '../../composables/lessonKeys'
 import { usePrefs } from '../../composables/prefs'
 import { resolveDestination } from '../../composables/richText'
@@ -55,6 +55,10 @@ const figures = computed(() => {
 const figureNo = (i: number) => (figures.value.length > 1 ? `${t('图', 'Figure')} ${label.value}–${i + 1}` : `${t('图', 'Figure')} ${label.value}`)
 
 const has = (value: unknown) => Array.isArray(value) ? value.length > 0 : !!value
+
+/* A Chinese lesson written against another text than the one on the page (its sourceHash) says so first. */
+const otherText = computed(() => !isEnglish.value && !!lesson.value?.sourceHash && !!theme.value.xkSourceSha256
+  && lesson.value.sourceHash !== theme.value.xkSourceSha256)
 
 /* A filing note at the head of the explanation (where the text was cut from) belongs with the
    other source details, not in the reading text. */
@@ -141,6 +145,7 @@ onUnmounted(() => { alive = false; window.removeEventListener('hashchange', reve
               <p v-if="lesson.title" class="xk-lesson__topic">{{ lesson.title }}</p>
             </div>
           </header>
+          <p v-if="otherText" class="xk-lesson__edition">本讲按 v2 原文（2026年11月16日）写成。原文后来只改写了表述，小节编号和结构没有变；讲解里的行号、短引文和代号指的是 v2 原文，可在<a :href="pageHref('/downloads#v2-original')">下载页</a>取得。</p>
 
           <p v-if="lesson.lead" class="xk-lesson__lead"><span>{{ lesson.lead }}</span></p>
           <div v-if="has(paragraphs)" class="xk-lesson__text">

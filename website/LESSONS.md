@@ -26,6 +26,7 @@
 | `summary` | 文字 | “收束”：一句话结论，字脚一道黄色标线。 |
 | `caseLinks` | `[{title, href}]` | 讲解末尾的“继续阅读”链接。 |
 | `sourceRefs` | `[{section, startLine, endLine}]` | 在材料区显示原文位置，也兼容交付格式的 `start_line`、`end_line`。 |
+| `sourceHash` | 文字 | 讲解所据原文的 SHA-256，显示在材料区。中文讲解的这一项与网站现用原文（`content/reading-units.json` 的 `source_sha256`）不同时，讲解开头有一句说明：本讲按 v2 原文写成，行号、短引文和代号指 v2 原文，并链到下载页。 |
 | `sources` | 来源对象数组 | 展示题名、日期、位置、支持范围、限制和交付者标注的阅读范围。 |
 | `lecturePath`、`sourcesPath`、`sourceSlicePath`、`diagramsPath` | 资源路径 | 完整交付原稿、来源登记、原文对照和图解材料的下载入口。 |
 | `supplementaryFiles` | `[{title, path}]` | 实际存在的补充数据下载。 |
