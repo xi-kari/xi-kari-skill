@@ -62,6 +62,19 @@ class DomainCardTests(unittest.TestCase):
         example = cards.check_cards(ROOT / 'assets/examples/domain-card-example.md')
         self.assertEqual((example['error_count'], example['warning_count']), (0, 0), example['cards'])
 
+    def test_the_header_example_in_the_guide_is_accepted_as_written(self):
+        guide = (ROOT / 'references/domains/README.md').read_text(encoding='utf-8')
+        section = guide[guide.index('## 卡片怎样写'):]
+        fence = '`' * 3
+        start = section.index('\n', section.index(fence)) + 1
+        block = section[start:section.index('\n' + fence, start)]
+        self.assertIn('hotline-tickets', block)
+        text = (block.replace('所据原文的 SHA-256', CURRENT)
+                + '\n\n## 来源与已核范围\n\n用户提供的规程。\n\n## 修订记录\n\n- 2026-11-18：建立。\n')
+        row = self.one(text)
+        self.assertEqual(row['errors'], [])
+        self.assertEqual(row['id'], 'hotline-tickets')
+
     def test_a_complete_user_card_passes_without_warnings(self):
         row = self.one(card())
         self.assertEqual((row['errors'], row['warnings']), ([], []))

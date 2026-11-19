@@ -35,6 +35,13 @@ $xikariOutput = Join-Path ([System.IO.Path]::GetTempPath()) ('xikari-check-' + [
 python scripts/build_install_package.py --output $xikariOutput
 ```
 
+`references/domain-index.md` 由 `scripts/build_domain_index.py` 从原文附录 D 生成，不手改；标题、正文连接、专题编号和专题名称照录原文，分组与用法说明写在脚本里。附录 D 或脚本改动后重新生成并核对：
+
+```powershell
+python scripts/build_domain_index.py
+python scripts/build_domain_index.py --check
+```
+
 主张台账、方案比较表或研究设计修改，还应端到端跑一遍并检查写入保护：
 
 ```powershell
@@ -53,6 +60,7 @@ node tests/test_reader_interaction.cjs "$PWD/tests/dom/node_modules/jsdom"
 node tests/test_reader_navigation.cjs "$PWD/tests/dom/node_modules/playwright-core"
 node tests/test_reader_search.cjs "$PWD/tests/dom/node_modules/playwright-core"
 node tests/test_reader_chart.cjs "$PWD/tests/dom/node_modules/playwright-core"
+node tests/test_reader_tables.cjs "$PWD/tests/dom/node_modules/playwright-core"
 $xikariConditionOutput = Join-Path ([System.IO.Path]::GetTempPath()) ('xikari-condition-' + [guid]::NewGuid().ToString('N'))
 python scripts/condition_lab.py assets/examples/condition-university.json --output $xikariConditionOutput
 node tests/test_condition_interaction.cjs "$PWD/tests/dom/node_modules/jsdom" "$xikariConditionOutput/condition-results.html"
