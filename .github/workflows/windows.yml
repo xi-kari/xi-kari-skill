@@ -56,6 +56,8 @@ jobs:
         run: node tests/test_reader_search.cjs "$PWD/tests/dom/node_modules/playwright-core"
       - name: Test reader track chart in Chrome
         run: node tests/test_reader_chart.cjs "$PWD/tests/dom/node_modules/playwright-core"
+      - name: Test reader tables in Chrome
+        run: node tests/test_reader_tables.cjs "$PWD/tests/dom/node_modules/playwright-core"
       - name: Test condition model interaction
         run: |
           python scripts/condition_lab.py assets/examples/condition-university.json --output "$env:RUNNER_TEMP/xikari-condition"

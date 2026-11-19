@@ -562,7 +562,7 @@ A second drawing of the same route, seen from the side: eleven fixes stepping do
 
 ### Tables
 
-Left-aligned, ruled at 1px, with a 2px rule over the header and tabular numerals in numeric columns. A table scrolls inside its own wrapper before it widens the page. On phones a table becomes stacked rows, each cell under a .75rem tracked label. The row of the selected route is tinted. In the handbook a table is closed by 1.5px ink rules above and below, and rows tint on hover.
+Left-aligned, ruled at 1px, with a 2px rule over the header and tabular numerals in numeric columns. A table scrolls inside its own wrapper before it widens the page. On phones a table becomes stacked rows, each cell under a .75rem tracked label. The row of the selected route is tinted. In the handbook a table is closed by 1.5px ink rules above and below, and rows tint on hover. In a generated reading page a table of four columns or more takes the wide column; with six columns or more it is set one step smaller (.8em on screen, 8pt in print), its cells are tighter and its heads may wrap, so that a long comparison table fits the wide column and the printed text area before it has to scroll.
 
 ### Fields and controls
 

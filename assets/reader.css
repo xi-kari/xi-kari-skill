@@ -417,6 +417,11 @@ article tbody tr:first-child td { border-top: 0; }
 article tbody tr { transition: background-color var(--quick); }
 article tbody tr:hover { background: var(--tint); }
 article :is(th, td):first-child { padding-left: .3em; }
+/* Six columns or more: tighter cells and wrapping heads, so a long comparison table fits the wide column before it has to scroll. */
+.table-scroll:has(th:nth-child(6)) table { font-size: .8em; }
+.table-scroll:has(th:nth-child(6)) :is(th, td) { padding: .62em .62em; min-width: 4.4em; }
+.table-scroll:has(th:nth-child(6)) th { white-space: normal; }
+.table-scroll:has(th:nth-child(6)) :is(th, td):first-child { min-width: 2.2em; padding-left: .3em; }
 article .align-left { text-align: left; }
 article .align-right { text-align: right; }
 article .align-center { text-align: center; }
@@ -621,6 +626,7 @@ body.asking .track-strip { right: min(380px, 100vw); }
   .key { background-image: none; text-decoration: underline; text-decoration-thickness: 1.5pt; text-underline-offset: .3em; }
   .table-scroll { overflow: visible; background: none; }
   article table { font-size: 8.8pt; }
+  .table-scroll:has(th:nth-child(6)) table { font-size: 8pt; }
   article tr, article img, figure, blockquote, pre { break-inside: avoid; }
   article img { filter: none !important; }
   article thead { display: table-header-group; }
