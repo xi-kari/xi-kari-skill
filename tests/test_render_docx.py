@@ -161,6 +161,28 @@ class RenderDocxTests(unittest.TestCase):
         self.assertEqual(self.core_title(original), '正文标题')
         self.assertEqual(self.core_title(titled), '独立的元数据标题')
 
+    def test_a_leading_header_block_is_left_out_of_the_document(self):
+        header = '---\n{"id":"hotline-tickets","title":"热线工单","anchors":["2.4.3"]}\n---\n\n'
+        body = '# 热线工单办理\n\n开头一句。\n\n## 一、口径\n\n正文。\n'
+        plain, _ = self.render(body, out='plain.docx')
+        for index, source in enumerate((header + body, '﻿' + header + body, (header + body).replace('\n', '\r\n'))):
+            with self.subTest(index=index):
+                output, _ = self.render(source, out=f'header-{index}.docx')
+                self.assertNotIn('hotline-tickets', ''.join(all_text(output)))
+                self.assertEqual(docxml(output), docxml(plain))
+                self.assertEqual(module().resolve_title(source, None, self.work / 'answer.md'), '热线工单办理')
+
+    def test_only_one_json_object_between_two_rules_at_the_very_top_is_a_header(self):
+        cases = (('---\n正文第一段\n---\n\n# 标题\n', '正文第一段'),
+                 ('---\n["甲","乙"]\n---\n\n# 标题\n', '甲'),
+                 ('---\n{"id": 坏的}\n---\n\n# 标题\n', '坏的'),
+                 ('前言\n\n---\n{"id":"留下"}\n---\n\n# 标题\n', '留下'),
+                 ('---\n{"id":"留下"}\n\n---\n\n# 标题\n', '留下'))
+        for index, (source, kept) in enumerate(cases):
+            with self.subTest(source=source):
+                output, _ = self.render(source, out=f'kept-{index}.docx')
+                self.assertIn(kept, ''.join(all_text(output)))
+
     def test_default_title_uses_first_actual_h1(self):
         for marker, other in (('`', '~'), ('~', '`')):
             with self.subTest(marker=marker):

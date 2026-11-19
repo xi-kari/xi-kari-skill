@@ -122,6 +122,34 @@ class ReaderRenderingTests(unittest.TestCase):
         for text in ('$$ x^2 $$', '扩展脚注', ':::unknown', '扩展内容'):
             self.assertIn(text, ''.join(Document(output).text))
 
+    def test_a_leading_header_block_is_not_rendered_but_stays_in_the_download(self):
+        header = '---\n{"id":"hotline-tickets","title":"热线工单","anchors":["2.4.3"]}\n---\n\n'
+        body = '# 热线工单办理\n\n开头一句。\n\n## 一、口径\n\n正文。\n'
+        module = renderer()
+
+        def sections(output):
+            return [attrs['data-section-title'] for tag, attrs in Document(output).tags if 'data-reader-section' in attrs]
+
+        for source in (header + body, '﻿' + header + body, (header + body).replace('\n', '\r\n')):
+            with self.subTest(source=source[:8]):
+                output = module.render_document(source)
+                self.assertEqual(sections(output), sections(module.render_document(body)))
+                self.assertNotIn('hotline-tickets', ''.join(Document(output).text))
+                self.assertEqual(re.search(r'<title>([^<]*)</title>', output).group(1), '热线工单办理')
+                match = re.search(r'href="data:text/markdown;charset=utf-8;base64,([A-Za-z0-9+/=]+)"', output)
+                self.assertEqual(base64.b64decode(match.group(1)).decode('utf-8'), source)
+
+    def test_only_one_json_object_between_two_rules_at_the_very_top_is_a_header(self):
+        module = renderer()
+        cases = (('---\n正文第一段\n---\n\n# 标题\n', '正文第一段'),
+                 ('---\n["甲","乙"]\n---\n\n# 标题\n', '甲'),
+                 ('---\n{"id": 坏的}\n---\n\n# 标题\n', '坏的'),
+                 ('前言\n\n---\n{"id":"留下"}\n---\n\n# 标题\n', '留下'),
+                 ('---\n{"id":"留下"}\n\n---\n\n# 标题\n', '留下'))
+        for source, kept in cases:
+            with self.subTest(source=source):
+                self.assertIn(kept, ''.join(Document(module.render_document(source)).text))
+
     def test_stable_heading_ids_survive_unrelated_insertions(self):
         def ids(source):
             return {attrs['data-section-title']: attrs['id'] for tag, attrs in Document(renderer().render_document(source)).tags if 'data-reader-section' in attrs}
