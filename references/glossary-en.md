@@ -1,6 +1,6 @@
 # Chinese–English Glossary
 
-English renderings used by the reference edition in `source/en/`, in order of first appearance in the Chinese source. *Locked* renderings are settled; *proposed* ones are used consistently but await the author's decision. A term keeps its rendering only in its specialized sense; ordinary uses take ordinary English. When a rendering seems to conflict with the Chinese source, the Chinese governs.
+English renderings used by the reference edition in `source/en/`, in order of first appearance in the Chinese v2 source that the edition translates. Some Chinese terms in this table are v2 wording that v2.1 has replaced; the table at the end maps the v2.1 wording to the same English renderings. *Locked* renderings are settled; *proposed* ones are used consistently but await the author's decision. A term keeps its rendering only in its specialized sense; ordinary uses take ordinary English. When a rendering seems to conflict with the Chinese source, the Chinese governs.
 
 | 中文 | English | Status | Sense |
 | --- | --- | --- | --- |
@@ -523,7 +523,7 @@ The English edition translates the v2 wording. v2.1 rewords some of the theory's
 | 依据；条件；可以得出；不能得出；还须满足 | 推理依赖；附加条件；允许结论；禁止跳跃；方法门 | Inferential dependencies; Additional conditions; Permitted conclusions; Prohibited leaps; Method checks |
 | 正式检验；一次分组增益检验等 | 根实例；G-instance | root instance; G-instance |
 | 人类经验假设的一次具体检验 | H-instance | H-instance |
-| 写定；事先定下；定格 | 冻结；冻结快照；事实冻结 | freeze; frozen snapshot; fact freeze |
+| 写定；事先定下；事先固定；定格 | 冻结；冻结快照；事实冻结 | freeze; frozen snapshot; Freeze the Facts (the first of the nine gates, §13.10) |
 | 项 | 字段 | field |
 | 个案；一次检验 | 实例 | instance |
 | 十一个基本结构概念 | 原语（U01—U11） | universal primitives (U01–U11) |
