@@ -177,15 +177,16 @@ def check_cards(location: Path | None) -> dict:
 
 
 def main(argv=None) -> int:
+    # Before parsing: the help text is Chinese and is printed by the parser itself.
+    for stream in (sys.stdout, sys.stderr):
+        if hasattr(stream, 'reconfigure'):
+            stream.reconfigure(encoding='utf-8')
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument('--library', type=Path, help='领域库目录或单张卡片；省略时为随包样例卡')
     commands = parser.add_subparsers(dest='command', required=True)
     commands.add_parser('list', help='列出卡片的标题、适用范围、更新日期与所据原文版本')
     commands.add_parser('check', help='核对卡头、原文版本与小节引用；只读')
     args = parser.parse_args(argv)
-    for stream in (sys.stdout, sys.stderr):
-        if hasattr(stream, 'reconfigure'):
-            stream.reconfigure(encoding='utf-8')
     try:
         result = list_cards(args.library) if args.command == 'list' else check_cards(args.library)
     except (CardError, OSError) as exc:

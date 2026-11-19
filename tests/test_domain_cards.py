@@ -173,6 +173,9 @@ class DomainCardTests(unittest.TestCase):
         self.assertNotIn('Traceback', missing.stderr)
         bundled = self.run_cli('check')
         self.assertEqual(bundled.returncode, 0, bundled.stdout)
+        usage = self.run_cli('--help')
+        self.assertEqual(usage.returncode, 0, usage.stderr)
+        self.assertIn('领域库目录或单张卡片', usage.stdout)
         self.assertEqual(before, self.snapshot(self.library))
         self.assertEqual(scripts, self.snapshot(ROOT / 'scripts'))
 
