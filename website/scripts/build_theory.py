@@ -15,7 +15,16 @@ ROOT = WEBSITE.parent
 TITLE = "Xikari-条件结构与转化论"
 EN_TITLE = "Xikari: On Conditions, Structure, and Transformation"
 EN_FILE = "Xikari-On-Conditions-Structure-and-Transformation.md"
-SOURCE_SHA256 = "6ef2e508474d4ac1ad07d7e4e068955342c405b5f680afcfc40d68cca3d0149c"
+# The handbook shows the author's rewording of v2 from its own copy; the skill's source/ keeps v2.
+SOURCE = WEBSITE / "content/theory-source" / f"{TITLE}.md"
+SOURCE_SHA256 = "5747a277dbf5a5cfb1583c0a172c3361710f4efee17d707ceb6151ce8cbaba3e"
+EDITION = "表述修订稿"
+SOURCE_DATE = "2026-11-19"
+# v2 as first published stays downloadable: the lessons and the English edition follow it.
+V2_SOURCE = ROOT / "source" / f"{TITLE}.md"
+V2_SHA256 = "6ef2e508474d4ac1ad07d7e4e068955342c405b5f680afcfc40d68cca3d0149c"
+V2_FILE = f"{TITLE}.v2.md"
+V2_DATE = "2026-11-16"
 EN_SOURCE_SHA256 = "51795bb7988f2669a324a52666c320cfba1382f597f7b5c6a1431844572da1fb"
 EN_UPSTREAM_SHA256 = "f59bcdb483027736ef973b43ffc0c0ce37d9cb5e67ab3f05c6c67d22a62e65a1"
 # The original Word download is an explicitly retained first edition, not v2.
@@ -312,10 +321,13 @@ def build(website: Path = WEBSITE, source: Path | None = None, docx: Path | None
     en = language == "en"
     title = EN_TITLE if en else TITLE
     expected_hash = EN_SOURCE_SHA256 if en else SOURCE_SHA256
-    source = source or ROOT / "source" / ("en/" + EN_FILE if en else TITLE + ".md")
+    source = source or (ROOT / "source/en" / EN_FILE if en else SOURCE)
     data = source.read_bytes()
     if sha256(data) != expected_hash:
         raise ValueError("The canonical manuscript does not match the selected source identity")
+    v2_data = None if en else V2_SOURCE.read_bytes()
+    if v2_data is not None and sha256(v2_data) != V2_SHA256:
+        raise ValueError("The v2 manuscript does not match its registered identity")
     download_dir = website / "public/downloads"
     # Preserve the old Word object only as a labelled legacy artifact. Its
     # availability must not gate a current Markdown edition or a clean build.
@@ -354,6 +366,8 @@ def build(website: Path = WEBSITE, source: Path | None = None, docx: Path | None
     download_dir.mkdir(parents=True, exist_ok=True)
     download_name = EN_FILE if en else TITLE + ".md"
     (download_dir / download_name).write_bytes(data)
+    if v2_data is not None:
+        (download_dir / V2_FILE).write_bytes(v2_data)
     if upstream_data is not None:
         (download_dir / "xikari-conditions-en.original.md").write_bytes(upstream_data)
     legacy = None
@@ -364,14 +378,24 @@ def build(website: Path = WEBSITE, source: Path | None = None, docx: Path | None
                 target.write_bytes(legacy_data)
         legacy = {"theory_version": "v1", "language": "zh", "sha256": DOCX_SHA256,
                   "path": f"/downloads/{TITLE}.v1.docx", "source_date": "2026-10-17"}
-    manifest = {"title": title, "author": "Xikari", "language": language,
-                "theory_version": "v2", "source_date": "2026-11-16",
-                "source_sha256": expected_hash, "source_bytes": len(data),
-                "source_lines": len(lines), "download": "/downloads/" + download_name,
-                "canonical_chinese_sha256": SOURCE_SHA256,
-                "parts": {f"part_{number}": route + f"#part_{number}" for number, route in sorted(part_routes.items())},
-                "sections": sections, "pages": records,
-                "annotation_sections": annotation_sections}
+    manifest = {"title": title, "author": "Xikari", "language": language, "theory_version": "v2"}
+    if not en:
+        manifest["edition"] = EDITION
+    # The English reference translation was made from v2 as first published.
+    manifest.update({"source_date": V2_DATE if en else SOURCE_DATE,
+                     "source_sha256": expected_hash, "source_bytes": len(data),
+                     "source_lines": len(lines), "download": "/downloads/" + download_name,
+                     "canonical_chinese_sha256": SOURCE_SHA256})
+    if en:
+        manifest["translates_chinese_sha256"] = V2_SHA256
+    else:
+        manifest["previous_edition"] = {"theory_version": "v2", "language": "zh", "sha256": V2_SHA256,
+                                        "bytes": len(v2_data), "path": "/downloads/" + V2_FILE,
+                                        "source_date": V2_DATE}
+    manifest.update({"parts": {f"part_{number}": route + f"#part_{number}"
+                               for number, route in sorted(part_routes.items())},
+                     "sections": sections, "pages": records,
+                     "annotation_sections": annotation_sections})
     if legacy is not None:
         manifest["legacy_docx"] = legacy
     if en:

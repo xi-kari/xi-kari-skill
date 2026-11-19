@@ -12,7 +12,7 @@ WEBSITE = ROOT / 'website'
 BUILT = ROOT / 'docs' / 'handbook'
 LOCALES = {
     'zh': {'page': 'primer/index.md', 'map': 'public/source-map.json', 'content': 'content',
-           'source': 'source/Xikari-条件结构与转化论.md',
+           'source': 'website/content/theory-source/Xikari-条件结构与转化论.md',
            'readme': 'README.md', 'built': 'theory/part-03.html', 'tag': '一句话'},
     'en': {'page': 'en/primer/index.md', 'map': 'public/en/source-map.json', 'content': 'content/en',
            'source': 'source/en/Xikari-On-Conditions-Structure-and-Transformation.md',
