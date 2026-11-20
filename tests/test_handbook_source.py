@@ -555,7 +555,10 @@ class LessonEditionNoticeTests(unittest.TestCase):
                     # the notice opens the lesson, directly under its heading
                     self.assertRegex(block, r'</header>(?:<!--[^>]*-->|\s)*<p class="xk-lesson__edition">')
                     noticed += 1
-        self.assertGreater(noticed, 20)
+        # The Chinese lessons are aligned with v2.1 and bound to it, so none says it follows
+        # another text; the notice stays for any lesson that later falls behind the source.
+        self.assertEqual(noticed, 0)
+        self.assertEqual({lesson.get("sourceHash") for lesson in lessons.values()} - {None}, {identity})
 
     def test_english_lessons_bound_to_the_english_text_carry_no_notice(self):
         identity = json.loads((WEBSITE / "content/en/reading-units.json").read_text(encoding="utf-8"))["source_sha256"]
