@@ -5,11 +5,11 @@
   "sources": [
     {
       "path": "content/section-lessons.json",
-      "sha256": "a4b2d9c0e339c13196f8bee29265d3551b0d2e1a03dfbac9d50dd8d815733b21"
+      "sha256": "d4c561c37e1637ac63f6e4d81b57f04b0aba0ef708ae0741f879120e112247fa"
     },
     {
       "path": "content/lesson-overrides.json",
-      "sha256": "0421a5ad68555385ce24d26a239c56145bbab1d80712b916d5083fd87b1b570d"
+      "sha256": "6b6f585f276b3a0e81f69b4d98ce191671a26acd4389d2ff772427f7bfa8e50f"
     }
   ],
   "translation": {
