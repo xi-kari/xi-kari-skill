@@ -1,17 +1,17 @@
 ---
 title: "Records, learning, and additional historical information"
-description: "Historical formation, current carriers, and G3 increments answer different questions."
+description: "Historical formation, current carriers, and historical increments answer different questions."
 ---
 
 # Records, learning, and additional historical information
 
-Past experience can change present skills, rules, resources, or relationships. Those **current carriers** can retain the change and affect later work. G3 asks a narrower question: does history add information or an effect **beyond the explicitly registered current representation**?
+Past experience can change present skills, rules, resources, or relationships. Those **current carriers** can retain the change and affect later work. The historical-increment question (G3) is narrower: does history add information or an effect **beyond the explicitly registered current representation**?
 
 ## Why no extra increment need not mean no learning
 
 Consider the book’s relation H → S → Y: earlier experience H forms current skill S, which affects a later outcome Y. If S already captures the relevant information, adding H may not improve prediction of Y. That finding limits the additional historical increment conditional on S. It does not erase the formation of S or the effect of skill on Y.
 
-The reverse inference is invalid too. Failure to support a G3 increment does not by itself establish that a carrier formed or that learning occurred. Carrier-based learning needs its own evidence: a locatable update, retention or renewal, actual later use, a specified task comparison, and appropriate causal support. A training certificate, archive, single successful attempt, or new rule cannot substitute for that chain.
+The reverse inference is invalid too. Failure to support a historical increment does not by itself establish that a carrier formed or that learning occurred. Carrier-based learning needs its own evidence: a locatable update, retention or renewal, actual later use, a specified task comparison, and appropriate causal support. A training certificate, archive, single successful attempt, or new rule cannot substitute for that chain.
 
 Do not deliberately omit a known current carrier to manufacture a “historical” improvement. A limited representation may genuinely leave historical predictive information available, but the result belongs to that representation, target, and window.
 
@@ -23,6 +23,6 @@ In [Flint’s follow-up audit](../cases/flint-water-feedback), a new hotline pro
 
 ## A useful reading check
 
-Ask four questions separately: What formed? Where was it retained? Was it used later? What changed in the later task? Ask the additional G3 question only when the claim actually concerns information or effects beyond the declared present representation.
+Ask four questions separately: What formed? Where was it retained? Was it used later? What changed in the later task? Ask the additional historical-increment question only when the claim actually concerns information or effects beyond the declared present representation.
 
 Read [§4.5](/en/theory/part-04#section-4-5), [§6.3](/en/theory/part-06#section-6-3), and [C.11](/en/theory/appendix-c#section-c-11). Domain evidence can support ordinary learning without first acquiring the framework’s formal instance status.

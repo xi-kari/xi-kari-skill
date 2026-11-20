@@ -9,7 +9,7 @@ Two queues contain (0,20) tasks or (10,10) tasks. Both have mean 10. If local ov
 
 ## What was lost, and what can be retained
 
-Once the two states have become the same recorded mean, no decoder using only that mean can distinguish them. This is F1’s task-recovery condition: all source states sharing a representation must require the same answer to the specified query.
+Once the two states have become the same recorded mean, no decoder using only that mean can distinguish them. This is the task-recovery condition (F1): all source states sharing a representation must require the same answer to the specified query.
 
 The mean still answers mean and total-load questions correctly. Adding the maximum queue length is enough to answer local overload and maximum length. It does not reveal which position has the larger queue. If different positions have different service capacities, that missing location can matter to the next state.
 
@@ -17,7 +17,7 @@ The aim is to retain distinctions needed by the task. Restoring every microscopi
 
 ## Different questions in real cases
 
-The [2022 Hurricane Ian forecast cone](../cases/representation-hurricane-cone) describes uncertainty about the cyclone center’s track. Storm-surge heights are a different target, addressed by separate NHC products. The case clarifies intended uses; it does not supply a formal state-space test of F1 or evidence about how every resident interpreted the graphic.
+The [2022 Hurricane Ian forecast cone](../cases/representation-hurricane-cone) describes uncertainty about the cyclone center’s track. Storm-surge heights are a different target, addressed by separate NHC products. The case clarifies intended uses; it does not supply a formal state-space test of the task-recovery condition or evidence about how every resident interpreted the graphic.
 
 The [Mars Climate Orbiter unit mismatch](../cases/mars-climate-orbiter) is different again. Distinct impulses remained distinct numerical values; knowing the actual units permitted conversion. The site reads this as an execution/specification issue, rather than the irreversible collapse illustrated by the two queues. NASA’s own causal findings remain the evidence for the accident.
 

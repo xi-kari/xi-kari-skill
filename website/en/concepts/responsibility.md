@@ -23,6 +23,6 @@ The [Mars Climate Orbiter report](../cases/mars-climate-orbiter) documents an in
 
 ## The boundary of this distinction
 
-CV and RS are analytical categories. Naming them does not decide a real dispute, assign liability, or grant authority to change a person’s work. Nor does distinguishing responsibility erase an independently supported account of harm or a practical need for protection.
+Uptake carriers and responsible parties are analytical categories. Naming them does not decide a real dispute, assign liability, or grant authority to change a person’s work. Nor does distinguishing responsibility erase an independently supported account of harm or a practical need for protection.
 
 Read [§2.8](/en/theory/part-02#section-2-8), [§7.2.4](/en/theory/part-07#section-7-2-4), [§7.2.5](/en/theory/part-07#section-7-2-5), and [A.5](/en/theory/appendix-a/a-05#section-a-5).

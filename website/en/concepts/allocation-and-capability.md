@@ -11,7 +11,7 @@ An allocation of practice, opportunity, or responsibility can help form capabili
 
 Check whether the relevant capability actually depends on practice and whether that practice is obtained mainly through the allocation in question. Then check whether current capability actually changes the next allocation. Prior differences, incentives, training duration, legal conditions, preferences, attrition, scarcity, discrimination, trust, and incumbents’ interests may provide competing or interacting explanations.
 
-The gap or concentration must widen relative to the starting point, and capability formation, retention, and later use need evidence under §4.5. If material is insufficient, retain a candidate. Formal mechanism support additionally requires C10’s carrier-reproduction route; repeated association alone does not qualify.
+The gap or concentration must widen relative to the starting point, and capability formation, retention, and later use need evidence under §4.5. If material is insufficient, retain a candidate. Formal mechanism support additionally requires the carrier-reproduction route of human uptake and intertemporal reproduction (C10, §4.13.3); repeated association alone does not qualify.
 
 The capability difference can be real even if its formation was unequal. Recognizing its reality does not establish fair opportunity or dictate a future allocation rule. Conversely, unequal allocation among equally capable people may challenge the proposed capability-to-allocation link and require a different mechanism.
 

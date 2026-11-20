@@ -9,7 +9,7 @@ These pages explain distinctions in the theory through a small number of worked 
 
 - [Receiving a message is not yet effective feedback](./feedback) — Trace the return and its subsequent effect.
 
-- [Records, learning, and additional historical information](./history) — Separate formation, current carriers, and G3.
+- [Records, learning, and additional historical information](./history) — Separate formation, current carriers, and historical increments.
 
 - [Two effective links can still fail as a whole](./chain) — Check joint response instead of multiplying averages.
 

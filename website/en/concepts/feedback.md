@@ -5,7 +5,7 @@ description: "Trace what returns, where it arrives, and what it changes afterwar
 
 # Receiving a message is not yet effective feedback
 
-A receipt shows that a signal arrived. Under D2, **effective feedback requires a return channel to make a detectable difference to a later state, transition probability, timing, or constraint**, relative to no return or a blocked return.
+A receipt shows that a signal arrived. Under the book’s definition in §3.3, **effective feedback requires a return channel to make a detectable difference to a later state, transition probability, timing, or constraint**, relative to no return or a blocked return.
 
 ## Follow the change
 
@@ -23,7 +23,7 @@ The [Toyota Andon case](../cases/toyota-andon) offers a different source type: a
 
 ## Try the distinction
 
-Suppose a report causes an inspection to happen earlier, but the hazard remains. If the timing effect is supported, D2 feedback can exist. Whether the response protected residents is a separate outcome. Conversely, an automatic “received” message alone does not establish a change in the service or risk assessment that matters to the inquiry.
+Suppose a report causes an inspection to happen earlier, but the hazard remains. If the timing effect is supported, effective feedback can exist. Whether the response protected residents is a separate outcome. Conversely, an automatic “received” message alone does not establish a change in the service or risk assessment that matters to the inquiry.
 
 Read [§3.3](/en/theory/part-03#section-3-3), [§6.4](/en/theory/part-06#section-6-4), and [feedback-mediated learning](./history). The hypothetical complaint is a conceptual illustration, not an empirical study.
 
