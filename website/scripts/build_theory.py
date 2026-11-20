@@ -296,7 +296,7 @@ def sidebar_for(pages: list[Page], language: str = "zh") -> list[dict]:
                      13: "Tools, choice, and governance"}[first]
         groups.append({"text": label, "collapsed": True,
                        "items": [item(p) for p in pages if p.part is not None and first <= p.part <= last]})
-    for number, label in [(17, "附录 A · 人类变量接口卡"), (20, "附录 D · 32 个领域")]:
+    for number, label in [(17, "附录 A · 人类变量详表"), (20, "附录 D · 32 个领域")]:
         if en:
             label = {17: "Appendix A · Human variable interfaces", 20: "Appendix D · 32 domains"}[number]
         groups.append({"text": label, "collapsed": True,
