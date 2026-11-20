@@ -75,10 +75,10 @@ onUnmounted(() => window.removeEventListener('resize', place))
     <div class="xk-model__stage">
       <div class="xk-model__controls">
         <div class="xk-model__control">
-          <span :id="`${id}-deadline`" class="xk-model__label">{{ t('两项任务的截止时间', 'Deadline for both tasks') }}</span>
+          <span :id="`${id}-deadline`" class="xk-model__label">{{ t('任务 B 的截止时间', 'Deadline for task B') }}</span>
           <div class="xk-seg" role="radiogroup" :aria-labelledby="`${id}-deadline`" @keydown="moveRadio($event, 'deadline')">
             <button type="button" role="radio" :aria-checked="deadline === 1" :tabindex="deadline === 1 ? 0 : -1" @click="deadline = 1">{{ t('第一期结束', 'End of period 1') }}</button>
-            <button type="button" role="radio" :aria-checked="deadline === 2" :tabindex="deadline === 2 ? 0 : -1" @click="deadline = 2">{{ t('允许延至第二期', 'Allow until period 2') }}</button>
+            <button type="button" role="radio" :aria-checked="deadline === 2" :tabindex="deadline === 2 ? 0 : -1" @click="deadline = 2">{{ t('合法改到第二期', 'Validly moved to period 2') }}</button>
           </div>
         </div>
         <div class="xk-model__control">
