@@ -9,7 +9,7 @@ description: "Recommend within explicit premises while preserving unmet claims a
 
 Sometimes every feasible option, including delay and no action, leaves legitimate claims unmet. The analysis should not invent a costless option or stop at questions. It can give a recommendation for deliberation, with the normative premises and decision rule made explicit.
 
-State who bears the remaining losses, why their claims still hold, who owes mitigation, remedy, explanation, or review, and what would change the recommendation. If the decision rule is disputed, present the different resulting judgments without choosing on behalf of a qualified authority.
+State who bears the remaining losses, why their claims still hold, who owes mitigation, remedy, explanation, or review, and what would change the recommendation. Making the decision rule public does not make it qualified; whether it qualifies is judged under [§14.5](/en/theory/part-14#section-14-5). If the decision rule is disputed, present the different resulting judgments without choosing on behalf of a qualified authority.
 
 First test the apparent lack of alternatives: who controls the scarcity, whether prior decisions can be challenged, and whether options were excluded merely because they cost the decision maker. If authority is insufficient, refer the matter to a subject with authority rather than treating that gap as proof of no alternative. This showing remains open to appeal and goes to review independent of the decision maker.
 

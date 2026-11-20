@@ -23,7 +23,7 @@ With a complete binary outcome label of zero and a registered probability of 0.8
 
 The [Hurricane Ian case](../cases/representation-hurricane-cone) helps distinguish track, surge, and action questions in a documented forecasting context. It does not transfer the constructed A₁/A₂ probabilities to a real storm.
 
-Read [§4.6](/en/theory/part-04#section-4-6), [§12.6](/en/theory/part-12#section-12-6), and [representational sufficiency](./representation).
+Read [§4.6](/en/theory/part-04#section-4-6), [§12.2](/en/theory/part-12#section-12-2), [§12.5](/en/theory/part-12#section-12-5), [§12.6](/en/theory/part-12#section-12-6), and [representational sufficiency](./representation).
 
 ## Explore the teaching model
 

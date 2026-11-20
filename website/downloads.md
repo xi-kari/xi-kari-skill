@@ -10,7 +10,7 @@ description: 获取网站现用的 v2.1 完整原文、英文参考译本所依�
 ## 完整文件
 
 - <a href="/xi-kari-skill/handbook/downloads/Xikari-条件结构与转化论.md" download>下载完整 Markdown 原文</a>
-- <a href="/xi-kari-skill/handbook/downloads/Xikari-条件结构与转化论.docx" download>下载第一版 Word（历史版本）</a>
+- <a href="/xi-kari-skill/handbook/downloads/Xikari-条件结构与转化论.v1.docx" download>下载第一版 Word（历史版本）</a>
 - [获取 Xikari Skill](https://github.com/xi-kari/xi-kari-skill/releases/latest)
 
 Markdown 适合全文检索、引用和交给具备文件读取能力的智能体。Word 是 2026 年 10 月 17 日的第一版，正文与现在的原文不同，只供回查。
@@ -25,7 +25,7 @@ v2.1 是作者认可的 v2 表述修订，只改了说法：句子更平实，�
 
 ## 引用一节原文
 
-引用时写明作者、书名和节号，并附上对应页面的章节链接。章节标题旁的链接可直接定位该节；“本页”栏里的“复制本页链接”会保留当前网址中的章节位置。
+引用时写明作者、书名、版本和节号，并附上对应页面的章节链接。章节标题旁的链接可直接定位该节；“本页”栏里的“复制本页链接”会保留当前网址中的章节位置。
 
 例如：Xikari，《Xikari-条件结构与转化论》，v2.1，2026年11月，§3.3。
 

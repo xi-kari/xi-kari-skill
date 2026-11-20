@@ -1,11 +1,11 @@
 ---
 title: "Formation, maintenance, recovery, and replication are different outcomes"
-description: "Evidence that an arrangement started does not settle whether it lasts, recovers, or transfers."
+description: "Evidence that an arrangement started does not settle whether it lasts, recovers, or can be replicated elsewhere."
 ---
 
 # Formation, maintenance, recovery, and replication are different outcomes
 
-**Evidence that an arrangement started does not settle whether it lasts, recovers, or transfers.**
+**Evidence that an arrangement started does not settle whether it lasts, recovers, or can be replicated elsewhere.**
 
 Formation concerns how an arrangement comes into being. Maintenance concerns what keeps it operating. Recovery concerns a specified function or identity after disruption. Replication concerns the result under a declared new realization or setting. Each needs its own target, conditions, window, and evidence.
 

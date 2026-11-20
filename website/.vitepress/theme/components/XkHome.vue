@@ -224,8 +224,8 @@ const downloads = [
         </a>
       </div>
       <div class="xk-cite">
-        <p>引用时写明作者、书名和节号，并附上对应章节的链接。</p>
-        <code>Xikari，《Xikari-条件结构与转化论》，§3.3。</code>
+        <p>引用时写明作者、书名、版本和节号，并附上对应章节的链接。</p>
+        <code>Xikari，《Xikari-条件结构与转化论》，v2.1，2026年11月，§3.3。</code>
         <p><a class="xk-link" :href="pageHref('/downloads')">文本身份与校验值</a></p>
       </div>
     </section>
