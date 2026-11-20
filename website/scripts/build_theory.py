@@ -15,13 +15,13 @@ ROOT = WEBSITE.parent
 TITLE = "Xikari-条件结构与转化论"
 EN_TITLE = "Xikari: On Conditions, Structure, and Transformation"
 EN_FILE = "Xikari-On-Conditions-Structure-and-Transformation.md"
-# The handbook shows the author's rewording of v2 from its own copy; the skill's source/ keeps v2.
+# The handbook shows v2.1, the author's rewording of v2, from its own copy.
 SOURCE = WEBSITE / "content/theory-source" / f"{TITLE}.md"
-SOURCE_SHA256 = "5747a277dbf5a5cfb1583c0a172c3361710f4efee17d707ceb6151ce8cbaba3e"
+SOURCE_SHA256 = "2128af7cfa4c63b58207521a375aa34c2aea230d47e1c04a5afec3334e290d28"
 EDITION = "表述修订稿"
 SOURCE_DATE = "2026-11-19"
-# v2 as first published stays downloadable: the lessons and the English edition follow it.
-V2_SOURCE = ROOT / "source" / f"{TITLE}.md"
+# v2 as first published stays downloadable from the handbook's own copy: the English edition follows it.
+V2_SOURCE = WEBSITE / "content/theory-source" / f"{TITLE}.v2.md"
 V2_SHA256 = "6ef2e508474d4ac1ad07d7e4e068955342c405b5f680afcfc40d68cca3d0149c"
 V2_FILE = f"{TITLE}.v2.md"
 V2_DATE = "2026-11-16"
@@ -378,7 +378,7 @@ def build(website: Path = WEBSITE, source: Path | None = None, docx: Path | None
                 target.write_bytes(legacy_data)
         legacy = {"theory_version": "v1", "language": "zh", "sha256": DOCX_SHA256,
                   "path": f"/downloads/{TITLE}.v1.docx", "source_date": "2026-10-17"}
-    manifest = {"title": title, "author": "Xikari", "language": language, "theory_version": "v2"}
+    manifest = {"title": title, "author": "Xikari", "language": language, "theory_version": "v2" if en else "v2.1"}
     if not en:
         manifest["edition"] = EDITION
     # The English reference translation was made from v2 as first published.

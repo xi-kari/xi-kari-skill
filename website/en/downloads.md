@@ -34,10 +34,10 @@ The link to [§3.3](/en/theory/part-03#section-3-3) opens the same numbered sect
 
 These SHA-256 values identify the complete files; they do not certify semantic correctness or empirical effectiveness.
 
-**Current Chinese text (reworded v2, 19 November 2026)**
+**Current Chinese text (v2.1, the rewording of v2, 19 November 2026)**
 
 ```text
-5747a277dbf5a5cfb1583c0a172c3361710f4efee17d707ceb6151ce8cbaba3e
+2128af7cfa4c63b58207521a375aa34c2aea230d47e1c04a5afec3334e290d28
 ```
 
 **Chinese v2 text of 16 November 2026, which the English edition translates**
