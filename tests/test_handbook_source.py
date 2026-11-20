@@ -19,7 +19,7 @@ from unittest import mock
 ROOT = Path(__file__).resolve().parents[1]
 WEBSITE = ROOT / "website"
 BUILT = ROOT / "docs" / "handbook"
-REWORDED_SHA256 = "5747a277dbf5a5cfb1583c0a172c3361710f4efee17d707ceb6151ce8cbaba3e"
+REWORDED_SHA256 = "2128af7cfa4c63b58207521a375aa34c2aea230d47e1c04a5afec3334e290d28"
 V2_SHA256 = "6ef2e508474d4ac1ad07d7e4e068955342c405b5f680afcfc40d68cca3d0149c"
 SPEC = importlib.util.spec_from_file_location("handbook_source", WEBSITE / "scripts/build_theory.py")
 builder = importlib.util.module_from_spec(SPEC)
@@ -61,22 +61,21 @@ class HandbookSourceTests(unittest.TestCase):
         word = (WEBSITE / "public/downloads" / f"{builder.TITLE}.docx").read_bytes()
         self.assertEqual(hashlib.sha256(word).hexdigest(), builder.DOCX_SHA256)
         self.assertEqual(self.manifest["source_sha256"], builder.SOURCE_SHA256)
-        self.assertEqual(self.manifest["theory_version"], "v2")
+        self.assertEqual(self.manifest["theory_version"], "v2.1")
         self.assertEqual(self.manifest["edition"], "表述修订稿")
         self.assertEqual(self.manifest["source_date"], "2026-11-19")
         self.assertEqual(self.manifest["legacy_docx"]["theory_version"], "v1")
         self.assertEqual(self.manifest["legacy_docx"]["sha256"], builder.DOCX_SHA256)
         self.assertNotIn("docx_sha256", self.manifest)
 
-    def test_the_handbook_reads_its_own_copy_while_the_skill_keeps_v2(self):
-        self.assertTrue(builder.SOURCE.is_relative_to(WEBSITE / "content"))
+    def test_the_handbook_reads_its_own_copies_of_v2_1_and_v2(self):
+        for path in (builder.SOURCE, builder.V2_SOURCE):
+            self.assertTrue(path.is_relative_to(WEBSITE / "content"), path)
         self.assertEqual(hashlib.sha256(builder.SOURCE.read_bytes()).hexdigest(), REWORDED_SHA256)
-        skill_source = (ROOT / "source" / self.source.name).read_bytes()
-        self.assertEqual(hashlib.sha256(skill_source).hexdigest(), V2_SHA256)
-        self.assertEqual(builder.V2_SOURCE, ROOT / "source" / self.source.name)
+        self.assertEqual(hashlib.sha256(builder.V2_SOURCE.read_bytes()).hexdigest(), V2_SHA256)
 
     def test_v2_download_is_byte_identical_to_the_v2_source(self):
-        v2 = (ROOT / "source" / self.source.name).read_bytes()
+        v2 = builder.V2_SOURCE.read_bytes()
         self.assertEqual(builder.V2_SHA256, V2_SHA256)
         self.assertEqual((WEBSITE / "public/downloads" / f"{builder.TITLE}.v2.md").read_bytes(), v2)
         self.assertEqual(self.manifest["previous_edition"], {
@@ -87,7 +86,7 @@ class HandbookSourceTests(unittest.TestCase):
         with tempfile.TemporaryDirectory(prefix="xikari-handbook-v2-") as directory:
             root = Path(directory)
             changed = root / "v2.md"
-            changed.write_bytes((ROOT / "source" / self.source.name).read_bytes() + b"\n")
+            changed.write_bytes(builder.V2_SOURCE.read_bytes() + b"\n")
             destination = root / "site"
             with mock.patch.object(builder, "V2_SOURCE", changed):
                 with self.assertRaisesRegex(ValueError, "v2 manuscript"):
@@ -102,7 +101,7 @@ class HandbookSourceTests(unittest.TestCase):
             self.assertEqual(manifest["source_sha256"], builder.SOURCE_SHA256)
             self.assertEqual((destination / "public/downloads" / self.source.name).read_bytes(), self.raw)
             self.assertEqual((destination / "public/downloads" / f"{builder.TITLE}.v2.md").read_bytes(),
-                             (ROOT / "source" / self.source.name).read_bytes())
+                             builder.V2_SOURCE.read_bytes())
             self.assertEqual(manifest["pages"], self.manifest["pages"])
 
     def test_page_spans_cover_each_source_line_once_in_reading_order(self):
@@ -556,7 +555,10 @@ class LessonEditionNoticeTests(unittest.TestCase):
                     # the notice opens the lesson, directly under its heading
                     self.assertRegex(block, r'</header>(?:<!--[^>]*-->|\s)*<p class="xk-lesson__edition">')
                     noticed += 1
-        self.assertGreater(noticed, 20)
+        # The Chinese lessons are aligned with v2.1 and bound to it, so none says it follows
+        # another text; the notice stays for any lesson that later falls behind the source.
+        self.assertEqual(noticed, 0)
+        self.assertEqual({lesson.get("sourceHash") for lesson in lessons.values()} - {None}, {identity})
 
     def test_english_lessons_bound_to_the_english_text_carry_no_notice(self):
         identity = json.loads((WEBSITE / "content/en/reading-units.json").read_text(encoding="utf-8"))["source_sha256"]

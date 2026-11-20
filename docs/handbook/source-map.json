@@ -2,14 +2,14 @@
   "title": "Xikari-条件结构与转化论",
   "author": "Xikari",
   "language": "zh",
-  "theory_version": "v2",
+  "theory_version": "v2.1",
   "edition": "表述修订稿",
   "source_date": "2026-11-19",
-  "source_sha256": "5747a277dbf5a5cfb1583c0a172c3361710f4efee17d707ceb6151ce8cbaba3e",
-  "source_bytes": 801950,
+  "source_sha256": "2128af7cfa4c63b58207521a375aa34c2aea230d47e1c04a5afec3334e290d28",
+  "source_bytes": 801967,
   "source_lines": 5544,
   "download": "/downloads/Xikari-条件结构与转化论.md",
-  "canonical_chinese_sha256": "5747a277dbf5a5cfb1583c0a172c3361710f4efee17d707ceb6151ce8cbaba3e",
+  "canonical_chinese_sha256": "2128af7cfa4c63b58207521a375aa34c2aea230d47e1c04a5afec3334e290d28",
   "previous_edition": {
     "theory_version": "v2",
     "language": "zh",
@@ -472,7 +472,7 @@
       "part": null,
       "source_start_line": 1,
       "source_end_line": 65,
-      "source_sha256": "c4306e38fee0ea517cc57184001a8ee2932a61ed3e1b2a794b6604f502f0bafa"
+      "source_sha256": "8d6d669c82ef1c0e6ff50465bc708d0c72953908707b1593bb30060935c4e6db"
     },
     {
       "path": "theory/part-01.md",
@@ -490,7 +490,7 @@
       "part": 2,
       "source_start_line": 211,
       "source_end_line": 442,
-      "source_sha256": "fffc3590eb01b2934a92976e9818356d08a3470b31b65b6793bfdb7c9d2097a9"
+      "source_sha256": "38de7f4a5b29d7be048624bad2835aee0cfce821dbf9d60e49080632aa14b5f5"
     },
     {
       "path": "theory/part-03.md",
@@ -499,7 +499,7 @@
       "part": 3,
       "source_start_line": 443,
       "source_end_line": 576,
-      "source_sha256": "f3b172633d9948eaea3c4baa167540b2d8a697ddac8d67a8a0d1731254344f34"
+      "source_sha256": "af313b95f24e3ec0e18f462311a6d5263d879b930e3308b26f6d9186e9fe9d05"
     },
     {
       "path": "theory/part-04.md",
@@ -508,7 +508,7 @@
       "part": 4,
       "source_start_line": 577,
       "source_end_line": 1075,
-      "source_sha256": "1009871e471618e80a881d1362dbba0477bb36451d16dde28644ef962ba51644"
+      "source_sha256": "05e389cbc1e929e0f3e4e8842da093d676ed3dd375b47560a29714e7644c8c63"
     },
     {
       "path": "theory/part-05.md",
@@ -517,7 +517,7 @@
       "part": 5,
       "source_start_line": 1076,
       "source_end_line": 1355,
-      "source_sha256": "537fbde28b094e5d16c8b340ae8331b8d82206883a5acf0eb82b599a2356d336"
+      "source_sha256": "99156b954d045bdc821124c14839c1ad63147e508480f3f9ab7c660e9d097ef5"
     },
     {
       "path": "theory/part-06.md",
@@ -589,7 +589,7 @@
       "part": 13,
       "source_start_line": 2811,
       "source_end_line": 3017,
-      "source_sha256": "05c36970e673194cf9b1cfb4c54f5dbf8af7496a8e67bf6748850f6f2ef6f5f6"
+      "source_sha256": "f3a7ddf420e70533338d005a5e51fbfb961073dc04766e6e4a3b4da660e806e5"
     },
     {
       "path": "theory/part-14.md",
@@ -598,7 +598,7 @@
       "part": 14,
       "source_start_line": 3018,
       "source_end_line": 3221,
-      "source_sha256": "9453d94211f18b3d16ce1048c93821b5bb39f125f4aea969e0f2f29a99ca4281"
+      "source_sha256": "a0a25bad231e145f5c5d4bb4ebb65db5d6668884857eb25c126e974fb2528af2"
     },
     {
       "path": "theory/part-15.md",
@@ -634,7 +634,7 @@
       "part": 17,
       "source_start_line": 3782,
       "source_end_line": 3865,
-      "source_sha256": "102fd0d3cdd02f569cee28f1f8da866b31d3252ec7e91c53dcedf6a88c2a679c"
+      "source_sha256": "42050d84186c425dd3ae449335d688081f57f698afb8cbe1c348682d9723b14b"
     },
     {
       "path": "theory/appendix-a/a-02.md",
@@ -643,7 +643,7 @@
       "part": 17,
       "source_start_line": 3866,
       "source_end_line": 3949,
-      "source_sha256": "da402cb6eca8370205f91ebd4324631452da854008872b0fbf6eb1764a8343c6"
+      "source_sha256": "369cf4a28d46ffefb276a01fba357a0e42f8ffeae8ea30db14f78df051df5f3a"
     },
     {
       "path": "theory/appendix-a/a-03.md",
@@ -733,7 +733,7 @@
       "part": 18,
       "source_start_line": 4758,
       "source_end_line": 4802,
-      "source_sha256": "1ec028aff2996b84ccfd1004a8e31c293407919c3e94f550d83cc7c8a0747bd1"
+      "source_sha256": "d5ca463228240b648f5403ba994e9971619acc0bc54b84ec01de84bef1bb6f42"
     },
     {
       "path": "theory/appendix-c.md",
