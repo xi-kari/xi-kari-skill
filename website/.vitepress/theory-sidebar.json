@@ -25,7 +25,7 @@
         "link": "/theory/part-03"
       },
       {
-        "text": "第四部分　经验问题、结果合同与条件形式命题",
+        "text": "第四部分　经验问题、结论规则与条件形式命题",
         "link": "/theory/part-04"
       },
       {
@@ -73,7 +73,7 @@
     "collapsed": true,
     "items": [
       {
-        "text": "第十三部分　接口与工具",
+        "text": "第十三部分　判断程序与工具",
         "link": "/theory/part-13"
       },
       {
@@ -95,51 +95,51 @@
     "collapsed": true,
     "items": [
       {
-        "text": "附录A　人类变量接口卡册",
+        "text": "附录A　人类变量详表",
         "link": "/theory/appendix-a/"
       },
       {
-        "text": "A.1　HV01 结构域（完整接口卡）",
+        "text": "A.1　结构域（HV01）",
         "link": "/theory/appendix-a/a-01"
       },
       {
-        "text": "A.2　HV02 边界与接口（完整接口卡）",
+        "text": "A.2　边界与接口（HV02）",
         "link": "/theory/appendix-a/a-02"
       },
       {
-        "text": "A.3　HV03 指向锚点（完整接口卡）",
+        "text": "A.3　指向锚点（HV03）",
         "link": "/theory/appendix-a/a-03"
       },
       {
-        "text": "A.4　HV04 生成节点（完整接口卡）",
+        "text": "A.4　生成节点（HV04）",
         "link": "/theory/appendix-a/a-04"
       },
       {
-        "text": "A.5　HV05 行动承接层（完整接口卡）",
+        "text": "A.5　行动承接层（HV05）",
         "link": "/theory/appendix-a/a-05"
       },
       {
-        "text": "A.6　HV06 动力—承接链（完整接口卡）",
+        "text": "A.6　动力—承接链（HV06）",
         "link": "/theory/appendix-a/a-06"
       },
       {
-        "text": "A.7　HV07 反馈写回（完整接口卡）",
+        "text": "A.7　反馈写回（HV07）",
         "link": "/theory/appendix-a/a-07"
       },
       {
-        "text": "A.8　HV08 条件势场（完整接口卡）",
+        "text": "A.8　条件势场（HV08）",
         "link": "/theory/appendix-a/a-08"
       },
       {
-        "text": "A.9　HV09 结构负荷（完整接口卡）",
+        "text": "A.9　结构负荷（HV09）",
         "link": "/theory/appendix-a/a-09"
       },
       {
-        "text": "A.10　HV10 演化相位（完整接口卡）",
+        "text": "A.10　演化相位（HV10）",
         "link": "/theory/appendix-a/a-10"
       },
       {
-        "text": "A.11　HV11 开放性承担行动（完整接口卡）",
+        "text": "A.11　开放性承担行动（HV11）",
         "link": "/theory/appendix-a/a-11"
       }
     ]

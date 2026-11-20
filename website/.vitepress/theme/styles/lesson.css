@@ -78,6 +78,9 @@
   line-height: 1.3;
 }
 .xk-lesson__topic { margin: 4px 0 0 !important; font-size: .92em; line-height: 1.6; color: var(--xk-ink-2); }
+/* a lesson written against an earlier text of the book says so, quietly, before it begins */
+.xk-lesson__edition { margin: -6px 0 18px !important; padding-left: 12px; border-left: 2px solid var(--xk-note-edge); font-size: 12.5px; line-height: 1.75; color: var(--xk-ink-3); }
+.xk-lesson__edition a { color: var(--xk-blue); text-decoration: underline; text-underline-offset: 3px; text-decoration-color: color-mix(in srgb, var(--xk-blue) 45%, transparent); }
 
 .xk-lesson__lead { margin: 0 0 18px !important; font-size: 1.24em; font-weight: 800; line-height: 1.7; color: var(--xk-ink); }
 .xk-lesson__lead span {

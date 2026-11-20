@@ -13,10 +13,14 @@ import subprocess
 import sys
 import tempfile
 import unittest
+from unittest import mock
 
 
 ROOT = Path(__file__).resolve().parents[1]
 WEBSITE = ROOT / "website"
+BUILT = ROOT / "docs" / "handbook"
+REWORDED_SHA256 = "5747a277dbf5a5cfb1583c0a172c3361710f4efee17d707ceb6151ce8cbaba3e"
+V2_SHA256 = "6ef2e508474d4ac1ad07d7e4e068955342c405b5f680afcfc40d68cca3d0149c"
 SPEC = importlib.util.spec_from_file_location("handbook_source", WEBSITE / "scripts/build_theory.py")
 builder = importlib.util.module_from_spec(SPEC)
 sys.modules[SPEC.name] = builder
@@ -51,16 +55,44 @@ class HandbookSourceTests(unittest.TestCase):
         cls.manifest = json.loads((WEBSITE / "public/source-map.json").read_text(encoding="utf-8"))
 
     def test_downloads_are_identical_to_the_selected_editions(self):
+        self.assertEqual(builder.SOURCE_SHA256, REWORDED_SHA256)
         self.assertEqual(hashlib.sha256(self.raw).hexdigest(), builder.SOURCE_SHA256)
-        self.assertEqual((WEBSITE / "public/downloads" / self.source.name).read_bytes(), self.raw)
+        self.assertEqual(self.raw, builder.SOURCE.read_bytes())
         word = (WEBSITE / "public/downloads" / f"{builder.TITLE}.docx").read_bytes()
         self.assertEqual(hashlib.sha256(word).hexdigest(), builder.DOCX_SHA256)
         self.assertEqual(self.manifest["source_sha256"], builder.SOURCE_SHA256)
-        self.assertEqual(self.raw, (ROOT / "source" / self.source.name).read_bytes())
         self.assertEqual(self.manifest["theory_version"], "v2")
+        self.assertEqual(self.manifest["edition"], "表述修订稿")
+        self.assertEqual(self.manifest["source_date"], "2026-11-19")
         self.assertEqual(self.manifest["legacy_docx"]["theory_version"], "v1")
         self.assertEqual(self.manifest["legacy_docx"]["sha256"], builder.DOCX_SHA256)
         self.assertNotIn("docx_sha256", self.manifest)
+
+    def test_the_handbook_reads_its_own_copy_while_the_skill_keeps_v2(self):
+        self.assertTrue(builder.SOURCE.is_relative_to(WEBSITE / "content"))
+        self.assertEqual(hashlib.sha256(builder.SOURCE.read_bytes()).hexdigest(), REWORDED_SHA256)
+        skill_source = (ROOT / "source" / self.source.name).read_bytes()
+        self.assertEqual(hashlib.sha256(skill_source).hexdigest(), V2_SHA256)
+        self.assertEqual(builder.V2_SOURCE, ROOT / "source" / self.source.name)
+
+    def test_v2_download_is_byte_identical_to_the_v2_source(self):
+        v2 = (ROOT / "source" / self.source.name).read_bytes()
+        self.assertEqual(builder.V2_SHA256, V2_SHA256)
+        self.assertEqual((WEBSITE / "public/downloads" / f"{builder.TITLE}.v2.md").read_bytes(), v2)
+        self.assertEqual(self.manifest["previous_edition"], {
+            "theory_version": "v2", "language": "zh", "sha256": V2_SHA256, "bytes": len(v2),
+            "path": f"/downloads/{builder.TITLE}.v2.md", "source_date": "2026-11-16"})
+
+    def test_changed_v2_source_fails_before_creating_pages(self):
+        with tempfile.TemporaryDirectory(prefix="xikari-handbook-v2-") as directory:
+            root = Path(directory)
+            changed = root / "v2.md"
+            changed.write_bytes((ROOT / "source" / self.source.name).read_bytes() + b"\n")
+            destination = root / "site"
+            with mock.patch.object(builder, "V2_SOURCE", changed):
+                with self.assertRaisesRegex(ValueError, "v2 manuscript"):
+                    builder.build(destination, self.source)
+            self.assertFalse(destination.exists())
 
     def test_default_build_uses_the_handbooks_selected_edition(self):
         with tempfile.TemporaryDirectory(prefix="xikari-handbook-default-") as directory:
@@ -69,6 +101,8 @@ class HandbookSourceTests(unittest.TestCase):
                 destination, docx=WEBSITE / "public/downloads" / f"{builder.TITLE}.docx")
             self.assertEqual(manifest["source_sha256"], builder.SOURCE_SHA256)
             self.assertEqual((destination / "public/downloads" / self.source.name).read_bytes(), self.raw)
+            self.assertEqual((destination / "public/downloads" / f"{builder.TITLE}.v2.md").read_bytes(),
+                             (ROOT / "source" / self.source.name).read_bytes())
             self.assertEqual(manifest["pages"], self.manifest["pages"])
 
     def test_page_spans_cover_each_source_line_once_in_reading_order(self):
@@ -109,10 +143,11 @@ class HandbookSourceTests(unittest.TestCase):
     def test_formula_notation_html_breaks_and_template_text_remain_literal(self):
         rendered = "\n".join((WEBSITE / page.path).read_text(encoding="utf-8") for page in self.pages)
         self.assertEqual(rendered.count("<br>"), self.raw.decode("utf-8").count("<br>"))
-        self.assertIn("human&#95;strong&#95;type:&lt;ID&gt;", rendered)
+        self.assertIn("∩&#95;&#123;x∈X&#95;y&#125;A&#95;ok(x)", rendered)
+        self.assertIn("SP=&lt;A,X,T,O,C,R,I,N,J&gt;", rendered)
         self.assertIn("S*=&lt;B,X,R,I,T,SP,K&gt;", rendered)
         self.assertIn("x&#95;&#123;t+1&#125;", rendered)
-        self.assertNotIn("<ID>", rendered)
+        self.assertNotIn("<A,X,T", rendered)
         sample = builder.Page("theory/sample.md", "Sample", 0, 3, None, 1)
         text = builder.render_page(sample, ["# Sample\n", "{{ danger() }} <script>x</script>\n", "a<br>b\n"], {})
         self.assertIn('<div v-pre class="theory-source">', text)
@@ -278,7 +313,7 @@ class HandbookSourceTests(unittest.TestCase):
             manifest = builder.build(root, self.source, WEBSITE / "public/downloads" / f"{builder.TITLE}.docx")
             self.assertEqual(manifest["annotation_sections"], ["1.5.3", "3.3"])
             part = (root / "theory/part-01.md").read_text(encoding="utf-8")
-            self.assertLess(part.index("读取记录或完成标记也不证明已经理解。"), part.index('<SectionLesson section="1.5.3" />'))
+            self.assertLess(part.index("有读取的记录，或有完成的标记，也不证明已经理解。"), part.index('<SectionLesson section="1.5.3" />'))
             self.assertLess(part.index('<SectionLesson section="1.5.3" />'), part.index("## 1.6 "))
 
     def test_unknown_supplemented_unit_fails_before_writing_theory_pages(self):
@@ -355,6 +390,15 @@ class BilingualHandbookTests(unittest.TestCase):
                          (ROOT / "source/en/upstream/xikari-conditions-en.md").read_bytes())
         self.assertEqual(self.manifest["source_sha256"], hashlib.sha256(self.raw).hexdigest())
         self.assertEqual(self.manifest["canonical_chinese_sha256"], builder.SOURCE_SHA256)
+
+    def test_english_edition_names_the_chinese_text_it_translates(self):
+        # The reference translation follows v2 as first published; the Chinese was reworded later.
+        self.assertEqual(self.manifest["translates_chinese_sha256"], V2_SHA256)
+        self.assertEqual(self.manifest["source_date"], "2026-11-16")
+        self.assertNotIn("edition", self.manifest)
+        chinese = json.loads((WEBSITE / "public/source-map.json").read_text(encoding="utf-8"))
+        self.assertEqual(chinese["previous_edition"]["sha256"], self.manifest["translates_chinese_sha256"])
+        self.assertNotIn("translates_chinese_sha256", chinese)
 
     def test_all_numbered_sections_keep_the_same_route_and_anchor_across_languages(self):
         chinese = json.loads((WEBSITE / "public/source-map.json").read_text(encoding="utf-8"))
@@ -473,6 +517,87 @@ class BilingualHandbookTests(unittest.TestCase):
             self.assertEqual(manifests["en"]["pages"], self.manifest["pages"])
             self.assertEqual(manifests["en"]["annotation_sections"], [])
             self.assertEqual((root / "public/downloads" / builder.EN_FILE).read_bytes(), self.raw)
+
+
+LESSON_START = re.compile(r'<section id="lesson-[^"]+" class="xk-lesson[^"]*" data-section="([^"]+)"')
+EDITION_NOTICE = re.compile(r'<p class="xk-lesson__edition">(.*?)</p>', re.S)
+V2_NOTICE = ("本讲按 v2 原文（2026年11月16日）写成。原文后来只改写了表述，小节编号和结构没有变；"
+             "讲解里的行号、短引文和代号指的是 v2 原文，可在下载页取得。")
+
+
+def lesson_blocks(page):
+    """Each lesson of a built page, keyed by its reading unit."""
+    text = page.read_text(encoding="utf-8")
+    starts = [(match.start(), match.group(1)) for match in LESSON_START.finditer(text)]
+    ends = [start for start, _ in starts[1:]] + [len(text)]
+    return {key: text[start:end] for (start, key), end in zip(starts, ends)}
+
+
+class LessonEditionNoticeTests(unittest.TestCase):
+    PAGES = ["theory/index.html", "theory/part-03.html", "theory/appendix-a/a-05.html", "theory/references.html"]
+
+    def test_chinese_lessons_written_against_another_text_say_so_first(self):
+        identity = json.loads((WEBSITE / "content/reading-units.json").read_text(encoding="utf-8"))["source_sha256"]
+        lessons = json.loads((WEBSITE / "content/section-lessons.json").read_text(encoding="utf-8"))["lessons"]
+        supplements = json.loads((WEBSITE / "content/lesson-overrides.json").read_text(encoding="utf-8"))["lessons"]
+        for key, fields in supplements.items():
+            lessons[key] = {**lessons.get(key, {}), **fields}
+        noticed = 0
+        for name in self.PAGES:
+            for key, block in lesson_blocks(BUILT / name).items():
+                with self.subTest(page=name, lesson=key):
+                    notices = EDITION_NOTICE.findall(block)
+                    if lessons[key].get("sourceHash") in {None, identity}:
+                        self.assertEqual(notices, [])
+                        continue
+                    self.assertEqual(len(notices), 1)
+                    self.assertEqual(html.unescape(re.sub(r"<[^>]+>", "", notices[0])), V2_NOTICE)
+                    self.assertIn('href="/xi-kari-skill/handbook/downloads.html#v2-original"', notices[0])
+                    # the notice opens the lesson, directly under its heading
+                    self.assertRegex(block, r'</header>(?:<!--[^>]*-->|\s)*<p class="xk-lesson__edition">')
+                    noticed += 1
+        self.assertGreater(noticed, 20)
+
+    def test_english_lessons_bound_to_the_english_text_carry_no_notice(self):
+        identity = json.loads((WEBSITE / "content/en/reading-units.json").read_text(encoding="utf-8"))["source_sha256"]
+        lessons = json.loads((WEBSITE / "content/en/section-lessons.json").read_text(encoding="utf-8"))["lessons"]
+        seen = 0
+        for name in self.PAGES:
+            blocks = lesson_blocks(BUILT / "en" / name)
+            for key, block in blocks.items():
+                self.assertEqual(lessons[key]["sourceHash"], identity, key)
+                self.assertNotIn("xk-lesson__edition", block, key)
+            seen += len(blocks)
+        self.assertGreater(seen, 20)
+
+    def test_the_notice_leads_to_the_v2_download(self):
+        page = (BUILT / "downloads.html").read_text(encoding="utf-8")
+        self.assertIn('id="v2-original"', page)
+        self.assertIn(f'href="/xi-kari-skill/handbook/downloads/{builder.TITLE}.v2.md"', page)
+
+
+BACK_TO_SOURCE = re.compile(r"^## 回到原文\n(.*?)(?=^## |\Z)", re.M | re.S)
+
+
+class ConceptSourceQuoteTests(unittest.TestCase):
+    def test_quotes_under_back_to_the_source_stand_verbatim_in_a_section_they_link(self):
+        # A concept page ends with a quotation from the book and the sections it comes from.
+        # When the Chinese text is reworded, a quotation left in the old wording fails here.
+        source = builder.SOURCE.read_text(encoding="utf-8").splitlines(keepends=True)
+        units = json.loads((WEBSITE / "content/reading-units.json").read_text(encoding="utf-8"))["units"]
+        spans = {unit["website_source_route"]: "".join(source[unit["source_start_line"] - 1:unit["subtree_end_line"]])
+                 for unit in units if unit["website_source_route"]}
+        squash = lambda text: re.sub(r"\s+", "", text)
+        quoted = 0
+        for page in sorted((WEBSITE / "concepts").glob("*.md")):
+            for block in BACK_TO_SOURCE.findall(page.read_text(encoding="utf-8")):
+                links = re.findall(r"\]\((?:\.\.)?(/theory/[^)#\s]+#section-[a-z0-9-]+)\)", block)
+                for quote in re.findall(r"^> (.+)$", block, re.M):
+                    with self.subTest(page=page.name, quote=quote):
+                        self.assertTrue(links)
+                        self.assertTrue(any(squash(quote) in squash(spans[link]) for link in links))
+                    quoted += 1
+        self.assertGreaterEqual(quoted, 8)
 
 
 if __name__ == "__main__":

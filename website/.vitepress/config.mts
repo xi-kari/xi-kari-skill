@@ -88,6 +88,7 @@ function headingNumbers(md: MarkdownIt) {
 
 /**
  * Codes that the book names in a section heading of their own: 'D2' is 有效反馈 (§3.3).
+ * A heading sets the code before the name or in brackets after it (“有效反馈（D2）”).
  * Names and places are read from the reading units, which copy each heading exactly; a
  * heading that carries several codes or a range names no single code and is left out.
  */
@@ -104,7 +105,7 @@ function sectionTerms(locale = 'zh'): Map<string, SectionTerm> {
       const codes = [...title.matchAll(TERM_CODE)].map(match => match[0]).filter(code => /\d/.test(code) || /-[A-Z]/.test(code))
       if (codes.length !== 1 || /^[A-Z]+\d+-[A-Z]+\d+$/.test(codes[0]) || terms.has(codes[0])) continue
       const name = title.replace(codes[0], ' ')
-        .replace(/[（(](?:完整接口卡|full interface card)[)）]/i, '')
+        .replace(/[（(](?:完整接口卡|full interface card)[)）]/i, '').replace(/[（(]\s*[)）]/g, '')
         .replace(/^[\s|：:]+|[\s|：:]+$/g, '').replace(/\s{2,}/g, ' ')
         .replace(/(\p{Script=Han}|[、，）])\s+(?=\p{Script=Han}|（)/gu, '$1')
       if (name) terms.set(codes[0], { name, key: unit.section_id, href: unit.website_source_route })
@@ -220,6 +221,11 @@ function tableFrames(md: MarkdownIt) {
   md.renderer.rules.table_close = (tokens, idx, options, _env, self) => self.renderToken(tokens, idx, options) + '</div>'
 }
 
+/** The text the reading units were cut from. A lesson bound to another text says so on the page. */
+function sourceIdentity(locale = 'zh'): string {
+  return String(JSON.parse(readFileSync(join(WEBSITE, locale === 'en' ? 'content/en' : 'content', 'reading-units.json'), 'utf8')).source_sha256 || '')
+}
+
 /** The date of this handbook's selected edition, independent of skill upgrades. */
 function baselineDate(locale = 'zh'): string {
   try {
@@ -277,7 +283,7 @@ const learningSidebar = [
     { text: '支持与恢复', link: '/concepts/recovery' },
     { text: '预测与行动', link: '/concepts/prediction' },
     { text: '地位与作用', link: '/concepts/status-and-effects' },
-    { text: '问题冻结与重开', link: '/concepts/reopening-questions' },
+    { text: '问题的固定与重开', link: '/concepts/reopening-questions' },
     { text: '四种结果', link: '/concepts/four-outcomes' },
     { text: '配置与能力', link: '/concepts/allocation-and-capability' },
     { text: '受影响位置', link: '/concepts/affected-positions' },
@@ -302,7 +308,7 @@ const learningSidebar = [
 ]
 
 const englishLabels: Record<string, string> = {
-  '地位与作用': 'Status and effects', '问题冻结与重开': 'Freezing and reopening questions',
+  '地位与作用': 'Status and effects', '问题的固定与重开': 'Freezing and reopening questions',
   '四种结果': 'Four distinct outcomes', '配置与能力': 'Allocation and capability',
   '受影响位置': 'Affected positions', '全有损失的选择': 'Choices with unavoidable losses',
   '开始理解': 'Start here', '阅读首页': 'Reader home', '十句话入门': 'Ten sentences', '概念图解': 'Concept guides', '概念总览': 'Concept overview',
@@ -374,7 +380,7 @@ export default defineConfig({
     en: { label: 'English', lang: 'en', title: 'Xikari Reader',
       head: [['meta', { property: 'og:locale', content: 'en_US' }]],
       description: 'Read On Conditions, Structure, and Transformation in English, with all 421 reading lessons, examples, questions, and source notes.',
-      themeConfig: { opening: openingParagraph('en'), xkBaseline: baselineDate('en'), xkLengths: sheetLengths('en'),
+      themeConfig: { opening: openingParagraph('en'), xkBaseline: baselineDate('en'), xkSourceSha256: sourceIdentity('en'), xkLengths: sheetLengths('en'),
         xkSections: JSON.parse(readFileSync(sourceMapPath('en'), 'utf8')).sections, xkLessons: lessonIndex('en'), xkLessonCards: englishCards, sidebar: sidebar(englishTheorySidebar, englishLearningSidebar, '/en') }
     }
   },
@@ -428,6 +434,7 @@ export default defineConfig({
     xkSourceAnchors: Object.fromEntries(Object.entries(JSON.parse(readFileSync(SOURCE_MAP, 'utf8')).sections).map(([key, value]) => [key.toLowerCase().replaceAll('.', '-'), '#' + String(value).split('#')[1]])),
     opening: openingParagraph(),
     xkBaseline: baselineDate(),
+    xkSourceSha256: sourceIdentity(),
     xkEdition: JSON.parse(readFileSync(SOURCE_MAP, 'utf8')).theory_version,
     xkLengths: sheetLengths(),
     xkLessons: lessonIndex(),

@@ -3,12 +3,21 @@
   "author": "Xikari",
   "language": "zh",
   "theory_version": "v2",
-  "source_date": "2026-11-16",
-  "source_sha256": "6ef2e508474d4ac1ad07d7e4e068955342c405b5f680afcfc40d68cca3d0149c",
-  "source_bytes": 692246,
-  "source_lines": 5179,
+  "edition": "表述修订稿",
+  "source_date": "2026-11-19",
+  "source_sha256": "5747a277dbf5a5cfb1583c0a172c3361710f4efee17d707ceb6151ce8cbaba3e",
+  "source_bytes": 801950,
+  "source_lines": 5544,
   "download": "/downloads/Xikari-条件结构与转化论.md",
-  "canonical_chinese_sha256": "6ef2e508474d4ac1ad07d7e4e068955342c405b5f680afcfc40d68cca3d0149c",
+  "canonical_chinese_sha256": "5747a277dbf5a5cfb1583c0a172c3361710f4efee17d707ceb6151ce8cbaba3e",
+  "previous_edition": {
+    "theory_version": "v2",
+    "language": "zh",
+    "sha256": "6ef2e508474d4ac1ad07d7e4e068955342c405b5f680afcfc40d68cca3d0149c",
+    "bytes": 692246,
+    "path": "/downloads/Xikari-条件结构与转化论.v2.md",
+    "source_date": "2026-11-16"
+  },
   "parts": {
     "part_1": "/theory/part-01#part_1",
     "part_2": "/theory/part-02#part_2",
@@ -463,7 +472,7 @@
       "part": null,
       "source_start_line": 1,
       "source_end_line": 65,
-      "source_sha256": "af44fce47700710ed784da6ec8a5d121c023d11a364e44b5d8ab82da78fd4fce"
+      "source_sha256": "c4306e38fee0ea517cc57184001a8ee2932a61ed3e1b2a794b6604f502f0bafa"
     },
     {
       "path": "theory/part-01.md",
@@ -472,7 +481,7 @@
       "part": 1,
       "source_start_line": 66,
       "source_end_line": 210,
-      "source_sha256": "41353abf87440d2abeb92e77709be4edd9dfe9b7022bfc0e6320bbea47a3742d"
+      "source_sha256": "8446e640d003e54de77cebccffbe7f4b013054f49a1edf86f9903d5b0f08b749"
     },
     {
       "path": "theory/part-02.md",
@@ -481,7 +490,7 @@
       "part": 2,
       "source_start_line": 211,
       "source_end_line": 442,
-      "source_sha256": "4577b1ef9c63d8b6873e88655d70aafb3bd16e7d963ef8eeac0a8f14fda975b6"
+      "source_sha256": "fffc3590eb01b2934a92976e9818356d08a3470b31b65b6793bfdb7c9d2097a9"
     },
     {
       "path": "theory/part-03.md",
@@ -489,259 +498,259 @@
       "title": "第三部分　通用结构语法",
       "part": 3,
       "source_start_line": 443,
-      "source_end_line": 572,
-      "source_sha256": "aca075d844dccf8126e89cca5587fd7d6696c59a6b01f5dbf1d068cecce284e3"
+      "source_end_line": 576,
+      "source_sha256": "f3b172633d9948eaea3c4baa167540b2d8a697ddac8d67a8a0d1731254344f34"
     },
     {
       "path": "theory/part-04.md",
       "route": "/theory/part-04",
-      "title": "第四部分　经验问题、结果合同与条件形式命题",
+      "title": "第四部分　经验问题、结论规则与条件形式命题",
       "part": 4,
-      "source_start_line": 573,
-      "source_end_line": 1050,
-      "source_sha256": "35d0784c8ca80f91b309d269ea81093bdc5f8f9917dfda2b78059eef02cd2fca"
+      "source_start_line": 577,
+      "source_end_line": 1075,
+      "source_sha256": "1009871e471618e80a881d1362dbba0477bb36451d16dde28644ef962ba51644"
     },
     {
       "path": "theory/part-05.md",
       "route": "/theory/part-05",
       "title": "第五部分　跨尺度与跨圈层变换",
       "part": 5,
-      "source_start_line": 1051,
-      "source_end_line": 1315,
-      "source_sha256": "e7f4f42fa638e3c51228886f1017099371ee08575e777286f65aade0599d1aeb"
+      "source_start_line": 1076,
+      "source_end_line": 1355,
+      "source_sha256": "537fbde28b094e5d16c8b340ae8331b8d82206883a5acf0eb82b599a2356d336"
     },
     {
       "path": "theory/part-06.md",
       "route": "/theory/part-06",
       "title": "第六部分　运转与演化",
       "part": 6,
-      "source_start_line": 1316,
-      "source_end_line": 1500,
-      "source_sha256": "1c3b865d86c2fb2955234e4091dd5d407229b5225faebe72120c1081d386315a"
+      "source_start_line": 1356,
+      "source_end_line": 1542,
+      "source_sha256": "8365e13d257dffee0dc79da8fcf933eb778b2b35d4eae68a823a55af0b790baa"
     },
     {
       "path": "theory/part-07.md",
       "route": "/theory/part-07",
       "title": "第七部分　人类结构化世界",
       "part": 7,
-      "source_start_line": 1501,
-      "source_end_line": 1678,
-      "source_sha256": "1be4941528dbb9a13fc9666dbdf51b8542422ada58552281542af0319d195992"
+      "source_start_line": 1543,
+      "source_end_line": 1740,
+      "source_sha256": "6681eab6936a4822e291c10dedbc616952c2ed9137c8f9989f1fc48f3218007c"
     },
     {
       "path": "theory/part-08.md",
       "route": "/theory/part-08",
       "title": "第八部分　人类状态原型",
       "part": 8,
-      "source_start_line": 1679,
-      "source_end_line": 1920,
-      "source_sha256": "ca1d9e851be849c6c163516ad10d4239c96d2fac75984df13c20c2479892749f"
+      "source_start_line": 1741,
+      "source_end_line": 1984,
+      "source_sha256": "c76f8a814dce8ceb65b5c2aad257d4639828f3b473c64077034eb295157e36e7"
     },
     {
       "path": "theory/part-09.md",
       "route": "/theory/part-09",
       "title": "第九部分　行动者状态与人格假设",
       "part": 9,
-      "source_start_line": 1921,
-      "source_end_line": 2082,
-      "source_sha256": "23eea135da1b41efce0f31b9ed43e9b630d4b1e6be21394f6d6e897b2b818694"
+      "source_start_line": 1985,
+      "source_end_line": 2163,
+      "source_sha256": "6bdb4a459c7a65ed50ece771a5b5189e8d19a4a562a1ba2ff4467dd3d8903988"
     },
     {
       "path": "theory/part-10.md",
       "route": "/theory/part-10",
       "title": "第十部分　多圈层对象与联合状态",
       "part": 10,
-      "source_start_line": 2083,
-      "source_end_line": 2264,
-      "source_sha256": "7eda8702a4e2203505941f8fa20de2e5275ca11cddfd2d5316c7b0284bc3f5a6"
+      "source_start_line": 2164,
+      "source_end_line": 2352,
+      "source_sha256": "9eb70d4ddfc22eda721b3ec2ce1e148f94ce3c6ffe0cd035fb7a77c7bf0dd249"
     },
     {
       "path": "theory/part-11.md",
       "route": "/theory/part-11",
       "title": "第十一部分　事件驱动的动态推演",
       "part": 11,
-      "source_start_line": 2265,
-      "source_end_line": 2497,
-      "source_sha256": "410bc75cbbad9f953d0de3a78fa42d2f964f6fd3885091b0d56922ecc0d3856c"
+      "source_start_line": 2353,
+      "source_end_line": 2585,
+      "source_sha256": "c9d84ffa06270746d37814cb809bd1ca975c7d0556646f1d8f75182badb01ec8"
     },
     {
       "path": "theory/part-12.md",
       "route": "/theory/part-12",
       "title": "第十二部分　条件前瞻与有限选择",
       "part": 12,
-      "source_start_line": 2498,
-      "source_end_line": 2722,
-      "source_sha256": "c1db70b22d36490cc848cf2b6afe0331ab3d7e1535f544f6e178a2f500c04c07"
+      "source_start_line": 2586,
+      "source_end_line": 2810,
+      "source_sha256": "b9c32f16579a9953b773368e78d50fa3d0292267a2f1d70ded319e474fa11e20"
     },
     {
       "path": "theory/part-13.md",
       "route": "/theory/part-13",
-      "title": "第十三部分　接口与工具",
+      "title": "第十三部分　判断程序与工具",
       "part": 13,
-      "source_start_line": 2723,
-      "source_end_line": 2917,
-      "source_sha256": "0fe83a02ddf9adeb386099abbe477f4ba44eac1da14f01be6d1a8a48555e241e"
+      "source_start_line": 2811,
+      "source_end_line": 3017,
+      "source_sha256": "05c36970e673194cf9b1cfb4c54f5dbf8af7496a8e67bf6748850f6f2ef6f5f6"
     },
     {
       "path": "theory/part-14.md",
       "route": "/theory/part-14",
       "title": "第十四部分　规范选择",
       "part": 14,
-      "source_start_line": 2918,
-      "source_end_line": 3095,
-      "source_sha256": "ca0080b85c1671c02aa06c0a2df56ce4a7090f5d5517ee7bb724f29905621fce"
+      "source_start_line": 3018,
+      "source_end_line": 3221,
+      "source_sha256": "9453d94211f18b3d16ce1048c93821b5bb39f125f4aea969e0f2f29a99ca4281"
     },
     {
       "path": "theory/part-15.md",
       "route": "/theory/part-15",
       "title": "第十五部分　干涉与应用",
       "part": 15,
-      "source_start_line": 3096,
-      "source_end_line": 3339,
-      "source_sha256": "06061e45d8f91018e27dbf0fe1d93b97c0b4002768519befdeb80e83f9234720"
+      "source_start_line": 3222,
+      "source_end_line": 3465,
+      "source_sha256": "bd4cf9dcf0db987b7ecc4d47289980ee50caf7e1e15921e1f0661f93cf46b9db"
     },
     {
       "path": "theory/part-16.md",
       "route": "/theory/part-16",
       "title": "第十六部分　治理",
       "part": 16,
-      "source_start_line": 3340,
-      "source_end_line": 3645,
-      "source_sha256": "3facc2ed99c1b6550d28e09cc290fd744155360fa5481b9e53c8c8c7896b1bc6"
+      "source_start_line": 3466,
+      "source_end_line": 3773,
+      "source_sha256": "1a09182dd778fd9522ff4b2202927d651c16c3769f7e095cf4aab7029db1837a"
     },
     {
       "path": "theory/appendix-a/index.md",
       "route": "/theory/appendix-a/",
-      "title": "附录A　人类变量接口卡册",
+      "title": "附录A　人类变量详表",
       "part": 17,
-      "source_start_line": 3646,
-      "source_end_line": 3653,
-      "source_sha256": "3d92c6463af4445e3ccb802a01c5dc3f1bac4cf2daa3ddddfbd032380eb731de"
+      "source_start_line": 3774,
+      "source_end_line": 3781,
+      "source_sha256": "9b2bea37726ccb868ddb4a897b720345fe8dd0913f30389a77c1e6a906267a0d"
     },
     {
       "path": "theory/appendix-a/a-01.md",
       "route": "/theory/appendix-a/a-01",
-      "title": "A.1　HV01 结构域（完整接口卡）",
+      "title": "A.1　结构域（HV01）",
       "part": 17,
-      "source_start_line": 3654,
-      "source_end_line": 3719,
-      "source_sha256": "061fd4da8fa40bc26cc296d3127dac1f195a5dc16596324b26014052e24af422"
+      "source_start_line": 3782,
+      "source_end_line": 3865,
+      "source_sha256": "102fd0d3cdd02f569cee28f1f8da866b31d3252ec7e91c53dcedf6a88c2a679c"
     },
     {
       "path": "theory/appendix-a/a-02.md",
       "route": "/theory/appendix-a/a-02",
-      "title": "A.2　HV02 边界与接口（完整接口卡）",
+      "title": "A.2　边界与接口（HV02）",
       "part": 17,
-      "source_start_line": 3720,
-      "source_end_line": 3785,
-      "source_sha256": "bbbb70658e3102e39c40eecb4ae20083a60fa528fe52d8682f99b12c0297cd31"
+      "source_start_line": 3866,
+      "source_end_line": 3949,
+      "source_sha256": "da402cb6eca8370205f91ebd4324631452da854008872b0fbf6eb1764a8343c6"
     },
     {
       "path": "theory/appendix-a/a-03.md",
       "route": "/theory/appendix-a/a-03",
-      "title": "A.3　HV03 指向锚点（完整接口卡）",
+      "title": "A.3　指向锚点（HV03）",
       "part": 17,
-      "source_start_line": 3786,
-      "source_end_line": 3851,
-      "source_sha256": "cf34d05bd8e97a34d29c8ab2802c3c2d459a0dbfc7c336291835970c4e5953d1"
+      "source_start_line": 3950,
+      "source_end_line": 4033,
+      "source_sha256": "3e73720571911344eb3e3f09c0f8a6a0cfffafa7c222de61f564f37281e6d263"
     },
     {
       "path": "theory/appendix-a/a-04.md",
       "route": "/theory/appendix-a/a-04",
-      "title": "A.4　HV04 生成节点（完整接口卡）",
+      "title": "A.4　生成节点（HV04）",
       "part": 17,
-      "source_start_line": 3852,
-      "source_end_line": 3917,
-      "source_sha256": "e4682501277da83cb364eb21b6ee99cc6241cd31ab380621e9c9a5098b53b4e8"
+      "source_start_line": 4034,
+      "source_end_line": 4117,
+      "source_sha256": "f0b2073c7b5d5d478fc0b9a4085d4b5317cdbd68265c5711ff304de3af03921f"
     },
     {
       "path": "theory/appendix-a/a-05.md",
       "route": "/theory/appendix-a/a-05",
-      "title": "A.5　HV05 行动承接层（完整接口卡）",
+      "title": "A.5　行动承接层（HV05）",
       "part": 17,
-      "source_start_line": 3918,
-      "source_end_line": 3983,
-      "source_sha256": "835af166b5d01362368ccdb79e079d2015753cc332ef17aee6bc39491820a836"
+      "source_start_line": 4118,
+      "source_end_line": 4207,
+      "source_sha256": "70de1473a21c18e5ccf2c1736464675af1917d157ba6876eddcc2782494391b3"
     },
     {
       "path": "theory/appendix-a/a-06.md",
       "route": "/theory/appendix-a/a-06",
-      "title": "A.6　HV06 动力—承接链（完整接口卡）",
+      "title": "A.6　动力—承接链（HV06）",
       "part": 17,
-      "source_start_line": 3984,
-      "source_end_line": 4049,
-      "source_sha256": "17af06277cb94ad50cae7d2b3054d4a1018b9c83ff703c3e999da351301537e9"
+      "source_start_line": 4208,
+      "source_end_line": 4293,
+      "source_sha256": "367becfd7fa181fbbeaf27bd32d8166784b1199c9c4028442a01c59c341691ca"
     },
     {
       "path": "theory/appendix-a/a-07.md",
       "route": "/theory/appendix-a/a-07",
-      "title": "A.7　HV07 反馈写回（完整接口卡）",
+      "title": "A.7　反馈写回（HV07）",
       "part": 17,
-      "source_start_line": 4050,
-      "source_end_line": 4115,
-      "source_sha256": "af8b85d6114563134487148f9a8c6a50eb5dca7385713b529ddd85c6180cccf8"
+      "source_start_line": 4294,
+      "source_end_line": 4381,
+      "source_sha256": "b2b5b35831a9b1a3f9b4b23cf16f11aca91339abbdab1c2d5698834b44db8fa4"
     },
     {
       "path": "theory/appendix-a/a-08.md",
       "route": "/theory/appendix-a/a-08",
-      "title": "A.8　HV08 条件势场（完整接口卡）",
+      "title": "A.8　条件势场（HV08）",
       "part": 17,
-      "source_start_line": 4116,
-      "source_end_line": 4181,
-      "source_sha256": "875ca240a6f30161efab72b74740c012858fece705c9ffbfcf44e69cab32f510"
+      "source_start_line": 4382,
+      "source_end_line": 4469,
+      "source_sha256": "243b633b9dd26acad61063ad0758f28eab56765c82012394d286086f5205bb19"
     },
     {
       "path": "theory/appendix-a/a-09.md",
       "route": "/theory/appendix-a/a-09",
-      "title": "A.9　HV09 结构负荷（完整接口卡）",
+      "title": "A.9　结构负荷（HV09）",
       "part": 17,
-      "source_start_line": 4182,
-      "source_end_line": 4247,
-      "source_sha256": "0e08aa05ebb63b81efca028ef385fab4c0c45689195d112e983d5f01692a3eb4"
+      "source_start_line": 4470,
+      "source_end_line": 4557,
+      "source_sha256": "1ba9ee6057e5eb16367df9e32b84fc9d0af0fd399c84981cd671102654c96c21"
     },
     {
       "path": "theory/appendix-a/a-10.md",
       "route": "/theory/appendix-a/a-10",
-      "title": "A.10　HV10 演化相位（完整接口卡）",
+      "title": "A.10　演化相位（HV10）",
       "part": 17,
-      "source_start_line": 4248,
-      "source_end_line": 4313,
-      "source_sha256": "16f0b1c10b5eb478daa621b18d38c6773456fce63038aef23b8f4fe9c92697d5"
+      "source_start_line": 4558,
+      "source_end_line": 4649,
+      "source_sha256": "0c177059bb9f4b7b70d7275e930f1e361c1d36fe40faa3b5f0eb209a32f8fcc2"
     },
     {
       "path": "theory/appendix-a/a-11.md",
       "route": "/theory/appendix-a/a-11",
-      "title": "A.11　HV11 开放性承担行动（完整接口卡）",
+      "title": "A.11　开放性承担行动（HV11）",
       "part": 17,
-      "source_start_line": 4314,
-      "source_end_line": 4401,
-      "source_sha256": "704900d51abd5c2ce0bbc72247f94d9b1d18cd4e1f27106febc7c5780b38dfa8"
+      "source_start_line": 4650,
+      "source_end_line": 4757,
+      "source_sha256": "a0f45407af685fa48d1266173be3e34733b3b81d6c67343f406023f49f8d9d0f"
     },
     {
       "path": "theory/appendix-b.md",
       "route": "/theory/appendix-b",
       "title": "附录B　编号体系与术语总表",
       "part": 18,
-      "source_start_line": 4402,
-      "source_end_line": 4439,
-      "source_sha256": "1305624d686aa84854f4c5c8450aa8686c79f59758e7622ed381cd9fd7ef73c2"
+      "source_start_line": 4758,
+      "source_end_line": 4802,
+      "source_sha256": "1ec028aff2996b84ccfd1004a8e31c293407919c3e94f550d83cc7c8a0747bd1"
     },
     {
       "path": "theory/appendix-c.md",
       "route": "/theory/appendix-c",
       "title": "附录C 共同方法内核与跨学科桥接",
       "part": 19,
-      "source_start_line": 4440,
-      "source_end_line": 4608,
-      "source_sha256": "6dd20c4c5749615690b8e8b83f1770df0712f1cf503e34b192c25ee094e11fd2"
+      "source_start_line": 4803,
+      "source_end_line": 4973,
+      "source_sha256": "71c8bc3b5e2e23a3fdd76827207ee596ab1d714e35a3197f77a0e5b510803e58"
     },
     {
       "path": "theory/appendix-d/index.md",
       "route": "/theory/appendix-d/",
       "title": "附录D　领域解释与应用图谱",
       "part": 20,
-      "source_start_line": 4609,
-      "source_end_line": 4614,
+      "source_start_line": 4974,
+      "source_end_line": 4979,
       "source_sha256": "ac2c946affab4435d39f56ced7f8b30dbde1d8a16cefafceda25b7f4af041024"
     },
     {
@@ -749,8 +758,8 @@
       "route": "/theory/appendix-d/d-01",
       "title": "D.01　框架自身、解释任务与理论借用",
       "part": 20,
-      "source_start_line": 4615,
-      "source_end_line": 4630,
+      "source_start_line": 4980,
+      "source_end_line": 4995,
       "source_sha256": "715a7334ff838f030c83cb327ff44f642a39bd092af576d4bae2c0ad4346914c"
     },
     {
@@ -758,8 +767,8 @@
       "route": "/theory/appendix-d/d-02",
       "title": "D.02　知识、概念、语境与认识位置",
       "part": 20,
-      "source_start_line": 4631,
-      "source_end_line": 4646,
+      "source_start_line": 4996,
+      "source_end_line": 5011,
       "source_sha256": "d938656e21fb0e60fb711f44dd3b89e7101cb1c0a7505a92e9e858f9d5015c80"
     },
     {
@@ -767,26 +776,26 @@
       "route": "/theory/appendix-d/d-03",
       "title": "D.03　研究设计、测量、因果与材料形成",
       "part": 20,
-      "source_start_line": 4647,
-      "source_end_line": 4662,
-      "source_sha256": "5a30b084c4842271b700ab27075d88b19ff94afb21dc9bf13edceb1e772687e1"
+      "source_start_line": 5012,
+      "source_end_line": 5027,
+      "source_sha256": "47aad3d286633850815884fcdcdd22510c4a2fec2eddbdd11a4b04ffbe6052c5"
     },
     {
       "path": "theory/appendix-d/d-04.md",
       "route": "/theory/appendix-d/d-04",
       "title": "D.04　系统、控制、反馈、韧性与时滞",
       "part": 20,
-      "source_start_line": 4663,
-      "source_end_line": 4678,
-      "source_sha256": "80686ff053c0f0fcd94e80a5cedfa8d672f2d1f790d86421242bf7be551cb288"
+      "source_start_line": 5028,
+      "source_end_line": 5043,
+      "source_sha256": "b44e212bfe9779ddae6ec959a2100b5ea5983ba4568c75082f090195b35bec8a"
     },
     {
       "path": "theory/appendix-d/d-05.md",
       "route": "/theory/appendix-d/d-05",
       "title": "D.05　信息、表示、数学与物理借用",
       "part": 20,
-      "source_start_line": 4679,
-      "source_end_line": 4694,
+      "source_start_line": 5044,
+      "source_end_line": 5059,
       "source_sha256": "368fbb16426138b8e113ff1b80308cb4a41e92791fbe7e4261a34eabe26b00f3"
     },
     {
@@ -794,17 +803,17 @@
       "route": "/theory/appendix-d/d-06",
       "title": "D.06　人性、演化、习惯与行动能力",
       "part": 20,
-      "source_start_line": 4695,
-      "source_end_line": 4710,
-      "source_sha256": "cf9a82cb6b23e8a88b70c2ebb6150d4ed33730e239da905a6e515b0f6b244a4d"
+      "source_start_line": 5060,
+      "source_end_line": 5075,
+      "source_sha256": "6bf727763a743e200422e6b30333fe59045a6d2623b1208afaf774ed9276e86d"
     },
     {
       "path": "theory/appendix-d/d-07.md",
       "route": "/theory/appendix-d/d-07",
       "title": "D.07　有限理性、情绪、群体决策与试探",
       "part": 20,
-      "source_start_line": 4711,
-      "source_end_line": 4726,
+      "source_start_line": 5076,
+      "source_end_line": 5091,
       "source_sha256": "816eb221dde6ff54a209e6544db677ed33716360d02ed4568423c13f0ee4f214"
     },
     {
@@ -812,8 +821,8 @@
       "route": "/theory/appendix-d/d-08",
       "title": "D.08　发展、心理经验、治疗理论与专业边界",
       "part": 20,
-      "source_start_line": 4727,
-      "source_end_line": 4742,
+      "source_start_line": 5092,
+      "source_end_line": 5107,
       "source_sha256": "fdd32cd47a76b64bda2715f996bcae585ac03a89a17c14464d678718a20ac666"
     },
     {
@@ -821,17 +830,17 @@
       "route": "/theory/appendix-d/d-09",
       "title": "D.09　爱、照护、承认、意义与生活质量",
       "part": 20,
-      "source_start_line": 4743,
-      "source_end_line": 4758,
-      "source_sha256": "56380cb3154b81d03df845b0cba1b87a1c95df13cb26193fb82041a0c6471afe"
+      "source_start_line": 5108,
+      "source_end_line": 5123,
+      "source_sha256": "360bde9b67b11805c0aa1e712a0e91173812c7aff2bae96a4f1227257fdb5bd3"
     },
     {
       "path": "theory/appendix-d/d-10.md",
       "route": "/theory/appendix-d/d-10",
       "title": "D.10　伦理分歧、能力与有限责任",
       "part": 20,
-      "source_start_line": 4759,
-      "source_end_line": 4776,
+      "source_start_line": 5124,
+      "source_end_line": 5141,
       "source_sha256": "bbc39095b0c71129ae468e0e81b2d7785bab4ac74bac4026d20920534e8cd895"
     },
     {
@@ -839,8 +848,8 @@
       "route": "/theory/appendix-d/d-11",
       "title": "D.11　中国思想与实践传统的现代转译",
       "part": 20,
-      "source_start_line": 4777,
-      "source_end_line": 4792,
+      "source_start_line": 5142,
+      "source_end_line": 5157,
       "source_sha256": "0c2c825fb2252f13dd9513b5bf2e044000e7e22fbd13906249a6f1a14fb79d8c"
     },
     {
@@ -848,8 +857,8 @@
       "route": "/theory/appendix-d/d-12",
       "title": "D.12　宗教、文明比较与关系性知识",
       "part": 20,
-      "source_start_line": 4793,
-      "source_end_line": 4808,
+      "source_start_line": 5158,
+      "source_end_line": 5173,
       "source_sha256": "52eef41a99644ffa7b114e72f0ba6f7d3e767d65a951051a0427ad6cb5425906"
     },
     {
@@ -857,8 +866,8 @@
       "route": "/theory/appendix-d/d-13",
       "title": "D.13　亲属、交换、仪式、民族志与文化变迁",
       "part": 20,
-      "source_start_line": 4809,
-      "source_end_line": 4824,
+      "source_start_line": 5174,
+      "source_end_line": 5189,
       "source_sha256": "8e0087a01c2a5c7354d1f4d8855d0b03dbb74e61a70b6540167e46440f417f58"
     },
     {
@@ -866,26 +875,26 @@
       "route": "/theory/appendix-d/d-14",
       "title": "D.14　社会理论、权力、交往与制度再生产",
       "part": 20,
-      "source_start_line": 4825,
-      "source_end_line": 4840,
-      "source_sha256": "c534a1300a24691c831d4562202682a1ab09c0902f1191da7fbce33a5a7227a9"
+      "source_start_line": 5190,
+      "source_end_line": 5205,
+      "source_sha256": "e670c3f2ca4b9bd32226b9a50171fa49f2d422a06669a09dd3e821ae4444ff82"
     },
     {
       "path": "theory/appendix-d/d-15.md",
       "route": "/theory/appendix-d/d-15",
       "title": "D.15　博弈、合作、信号、承诺与实施",
       "part": 20,
-      "source_start_line": 4841,
-      "source_end_line": 4856,
-      "source_sha256": "17be07599067f0e87ea9f95de0a6fb7a7f1388f31b90245413377cd94220ac41"
+      "source_start_line": 5206,
+      "source_end_line": 5221,
+      "source_sha256": "4deeb92010c23f3a17972ff2e88ac8bf8e95b8ecfdd8499710e64e39f1815a8e"
     },
     {
       "path": "theory/appendix-d/d-16.md",
       "route": "/theory/appendix-d/d-16",
       "title": "D.16　组织、工作、领导与劳动保护",
       "part": 20,
-      "source_start_line": 4857,
-      "source_end_line": 4876,
+      "source_start_line": 5222,
+      "source_end_line": 5241,
       "source_sha256": "be4ba83d5537e8fe898cc261b86586fb83c7e24562db8e05acaf765e49854cfe"
     },
     {
@@ -893,35 +902,35 @@
       "route": "/theory/appendix-d/d-17",
       "title": "D.17　生产、交换、产权、制度与发展",
       "part": 20,
-      "source_start_line": 4877,
-      "source_end_line": 4892,
-      "source_sha256": "9d807849f808b0d10d86999e902a66c809c4f57a44c1417ce95c8f3343b4e856"
+      "source_start_line": 5242,
+      "source_end_line": 5257,
+      "source_sha256": "b125c7f5e4e58984318e812ca62ca23619992eee87194340f9fba834e93163b8"
     },
     {
       "path": "theory/appendix-d/d-18.md",
       "route": "/theory/appendix-d/d-18",
       "title": "D.18　货币、信用、金融与危机",
       "part": 20,
-      "source_start_line": 4893,
-      "source_end_line": 4908,
-      "source_sha256": "8bb4ac2899fdf9acd90b0ef957d8f52108e871a6491435f25e9457eab93f4f50"
+      "source_start_line": 5258,
+      "source_end_line": 5273,
+      "source_sha256": "213ac8c724921a3127c249c086f16f2d1e661a69bb014f412254ec8bcaf5d879"
     },
     {
       "path": "theory/appendix-d/d-19.md",
       "route": "/theory/appendix-d/d-19",
       "title": "D.19　政治思想、制度愿景与规范分歧",
       "part": 20,
-      "source_start_line": 4909,
-      "source_end_line": 4924,
-      "source_sha256": "4aeabf0a2266b3c561d4832be1a1062259ead319bcf18e3a4b888a10e9e56289"
+      "source_start_line": 5274,
+      "source_end_line": 5289,
+      "source_sha256": "c23abbef8c659d8feb6174022a4a38d4f6cbdd24b8009d2196160df3d86caf29"
     },
     {
       "path": "theory/appendix-d/d-20.md",
       "route": "/theory/appendix-d/d-20",
       "title": "D.20　国家能力、政策执行与治理",
       "part": 20,
-      "source_start_line": 4925,
-      "source_end_line": 4940,
+      "source_start_line": 5290,
+      "source_end_line": 5305,
       "source_sha256": "b4c7c70489ea7ee4b3d1c317f649ab6b39ad693408edc45f393f662af0402f3f"
     },
     {
@@ -929,17 +938,17 @@
       "route": "/theory/appendix-d/d-21",
       "title": "D.21　法律、授权、程序与责任",
       "part": 20,
-      "source_start_line": 4941,
-      "source_end_line": 4956,
-      "source_sha256": "58c9f60fce98267423bcd365cf7fd8c4c29b1c43acc04d5a4767553b4a6d4e0f"
+      "source_start_line": 5306,
+      "source_end_line": 5321,
+      "source_sha256": "fbb5372170915e00fb77f0dc6d551653dfcd159bad794e6de75d388af4a69384"
     },
     {
       "path": "theory/appendix-d/d-22.md",
       "route": "/theory/appendix-d/d-22",
       "title": "D.22　阶级、身份、不平等与社会排斥",
       "part": 20,
-      "source_start_line": 4957,
-      "source_end_line": 4972,
+      "source_start_line": 5322,
+      "source_end_line": 5337,
       "source_sha256": "9f05795104cb874edf382b814a396cc10eb9fb3c0fbe48de16895d4316cf5412"
     },
     {
@@ -947,8 +956,8 @@
       "route": "/theory/appendix-d/d-23",
       "title": "D.23　家庭、性别、身体、依赖与照护",
       "part": 20,
-      "source_start_line": 4973,
-      "source_end_line": 4988,
+      "source_start_line": 5338,
+      "source_end_line": 5353,
       "source_sha256": "ddc5783d55c04bececf1400abb45ffe348e409e0641bb6d993fada50e7af20cf"
     },
     {
@@ -956,8 +965,8 @@
       "route": "/theory/appendix-d/d-24",
       "title": "D.24　人口、代际、生命历程与跨地生活",
       "part": 20,
-      "source_start_line": 4989,
-      "source_end_line": 5004,
+      "source_start_line": 5354,
+      "source_end_line": 5369,
       "source_sha256": "0b061a4f6d3752a4e800bed09f75ca1c362c2787b630d3800b603fbf151dd568"
     },
     {
@@ -965,17 +974,17 @@
       "route": "/theory/appendix-d/d-25",
       "title": "D.25　教育、知识生产、专业与终身学习",
       "part": 20,
-      "source_start_line": 5005,
-      "source_end_line": 5022,
-      "source_sha256": "3be58ef2371e975b8b69f4afc0725db3e7255d115db511c91c227220572af613"
+      "source_start_line": 5370,
+      "source_end_line": 5387,
+      "source_sha256": "ffad57a1548ba62e56dff287c4798e5be6421644d1e99b74eabd5a09e9ef1e65"
     },
     {
       "path": "theory/appendix-d/d-26.md",
       "route": "/theory/appendix-d/d-26",
       "title": "D.26　网络、媒体、语言、叙事与认同",
       "part": 20,
-      "source_start_line": 5023,
-      "source_end_line": 5038,
+      "source_start_line": 5388,
+      "source_end_line": 5403,
       "source_sha256": "98cb6bfc535796c04bc36351c5c98454b7aafb0d787af08958679f927854245f"
     },
     {
@@ -983,8 +992,8 @@
       "route": "/theory/appendix-d/d-27",
       "title": "D.27　审美、艺术、文学、游戏与日常文化",
       "part": 20,
-      "source_start_line": 5039,
-      "source_end_line": 5054,
+      "source_start_line": 5404,
+      "source_end_line": 5419,
       "source_sha256": "7fd3610e073551493c83a53b03692d12d308b0337d454ce7a908f8426a348ea0"
     },
     {
@@ -992,8 +1001,8 @@
       "route": "/theory/appendix-d/d-28",
       "title": "D.28　技术、基础设施、平台与人工智能",
       "part": 20,
-      "source_start_line": 5055,
-      "source_end_line": 5070,
+      "source_start_line": 5420,
+      "source_end_line": 5435,
       "source_sha256": "8bd436e11c3a6dea3e024859f116bc9ed3eafea4c9b164603003399ad3e81768"
     },
     {
@@ -1001,8 +1010,8 @@
       "route": "/theory/appendix-d/d-29",
       "title": "D.29　城市、空间、住房、乡村与公共可达",
       "part": 20,
-      "source_start_line": 5071,
-      "source_end_line": 5086,
+      "source_start_line": 5436,
+      "source_end_line": 5451,
       "source_sha256": "c56e6d6f129813000ead74258a2d61fc05f9c53b7dd8787cf3557ecbbd7564b3"
     },
     {
@@ -1010,8 +1019,8 @@
       "route": "/theory/appendix-d/d-30",
       "title": "D.30　生态、资源、公地与可持续生活",
       "part": 20,
-      "source_start_line": 5087,
-      "source_end_line": 5104,
+      "source_start_line": 5452,
+      "source_end_line": 5469,
       "source_sha256": "0318382a45a54d0e0083e3c9ceacd39ed21197456f55e2f17621fcf284f795ab"
     },
     {
@@ -1019,8 +1028,8 @@
       "route": "/theory/appendix-d/d-31",
       "title": "D.31　风险、灾害、公共卫生、指挥与恢复",
       "part": 20,
-      "source_start_line": 5105,
-      "source_end_line": 5120,
+      "source_start_line": 5470,
+      "source_end_line": 5485,
       "source_sha256": "ee5089447d6b51ad5625709f367dfb532699d01a0a4c7cca204693938d715a3a"
     },
     {
@@ -1028,17 +1037,17 @@
       "route": "/theory/appendix-d/d-32",
       "title": "D.32　战争、革命、帝国、发展与历史路径",
       "part": 20,
-      "source_start_line": 5121,
-      "source_end_line": 5136,
-      "source_sha256": "fd347a39d0da5100a05bb730d6807a70ce10aded65a358e7452c5443be7a71f8"
+      "source_start_line": 5486,
+      "source_end_line": 5501,
+      "source_sha256": "f022dbee53b7f7e062f04979077fbff6b10858507113a51269d70d5b325ff766"
     },
     {
       "path": "theory/references.md",
       "route": "/theory/references",
       "title": "参考文献",
       "part": 21,
-      "source_start_line": 5137,
-      "source_end_line": 5179,
+      "source_start_line": 5502,
+      "source_end_line": 5544,
       "source_sha256": "cfdc2fca6c2e0be7062ada991246a47b7c5ed49d728f59fce721f75b9eec818f"
     }
   ],
