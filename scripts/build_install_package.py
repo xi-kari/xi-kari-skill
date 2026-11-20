@@ -50,7 +50,9 @@ def build(root: Path, output: Path) -> dict:
         english = payload.get(english_path)
         if english is None or hashlib.sha256(english).hexdigest() != english_manifest['sha256']:
             raise ValueError('English edition does not match its manifest')
-        if english_manifest.get('translates', {}).get('sha256') != source_manifest['sha256']:
+        translated = english_manifest.get('translates', {}).get('sha256')
+        predecessor = (source_manifest.get('wording_revision_of') or {}).get('sha256')
+        if translated != source_manifest['sha256'] and not (predecessor and translated == predecessor):
             raise ValueError('English edition translates a different theory source')
         protected.add(english_path)
         english_sha256 = english_manifest['sha256']

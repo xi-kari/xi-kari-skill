@@ -1,4 +1,4 @@
-"""Engineering checks for the approved v2 manuscript and its reading paths.
+"""Engineering checks for the approved v2.1 manuscript and its reading paths.
 
 These checks establish identity, reachability and packaging, not whether a model
 understands the text or gives a sound answer. Semantic scenarios live outside
@@ -15,7 +15,8 @@ import unittest
 
 
 ROOT = Path(__file__).resolve().parents[1]
-V2_SHA256 = '6ef2e508474d4ac1ad07d7e4e068955342c405b5f680afcfc40d68cca3d0149c'
+V2_SHA256 = '2128af7cfa4c63b58207521a375aa34c2aea230d47e1c04a5afec3334e290d28'
+REWORDED_V2_SHA256 = '6ef2e508474d4ac1ad07d7e4e068955342c405b5f680afcfc40d68cca3d0149c'
 NEW_SECTIONS = ('2.4.3', '2.14', '6.10.1', '7.6.1', '14.4.1', '14.9.1')
 
 
@@ -36,9 +37,10 @@ class TheoryV2Tests(unittest.TestCase):
         raw = (ROOT / 'source' / manifest['source_file']).read_bytes()
         self.assertEqual(hashlib.sha256(raw).hexdigest(), V2_SHA256)
         self.assertEqual(manifest['sha256'], V2_SHA256)
-        self.assertEqual(len(raw), 692246)
+        self.assertEqual(len(raw), 801967)
         self.assertEqual(manifest['bytes'], len(raw))
-        self.assertEqual(manifest['theory_version'], 'v2')
+        self.assertEqual(manifest['theory_version'], 'v2.1')
+        self.assertEqual(manifest['wording_revision_of']['sha256'], REWORDED_V2_SHA256)
 
     def test_each_new_section_can_be_read_completely_by_the_shipped_cli(self):
         lines = reader.SOURCE.read_text(encoding='utf-8-sig').splitlines()

@@ -3,11 +3,11 @@
     "files": [
       {
         "file": "outputs-light.png",
-        "sha256": "2c466379fc9697b0a72a007efd49b04f50cb3f28a194b235ed4ae9e8c527dde3"
+        "sha256": "42f740890367790b7502b01053c2dfc8e613c2c2d20712e64f0a993f78a8ba62"
       },
       {
         "file": "outputs-dark.png",
-        "sha256": "5acf597ac43fac0270977c0c039520ef8716e8988644d98b4d35b994e7bf2404"
+        "sha256": "624d672f775e450e7a64af15453f5c0a6b0df64a80f702d4aa2bd3295f0e14a6"
       }
     ],
     "width": 1920,

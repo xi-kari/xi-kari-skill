@@ -1,5 +1,5 @@
 ---
-{"id":"REF-OUTPUT-THEORY-DIALOGUE","theory_sha256":"6ef2e508474d4ac1ad07d7e4e068955342c405b5f680afcfc40d68cca3d0149c","anchors":["1.3","2.2","2.4.3","2.6","2.7","16.15","D.01","D.02","D.13"]}
+{"id":"REF-OUTPUT-THEORY-DIALOGUE","theory_sha256":"2128af7cfa4c63b58207521a375aa34c2aea230d47e1c04a5afec3334e290d28","anchors":["1.3","2.2","2.4.3","2.6","2.7","16.15","D.01","D.02","D.13"]}
 ---
 
 # 跨理论对话与争论重建

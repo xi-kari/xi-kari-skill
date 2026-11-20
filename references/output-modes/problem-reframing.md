@@ -1,5 +1,5 @@
 ---
-{"id":"REF-OUTPUT-PROBLEM-REFRAMING","theory_sha256":"6ef2e508474d4ac1ad07d7e4e068955342c405b5f680afcfc40d68cca3d0149c","anchors":["1.10","2.14","14.4.1","14.5","14.9.1","16.12","16.16","D.19","D.20","D.21"]}
+{"id":"REF-OUTPUT-PROBLEM-REFRAMING","theory_sha256":"2128af7cfa4c63b58207521a375aa34c2aea230d47e1c04a5afec3334e290d28","anchors":["1.10","2.14","14.4.1","14.5","14.9.1","16.12","16.16","D.19","D.20","D.21"]}
 ---
 
 # 共同问题与议程重开

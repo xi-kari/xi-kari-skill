@@ -141,6 +141,22 @@ def load_edition(path: Path) -> tuple[bytes, str, list[str], dict, dict]:
     return data, text, lines, sections, parts
 
 
+def translation_relation(zh_manifest: dict, en_manifest: dict) -> str | None:
+    """Say which Chinese wording the English edition translates.
+
+    "current": the current Chinese text. "wording-predecessor": the text that the
+    current Chinese manifest records as the one it only rewords (same sections and
+    content). Anything else returns None.
+    """
+    translated = (en_manifest.get("translates") or {}).get("sha256")
+    if translated and translated == zh_manifest.get("sha256"):
+        return "current"
+    predecessor = (zh_manifest.get("wording_revision_of") or {}).get("sha256")
+    if translated and predecessor and translated == predecessor:
+        return "wording-predecessor"
+    return None
+
+
 def check_english(zh_manifest: dict, zh_sections: dict, zh_parts: dict) -> dict:
     """Compare the English edition's identity and structure with the Chinese source."""
     if not EN_MANIFEST.exists():
@@ -148,15 +164,18 @@ def check_english(zh_manifest: dict, zh_sections: dict, zh_parts: dict) -> dict:
     path, manifest = english_source()
     data, _, _, sections, parts = load_edition(path)
     digest = hashlib.sha256(data).hexdigest()
+    relation = translation_relation(zh_manifest, manifest)
     result = {
         "present": True,
         "matches_manifest": digest == manifest.get("sha256") and len(data) == manifest.get("bytes"),
-        "translates_current_source": manifest.get("translates", {}).get("sha256") == zh_manifest.get("sha256"),
+        "translates_current_source": relation == "current",
+        "translates_wording_predecessor": relation == "wording-predecessor",
         "same_sections": list(sections) == list(zh_sections),
         "same_parts": sorted(parts) == sorted(zh_parts),
         "sha256": digest,
     }
-    result["ok"] = all(result[key] for key in ("matches_manifest", "translates_current_source", "same_sections", "same_parts"))
+    result["ok"] = (result["matches_manifest"] and relation is not None
+                    and result["same_sections"] and result["same_parts"])
     return result
 
 

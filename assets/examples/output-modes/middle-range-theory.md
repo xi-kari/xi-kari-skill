@@ -1,5 +1,5 @@
 ---
-{"id":"EXAMPLE-OUTPUT-MIDDLE-RANGE-THEORY","theory_sha256":"6ef2e508474d4ac1ad07d7e4e068955342c405b5f680afcfc40d68cca3d0149c","anchors":["2.2","2.4.2","2.13","7.6.1","11.9","16.3","16.4","16.15"],"synthetic":true}
+{"id":"EXAMPLE-OUTPUT-MIDDLE-RANGE-THEORY","theory_sha256":"2128af7cfa4c63b58207521a375aa34c2aea230d47e1c04a5afec3334e290d28","anchors":["2.2","2.4.2","2.13","7.6.1","11.9","16.3","16.4","16.15"],"synthetic":true}
 ---
 
 # 任务集中与替代能力：一个有限模型

@@ -20,15 +20,15 @@
       "family": "XK Song",
       "file": "xk-song.woff2",
       "weight": 600,
-      "bytes": 18844,
-      "sha256": "d88f9750083c03c7adb4eed59106082cc639eabd105d2a231a19f58a74051093",
+      "bytes": 18980,
+      "sha256": "27eca7ea6547554f56e180e14b3a7a75f19144eacf1c8fbe626ac8ee42a45239",
       "source": {
         "family": "Noto Serif SC",
         "version": "Version 2.02;241114204558;non-release",
         "copyright": "© 2017-2023 Adobe (http://www.adobe.com/).",
         "sha256": "a4aed9985a5916fbf6690456f8732a9fccd517938e353165d4142b4f11a39280"
       },
-      "characters": " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~·—‘’“”…→、。《》一个么争于些什以何使依停判及哪地它应当据推断时更有楚止清用知竞要解论还适道释里需！（），：；？"
+      "characters": " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~·—‘’“”…→、。《》一个么争于些什以使依候停判及哪地它应当据推断时更有楚止清用知竞要解论还适道释里需！（），：；？"
     }
   }
 }

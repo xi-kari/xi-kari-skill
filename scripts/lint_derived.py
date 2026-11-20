@@ -41,6 +41,27 @@ for _prefix, _count in (('IT', 4), ('IG', 7), ('SJ', 8), ('DF', 9), ('O', 4), ('
 DEPENDENCY_TOKEN = re.compile(r'(?<![A-Za-z0-9_])(?:'
                               + '|'.join(sorted(map(re.escape, DEPENDENCY_DEFINITIONS), key=len, reverse=True))
                               + r')(?![A-Za-z0-9_])')
+# The source names these definitions in words; each fixed name counts as its code.
+DEPENDENCY_NAMES = {
+    '结构对象': 'D0', '基本状态词': 'D1', '有效反馈': 'D2', '尺度变换': 'D3',
+    '分组增益': 'G1', '通道效应': 'G2', '历史增量': 'G3', '尺度闭合': 'G4',
+    '五条认识论约束': 'E1', '对象声明约束': 'E1', '观察位置与模型限制': 'E2', '条件性观测参与': 'E3',
+    '竞争解释与残差保留': 'E4', '跨尺度迁移检验': 'E5',
+    '任务恢复': 'F1', '动力与允许干预下的闭合': 'F2', '信息约束下的共同可行动作': 'F3',
+    '连续转换的任务保持': 'F4', '近似闭合的误差传播': 'F5', '任务族的最粗充分划分': 'F6',
+    '六项人类领域条款': 'H1', '意义与协调': 'H1', '行动承接与责任分型': 'H2', '权力、中介与反身性': 'H4',
+    '历史留痕载体': 'H5', '开放性承担': 'H6',
+    '五项规范前提': 'N1', '解释不授权处置': 'N1', '保护不得降级': 'N2', '高影响判断可纠错': 'N3',
+    '不征用爱与承担': 'N4', '存续与筛选不等于正当': 'N5',
+    '五个干涉层级': 'T0', '安全与信任载体': 'T0', '可逆最小秩序': 'T1', '承接—回流链修复': 'T2',
+    '深时间维护与高阶更新': 'T3', '退出、转移与演化记忆保存': 'T4',
+    '四次转换': 'IT', '七闸': 'IG', '强判断八件套': 'SJ', '九闸': 'DF',
+    '逐项授权': 'J', '操作程序': 'O', '保护底板': 'PF',
+}
+# A fixed name inside a longer, different name does not count.
+DEPENDENCY_NAME_TOKEN = re.compile('|'.join(
+    re.escape(name) + ('(?!行动)' if name == '开放性承担' else '')
+    for name in sorted(DEPENDENCY_NAMES, key=len, reverse=True)))
 DEPENDENCY_RANGE = re.compile(r'(?<![A-Za-z0-9_])(IT|IG|SJ|DF|PF-?|D|G|E|F|H|N|T|O)(\d+)'
                               r'\s*[—–-]\s*(?:\1)?(\d+)(?![A-Za-z0-9_])')
 
@@ -149,6 +170,7 @@ def dependency_codes(text: str) -> set[str]:
         if 0 <= last - first <= 10:
             codes.update(f'{prefix}{number}' for number in range(first, last + 1)
                          if f'{prefix}{number}' in DEPENDENCY_DEFINITIONS)
+    codes.update(DEPENDENCY_NAMES[match.group()] for match in DEPENDENCY_NAME_TOKEN.finditer(text))
     return codes
 
 

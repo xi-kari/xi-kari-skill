@@ -1,5 +1,5 @@
 ---
-{"id":"REF-OUTPUT-MEANING-INTERPRETATION","theory_sha256":"6ef2e508474d4ac1ad07d7e4e068955342c405b5f680afcfc40d68cca3d0149c","anchors":["1.3","1.8","1.10","2.7","9.7","9.8","D.02","D.09","D.13","D.26","D.27"]}
+{"id":"REF-OUTPUT-MEANING-INTERPRETATION","theory_sha256":"2128af7cfa4c63b58207521a375aa34c2aea230d47e1c04a5afec3334e290d28","anchors":["1.3","1.8","1.10","2.7","9.7","9.8","D.02","D.09","D.13","D.26","D.27"]}
 ---
 
 # 经验、意义与作品阐释
@@ -20,7 +20,7 @@
 
 正文应有明确读法、细节分析、必要语境、竞争解释与有限结论，不能由主题标签和概念对照表替代。引用应能返回真实材料；未知背景集中说明，但不使全部解读停摆。
 
-[领域适配](../../modules/domain-mapping/MODULE.md)可帮助辨认语词和文化语境，保留无法对齐的表达；[研究入口](../../modules/research/MODULE.md)可继续取历史材料或比较读法。方法说明只占需要的篇幅，不让形式合同盖过作品本身。
+[领域适配](../../modules/domain-mapping/MODULE.md)可帮助辨认语词和文化语境，保留无法对齐的表达；[研究入口](../../modules/research/MODULE.md)可继续取历史材料或比较读法。方法说明只占需要的篇幅，不让形式上的界定和条件盖过作品本身。
 
 ## 边界与验收
 

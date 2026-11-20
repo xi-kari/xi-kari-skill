@@ -18,7 +18,7 @@
 </p>
 
 <p align="center">
-  <a href="skill-package.json"><img alt="Skill version 6.7.0" src="https://img.shields.io/badge/skill-6.7.0-1F4FC4?style=flat-square"></a>
+  <a href="skill-package.json"><img alt="Skill version 6.8.0" src="https://img.shields.io/badge/skill-6.8.0-1F4FC4?style=flat-square"></a>
   <a href="https://github.com/xi-kari/xi-kari-skill/actions/workflows/windows.yml"><img alt="Windows tests" src="https://img.shields.io/github/actions/workflow/status/xi-kari/xi-kari-skill/windows.yml?branch=main&amp;style=flat-square&amp;label=Windows%20CI"></a>
   <img alt="Optional tools need Python 3.10 or later" src="https://img.shields.io/badge/python-3.10%2B%20%28optional%29-33415E?style=flat-square">
   <a href="LICENSE"><img alt="MIT License" src="https://img.shields.io/badge/license-MIT-33415E?style=flat-square"></a>
@@ -30,7 +30,7 @@ It is built for questions that need both clear thinking and a decision: why an i
 
 For a full investigation or work in a particular field, see [Research and domain work](#research-and-domain-work): a research entry delivers one complete draft, the research report first and the limits of explanation and issues as its closing chapter, domain mapping keeps local meanings, relations, measurements and professional methods, usages you have verified can be kept as domain cards for the next task, and there are eight output modes (one of them, the domain study, takes a field in depth) and finite calculation tools.
 
-The skill works in English and Chinese. Ask in English and the whole answer is in English. The theory's authoritative text is Chinese; the package also carries the author's aligned English reference edition and a Chinese–English glossary, used for English terminology and quotations (see [Working in English](references/english.md)). Both the skill and the [bilingual reading site](https://xi-kari.github.io/xi-kari-skill/handbook/en/) use v2, with the full text available in English.
+The skill works in English and Chinese. Ask in English and the whole answer is in English. The theory's authoritative text is Chinese; the package also carries the author's aligned English reference edition and a Chinese–English glossary, used for English terminology and quotations (see [Working in English](references/english.md)). Both the skill and the [bilingual reading site](https://xi-kari.github.io/xi-kari-skill/handbook/en/) use v2.1, which rewords v2 without changing its sections or content. The English reference edition is translated from v2's wording, and the full text can be read in English.
 
 ## What the theory guards against
 
@@ -198,7 +198,7 @@ Long tasks can continue across sessions. When the session or model changes, the 
 
 <sub>The screenshots were produced by the bundled tools, with Chinese interfaces. The reading page uses Part 1 of the book as sample content; the condition-model page and comparison table come from the bundled, explicitly fictional teaching examples, whose numbers are not real-world facts.</sub>
 
-**Version scope:** the current package is `v6.7.0`; the screenshots show the tools' interfaces, and each version's features are described in its [release notes](https://github.com/xi-kari/xi-kari-skill/releases).
+**Version scope:** the current package is `v6.8.0`; the screenshots show the tools' interfaces, and each version's features are described in its [release notes](https://github.com/xi-kari/xi-kari-skill/releases).
 
 - **Complete answer `xi-kari-answer.md`.** Produced at the first complete delivery or when you ask for a combined draft: the central judgment first, then evaluation of the material, structural relations, comparison of mechanisms, cases and counterexamples, paths, responses to objections, the verdict and the options.
 - **Offline reading page.** A single HTML file, generated from the complete draft, that makes no network connections. Under the title a track chart, drawn from the text's own counts, sets each section as a fix at its true distance; the track fills in as you read, pressing a fix goes to that section, and once the chart has scrolled away the same track stays in view under the bar. The contents list marks the current section as you read; there is full-text search, adjustable text size and a print layout; night mode follows the system and can be switched by hand; footnotes preview on hover and link back. Select a passage and “Ask about selection” turns it, with its location, into a follow-up question for you to copy back into the conversation. Formulas are typeset with the bundled KaTeX. Use `--lang en` for an English interface.
@@ -265,7 +265,7 @@ Common invocations are in [host setup and clean working directories](references/
 - **[English reading site](https://xi-kari.github.io/xi-kari-skill/handbook/en/):** the complete v2 reference text across 65 pages and 397 numbered sections, with English navigation, search, and full translations of all 421 on-page Chinese reading lessons. These include argument steps, examples, cases, questions and answers, and source notes. Language switching keeps corresponding passages accessible. Original figures have English descriptions; downloadable historical research files retain their original Chinese language and dates.
 - **[Concept lessons](https://xi-kari.github.io/xi-kari-skill/handbook/en/concepts/)** and **[real cases](https://xi-kari.github.io/xi-kari-skill/handbook/en/cases/):** English explanations organized around questions and distinctions, with sourced cases such as the Mars Climate Orbiter's unit interface and Toyota's andon response process. Cases retain their evidence and limits.
 - **[Term index](https://xi-kari.github.io/xi-kari-skill/handbook/en/theory/appendix-b.html):** the numbering scheme and glossary of Appendix B.
-- **[Downloads](https://xi-kari.github.io/xi-kari-skill/handbook/en/downloads.html):** the Chinese v2 Markdown, the English reading text and the author's unchanged English original. The retained Word file is explicitly labeled as the first edition and does not represent v2. Historical research materials retain their own version and source information.
+- **[Downloads](https://xi-kari.github.io/xi-kari-skill/handbook/en/downloads.html):** the Chinese v2.1 Markdown, the v2 text the English edition is translated from, the English reading text and the author's unchanged English original. The retained Word file is explicitly labeled as the first edition and does not represent the current text. Historical research materials retain their own version and source information.
 - **[Historical field tests](https://github.com/xi-kari/xi-kari-skill/discussions?discussions_q=)** (in Chinese): Discussions keep historical analyses based on Xikari 8.3 for reference; they do not represent the current theory or the current skill.
 - **[Project page](https://xi-kari.github.io/xi-kari-skill/)** (in Chinese): introduction, usage and research progress.
 

@@ -300,6 +300,27 @@ class DerivedTests(unittest.TestCase):
         self.assertEqual(lint.dependency_codes(text), set())
         self.assertEqual(lint.dependency_codes('J 轴授权、O 程序'), {'J', 'O'})
 
+    def test_dependency_names_count_as_their_codes(self):
+        codes = lint.dependency_codes('依据：通道效应（§4.4）；还须满足竞争解释与残差保留（§4.8.4）；'
+                                      '七闸、强判断八件套与保护底板十项；近似闭合的误差传播。')
+        self.assertTrue({'G2', 'E4', 'IG', 'SJ', 'PF', 'F5'}.issubset(codes), codes)
+        self.assertNotIn('H6', lint.dependency_codes('开放性承担行动'))
+        self.assertIn('H6', lint.dependency_codes('开放性承担'))
+        self.assertEqual(lint.dependency_codes('plain text without the fixed names'), set())
+        for name, code in lint.DEPENDENCY_NAMES.items():
+            with self.subTest(name=name):
+                self.assertIn(code, lint.DEPENDENCY_DEFINITIONS)
+
+    def test_reading_dependencies_follow_names_in_a_worded_source(self):
+        worded = (self.dependency_source()
+                  .replace('G2、E4、F5。', '通道效应、竞争解释与残差保留、近似闭合的误差传播。'))
+        self.install_source(worded)
+        self.write_module(['1.1'], '')
+        self.assertEqual({item['definition']: item['codes'] for item in lint.check(self.root)['warnings']},
+                         {'4.4': ['G2'], '4.8': ['E4'], '4.18': ['F5']})
+        self.write_module(['1.1', '4.4', '4.8', '4.18'], '')
+        self.assertEqual(lint.check(self.root)['warnings'], [])
+
     def test_all_dependency_definition_mappings(self):
         expected = {'D0': '3.1', 'D1': '3.2', 'D2': '3.3', 'D3': '3.4',
                     'G1': '4.3', 'G2': '4.4', 'G3': '4.5', 'G4': '4.6',

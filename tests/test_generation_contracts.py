@@ -191,7 +191,7 @@ class GuideTests(unittest.TestCase):
 
     def test_guide_closes_the_gaps_found_in_use(self):
         for term in ('不因为没有检索就算作新的', '读到什么深度', '照样进入主要部分，只是不称新',
-                     '不替它换一个词再要求它满足合同', '以决定这条陈述的那一步为准',
+                     '不替它换一个词再要求它满足这些条件', '以决定这条陈述的那一步为准',
                      '不逐项交代没有采用的走法', '账本的条数和字段不进正文',
                      '写成经验候选就要满足经验候选的全部要求'):
             self.assertIn(term, self.text)
