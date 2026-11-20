@@ -62,10 +62,10 @@ v2的[§6.10.1](../theory/part-06#section-6-10-1)把形成、维持、恢复和�
 
 > 临时支持下真实恢复的功能不是假的
 
+- [附录D.31 风险、灾害、公共卫生、指挥与恢复](/theory/appendix-d/d-31#section-d-31)
 - [§6.6 负荷、容量与恢复（CM-LOAD）](/theory/part-06#section-6-6)
 - [§6.10 解体、对象转换与修复边界](/theory/part-06#section-6-10)
 - [§6.3 反馈介导学习（CM-LEARNING）](/theory/part-06#section-6-3)
-- [附录D.31 风险、灾害、公共卫生、指挥与恢复](/theory/appendix-d/d-31#section-d-31)
 
 ## 这处区别能说明到哪里
 

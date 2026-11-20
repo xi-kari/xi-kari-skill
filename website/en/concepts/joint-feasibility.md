@@ -13,6 +13,12 @@ Increasing period-one capacity to two makes the pair feasible in the model. Vali
 
 These alternatives change different conditions. A later deadline cannot be silently inserted after failure and counted as success against the original plan. In a real project, capacity, demand, permission to reschedule, and consequences for affected people require evidence of their own.
 
+## Beyond total hours: usable continuous blocks
+
+[§7.3.9](/en/theory/part-07#section-7-3-9) adds a feasibility condition for tasks that depend on continuous time. The same total hours can correspond to very different continuous blocks of available time. Responsibilities as a default contact, being on call, and filling in at short notice can cut up the uninterrupted time needed for study, work, rest, or preparing to exit, even if they are rarely actually invoked.
+
+**Teaching example:** An exercise must be completed in two uninterrupted hours. One person has a fixed two-hour block. Another also has two hours in total, but only in unpredictable short gaps. Equal totals do not make the two plans equally feasible. Record the length and predictability of the usable blocks separately; do not convert continuity into hours or add it to clock time already recorded.
+
 ## A second problem: one action under incomplete information
 
 F3 concerns a related but distinct issue. Suppose the observation leaves two possible states. The acceptable action set is {left} in one and {right} in the other. Each state has an acceptable action, but their intersection is empty: no single action selected from this observation is acceptable in both.
@@ -27,7 +33,7 @@ If both states allow a validly authorized preservation action, the intersection 
 
 The formal statements establish consequences of supplied constraints. They do not certify that real resources exist or that a named actor has permission to use them. Acceptable-action sets must already incorporate the task’s required protection and valid authority.
 
-Read [C.12](/en/theory/appendix-c#section-c-12), [causal chains](./chain), and [responsibility](./responsibility).
+Read [C.12](/en/theory/appendix-c#section-c-12), [§7.3.9](/en/theory/part-07#section-7-3-9), [causal chains](./chain), and [responsibility](./responsibility).
 
 ## Explore the teaching model
 

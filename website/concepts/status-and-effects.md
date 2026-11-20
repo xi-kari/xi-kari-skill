@@ -22,4 +22,4 @@ description: "构成条件、当事人理解、实际兑现和规范正当性，
 
 这一分工不宣称所有对象都由约定产生。它也使G1的范围更清楚：可靠记录可以支持成员和机构事实，采用这些分组是否增加预测能力另由比较判断。
 
-继续阅读：[§5.5.5制度层级](../theory/part-05#section-5-5-5)、[§14.6授权](../theory/part-14#section-14-6)、[D.21法律与责任](../theory/appendix-d/d-21#section-d-21)。
+继续阅读：[§5.5.5制度化](../theory/part-05#section-5-5-5)、[§14.6授权](../theory/part-14#section-14-6)、[D.21法律与责任](../theory/appendix-d/d-21#section-d-21)。
