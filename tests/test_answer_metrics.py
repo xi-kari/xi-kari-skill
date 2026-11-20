@@ -53,7 +53,7 @@ class PresentationContractTests(unittest.TestCase):
         return (ROOT / path).read_text(encoding='utf-8-sig')
 
     def test_draft_disclosure_is_identical_and_outside_body(self):
-        phrase = '正文用白话说机制，所用草稿卡只列在答案末尾一行“方法附注”或执行记录里，并标明派生草稿身份。'
+        phrase = '正文用白话说机制，所用草稿卡只列在答案末尾的“方法附注”或执行记录里，并标明派生草稿身份。'
         for path in ('SKILL.md', 'rules/README.md', 'modules/forecast/MODULE.md'):
             with self.subTest(path=path):
                 text = self.read(path)
