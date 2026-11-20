@@ -101,7 +101,7 @@ class HandbookSourceTests(unittest.TestCase):
             self.assertEqual(manifest["source_sha256"], builder.SOURCE_SHA256)
             self.assertEqual((destination / "public/downloads" / self.source.name).read_bytes(), self.raw)
             self.assertEqual((destination / "public/downloads" / f"{builder.TITLE}.v2.md").read_bytes(),
-                             (ROOT / "source" / self.source.name).read_bytes())
+                             builder.V2_SOURCE.read_bytes())
             self.assertEqual(manifest["pages"], self.manifest["pages"])
 
     def test_page_spans_cover_each_source_line_once_in_reading_order(self):
