@@ -9,12 +9,12 @@
     },
     {
       "path": "content/lesson-overrides.json",
-      "sha256": "bb0f1252c5a89b1638c016818ba0602c3a9b8e5d46f08a8d3351d10363ac9926"
+      "sha256": "d91b5fe3bf3607f9c70f878c7539beb0c80220e585bcfa8a7b3163a89a6e9a26"
     }
   ],
   "translation": {
     "path": "content/en/section-lessons.json",
-    "sha256": "835efcd18c2c44ae715330dae5dc31d1fee1ead4f3dd2f3d908a916920bfb20c"
+    "sha256": "14e5708cade871faa8c55dfc73c180e1e8d9f45419c169f26a208005804a857f"
   },
   "reading_units": [
     "front-title",

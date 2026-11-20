@@ -123308,7 +123308,7 @@
       }
     },
     "C.7": {
-      "title": "C.7 F4 Continuation of conversions and actual execution",
+      "title": "C.7 F4 Composition of Conversions and Actual Execution",
       "lead": "Each step completing its own local task does not guarantee preservation of a common endpoint; representational insufficiency and an incorrect actual rule can also coexist.",
       "explanation": [
         "Chinese source location: lines 4883–4892; original-site location /theory/appendix-c#section-c-7. See the theory-v2 source for the current full text; the historical Chinese research manuscript and slices remain downloadable in their original versions for checking.",
@@ -134859,7 +134859,7 @@
         "A recommendation must state the N-premises and decision rule used; why this option is provisionally selected; who bears which losses; which legitimate claims remain unmet; who retains duties of harm reduction, remedy, explanation, and review; and what conditions would change the choice. A public rule is a normative position undertaken by its proposer and adopter, not proof that the rule qualifies.",
         "If the rule itself is disputed, judgments under different rules can be presented side by side. Show whether disagreement comes from facts, constraints, or values, rather than inventing an aggregate score that makes conflict disappear. The claims of those harmed do not become zero because a recommendation is made.",
         "‘There is no alternative’ also requires review: are the constraints real, who controls them, and did questionable earlier decisions create them? Were options removed because decision-makers were unwilling to bear costs? Was a lack of authority referred to a subject with the necessary authority? This account is appealable and subject to review independent of the decision-maker.",
-        "Nonwaivable legal and protective requirements do not lapse because every option involves loss. Claims that even these cannot all be preserved require a determination by a reviewer independent of the decision-maker. If the claim is not confirmed, return to options that do not breach them. If it is confirmed, the framework still supplies no authorized endorsement, and protections that can still be preserved continue to apply. Subjects with the relevant duties and powers may decide only within the narrowest scope under their own independent statutory or emergency authority, bearing responsibility and setting expiry and retrospective review."
+        "Nonwaivable legal and protective requirements do not lapse because every option involves loss. Claims that even these cannot all be preserved must state which of them conflict and which options have been ruled out and on what grounds, and require a determination by a reviewer independent of the decision-maker. If the claim is not confirmed, return to options that do not breach them. If it is confirmed, the framework still supplies no authorized endorsement, and protections that can still be preserved continue to apply. Subjects with the relevant duties and powers may decide only within the narrowest scope under their own independent statutory or emergency authority, bearing responsibility and setting expiry and retrospective review."
       ],
       "keyTerms": [
         {
@@ -134971,7 +134971,7 @@
       "editionNote": "This page’s source text and section locations correspond to v2; historical research attachments and prior external-reading records retain their own versions and scopes.",
       "translationOf": {
         "language": "zh",
-        "lesson_sha256": "2873c2ec4349c9420db3b3ed81830325333f9dc78ea035df2425781c4334acc0",
+        "lesson_sha256": "d60b66430617526a6fba1dd36d37e8e89950a52a22858259340c76abcce2f7bb",
         "source_sha256": "2128af7cfa4c63b58207521a375aa34c2aea230d47e1c04a5afec3334e290d28"
       }
     }
