@@ -106,7 +106,8 @@ class CollectorCardTests(unittest.TestCase):
             self.assertIn(phrase, self.card)
 
     def test_gaps_and_conflicts_are_reported_not_resolved(self):
-        for phrase in ('没查到不等于不存在', '先在存下的全文里检索一遍', '两边都留，不按数量取舍，不取平均',
+        for phrase in ('没查到不等于不存在', '先在存下的全文里检索一遍', '用那种语言再检索一遍',
+                       '两边都留，不按数量取舍，不取平均',
                        '没有查（原因）；查了没查到（范围）；查到但取不到（原因）；为保护而不公开；此项不适用（理由）',
                        '只说明有这种情况，不说明占多大比例'):
             self.assertIn(phrase, self.card)
@@ -191,6 +192,16 @@ class WiringTests(unittest.TestCase):
         self.assertIn(card, links(GUIDE))
         self.assertIn('保存的原件', read('agents/reviewer.md'))
         self.assertIn('取材者与核对者', read('references/collaboration.md'))
+
+    def test_review_and_citation_check_work_on_a_fixed_draft_and_cover_later_additions(self):
+        collaboration = read('references/collaboration.md')
+        for phrase in ('独立反方通常值得派；短答和概念问答不派', '不因此改用没有读过原文的审查',
+                       '送审的稿子在审查期间不改，要改就另存一份送审'):
+            self.assertIn(phrase, collaboration)
+        guide = read(GUIDE)
+        for phrase in ('引用很多时按章节拆给几位核对者', '改稿时新加进来的数字和引文同样回原件核一遍'):
+            self.assertIn(phrase, guide)
+        self.assertIn((ROOT / GUIDE).resolve(), links('references/capability-quickstart.md'))
 
     def test_new_files_link_only_to_shipped_files(self):
         files = set(json.loads(read('skill-package.json'))['files'])
