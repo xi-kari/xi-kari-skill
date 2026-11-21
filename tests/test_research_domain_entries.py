@@ -97,7 +97,7 @@ class ResearchDomainEntryTests(unittest.TestCase):
     def test_research_guides_ask_for_one_hand_written_draft_with_located_issues(self):
         module = self.read('modules/research/MODULE.md')
         for phrase in ('手写的完整稿', '解释边界与问题', '不影响哪些结论', '为什么仍未解决', '它把判断改成了什么',
-                       '末章不能是唯一写着重大限制的地方', '只说“研究一下”也按这里交付'):
+                       '末章不能是唯一写着重大限制的地方', '只说“研究一下”“调查一下”也按这里交付'):
             self.assertIn(phrase, module)
         self.assertIn('来源或数据更正', self.read('references/continuation.md'))
         self.assertIn('来源或数据更正', module)

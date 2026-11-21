@@ -2,9 +2,9 @@
   "name": "xi-kari-skill",
   "version": "6.9.1",
   "archive": "xi-kari-skill-6.9.1-windows.zip",
-  "sha256": "76fc27f81e4eea376cdb05a930228d2570846356ad744c3825f104f833abf6ea",
+  "sha256": "22c0bf6043af01dbba18dd98aa6e8a874644c52a76b9354bd5cc4ea96dfdd43a",
   "archive_root": "xi-kari-skill",
-  "bytes": 1642062,
+  "bytes": 1642630,
   "file_count": 199,
   "theory_source_sha256": "2128af7cfa4c63b58207521a375aa34c2aea230d47e1c04a5afec3334e290d28",
   "english_edition_sha256": "fcf100a5c8688d1e0337c52750ce3ad21fb5dbcc250f97946602ce094345f825",
@@ -16,8 +16,8 @@
     },
     {
       "path": "SKILL.md",
-      "bytes": 26787,
-      "sha256": "c931026f7c6f75e09ff76e30b82a70ad3c8f0e162ed0afd9d05c087061d1a1a2"
+      "bytes": 26805,
+      "sha256": "2a0e9dfcad94bb1dafd35a3de1a45e81bd43dc98786812965f9a0be9e0fb2c9e"
     },
     {
       "path": "agents/openai.yaml",
@@ -341,8 +341,8 @@
     },
     {
       "path": "modules/contract/MODULE.md",
-      "bytes": 6225,
-      "sha256": "3588b10f7434c759aef32cafc70b3a47c300bff2590748e3184780b42d5dcc4e"
+      "bytes": 6246,
+      "sha256": "c19cbe195a23362a21b400558bf5965e994c90342dfe252484f374949e6409e9"
     },
     {
       "path": "modules/critique/MODULE.md",
@@ -376,18 +376,18 @@
     },
     {
       "path": "modules/mechanism/MODULE.md",
-      "bytes": 5793,
-      "sha256": "65b4210a35ec866b89c050b71560e558ee92a9be2e1235ff2f6a4ed9348b472e"
+      "bytes": 5812,
+      "sha256": "7affe7c125b95f64a64095ce4279f2ab8f4c45268e3c11d354f3603e8405acf8"
     },
     {
       "path": "modules/object-state/MODULE.md",
-      "bytes": 6413,
-      "sha256": "f492beabb800dfaae440152001a316ee529e4eb653eec919ea0c2787c3cc7f41"
+      "bytes": 6515,
+      "sha256": "e67e4d12378ed9a6336ee6de76b677f3a51f930e7d5b7c0c54d54753800fa81d"
     },
     {
       "path": "modules/research/MODULE.md",
-      "bytes": 7954,
-      "sha256": "1c42986473e37918abe6108e027b43ea1df82262a2d5d2d22535fc372e0bc6d4"
+      "bytes": 8203,
+      "sha256": "b08febad9f154f846b9c812bd1ef82fc34209227fe1136e74a0fd36c1a6028ad"
     },
     {
       "path": "modules/transform/MODULE.md",
@@ -436,8 +436,8 @@
     },
     {
       "path": "references/communication.md",
-      "bytes": 6959,
-      "sha256": "593bed7af2628c8b12ac0ce2033116fb10fcb8d3c14f9db78cd238608f2b2e05"
+      "bytes": 6998,
+      "sha256": "e7874f0447962fdcf0c8c35b3fa541c94f47a5c8788a407fe50ea14e19edf5a2"
     },
     {
       "path": "references/comparison-table.md",
@@ -506,8 +506,8 @@
     },
     {
       "path": "references/english.md",
-      "bytes": 17938,
-      "sha256": "6a57ab7c91127d87dd7a999c85e6e23a6ec54adfee0ebf9e4e99cf580a498591"
+      "bytes": 18259,
+      "sha256": "b2d0037487fc534cb66bd82dd6aa69b0ef07d1218a3569871f5b25ba8e3c1ce6"
     },
     {
       "path": "references/evidence-work.md",
@@ -531,8 +531,8 @@
     },
     {
       "path": "references/full-source-study.md",
-      "bytes": 8404,
-      "sha256": "0d8bb866ddb1e844ba652fae16c37b9b53a46b64312c046b9678874367e818f8"
+      "bytes": 8718,
+      "sha256": "5e42f28fe182a50223de02d0798aaa6b7c05583a08334c5e6284c8caa8aa0d45"
     },
     {
       "path": "references/generation.md",
@@ -626,13 +626,13 @@
     },
     {
       "path": "references/research-work.md",
-      "bytes": 7483,
-      "sha256": "3a31ed5ebae38b8d058e2759ee19ae40a9a37d1db05344ea2aeeaf82f7c0c72b"
+      "bytes": 7576,
+      "sha256": "b239472dc46767038ae97846092254ecd378add84e91689c31be8ba14254a3da"
     },
     {
       "path": "references/routing.md",
-      "bytes": 9757,
-      "sha256": "7740208b93a63d10a20111c32dfbc800980de028daf2fc2324fac19b060bf4e3"
+      "bytes": 9945,
+      "sha256": "1ff4eec72ff3995035b0a45ba675866bea968a77858a078f20313424aea49a66"
     },
     {
       "path": "references/state.md",

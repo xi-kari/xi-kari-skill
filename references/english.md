@@ -11,7 +11,7 @@ Read this when the user writes in English, asks for English output, or quotes th
 
 The instructions name some requests by their Chinese wording. Read English requests the same way:
 
-- *Research*, *investigate* or *look into* — even in passing, as in “look into what happened” — asks for research, as 研究一下 does, and calls the research entry.
+- *Research*, *investigate* or *look into* — even in passing, as in “look into what happened” — asks for research, as 研究一下 and 调查一下 do, and calls the research entry.
 - *Look at*, *have a look* or *take a look* is an ordinary request, as 看看 and 帮我看一下 are: full study by default, and no research report unless research is asked for.
 - *In ten sentences*, *a light answer* or *a quick take*, or a quick judgment on an everyday question from a user who accepts that the source will not be read, selects the ten-sentence mode (`primer`).
 - *You may use layered reading*, *no need to read the whole book* or the like authorizes `layered`. It does not authorize reading the English edition in place of the Chinese.
@@ -43,7 +43,7 @@ python "$skillRoot/scripts/read_source.py" --lang en --search "action ceiling"
 
 Use the renderings in [glossary-en.md](glossary-en.md) consistently: one concept, one English term. A rendering belongs to its specialized sense; ordinary uses of the same Chinese word take ordinary English. When a term may be unfamiliar, explain it in plain words at its first use in the answer instead of relying on the term alone.
 
-In an answer to a practical question, ordinary words carry the mechanism, as [communication.md](communication.md) asks: write who *takes over* or *picks up* the work rather than *uptake*. The glossary rendering belongs where the reader needs to find the concept in the theory, such as the method note.
+In an answer to a practical question, ordinary words carry the mechanism, as [communication.md](communication.md) asks: write who *takes over* or *picks up* the work rather than *uptake*. The glossary rendering belongs where the reader needs to find the concept in the theory, such as the method note. When a quotation you need contains such a term, keep the quotation as written and say beside it, in plain words, what the term means.
 
 These distinctions must survive in English:
 
@@ -155,4 +155,4 @@ In an R8 answer the identity word travels with each candidate: *must* is used on
 
 ## Style
 
-Write plain, precise English. The rules for complete answers, communication and presentation apply unchanged. Avoid stock phrases the source does not warrant — *delve into*, *it is important to note*, *crucial*, *pivotal*, *multifaceted*, *holistic*, *seamless*, *leverage*, *landscape*, *tapestry*, *realm*, *testament* — and do not add summary flourishes or triads the argument does not need.
+Write plain, precise English. The rules for complete answers, communication and presentation apply unchanged. Give the book's English title at its first mention in an answer, *Xikari: On Conditions, Structure, and Transformation*, and call it *the book* or *the theory* after that. Avoid stock phrases the source does not warrant — *delve into*, *it is important to note*, *crucial*, *pivotal*, *multifaceted*, *holistic*, *seamless*, *leverage*, *landscape*, *tapestry*, *realm*, *testament* — and do not add summary flourishes or triads the argument does not need.
