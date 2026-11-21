@@ -75,7 +75,7 @@
 
 <section class="plate" id="top" aria-labelledby="page-title">
   <dl class="strip">
-    <div><dt>技能</dt><dd>Xikari Skill <span class="num">6.9.1</span></dd></div>
+    <div><dt>技能</dt><dd>Xikari Skill <span class="num">6.10.0</span></dd></div>
     <div class="strip-wide"><dt>理论来源</dt><dd>《Xikari-条件结构与转化论》<span class="strip-by">Xikari 著</span></dd></div>
     <div><dt>正文基线</dt><dd><time class="num" data-baseline-date datetime="2026-11-19">2026.11.19</time></dd></div>
     <div><dt>验证范围</dt><dd>Windows</dd></div>
@@ -147,7 +147,7 @@
     <div class="profile" data-profile aria-hidden="true"></div>
     <ol class="fixes" data-modules>
       <li data-module="M0" data-short="问题合同" data-file="contract.md"><a class="code" href="https://github.com/xi-kari/xi-kari-skill/blob/main/modules/contract/MODULE.md">M0</a><h3>问题合同</h3><p>主作者：原问、对象、用途、截止、路由与重要分支</p><p class="handoff">问题合同 <code>contract.md</code></p></li>
-      <li data-module="M1" data-short="材料证据"><a class="code" href="https://github.com/xi-kari/xi-kari-skill/blob/main/modules/evidence/MODULE.md">M1</a><h3>材料与证据</h3><p>取材者与分析者：来源、支持范围、争议与反向材料</p><p class="handoff">材料引用与证据基础</p></li>
+      <li data-module="M1" data-short="材料证据"><a class="code" href="https://github.com/xi-kari/xi-kari-skill/blob/main/modules/evidence/MODULE.md">M1</a><h3>材料与证据</h3><p>主作者与分析者：来源、支持范围、争议与反向材料；取材可以委托协作者</p><p class="handoff">材料引用与证据基础</p></li>
       <li data-module="M2" data-short="对象状态" data-file="state.md"><a class="code" href="https://github.com/xi-kari/xi-kari-skill/blob/main/modules/object-state/MODULE.md">M2</a><h3>对象与状态</h3><p>分析者：先辨认必要区别，再建 D0/K、九轴、行动者、圈层与状态</p><p class="handoff">状态记录 <code>state.md</code></p></li>
       <li data-module="M3" data-short="机制解释"><a class="code" href="https://github.com/xi-kari/xi-kari-skill/blob/main/modules/mechanism/MODULE.md">M3</a><h3>机制与竞争解释</h3><p>解释作者：IT、IG、CM、简单与竞争解释</p><p class="handoff">机制比较及区分观察</p></li>
       <li data-module="M4" data-short="三类变换"><a class="code" href="https://github.com/xi-kari/xi-kari-skill/blob/main/modules/transform/MODULE.md">M4</a><h3>三类变换</h3><p>涉及尺度、圈层关系或转义的作者</p><p class="handoff">可用目标表示及保持、损失与边界</p></li>
@@ -158,7 +158,7 @@
       <li data-module="M9" data-short="成文" data-file="xi-kari-answer.md"><a class="code" href="https://github.com/xi-kari/xi-kari-skill/blob/main/modules/compose/MODULE.md">M9</a><h3>成文</h3><p>主作者：补齐重要分支、综合跨部分关系、完整论证与取舍</p><p class="handoff">当前完整答案或所需成品</p></li>
       <li data-module="M10" data-short="生成" data-file="candidates.json"><a class="code" href="https://github.com/xi-kari/xi-kari-skill/blob/main/modules/generate/MODULE.md">M10</a><h3>生成</h3><p>生成作者：定起点、选走法、定身份、四问筛选、配竞争项与检验</p><p class="handoff">带谱系的候选 <code>candidates.json</code></p></li>
     </ol>
-    <p class="aside">模块数量与智能体数量不对应。独立的证据方向、分支或具体争议可以并行，前后紧密依赖的工作顺序承接；每个独立作判断的作者都先读完全书。</p>
+    <p class="aside">模块数量与智能体数量不对应。独立的证据方向、分支或具体争议可以并行，前后紧密依赖的工作顺序承接；每个独立作判断的作者都先读完全书。把取材交给协作者时不只给一个题目：主作者按后续工作的需要定方向、写委托，协作者先读取材者须知，只交回能回到原件的材料。</p>
     <div class="table-wrap">
       <table class="analysis-checks">
         <caption>分析中具体检查什么</caption>
@@ -220,6 +220,8 @@
       <li><strong class="plaque">未登记，不前瞻</strong><span>每条前瞻判断在结果出现前登记目标、期限、范围与基线；登记取不到就退回推演，只给条件路径。</span></li>
       <li><strong class="plaque">未知，不排序</strong><span>方案比较里事实、假设、未知分别标注。未知不参与排序，也不给跨维度的整体最优。</span></li>
       <li><strong class="plaque">共识不当证据</strong><span>多模型共识不是独立经验证据。反方审查者只提出可核的具体问题，不颁发质量认证。</span></li>
+      <li><strong class="plaque">取材，不代判断</strong><span>子代理去查资料，交回的是能回到原件的材料、事件和缺口，不是结论。关键的数字和原话回原件再核；成稿前可以请没参与取材的协作者把引用逐条核一遍。</span></li>
+      <li><strong class="plaque">转交，不改读法</strong><span>问题由别的智能体转交时，先找到你的原话。转交方要求快一点，不算你本人同意少读理论。</span></li>
       <li><strong class="plaque">未检验，不称发现</strong><span>生成的候选逐条写明起点、竞争项与否决条件。没有外部材料支持的，不写成事实、预测或建议执行；“未见”只相对写明的检索范围。</span></li>
     </ul>
     <p class="aside">当前工具测试覆盖 Windows，包括中文和空格路径、从其他工作目录运行；CI 使用 Python 3.10 与 3.13。其他操作系统和云端产品尚未验收。研究入口与领域映射只做过一次小规模同题对照（一种宿主模型、合成材料、每种条件一次）；领域卡的长期积累、成果模式与有限工具还没有对照评测，程序测试与合成示例不证明现实效果。</p>
@@ -460,7 +462,7 @@
 
 <footer class="colophon">
   <div class="wrap">
-    <p class="colophon-id"><svg class="i" aria-hidden="true"><use href="#i-vor"/></svg>Xikari Skill <span class="num">6.9.1</span><span>MIT License · © 2026 xi-kari</span></p>
+    <p class="colophon-id"><svg class="i" aria-hidden="true"><use href="#i-vor"/></svg>Xikari Skill <span class="num">6.10.0</span><span>MIT License · © 2026 xi-kari</span></p>
     <nav aria-label="页脚导航">
       <a href="https://github.com/xi-kari/xi-kari-skill">项目源码</a>
       <a href="https://github.com/xi-kari/xi-kari-skill/discussions">讨论</a>
