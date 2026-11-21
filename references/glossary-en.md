@@ -256,6 +256,16 @@ English renderings used by the reference edition in `source/en/`, listed in orde
 | 资料的生成过程 | data-generation process | proposed |  |
 | 生成 | generative | locked | 生成词族修饰语 |
 | 外推边界 | limits of extrapolation | proposed |  |
+| 回退 | regression | proposed | 退回较早的状态或阶段；本身不等于失败 |
+| 管理劳动 | management work | proposed | 识别需要、排程、提醒、查验、待命等照护中的管理负担 |
+| 待命 | on call | proposed | 随时准备接手的责任；很少被调用也会占用时间 |
+| 默认联系人 | default contact | proposed | 出事时默认被找的人；很少被调用也会切断连续的时段 |
+| 临时补缺 | filling in at short notice | proposed | 临时顶上空缺的责任 |
+| 休眠 | dormancy | proposed | 活动停止但没有消亡；演化相位之间允许的一种转换 |
+| 功能转移 | functional transfer | proposed | 原有的功能转由别的集体或载体承担 |
+| 配置与能力的相互强化 | Mutual Reinforcement of Allocation and Capability | proposed | 运转机制之一：资源配置与能力相互强化（§7.6.1） |
+| 崩解 | collapse | proposed | 集体状态的一种去向：结构解体 |
+| 虚稳态 | pseudo-steady state | proposed | 看似稳定、实际靠消耗维持的状态 |
 | 正当的不透明；有正当理由的不透明 | justified opacity | locked | 有理由的有限不公开 |
 | 潜在属性 | latent attribute | proposed |  |
 | 形成性条件 | formative condition | proposed |  |
