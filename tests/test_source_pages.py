@@ -87,6 +87,16 @@ class PagedSelectionTests(unittest.TestCase):
         self.assertIn('Unknown page: 2; available: 1 through 1', beyond.stderr)
         self.assertEqual(beyond.stdout, '')
 
+    def test_chunk_summary_reports_the_last_line_for_readers_who_go_by_lines(self):
+        import json
+        summary = json.loads(run('--chunks').stdout)
+        text = reader.SOURCE.read_text(encoding='utf-8-sig')
+        self.assertEqual(summary['lines'], len(text.splitlines()))
+        last = run('--chunk', str(summary['chunks'])).stdout
+        self.assertIn(f"-{summary['lines']}]", last.splitlines()[1])
+        guide = (ROOT / 'references/full-source-study.md').read_text(encoding='utf-8')
+        self.assertIn('先看 `--chunks` 给出的总行数', guide)
+
     def test_reading_guide_names_the_page_option(self):
         guide = (ROOT / 'references/full-source-study.md').read_text(encoding='utf-8')
         self.assertIn('--page', guide)

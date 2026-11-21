@@ -16,6 +16,27 @@ class AnalysisContractTests(unittest.TestCase):
                 for term in ('同一对象', '同一窗口', '互斥', '外溢', '触发条件', '早期信号', '反向信号', '下一份材料'):
                     self.assertIn(term, text)
 
+    def test_paths_say_whether_they_describe_one_unit_or_the_whole(self):
+        text = self.read('modules/dynamics/MODULE.md')
+        self.assertIn('先写明路径是对单个单位说的，还是对整体的构成说的', text)
+        self.assertIn('不同单位可以处在不同路径', text)
+
+    def test_generation_author_is_sent_to_the_full_guide(self):
+        text = self.read('modules/generate/MODULE.md')
+        self.assertIn('生成作者另读[生成指南](../../references/generation.md)全文', text)
+        self.assertIn('由 M10 的生成作者读取', self.read('references/generation.md'))
+
+    def test_a_practical_question_that_also_asks_about_other_theories_stays_mixed(self):
+        text = self.read('references/routing.md')
+        for phrase in ('跨理论对话通常接 R7', '比较的理论里不包括本框架自己时，同样按跨理论对话的做法做',
+                       '是混合请求', '不把整题改成理论评估'):
+            self.assertIn(phrase, text)
+
+    def test_a_premise_of_the_framework_is_named_as_a_premise(self):
+        text = self.read('references/communication.md')
+        for phrase in ('这是本次分析采用的前提，不接受它时结论会怎样不同', '框架的说法不替事实作证，也不替读者决定价值'):
+            self.assertIn(phrase, text)
+
     def test_lost_workload_is_distinct_from_available_capacity(self):
         text = self.read('modules/dynamics/MODULE.md')
         for term in ('p/(1−p)', '相对原工作量', '实际可用容量另查'):

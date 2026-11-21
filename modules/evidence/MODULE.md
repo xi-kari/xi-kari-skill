@@ -4,7 +4,7 @@
 
 # M1 材料与证据
 
-由取材者、分析者与主作者读取，为后续模块提供可回到原件的观察、冲突与未知。材料目录不证明材料可信，也不证明作者已理解。
+由分析者与主作者读取，为后续模块提供可回到原件的观察、冲突与未知。材料目录不证明材料可信，也不证明作者已理解。取材交给协作者时，协作者读[取材者须知](../../agents/collector.md)，主作者按[取材的组织](../../references/collection.md)定方向、委托和接收；本模块的判断仍由读过原文的作者作出。
 
 ## 用途与输入
 
@@ -36,4 +36,4 @@
 
 ## 工具与相关指南
 
-按需用 `evidence.py` 保存原位置与片段，用宿主能力读取文件和取得资料。见[材料与证据](../../references/evidence-work.md)、[实际研究](../../references/research-work.md)、[研究设计](../../references/study-design.md)。
+按需用 `evidence.py` 保存原位置与片段，用宿主能力读取文件和取得资料。见[取材的组织](../../references/collection.md)、[材料与证据](../../references/evidence-work.md)、[实际研究](../../references/research-work.md)、[研究设计](../../references/study-design.md)。
