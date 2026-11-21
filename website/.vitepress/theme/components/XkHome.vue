@@ -105,7 +105,7 @@ function toggleAllGroups() {
 
 const downloads = [
   { type: 'MD', name: '完整 Markdown 原文', desc: '适合检索、引用和交给能读文件的智能体', href: '/downloads/Xikari-条件结构与转化论.md' },
-  { type: 'DOCX', name: '第一版 Word（历史版本）', desc: '2026-10-17 第一版，正文与当前 v2.1 不同', href: '/downloads/Xikari-条件结构与转化论.v1.docx' }
+  { type: 'DOCX', name: '第一版 Word（历史版本）', desc: '2026-10-17 第一版，正文与当前 v3.0 不同', href: '/downloads/Xikari-条件结构与转化论.v1.docx' }
 ]
 </script>
 
@@ -225,7 +225,7 @@ const downloads = [
       </div>
       <div class="xk-cite">
         <p>引用时写明作者、书名、版本和节号，并附上对应章节的链接。</p>
-        <code>Xikari，《Xikari-条件结构与转化论》，v2.1，2026年11月，§3.3。</code>
+        <code>Xikari，《Xikari-条件结构与转化论》，v3.0，2026年11月，§3.3。</code>
         <p><a class="xk-link" :href="pageHref('/downloads')">文本身份与校验值</a></p>
       </div>
     </section>

@@ -63,7 +63,9 @@ An account of an event must give at least which event is meant, the time or time
 
 The joint state can be written as follows.
 
-`Ω(t) = <A(t), C(t), R(t), M(t), Ψ(t), Q(t), E≤t, SP(t), W(t), K(t)>`.
+`Ω(t) = <A(t), C(t), Rcc(t), Rac(t), M(t), Ψ(t), Q(t), E≤t, T(t), SP(t), W(t), K(t)>`.
+
+The items correspond in order to the twelve items of the joint object (§10.2); `E≤t` is the event stream up to t, and `T(t)` records the round or cycle in which each kind of clock (§10.7) stands at t, together with the expiries already scheduled.
 
 An update can be written as follows.
 
@@ -297,7 +299,7 @@ Candidate statuses include proposed, under test, supported candidate, rejected, 
 | Candidate Source | Permitted Action | What Must Be Avoided |
 | --- | --- | --- |
 | Residuals in the system | Propose several competing candidates and observations that distinguish them | Absorbing all errors into one mysterious variable |
-| Account by a person concerned | Preserve the person’s position, the meaning of their account, and its verifiable parts | Automatically downgrading it to subjective noise or elevating it to a complete account of the facts |
+| Account by a person concerned | Preserve the person’s position, the meaning of their account, and its verifiable parts; objections it raises to how the question has been fixed are recorded and handled under §2.14 | Automatically downgrading it to subjective noise or elevating it to a complete account of the facts |
 | Recurrence across cases | Establish candidate mechanisms and limits of extrapolation | Treating similar narratives as universal laws |
 | Model search | Pre-register the next round of testing, that is, set down the target, criteria, and rules before seeing the results | Selecting the best results for reporting after seeing them |
 | AI suggestions | Generate and compare candidates. Form judgments and analytical recommendations when the evidence, permitted uses, and explicit normative premises allow | Letting AI output verify facts about reality or authorize action |
@@ -330,11 +332,11 @@ Counterfactual analysis can therefore produce one answer, a set of feasible answ
 <div v-pre class="theory-source">
 
 
-## 11.9.1 Multi-Order Recursive Projection of the Future {#section-11-9-1}
+### 11.9.1 Multi-Order Recursive Projection of the Future {#section-11-9-1}
 
 Advancing time over multiple steps, re-entry from a simulated state, and anticipatory reflexivity are three orthogonal dimensions. Advancing time over multiple steps carries a state forward in time within one projection. Re-entry from a simulated state uses one of the simulated futures generated in the first round as the starting point for a child projection. Anticipatory reflexivity occurs when actors in the simulation form expectations about the more distant future or other people’s responses and change their current strategies as a result. These three must not be conflated under the single term “recursion.”
 
-Three orders are one default way to organize exploratory projection. The first unfolds direct consequences and competing paths. The second checks how those changes alter the available actions, resources, relationships, and adaptation. The third checks institutionalization, lock-in, reversal, and changes in conditions for generation. The orders mark responsibilities in projection. They do not amount to three points in time, natural stages, or levels of capability. Do not force recursion for static questions or tasks without a distinct question at the next order. Stop when conditions are insufficient.
+Three orders are one default way to organize exploratory projection. The first unfolds direct consequences and competing paths. The second checks how those changes alter the available actions, resources, relationships, and adaptation. The third checks institutionalization, lock-in, reversal, and changes in conditions for generation. Recursion goes no further than the third order (§11.9.4). The orders mark responsibilities in projection. They do not amount to three points in time, natural stages, or levels of capability. Do not force recursion for static questions or tasks without a distinct question at the next order. Stop when conditions are insufficient.
 
 The general principle is this: the layer that generates possibilities may be bold, the state layer must be strict, the evidence layer must not raise its own status, and the action layer must still be authorized separately. Boldness serves to expand the space of plausible mechanisms, competing paths, and branches with low probability and severe consequences. It also serves to produce clear judgments within the limits of the evidence. The strength of a judgment is supported only by evidence, conditions of applicability, and permitted uses. Tone or the number of generated possibilities cannot make it stronger.
 
@@ -399,7 +401,7 @@ Stopping is part of the output. It must not be used to conceal failure. When sto
 
 Continue with the public departure from a job in Part 10 (§10.11). The starting snapshot shows that the employee faces long working hours and the pressure of care work, team trust is declining, company management is concerned with reputation, the professional community provides outside opportunities, and public opinion on the platform has yet to form. The event is the employee publishing an account of their departure. Part of its content can be verified, and part is personal narrative.
 
-Direct effects include the team receiving the information, the platform obtaining a text that can be circulated, and management facing pressure to respond. On the first path, the company makes only a public denial. In the short term, external public opinion may branch toward either fading or amplification. If members inside the company interpret the denial as suppression, team trust declines and further departures occur through bridges in the professional community. On the second path, the company acknowledges the problem and starts verifiable adjustments to resources and appeals. If these are carried out, working hours and processes change on the organizational clock. Trust may recover more slowly on the experience–meaning clock. On the third path, changes in family care conditions ease the employee’s pressure after leaving. This does not directly change the team’s state unless the employee continues to bridge information or resources.
+Direct effects include the team receiving the information, the platform obtaining a text that can be circulated, and management facing pressure to respond. On the first path, the company makes only a public denial. In the short term, external public opinion may branch toward either fading or amplification. If members inside the company interpret the denial as suppression, team trust declines and further departures occur through bridges in the professional community. On the second path, the company acknowledges the problem and starts verifiable adjustments to resources and appeals. If these are carried out, working hours and processes change on the organizational clock. Trust may recover more slowly on the interactive clock. On the third path, changes in family care conditions ease the employee’s pressure after leaving. This does not directly change the team’s state unless the employee continues to bridge information or resources.
 
 Early signals can include the number of internal appeals, records of hours actually worked, members’ public statements, and changes in hiring and departures. Contrary signals can include no actual change in resources after a policy is announced, increasing internal silence despite declining external exposure, or the professional community failing to form a bridge. Residuals may come from the states of key managers, the platform’s recommendation mechanism, or unobserved legal constraints. These enter only the ledger of variable candidates (§11.8).
 

@@ -1,5 +1,5 @@
 ---
-{"id":"DOMAIN-TECHNICAL-MAINTENANCE","title":"技术系统与维护：HTTP服务的观测与恢复","status":"draft","scope":"有明确端点和用户任务的 HTTP 服务；RFC 9110 与 Google SRE Book 相关章节；来源正文查阅于 2026-11-17","updated":"2026-11-17","theory_sha256":"2128af7cfa4c63b58207521a375aa34c2aea230d47e1c04a5afec3334e290d28","anchors":["3.4.1","6.5","6.13","13.11.2","D.28"]}
+{"id":"DOMAIN-TECHNICAL-MAINTENANCE","title":"技术系统与维护：HTTP服务的观测与恢复","status":"draft","scope":"有明确端点和用户任务的 HTTP 服务；RFC 9110 与 Google SRE Book 相关章节；来源正文查阅于 2026-11-17","updated":"2026-11-17","theory_sha256":"0d9e445bcba84380a572d248dad4836013b735d7d33589f29ea0c6f1aeb61c10","anchors":["3.4.1","6.5","6.13","13.11.2","D.28"]}
 ---
 
 # 技术系统与维护：HTTP服务的观测与恢复

@@ -1,5 +1,5 @@
 ---
-{"id":"EXAMPLE-OUTPUT-ARRANGEMENT-DESIGN","theory_sha256":"2128af7cfa4c63b58207521a375aa34c2aea230d47e1c04a5afec3334e290d28","anchors":["1.4","7.3.5","12.9","12.10","12.10.2","14.6","14.9.1","15.2.5"],"synthetic":true}
+{"id":"EXAMPLE-OUTPUT-ARRANGEMENT-DESIGN","theory_sha256":"0d9e445bcba84380a572d248dad4836013b735d7d33589f29ea0c6f1aeb61c10","anchors":["1.4","7.3.5","12.9","12.10","12.10.2","14.6","14.9.1","15.2.5"],"synthetic":true}
 ---
 
 # 两场共学活动的可审议安排

@@ -2,14 +2,14 @@
   "title": "Xikari: On Conditions, Structure, and Transformation",
   "author": "Xikari",
   "language": "en",
-  "theory_version": "v2.1",
-  "source_date": "2026-11-20",
-  "source_sha256": "fcf100a5c8688d1e0337c52750ce3ad21fb5dbcc250f97946602ce094345f825",
-  "source_bytes": 1070002,
-  "source_lines": 5636,
+  "theory_version": "v3.0",
+  "source_date": "2026-11-21",
+  "source_sha256": "9c05fc5b7350d8e94b6456630c46798812214fc5a6b22a6ae7c58536441bb257",
+  "source_bytes": 1100351,
+  "source_lines": 5658,
   "download": "/downloads/Xikari-On-Conditions-Structure-and-Transformation.md",
-  "canonical_chinese_sha256": "2128af7cfa4c63b58207521a375aa34c2aea230d47e1c04a5afec3334e290d28",
-  "translates_chinese_sha256": "2128af7cfa4c63b58207521a375aa34c2aea230d47e1c04a5afec3334e290d28",
+  "canonical_chinese_sha256": "0d9e445bcba84380a572d248dad4836013b735d7d33589f29ea0c6f1aeb61c10",
+  "translates_chinese_sha256": "0d9e445bcba84380a572d248dad4836013b735d7d33589f29ea0c6f1aeb61c10",
   "parts": {
     "part_1": "/en/theory/part-01#part_1",
     "part_2": "/en/theory/part-02#part_2",
@@ -466,7 +466,7 @@
       "part": null,
       "source_start_line": 1,
       "source_end_line": 73,
-      "source_sha256": "d8431b6ac28410ae6d767e67082bb3ea2ac930e3b293e103ea44a21ee8156fb5"
+      "source_sha256": "c323d5b318b0965e3deab715ea8a1fd560d77a34315b464bc315ea4fbb73b6cf"
     },
     {
       "path": "en/theory/part-01.md",
@@ -474,25 +474,25 @@
       "title": "Part 1 Introduction",
       "part": 1,
       "source_start_line": 74,
-      "source_end_line": 224,
-      "source_sha256": "41451ed3287a830b22402444c9015148a3b00931c491b7c735cf59c93f45bee6"
+      "source_end_line": 226,
+      "source_sha256": "d18ec0451888d451b026a0adb7913fdcbf0d6220acd6f3360a6972c3302c7a6a"
     },
     {
       "path": "en/theory/part-02.md",
       "route": "/en/theory/part-02",
       "title": "Part 2 Boundaries and Methods",
       "part": 2,
-      "source_start_line": 225,
-      "source_end_line": 462,
-      "source_sha256": "42f969d5a34231c2eba25e79cefb1b25f6f4e3afb3370804340241b38489713d"
+      "source_start_line": 227,
+      "source_end_line": 468,
+      "source_sha256": "1de7df4a41ce633281fa01aeba6dd7bd8b7e1284d9b06d974c9b035ba286108d"
     },
     {
       "path": "en/theory/part-03.md",
       "route": "/en/theory/part-03",
       "title": "Part 3 Universal Structural Grammar",
       "part": 3,
-      "source_start_line": 463,
-      "source_end_line": 600,
+      "source_start_line": 469,
+      "source_end_line": 606,
       "source_sha256": "2ead0e6e74fb59fd4fa1746f4d228ac21eb1fbe4efe7c9c61498f698a623c6af"
     },
     {
@@ -500,134 +500,134 @@
       "route": "/en/theory/part-04",
       "title": "Part 4 Empirical Questions, Conclusion Rules, and Conditional Formal Propositions",
       "part": 4,
-      "source_start_line": 601,
-      "source_end_line": 1099,
-      "source_sha256": "ec4111484065e568e5a6560300efb336997c5208efb94ab777e7d75221277d78"
+      "source_start_line": 607,
+      "source_end_line": 1111,
+      "source_sha256": "8d699f498161fc0cfad732046819c6edbae57ef7781a7b20cb3d1129e557bc4a"
     },
     {
       "path": "en/theory/part-05.md",
       "route": "/en/theory/part-05",
       "title": "Part 5 Cross-Scale and Cross-Circle Transformations",
       "part": 5,
-      "source_start_line": 1100,
-      "source_end_line": 1383,
-      "source_sha256": "5816199b88f62e0ed401a0e8b16482052bdcebd9990432d37e622129e108eb0e"
+      "source_start_line": 1112,
+      "source_end_line": 1395,
+      "source_sha256": "4588c9d6eb58649472338ae7f6d1ab5fd90a9ddaa6b0ab5c972d8d838d7ff3fe"
     },
     {
       "path": "en/theory/part-06.md",
       "route": "/en/theory/part-06",
       "title": "Part 6 Operation and Evolution",
       "part": 6,
-      "source_start_line": 1384,
-      "source_end_line": 1572,
-      "source_sha256": "9a2acd8a892d933fecb49f5d5cc2b5b22aac9ab61c94f03953e19cbc4c937583"
+      "source_start_line": 1396,
+      "source_end_line": 1584,
+      "source_sha256": "595f71c07516c8d83366a8250771625488536b33c6b057ab6ef9fbaab75d2914"
     },
     {
       "path": "en/theory/part-07.md",
       "route": "/en/theory/part-07",
       "title": "Part 7 The Human Structured World",
       "part": 7,
-      "source_start_line": 1573,
-      "source_end_line": 1772,
-      "source_sha256": "031aba62e100a109e1a51a5e9245b9dbe2aa00ef0421cf03519aa7a4c72fe1b6"
+      "source_start_line": 1585,
+      "source_end_line": 1784,
+      "source_sha256": "fa1feb9951a8e96493c0bda1272f7039ae8f311cf57b6bb2645d1bb14e31edd8"
     },
     {
       "path": "en/theory/part-08.md",
       "route": "/en/theory/part-08",
       "title": "Part 8 Human State Prototypes",
       "part": 8,
-      "source_start_line": 1773,
-      "source_end_line": 2020,
-      "source_sha256": "4f714bb866a003836bcde5df88f68421b5e2c4fefd08ed0a43354e481f7bb8fd"
+      "source_start_line": 1785,
+      "source_end_line": 2032,
+      "source_sha256": "3cf76eb03711f5fd6d8c8bb9d341c3930b839823bd29c623517aad18e218ad42"
     },
     {
       "path": "en/theory/part-09.md",
       "route": "/en/theory/part-09",
       "title": "Part 9 Actor States and Personality Hypotheses",
       "part": 9,
-      "source_start_line": 2021,
-      "source_end_line": 2203,
-      "source_sha256": "3f2c03bfb18c186e5cf64ebb9551bdaf72f99efa05dd0a14857ccf5b2b252fb5"
+      "source_start_line": 2033,
+      "source_end_line": 2215,
+      "source_sha256": "f8700dfa48df04c9dc378819214b1a08dccb1088059d22e52e40e240fa0c3c95"
     },
     {
       "path": "en/theory/part-10.md",
       "route": "/en/theory/part-10",
       "title": "Part 10 Multi-Circle Objects and Joint States",
       "part": 10,
-      "source_start_line": 2204,
-      "source_end_line": 2398,
-      "source_sha256": "4b9c7039f095667b6bd175267679b71a179161020fc2f8ae85d6050c0d418fbc"
+      "source_start_line": 2216,
+      "source_end_line": 2410,
+      "source_sha256": "9d9a34e8d93be5d4f1fa22296b43b508dab51ae0316f8a012c4c9cc766a6a7ff"
     },
     {
       "path": "en/theory/part-11.md",
       "route": "/en/theory/part-11",
       "title": "Part 11 Event-Driven Dynamic Projection",
       "part": 11,
-      "source_start_line": 2399,
-      "source_end_line": 2633,
-      "source_sha256": "da01d19b1922d04dee17adcca52430792daefe94d7aee55d0fc8dda615689c04"
+      "source_start_line": 2411,
+      "source_end_line": 2647,
+      "source_sha256": "b1334a8d063aae8b3106220cc0fef362b641e1a077715a6ad7bb8312d996a133"
     },
     {
       "path": "en/theory/part-12.md",
       "route": "/en/theory/part-12",
       "title": "Part 12 Conditional Foresight and Bounded Choice",
       "part": 12,
-      "source_start_line": 2634,
-      "source_end_line": 2860,
-      "source_sha256": "915c4e9ef731079bc9098a4b05ea917543ebb959f5531b52a29bafa7f244f9f2"
+      "source_start_line": 2648,
+      "source_end_line": 2874,
+      "source_sha256": "98bedadaac904d75df465398591b836ec867c3b713c7a9cba5826121c0382ddc"
     },
     {
       "path": "en/theory/part-13.md",
       "route": "/en/theory/part-13",
       "title": "Part 13 Judgment Procedures and Tools",
       "part": 13,
-      "source_start_line": 2861,
-      "source_end_line": 3069,
-      "source_sha256": "bb5939ef5b59f541ca1d06aff70fcf6a3a26f9fe239be4d4acc05a24e9ec0188"
+      "source_start_line": 2875,
+      "source_end_line": 3083,
+      "source_sha256": "9e465ca3f7a04a5000dd1ffd050dd450288f90717099413d630b4ef242043b5f"
     },
     {
       "path": "en/theory/part-14.md",
       "route": "/en/theory/part-14",
       "title": "Part 14 Normative Choice",
       "part": 14,
-      "source_start_line": 3070,
-      "source_end_line": 3273,
-      "source_sha256": "a36043c6a7935fd29f04b4fae7fd1b8eaa8172231da914aefb51ae09da9e0460"
+      "source_start_line": 3084,
+      "source_end_line": 3295,
+      "source_sha256": "0e32e45bf88de346b3db39b3e14e47c625dbd52677683f4b20699b77e9aa075e"
     },
     {
       "path": "en/theory/part-15.md",
       "route": "/en/theory/part-15",
       "title": "Part 15 Intervention and Applications",
       "part": 15,
-      "source_start_line": 3274,
-      "source_end_line": 3520,
-      "source_sha256": "b40e06174b4090202693dc2cd88b6d9830e85ef796b48194ee779c2b32d39bf6"
+      "source_start_line": 3296,
+      "source_end_line": 3542,
+      "source_sha256": "fd20dce6f8f0c8dd8dbecc76fc4bbf80198555efe24839b21869e9323fdaea9a"
     },
     {
       "path": "en/theory/part-16.md",
       "route": "/en/theory/part-16",
       "title": "Part 16 Governance",
       "part": 16,
-      "source_start_line": 3521,
-      "source_end_line": 3830,
-      "source_sha256": "b6eadc2d688fc49a385fab130c13e50218ee19adda79d687b74b3a5bec8be38b"
+      "source_start_line": 3543,
+      "source_end_line": 3852,
+      "source_sha256": "5bf5c4308c3c5f028ebba8ed00ce131dc8e1fc14cc017cd7f9cde76a6226a0b9"
     },
     {
       "path": "en/theory/appendix-a/index.md",
       "route": "/en/theory/appendix-a/",
       "title": "Appendix A The Human Variables in Detail",
       "part": 17,
-      "source_start_line": 3831,
-      "source_end_line": 3838,
-      "source_sha256": "42934415bbe7ede4bd53fc808d7d967111fda65ea39778db28f7508018e35e1b"
+      "source_start_line": 3853,
+      "source_end_line": 3860,
+      "source_sha256": "6b02a662ec8c902037473bbc32f605535185d714b3e4a1bb0f1780d2fdff32a0"
     },
     {
       "path": "en/theory/appendix-a/a-01.md",
       "route": "/en/theory/appendix-a/a-01",
       "title": "A.1 Structural Domain (HV01)",
       "part": 17,
-      "source_start_line": 3839,
-      "source_end_line": 3922,
+      "source_start_line": 3861,
+      "source_end_line": 3944,
       "source_sha256": "78e4b8ded0399b4ee340d69f459b46a89097e2ad217cfc5ce6f9bec789b4dcdb"
     },
     {
@@ -635,8 +635,8 @@
       "route": "/en/theory/appendix-a/a-02",
       "title": "A.2 Boundaries and Interfaces (HV02)",
       "part": 17,
-      "source_start_line": 3923,
-      "source_end_line": 4006,
+      "source_start_line": 3945,
+      "source_end_line": 4028,
       "source_sha256": "95740757a98d10583cb3d83d2e127f9ad7aaa65a8d6b41bfec5886949bb706a7"
     },
     {
@@ -644,8 +644,8 @@
       "route": "/en/theory/appendix-a/a-03",
       "title": "A.3 Orientation Anchor (HV03)",
       "part": 17,
-      "source_start_line": 4007,
-      "source_end_line": 4090,
+      "source_start_line": 4029,
+      "source_end_line": 4112,
       "source_sha256": "5ca72813b0900d9f3728997e5c9b2c31cdb02a74189712658e9458251f88086e"
     },
     {
@@ -653,8 +653,8 @@
       "route": "/en/theory/appendix-a/a-04",
       "title": "A.4 Generative Node (HV04)",
       "part": 17,
-      "source_start_line": 4091,
-      "source_end_line": 4174,
+      "source_start_line": 4113,
+      "source_end_line": 4196,
       "source_sha256": "4e302e3dc63f1cb6105df11d212d1b8b356cf0aa1d8ac615da236953fe5d05a9"
     },
     {
@@ -662,35 +662,35 @@
       "route": "/en/theory/appendix-a/a-05",
       "title": "A.5 Action Uptake Layer (HV05)",
       "part": 17,
-      "source_start_line": 4175,
-      "source_end_line": 4264,
-      "source_sha256": "822fa2adb7d4f84599a8aaa4b883ea219b4299fcd56a633b4407b15763ce15a5"
+      "source_start_line": 4197,
+      "source_end_line": 4286,
+      "source_sha256": "c451e1236bdefbfcedc324438df302d197c77977db84bbc5a2f4084debb4516b"
     },
     {
       "path": "en/theory/appendix-a/a-06.md",
       "route": "/en/theory/appendix-a/a-06",
       "title": "A.6 Drive–Uptake Chain (HV06)",
       "part": 17,
-      "source_start_line": 4265,
-      "source_end_line": 4350,
-      "source_sha256": "fab146da98cb18b8299c75de6b18d5d59296b8e1b24c9faef72e5f44caabf352"
+      "source_start_line": 4287,
+      "source_end_line": 4372,
+      "source_sha256": "e60720d3c5cb18f0e66b9940622fca6d6ab62bffc70a84aa4910cb8b58735f95"
     },
     {
       "path": "en/theory/appendix-a/a-07.md",
       "route": "/en/theory/appendix-a/a-07",
       "title": "A.7 Feedback Write-Back (HV07)",
       "part": 17,
-      "source_start_line": 4351,
-      "source_end_line": 4438,
-      "source_sha256": "701e791693926c870a44aa699913c753b0494acd587d2684ee72b956c4369c23"
+      "source_start_line": 4373,
+      "source_end_line": 4460,
+      "source_sha256": "e265c7136629532da10dd9c52d63361d4545490eea2174912d47c1bd11d3ae86"
     },
     {
       "path": "en/theory/appendix-a/a-08.md",
       "route": "/en/theory/appendix-a/a-08",
       "title": "A.8 Conditional Potential Field (HV08)",
       "part": 17,
-      "source_start_line": 4439,
-      "source_end_line": 4526,
+      "source_start_line": 4461,
+      "source_end_line": 4548,
       "source_sha256": "6555ec00be6286b55a9dd65b80b627ba3cd03a80b8c8c4b238e77a31302a1d39"
     },
     {
@@ -698,44 +698,44 @@
       "route": "/en/theory/appendix-a/a-09",
       "title": "A.9 Structural Load (HV09)",
       "part": 17,
-      "source_start_line": 4527,
-      "source_end_line": 4614,
-      "source_sha256": "fea509c3444f4027c92dea0eb6280922636d1e5bc2cab0b9398b45ada8b24262"
+      "source_start_line": 4549,
+      "source_end_line": 4636,
+      "source_sha256": "29abbde698bd30dd7f1b8b085a0e4889a4920da7ed0b1dac4053f2b3d67f172b"
     },
     {
       "path": "en/theory/appendix-a/a-10.md",
       "route": "/en/theory/appendix-a/a-10",
       "title": "A.10 Evolutionary Phase (HV10)",
       "part": 17,
-      "source_start_line": 4615,
-      "source_end_line": 4706,
-      "source_sha256": "87363b26b785a15d4cd450ffb886e0204fba82eca9554ac0af8466508d148d13"
+      "source_start_line": 4637,
+      "source_end_line": 4728,
+      "source_sha256": "b14079086a806411aaddb00fe6ec136e38e1649aab336121888a3e14f4159dda"
     },
     {
       "path": "en/theory/appendix-a/a-11.md",
       "route": "/en/theory/appendix-a/a-11",
       "title": "A.11 Open-Ended Undertaking Action (HV11)",
       "part": 17,
-      "source_start_line": 4707,
-      "source_end_line": 4814,
-      "source_sha256": "6a2ab85a4ea90a9bca7732fc04330bcf8131f555ee3905ee38f06e1be7dc607f"
+      "source_start_line": 4729,
+      "source_end_line": 4836,
+      "source_sha256": "ee1967aa26d30d11a33795bba288c76ff52e391326f7bdca9c4f52019838871a"
     },
     {
       "path": "en/theory/appendix-b.md",
       "route": "/en/theory/appendix-b",
       "title": "Appendix B Numbering Scheme and Glossary",
       "part": 18,
-      "source_start_line": 4815,
-      "source_end_line": 4859,
-      "source_sha256": "1bb857ab53293bd6ec37f627b805859973a1a065e209807c45a1ff7deaeb5b46"
+      "source_start_line": 4837,
+      "source_end_line": 4881,
+      "source_sha256": "7a6892f114ba3f37309be4a4158bb7471c92873aa557966a00a9cb7ec441fc1b"
     },
     {
       "path": "en/theory/appendix-c.md",
       "route": "/en/theory/appendix-c",
       "title": "Appendix C Common Method Kernel and Cross-Disciplinary Bridging",
       "part": 19,
-      "source_start_line": 4860,
-      "source_end_line": 5029,
+      "source_start_line": 4882,
+      "source_end_line": 5051,
       "source_sha256": "72ee31f3ecd0eae91ce63f8f839cc7864ae1fc1ffba08647ee4483171a27ca19"
     },
     {
@@ -743,8 +743,8 @@
       "route": "/en/theory/appendix-d/",
       "title": "Appendix D A Map of Domain Explanations and Applications",
       "part": 20,
-      "source_start_line": 5030,
-      "source_end_line": 5035,
+      "source_start_line": 5052,
+      "source_end_line": 5057,
       "source_sha256": "9c75df3574dd9a73511b5e0de3d290fb8ca51562caa332acfb6811428f511818"
     },
     {
@@ -752,8 +752,8 @@
       "route": "/en/theory/appendix-d/d-01",
       "title": "D.01 The Framework Itself, Explanatory Tasks, and Borrowing From Theory",
       "part": 20,
-      "source_start_line": 5036,
-      "source_end_line": 5051,
+      "source_start_line": 5058,
+      "source_end_line": 5073,
       "source_sha256": "753f1d1df93af06aead81be4b23103db59dcc813aebd314a484f9685235b5355"
     },
     {
@@ -761,8 +761,8 @@
       "route": "/en/theory/appendix-d/d-02",
       "title": "D.02 Knowledge, Concepts, Context, and Epistemic Position",
       "part": 20,
-      "source_start_line": 5052,
-      "source_end_line": 5067,
+      "source_start_line": 5074,
+      "source_end_line": 5089,
       "source_sha256": "238a89458f7c51e2a7ca0b4847a80be953c56db1e81997ac1ae9d7ff8e8df641"
     },
     {
@@ -770,8 +770,8 @@
       "route": "/en/theory/appendix-d/d-03",
       "title": "D.03 Research Design, Measurement, Causation, and How Records Are Produced",
       "part": 20,
-      "source_start_line": 5068,
-      "source_end_line": 5083,
+      "source_start_line": 5090,
+      "source_end_line": 5105,
       "source_sha256": "9a88f36120bd8a433964fcb0aed86cfb979d8d89277cadbc31e8a99351f2a8bd"
     },
     {
@@ -779,8 +779,8 @@
       "route": "/en/theory/appendix-d/d-04",
       "title": "D.04 Systems, Control, Feedback, Resilience, and Time Lags",
       "part": 20,
-      "source_start_line": 5084,
-      "source_end_line": 5099,
+      "source_start_line": 5106,
+      "source_end_line": 5121,
       "source_sha256": "3a00823f6a7599d5062a5784123186e15250e55388ab4dd851c4d9359374de99"
     },
     {
@@ -788,8 +788,8 @@
       "route": "/en/theory/appendix-d/d-05",
       "title": "D.05 Information, Representation, and Borrowing From Mathematics and Physics",
       "part": 20,
-      "source_start_line": 5100,
-      "source_end_line": 5115,
+      "source_start_line": 5122,
+      "source_end_line": 5137,
       "source_sha256": "8db72d06f8570efed5a94d489639f2ca4689d91e5a839b491252e613a5970eee"
     },
     {
@@ -797,17 +797,17 @@
       "route": "/en/theory/appendix-d/d-06",
       "title": "D.06 Human Nature, Evolution, Habits, and the Capability to Act",
       "part": 20,
-      "source_start_line": 5116,
-      "source_end_line": 5131,
-      "source_sha256": "f9c77126895cc031ec74d1b8768fe84d0fea7d52917467346c047229c35276f0"
+      "source_start_line": 5138,
+      "source_end_line": 5153,
+      "source_sha256": "e3a18dbb6e4b89cb02cad4ae766e2f30c5fd829ab6083a9a64e810d3741f259d"
     },
     {
       "path": "en/theory/appendix-d/d-07.md",
       "route": "/en/theory/appendix-d/d-07",
       "title": "D.07 Bounded Rationality, Emotion, Group Decisions, and Exploration",
       "part": 20,
-      "source_start_line": 5132,
-      "source_end_line": 5147,
+      "source_start_line": 5154,
+      "source_end_line": 5169,
       "source_sha256": "d46cb4a3adcef9a0a979269196016f59ed2fca0564c5c4891622e702be25c00a"
     },
     {
@@ -815,17 +815,17 @@
       "route": "/en/theory/appendix-d/d-08",
       "title": "D.08 Development, Psychological Experience, Theories of Therapy, and Professional Boundaries",
       "part": 20,
-      "source_start_line": 5148,
-      "source_end_line": 5163,
-      "source_sha256": "ff27c7262cc73f77c879c213f5a32f45afc2c8edd2f5f0e9d74b8c81c0495ce6"
+      "source_start_line": 5170,
+      "source_end_line": 5185,
+      "source_sha256": "2b713878b1730cbbb0f6985ff79aaddd30b21908cd1056756ad5901487499c2c"
     },
     {
       "path": "en/theory/appendix-d/d-09.md",
       "route": "/en/theory/appendix-d/d-09",
       "title": "D.09 Love, Care, Recognition, Meaning, and Quality of Life",
       "part": 20,
-      "source_start_line": 5164,
-      "source_end_line": 5179,
+      "source_start_line": 5186,
+      "source_end_line": 5201,
       "source_sha256": "44e2c6d1d2e6d4559ca4004aed59d532c05d0e26933336c52b50a35c0e9401cc"
     },
     {
@@ -833,8 +833,8 @@
       "route": "/en/theory/appendix-d/d-10",
       "title": "D.10 Ethical Disagreement, Capabilities, and Bounded Responsibility",
       "part": 20,
-      "source_start_line": 5180,
-      "source_end_line": 5197,
+      "source_start_line": 5202,
+      "source_end_line": 5219,
       "source_sha256": "a1f6e07b39e39ad5280a0e09ed68751143c90cc81286ca0dfa4ba92e3d44da85"
     },
     {
@@ -842,8 +842,8 @@
       "route": "/en/theory/appendix-d/d-11",
       "title": "D.11 Modern Reinterpretations of Chinese Thought and Traditions of Practice",
       "part": 20,
-      "source_start_line": 5198,
-      "source_end_line": 5213,
+      "source_start_line": 5220,
+      "source_end_line": 5235,
       "source_sha256": "6ef86decc1bb18ee991f19e6c3ffb33a00f695363a76b5b36ebaa85a80a94884"
     },
     {
@@ -851,8 +851,8 @@
       "route": "/en/theory/appendix-d/d-12",
       "title": "D.12 Religion, Comparisons Across Civilizations, and Relational Knowledge",
       "part": 20,
-      "source_start_line": 5214,
-      "source_end_line": 5229,
+      "source_start_line": 5236,
+      "source_end_line": 5251,
       "source_sha256": "12e0a2a94ef6172605c1be08929e55b237d55a40ab448ebb14f12022a1999ec7"
     },
     {
@@ -860,17 +860,17 @@
       "route": "/en/theory/appendix-d/d-13",
       "title": "D.13 Kinship, Exchange, Ritual, Ethnography, and Cultural Change",
       "part": 20,
-      "source_start_line": 5230,
-      "source_end_line": 5245,
-      "source_sha256": "b99a0054a0bd295dc7ad8006121458d8c68a713df6de75d9b4e317200a26679e"
+      "source_start_line": 5252,
+      "source_end_line": 5267,
+      "source_sha256": "ae196c11ad4e77dbbe98fcbeff69683ebf38ac8528427f32eb4a8eb5a5056e30"
     },
     {
       "path": "en/theory/appendix-d/d-14.md",
       "route": "/en/theory/appendix-d/d-14",
       "title": "D.14 Social Theory, Power, Communication, and Institutional Reproduction",
       "part": 20,
-      "source_start_line": 5246,
-      "source_end_line": 5261,
+      "source_start_line": 5268,
+      "source_end_line": 5283,
       "source_sha256": "700f22671d09f7cae9ca99dc3a5c1aa5b22d4eb9dd49d86c52e7f191aefba084"
     },
     {
@@ -878,8 +878,8 @@
       "route": "/en/theory/appendix-d/d-15",
       "title": "D.15 Games, Cooperation, Signals, Commitment, and Implementation",
       "part": 20,
-      "source_start_line": 5262,
-      "source_end_line": 5277,
+      "source_start_line": 5284,
+      "source_end_line": 5299,
       "source_sha256": "617b761c3f40eb60e068eb6abe40253f51aab62e2116ee703e062fb7c2029bc3"
     },
     {
@@ -887,8 +887,8 @@
       "route": "/en/theory/appendix-d/d-16",
       "title": "D.16 Organizations, Work, Leadership, and Labor Protection",
       "part": 20,
-      "source_start_line": 5278,
-      "source_end_line": 5297,
+      "source_start_line": 5300,
+      "source_end_line": 5319,
       "source_sha256": "951f5b6298b58faac147391d4604b5db930a4142deb5b1e9bd6d0b36b2e8d2c8"
     },
     {
@@ -896,8 +896,8 @@
       "route": "/en/theory/appendix-d/d-17",
       "title": "D.17 Production, Exchange, Property Rights, Institutions, and Development",
       "part": 20,
-      "source_start_line": 5298,
-      "source_end_line": 5313,
+      "source_start_line": 5320,
+      "source_end_line": 5335,
       "source_sha256": "afa597d88c642fef3391bafee46d4920944f01bc2c9e61f0f5d94c11cb0232c5"
     },
     {
@@ -905,8 +905,8 @@
       "route": "/en/theory/appendix-d/d-18",
       "title": "D.18 Money, Credit, Finance, and Crises",
       "part": 20,
-      "source_start_line": 5314,
-      "source_end_line": 5329,
+      "source_start_line": 5336,
+      "source_end_line": 5351,
       "source_sha256": "078e7296d7ba52a69878aee60cb7c9b616231dcbfd8934c5b908bc0368f0c36a"
     },
     {
@@ -914,17 +914,17 @@
       "route": "/en/theory/appendix-d/d-19",
       "title": "D.19 Political Thought, Institutional Visions, and Normative Disagreement",
       "part": 20,
-      "source_start_line": 5330,
-      "source_end_line": 5345,
-      "source_sha256": "fdce143d01401cc5cd054d95576177409977067562318e99d4e3913e33157c5e"
+      "source_start_line": 5352,
+      "source_end_line": 5367,
+      "source_sha256": "ac8f0d2c81692dce3706a2f5505a705f2e32b5603c02728da206b8264322d767"
     },
     {
       "path": "en/theory/appendix-d/d-20.md",
       "route": "/en/theory/appendix-d/d-20",
       "title": "D.20 State Capacity, Policy Implementation, and Governance",
       "part": 20,
-      "source_start_line": 5346,
-      "source_end_line": 5361,
+      "source_start_line": 5368,
+      "source_end_line": 5383,
       "source_sha256": "6c3282744025300442e49fbd4ca21bca2e9160ada53acd1c52dd8e248298e3ed"
     },
     {
@@ -932,8 +932,8 @@
       "route": "/en/theory/appendix-d/d-21",
       "title": "D.21 Law, Authorization, Procedure, and Responsibility",
       "part": 20,
-      "source_start_line": 5362,
-      "source_end_line": 5377,
+      "source_start_line": 5384,
+      "source_end_line": 5399,
       "source_sha256": "cbde8af547efae2488cba554094cb9200f35e21fa73b7520d1b1ddc823e59749"
     },
     {
@@ -941,8 +941,8 @@
       "route": "/en/theory/appendix-d/d-22",
       "title": "D.22 Class, Identity, Inequality, and Social Exclusion",
       "part": 20,
-      "source_start_line": 5378,
-      "source_end_line": 5393,
+      "source_start_line": 5400,
+      "source_end_line": 5415,
       "source_sha256": "e14f8a3cee948e2390d31f29aa4d6cb5730aef6841579bd173b90754586db699"
     },
     {
@@ -950,8 +950,8 @@
       "route": "/en/theory/appendix-d/d-23",
       "title": "D.23 Family, Gender, the Body, Dependence, and Care",
       "part": 20,
-      "source_start_line": 5394,
-      "source_end_line": 5409,
+      "source_start_line": 5416,
+      "source_end_line": 5431,
       "source_sha256": "6e0f7610c70492e54cb079c8eb8860888c4c47a1224ec4e02c1c6e3ce9b3d869"
     },
     {
@@ -959,17 +959,17 @@
       "route": "/en/theory/appendix-d/d-24",
       "title": "D.24 Population, Generations, the Life Course, and Living Across Places",
       "part": 20,
-      "source_start_line": 5410,
-      "source_end_line": 5425,
-      "source_sha256": "a0e94d088c8b787783273af4c1cc54ee6682473286d5fe2c4ae06fb7b2affbdd"
+      "source_start_line": 5432,
+      "source_end_line": 5447,
+      "source_sha256": "b82444428283110f1bffc703c10011a495f607988e82a9fad1741b99acaefe1a"
     },
     {
       "path": "en/theory/appendix-d/d-25.md",
       "route": "/en/theory/appendix-d/d-25",
       "title": "D.25 Education, Knowledge Production, the Professions, and Lifelong Learning",
       "part": 20,
-      "source_start_line": 5426,
-      "source_end_line": 5443,
+      "source_start_line": 5448,
+      "source_end_line": 5465,
       "source_sha256": "264d93c8de9652a9fe56717ca1d71b33810597326ee8ff28e72feaf2a606e641"
     },
     {
@@ -977,8 +977,8 @@
       "route": "/en/theory/appendix-d/d-26",
       "title": "D.26 Networks, Media, Language, Narrative, and Identification",
       "part": 20,
-      "source_start_line": 5444,
-      "source_end_line": 5459,
+      "source_start_line": 5466,
+      "source_end_line": 5481,
       "source_sha256": "d5e1202fa9744f180baecbcf09b07e51ceae08e8dc7211cea24209f20a71fdc0"
     },
     {
@@ -986,17 +986,17 @@
       "route": "/en/theory/appendix-d/d-27",
       "title": "D.27 Aesthetics, Art, Literature, Games, and Everyday Culture",
       "part": 20,
-      "source_start_line": 5460,
-      "source_end_line": 5475,
-      "source_sha256": "3f76cba04fc76b6405f056a60972b0d5dcda8409d66ed55ba17947e000562434"
+      "source_start_line": 5482,
+      "source_end_line": 5497,
+      "source_sha256": "fd4608292a8486b4f6790dfd707702b1d03bedf859a25128730968319e846e70"
     },
     {
       "path": "en/theory/appendix-d/d-28.md",
       "route": "/en/theory/appendix-d/d-28",
       "title": "D.28 Technology, Infrastructure, Platforms, and Artificial Intelligence",
       "part": 20,
-      "source_start_line": 5476,
-      "source_end_line": 5491,
+      "source_start_line": 5498,
+      "source_end_line": 5513,
       "source_sha256": "19726372e472037ff3a324d709e70fc43509c7324112510dc0b1dcced9124e8a"
     },
     {
@@ -1004,8 +1004,8 @@
       "route": "/en/theory/appendix-d/d-29",
       "title": "D.29 Cities, Space, Housing, Rural Areas, and Public Accessibility",
       "part": 20,
-      "source_start_line": 5492,
-      "source_end_line": 5507,
+      "source_start_line": 5514,
+      "source_end_line": 5529,
       "source_sha256": "3a30b187423526128a045a25b9a4317bca13062d2cd87ff277b2b3c1fd0c32f4"
     },
     {
@@ -1013,8 +1013,8 @@
       "route": "/en/theory/appendix-d/d-30",
       "title": "D.30 Ecology, Resources, the Commons, and Sustainable Living",
       "part": 20,
-      "source_start_line": 5508,
-      "source_end_line": 5525,
+      "source_start_line": 5530,
+      "source_end_line": 5547,
       "source_sha256": "ee3313e95df29347ecc03a760ddd66844a0a58055bf050d3d9e6b9da0009abb3"
     },
     {
@@ -1022,8 +1022,8 @@
       "route": "/en/theory/appendix-d/d-31",
       "title": "D.31 Risk, Disasters, Public Health, Command, and Recovery",
       "part": 20,
-      "source_start_line": 5526,
-      "source_end_line": 5541,
+      "source_start_line": 5548,
+      "source_end_line": 5563,
       "source_sha256": "c4d10c4b61ac9ec8be138f2e3b7bc26956c7271b5fc48b76125ae13ef1723458"
     },
     {
@@ -1031,18 +1031,18 @@
       "route": "/en/theory/appendix-d/d-32",
       "title": "D.32 War, Revolution, Empire, Development, and Historical Paths",
       "part": 20,
-      "source_start_line": 5542,
-      "source_end_line": 5557,
-      "source_sha256": "da0ffc899b497ef91d4ba1bd37d7f428979485c888818a4f7a8c185a326ce30f"
+      "source_start_line": 5564,
+      "source_end_line": 5579,
+      "source_sha256": "ca067df345fd0e98f9bf3e0ecd868013343484d2d26de1049aef386d6afbe255"
     },
     {
       "path": "en/theory/references.md",
       "route": "/en/theory/references",
       "title": "References",
       "part": 21,
-      "source_start_line": 5558,
-      "source_end_line": 5636,
-      "source_sha256": "4853a73627f0c7133c1b8ce00e468264db09322daa36addc3447f24711eea5c1"
+      "source_start_line": 5580,
+      "source_end_line": 5658,
+      "source_sha256": "db06f624b7cc63cafcfe016bf5f5e37a59d33d166042b43da6c5924fcfb946ab"
     }
   ],
   "annotation_sections": [

@@ -5,16 +5,16 @@
   "sources": [
     {
       "path": "content/section-lessons.json",
-      "sha256": "5cf89e6bcf589d66e2dbaaabde99982aa4f895efabfbdda367fd82ffe1f36033"
+      "sha256": "44d7221ed32b466a96bc556a0946dde308fd7cc4a87babd93ea4ab99770c06af"
     },
     {
       "path": "content/lesson-overrides.json",
-      "sha256": "0048a466d36a47abe548fca1d8e6799ba3731534148785da89ff5ff89994eb92"
+      "sha256": "bdd243de4afcb7cc2a04650109a69d250f2d13593e0b7c5638d77e0be38d346d"
     }
   ],
   "translation": {
     "path": "content/en/section-lessons.json",
-    "sha256": "47c9d0ea5b9dba36a9e59916d85030f9406f826dc103ebe7664ec459712a0a08"
+    "sha256": "7b9c4d4e2b6caf84760d42a94b3fe4de9d8dad5e82be686b3c992a785511834b"
   },
   "reading_units": [
     "front-title",

@@ -1,5 +1,5 @@
 ---
-{"id":"DOMAIN-EDUCATION-LEARNING","title":"教育与学习：短课程成果与迁移","status":"draft","scope":"短课程的成果说明；欧盟理事会 2022 年微证书建议与 How People Learn（2000）第 3 章；来源正文查阅于 2026-11-17","updated":"2026-11-17","theory_sha256":"2128af7cfa4c63b58207521a375aa34c2aea230d47e1c04a5afec3334e290d28","anchors":["3.4.1","6.3","D.25"]}
+{"id":"DOMAIN-EDUCATION-LEARNING","title":"教育与学习：短课程成果与迁移","status":"draft","scope":"短课程的成果说明；欧盟理事会 2022 年微证书建议与 How People Learn（2000）第 3 章；来源正文查阅于 2026-11-17","updated":"2026-11-17","theory_sha256":"0d9e445bcba84380a572d248dad4836013b735d7d33589f29ea0c6f1aeb61c10","anchors":["3.4.1","6.3","D.25"]}
 ---
 
 # 教育与学习：短课程成果与迁移

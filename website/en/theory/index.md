@@ -6,7 +6,7 @@ title: "Xikari: On Conditions, Structure, and Transformation"
 
 # Xikari: On Conditions, Structure, and Transformation {#book}
 
-&gt; Original text © 2026 Xikari · English translation of v2.1 (November 2026) · https://xi-kari.com/en/works/xikari-conditions/
+&gt; Original text © 2026 Xikari · English translation of v3.0 (November 2026) · https://xi-kari.com/en/works/xikari-conditions/
 &gt;
 &gt; This book is released under the MIT License. When copying or distributing all or a substantial portion of it, keep the copyright notice and the license text.
 
@@ -14,7 +14,7 @@ By Xikari
 
 Objects, Conditions, Effects, and Bounded Action
 
-v2.1 · November 2026
+v3.0 · November 2026
 
 </div>
 

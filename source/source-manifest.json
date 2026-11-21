@@ -2,18 +2,18 @@
   "title": "Xikari-条件结构与转化论",
   "author": "Xikari",
   "source_file": "Xikari-条件结构与转化论.md",
-  "sha256": "2128af7cfa4c63b58207521a375aa34c2aea230d47e1c04a5afec3334e290d28",
-  "bytes": 801967,
-  "theory_version": "v2.1",
-  "source_identity": "manuscript-v2.1-20261119-2128af7cfa4c",
+  "sha256": "0d9e445bcba84380a572d248dad4836013b735d7d33589f29ea0c6f1aeb61c10",
+  "bytes": 823580,
+  "theory_version": "v3.0",
+  "source_identity": "manuscript-v3.0-20261121-0d9e445bcba8",
   "upstream_sha256": "df579dbdbb68442b1781b066606c267761f0a1673fbd034ce93eeeb41641439f",
   "upstream_title": "Xikari-条件结构与转化论",
   "scope": "理论正文；现实事实与方法有效性按各自材料判断",
-  "previous_source_identity": "manuscript-v2-20261116-6ef2e508474d",
-  "previous_source_sha256": "6ef2e508474d4ac1ad07d7e4e068955342c405b5f680afcfc40d68cca3d0149c",
-  "wording_revision_of": {
-    "source_identity": "manuscript-v2-20261116-6ef2e508474d",
-    "sha256": "6ef2e508474d4ac1ad07d7e4e068955342c405b5f680afcfc40d68cca3d0149c",
-    "scope": "表述修订：去掉正文里的代号与记录格式，换用平实说法；小节编号、部分锚点、研究锚点与内容不变"
+  "previous_source_identity": "manuscript-v2.1-20261119-2128af7cfa4c",
+  "previous_source_sha256": "2128af7cfa4c63b58207521a375aa34c2aea230d47e1c04a5afec3334e290d28",
+  "content_revision_of": {
+    "source_identity": "manuscript-v2.1-20261119-2128af7cfa4c",
+    "sha256": "2128af7cfa4c63b58207521a375aa34c2aea230d47e1c04a5afec3334e290d28",
+    "scope": "内容修订：94 条修订，分 16 组；没有新增、移动或改名小节，§2.3.1、§11.9.1 两个标题由二级改为三级，编号不变；部分锚点与研究锚点不变"
   }
 }

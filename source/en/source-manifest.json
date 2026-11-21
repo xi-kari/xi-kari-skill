@@ -2,28 +2,28 @@
   "title": "Xikari: On Conditions, Structure, and Transformation",
   "author": "Xikari",
   "language": "en",
-  "role": "user-supplied reference translation, revised to the current Chinese wording; the Chinese source governs",
+  "role": "user-supplied reference translation, revised to the current Chinese text; the Chinese source governs",
   "source_file": "Xikari-On-Conditions-Structure-and-Transformation.md",
-  "sha256": "fcf100a5c8688d1e0337c52750ce3ad21fb5dbcc250f97946602ce094345f825",
-  "bytes": 1070002,
+  "sha256": "9c05fc5b7350d8e94b6456630c46798812214fc5a6b22a6ae7c58536441bb257",
+  "bytes": 1100351,
   "translates": {
     "source_file": "Xikari-条件结构与转化论.md",
-    "sha256": "2128af7cfa4c63b58207521a375aa34c2aea230d47e1c04a5afec3334e290d28"
+    "sha256": "0d9e445bcba84380a572d248dad4836013b735d7d33589f29ea0c6f1aeb61c10"
   },
   "alignment": {
     "sections": 397,
     "parts": 21,
-    "blocks": 2542
+    "blocks": 2553
   },
   "non_body_material": [
     {
       "kind": "copyright_notice",
-      "sha256": "565790533da124505022afe2e6834fb3e9dd367991789304ffd402869d166917",
+      "sha256": "8d6cb5ad8801b98b68b44fb19b457d8e0573a2c40fa80acae441547b20aa7722",
       "bytes": 291
     },
     {
       "kind": "copyright_and_license",
-      "sha256": "6a91657eaa4e8c452e88c4e35b675d6ffb0f003a63b57caf84870182032d21c4",
+      "sha256": "815bcaf924c5aac3c2d48c3bf90876867a28685729b2a06bb68ff3f0033696bb",
       "bytes": 1286
     }
   ],
@@ -32,8 +32,12 @@
     "translates": "6ef2e508474d4ac1ad07d7e4e068955342c405b5f680afcfc40d68cca3d0149c",
     "supplied_manuscript_sha256": "f59bcdb483027736ef973b43ffc0c0ce37d9cb5e67ab3f05c6c67d22a62e65a1"
   },
+  "previous_edition": {
+    "edition_sha256": "fcf100a5c8688d1e0337c52750ce3ad21fb5dbcc250f97946602ce094345f825",
+    "translates": "2128af7cfa4c63b58207521a375aa34c2aea230d47e1c04a5afec3334e290d28"
+  },
   "edition_notes": [
-    "Revised at the user's request from the user-supplied translation of the previous Chinese wording, section by section against the current Chinese; the supplied English is kept wherever the Chinese meaning and structure did not change.",
+    "Revised at the user's request from the user-supplied translation, section by section against the current Chinese; the supplied English is kept wherever the Chinese meaning and structure did not change, and passages the Chinese added or changed are translated anew.",
     "Concept names, replaced words and status words follow the current Chinese wording; codes remain only where the Chinese keeps them.",
     "Copyright and license material is preserved; only these located notices are excluded from body alignment.",
     "Structural alignment and source binding do not certify semantic accuracy or author approval."

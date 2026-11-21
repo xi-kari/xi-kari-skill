@@ -63,7 +63,7 @@ Work: Xikari: On Conditions, Structure, and Transformation
 
 Author: Xikari
 
-Translated from the Chinese v2.1 text: https://xi-kari.com/works/xikari-conditions/
+Translated from the Chinese v3.0 text: https://xi-kari.com/works/xikari-conditions/
 
 ### MIT License {#mit-license}
 

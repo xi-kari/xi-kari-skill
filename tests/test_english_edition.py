@@ -108,8 +108,12 @@ class EnglishEditionTests(unittest.TestCase):
         body, notices = edition.edition_body(self.text)
         self.assertEqual(notices, self.manifest['non_body_material'])
         self.assertEqual([notice['kind'] for notice in notices], ['copyright_notice', 'copyright_and_license'])
-        self.assertIn('English translation of v2.1 (November 2026)', self.text)
-        self.assertIn('Translated from the Chinese v2.1 text:', self.text)
+        self.assertIn('English translation of v3.0 (November 2026)', self.text)
+        self.assertIn('Translated from the Chinese v3.0 text:', self.text)
+        # The edition before this one, and the Chinese text it followed, stay on record.
+        self.assertEqual(self.manifest['previous_edition'], {
+            'edition_sha256': 'fcf100a5c8688d1e0337c52750ce3ad21fb5dbcc250f97946602ce094345f825',
+            'translates': '2128af7cfa4c63b58207521a375aa34c2aea230d47e1c04a5afec3334e290d28'})
         self.assertIn('## Copyright and License', self.text)
         self.assertNotIn('## Copyright and License', body)
 

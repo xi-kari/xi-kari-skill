@@ -141,6 +141,8 @@ English renderings used by the reference edition in `source/en/`, listed in orde
 | 扰动 | perturbation | proposed | 主动改变边界、时间窗或其他分析条件来检验结论。 |
 | 复制 | replication | locked | 独立或适当复制设计 |
 | 承担位置 | cost-bearing position | proposed |  |
+| 领域方法 | domain method | proposed | 所研究领域自己的方法；已经足够时改用它 |
+| 细读 | close reading | proposed | 不用本框架术语的认真阅读 |
 | 拒绝 | rejected | locked | 候选处置状态 |
 | 条件机制 | conditional mechanism | locked | 六种条件机制 |
 | 反馈介导学习 | feedback-mediated learning | proposed | 反馈介导的学习；分载体路线和历史增量路线，各有成立条件 |
@@ -180,6 +182,7 @@ English renderings used by the reference edition in `source/en/`, listed in orde
 | 状态变量 | state variable | locked | 结构对象的七个要素之一：本次分析选定并写明的变量 |
 | 分组增益 | grouping gain | proposed | 候选分组相对于所声明的解释或前瞻任务的增益，不等于对象事实或对象存在 |
 | 通道效应 | channel effect | proposed | 四类经验问题之一：指定的通道是否起作用 |
+| 当前表示之外 | beyond the current representation | proposed | 历史增量相对于本次写明的当前状态而言 |
 | 历史条件增量 | historical conditional increment | proposed |  |
 | 条件增量 | conditional increment | locked | 条件修饰词族 |
 | 尺度闭合 | scale closure | proposed | 四类经验问题之一：表示闭合与对象或干预转换 |
@@ -253,10 +256,23 @@ English renderings used by the reference edition in `source/en/`, listed in orde
 | 构成性的地位 | constitutive standing | proposed | 依对象所在领域自己的规则成立，不是本框架的定义 |
 | 约定 | arrangement; convention | proposed | 事先说好的安排，如运转约定、测量约定 |
 | 证据的条件 | conditions for evidence | proposed | 四项方法条件之一 |
+| 观察记录 | observation record | proposed | 具体的、可以核查的行为；不是人格假设的状态 |
 | 资料的生成过程 | data-generation process | proposed |  |
 | 生成 | generative | locked | 生成词族修饰语 |
 | 外推边界 | limits of extrapolation | proposed |  |
+| 外部评价 | external evaluation | proposed | 用评价者另行采用的前提所作的评价 |
+| 缺失状态 | missing-data state | proposed | 未知、不适用、不可观察、为保护而不公开四种 |
+| 尚未收集 | not yet collected | proposed | “未知”之下须注明的情形之一 |
+| 来源冲突 | conflicting sources | proposed | “未知”之下须注明的情形之一：合格的来源就同一对象互相冲突 |
+| 已经尝试仍不能区分 | still indistinguishable after attempts | proposed | “未知”之下须注明的情形之一 |
 | 回退 | regression | proposed | 退回较早的状态或阶段；本身不等于失败 |
+| 历史载体留痕 | historical-carrier traces | proposed | “人类承接与跨期再生产”的第四分支 |
+| 否决条件 | veto condition | proposed | 规范前提的三种用法之一 |
+| 替代承接 | alternative uptake | proposed | 撤除或退出之前已经实际运转的接替安排 |
+| 净增益 | net gain | proposed | 框架相对专业方法或精简方法增加了什么 |
+| 有待比较提供证据 | awaiting evidence from comparison | proposed | 没有实际比较时净增益的证据状态 |
+| 对象已转换 | object converted | proposed | 尺度变换记录里的同一性分类之一 |
+| 有感主体 | sentient subject | proposed | 有感受能力的主体；保护底板对其适用 |
 | 管理劳动 | management work | proposed | 识别需要、排程、提醒、查验、待命等照护中的管理负担 |
 | 待命 | on call | proposed | 随时准备接手的责任；很少被调用也会占用时间 |
 | 默认联系人 | default contact | proposed | 出事时默认被找的人；很少被调用也会切断连续的时段 |
@@ -264,8 +280,12 @@ English renderings used by the reference edition in `source/en/`, listed in orde
 | 休眠 | dormancy | proposed | 活动停止但没有消亡；演化相位之间允许的一种转换 |
 | 功能转移 | functional transfer | proposed | 原有的功能转由别的集体或载体承担 |
 | 配置与能力的相互强化 | Mutual Reinforcement of Allocation and Capability | proposed | 运转机制之一：资源配置与能力相互强化（§7.6.1） |
+| 分类模式 | classification mode | proposed | 单一主导、混合、并行、未知 |
 | 崩解 | collapse | proposed | 集体状态的一种去向：结构解体 |
 | 虚稳态 | pseudo-steady state | proposed | 看似稳定、实际靠消耗维持的状态 |
+| 互动时钟 | interactive clock | proposed | 五类时钟之一 |
+| 响应制度 | response regime | proposed | 预警投入使用后与评价对象一并说明的制度 |
+| 权利底线 | rights floor | proposed | 本次选择中生效的各项保护要求 |
 | 正当的不透明；有正当理由的不透明 | justified opacity | locked | 有理由的有限不公开 |
 | 潜在属性 | latent attribute | proposed |  |
 | 形成性条件 | formative condition | proposed |  |
@@ -371,7 +391,7 @@ English renderings used by the reference edition in `source/en/`, listed in orde
 | 因果承载 | causal carrying | proposed | 因果意义上的承载，与载体分开 |
 | 测量协议 | measurement protocol | proposed | 测量所依据的规程，含可区分的类别、参数与误差 |
 | 历史形成 | historical formation | proposed | 先前经历和条件如何形成现有状态，与额外历史条件增量分别检验。 |
-| 预测性路径依赖 | predictive path dependence | proposed | 历史增量的一种子型：在当前已写明的状态之外、面向未来目标的预测性条件增量，不自动产生因果结论 |
+| 预测性路径依赖 | predictive path dependence | proposed | 历史增量的一种子型：在当前表示之外、面向未来目标的预测性条件增量，不自动产生因果结论 |
 | 因果性路径依赖 | causal path dependence | proposed | 历史增量的另一种子型：除条件增量之外，还须预先选定的干预判据超过阈值 |
 | 投影 | state projection | proposed | 状态经映射得到表示的数学投影，与推演分开 |
 | 非交换 | noncommutation | proposed | 先后顺序不同，结果也不同 |
@@ -437,7 +457,6 @@ English renderings used by the reference edition in `source/en/`, listed in orde
 | 局部排除区 | local exclusion zone | proposed |  |
 | 判断上限 | judgment ceiling | proposed |  |
 | 退场 | exit | proposed | 对象、组织或集体的退场；有序退场另列 |
-| 历史条件残差 | historical conditional residual | proposed | 控制当前已写明的状态之后的历史条件残差，另作历史增量检验 |
 | 跨圈层的推演 | cross-circle projection | proposed | 从局部状态出发，经已写明的成员通道或接口通道展开的圈层间推演 |
 | 表示转义或表述转义 | representational or discursive recasting | proposed | 原文并列的两种转义，各自把有来源的内容带入目标的表示或表述 |
 | 跨期的作用 | intertemporal effect | proposed | 跨时间窗的作用；分清历史形成、当前载体传递和额外的历史增量 |
@@ -479,7 +498,6 @@ English renderings used by the reference edition in `source/en/`, listed in orde
 | 有序退场 | orderly exit | locked | 退场路径 |
 | 良性消亡 | benign demise | locked | 消亡的限定用法 |
 | 消亡 | demise | locked | 区别于解体与消解 |
-| 人类意向性集体 | human intentional collective | proposed |  |
 | 行动者与圈层的互构 | actor–circle mutual constitution | locked | 固定概念族 |
 | 互构 | mutual constitution | locked | 行动者与圈层关系 |
 | 人类有意图集体 | human intentional collective | proposed |  |
@@ -533,6 +551,7 @@ English renderings used by the reference edition in `source/en/`, listed in orde
 | 多圈层推演九闸；九闸 | the nine gates for multi-circle projection; the nine gates | proposed | 多圈层推演所用的九闸 |
 | 事实定格 | Facts as They Stand | proposed | 多圈层推演九闸的第一闸 |
 | 有限责任 | bounded responsibility | locked | 有边界的责任 |
+| 公共负担 | public burden | proposed | 依有效规则分担、范围和期限明确的负担 |
 | 分配账本 | distribution ledger | proposed | 按各受影响位置记下收益、成本、风险、权利影响与负担转移 |
 | 最小伤害原则 | the principle of least harm | proposed | 两条明确写出的选择原则之一 |
 | 比例原则 | the principle of proportionality | proposed | 两条明确写出的选择原则之一 |
@@ -542,6 +561,7 @@ English renderings used by the reference edition in `source/en/`, listed in orde
 | 干涉层级 | intervention level | proposed | 五个干涉层级 |
 | 复杂创伤 | complex trauma | locked | 临床术语 |
 | 主体性 | subjecthood | proposed |  |
+| 多重账本 | multiple ledgers | proposed | 文本、参数与接口各记一套 |
 | 半恢复 | partial recovery | proposed | 灾后多终点的可观察组合 |
 | 概念有效性上限 | ceiling on conceptual validity | locked | 概念有效性约束 |
 | 保护性不透明 | protective opacity | locked | 保护所需不透明 |
@@ -593,3 +613,17 @@ Older material uses the words in the left-hand columns; the codes themselves are
 | 人类适配器；H-World | human adapter; H-World | 人类适配层 | human adaptation layer |
 | 当前注册状态 | currently registered state | 当前已写明的状态 | the stated current state |
 | 推理依赖 | inferential dependencies | 推理前提 | inferential premise |
+
+### Wording changed in v3.0
+
+| v2.1 中文 | v2.1 English | v3.0 中文 | English now |
+| --- | --- | --- | --- |
+| 当前状态之外；当前已写明的状态之外 | beyond the current state; beyond the stated current state | 当前表示之外 | beyond the current representation |
+| 历史条件残差；历史路径增量 | historical conditional residual; historical path increment | 历史条件增量 | historical conditional increment |
+| 人类意向性集体 | human intentional collective | 人类有意图集体 | human intentional collective |
+| 保护底线 | minimum protections | 权利底线（本次生效的各项）；保护底板（十项本身） | rights floor; protection floor |
+| 双重账本 | dual ledgers | 多重账本 | multiple ledgers |
+| 净效益（框架自评） | net benefit | 净增益 | net gain |
+| 五种缺失状态（尚未收集、来源冲突各为一种） | five missing-data states | 四种缺失状态；尚未收集、来源冲突是“未知”之下须注明的情形 | four missing-data states; “not yet collected” and “conflicting sources” are cases noted under “unknown” |
+| 成功、失败（前瞻结果） | successes, failures | 获得支持、未获支持 | supported, not supported |
+| 历史载体限定（“人类承接与跨期再生产”第四分支） | the historical-carrier qualification | 历史载体留痕 | historical-carrier traces |

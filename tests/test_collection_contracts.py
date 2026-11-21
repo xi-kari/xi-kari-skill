@@ -59,8 +59,8 @@ class CollectorCardTests(unittest.TestCase):
         self.assertEqual(self.meta['reading'], READING)
         length = sum(len(self.units[anchor]) for anchor in READING)
         # The card tells a collaborator how much source text it is about to read.
-        self.assertIn('合计约六千字', self.card)
-        self.assertTrue(5400 <= length <= 6600, length)
+        self.assertIn('合计约七千字', self.card)
+        self.assertTrue(6300 <= length <= 7700, length)
         for anchor in READING:
             self.assertIn('§' + anchor, self.card)
         self.assertIn('read_source.py --section', self.card)

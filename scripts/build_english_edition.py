@@ -397,20 +397,26 @@ def import_revision(path: Path) -> dict:
         "translates": previous["translates"]["sha256"],
         **({"supplied_manuscript_sha256": previous["imported_from"]["sha256"]} if previous.get("imported_from") else {}),
     }
+    # The edition this one follows: carried forward while the Chinese is unchanged, replaced when it moves on.
+    if previous.get("translates", {}).get("sha256") != zh_manifest["sha256"]:
+        previous_edition = {"edition_sha256": previous["sha256"], "translates": previous["translates"]["sha256"]}
+    else:
+        previous_edition = previous.get("previous_edition")
     _, notices = edition_body(text)
     data = text.encode("utf-8")
     manifest = {
         "title": TITLE, "author": "Xikari", "language": "en",
-        "role": "user-supplied reference translation, revised to the current Chinese wording; the Chinese source governs",
+        "role": "user-supplied reference translation, revised to the current Chinese text; the Chinese source governs",
         "source_file": EN_FILE, "sha256": sha256(data), "bytes": len(data),
         "translates": {"source_file": zh_manifest["source_file"], "sha256": zh_manifest["sha256"]},
         "alignment": {key: report[key] for key in ("sections", "parts", "blocks")},
         "non_body_material": notices,
         "revision_of": revision_of,
+        **({"previous_edition": previous_edition} if previous_edition else {}),
         "edition_notes": [
-            "Revised at the user's request from the user-supplied translation of the previous Chinese wording, "
-            "section by section against the current Chinese; the supplied English is kept wherever the Chinese meaning "
-            "and structure did not change.",
+            "Revised at the user's request from the user-supplied translation, section by section against the current "
+            "Chinese; the supplied English is kept wherever the Chinese meaning and structure did not change, and "
+            "passages the Chinese added or changed are translated anew.",
             "Concept names, replaced words and status words follow the current Chinese wording; codes remain only where "
             "the Chinese keeps them.",
             "Copyright and license material is preserved; only these located notices are excluded from body alignment.",

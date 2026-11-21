@@ -41,4 +41,4 @@ No. A relevant enabling condition must have been stated beforehand and be indepe
 
 - Retain successes within their supported task even when another outcome fails.
 
-Read the complete [source section §6.10.1](/en/theory/part-06#section-6-10-1) and its guide. This explanation follows theory v2.1; the [Chinese original](/en/downloads) remains authoritative.
+Read the complete [source section §6.10.1](/en/theory/part-06#section-6-10-1) and its guide. This explanation follows theory v3.0; the [Chinese original](/en/downloads) remains authoritative.

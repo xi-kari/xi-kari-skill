@@ -15,19 +15,27 @@ ROOT = WEBSITE.parent
 TITLE = "Xikari-条件结构与转化论"
 EN_TITLE = "Xikari: On Conditions, Structure, and Transformation"
 EN_FILE = "Xikari-On-Conditions-Structure-and-Transformation.md"
-# The handbook shows v2.1, the author's rewording of v2, from its own copy.
+# The handbook shows v3.0, the author's content revision of v2.1, from its own copy.
 SOURCE = WEBSITE / "content/theory-source" / f"{TITLE}.md"
-SOURCE_SHA256 = "2128af7cfa4c63b58207521a375aa34c2aea230d47e1c04a5afec3334e290d28"
-EDITION = "表述修订稿"
-SOURCE_DATE = "2026-11-19"
-# v2 as first published stays downloadable from the handbook's own copy.
+SOURCE_SHA256 = "0d9e445bcba84380a572d248dad4836013b735d7d33589f29ea0c6f1aeb61c10"
+THEORY_VERSION = "v3.0"
+EDITION = "内容修订稿"
+SOURCE_DATE = "2026-11-21"
+# The earlier texts stay downloadable from the handbook's own copies: v2.1, the rewording of v2 that
+# v3.0 revises, and v2 as first published, which the author's English translation follows.
+V21_SOURCE = WEBSITE / "content/theory-source" / f"{TITLE}.v2.1.md"
+V21_SHA256 = "2128af7cfa4c63b58207521a375aa34c2aea230d47e1c04a5afec3334e290d28"
+V21_FILE = f"{TITLE}.v2.1.md"
+V21_DATE = "2026-11-19"
 V2_SOURCE = WEBSITE / "content/theory-source" / f"{TITLE}.v2.md"
 V2_SHA256 = "6ef2e508474d4ac1ad07d7e4e068955342c405b5f680afcfc40d68cca3d0149c"
 V2_FILE = f"{TITLE}.v2.md"
 V2_DATE = "2026-11-16"
-# The English reference edition follows v2.1; it revises the author's English translation of v2.
-EN_SOURCE_SHA256 = "fcf100a5c8688d1e0337c52750ce3ad21fb5dbcc250f97946602ce094345f825"
-EN_DATE = "2026-11-20"
+# The English reference edition for v3.0, from the handbook's own copy; it revises the author's English
+# translation of v2. The skill's source/en may move on to a later text before the handbook does.
+EN_SOURCE = WEBSITE / "content/theory-source" / EN_FILE
+EN_SOURCE_SHA256 = "9c05fc5b7350d8e94b6456630c46798812214fc5a6b22a6ae7c58536441bb257"
+EN_DATE = "2026-11-21"
 # The author's English translation of v2 stays downloadable, unchanged, from the handbook's own copy.
 EN_ORIGINAL = WEBSITE / "public/downloads" / "xikari-conditions-en.original.md"
 EN_UPSTREAM_SHA256 = "f59bcdb483027736ef973b43ffc0c0ce37d9cb5e67ab3f05c6c67d22a62e65a1"
@@ -325,13 +333,18 @@ def build(website: Path = WEBSITE, source: Path | None = None, docx: Path | None
     en = language == "en"
     title = EN_TITLE if en else TITLE
     expected_hash = EN_SOURCE_SHA256 if en else SOURCE_SHA256
-    source = source or (ROOT / "source/en" / EN_FILE if en else SOURCE)
+    source = source or (EN_SOURCE if en else SOURCE)
     data = source.read_bytes()
     if sha256(data) != expected_hash:
         raise ValueError("The canonical manuscript does not match the selected source identity")
-    v2_data = None if en else V2_SOURCE.read_bytes()
-    if v2_data is not None and sha256(v2_data) != V2_SHA256:
-        raise ValueError("The v2 manuscript does not match its registered identity")
+    earlier = []
+    if not en:
+        for label, path, expected, date in (("v2.1", V21_SOURCE, V21_SHA256, V21_DATE),
+                                            ("v2", V2_SOURCE, V2_SHA256, V2_DATE)):
+            earlier_data = path.read_bytes()
+            if sha256(earlier_data) != expected:
+                raise ValueError(f"The {label} manuscript does not match its registered identity")
+            earlier.append((label, path.name, earlier_data, date))
     download_dir = website / "public/downloads"
     # Preserve the old Word object only as a labelled legacy artifact. Its
     # availability must not gate a current Markdown edition or a clean build.
@@ -369,8 +382,8 @@ def build(website: Path = WEBSITE, source: Path | None = None, docx: Path | None
     download_dir.mkdir(parents=True, exist_ok=True)
     download_name = EN_FILE if en else TITLE + ".md"
     (download_dir / download_name).write_bytes(data)
-    if v2_data is not None:
-        (download_dir / V2_FILE).write_bytes(v2_data)
+    for _, name, earlier_data, _ in earlier:
+        (download_dir / name).write_bytes(earlier_data)
     if upstream_data is not None:
         target = download_dir / EN_ORIGINAL.name
         if not target.is_file() or target.read_bytes() != upstream_data:
@@ -383,7 +396,7 @@ def build(website: Path = WEBSITE, source: Path | None = None, docx: Path | None
                 target.write_bytes(legacy_data)
         legacy = {"theory_version": "v1", "language": "zh", "sha256": DOCX_SHA256,
                   "path": f"/downloads/{TITLE}.v1.docx", "source_date": "2026-10-17"}
-    manifest = {"title": title, "author": "Xikari", "language": language, "theory_version": "v2.1"}
+    manifest = {"title": title, "author": "Xikari", "language": language, "theory_version": THEORY_VERSION}
     if not en:
         manifest["edition"] = EDITION
     manifest.update({"source_date": EN_DATE if en else SOURCE_DATE,
@@ -393,9 +406,11 @@ def build(website: Path = WEBSITE, source: Path | None = None, docx: Path | None
     if en:
         manifest["translates_chinese_sha256"] = SOURCE_SHA256
     else:
-        manifest["previous_edition"] = {"theory_version": "v2", "language": "zh", "sha256": V2_SHA256,
-                                        "bytes": len(v2_data), "path": "/downloads/" + V2_FILE,
-                                        "source_date": V2_DATE}
+        # Newest first: the text v3.0 revises, then v2 as first published.
+        manifest["previous_editions"] = [{"theory_version": label, "language": "zh", "sha256": sha256(earlier_data),
+                                          "bytes": len(earlier_data), "path": "/downloads/" + name,
+                                          "source_date": date}
+                                         for label, name, earlier_data, date in earlier]
     manifest.update({"parts": {f"part_{number}": route + f"#part_{number}"
                                for number, route in sorted(part_routes.items())},
                      "sections": sections, "pages": records,

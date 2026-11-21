@@ -41,4 +41,4 @@ No. A new question needs an explicit reason and its own record; the old outcome 
 
 - An affected person need not master the framework’s terminology to challenge a question.
 
-Read the complete [source section §2.14](/en/theory/part-02#section-2-14) and its guide. This explanation follows theory v2.1; the [Chinese original](/en/downloads) remains authoritative.
+Read the complete [source section §2.14](/en/theory/part-02#section-2-14) and its guide. This explanation follows theory v3.0; the [Chinese original](/en/downloads) remains authoritative.

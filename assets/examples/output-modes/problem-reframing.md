@@ -1,5 +1,5 @@
 ---
-{"id":"EXAMPLE-OUTPUT-PROBLEM-REFRAMING","theory_sha256":"2128af7cfa4c63b58207521a375aa34c2aea230d47e1c04a5afec3334e290d28","anchors":["1.10","2.14","14.4.1","14.5","D.20","D.21"],"synthetic":true}
+{"id":"EXAMPLE-OUTPUT-PROBLEM-REFRAMING","theory_sha256":"0d9e445bcba84380a572d248dad4836013b735d7d33589f29ea0c6f1aeb61c10","anchors":["1.10","2.14","14.4.1","14.5","D.20","D.21"],"synthetic":true}
 ---
 
 # 结案、到账与服务问题

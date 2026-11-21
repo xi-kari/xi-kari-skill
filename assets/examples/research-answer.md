@@ -1,5 +1,5 @@
 ---
-{"id":"EXAMPLE-RESEARCH-ANSWER","theory_sha256":"2128af7cfa4c63b58207521a375aa34c2aea230d47e1c04a5afec3334e290d28","anchors":["1.3","2.4.3","2.5.1"],"synthetic":true}
+{"id":"EXAMPLE-RESEARCH-ANSWER","theory_sha256":"0d9e445bcba84380a572d248dad4836013b735d7d33589f29ea0c6f1aeb61c10","anchors":["1.3","2.4.3","2.5.1"],"synthetic":true}
 ---
 
 # 研究完整稿示例：结业比例提高说明了什么

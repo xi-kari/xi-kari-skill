@@ -180,7 +180,7 @@ There are six formal tools. Each has its own purpose and its own limits.
 | Source–Evidence Ledger | Keep sources, materials, observations, evidence, counterexamples, coverage, and uncertainty separate. It does not prove a proposition |
 | Open Assertion Record | Leave a provisional judgment that can be questioned, falsified, or withdrawn, to serve as a target. Do not use it for action carrying high responsibility |
 | Proposition Validation Form | State the proposition type, evidence, counterevidence, falsification conditions, impacts, and ceilings item by item |
-| Forecast Registration | Set down in advance the prediction, window, triggers, early signals, contrary signals, and targets for revision |
+| Forecast Registration | Set down in advance the prediction, window, triggers, early signals, contrary signals, and which propositions the result is to be written back to |
 | Counterexample and Scale Stress Test | Use boundary cases, adversarial explanations, and changes in scale to locate failures and narrow the scope |
 | AI Output Boundaries | Require a statement of sources, missing material, the responsible human, uncertainty, prohibited uses, and review and withdrawal |
 

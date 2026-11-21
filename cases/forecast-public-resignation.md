@@ -13,7 +13,7 @@
     "12.10",
     "12.11"
   ],
-  "theory_sha256": "2128af7cfa4c63b58207521a375aa34c2aea230d47e1c04a5afec3334e290d28",
+  "theory_sha256": "0d9e445bcba84380a572d248dad4836013b735d7d33589f29ea0c6f1aeb61c10",
   "status": "teaching",
   "evidence_kind": "teaching"
 }
@@ -195,6 +195,6 @@ python scripts/forecast.py --registry $registry check
 
 三份登记均以共同 `options` 固定互斥类别，并预登记 `direction_hit`；回写的 `observed.category` 逐字使用登记类别。O1 的模型与两个基线均为 1；O2 模型为 0，O2-B1、O2-B2 为 1，O2-B3 为 0；O3 模型与三个基线均为 1。每阶样本各为 1，分别保留，不计算跨阶合并命中率，不报告统计显著性或校准。方向表达没有 Brier 或对数损失；本例没有预测事件发生时点，event_time 保留 null，核对时间写入 details，不把到期观察时间伪装成事件时间，也不输出窗口覆盖率。工具将教学记录单列，能力声明仍未证实。
 
-五种状态的区别不能靠填零规避：完整标签与登记方向相容为 supported；完整标签不相容为 not_supported；证据冲突且依约定仍可等待核验为 undetermined；同一性判据或目标已转换为 target_invalid；标签永久缺失或原窗不可评价为 not_evaluable。后两者不计命中，未决也不记半个成功。
+五种状态的区别不能靠填零规避：完整标签与登记方向相容为 supported；完整标签不相容为 not_supported；证据冲突且依约定仍可等待核验为 undetermined；所预测的对象已经转换或同一性判据已经失效为 target_invalid；标签永久缺失或原窗不可评价为 not_evaluable。后两者不计命中，未决也不记半个成功。
 
 回写只追加。O2 保留失败及局部试点这个实际中间变化；它可以支持新版本研究“试点如何改变退出集合”，却不能让旧阈值变成 3 人。新一轮推演重新写定输入、响应制度、目标和基线，继承未解决的照护与未覆盖位置问题。教学演示完成不表示作者已审定卡片、理论获经验支持或技能已有预测优势。

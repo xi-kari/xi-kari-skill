@@ -1,5 +1,5 @@
 ---
-{"id":"EXAMPLE-OUTPUT-THEORY-DIALOGUE","theory_sha256":"2128af7cfa4c63b58207521a375aa34c2aea230d47e1c04a5afec3334e290d28","anchors":["1.3","2.2","2.4.3","2.6","2.7","16.15"],"synthetic":true}
+{"id":"EXAMPLE-OUTPUT-THEORY-DIALOGUE","theory_sha256":"0d9e445bcba84380a572d248dad4836013b735d7d33589f29ea0c6f1aeb61c10","anchors":["1.3","2.2","2.4.3","2.6","2.7","16.15"],"synthetic":true}
 ---
 
 # 两种守规解释与一项程序要求

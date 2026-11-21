@@ -1,5 +1,5 @@
 ---
-{"id":"EXAMPLE-OUTPUT-PROCESS-HISTORY","theory_sha256":"2128af7cfa4c63b58207521a375aa34c2aea230d47e1c04a5afec3334e290d28","anchors":["1.8","2.4","2.7.1","4.5","6.10.1","7.2","7.6","11.3.2","D.03","D.16"],"synthetic":true}
+{"id":"EXAMPLE-OUTPUT-PROCESS-HISTORY","theory_sha256":"0d9e445bcba84380a572d248dad4836013b735d7d33589f29ea0c6f1aeb61c10","anchors":["1.8","2.4","2.7.1","4.5","6.10.1","7.2","7.6","11.3.2","D.03","D.16"],"synthetic":true}
 ---
 
 # 互助服务组的形成与门槛变化

@@ -110,7 +110,7 @@ Although short-lived, fast variables may feed into intermediate-timescale and sl
 
 This framework uses the term “personality” in a limited sense. It treats personality as a set of hypotheses about slow variables that seek to compress variation in behavior across time and contexts. At minimum, a personality hypothesis must state what behavior was observed, in which contexts it was or was not observed, how long it lasted, what sources and counterexamples exist, what simpler explanations are available, and what the hypothesis may be used for.
 
-A personality hypothesis can have only the status of observation record, supported hypothesis, candidate, disputed, unknown, or retired. An “observation record” refers to specific verifiable behavior and is not a conclusion about personality. A “supported hypothesis” is still qualified by its time window, context, and error. A “candidate” is only awaiting testing. “Disputed” means the evidence or explanations conflict. “Unknown” means no judgment can currently be made. “Retired” means the hypothesis no longer offers a gain or has proved unacceptably misleading.
+What enters the analysis falls into two layers. One layer is specific, verifiable behavior, recorded as an “observation record”; it is not a conclusion about personality, nor is it a status of a personality hypothesis. The other layer is the personality hypothesis, whose status can only be supported hypothesis, candidate, disputed, unknown, or retired. A “supported hypothesis” is still qualified by its time window, context, and error. A “candidate” is only awaiting testing. “Disputed” means the evidence or explanations conflict. “Unknown” means no judgment can currently be made. “Retired” means the hypothesis no longer offers a gain or has proved unacceptably misleading.
 
 A personality hypothesis must set out each of the following.
 
@@ -126,7 +126,7 @@ Competing explanations: role demands, short-term emotions, material constraints,
 
 Counterevidence: facts, testimony, and results inconsistent with the hypothesis.
 
-Current status: candidate, supported, disputed, unknown, or retired.
+Current status: candidate, supported hypothesis, disputed, unknown, or retired.
 
 Permitted uses: research, communication, scenario projection, or other limited uses.
 
@@ -224,7 +224,7 @@ A person can still act under constraints. A person signing under a credible thre
 
 The closer the analysis gets to an individual, the higher the cost of misuse. Actor records must distinguish information that is public, limited to a particular context, sensitive, or highly sensitive, as well as information a person declines to disclose. Permitted uses must be consistent with the purpose of collection, authorization, and protections for those affected. Using material for communication does not by itself qualify it for use in hiring, insurance, law enforcement, medical care, punishment, or public evaluation.
 
-Refusal to disclose is not evidence of hostility, deception, ignorance, or risk. Silence can stem from safety concerns, trauma, privacy, language, trust, differences in power, or reasonable noncooperation. The analyst can only record that “there is no usable information” and how this limits projection. Personality inferences must not be used to fill the gap.
+Refusal to disclose is not evidence of hostility, deception, ignorance, or risk. Silence can stem from safety concerns, trauma, privacy, language, trust, differences in power, or reasonable noncooperation. The analyst can only record under §2.9 that no material was obtained (unobservable) and how this limits projection. Personality inferences must not be used to fill the gap.
 
 </div>
 

@@ -39,4 +39,4 @@ No. No action and maintaining the status quo carry the same responsibility to id
 
 - Distinguish blocking unknowns from the other unknowns, which are recorded as they are; do not declare every gap harmless.
 
-Read the complete [source section §14.4.1](/en/theory/part-14#section-14-4-1) and its guide. This explanation follows theory v2.1; the [Chinese original](/en/downloads) remains authoritative.
+Read the complete [source section §14.4.1](/en/theory/part-14#section-14-4-1) and its guide. This explanation follows theory v3.0; the [Chinese original](/en/downloads) remains authoritative.

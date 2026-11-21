@@ -9,7 +9,7 @@ import { projectHome } from '../composables/links'
 <template>
   <footer class="xk-footer">
     <div class="xk-footer__inner">
-      <p>{{ t('《Xikari-条件结构与转化论》，Xikari 著，v2.1，2026 年 11 月。讲解与案例是辅助阅读的内容，引用定义请回到原文节号。', 'On Conditions, Structure, and Transformation, by Xikari. Reading notes and cases support the text; cite the original section for definitions. The Chinese text governs the English reference edition.') }}</p>
+      <p>{{ t('《Xikari-条件结构与转化论》，Xikari 著，v3.0，2026 年 11 月。讲解与案例是辅助阅读的内容，引用定义请回到原文节号。', 'On Conditions, Structure, and Transformation, by Xikari. Reading notes and cases support the text; cite the original section for definitions. The Chinese text governs the English reference edition.') }}</p>
       <nav :aria-label="t('页脚链接', 'Footer links')">
         <a :href="projectHome" target="_self">{{ t('项目主页', 'Project') }}</a>
         <a :href="pageHref(localePath('/downloads'))">{{ t('下载与引用', 'Downloads and citation') }}</a>

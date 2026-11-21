@@ -1,5 +1,5 @@
 ---
-{"id":"EXAMPLE-OUTPUT-CONCEPT-RECONSTRUCTION","theory_sha256":"2128af7cfa4c63b58207521a375aa34c2aea230d47e1c04a5afec3334e290d28","anchors":["1.10","2.2","2.8","2.14","3.4.1","16.5","16.15","16.16"],"synthetic":true}
+{"id":"EXAMPLE-OUTPUT-CONCEPT-RECONSTRUCTION","theory_sha256":"0d9e445bcba84380a572d248dad4836013b735d7d33589f29ea0c6f1aeb61c10","anchors":["1.10","2.2","2.8","2.14","3.4.1","16.5","16.15","16.16"],"synthetic":true}
 ---
 
 # 如何报告“参与”
