@@ -199,17 +199,25 @@ The concept lessons, real cases and full-text reading site are authored in
 Run `npm ci --prefix website`, then `npm run build --prefix website` to generate
 the static handbook. `python website/scripts/build_theory.py` prepares both
 languages by default; `--language zh`, `--language en` and `--language all`
-select the output. It reads the Chinese manuscript and the English reference
-edition in `source/`, checks their recorded identities, and generates
-65 pages and 397 numbered sections for each language. The English routes live
+select the output. It reads the handbook's own copies of the Chinese manuscript
+and the English reference edition in `website/content/theory-source/`, checks
+their recorded identities, and generates 65 pages and 397 numbered sections for
+each language. The handbook stays on the text recorded there until it is
+migrated, so the skill's `source/` may carry a later text than the handbook. The English routes live
 under `en/theory/`, with the same section identifiers as Chinese.
 
-The public downloads distinguish the current Chinese manuscript, v2.1
-(`downloads/Xikari-条件结构与转化论.md`), the Chinese v2 text
+The public downloads distinguish the current Chinese manuscript, v3.0
+(`downloads/Xikari-条件结构与转化论.md`), the Chinese v2.1 text that v3.0
+revises (`downloads/Xikari-条件结构与转化论.v2.1.md`), the Chinese v2 text
 (`downloads/Xikari-条件结构与转化论.v2.md`), the English reference edition,
-which follows v2.1 (`downloads/Xikari-On-Conditions-Structure-and-Transformation.md`),
+which follows v3.0 (`downloads/Xikari-On-Conditions-Structure-and-Transformation.md`),
 and the author's unchanged English translation of v2
-(`downloads/xikari-conditions-en.original.md`). That file is kept in
+(`downloads/xikari-conditions-en.original.md`). The build copies the earlier
+Chinese texts from `website/content/theory-source/` after checking their
+recorded hashes and lists them, newest first, as `previous_editions` in
+`public/source-map.json`. The English reference edition that followed v2.1 is
+not published separately; it ships in the 6.9.0 and 6.10.0 release packages.
+The author's English translation is kept in
 `website/public/downloads/`, from which the build copies it, and the build
 checks it against its recorded hash. The retained Word download is
 the first edition, not a v2 export: link it as
@@ -326,7 +334,9 @@ the edition serves English terminology, quotation and English readers, and the
 skill reads it only as `references/english.md` describes.
 
 The current edition is the author's English translation of v2, revised
-section by section to the v2.1 wording. It is written in with `--revision`,
+section by section to the v2.1 wording and then to the v3.0 text; the passages
+that v3.0 adds or rewrites are translated anew and are not the author's own
+English. It is written in with `--revision`,
 which accepts a text only when it shares every section, part anchor and
 paragraph block with the current Chinese source and has no Chinese glosses:
 
@@ -337,9 +347,14 @@ python scripts/build_english_edition.py --check
 
 The manifest records the edition it revises (`revision_of`: that edition's
 hash, the Chinese text it translated and the author's supplied manuscript) and
-the located copyright and license material. A later rewording of the Chinese
+the located copyright and license material. When the Chinese text itself has
+changed, it also records the edition it replaces and the Chinese text that
+edition translated (`previous_edition`). A later rewording of the Chinese
 needs a revised translation in the same way; `--check` reports an edition that
 translates the earlier wording as such and compares only sections and parts.
+A content revision of the Chinese is recorded in `source/source-manifest.json`
+as `content_revision_of`, not as a rewording, and an edition that still
+translates the earlier text then fails the check.
 
 `--from-file <english-manuscript.md>` imports a new single-file manuscript
 supplied by the author. It keeps the original bytes under `source/en/upstream/`,

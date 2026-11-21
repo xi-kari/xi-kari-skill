@@ -18,7 +18,7 @@
 </p>
 
 <p align="center">
-  <a href="skill-package.json"><img alt="技能版本 6.10.0" src="https://img.shields.io/badge/skill-6.10.0-1F4FC4?style=flat-square"></a>
+  <a href="skill-package.json"><img alt="技能版本 7.0.0" src="https://img.shields.io/badge/skill-7.0.0-1F4FC4?style=flat-square"></a>
   <a href="https://github.com/xi-kari/xi-kari-skill/actions/workflows/windows.yml"><img alt="Windows 测试状态" src="https://img.shields.io/github/actions/workflow/status/xi-kari/xi-kari-skill/windows.yml?branch=main&amp;style=flat-square&amp;label=Windows%20CI"></a>
   <img alt="可选工具需要 Python 3.10 或更新版本" src="https://img.shields.io/badge/python-3.10%2B%20%28%E5%8F%AF%E9%80%89%29-33415E?style=flat-square">
   <a href="LICENSE"><img alt="MIT 许可" src="https://img.shields.io/badge/license-MIT-33415E?style=flat-square"></a>
@@ -30,7 +30,7 @@
 
 需要深入研究或进入具体领域时，见[研究与领域工作](#研究与领域工作)：研究入口交出一份完整稿，主体报告在前、解释边界与问题为末章，领域映射保留当地词义、动作关系、数据口径与专业方法，核实过的用法可以存成领域卡留给下一次，另有八种成果模式（其中领域专论用来把一个领域做深）和有限计算工具。
 
-中英文都可以使用：用英文提问，成果就以英文写成。理论权威仍是中文原文；安装包另附作者提供、与原文逐节对齐的英文参考译本和中英术语表，用于英文术语与引文（见[英文工作](references/english.md)）。技能与[双语阅读站](https://xi-kari.github.io/xi-kari-skill/handbook/)均以 v2.1 为正文基准。v2.1 是 v2 的表述修订，小节与内容不变；英文参考译本也已按 v2.1 修订，与中文逐节逐段对齐，[英文站](https://xi-kari.github.io/xi-kari-skill/handbook/en/)可以连续阅读全书。
+中英文都可以使用：用英文提问，成果就以英文写成。理论权威仍是中文原文；安装包另附作者提供、与原文逐节对齐的英文参考译本和中英术语表，用于英文术语与引文（见[英文工作](references/english.md)）。技能以 v3.0 为正文基准，英文参考译本已按 v3.0 修订，与中文逐节逐段对齐。v3.0 是在 v2.1 上作的内容修订，不增删也不移动小节。[双语阅读站](https://xi-kari.github.io/xi-kari-skill/handbook/)与技能同时换到 v3.0，逐节讲解已按 v3.0 对齐；[英文站](https://xi-kari.github.io/xi-kari-skill/handbook/en/)可以连续阅读 v3.0 全书。
 
 ## 这套理论在防什么
 
@@ -197,7 +197,7 @@ $xi-kari-skill 研究一下附件里两期培训的登记和调整说明：结�
 
 <sub>截图由随包工具实际生成：阅读页以原文第一部分为示例内容；条件模型页与方案比较表来自随包的“明确虚构”教学示例，其中的数值不是现实事实。</sub>
 
-**版本范围**：当前安装包为 `v6.10.0`；截图用于展示工具界面，各版本的功能以相应的 [Release 说明](https://github.com/xi-kari/xi-kari-skill/releases)为准。
+**版本范围**：当前安装包为 `v7.0.0`；截图用于展示工具界面，各版本的功能以相应的 [Release 说明](https://github.com/xi-kari/xi-kari-skill/releases)为准。
 
 - **完整成果稿 `xi-kari-answer.md`。** 初次完整交付或要求合稿时形成：中心判断在前，随后是材料评价、结构关系、机制比较、案例与反例、路径、反方回应、裁决与方案。
 - **离线阅读页。** 由完整稿生成的单个 HTML 文件，不联网：标题下方有一张按正文自身统计画出的航迹图，每个章节是一个定位点，间距与篇幅成比例，读到哪里航迹就画到哪里，点一下定位点就翻到那一节，往下读时同一条航迹收在顶栏下方继续跟随；章节目录随阅读位置标出当前章节，有全文搜索、字号调节和打印版式；夜间模式默认跟随系统，也可以手动切换；脚注可以悬停预览，也可以回跳。选中一段正文，旁边会出现“追问选段”，把选段连同位置整理成一条追问，由你复制回对话。有公式时内嵌随包的 KaTeX 排版。
@@ -258,15 +258,15 @@ python "$skillRoot/scripts/domain_cards.py" --library "$taskRoot/领域卡" list
 | [第 12—16 部分](https://xi-kari.github.io/xi-kari-skill/handbook/theory/part-12.html) | 前瞻、选择、工具、规范、干涉和治理 |
 | [附录 A—D](https://xi-kari.github.io/xi-kari-skill/handbook/theory/appendix-a/) | 人类变量详表、编号体系与术语总表、共同方法内核与跨学科桥接、领域解释与应用图谱 |
 
-- **[中文精读站](https://xi-kari.github.io/xi-kari-skill/handbook/)**：v2.1 全文分为 65 个阅读页面、397 个编号小节；连同书前、分部导言等共 421 个阅读单元，均有中文讲解入口。原文与讲解分开呈现，概念、案例与正文可以搜索。
+- **[中文精读站](https://xi-kari.github.io/xi-kari-skill/handbook/)**：v3.0 全文分为 65 个阅读页面、397 个编号小节；连同书前、分部导言等共 421 个阅读单元，均有中文讲解入口。原文与讲解分开呈现，概念、案例与正文可以搜索。
 - **[英文阅读站](https://xi-kari.github.io/xi-kari-skill/handbook/en/)**：完整英文参考正文与中文共用小节编号，全部 421 个网页讲解单元均有英文译文，包含论证、例子、问答和来源说明；配有英文导航、搜索、概念页与案例页。可以切换语言对照；原图配英文说明，历史研究附件保留中文并明确标注。
-- **[全文下载](https://xi-kari.github.io/xi-kari-skill/handbook/downloads.html)**：提供中文 v2.1 Markdown、按 v2.1 修订的英文参考译本、v2 原文，以及保留原始字节的作者 v2 英译原件。另保留明确标为第一版的旧 Word；它不对应现行正文。历史研究材料也保留各自版本与来源说明。
+- **[全文下载](https://xi-kari.github.io/xi-kari-skill/handbook/downloads.html)**：提供中文 v3.0 Markdown、按 v3.0 修订的英文参考译本、v2.1 与 v2 原文，以及保留原始字节的作者 v2 英译原件。另保留明确标为第一版的旧 Word；它不对应现行正文。历史研究材料也保留各自版本与来源说明。
 - **[概念例解](https://xi-kari.github.io/xi-kari-skill/handbook/concepts/)**：从一个问题进入一项区别，例如“收到意见，就算形成反馈了吗？”“每个方案都可行，能一起实施吗？”
 - **[真实案例](https://xi-kari.github.io/xi-kari-skill/handbook/cases/)**：火星气候轨道器的单位接口、丰田安灯的响应流程、GitLab 的数据库恢复、弗林特的饮水投诉、飓风伊恩的预报锥等；案例总览按“先从哪个问题读起”给出阅读路线。
 - **[历史实测案例](https://github.com/xi-kari/xi-kari-skill/discussions?discussions_q=)**：Discussions 保留了基于 Xikari 8.3 的历史分析，供参考与讨论，不代表当前《Xikari-条件结构与转化论》及现行 Skill 的分析表现。
 - **[术语索引](https://xi-kari.github.io/xi-kari-skill/handbook/theory/appendix-b.html)**：附录 B 的编号体系与术语总表。
 - **权威文本**：[`source/Xikari-条件结构与转化论.md`](source/Xikari-条件结构与转化论.md)，身份（SHA-256）记录在 [`source/source-manifest.json`](source/source-manifest.json)。原文优先于技能的工程指引，也优先于模型对同名术语的既有理解。
-- **英文参考译本**：[`source/en/Xikari-On-Conditions-Structure-and-Transformation.md`](source/en/Xikari-On-Conditions-Structure-and-Transformation.md)，由作者提供的 v2 英译本逐节修订到 v2.1 的措辞，作者的原译本可在阅读站[下载页](https://xi-kari.github.io/xi-kari-skill/handbook/en/downloads)取得。中英文共用全部小节、分部编号和段落，文本身份与所修订的原译本记在 [`source/en/source-manifest.json`](source/en/source-manifest.json)。译本不取得独立权威，与中文看似不一致时以中文为准；术语见[中英术语表](references/glossary-en.md)。
+- **英文参考译本**：[`source/en/Xikari-On-Conditions-Structure-and-Transformation.md`](source/en/Xikari-On-Conditions-Structure-and-Transformation.md)，由作者提供的 v2 英译本逐节修订而来，现按 v3.0 修订：v3.0 没有改动的段落保留原有译文，v3.0 新增和改写的段落是新译的，不是作者本人的英文。作者的原译本可在阅读站[下载页](https://xi-kari.github.io/xi-kari-skill/handbook/en/downloads)取得。中英文共用全部小节、分部编号和段落，文本身份与所修订的原译本记在 [`source/en/source-manifest.json`](source/en/source-manifest.json)。译本不取得独立权威，与中文看似不一致时以中文为准；术语见[中英术语表](references/glossary-en.md)。
 - **[项目主页](https://xi-kari.github.io/xi-kari-skill/)**：项目介绍、使用方式与研究进度。
 
 ## 边界
