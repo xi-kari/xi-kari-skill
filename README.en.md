@@ -18,7 +18,7 @@
 </p>
 
 <p align="center">
-  <a href="skill-package.json"><img alt="Skill version 6.9.1" src="https://img.shields.io/badge/skill-6.9.1-1F4FC4?style=flat-square"></a>
+  <a href="skill-package.json"><img alt="Skill version 6.10.0" src="https://img.shields.io/badge/skill-6.10.0-1F4FC4?style=flat-square"></a>
   <a href="https://github.com/xi-kari/xi-kari-skill/actions/workflows/windows.yml"><img alt="Windows tests" src="https://img.shields.io/github/actions/workflow/status/xi-kari/xi-kari-skill/windows.yml?branch=main&amp;style=flat-square&amp;label=Windows%20CI"></a>
   <img alt="Optional tools need Python 3.10 or later" src="https://img.shields.io/badge/python-3.10%2B%20%28optional%29-33415E?style=flat-square">
   <a href="LICENSE"><img alt="MIT License" src="https://img.shields.io/badge/license-MIT-33415E?style=flat-square"></a>
@@ -68,6 +68,7 @@ The theory is long. Its core fits in ten plain sentences, all aimed at one kind 
 - **Modules combined by the kind of output.** Questions about the source text can be answered directly; explanation, projection, foresight and choice each add only the conditions they actually depend on.
 - **Breadth where it matters, depth in the mechanisms.** The agent first identifies the important situations, competing representations and branches not yet explored, then connects the key causal, resource and normative relations. A route limits the standing of a judgment; it does not cap the length or the range of perspectives of the argument.
 - **Willing to judge, and to make judgments that hold up to rebuttal.** It gathers primary or traceable material proportionate to the question and looks for the strongest competing explanations, counterexamples and objections. It separates facts, structure, mechanisms, values and authorization, gives a clear verdict and constructive proposals, and says what new facts would change them.
+- **Delegation has rules too.** When subagents gather material, the lead agent chooses the directions from what each later step will need and writes a brief. The subagent first reads a short [collector's card](agents/collector.md) (in Chinese) and returns material that can be traced to its original, a table of events and the gaps, not conclusions. Key figures and quotations are checked against the originals, and before delivery a collaborator who took no part in the sourcing can check every citation. When another agent relays your question, its wish to be quick does not count as your consent to a lighter reading.
 - **Complete delivery, sized to the question.** The conclusion and key numbers come first. A question with a definite answer gets one or two paragraphs of grounds and conditions; a complex analysis is developed in full, and a long text is written when you ask for one. Clauses and plans are written to be used as they stand, with the explanation after them.
 - **One question can keep going.** Follow-ups, new material, counterexamples and requests for a combined draft all build on the existing work and revise from the earliest affected point instead of starting over each turn.
 - **It derives further from what is established, and says how far each step reaches.** Ask what else follows, and it works along the definitions, transformations and compositions of the source text to statements the question never asked for. Each one names its starting points and how it was reached, and whether it is a consequence that must hold within a stated model, a requirement a definition places on a claim, or a candidate still to be tested, with its strongest rival and the observation that would reject it. A restatement does not count as new, and *not found* always names the scope searched.
@@ -187,7 +188,7 @@ An answer can be the start of continued joint work. Just keep talking:
 | “Just discuss; don't change the draft” | keeps the current main draft and explains the effect in the reply |
 | “Combine into a full draft” / “export to Word” | gathers all valid analysis into a complete master draft, and exports `.docx` when needed |
 
-Long tasks can continue across sessions. When the session or model changes, the new lead author first completes their own full study and then inherits the sourced material and results instead of starting over. When several agents collaborate, every author who forms an independent judgment reads the whole book first and then takes a share of the question; supporting work such as searching, recalculating, drawing and layout can be delegated, and the lead author makes the final choices and assembles the result.
+Long tasks can continue across sessions. When the session or model changes, the new lead author first completes their own full study and then inherits the sourced material and results instead of starting over. When several agents collaborate, every author who forms an independent judgment reads the whole book first and then takes a share of the question; supporting work such as searching, recalculating, drawing and layout can be delegated, and the lead author makes the final choices and assembles the result. How to delegate sourcing and have citations checked is in [organizing sourcing](references/collection.md); what to do when another agent relays the question or takes over the result is in [handoffs between agents](references/agent-handoff.md) (both in Chinese).
 
 ## What you get
 
@@ -198,7 +199,7 @@ Long tasks can continue across sessions. When the session or model changes, the 
 
 <sub>The screenshots were produced by the bundled tools, with Chinese interfaces. The reading page uses Part 1 of the book as sample content; the condition-model page and comparison table come from the bundled, explicitly fictional teaching examples, whose numbers are not real-world facts.</sub>
 
-**Version scope:** the current package is `v6.9.1`; the screenshots show the tools' interfaces, and each version's features are described in its [release notes](https://github.com/xi-kari/xi-kari-skill/releases).
+**Version scope:** the current package is `v6.10.0`; the screenshots show the tools' interfaces, and each version's features are described in its [release notes](https://github.com/xi-kari/xi-kari-skill/releases).
 
 - **Complete answer `xi-kari-answer.md`.** Produced at the first complete delivery or when you ask for a combined draft: the central judgment first, then evaluation of the material, structural relations, comparison of mechanisms, cases and counterexamples, paths, responses to objections, the verdict and the options.
 - **Offline reading page.** A single HTML file, generated from the complete draft, that makes no network connections. Under the title a track chart, drawn from the text's own counts, sets each section as a fix at its true distance; the track fills in as you read, pressing a fix goes to that section, and once the chart has scrolled away the same track stays in view under the bar. The contents list marks the current section as you read; there is full-text search, adjustable text size and a print layout; night mode follows the system and can be switched by hand; footnotes preview on hover and link back. Select a passage and “Ask about selection” turns it, with its location, into a follow-up question for you to copy back into the conversation. Formulas are typeset with the bundled KaTeX. Use `--lang en` for an English interface.
@@ -289,10 +290,10 @@ xi-kari-skill/
 ├── modules/              eleven analysis, judgment and generation modules; research and domain-mapping entries
 ├── rules/                41 derived rule cards with source anchors
 ├── cases/                teaching demonstrations and runnable registration inputs
-├── references/           guides: reading, modules, continuation, collaboration, output modes, domain index, domain cards, tools, English
+├── references/           guides: reading, modules, continuation, collaboration and sourcing, handoffs between agents, output modes, domain index, domain cards, tools, English
 ├── scripts/              optional Python tools (standard library); build, check, evaluation
 ├── assets/               styles, scripts and examples for the generated pages; bundled KaTeX
-├── agents/openai.yaml    Codex interface information and explicit-invocation policy
+├── agents/               role cards for collaborators (collector, independent reviewer); openai.yaml holds Codex interface information and the explicit-invocation policy
 ├── skill-package.json    per-file list of the install package
 ├── website/              reading-site source (VitePress), built to docs/handbook/
 ├── docs/                 project page, installation guide and maintenance notes
