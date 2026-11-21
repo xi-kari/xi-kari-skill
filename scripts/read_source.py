@@ -323,7 +323,7 @@ def main() -> int:
                     if neighbour["line"] > hit["line"]:
                         print(text["line"].format(line=neighbour["line"], text=neighbour["text"]))
         if args.chunks:
-            print(json.dumps({"source": path.name, "characters": len(source_text),
+            print(json.dumps({"source": path.name, "characters": len(source_text), "lines": len(lines),
                               "chunk_size": args.chunk_size, "chunks": len(chunks),
                               "reading_order": f"1 through {len(chunks)}", "includes_preface_and_references": True}, ensure_ascii=False))
         for number in args.chunk:
