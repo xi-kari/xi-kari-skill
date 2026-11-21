@@ -1,7 +1,7 @@
 {
   "name": "xi-kari-skill",
   "display_name": "Xikari Skill",
-  "version": "6.8.1",
+  "version": "6.9.0",
   "author": "Xikari",
   "theory_title": "Xikari-条件结构与转化论",
   "platform": "Windows",
@@ -46,7 +46,6 @@
     "source/Xikari-条件结构与转化论.md",
     "source/en/Xikari-On-Conditions-Structure-and-Transformation.md",
     "source/en/source-manifest.json",
-    "source/en/upstream/xikari-conditions-en.md",
     "references/evidence-work.md",
     "references/claim-ledger.md",
     "references/comparison-table.md",

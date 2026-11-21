@@ -20,12 +20,16 @@ SOURCE = WEBSITE / "content/theory-source" / f"{TITLE}.md"
 SOURCE_SHA256 = "2128af7cfa4c63b58207521a375aa34c2aea230d47e1c04a5afec3334e290d28"
 EDITION = "表述修订稿"
 SOURCE_DATE = "2026-11-19"
-# v2 as first published stays downloadable from the handbook's own copy: the English edition follows it.
+# v2 as first published stays downloadable from the handbook's own copy.
 V2_SOURCE = WEBSITE / "content/theory-source" / f"{TITLE}.v2.md"
 V2_SHA256 = "6ef2e508474d4ac1ad07d7e4e068955342c405b5f680afcfc40d68cca3d0149c"
 V2_FILE = f"{TITLE}.v2.md"
 V2_DATE = "2026-11-16"
-EN_SOURCE_SHA256 = "51795bb7988f2669a324a52666c320cfba1382f597f7b5c6a1431844572da1fb"
+# The English reference edition follows v2.1; it revises the author's English translation of v2.
+EN_SOURCE_SHA256 = "fcf100a5c8688d1e0337c52750ce3ad21fb5dbcc250f97946602ce094345f825"
+EN_DATE = "2026-11-20"
+# The author's English translation of v2 stays downloadable, unchanged, from the handbook's own copy.
+EN_ORIGINAL = WEBSITE / "public/downloads" / "xikari-conditions-en.original.md"
 EN_UPSTREAM_SHA256 = "f59bcdb483027736ef973b43ffc0c0ce37d9cb5e67ab3f05c6c67d22a62e65a1"
 # The original Word download is an explicitly retained first edition, not v2.
 DOCX_SHA256 = "878189fe49000577c2715a9ffb006f0e43a6bc03f6a5ca4ec599cb5607a97e59"
@@ -337,10 +341,9 @@ def build(website: Path = WEBSITE, source: Path | None = None, docx: Path | None
         raise FileNotFoundError(f"Word edition not found: {docx}")
     if legacy_data is not None and sha256(legacy_data) != DOCX_SHA256:
         raise ValueError("The legacy Word edition does not match the selected source identity")
-    upstream = ROOT / "source/en/upstream/xikari-conditions-en.md"
-    upstream_data = upstream.read_bytes() if en else None
+    upstream_data = EN_ORIGINAL.read_bytes() if en else None
     if upstream_data is not None and sha256(upstream_data) != EN_UPSTREAM_SHA256:
-        raise ValueError("The author's English original does not match its registered identity")
+        raise ValueError("The author's English translation of v2 does not match its registered identity")
     lines, pages = split_source(data.decode("utf-8"), language)
     units = reading_units(lines, pages, language)
     annotations, annotation_sections = annotation_points(lines, pages, lesson_sections(website, language), language)
@@ -369,7 +372,9 @@ def build(website: Path = WEBSITE, source: Path | None = None, docx: Path | None
     if v2_data is not None:
         (download_dir / V2_FILE).write_bytes(v2_data)
     if upstream_data is not None:
-        (download_dir / "xikari-conditions-en.original.md").write_bytes(upstream_data)
+        target = download_dir / EN_ORIGINAL.name
+        if not target.is_file() or target.read_bytes() != upstream_data:
+            target.write_bytes(upstream_data)
     legacy = None
     if legacy_data is not None:
         for name in [f"{TITLE}.docx", f"{TITLE}.v1.docx"]:
@@ -378,16 +383,15 @@ def build(website: Path = WEBSITE, source: Path | None = None, docx: Path | None
                 target.write_bytes(legacy_data)
         legacy = {"theory_version": "v1", "language": "zh", "sha256": DOCX_SHA256,
                   "path": f"/downloads/{TITLE}.v1.docx", "source_date": "2026-10-17"}
-    manifest = {"title": title, "author": "Xikari", "language": language, "theory_version": "v2" if en else "v2.1"}
+    manifest = {"title": title, "author": "Xikari", "language": language, "theory_version": "v2.1"}
     if not en:
         manifest["edition"] = EDITION
-    # The English reference translation was made from v2 as first published.
-    manifest.update({"source_date": V2_DATE if en else SOURCE_DATE,
+    manifest.update({"source_date": EN_DATE if en else SOURCE_DATE,
                      "source_sha256": expected_hash, "source_bytes": len(data),
                      "source_lines": len(lines), "download": "/downloads/" + download_name,
                      "canonical_chinese_sha256": SOURCE_SHA256})
     if en:
-        manifest["translates_chinese_sha256"] = V2_SHA256
+        manifest["translates_chinese_sha256"] = SOURCE_SHA256
     else:
         manifest["previous_edition"] = {"theory_version": "v2", "language": "zh", "sha256": V2_SHA256,
                                         "bytes": len(v2_data), "path": "/downloads/" + V2_FILE,
@@ -399,8 +403,10 @@ def build(website: Path = WEBSITE, source: Path | None = None, docx: Path | None
     if legacy is not None:
         manifest["legacy_docx"] = legacy
     if en:
-        manifest["author_original"] = {"path": "/downloads/xikari-conditions-en.original.md",
-                                       "sha256": EN_UPSTREAM_SHA256, "bytes": len(upstream_data)}
+        manifest["author_original"] = {"theory_version": "v2", "language": "en",
+                                       "path": "/downloads/" + EN_ORIGINAL.name,
+                                       "sha256": EN_UPSTREAM_SHA256, "bytes": len(upstream_data),
+                                       "translates_chinese_sha256": V2_SHA256}
         manifest["role"] = "Reference translation; the Chinese source governs."
     locale_path = "en/" if en else ""
     write_json(website / f"content/{locale_path}reading-units.json", {

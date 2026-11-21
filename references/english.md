@@ -10,10 +10,10 @@ Read this when the user writes in English, asks for English output, or quotes th
 ## Two editions, one authority
 
 - `source/Xikari-条件结构与转化论.md` is the theory source and the only authority. Its definitions, conditions, exclusions, quantifiers, permissions and prohibitions govern.
-- `source/en/Xikari-On-Conditions-Structure-and-Transformation.md` is the reading edition of the user-supplied English translation of Chinese v2. Its original is preserved byte for byte in `source/en/upstream/xikari-conditions-en.md`. Both share every section ID (`1.1`, `4.17`, `C.12`, …) and part anchor with the Chinese source, so a § reference names the same passage in both. Verify the edition binding and reproducible format adaptations in `source/en/source-manifest.json`; structural alignment and matching hashes do not certify translation accuracy or author approval.
-- The current Chinese source is v2.1, a rewording of v2 that keeps every section, part anchor, research anchor and point of content. v2.1 writes the body in plain Chinese: the codes that the English edition still uses (`G3`, `HV05`, `CM-LOAD`) appear in the Chinese mainly in the titles of the defining sections and in Appendix B (the formal propositions F1–F6 also keep their numbers in §4.18, §4.19 and Appendix C), and the English edition's `snake_case` field names do not appear in v2.1 at all. To find the Chinese name for a code, use Appendix B or the name–code table in [theory-core.md](theory-core.md). Paragraphs no longer correspond one to one, so align the two editions by section.
+- `source/en/Xikari-On-Conditions-Structure-and-Transformation.md` is the English reference edition: the user-supplied English translation of Chinese v2, revised section by section to follow the current Chinese wording, v2.1. It shares every section ID (`1.1`, `4.17`, `C.12`, …), part anchor and paragraph with the Chinese source, so a § reference names the same passage in both. `source/en/source-manifest.json` records its identity and the edition it revises; structural alignment and matching hashes do not certify translation accuracy or author approval.
+- Like the Chinese, the English edition calls every concept by its name. A code stands only at the end of the heading of the section that defines it, in parentheses (`## 3.3 Effective Feedback (D2)`), in the Appendix B table, and where the Chinese keeps one (the formal propositions F1–F6 in §4.18, §4.19 and Appendix C). To find the name behind a code in older material, use Appendix B; [theory-core.md](theory-core.md) gives the Chinese names.
 - Use the English edition for English terminology, for quotations in English answers, and for readers who want to read the theory in English. It gains no authority of its own. Where it appears to differ from the Chinese on a definition, condition, quantifier, permission or prohibition, follow the Chinese, translate that passage directly, and tell the reader when the difference matters.
-- The reading edition omits parenthetical Chinese glosses from the prose and removes stale “(in Chinese)” labels from local links. It preserves the supplied definitional tuples (`A*`, `C*`, `MC*`, `M(SP0→SP1)`) and their English explanations in the translator's notes. Those notes retain their original `[^tn-…]` identifiers and wording; they are not the author's text and are never quoted as such. Copyright and license text is retained in full; it is not part of the Chinese–English body alignment.
+- The edition omits parenthetical Chinese glosses from the prose. It keeps the definitional tuples (`A*`, `C*`, `MC*`, `M(SP0→SP1)`) in their Chinese wording and gives their English in translator's notes. Translator's notes carry `[^tn-…]` identifiers; they are not the author's text and are never quoted as such. Copyright and license text is retained in full; it is not part of the Chinese–English body alignment.
 
 ## Reading
 
@@ -43,8 +43,8 @@ These distinctions must survive in English:
 | 授权、处置权、权限 | authorization, authority to act, permission | *authority* only for legal or institutional powers |
 | 规范前提、价值前提 | normative premise, value premise | two different premises |
 | 成本、代价 | cost, the price to be paid | *cost* is the accounted quantity of §2.8 |
-| 修复、恢复 | repair, recovery | never *restoration* for 修复 |
-| 分组增益、对象事实 | grouping gain, object facts | G1 supports a task-relative gain, not object existence; *object identification* is not the name of the G1 result |
+| 修复、恢复 | repair, recovery | never *restoration* for 修复 or 恢复; *restoration* is 恢复原状 |
+| 分组增益、对象事实 | grouping gain, object facts | a grouping-gain test supports a task-relative gain, not object existence; *object identification* is not the name of its result |
 | 构成关系、因果关系 | constitutive relation, causal relation | evidence that a status holds is distinct from evidence of its effects |
 | 形成、维持、恢复、复制 | formation, maintenance, recovery, replication | four descriptive outcomes; none proves another or authorizes continuation |
 | 承接、承担、承载 | take up / uptake, bear, carry | three different relations |
@@ -57,9 +57,9 @@ These distinctions must survive in English:
 
 Modal force follows the Chinese: 须／必须 *must*; 应 *should*; 不得 *must not*; 不能 *must not* for a rule and *cannot* for an impossibility; 可以 *may* for permission and *can* for possibility; 不必 *need not*; 未必 *not necessarily*; 不自动 *does not automatically*; 不等于 *is not the same as*; 单独 *by itself*; 只有……才 *only if*; 仍 *still*. Rules about what AI, tools or analysts may do are rules: write *must not*, not *cannot*.
 
-Preserve the scope of the normative distinctions as well. In §14.4.1, proportionality concerns identifying indirect and more distant positions, not reduced protection for identified positions or permission to omit directly affected and known low-power positions. In §14.8, maintaining protection does not guarantee unchanged outcomes. In §14.9.1, a justified analytical recommendation when every option involves loss does not confer `authorized` status or waive non-waivable requirements. Do not turn a restriction on adoption into a ban on giving the analysis.
+Preserve the scope of the normative distinctions as well. In §14.4.1, proportionality concerns identifying indirect and more distant positions, not reduced protection for identified positions or permission to omit directly affected and known low-power positions. In §14.8, maintaining protection does not guarantee unchanged outcomes. In §14.9.1, a justified analytical recommendation when every option involves loss does not confer “authorized” status or waive non-waivable requirements. Do not turn a restriction on adoption into a ban on giving the analysis.
 
-When you quote or translate the English edition, its identifiers stay as written: G1–G4, E1–E5, C1–C12, F1–F6, H1–H6, HV01–HV11, U01–U11, M01–M09, CM-…, D0, K\*, N0, J, O1–O4, § numbers and `snake_case` field names. In your own prose, name the concept, as the Chinese source now does; add the identifier only where the reader needs it to find the passage in the English edition.
+When you quote the English edition, quote its words as written. In your own prose, name the concept, as both editions do; give a code only where the reader needs it to find a defining section or to read older material that uses codes.
 
 ## The skill's own vocabulary
 
@@ -110,7 +110,7 @@ When you quote or translate the English edition, its identifiers stay as written
 | 领域映射与方法适配；领域卡；领域库 | domain mapping and method adaptation; domain card; domain library |
 | 本题对照表 | table of usages for this task |
 | 定义对应；角色或对象实例化；部分对应；观察接口；类比候选；不对应；不适用；未知 | definition correspondence; role or object instantiation; partial correspondence; observation interface; analogy candidate; no correspondence; not applicable; unknown |
-| 语义对应；事实与机制证据；正式检验的资格 | semantic correspondence; factual and mechanism evidence; eligibility for a formal test (a root instance in the English edition) |
+| 语义对应；事实与机制证据；正式检验的资格 | semantic correspondence; factual and mechanism evidence; eligibility for a formal test |
 | 目标侧独立复核；待检验转义 | independent review on the target side; recasting awaiting test |
 | 成果模式 | output modes |
 | 跨理论对话与争论重建；机制史与过程重建；制度与生活安排设计 | dialogue across theories and reconstruction of debates; mechanism history and process reconstruction; designing institutions and living arrangements |

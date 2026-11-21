@@ -41,11 +41,11 @@ class EnglishEditionTests(unittest.TestCase):
         result = edition.check()
         self.assertTrue(result['ok'], result['problems'])
         zh = json.loads((ROOT / 'source/source-manifest.json').read_text(encoding='utf-8'))
-        self.assertIn(result['relation'], ('current', 'wording-predecessor'))
-        expected = zh['sha256'] if result['relation'] == 'current' else zh['wording_revision_of']['sha256']
-        self.assertEqual(self.manifest['translates']['sha256'], expected)
+        self.assertEqual(result['relation'], 'current')
+        self.assertEqual(self.manifest['translates']['sha256'], zh['sha256'])
         self.assertEqual((result['sections'], result['parts']), (397, 21))
         self.assertEqual(result['blocks'], self.manifest['alignment']['blocks'])
+        self.assertEqual(result['blocks'], len(edition.blocks(reader.SOURCE.read_text(encoding='utf-8'))))
 
     def test_translation_relation_accepts_only_the_recorded_wording_predecessor(self):
         zh = {'sha256': 'b' * 64, 'wording_revision_of': {'sha256': 'a' * 64}}
@@ -75,38 +75,41 @@ class EnglishEditionTests(unittest.TestCase):
         self.assertEqual(edition.GLOSS.findall(body), [])
         self.assertNotRegex(body, r'\]\(#[^)]*\) \(in Chinese\)')
         self.assertNotIn('](/works/', body)
-        self.assertIn('`A* = <行动者 ID，观察窗，', body)
-        self.assertIn('M(SP0→SP1)=<保留变量,', body)
-        self.assertIn('The full tuple in English is `A* = <actor ID, observation window,', self.text)
+        self.assertIn('`A* = <所指的行动者，观察窗，', body)
+        self.assertIn('M(SP0→SP1)=<保留变量, 改变变量, 丢失变量, 变换方式,', body)
+        self.assertIn('The full tuple in English is `A* = <the actor referred to, observation window,', self.text)
         for line in body.splitlines():
             if line.startswith(('#', '|')) and CJK.search(line):
                 self.fail(f'Chinese left in a heading or table row: {line[:80]}')
 
-    def test_translator_notes_and_original_tuples_retain_supplied_wording(self):
+    def test_headings_follow_the_current_chinese_and_keep_codes_only_at_the_end(self):
+        self.assertIn('## 3.3 Effective Feedback (D2)', self.text)
+        self.assertNotIn('## 3.3 D2 ', self.text)
+        self.assertIn('## 1.1 Four Kinds of Output and Eight Layers of Responsibility', self.text)
+
+    def test_translator_notes_resolve_and_tuples_keep_the_current_chinese_wording(self):
         notes = re.findall(r'(?m)^\[\^(tn-[^\]]+)\]:', self.text)
         self.assertTrue(notes)
         self.assertEqual(len(notes), len(set(notes)))
-        upstream = ROOT / 'source/en' / self.manifest['imported_from']['source_file']
-        original = upstream.read_text(encoding='utf-8')
-        self.assertEqual(edition.NOTE_DEF.findall(self.text), edition.NOTE_DEF.findall(original))
+        self.assertEqual(set(re.findall(r'\[\^(tn-[^\]]+)\](?!:)', self.text)), set(notes))
         for _, chinese, _, _ in edition.TUPLES:
-            self.assertEqual(self.text.count(chinese), original.count(chinese))
-        for ref in set(re.findall(r'\[\^(tn-[^\]]+)\](?!:)', self.text)):
-            self.assertIn(ref, notes)
+            self.assertEqual(self.text.count(chinese), 1, chinese[:24])
+        # Notes that only explained a word the current Chinese no longer uses are gone.
+        self.assertEqual([note for note in notes if note.startswith(('tn-contract', 'tn-protocol'))], [])
 
-    def test_supplied_edition_is_reproducible_and_retains_legal_material(self):
-        imported = self.manifest['imported_from']
-        original = (ROOT / 'source/en' / imported['source_file']).read_bytes()
-        self.assertEqual(edition.sha256(original), imported['sha256'])
-        self.assertEqual(len(original), imported['bytes'])
-        self.assertEqual(imported['sha256'], 'f59bcdb483027736ef973b43ffc0c0ce37d9cb5e67ab3f05c6c67d22a62e65a1')
-        upstream_text = original.decode('utf-8-sig').replace('\r\n', '\n')
-        self.assertEqual(edition.adapt_uploaded_file(upstream_text), self.text)
-        _, original_notices = edition.edition_body(upstream_text)
-        body, reading_notices = edition.edition_body(self.text)
-        self.assertEqual(original_notices, reading_notices)
-        self.assertEqual(reading_notices, self.manifest['non_body_material'])
-        self.assertEqual(len(reading_notices), 2)
+    def test_revision_names_the_edition_it_revises_and_retains_legal_material(self):
+        revision = self.manifest['revision_of']
+        self.assertEqual(revision, {
+            'edition_sha256': '51795bb7988f2669a324a52666c320cfba1382f597f7b5c6a1431844572da1fb',
+            'translates': '6ef2e508474d4ac1ad07d7e4e068955342c405b5f680afcfc40d68cca3d0149c',
+            'supplied_manuscript_sha256': 'f59bcdb483027736ef973b43ffc0c0ce37d9cb5e67ab3f05c6c67d22a62e65a1'})
+        self.assertNotIn('imported_from', self.manifest)
+        self.assertFalse((ROOT / 'source/en/upstream').exists())
+        body, notices = edition.edition_body(self.text)
+        self.assertEqual(notices, self.manifest['non_body_material'])
+        self.assertEqual([notice['kind'] for notice in notices], ['copyright_notice', 'copyright_and_license'])
+        self.assertIn('English translation of v2.1 (November 2026)', self.text)
+        self.assertIn('Translated from the Chinese v2.1 text:', self.text)
         self.assertIn('## Copyright and License', self.text)
         self.assertNotIn('## Copyright and License', body)
 
@@ -140,7 +143,7 @@ class EnglishEditionTests(unittest.TestCase):
             self.assertEqual(before, {path: path.read_bytes() for path in root.rglob('*') if path.is_file()})
 
     def test_check_rejects_changed_source_bytes_and_stale_alignment_counts(self):
-        for damage in ('source_bytes', 'alignment_counts', 'imported_source'):
+        for damage in ('source_bytes', 'alignment_counts', 'legal_material'):
             with self.subTest(damage=damage), tempfile.TemporaryDirectory() as temporary:
                 root = Path(temporary)
                 shutil.copytree(ROOT / 'source', root / 'source')
@@ -155,9 +158,15 @@ class EnglishEditionTests(unittest.TestCase):
                     manifest_path.write_text(json.dumps(manifest), encoding='utf-8')
                     expected = 'alignment counts differ'
                 else:
-                    source_path = root / 'source/en' / self.manifest['imported_from']['source_file']
-                    source_path.write_bytes(source_path.read_bytes().replace(b'v2', b'v3', 1))
-                    expected = 'Imported English source bytes differ'
+                    # A changed notice must not pass because notices are left out of body alignment.
+                    source_path = root / 'source/en' / self.manifest['source_file']
+                    data = source_path.read_text(encoding='utf-8').replace(
+                        'Original text © 2026', 'Original text © 2025', 1).encode('utf-8')
+                    source_path.write_bytes(data)
+                    manifest = json.loads(manifest_path.read_text(encoding='utf-8'))
+                    manifest['sha256'], manifest['bytes'] = edition.sha256(data), len(data)
+                    manifest_path.write_text(json.dumps(manifest), encoding='utf-8')
+                    expected = 'copyright and license material differs'
                 before = {path: path.read_bytes() for path in root.rglob('*') if path.is_file()}
                 saved = (edition.ROOT, edition.ZH_MANIFEST, edition.EN_DIR, edition.EN_MANIFEST)
                 try:
@@ -208,7 +217,7 @@ class EnglishReaderTests(unittest.TestCase):
         result = run('--lang', 'en', '--section', '1.1')
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertIn('Xikari-On-Conditions-Structure-and-Transformation.md', result.stdout)
-        self.assertIn('## 1.1 Four Kinds of Output', result.stdout)
+        self.assertIn('## 1.1 Four Kinds of Output and Eight Layers of Responsibility', result.stdout)
         self.assertIsNone(CJK.search(result.stdout))
 
     def test_parallel_prints_chinese_then_english(self):

@@ -8,7 +8,7 @@ title: "Part 10 Multi-Circle Objects and Joint States"
 
 # Part 10 Multi-Circle Objects and Joint States {#part-title-10}
 
-Analyzing a single object or circle[^tn-circle-11] often compresses other conditions into a black box called “environment.” Multi-circle analysis brings into one joint state the structural units that can change the path of an event and that can be distinguished by boundaries, relations, channels, and time windows. The aim does not require adding background without limit. Families, teams, institutions, platforms, markets, cultural communities, bodily systems, and geographic spaces can all matter in the same event. Naming them does not automatically supply grounds for object facts about them or support for a grouping gain.
+Analyzing a single object or circle[^tn-circle-11] often compresses other conditions into a black box called “environment.” Multi-circle analysis brings into one joint state the structural units that can change the path of an event and that can be distinguished by boundaries, relations, channels, and time windows. The aim does not require adding background without limit. Families, teams, institutions, platforms, markets, cultural communities, bodily systems, and geographic spaces can all matter in the same event. Naming them does not automatically supply grounds for object facts about them or support for a grouping gain (§4.3).
 
 </div>
 
@@ -17,20 +17,20 @@ Analyzing a single object or circle[^tn-circle-11] often compresses other condit
 <div v-pre class="theory-source">
 
 
-## 10.1 The Candidate Object Contract[^tn-contract-11] for a Circle {#section-10-1}
+## 10.1 Treating a Circle as a Candidate Object {#section-10-1}
 
-A circle can be represented as follows.
+As a candidate object, a circle can be represented as follows.
 
-`C* = <圈层 ID，候选边界，成员资格，角色规则，进入与退出，内部状态，外部接口，物质通道，体验—意义通道，约束，时间窗，尺度剖面，同一性判据，证据状态，反例>`.[^tn-circle-tuple-11]
+`C* = <所指的圈层，候选边界，成员资格，角色规则，进入与退出，内部状态，外部接口，物质通道，体验—意义通道，约束，时间窗，尺度剖面，同一性判据，证据状态，反例>`.[^tn-circle-tuple-11]
 
-“Several similar people” does not suffice to define a circle. A circle need not have shared consciousness or a unified goal. Members may not know that the analyst has grouped them into the same circle. They may disagree about goals, and a candidate structure may form solely through shared exposure to a platform, rule, space, or risk. Documents, memberships, sustained interactions, or shared exposure can support the corresponding facts about the object. A further claim that this grouping improves explanation or foresight requires testing for a gain within the stated scope against a complexity-matched alternative grouping or no-grouping baseline. Support under G1 concerns eligibility for this latter task-specific claim. It does not decide whether the organization, relationships, or people affected exist.
+“Several similar people” does not suffice to define a circle. A circle need not have shared consciousness or a unified goal. Members may not know that the analyst has grouped them into the same circle. They may disagree about goals, and a candidate structure may form solely through shared exposure to the same platform, rule, space, or risk. Documents, memberships, sustained interactions, or shared exposure can support the corresponding facts about the object. A further claim that adopting this grouping improves explanation or foresight requires testing for a gain within the stated scope against a complexity-matched alternative grouping or no-grouping baseline. Support from a grouping-gain test concerns eligibility for this latter, task-specific claim. It does not decide whether the organization, relationships, or people affected exist.
 
 | Admission Question | Evidence Required | If the Check Does Not Pass |
 | --- | --- | --- |
 | Can the boundary be distinguished? | Membership rules, interfaces, shared exposure, or sustained interaction | Retain it as the analyst’s grouping and do not call it an objective circle |
 | Is there differentiated structure within it? | Roles, relations, channels, or constraints | Reclassify it as a population category or an environmental variable |
 | If a grouping gain is claimed, does the grouping improve explanation or foresight? | Out-of-sample comparison with a simple baseline | Do not claim that a gain has been established. Retain facts about the object that have independent grounds. Depending on the task, fall back to a single focus, continuous variables, or a candidate grouping |
-| Does identity hold within the time window? | K, entry and exit, and conditions for conversion and dissolution | Record separate segments or register object conversion |
+| Does identity hold within the time window? | The identity criterion, entry and exit, and conditions for conversion and dissolution | Record separate segments, or record an object conversion |
 | Have counterexamples been retained? | Boundary perturbation or review across time or locations | Report the sensitivity and narrow the related conclusions; a grouping gain already claimed is handled under §4.3 |
 
 </div>
@@ -40,24 +40,31 @@ A circle can be represented as follows.
 <div v-pre class="theory-source">
 
 
-## 10.2 The Joint Object Contract {#section-10-2}
+## 10.2 Defining the Joint Object {#section-10-2}
 
 The multi-circle joint object is written as follows.
 
 `MC* = <行动者集合 A，圈层集合 C，圈层关系 Rcc，成员与角色映射 Rac，物质状态 M，体验—意义状态 Ψ，通道与约束 Q，事件流 E，多时钟 T，尺度剖面 SP，证据状态 W，同一性判据 K>`.[^tn-joint-tuple-11]
 
-The value of a joint object lies in preserving local differences and cross-boundary channels. It does not put all related objects into one large circle or assert that a higher-level subject exists. Circles with no identifiable relation may only be observed side by side. If they share only an environment, a direct effect should not be invented. If the relation appears only during an event, register it as temporary and state the conditions under which it ends.
+The value of a joint object lies in preserving local differences and cross-boundary channels. It does not put all related objects into one large circle or assert that a higher-level subject exists. Circles with no identifiable relation may only be observed side by side. If they share only an environment, a direct effect should not be invented. If the relation appears only during an event, it should be recorded as temporary, and the conditions under which it ends should be stated.
 
-| Joint State Field | Responsibility | Common Error |
-| --- | --- | --- |
-| A Actor set | Preserve actor states, roles, and privacy boundaries | Substituting a circle average for the individual |
-| C Circle set | Maintain boundaries, states, and identity separately | Merging all background conditions into one overarching circle |
-| Rcc Circle relations | Register direction, type, delay, threshold, and evidence | Substituting “interrelated” for a mechanism |
-| Rac Membership and role mapping | Allow multiple affiliations, role conflicts, and differences in ability to exit | Assuming each person belongs to only one circle |
-| M and Ψ | Represent material and experience–meaning conditions side by side | Material determinism or reduction to narrative alone |
-| Q Channels and constraints | Specify the extent and capacity of propagation | Assuming impacts are lossless, instantaneous, and reach every position |
-| E and T | Event stream and multiple asynchronous clocks | Updating every state synchronously after each event |
-| W and K | Evidence, unknowns, residuals, and object identity | Mistaking a complete model for a complete account of reality |
+Each component of the joint state has something to safeguard and a typical error of its own.
+
+Actor set A: Preserve the states, roles, and privacy boundaries of each actor. The typical error is substituting a circle average for the individual.
+
+Circle set C: Maintain the boundaries, states, and identity of each circle separately. The typical error is merging all background conditions into one overarching circle.
+
+Circle relations Rcc: Record direction, type, delay, threshold, and evidence. The typical error is substituting “interrelated” for a mechanism.
+
+Membership and role mapping Rac: Allow multiple affiliations, role conflicts, and differences in ability to exit. The typical error is assuming that each person belongs to only one circle.
+
+Material state M and experience–meaning state Ψ: Material conditions and experience–meaning conditions are represented side by side. The typical error is material determinism, or reduction to narrative alone.
+
+Channels and constraints Q: Specify the extent and capacity of propagation. The typical error is assuming that impacts are lossless, instantaneous, and reach every position.
+
+Event stream E and multiple clocks T: Record the event stream and the several clocks that are not synchronized. The typical error is updating every state synchronously after each event.
+
+Evidential status W and identity criterion K: Record evidence, unknowns, residuals, and object identity. The typical error is mistaking a complete model for a complete account of reality.
 
 </div>
 
@@ -68,7 +75,7 @@ The value of a joint object lies in preserving local differences and cross-bound
 
 ## 10.3 Six Kinds of Circle Relation {#section-10-3}
 
-The six starting points for description distinguish different questions. They are nonexclusive, address different dimensions, and do not exhaust real-world relations. Parallelism, nesting, and overlap describe positions along a declared dimension. Bridging and competition describe connections or constraints. Temporariness describes duration and conditions for ending. These descriptions can be combined. For each actual circle relation, separately record the source circle, target circle, direction, shared members or interfaces, channel, extent, time window, and relevant evidence. Do not force a value for an inapplicable delay or threshold.
+The six kinds of relation are six starting points for description, used to distinguish different questions. They are nonexclusive, address different dimensions, and do not exhaust real-world relations. Parallelism, nesting, and overlap describe positions along a specified dimension. Bridging and competition describe connections or constraints. Temporariness describes duration and conditions for ending. These descriptions can be combined. For each actual circle relation, state separately the source circle, target circle, direction, shared members or interfaces, channel, extent, time window, and relevant evidence. Do not force a value for a delay or threshold that does not apply.
 
 </div>
 
@@ -79,7 +86,7 @@ The six starting points for description distinguish different questions. They ar
 
 ### 10.3.1 Parallelism {#section-10-3-1}
 
-Under the current contract, parallel circles have no relation of containment in either membership or the scope of their operating contracts. The circles may still be related. Two parallel teams may share a budget, a platform, and higher-level institutional arrangements. They may also be triggered simultaneously by the same event. If only shared exposure can be confirmed, register a shared environment. Register cross-circle propagation only when a channel for information, resources, personnel, or institutional write-back has been found.
+Parallelism means that, under the current definition, the circles have no relation of containment in either membership or operating arrangements. Parallel circles may still be related. Two parallel teams may share a budget, a platform, and higher-level institutional arrangements. They may also be triggered simultaneously by the same event. If only shared exposure can be confirmed, record a shared environment. Record cross-circle propagation only when a channel for information, resources, personnel, or institutional write-back (§7.1) has been found.
 
 </div>
 
@@ -90,7 +97,7 @@ Under the current contract, parallel circles have no relation of containment in 
 
 ### 10.3.2 Nesting {#section-10-3-2}
 
-Nesting means that one object’s extent is actually contained within another along an explicitly specified relational dimension. The basis of containment must be stated. Membership, roles, resource accounting, institutional jurisdiction, and space are distinct dimensions. If the claim concerns containment of only a part, first identify the contained subobject and its boundary. If two sets intersect but neither contains the other, register overlap on that dimension. Describing the intersection as “partial containment” does not also justify classifying it as nesting. A subcircle’s state cannot directly represent the higher-level circle, and the outer circle’s rules need not take effect in the same way at every position inside it.
+Nesting means that one object’s extent is actually contained within another along an explicitly specified relational dimension. The basis of containment must be stated. Membership, roles, resource accounting, institutional jurisdiction, and space are distinct dimensions. If the claim concerns containment of only a part, first identify the contained subobject and its boundary. If two sets intersect but neither contains the other, record overlap on that dimension. Describing the intersection as “partial containment” does not also justify classifying it as nesting. A subcircle’s state cannot directly represent the higher-level circle, and the outer circle’s rules need not take effect in the same way at every position inside it.
 
 </div>
 
@@ -112,7 +119,7 @@ Overlap means that circles share some members, roles, resources, or interfaces w
 
 ### 10.3.4 Bridging {#section-10-3-4}
 
-Bridging means that an actor, institution, interface, text, platform, or event connects previously separate circles. A bridging party need not have authority to represent others or be loyal to either side. Transmission capability, translation losses, selective filtering, responsibility, substitutability, overload, and exit conditions must be registered separately.
+Bridging means that an actor, institution, interface, text, platform, or event connects previously separate circles. A bridging party need not have authority to represent others or be loyal to either side. For any bridge, transmission capability, translation losses, selective filtering, responsibility, substitutability, overload, and exit conditions must be stated separately.
 
 </div>
 
@@ -123,7 +130,7 @@ Bridging means that an actor, institution, interface, text, platform, or event c
 
 ### 10.3.5 Competition {#section-10-3-5}
 
-Competition means that circles create identifiable exclusionary constraints on scarce resources, attention, legitimacy, member commitments, interpretive authority, or room for action. Different goals do not automatically amount to competition. Register competition only when one circle’s use of what is available, its rules, or its actions changes the set available to another circle. Cooperation and competition can coexist through different channels.
+Competition means that circles create identifiable exclusionary constraints on scarce resources, attention, legitimacy, member commitments, interpretive authority, or room for action. Different goals do not automatically amount to competition. Record competition only when one circle’s use of what is available, its rules, or its actions changes the set available to another circle. Cooperation and competition can coexist through different channels.
 
 </div>
 
@@ -134,18 +141,18 @@ Competition means that circles create identifiable exclusionary constraints on s
 
 ### 10.3.6 Temporariness {#section-10-3-6}
 
-Temporary circles form around events, tasks, crises, shared exposure, or short-term goals. They may dissolve rapidly or become more durable through traces, stabilization of roles, and institutionalization. Temporariness may follow from a task deadline set in advance or be a provisional judgment based on the short window observed so far. The two should be distinguished. A temporary relation can be important, carry responsibilities, and already be real. A temporary alliance can still overlap in membership, compete for resources, and be bridged through particular interfaces.
+Temporary circles form around events, tasks, crises, shared exposure, or short-term goals. They may dissolve rapidly or become more durable through traces, stabilization of roles, and institutionalization. Calling a circle “temporary” may follow from a task deadline set in advance or be a provisional judgment based on the short time window observed so far. The two cases should be distinguished. A temporary relation can be important, carry responsibilities, and already be real. A temporary alliance can still overlap in membership, compete for resources, and be bridged through particular interfaces.
 
 | Relation | Minimum Criterion | What to Check in Particular | Failure or Change |
 | --- | --- | --- | --- |
 | Parallelism | No containment relation at present | Shared environment and indirect coupling | Containment, overlap, or bridging emerges |
-| Nesting | Explicit containment in membership/contract/jurisdiction/space | Downward constraints and loss from upward aggregation | K changes, exit occurs, or jurisdiction is reconfigured |
+| Nesting | Explicit containment in membership, operating arrangements, jurisdiction, or space | Downward constraints and loss from upward aggregation | The identity criterion changes, exit occurs, or jurisdiction is reconfigured |
 | Overlap | Some members, roles, resources, or interfaces are shared | Role conflict and double counting | Shared items disappear or the relation becomes containment |
 | Bridging | Identifiable interface for cross-circle transmission | Translation, filtering, overload, and authority to represent | The channel closes, is replaced, or becomes institutionalized |
 | Competition | An exclusionary constraint on the available set | Scarce items, time window, and channels for cooperation | Resources expand, rules are coordinated, or a party exits |
-| Temporariness | A clearly finite duration or support so far limited to a short window. Distinguish the two | Ending, traces, and who takes up responsibility. Temporariness can be combined with other dimensions of relation | The temporary relation ends, is extended, or becomes institutionalized. Its positions and channel relations are recorded separately |
+| Temporariness | A clearly finite duration, or support so far limited to a short time window. Distinguish the two | Ending, traces, and who takes up responsibility. Temporariness can be combined with other dimensions of relation | The temporary relation ends, is extended, or becomes institutionalized. Its positions and channel relations are recorded separately |
 
-“Relation change” records a shift in a relation’s type or defining conditions between the states before and after an event. Referring back to the relation by the same name does not by itself establish that it has changed. Relations can persist, strengthen, weaken, change direction, change type, or dissolve. Every judgment must be tied to snapshots before and after, the dimension that changed, and object identity.
+“Change” in the table records a shift in a relation’s type or defining conditions between the states before and after an event. Referring back to the relation by the same name does not by itself establish that it has changed. Relations can persist, strengthen, weaken, change direction, change type, or dissolve. Every such judgment must be tied to snapshots before and after, the dimension that changed, and object identity.
 
 </div>
 
@@ -158,9 +165,9 @@ Temporary circles form around events, tasks, crises, shared exposure, or short-t
 
 Actual multi-circle structures typically form a directed multigraph of relations with local containment. The same family can be nested within a community and within a legal system. A person can belong at the same time to overlapping family, work, platform, and interest circles. Platforms may bridge parallel groups. Different organizations can compete for funding, cooperate on safety, and overlap in personnel.
 
-The framework does not require each node to have only one parent node. Nor does “higher level” automatically mean greater importance, reality, or authority. Each edge expresses just one declared relation. If a pair of circles has multiple edges, record the channel and time window for each edge separately. If edges at different scales are incomparable, keep them side by side without forcing an order.
+The framework therefore does not require each node to have only one parent node. Nor does “higher level” automatically mean greater importance, reality, or authority. Each edge expresses just one stated relation. If a pair of circles has multiple edges, the channel and time window for each edge should be recorded separately. If edges at different scales are incomparable, keep them side by side without forcing an order.
 
-The graph representation must pass at least four checks. Has the analyst’s classification been mistaken for an object? Has a shared environment been mistaken for a direct relation? Has membership overlap been mistaken for organizational containment? Has contact with information been mistaken for effective feedback? Register feedback only when a signal returns and changes a subsequent state, transition probability, or constraint.
+The graph representation must pass at least four checks. Has the analyst’s classification been mistaken for an object? Has a shared environment been mistaken for a direct relation? Has membership overlap been mistaken for organizational containment? Has contact with information been mistaken for effective feedback? Record feedback (§3.3) only when a signal returns and changes a subsequent state, transition probability, or constraint.
 
 </div>
 
@@ -179,7 +186,7 @@ Membership cannot be reduced to a binary, permanent status. Records should inclu
 | Extent of participation | Core, intermittent, peripheral, nominal, or passively bearing the consequences | Determines visible information and channels of impact |
 | Role | Decision-making, execution, care, bridging, oversight, affected party, or dissent | Determines rights, obligations, and conflicts |
 | Commitment | High, medium, low, disputed, or unknown | Affects paths without amounting to personality |
-| Ability to exit | Free, costly, subject to approval, or impossible in practice | Triggers the protection floor and the action ceiling |
+| Ability to exit | Free, costly, subject to approval, or impossible in practice | Triggers the protection floor (§14.8) and the action ceiling |
 
 An actor’s multiple memberships do not automatically establish actual bridging. Potential bridging capability, actual transmission across boundaries, and outcomes caused by transmission are recorded separately. An identifiable interface supports a description of capability. Records of actual transmission support a description of the process. A causal effect on state requires a corresponding comparison. If recipients do not change their choices, this does not negate the limited transmission of information that already occurred. Authority to represent, transmission capability, and responsible parties must be kept distinct.
 
@@ -192,15 +199,15 @@ An actor’s multiple memberships do not automatically establish actual bridging
 
 ## 10.6 Material Conditions and Experience–Meaning Conditions {#section-10-6}
 
-The joint state maintains both M and Ψ. M includes the body, time, space, money, energy, equipment, infrastructure, property rights, supply, care, and actual capability to act. Ψ includes feelings, expectations, memory, identity, trust, shame, hope, fear, commitments, conflicts of value, and perceived legitimacy.
+The joint state maintains both the material state (M) and the experience–meaning state (Ψ). The material state includes the body, time, space, money, energy, equipment, infrastructure, property rights, supply, care, and actual capability to act. The experience–meaning state includes feelings, expectations, memory, identity, trust, shame, hope, fear, commitments, conflicts of value, and perceived legitimacy.
 
 The two channels can affect one another. For example, a platform’s rules for traffic change visibility and income, affecting material and informational conditions. Members interpret the decline as exclusion or failure, a change in experience and meaning. This interpretation may affect exit, protest, or cooperation and thereby feed back into platform metrics and resource allocation. Each step must specify a carrier, direction, delay, and counterexamples.
 
 | Bridge Between Channels | Starting Point | Mediating Factors | Outcome | Counterfactual Question |
 | --- | --- | --- | --- | --- |
-| M→Ψ | A change in income, space, the body, or time | Sense of safety, sense of control, or interpretation of identity | Changes in trust, fear, or commitment | Do interpretations differ under the same material change? |
-| Ψ→M | Legitimacy, hope, shame, or conflicts of value | Cooperation, refusal, migration, care, or protest | Changes in resource flows, labor, property rights, or use of facilities | Would the action occur without the change in meaning? |
-| M↔Ψ Closed loop | Effects in both directions occur in succession | Feedback and traces | Path dependence or phase transition | Does the return signal actually change a subsequent state? |
+| Material→experience–meaning | A change in income, space, the body, or time | Sense of safety, sense of control, or interpretation of identity | Changes in trust, fear, or commitment | Do interpretations differ under the same material change? |
+| Experience–meaning→material | Legitimacy, hope, shame, or conflicts of value | Cooperation, refusal, migration, care, or protest | Changes in resource flows, labor, property rights, or use of facilities | Would the action occur without the change in meaning? |
+| Closed loop between the two | Effects in both directions occur in succession | Feedback and traces | Path dependence or phase transition | Does the return signal actually change a subsequent state? |
 
 Analyzing material and experience–meaning conditions side by side requires neither equal weights nor full collection on both sides for every narrow task. If the objective concerns members’ control, well-being, or relationships, relevant differences on both sides should be retained. For a question such as the total amount of equipment, for which an adequate summary is already available, the analysis may stop within that scope.
 
@@ -243,7 +250,7 @@ In a financial network, common exposure, defaults on direct claims, calls on con
 
 ## 10.7 Five Kinds of Clock and Asynchronous Updating {#section-10-7}
 
-A joint state distinguishes at least immediate, interactive, organizational, institutional, and long-term clocks. Immediate reactions may be measured in minutes, trust in interaction in rounds, organizational budgets in quarters, institutional write-back in deliberation cycles, and long-term learning or generational change in years. The timing of the same event’s effects varies by variable.
+A joint state needs to distinguish at least five kinds of clock: immediate, interactive, organizational, institutional, and long-term. Immediate reactions may be measured in minutes, trust in interaction in rounds, organizational budgets in quarters, institutional write-back in deliberation cycles, and long-term learning or generational change in years. The timing of the same event’s effects varies by variable.
 
 | Clock | Typical Objects | Update Trigger | Common Error |
 | --- | --- | --- | --- |
@@ -253,7 +260,7 @@ A joint state distinguishes at least immediate, interactive, organizational, ins
 | Institutional | Rules, rights, responsibilities, appeals, records | Actual change in rules or procedures, actual write-back, and execution. Record authorization and legal validity separately | Treating a verbal commitment as institutional change |
 | Long-term | Capabilities, identity, infrastructure, culture, and relations across generations | Accumulation, learning, maintenance, and replacement | Extrapolating to the long term from short-term data |
 
-External events directly update only variables reached through their channels and for which the conditions hold. Endogenous processes, expiration, accumulation, and recovery proceed on their own clocks and under the registered rules for dynamics. A variable untouched by the current event is not necessarily unchanged in reality. Without reliable grounds for an update, retain the last observed value, its time, and uncertainty, or mark it unknown. Do not refresh all variables at once just to make the joint snapshot “complete.”
+External events directly update only variables reached through their channels and for which the conditions hold. Endogenous processes, expiration, accumulation, and recovery proceed on their own clocks and under the stated rules for dynamics. A variable untouched by the current event is not necessarily unchanged in reality. Without reliable grounds for an update, retain the last observed value, its time, and uncertainty, or mark it “unknown.” Do not refresh all variables at once just to make the joint snapshot “complete.”
 
 Asynchrony can also change the direction of effects. Asset prices can change immediately, while loan contracts adjust only upon revaluation or renewal. The timing of payments differs between fixed-rate and floating-rate debt. Public guarantees may provide cash first and distribute losses later. A joint projection should check when each constraint actually binds, when alternative financing is possible, and whether the recovery window precedes irreversible harm. Extending a short-term backstop must not be treated as restoration of the long-term ability to repay.
 
@@ -266,9 +273,9 @@ Asynchrony can also change the direction of effects. Asset prices can change imm
 
 ## 10.8 Joint State Snapshots {#section-10-8}
 
-A snapshot is a frozen starting point for projection. It does not permanently reproduce reality. It must include a timestamp, evidence cutoff, actor and circle references, relation and membership mappings, M/Ψ states, channels, constraints, the five kinds of clock, scale profile, unknowns, residuals, and identity criteria.
+A snapshot is a fixed starting point for projection. It does not permanently reproduce reality. It must state the point in time at which the snapshot is taken, when the evidence cutoff falls, the actors and circles referred to, relation and membership mappings, the material state and the experience–meaning state, channels, constraints, the five kinds of clock, the scale profile, unknowns, residuals, and the identity criterion.
 
-Each value in a snapshot should be marked as observed, supported hypothesis, candidate, disputed, unknown, or not applicable. When sources conflict, first retain their respective values, how they were produced, and their versions. A combined estimate and its uncertainty may be reported separately only if there are grounds for both the measured object and the model used to combine results. An arithmetic mean cannot resolve the original conflict by itself. If a circle is internally differentiated, do not represent all positions with a single mean. If necessary, establish subcircles or use a distributional representation, but go through object admission again.
+Each value in a snapshot should be marked with its status: observed, supported hypothesis, candidate, disputed, unknown, or not applicable. When sources conflict, first retain the respective values, how each was produced, and which version each came from. A combined estimate and its uncertainty may be listed separately only if there are grounds for both the measured object and the model used to combine results. An arithmetic mean cannot resolve the original conflict by itself. If a circle is internally differentiated, do not represent all positions with a single mean. If necessary, establish subcircles or use a distributional representation, but this requires going through object admission (§10.1) again.
 
 </div>
 
@@ -279,9 +286,9 @@ Each value in a snapshot should be marked as observed, supported hypothesis, can
 
 ## 10.9 Boundary Perturbation and Object Conversion {#section-10-9}
 
-Multi-circle models can easily mistake chosen boundaries for natural boundaries. At least three kinds of perturbation must be tested. Change the membership threshold and check whether the conclusion is stable. Move the time window and check whether the relation still holds. Replace or remove a circle and check whether the joint model’s gain disappears. If small changes in the boundary reverse the conclusion, narrow the conclusions that depend on that boundary and report the sensitivity; a grouping gain already claimed is recorded under §4.3 as not supported or unresolved.
+Multi-circle models can easily mistake chosen boundaries for natural boundaries. At least three kinds of perturbation must be tested. Change the membership threshold and check whether the conclusion is stable. Move the time window and check whether the relation still holds. Replace or remove a circle and check whether the joint model’s gain disappears. If small changes in the boundary reverse the conclusion, narrow the conclusions that depend on that boundary and report the sensitivity; a grouping gain already claimed is recorded under §4.3 as “not supported or unresolved.”
 
-If a circle’s K no longer holds after an event, object conversion or dissolution should be registered. For example, a temporary rescue group may become a formal institution, a project team may split into competing alliances, a platform community may migrate to a new platform, or a household’s care arrangements may be reorganized after a member exits. A new object cannot overwrite the old object’s failures, responsibilities, or historical traces.
+If a circle’s identity criterion no longer holds after an event, object conversion or dissolution should be recorded. For example, a temporary rescue group may become a formal institution, a project team may split into competing alliances, a platform community may migrate to a new platform, or a household’s care arrangements may be reorganized after a member exits. A new object cannot overwrite the old object’s failures, responsibilities, or historical traces.
 
 </div>
 
@@ -326,13 +333,11 @@ A structural graph alone cannot establish what must happen in the future. Nor ca
 
 If an event involves only one actor and one stable circle, and neighboring circles, membership overlap, bridging, and cross-boundary spillovers provide no additional information, do not use the full joint model. Multi-circle modeling makes it possible to preserve distinctions where interactions actually occur. An analysis need not bear that complexity every time. When fewer objects, fewer variables, and clearer evidence suffice to answer the question, the framework should scale back.
 
-[^tn-circle-tuple-11]: Translator's note: The full tuple in English is `C* = <circle ID, candidate boundary, membership eligibility, role rules, entry and exit, internal state, external interfaces, material channels, experience–meaning channels, constraints, time window, scale profile, identity criterion, evidential status, counterexamples>`.
+[^tn-circle-tuple-11]: Translator's note: The full tuple in English is `C* = <the circle referred to, candidate boundary, membership eligibility, role rules, entry and exit, internal state, external interfaces, material channels, experience–meaning channels, constraints, time window, scale profile, identity criterion, evidential status, counterexamples>`.
 
 [^tn-joint-tuple-11]: Translator's note: The full tuple in English is `MC* = <actor set A, circle set C, circle relations Rcc, membership and role mapping Rac, material state M, experience–meaning state Ψ, channels and constraints Q, event stream E, multiple clocks T, scale profile SP, evidential status W, identity criterion K>`.
 
 [^tn-circle-11]: Translator's note: Circles may be parallel, nested, overlapping, or bridged.
-
-[^tn-contract-11]: Translator's note: A contract here is an analytical agreement registered and frozen before results, akin to pre-registration.
 
 </div>
 

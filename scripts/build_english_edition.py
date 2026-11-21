@@ -19,6 +19,10 @@ adaptations: remove Chinese parenthetical glosses outside notes/code/link target
 and remove stale "(in Chinese)" labels from local links. Original tuples,
 translator notes, copyright notice, and license text remain unchanged.
 
+``--revision`` takes a revision of the reading edition that follows the current
+Chinese wording paragraph for paragraph, checks that alignment, and writes it as
+the edition. The manifest records the edition it revises; no upstream copy is kept.
+
 The Chinese manuscript remains the sole theory authority. The English edition is
 a reference translation for terminology, quotation and English readers.
 """
@@ -65,14 +69,14 @@ ESCAPES = {"\\_": "_", "\\*": "*", "\\[": "[", "\\]": "]", "\\|": "|", "\\<": "<
 # the note. Each entry: page slug, Chinese literal, English literal, note id.
 TUPLES = [
     ("03-grammar",
-     "M(SP0→SP1)=<保留变量, 改变变量, 丢失变量, 转换算子, 误差, 适用区间>",
-     "M(SP0→SP1)=<retained variables, changed variables, lost variables, conversion operator, error, applicable range>",
+     "M(SP0→SP1)=<保留变量, 改变变量, 丢失变量, 变换方式, 误差, 适用区间>",
+     "M(SP0→SP1)=<retained variables, changed variables, lost variables, type of transformation, error, applicable range>",
      "tn-fields"),
     ("10-actors",
-     "A* = <行动者 ID，观察窗，圈层成员关系，角色，慢变量，中变量，快变量，物质条件，体验—意义条件，未知项，证据状态，隐私与允许用途>",
+     "A* = <所指的行动者，观察窗，圈层成员关系，角色，慢变量，中变量，快变量，物质条件，体验—意义条件，未知项，证据状态，隐私与允许用途>",
      None, "tn-actor-tuple"),
     ("11-circles",
-     "C* = <圈层 ID，候选边界，成员资格，角色规则，进入与退出，内部状态，外部接口，物质通道，体验—意义通道，约束，时间窗，尺度剖面，同一性判据，证据状态，反例>",
+     "C* = <所指的圈层，候选边界，成员资格，角色规则，进入与退出，内部状态，外部接口，物质通道，体验—意义通道，约束，时间窗，尺度剖面，同一性判据，证据状态，反例>",
      None, "tn-circle-tuple"),
     ("11-circles",
      "MC* = <行动者集合 A，圈层集合 C，圈层关系 Rcc，成员与角色映射 Rac，物质状态 M，体验—意义状态 Ψ，通道与约束 Q，事件流 E，多时钟 T，尺度剖面 SP，证据状态 W，同一性判据 K>",
@@ -377,6 +381,48 @@ def import_file(path: Path) -> dict:
             **{key: report[key] for key in ("sections", "parts", "blocks")}}
 
 
+def import_revision(path: Path) -> dict:
+    """Write a revision of the reading edition that follows the current Chinese wording."""
+    text = path.read_bytes().decode("utf-8-sig").replace("\r\n", "\n")
+    zh_manifest = json.loads(ZH_MANIFEST.read_text(encoding="utf-8"))
+    zh_bytes = (ROOT / "source" / zh_manifest["source_file"]).read_bytes()
+    if sha256(zh_bytes) != zh_manifest["sha256"]:
+        raise ValueError("Chinese source does not match its manifest")
+    report = alignment(zh_bytes.decode("utf-8-sig"), text)
+    if report["problems"]:
+        raise ValueError("; ".join(report["problems"]))
+    previous = json.loads(EN_MANIFEST.read_text(encoding="utf-8"))
+    revision_of = previous.get("revision_of") or {
+        "edition_sha256": previous["sha256"],
+        "translates": previous["translates"]["sha256"],
+        **({"supplied_manuscript_sha256": previous["imported_from"]["sha256"]} if previous.get("imported_from") else {}),
+    }
+    _, notices = edition_body(text)
+    data = text.encode("utf-8")
+    manifest = {
+        "title": TITLE, "author": "Xikari", "language": "en",
+        "role": "user-supplied reference translation, revised to the current Chinese wording; the Chinese source governs",
+        "source_file": EN_FILE, "sha256": sha256(data), "bytes": len(data),
+        "translates": {"source_file": zh_manifest["source_file"], "sha256": zh_manifest["sha256"]},
+        "alignment": {key: report[key] for key in ("sections", "parts", "blocks")},
+        "non_body_material": notices,
+        "revision_of": revision_of,
+        "edition_notes": [
+            "Revised at the user's request from the user-supplied translation of the previous Chinese wording, "
+            "section by section against the current Chinese; the supplied English is kept wherever the Chinese meaning "
+            "and structure did not change.",
+            "Concept names, replaced words and status words follow the current Chinese wording; codes remain only where "
+            "the Chinese keeps them.",
+            "Copyright and license material is preserved; only these located notices are excluded from body alignment.",
+            "Structural alignment and source binding do not certify semantic accuracy or author approval.",
+        ],
+    }
+    (EN_DIR / EN_FILE).write_bytes(data)
+    EN_MANIFEST.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8", newline="\n")
+    return {"written": [f"source/en/{EN_FILE}", "source/en/source-manifest.json"], "sha256": sha256(data),
+            **{key: report[key] for key in ("sections", "parts", "blocks")}}
+
+
 def check() -> dict:
     zh_manifest = json.loads(ZH_MANIFEST.read_text(encoding="utf-8"))
     en_manifest = json.loads(EN_MANIFEST.read_text(encoding="utf-8"))
@@ -411,8 +457,8 @@ def check() -> dict:
             reproduced = adapt_uploaded_file(raw.decode("utf-8-sig").replace("\r\n", "\n")).encode("utf-8")
             if reproduced != en_bytes:
                 problems.append("English reading edition is not the reproducible adaptation of its imported source")
-        if en_manifest.get("non_body_material") != edition_body(en_bytes.decode("utf-8"))[1]:
-            problems.append("English copyright and license material differs from its manifest")
+    if en_manifest.get("non_body_material") != edition_body(en_bytes.decode("utf-8"))[1]:
+        problems.append("English copyright and license material differs from its manifest")
     return {"ok": not problems, "sha256": sha256(en_bytes), "translates": en_manifest.get("translates", {}).get("sha256"),
             "relation": relation, **{k: report[k] for k in ("sections", "parts", "blocks")}, "problems": problems}
 
@@ -425,10 +471,16 @@ def main() -> int:
     group = parser.add_mutually_exclusive_group(required=True)
     group.add_argument("--from", dest="source", type=Path, help="Translation directory to build from")
     group.add_argument("--from-file", dest="source_file", type=Path, help="Supplied English manuscript to import without retranslation")
+    group.add_argument("--revision", type=Path, help="Revision of the reading edition that follows the current Chinese wording")
     group.add_argument("--check", action="store_true", help="Verify the vendored English edition; read-only")
     args = parser.parse_args()
     try:
-        result = check() if args.check else import_file(args.source_file) if args.source_file else build(args.source)
+        if args.check:
+            result = check()
+        elif args.revision:
+            result = import_revision(args.revision)
+        else:
+            result = import_file(args.source_file) if args.source_file else build(args.source)
     except (OSError, ValueError, KeyError) as exc:
         print(f"English edition: {exc}", file=sys.stderr)
         return 2

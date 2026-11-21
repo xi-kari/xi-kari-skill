@@ -6,7 +6,7 @@ title: "Xikari: On Conditions, Structure, and Transformation"
 
 # Xikari: On Conditions, Structure, and Transformation {#book}
 
-&gt; Original text © 2026 Xikari · English translation of v2 (November 2026) · https://xi-kari.com/en/works/xikari-conditions/
+&gt; Original text © 2026 Xikari · English translation of v2.1 (November 2026) · https://xi-kari.com/en/works/xikari-conditions/
 &gt;
 &gt; This book is released under the MIT License. When copying or distributing all or a substantial portion of it, keep the copyright notice and the license text.
 
@@ -14,7 +14,7 @@ By Xikari
 
 Objects, Conditions, Effects, and Bounded Action
 
-v2 · November 2026
+v2.1 · November 2026
 
 </div>
 
@@ -31,7 +31,7 @@ The universal layer addresses the empirical world in a broad sense. Human action
 
 Judgments about the future require the target, horizon, baseline, and failure conditions to be stated. Recommendations require normative premises and the price to be paid to be disclosed. Actual adoption and execution also require the applicable protections, review, and authorization. Definitions, formal proofs, teaching scenarios, domain experience, and effects of actual use each bear their own evidential responsibilities; one must not stand in for evidence for another.
 
-Parts 1 and 2 explain the reading approach and evidential responsibilities. Parts 3–6 develop the universal grammar, conditional propositions, empirical testing, scale transformations, and mechanisms of operation. Parts 7–11 address human experience, collective prototypes, actors, multi-circle configurations, and dynamic projection. Parts 12–16 discuss foresight, choice, tools, norms, intervention, and governance. Appendix A provides the full interfaces for human variables. Appendix B provides a terminology index. Appendix C presents the common method and self-contained formal arguments. Appendix D connects explanations and applications across 32 domains.
+Parts 1 and 2 explain the reading approach and evidential responsibilities. Parts 3–6 develop the universal grammar, conditional propositions, empirical testing, scale transformations, and mechanisms of operation. Parts 7–11 address human experience, collective prototypes, actors, multi-circle configurations, and dynamic projection. Parts 12–16 discuss foresight, choice, tools, norms, intervention, and governance. Appendix A provides detailed descriptions of the human variables. Appendix B provides a terminology index. Appendix C presents the common method and self-contained formal arguments. Appendix D connects explanations and applications across 32 domains.
 
 </div>
 
@@ -48,7 +48,7 @@ Parts 1 and 2 explain the reading approach and evidential responsibilities. Part
 
 [Part 3 Universal Structural Grammar](/en/theory/part-03#part&#95;3)
 
-[Part 4 Empirical Questions, Outcome Contracts, and Conditional Formal Propositions](/en/theory/part-04#part&#95;4)[^tn-contract-00]
+[Part 4 Empirical Questions, Conclusion Rules, and Conditional Formal Propositions](/en/theory/part-04#part&#95;4)
 
 [Part 5 Cross-Scale and Cross-Circle Transformations](/en/theory/part-05#part&#95;5)
 
@@ -66,7 +66,7 @@ Parts 1 and 2 explain the reading approach and evidential responsibilities. Part
 
 [Part 12 Conditional Foresight and Bounded Choice](/en/theory/part-12#part&#95;12)
 
-[Part 13 Interfaces and Tools](/en/theory/part-13#part&#95;13)
+[Part 13 Judgment Procedures and Tools](/en/theory/part-13#part&#95;13)
 
 [Part 14 Normative Choice](/en/theory/part-14#part&#95;14)
 
@@ -74,7 +74,7 @@ Parts 1 and 2 explain the reading approach and evidential responsibilities. Part
 
 [Part 16 Governance](/en/theory/part-16#part&#95;16)
 
-[Appendix A Human Variable Interface Cards](/en/theory/appendix-a/#part&#95;17)
+[Appendix A The Human Variables in Detail](/en/theory/appendix-a/#part&#95;17)
 
 [Appendix B Numbering Scheme and Glossary](/en/theory/appendix-b#part&#95;18)
 
@@ -85,13 +85,11 @@ Parts 1 and 2 explain the reading approach and evidential responsibilities. Part
 [References](/en/theory/references#part&#95;21)
 
 
-The book's basic commitment is to provide an analytical language that can be checked and arguments that hold under stated conditions. It does not presuppose that the four families of empirical questions suffice to deduce all domain knowledge. Proofs of formal propositions, support from instance evidence, and the practical benefits of the method as a whole each have their own standards of judgment. As the range of application expands, domain mechanisms may be added, or a simpler and sufficient method may take over.
+The book's basic commitment is to provide an analytical language that can be checked and arguments that hold under stated conditions. It does not presuppose that the four empirical questions suffice to deduce all domain knowledge. Proofs of formal propositions, support from case evidence, and the practical benefits of the method as a whole each have their own standards of judgment. As the range of application expands, domain mechanisms may be added, or a simpler and sufficient method may take over.
 
 [^tn-circle-00]: Translator's note: Circles (圈层) may be parallel, nested, overlapping, or bridged.
 
 [^tn-foresight-00]: Translator's note: Here, foresight requires registration of a target, horizon, and baseline, as well as calibration; it is more restrictive than scenario planning.
-
-[^tn-contract-00]: Translator's note: A contract (合同) is an agreement registered and frozen before results are known, closer to pre-registration than to a legal document.
 
 </div>
 

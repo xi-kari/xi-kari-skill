@@ -1,6 +1,6 @@
 ---
 title: 下载与引用
-description: 获取网站现用的 v2.1 完整原文、英文参考译本所依据的 v2 原文和英文参考译本，查看文本身份和章节引用方式。
+description: 获取网站现用的 v2.1 完整原文、v2 原文、按 v2.1 修订的英文参考译本和作者的 v2 英译原件，查看文本身份和章节引用方式。
 ---
 
 # 下载与引用
@@ -21,7 +21,7 @@ v2.1 是作者认可的 v2 表述修订，只改了说法：句子更平实，�
 
 - <a href="/xi-kari-skill/handbook/downloads/Xikari-条件结构与转化论.v2.md" download>下载 v2 原文（2026 年 11 月 16 日）</a>
 
-英文参考译本译自这份原文。逐节讲解已按 v2.1 对齐，讲解里的行号、短引文和名称对应网站现用的原文。
+作者的英译原件译自这份原文；网站和安装包现用的英文参考译本已按 v2.1 修订。逐节讲解已按 v2.1 对齐，讲解里的行号、短引文和名称对应网站现用的原文。
 
 ## 引用一节原文
 
@@ -50,10 +50,11 @@ v2 原文（2026 年 11 月 16 日）：
 
 ## 英文参考译本
 
-英文参考译本译自 2026 年 11 月 16 日的 v2 原文，小节编号与中文一一对应。中文后来改写了表述，结构和小节编号没有变；两者有出入时以中文原文为准。
+英文参考译本是作者的 v2 英译，已按 v2.1 的表述逐节修订，小节、分部编号和段落都与中文一一对应；两者有出入时以中文原文为准。作者的 v2 英译原件保持原样，也可下载。
 
 - [进入英文阅读站](/en/)
-- <a href="/xi-kari-skill/handbook/downloads/Xikari-On-Conditions-Structure-and-Transformation.md" download>下载英文 Markdown 参考译本</a>
+- <a href="/xi-kari-skill/handbook/downloads/Xikari-On-Conditions-Structure-and-Transformation.md" download>下载英文 Markdown 参考译本（按 v2.1 修订）</a>
+- <a href="/xi-kari-skill/handbook/downloads/xikari-conditions-en.original.md" download>下载作者的 v2 英译原件（原样）</a>
 
 ## 历史研究材料
 

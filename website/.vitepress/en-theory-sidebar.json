@@ -25,7 +25,7 @@
         "link": "/en/theory/part-03"
       },
       {
-        "text": "Part 4 Empirical Questions, Outcome Contracts, and Conditional Formal Propositions",
+        "text": "Part 4 Empirical Questions, Conclusion Rules, and Conditional Formal Propositions",
         "link": "/en/theory/part-04"
       },
       {
@@ -73,7 +73,7 @@
     "collapsed": true,
     "items": [
       {
-        "text": "Part 13 Interfaces and Tools",
+        "text": "Part 13 Judgment Procedures and Tools",
         "link": "/en/theory/part-13"
       },
       {
@@ -95,51 +95,51 @@
     "collapsed": true,
     "items": [
       {
-        "text": "Appendix A Human Variable Interface Cards",
+        "text": "Appendix A The Human Variables in Detail",
         "link": "/en/theory/appendix-a/"
       },
       {
-        "text": "A.1 HV01 Structural Domain (Full Interface Card)",
+        "text": "A.1 Structural Domain (HV01)",
         "link": "/en/theory/appendix-a/a-01"
       },
       {
-        "text": "A.2 HV02 Boundaries and Interfaces (Full Interface Card)",
+        "text": "A.2 Boundaries and Interfaces (HV02)",
         "link": "/en/theory/appendix-a/a-02"
       },
       {
-        "text": "A.3 HV03 Orientation Anchor (Full Interface Card)",
+        "text": "A.3 Orientation Anchor (HV03)",
         "link": "/en/theory/appendix-a/a-03"
       },
       {
-        "text": "A.4 HV04 Generative Node (Full Interface Card)",
+        "text": "A.4 Generative Node (HV04)",
         "link": "/en/theory/appendix-a/a-04"
       },
       {
-        "text": "A.5 HV05 Action Uptake Layer (Full Interface Card)",
+        "text": "A.5 Action Uptake Layer (HV05)",
         "link": "/en/theory/appendix-a/a-05"
       },
       {
-        "text": "A.6 HV06 Drive–Uptake Chain (Full Interface Card)",
+        "text": "A.6 Drive–Uptake Chain (HV06)",
         "link": "/en/theory/appendix-a/a-06"
       },
       {
-        "text": "A.7 HV07 Feedback Write-Back (Full Interface Card)",
+        "text": "A.7 Feedback Write-Back (HV07)",
         "link": "/en/theory/appendix-a/a-07"
       },
       {
-        "text": "A.8 HV08 Conditional Potential Field (Full Interface Card)",
+        "text": "A.8 Conditional Potential Field (HV08)",
         "link": "/en/theory/appendix-a/a-08"
       },
       {
-        "text": "A.9 HV09 Structural Load (Full Interface Card)",
+        "text": "A.9 Structural Load (HV09)",
         "link": "/en/theory/appendix-a/a-09"
       },
       {
-        "text": "A.10 HV10 Evolutionary Phase (Full Interface Card)",
+        "text": "A.10 Evolutionary Phase (HV10)",
         "link": "/en/theory/appendix-a/a-10"
       },
       {
-        "text": "A.11 HV11 Open-Ended Undertaking (Full Interface Card)",
+        "text": "A.11 Open-Ended Undertaking Action (HV11)",
         "link": "/en/theory/appendix-a/a-11"
       }
     ]

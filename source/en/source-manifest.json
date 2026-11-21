@@ -2,45 +2,39 @@
   "title": "Xikari: On Conditions, Structure, and Transformation",
   "author": "Xikari",
   "language": "en",
-  "role": "user-supplied reference translation; the Chinese source governs",
+  "role": "user-supplied reference translation, revised to the current Chinese wording; the Chinese source governs",
   "source_file": "Xikari-On-Conditions-Structure-and-Transformation.md",
-  "sha256": "51795bb7988f2669a324a52666c320cfba1382f597f7b5c6a1431844572da1fb",
-  "bytes": 991563,
+  "sha256": "fcf100a5c8688d1e0337c52750ce3ad21fb5dbcc250f97946602ce094345f825",
+  "bytes": 1070002,
   "translates": {
     "source_file": "Xikari-条件结构与转化论.md",
-    "sha256": "6ef2e508474d4ac1ad07d7e4e068955342c405b5f680afcfc40d68cca3d0149c"
+    "sha256": "2128af7cfa4c63b58207521a375aa34c2aea230d47e1c04a5afec3334e290d28"
   },
   "alignment": {
     "sections": 397,
     "parts": 21,
-    "blocks": 2090
+    "blocks": 2542
   },
   "non_body_material": [
     {
       "kind": "copyright_notice",
-      "sha256": "0514b52e4dcc6603e727c760147c631e7f05329a25533149a74091cdcb98112c",
-      "bytes": 289
+      "sha256": "565790533da124505022afe2e6834fb3e9dd367991789304ffd402869d166917",
+      "bytes": 291
     },
     {
       "kind": "copyright_and_license",
-      "sha256": "626dc9d3293fecbaa78f8c4040e3c3164b2ad30c27d549da02fec95c37b7b9f9",
-      "bytes": 1284
+      "sha256": "6a91657eaa4e8c452e88c4e35b675d6ffb0f003a63b57caf84870182032d21c4",
+      "bytes": 1286
     }
   ],
-  "imported_from": {
-    "source_file": "upstream/xikari-conditions-en.md",
-    "uploaded_name": "xikari-conditions-en.md",
-    "sha256": "f59bcdb483027736ef973b43ffc0c0ce37d9cb5e67ab3f05c6c67d22a62e65a1",
-    "bytes": 1004435
+  "revision_of": {
+    "edition_sha256": "51795bb7988f2669a324a52666c320cfba1382f597f7b5c6a1431844572da1fb",
+    "translates": "6ef2e508474d4ac1ad07d7e4e068955342c405b5f680afcfc40d68cca3d0149c",
+    "supplied_manuscript_sha256": "f59bcdb483027736ef973b43ffc0c0ce37d9cb5e67ab3f05c6c67d22a62e65a1"
   },
-  "format_adaptations": [
-    "Decode UTF-8 (optional BOM) and normalize CRLF to LF for the reading edition; retain upstream bytes exactly.",
-    "Remove Chinese parenthetical glosses outside translator notes, code spans, and link targets.",
-    "Remove '(in Chinese)' from links targeting this document's own anchors."
-  ],
   "edition_notes": [
-    "Prose and translations are supplied by the user; no model retranslation is substituted.",
-    "Original definitional tuples and translator notes retain their wording and identifiers.",
+    "Revised at the user's request from the user-supplied translation of the previous Chinese wording, section by section against the current Chinese; the supplied English is kept wherever the Chinese meaning and structure did not change.",
+    "Concept names, replaced words and status words follow the current Chinese wording; codes remain only where the Chinese keeps them.",
     "Copyright and license material is preserved; only these located notices are excluded from body alignment.",
     "Structural alignment and source binding do not certify semantic accuracy or author approval."
   ]
