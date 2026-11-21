@@ -30,7 +30,7 @@
 
 需要深入研究或进入具体领域时，见[研究与领域工作](#研究与领域工作)：研究入口交出一份完整稿，主体报告在前、解释边界与问题为末章，领域映射保留当地词义、动作关系、数据口径与专业方法，核实过的用法可以存成领域卡留给下一次，另有八种成果模式（其中领域专论用来把一个领域做深）和有限计算工具。
 
-中英文都可以使用：用英文提问，成果就以英文写成。理论权威仍是中文原文；安装包另附作者提供、与原文逐节对齐的英文参考译本和中英术语表，用于英文术语与引文（见[英文工作](references/english.md)）。技能与[双语阅读站](https://xi-kari.github.io/xi-kari-skill/handbook/)均以 v2.1 为正文基准。v2.1 是 v2 的表述修订，小节与内容不变；英文参考译本译自 v2 的措辞，[英文站](https://xi-kari.github.io/xi-kari-skill/handbook/en/)可以连续阅读全书。
+中英文都可以使用：用英文提问，成果就以英文写成。理论权威仍是中文原文；安装包另附作者提供、与原文逐节对齐的英文参考译本和中英术语表，用于英文术语与引文（见[英文工作](references/english.md)）。技能与[双语阅读站](https://xi-kari.github.io/xi-kari-skill/handbook/)均以 v2.1 为正文基准。v2.1 是 v2 的表述修订，小节与内容不变；英文参考译本也已按 v2.1 修订，与中文逐节逐段对齐，[英文站](https://xi-kari.github.io/xi-kari-skill/handbook/en/)可以连续阅读全书。
 
 ## 这套理论在防什么
 
@@ -265,7 +265,7 @@ python "$skillRoot/scripts/domain_cards.py" --library "$taskRoot/领域卡" list
 - **[历史实测案例](https://github.com/xi-kari/xi-kari-skill/discussions?discussions_q=)**：Discussions 保留了基于 Xikari 8.3 的历史分析，供参考与讨论，不代表当前《Xikari-条件结构与转化论》及现行 Skill 的分析表现。
 - **[术语索引](https://xi-kari.github.io/xi-kari-skill/handbook/theory/appendix-b.html)**：附录 B 的编号体系与术语总表。
 - **权威文本**：[`source/Xikari-条件结构与转化论.md`](source/Xikari-条件结构与转化论.md)，身份（SHA-256）记录在 [`source/source-manifest.json`](source/source-manifest.json)。原文优先于技能的工程指引，也优先于模型对同名术语的既有理解。
-- **英文参考译本**：[`source/en/Xikari-On-Conditions-Structure-and-Transformation.md`](source/en/Xikari-On-Conditions-Structure-and-Transformation.md)，从[作者提供的英文原件](source/en/upstream/xikari-conditions-en.md)整理出阅读格式，保留原件与确定性导入记录。中英文共用全部小节和分部编号，文本身份记在 [`source/en/source-manifest.json`](source/en/source-manifest.json)。译本不取得独立权威，与中文看似不一致时以中文为准；术语见[中英术语表](references/glossary-en.md)。
+- **英文参考译本**：[`source/en/Xikari-On-Conditions-Structure-and-Transformation.md`](source/en/Xikari-On-Conditions-Structure-and-Transformation.md)，由作者提供的 v2 英译本逐节修订到 v2.1 的措辞，作者的原译本可在阅读站[下载页](https://xi-kari.github.io/xi-kari-skill/handbook/en/downloads)取得。中英文共用全部小节、分部编号和段落，文本身份与所修订的原译本记在 [`source/en/source-manifest.json`](source/en/source-manifest.json)。译本不取得独立权威，与中文看似不一致时以中文为准；术语见[中英术语表](references/glossary-en.md)。
 - **[项目主页](https://xi-kari.github.io/xi-kari-skill/)**：项目介绍、使用方式与研究进度。
 
 ## 边界

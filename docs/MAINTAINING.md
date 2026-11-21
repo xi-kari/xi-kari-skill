@@ -199,16 +199,19 @@ The concept lessons, real cases and full-text reading site are authored in
 Run `npm ci --prefix website`, then `npm run build --prefix website` to generate
 the static handbook. `python website/scripts/build_theory.py` prepares both
 languages by default; `--language zh`, `--language en` and `--language all`
-select the output. It reads the unchanged Chinese v2 manuscript and English
-reference edition in `source/`, checks their recorded identities, and generates
+select the output. It reads the Chinese manuscript and the English reference
+edition in `source/`, checks their recorded identities, and generates
 65 pages and 397 numbered sections for each language. The English routes live
 under `en/theory/`, with the same section identifiers as Chinese.
 
-The public downloads distinguish the Chinese v2 manuscript
-(`downloads/Xikari-条件结构与转化论.md`), the English reading edition
-(`downloads/Xikari-On-Conditions-Structure-and-Transformation.md`) and the
-unchanged author-supplied English original
-(`downloads/xikari-conditions-en.original.md`). The retained Word download is
+The public downloads distinguish the current Chinese manuscript, v2.1
+(`downloads/Xikari-条件结构与转化论.md`), the Chinese v2 text
+(`downloads/Xikari-条件结构与转化论.v2.md`), the English reference edition,
+which follows v2.1 (`downloads/Xikari-On-Conditions-Structure-and-Transformation.md`),
+and the author's unchanged English translation of v2
+(`downloads/xikari-conditions-en.original.md`). That file is kept in
+`website/public/downloads/`, from which the build copies it, and the build
+checks it against its recorded hash. The retained Word download is
 the first edition, not a v2 export: link it as
 `downloads/Xikari-条件结构与转化论.v1.docx` and label its edition. The old Word URL
 is kept for existing links. Never give an old Word file the current manuscript's
@@ -322,22 +325,28 @@ manifest. The Chinese manuscript in `source/` remains the only theory authority;
 the edition serves English terminology, quotation and English readers, and the
 skill reads it only as `references/english.md` describes.
 
-The reading edition is generated, not edited by hand. The current edition uses
-the author's single-file English manuscript, preserved byte for byte in
-`source/en/upstream/xikari-conditions-en.md`:
+The current edition is the author's English translation of v2, revised
+section by section to the v2.1 wording. It is written in with `--revision`,
+which accepts a text only when it shares every section, part anchor and
+paragraph block with the current Chinese source and has no Chinese glosses:
 
 ```powershell
-python scripts/build_english_edition.py --from-file <english-manuscript.md>
+python scripts/build_english_edition.py --revision <revised-edition.md>
 python scripts/build_english_edition.py --check
 ```
 
-The import normalizes encoding and line endings only in the reading copy,
-removes Chinese parenthetical glosses outside notes, code and link targets,
-and removes stale “(in Chinese)” labels from links to the text's own anchors.
-It preserves definitional tuples, translator notes, copyright and license
-wording. The manifest names the original file, its bytes and hash, the reading
-copy's identity, and the precise format adaptations. A semantic revision needs
-an updated translation; these format steps do not translate missing content.
+The manifest records the edition it revises (`revision_of`: that edition's
+hash, the Chinese text it translated and the author's supplied manuscript) and
+the located copyright and license material. A later rewording of the Chinese
+needs a revised translation in the same way; `--check` reports an edition that
+translates the earlier wording as such and compares only sections and parts.
+
+`--from-file <english-manuscript.md>` imports a new single-file manuscript
+supplied by the author. It keeps the original bytes under `source/en/upstream/`,
+normalizes encoding and line endings in the reading copy, removes Chinese
+parenthetical glosses outside notes, code and link targets, and removes stale
+“(in Chinese)” labels from links to the text's own anchors; the manifest names
+the original file and these format adaptations.
 
 The older `--from <translation directory>` route remains available for a
 page-by-page translation with `source-manifest.json`, Chinese page snapshots,
@@ -348,7 +357,9 @@ import; do not describe the current edition as having gone through that route.
 the manifest translates the current Chinese source, and that every section ID,
 part anchor and paragraph block aligns with the Chinese text; CI runs it. When the
 Chinese source changes, the check fails until the affected passages of the
-translation are revised and the edition is rebuilt. Rebuilding also changes the
+translation are revised and the edition is written in again, unless the Chinese
+manifest records the change as a rewording of the text the edition translates;
+then it compares sections and parts only. A new edition also changes the
 English edition hash recorded in the install manifest.
 
 ## Domain index
