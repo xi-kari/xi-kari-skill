@@ -9,7 +9,7 @@ Two queues contain (0,20) tasks or (10,10) tasks. Both have mean 10. If local ov
 
 ## What was lost, and what can be retained
 
-Once the two states have become the same recorded mean, no decoder using only that mean can distinguish them. This is the task-recovery condition (F1): all source states sharing a representation must require the same answer to the specified query.
+Once the two states have become the same recorded mean, no decoder using only that mean can distinguish them. This is the task-recovery condition: all source states sharing a representation must require the same answer to the specified query.
 
 The mean still answers mean and total-load questions correctly. Adding the maximum queue length is enough to answer local overload and maximum length. It does not reveal which position has the larger queue. If different positions have different service capacities, that missing location can matter to the next state.
 

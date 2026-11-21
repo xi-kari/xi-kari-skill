@@ -32,8 +32,8 @@ The [July 18 response](https://www.epa.gov/system/files/documents/2023-03/Respon
 
 ## Read the evidence without upgrading it
 
-[Effective feedback (D2)](/en/theory/part-03#section-3-3) requires a return channel to change a later state, probability, timing, or constraint relative to no return. A case-closing field is not the same as resolution of a hazard. A documented hotline rule change is not proof of implementation for every tip or safer drinking water.
+[The definition of effective feedback](/en/theory/part-03#section-3-3) requires a return channel to change a later state, probability, timing, or constraint relative to no return. A closed case in a tracking system is not the same as a resolved hazard. A documented hotline rule change is not proof of implementation for every tip or safer drinking water.
 
-[§6.3](/en/theory/part-06#section-6-3) requires further evidence for feedback-mediated learning: retained updates, later use, and a specified task comparison. The audit’s supported procedural findings remain valid even though it was not designed as a pre-registered test of a specified-channel effect (G2) or of a historical increment (G3). [§2.1.1](/en/theory/part-02#section-2-1-1) explicitly preserves independently supported domain evidence.
+[§6.3](/en/theory/part-06#section-6-3) requires further evidence for feedback-mediated learning: retained updates, later use, and a specified task comparison. The audit’s supported procedural findings remain valid even though it was not designed as a pre-registered channel-effect test or historical-increment test. [§2.1.1](/en/theory/part-02#section-2-1-1) explicitly preserves independently supported domain evidence.
 
 The historical reports and responses bound this page’s claims. It does not describe the systems’ current state or independently estimate health effects. Continue with [feedback](../concepts/feedback) and [history](../concepts/history).

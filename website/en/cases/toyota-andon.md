@@ -17,7 +17,7 @@ The company’s historical account records that in 1955 the Crown assembly line 
 
 ## Read the process through effective feedback
 
-[§3.3](/en/theory/part-03#section-3-3) asks what earlier state or output returns, through what channel, to which receiving position, and with what change to a later field. A signal’s visibility answers only part of that inquiry. In the process description, the useful next question is how the signal changes response and the conditions for continuing work.
+[§3.3](/en/theory/part-03#section-3-3) asks what earlier state or output returns, through what channel, to which receiving position, and what subsequent item it changes. A signal’s visibility answers only part of that inquiry. In the process description, the useful next question is how the signal changes response and the conditions for continuing work.
 
 The sources support an account of the published arrangement. They do not by themselves estimate the proportion of calls handled correctly, response times at a particular facility, or the independent causal contribution of Andon to quality. Those claims need appropriate observations and comparisons for a declared site, period, and task.
 

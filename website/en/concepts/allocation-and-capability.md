@@ -11,11 +11,11 @@ An allocation of practice, opportunity, or responsibility can help form capabili
 
 Check whether the relevant capability actually depends on practice and whether that practice is obtained mainly through the allocation in question. Then check whether current capability actually changes the next allocation. Prior differences, incentives, training duration, legal conditions, preferences, attrition, scarcity, discrimination, trust, and incumbents’ interests may provide competing or interacting explanations.
 
-The gap or concentration must widen relative to the starting point, and capability formation, retention, and later use need evidence under §4.5. If material is insufficient, retain a candidate. Formal mechanism support additionally requires the carrier-reproduction route of human uptake and intertemporal reproduction (C10, §4.13.3); repeated association alone does not qualify.
+The gap or concentration must widen relative to the starting point, and capability formation, retention, and later use need evidence under §4.5. If material is insufficient, retain a candidate. Formal mechanism support additionally requires evidence along the carrier route of the conclusion rule “Human Uptake and Intertemporal Reproduction” (§4.13.3); repeated association alone does not qualify.
 
 The capability difference can be real even if its formation was unequal. Recognizing its reality does not establish fair opportunity or dictate a future allocation rule. Conversely, unequal allocation among equally capable people may challenge the proposed capability-to-allocation link and require a different mechanism.
 
-Discriminating observations compare when the gap began, whether equally capable people receive comparable allocations, and whether predeclared, independently verifiable handover, training, or access conditions reduce the gap within a window appropriate to capability formation. Compare units with similarly tight resources but different allocation rules. Contrary observations require narrowing or withdrawing the affected link, not changing the meaning of genuine support after the outcome.
+Discriminating observations compare when the gap began, whether equally capable people receive comparable allocations, and whether handover, training, or access conditions, written in advance and independently verifiable, reduce the gap within a window appropriate to capability formation. Compare units with similarly tight resources but different allocation rules. Contrary observations require narrowing or withdrawing the affected link, not changing the meaning of genuine support after the outcome.
 
 ## Keep these judgments separate
 
@@ -45,4 +45,4 @@ No. The criterion must actually affect the later allocation; rhetoric alone does
 
 - Support or training conditions used in a comparison must be stated beforehand and independently verifiable. A lack of improvement cannot be excused afterward by asserting that the offered conditions were not genuine.
 
-Read the complete [source section §7.6.1](/en/theory/part-07#section-7-6-1) and its guide. This explanation follows theory v2; the [Chinese original](/en/downloads) remains authoritative.
+Read the complete [source section §7.6.1](/en/theory/part-07#section-7-6-1) and its guide. This explanation follows theory v2.1; the [Chinese original](/en/downloads) remains authoritative.

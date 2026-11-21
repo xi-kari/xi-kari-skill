@@ -5,7 +5,7 @@ description: "Keep uptake, costs, benefits, control, and justified duties distin
 
 # Doing the work does not settle all responsibility
 
-An **uptake carrier (CV)** executes, transmits, maintains, records, cares for, or repairs something. It may be a person, role, procedure, facility, or technical system. A **responsible party (RS)** is identified through an independent basis for a particular kind, scope, and period of responsibility.
+An **uptake carrier** executes, transmits, maintains, records, cares for, or repairs something. It may be a person, role, procedure, facility, or technical system. A **responsible party** is identified through an independent basis for a particular kind, scope, and period of responsibility.
 
 ## Follow both the work and the authority
 
