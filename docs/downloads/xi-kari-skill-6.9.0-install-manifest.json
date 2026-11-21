@@ -2,9 +2,9 @@
   "name": "xi-kari-skill",
   "version": "6.9.0",
   "archive": "xi-kari-skill-6.9.0-windows.zip",
-  "sha256": "ebe988679ed73127d672cf60d9d19a359eaa312d079ecbe2d0b3355b497e8ec8",
+  "sha256": "679ab2938a70dfaf820a6f04b979c809b9dc7f1ac78d210d57101240efd08050",
   "archive_root": "xi-kari-skill",
-  "bytes": 1635825,
+  "bytes": 1636349,
   "file_count": 199,
   "theory_source_sha256": "2128af7cfa4c63b58207521a375aa34c2aea230d47e1c04a5afec3334e290d28",
   "english_edition_sha256": "fcf100a5c8688d1e0337c52750ce3ad21fb5dbcc250f97946602ce094345f825",
@@ -436,8 +436,8 @@
     },
     {
       "path": "references/communication.md",
-      "bytes": 6557,
-      "sha256": "c7ca52fc060f6f94845a188eb62b9c7c506a92af906e5dec6b26752e52a1b436"
+      "bytes": 6680,
+      "sha256": "c04a08f300e248781a272cc8feb8c087790dde4a9fcfcb250e11b9230bbcb836"
     },
     {
       "path": "references/comparison-table.md",
@@ -541,8 +541,8 @@
     },
     {
       "path": "references/glossary-en.md",
-      "bytes": 52128,
-      "sha256": "91c02f10b909ff6810b396ae166cc369573176a7212507c28f4159f66b413e65"
+      "bytes": 53200,
+      "sha256": "b00430b5a188e8bd7955d74b935ab770739d60f4f4cdf3bc26ee7f1a89c1e884"
     },
     {
       "path": "references/host-setup.md",
