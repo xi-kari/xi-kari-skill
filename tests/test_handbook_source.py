@@ -19,8 +19,10 @@ from unittest import mock
 ROOT = Path(__file__).resolve().parents[1]
 WEBSITE = ROOT / "website"
 BUILT = ROOT / "docs" / "handbook"
-REWORDED_SHA256 = "2128af7cfa4c63b58207521a375aa34c2aea230d47e1c04a5afec3334e290d28"
+CURRENT_SHA256 = "0d9e445bcba84380a572d248dad4836013b735d7d33589f29ea0c6f1aeb61c10"
+V21_SHA256 = "2128af7cfa4c63b58207521a375aa34c2aea230d47e1c04a5afec3334e290d28"
 V2_SHA256 = "6ef2e508474d4ac1ad07d7e4e068955342c405b5f680afcfc40d68cca3d0149c"
+EN_CURRENT_SHA256 = "9c05fc5b7350d8e94b6456630c46798812214fc5a6b22a6ae7c58536441bb257"
 SPEC = importlib.util.spec_from_file_location("handbook_source", WEBSITE / "scripts/build_theory.py")
 builder = importlib.util.module_from_spec(SPEC)
 sys.modules[SPEC.name] = builder
@@ -55,44 +57,53 @@ class HandbookSourceTests(unittest.TestCase):
         cls.manifest = json.loads((WEBSITE / "public/source-map.json").read_text(encoding="utf-8"))
 
     def test_downloads_are_identical_to_the_selected_editions(self):
-        self.assertEqual(builder.SOURCE_SHA256, REWORDED_SHA256)
+        self.assertEqual(builder.SOURCE_SHA256, CURRENT_SHA256)
         self.assertEqual(hashlib.sha256(self.raw).hexdigest(), builder.SOURCE_SHA256)
         self.assertEqual(self.raw, builder.SOURCE.read_bytes())
+        # The handbook's copy is the skill's current text, byte for byte.
+        self.assertEqual(self.raw, (ROOT / "source" / f"{builder.TITLE}.md").read_bytes())
         word = (WEBSITE / "public/downloads" / f"{builder.TITLE}.docx").read_bytes()
         self.assertEqual(hashlib.sha256(word).hexdigest(), builder.DOCX_SHA256)
         self.assertEqual(self.manifest["source_sha256"], builder.SOURCE_SHA256)
-        self.assertEqual(self.manifest["theory_version"], "v2.1")
-        self.assertEqual(self.manifest["edition"], "表述修订稿")
-        self.assertEqual(self.manifest["source_date"], "2026-11-19")
+        self.assertEqual(self.manifest["theory_version"], "v3.0")
+        self.assertEqual(self.manifest["edition"], "内容修订稿")
+        self.assertEqual(self.manifest["source_date"], "2026-11-21")
         self.assertEqual(self.manifest["legacy_docx"]["theory_version"], "v1")
         self.assertEqual(self.manifest["legacy_docx"]["sha256"], builder.DOCX_SHA256)
         self.assertNotIn("docx_sha256", self.manifest)
 
-    def test_the_handbook_reads_its_own_copies_of_v2_1_and_v2(self):
-        for path in (builder.SOURCE, builder.V2_SOURCE, builder.EN_SOURCE):
+    def test_the_handbook_reads_its_own_copies_of_v3_0_v2_1_and_v2(self):
+        for path in (builder.SOURCE, builder.V21_SOURCE, builder.V2_SOURCE, builder.EN_SOURCE):
             self.assertTrue(path.is_relative_to(WEBSITE / "content"), path)
-        self.assertEqual(hashlib.sha256(builder.SOURCE.read_bytes()).hexdigest(), REWORDED_SHA256)
+        self.assertEqual(hashlib.sha256(builder.SOURCE.read_bytes()).hexdigest(), CURRENT_SHA256)
+        self.assertEqual(hashlib.sha256(builder.V21_SOURCE.read_bytes()).hexdigest(), V21_SHA256)
         self.assertEqual(hashlib.sha256(builder.V2_SOURCE.read_bytes()).hexdigest(), V2_SHA256)
         self.assertEqual(hashlib.sha256(builder.EN_SOURCE.read_bytes()).hexdigest(), builder.EN_SOURCE_SHA256)
 
-    def test_v2_download_is_byte_identical_to_the_v2_source(self):
-        v2 = builder.V2_SOURCE.read_bytes()
-        self.assertEqual(builder.V2_SHA256, V2_SHA256)
+    def test_earlier_downloads_are_byte_identical_to_their_sources(self):
+        v21, v2 = builder.V21_SOURCE.read_bytes(), builder.V2_SOURCE.read_bytes()
+        self.assertEqual((builder.V21_SHA256, builder.V2_SHA256), (V21_SHA256, V2_SHA256))
+        self.assertEqual((WEBSITE / "public/downloads" / f"{builder.TITLE}.v2.1.md").read_bytes(), v21)
         self.assertEqual((WEBSITE / "public/downloads" / f"{builder.TITLE}.v2.md").read_bytes(), v2)
-        self.assertEqual(self.manifest["previous_edition"], {
-            "theory_version": "v2", "language": "zh", "sha256": V2_SHA256, "bytes": len(v2),
-            "path": f"/downloads/{builder.TITLE}.v2.md", "source_date": "2026-11-16"})
+        # Newest first: the text v3.0 revises, then v2 as first published.
+        self.assertEqual(self.manifest["previous_editions"], [
+            {"theory_version": "v2.1", "language": "zh", "sha256": V21_SHA256, "bytes": len(v21),
+             "path": f"/downloads/{builder.TITLE}.v2.1.md", "source_date": "2026-11-19"},
+            {"theory_version": "v2", "language": "zh", "sha256": V2_SHA256, "bytes": len(v2),
+             "path": f"/downloads/{builder.TITLE}.v2.md", "source_date": "2026-11-16"}])
+        self.assertNotIn("previous_edition", self.manifest)
 
-    def test_changed_v2_source_fails_before_creating_pages(self):
-        with tempfile.TemporaryDirectory(prefix="xikari-handbook-v2-") as directory:
-            root = Path(directory)
-            changed = root / "v2.md"
-            changed.write_bytes(builder.V2_SOURCE.read_bytes() + b"\n")
-            destination = root / "site"
-            with mock.patch.object(builder, "V2_SOURCE", changed):
-                with self.assertRaisesRegex(ValueError, "v2 manuscript"):
-                    builder.build(destination, self.source)
-            self.assertFalse(destination.exists())
+    def test_changed_earlier_source_fails_before_creating_pages(self):
+        for attribute, label in (("V2_SOURCE", "v2"), ("V21_SOURCE", "v2.1")):
+            with self.subTest(edition=label), tempfile.TemporaryDirectory(prefix="xikari-handbook-earlier-") as directory:
+                root = Path(directory)
+                changed = root / f"{label}.md"
+                changed.write_bytes(getattr(builder, attribute).read_bytes() + b"\n")
+                destination = root / "site"
+                with mock.patch.object(builder, attribute, changed):
+                    with self.assertRaisesRegex(ValueError, f"The {re.escape(label)} manuscript"):
+                        builder.build(destination, self.source)
+                self.assertFalse(destination.exists())
 
     def test_default_build_uses_the_handbooks_selected_edition(self):
         with tempfile.TemporaryDirectory(prefix="xikari-handbook-default-") as directory:
@@ -103,6 +114,8 @@ class HandbookSourceTests(unittest.TestCase):
             self.assertEqual((destination / "public/downloads" / self.source.name).read_bytes(), self.raw)
             self.assertEqual((destination / "public/downloads" / f"{builder.TITLE}.v2.md").read_bytes(),
                              builder.V2_SOURCE.read_bytes())
+            self.assertEqual((destination / "public/downloads" / f"{builder.TITLE}.v2.1.md").read_bytes(),
+                             builder.V21_SOURCE.read_bytes())
             self.assertEqual(manifest["pages"], self.manifest["pages"])
 
     def test_page_spans_cover_each_source_line_once_in_reading_order(self):
@@ -245,7 +258,10 @@ class HandbookSourceTests(unittest.TestCase):
         self.assertEqual(stored["units"], units)
         self.assertEqual(len(units), 421)
         self.assertEqual(sum(unit["section_id"] is not None for unit in units), 397)
-        self.assertEqual(sum(unit["heading_level"] == 3 for unit in units), 147)
+        # v3.0 sets §2.3.1 and §11.9.1 one level lower than v2.1 did; their numbers do not change.
+        self.assertEqual(sum(unit["heading_level"] == 3 for unit in units), 149)
+        levels = {unit["lesson_key"]: unit["heading_level"] for unit in units}
+        self.assertEqual((levels["2.3"], levels["2.3.1"], levels["11.9"], levels["11.9.1"]), (2, 3, 2, 3))
         self.assertEqual(len({unit["lesson_key"] for unit in units}), 421)
         covered = Counter()
         for unit in units:
@@ -394,14 +410,17 @@ class BilingualHandbookTests(unittest.TestCase):
         self.assertEqual(self.manifest["canonical_chinese_sha256"], builder.SOURCE_SHA256)
 
     def test_english_edition_names_the_chinese_text_it_translates(self):
-        # The reference edition follows v2.1; the author's English translation of v2 stays downloadable.
+        # The reference edition follows v3.0; the author's English translation of v2 stays downloadable.
         self.assertEqual(self.manifest["translates_chinese_sha256"], builder.SOURCE_SHA256)
-        self.assertEqual(self.manifest["theory_version"], "v2.1")
-        self.assertEqual(self.manifest["source_date"], "2026-11-20")
+        self.assertEqual(self.manifest["source_sha256"], EN_CURRENT_SHA256)
+        self.assertEqual(self.raw, (ROOT / "source/en" / builder.EN_FILE).read_bytes())
+        self.assertEqual(self.manifest["theory_version"], "v3.0")
+        self.assertEqual(self.manifest["source_date"], "2026-11-21")
         self.assertNotIn("edition", self.manifest)
         self.assertEqual(self.manifest["author_original"]["theory_version"], "v2")
         chinese = json.loads((WEBSITE / "public/source-map.json").read_text(encoding="utf-8"))
-        self.assertEqual(chinese["previous_edition"]["sha256"], self.manifest["author_original"]["translates_chinese_sha256"])
+        v2 = next(item for item in chinese["previous_editions"] if item["theory_version"] == "v2")
+        self.assertEqual(v2["sha256"], self.manifest["author_original"]["translates_chinese_sha256"])
         self.assertNotIn("translates_chinese_sha256", chinese)
 
     def test_all_numbered_sections_keep_the_same_route_and_anchor_across_languages(self):
@@ -572,7 +591,7 @@ class LessonEditionNoticeTests(unittest.TestCase):
                     # the notice opens the lesson, directly under its heading
                     self.assertRegex(block, r'</header>(?:<!--[^>]*-->|\s)*<p class="xk-lesson__edition">')
                     noticed += 1
-        # The Chinese lessons are aligned with v2.1 and bound to it, so none says it follows
+        # The Chinese lessons are aligned with v3.0 and bound to it, so none says it follows
         # another text; the notice stays for any lesson that later falls behind the source.
         self.assertEqual(noticed, 0)
         self.assertEqual({lesson.get("sourceHash") for lesson in lessons.values()} - {None}, {identity})
@@ -593,6 +612,9 @@ class LessonEditionNoticeTests(unittest.TestCase):
         page = (BUILT / "downloads.html").read_text(encoding="utf-8")
         self.assertIn('id="v2-original"', page)
         self.assertIn(f'href="/xi-kari-skill/handbook/downloads/{builder.TITLE}.v2.md"', page)
+        # v2.1, the text v3.0 revises, stays downloadable beside it.
+        self.assertIn('id="v2-1-original"', page)
+        self.assertIn(f'href="/xi-kari-skill/handbook/downloads/{builder.TITLE}.v2.1.md"', page)
 
 
 BACK_TO_SOURCE = re.compile(r"^## 回到原文\n(.*?)(?=^## |\Z)", re.M | re.S)
