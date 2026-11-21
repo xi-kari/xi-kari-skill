@@ -25,7 +25,9 @@ V2_SOURCE = WEBSITE / "content/theory-source" / f"{TITLE}.v2.md"
 V2_SHA256 = "6ef2e508474d4ac1ad07d7e4e068955342c405b5f680afcfc40d68cca3d0149c"
 V2_FILE = f"{TITLE}.v2.md"
 V2_DATE = "2026-11-16"
-# The English reference edition follows v2.1; it revises the author's English translation of v2.
+# The English reference edition for v2.1, from the handbook's own copy; it revises the author's English
+# translation of v2. The skill's source/en may move on to a later text before the handbook does.
+EN_SOURCE = WEBSITE / "content/theory-source" / EN_FILE
 EN_SOURCE_SHA256 = "fcf100a5c8688d1e0337c52750ce3ad21fb5dbcc250f97946602ce094345f825"
 EN_DATE = "2026-11-20"
 # The author's English translation of v2 stays downloadable, unchanged, from the handbook's own copy.
@@ -325,7 +327,7 @@ def build(website: Path = WEBSITE, source: Path | None = None, docx: Path | None
     en = language == "en"
     title = EN_TITLE if en else TITLE
     expected_hash = EN_SOURCE_SHA256 if en else SOURCE_SHA256
-    source = source or (ROOT / "source/en" / EN_FILE if en else SOURCE)
+    source = source or (EN_SOURCE if en else SOURCE)
     data = source.read_bytes()
     if sha256(data) != expected_hash:
         raise ValueError("The canonical manuscript does not match the selected source identity")

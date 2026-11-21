@@ -69,10 +69,11 @@ class HandbookSourceTests(unittest.TestCase):
         self.assertNotIn("docx_sha256", self.manifest)
 
     def test_the_handbook_reads_its_own_copies_of_v2_1_and_v2(self):
-        for path in (builder.SOURCE, builder.V2_SOURCE):
+        for path in (builder.SOURCE, builder.V2_SOURCE, builder.EN_SOURCE):
             self.assertTrue(path.is_relative_to(WEBSITE / "content"), path)
         self.assertEqual(hashlib.sha256(builder.SOURCE.read_bytes()).hexdigest(), REWORDED_SHA256)
         self.assertEqual(hashlib.sha256(builder.V2_SOURCE.read_bytes()).hexdigest(), V2_SHA256)
+        self.assertEqual(hashlib.sha256(builder.EN_SOURCE.read_bytes()).hexdigest(), builder.EN_SOURCE_SHA256)
 
     def test_v2_download_is_byte_identical_to_the_v2_source(self):
         v2 = builder.V2_SOURCE.read_bytes()
@@ -378,7 +379,7 @@ class HandbookSourceTests(unittest.TestCase):
 class BilingualHandbookTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.raw = (ROOT / "source/en" / builder.EN_FILE).read_bytes()
+        cls.raw = builder.EN_SOURCE.read_bytes()
         cls.lines, cls.pages = builder.split_source(cls.raw.decode("utf-8"), "en")
         cls.manifest = json.loads((WEBSITE / "public/en/source-map.json").read_text(encoding="utf-8"))
 

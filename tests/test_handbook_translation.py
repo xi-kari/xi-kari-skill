@@ -39,7 +39,7 @@ class CompleteEnglishLessonTests(unittest.TestCase):
     def test_translations_remain_bound_to_each_chinese_lesson_and_the_reference_text(self):
         for record in self.binding['sources'] + [self.binding['translation']]:
             self.assertEqual(digest((WEBSITE / record['path']).read_bytes()), record['sha256'], record['path'])
-        source_hash = digest((ROOT / 'source/en/Xikari-On-Conditions-Structure-and-Transformation.md').read_bytes())
+        source_hash = digest((WEBSITE / 'content/theory-source/Xikari-On-Conditions-Structure-and-Transformation.md').read_bytes())
         for key, chinese in self.chinese.items():
             english = self.english[key]
             expected = digest(json.dumps(chinese, ensure_ascii=False, sort_keys=True, separators=(',', ':')).encode())
@@ -73,7 +73,7 @@ class CompleteEnglishLessonTests(unittest.TestCase):
             compare(original, self.english[key], key)
 
     def test_quotes_are_actual_author_reference_text_and_archives_keep_their_identity(self):
-        source = (ROOT / 'source/en/Xikari-On-Conditions-Structure-and-Transformation.md').read_text(encoding='utf-8')
+        source = (WEBSITE / 'content/theory-source/Xikari-On-Conditions-Structure-and-Transformation.md').read_text(encoding='utf-8')
         for key, original in self.chinese.items():
             translated = self.english[key]
             for quote in translated.get('sourceQuotes', []):
