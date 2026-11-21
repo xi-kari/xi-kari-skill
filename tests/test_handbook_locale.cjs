@@ -234,10 +234,10 @@ const server = http.createServer((request, response) => {
       await page.waitForURL(/\/en\/theory\/part-01\.html#lesson-1-1$/);
       await page.waitForFunction(() => document.documentElement.lang === 'en');
 
-      // Field names and translation notes survive the Markdown/Vue rendering pipeline.
-      await page.goto(base + 'en/theory/part-16.html');
+      // Underscored notation and translation notes survive the Markdown/Vue rendering pipeline.
+      await page.goto(base + 'en/theory/part-04.html');
       const code = await page.locator('.theory-source code').allTextContents();
-      assert.ok(code.some(text => text.includes('_')), 'The source must retain underscored field names.');
+      assert.ok(code.some(text => text.includes('_')), 'The source must retain underscored notation such as x_t.');
       assert.ok(code.every(text => !text.includes('&#95;') && !text.includes('\\_')), 'Code must not display escaped underscore markup.');
       await page.goto(base + 'en/theory/part-03.html');
       const footnote = page.locator('a.footnote-ref, .footnote-ref a').first();

@@ -98,10 +98,9 @@ class HandbookPrimerTests(unittest.TestCase):
                 units = json.loads((content / 'reading-units.json').read_text(encoding='utf-8'))['units']
                 headings = {unit['website_source_route']: unit['title_exact'] for unit in units if unit.get('website_source_route')}
                 rows = {(code, squeeze(name)) for code, name in TABLE_NAME.findall((ROOT / paths['source']).read_text(encoding='utf-8'))}
-                # The English reference text still uses codes in its sentences, so one part shows many
-                # lists. The reworded Chinese keeps codes in headings and Appendix B, so its sections list
+                # Both texts keep codes in headings, Appendix B and notation, so their sections list
                 # few or none: every page is read for them.
-                pages = [BUILT / paths['built']] if locale == 'en' else sorted((BUILT / 'theory').rglob('*.html'))
+                pages = sorted((BUILT / ('en/theory' if locale == 'en' else 'theory')).rglob('*.html'))
                 legends = {}
                 for page in pages:
                     page_route = '/' + page.relative_to(BUILT).as_posix().removesuffix('.html').removesuffix('index')
@@ -123,12 +122,8 @@ class HandbookPrimerTests(unittest.TestCase):
                                         or (code, squeeze(name)) in rows, (place, code, name))
                         # a code set in brackets after its name ("有效反馈（D2）") leaves no empty brackets
                         self.assertNotRegex(name, r'[（(]\s*[)）]', (place, code))
-                if locale == 'en':
-                    part = {place.split('#')[1]: [code for _, code, _ in links] for place, links in legends.items()}
-                    self.assertGreater(len(part), 5)
-                    # a section does not list the code its own heading defines
-                    self.assertNotIn('D0', part.get('section-3-1', []))
-                    self.assertIn('D0', {code for codes in part.values() for code in codes})
+                        # a section does not list the code its own heading defines
+                        self.assertNotEqual(target, place, (place, code))
 
     def test_a_numbered_section_set_as_a_page_title_carries_the_strip_and_a_part_title_does_not(self):
         for prefix in ('', 'en/'):

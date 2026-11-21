@@ -1,27 +1,21 @@
 ---
-title: "Appendix A Human Variable Interface Cards"
+title: "Appendix A The Human Variables in Detail"
 ---
 
 <div v-pre class="theory-source">
 
 <a id="part_17"></a>
 
-# Appendix A Human Variable Interface Cards {#part-title-17}
+# Appendix A The Human Variables in Detail {#part-title-17}
 
-This appendix contains the complete interface cards for the 11 human variables (HV01–HV11) in Part 7. Each card is organized into five sections, A–E. A covers identity, proposition, and scope. B covers formal dependencies and limits on conclusions. C covers the nine-axis scale and object contract.[^tn-contract-18] D covers state, evidence, and variable flows. E covers uptake, responsibility, normative status, ceilings, and correction.
+This appendix describes the eleven human variables of Part 7 one by one. Each is described in five groups: proposition and scope of application; grounds and limits on conclusions; scale and object; state, evidence, and relations between variables; and uptake, responsibility, ceilings, and correction.
 
-The 11 cards below set out all 39 formal fields for each variable. The fields specify the structure of the contract. Collect specific evidence as required by the selected route, taking each item’s relevance to the task into account. Record inapplicability, unknowns, material not yet collected, and material unavailable for reasons of protection separately. Completing the form is no prerequisite for ordinary services or understanding. An empty dependency set is explicitly written as “None (empty set).” It means only that nothing is registered for that kind of dependency. It does not establish that evidence is sufficient or that an empirical claim holds. Read each conditional support route as a whole. Favorable conditions from different routes must not be combined after the fact.
+The items describe the structure of a variable; specific evidence needs to be obtained according to the selected support route and what the task requires. Record separately what is not applicable, unknown, not yet collected, and withheld for protection. Filling in every item is not a precondition for providing everyday help or for forming an understanding. “None” written for a kind of grounds means only that nothing is listed of that kind. It does not mean that the evidence is sufficient or that an empirical claim holds. Each support route must be read as a whole, one route at a time. Favorable conditions from different routes must not be pieced together after the fact.
 
 </div>
 
 <SectionLesson section="intro-17-appendix-a" />
 
 <div v-pre class="theory-source">
-
-<!-- source-note-copies:start -->
-
-[^tn-contract-18]: Translator's note: A contract here is an analytical agreement registered and frozen before results, akin to pre-registration.
-
-<!-- source-note-copies:end -->
 
 </div>

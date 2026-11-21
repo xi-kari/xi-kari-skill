@@ -1,6 +1,6 @@
 # 安装与宿主适配
 
-本版本的安装包为 **`xi-kari-skill-6.8.1-windows.zip`**。使用实际交付的安装包，或通过对应 Release 页面提供的下载链接取得。解压后只得到一个`xi-kari-skill`文件夹，将整个文件夹放入宿主的技能目录，使最终位置为`<技能目录>/xi-kari-skill/SKILL.md`。
+本版本的安装包为 **`xi-kari-skill-6.9.0-windows.zip`**。使用实际交付的安装包，或通过对应 Release 页面提供的下载链接取得。解压后只得到一个`xi-kari-skill`文件夹，将整个文件夹放入宿主的技能目录，使最终位置为`<技能目录>/xi-kari-skill/SKILL.md`。
 
 同一 Release 页面还提供逐文件清单 `install-manifest.json` 与 `SHA256SUMS` 的下载链接。安装前，在下载目录运行下面的命令，把输出的哈希与该版本`SHA256SUMS`中的对应行对照，一致后再解压：
 
@@ -28,9 +28,9 @@ Get-FileHash -Path .\xi-kari-skill-*-windows.zip -Algorithm SHA256
 
 ## 理论版本与双语阅读
 
-6.8.1 安装包使用《Xikari-条件结构与转化论》v2，包含中文权威正文、作者提供的英文原件、整理后的英文参考阅读稿及中英术语表。中文与英文共用全部 397 个编号小节；文本身份分别见 `source/source-manifest.json` 和 `source/en/source-manifest.json`。阅读稿与原件是不同文件，更新时应一起替换，不单独覆盖其中一份。
+6.9.0 安装包使用《Xikari-条件结构与转化论》v2.1，包含中文权威正文、按 v2.1 修订的英文参考译本及中英术语表。中文与英文共用全部 397 个编号小节、分部编号和段落；文本身份分别见 `source/source-manifest.json` 和 `source/en/source-manifest.json`，更新时两份一起替换。
 
-[中文精读站](https://xi-kari.github.io/xi-kari-skill/handbook/)和[英文阅读站](https://xi-kari.github.io/xi-kari-skill/handbook/en/)都可直接在浏览器阅读，无需安装技能。站点与安装包共用 v2 正文；中英文均提供全部 421 个网页讲解单元，英文包含完整参考正文以及讲解、例子、问答和来源说明的译文。原图配英文说明，历史研究附件保留中文并明确标注。下载页另保留标为第一版的旧 Word，它不对应当前 v2。
+[中文精读站](https://xi-kari.github.io/xi-kari-skill/handbook/)和[英文阅读站](https://xi-kari.github.io/xi-kari-skill/handbook/en/)都可直接在浏览器阅读，无需安装技能。站点与安装包共用 v2.1 正文；中英文均提供全部 421 个网页讲解单元，英文包含完整参考正文以及讲解、例子、问答和来源说明的译文。原图配英文说明，历史研究附件保留中文并明确标注。下载页另保留 v2 中文正文、作者的 v2 英译原件和标为第一版的旧 Word，它们都不是当前正文。
 
 英文工作仍按 `references/english.md` 使用中文权威正文和英文参考稿。网页上的译文、讲解与案例不替代技能要求的原文学习。
 
