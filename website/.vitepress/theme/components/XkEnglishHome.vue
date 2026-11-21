@@ -102,7 +102,7 @@ const notePath = (card: any) => `${card.route}#lesson-${card.key.toLowerCase().r
     <dl class="xk-idstrip">
       <div class="xk-idstrip__wide xk-idstrip__book"><dt>Book</dt><dd>On Conditions, Structure, and Transformation</dd></div>
       <div><dt>Author</dt><dd>Xikari</dd></div>
-      <div><dt>Edition</dt><dd>v2.1 · English reference</dd></div>
+      <div><dt>Edition</dt><dd>v3.0 · English reference</dd></div>
       <div><dt>Structure</dt><dd>16 parts, 4 appendices</dd></div>
       <div><dt>Reading notes</dt><dd>{{ cards.length }} units</dd></div>
     </dl>
@@ -128,7 +128,7 @@ const notePath = (card: any) => `${card.route}#lesson-${card.key.toLowerCase().r
     </section>
     <section class="xk-home__sec xk-english-scope">
       <h2 class="xk-home__h">What is available in English</h2>
-      <p>The complete text is available in 65 reading pages, with all 397 numbered sections and every paragraph aligned to the Chinese v2.1. All 421 Chinese reading lessons are translated, including explanations, argument steps, examples, questions and answers, and source notes. Original figures have English descriptions. Archived research files retain their original Chinese language and dates. The Chinese source governs if the two texts differ.</p>
+      <p>The complete text is available in 65 reading pages, with all 397 numbered sections and every paragraph aligned to the Chinese v3.0. All 421 Chinese reading lessons are translated, including explanations, argument steps, examples, questions and answers, and source notes. Original figures have English descriptions. Archived research files retain their original Chinese language and dates. The Chinese source governs if the two texts differ.</p>
       <p><a class="xk-link" :href="pageHref('/en/guide/')">Using the reader and comparing languages</a></p>
     </section>
     <section v-if="cards.length" id="lessons" class="xk-home__sec" aria-labelledby="xk-h-lessons">
@@ -159,9 +159,9 @@ const notePath = (card: any) => `${card.route}#lesson-${card.key.toLowerCase().r
     </section>
     <section class="xk-home__sec xk-dl" aria-labelledby="xk-h-dl">
       <h2 id="xk-h-dl" class="xk-home__h">Downloads and citation</h2>
-      <p>Download the English reference edition, the Chinese v2.1 text it follows, and the earlier texts: the Chinese v2 and the author’s English translation of it. Cite the author, edition, section number, and corresponding page.</p>
+      <p>Download the English reference edition, the Chinese v3.0 text it follows, and the earlier texts: the Chinese v2.1 and v2, and the author’s English translation of v2. Cite the author, edition, section number, and corresponding page.</p>
       <p><a class="xk-sign xk-sign--go" :href="pageHref('/en/downloads')">Download the texts</a></p>
-      <div class="xk-cite"><code>Xikari, On Conditions, Structure, and Transformation, v2.1, §3.3. English reference edition.</code></div>
+      <div class="xk-cite"><code>Xikari, On Conditions, Structure, and Transformation, v3.0, §3.3. English reference edition.</code></div>
     </section>
   </div>
 </template>

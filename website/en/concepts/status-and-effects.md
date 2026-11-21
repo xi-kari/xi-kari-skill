@@ -39,4 +39,4 @@ No. Effectiveness does not supply the applicable constitutive conditions for aut
 
 - Legal validity and normative justification remain distinct.
 
-Read the complete [source section §2.4.3](/en/theory/part-02#section-2-4-3) and its guide. This explanation follows theory v2.1; the [Chinese original](/en/downloads) remains authoritative.
+Read the complete [source section §2.4.3](/en/theory/part-02#section-2-4-3) and its guide. This explanation follows theory v3.0; the [Chinese original](/en/downloads) remains authoritative.

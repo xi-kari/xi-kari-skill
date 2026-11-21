@@ -45,4 +45,4 @@ No. The criterion must actually affect the later allocation; rhetoric alone does
 
 - Support or training conditions used in a comparison must be stated beforehand and independently verifiable. A lack of improvement cannot be excused afterward by asserting that the offered conditions were not genuine.
 
-Read the complete [source section §7.6.1](/en/theory/part-07#section-7-6-1) and its guide. This explanation follows theory v2.1; the [Chinese original](/en/downloads) remains authoritative.
+Read the complete [source section §7.6.1](/en/theory/part-07#section-7-6-1) and its guide. This explanation follows theory v3.0; the [Chinese original](/en/downloads) remains authoritative.

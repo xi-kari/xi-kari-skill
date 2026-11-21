@@ -41,4 +41,4 @@ No. The affected claims and subsequent responsibilities remain; the ledger must 
 
 - Nonwaivable requirements cannot be traded away by a framework score.
 
-Read the complete [source section §14.9.1](/en/theory/part-14#section-14-9-1) and its guide. This explanation follows theory v2.1; the [Chinese original](/en/downloads) remains authoritative.
+Read the complete [source section §14.9.1](/en/theory/part-14#section-14-9-1) and its guide. This explanation follows theory v3.0; the [Chinese original](/en/downloads) remains authoritative.
