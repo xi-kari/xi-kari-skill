@@ -6515,11 +6515,11 @@
       "figures": [
         {
           "path": "/reading-assets/S-1-7/figures/protection.png",
-          "alt": "Five boxes for subjecthood, objection, exit, traceable responsibility, and genuine restoration; the bottom states that inability to exit is not consent, difficulty expressing oneself is not absence of objection, and unwillingness to disclose is not absence of loss.",
+          "alt": "Five boxes for a person’s standing as a subject, channels for dissent, the possibility of exit, traceable responsibility, and actual restoration; a sixth box notes that least harm and proportionality are two principles of choice used together with the protection floor (§14.4), not items of it; the bottom states that inability to exit is not consent, difficulty expressing oneself is not absence of objection, and unwillingness to disclose is not absence of loss.",
           "caption": "Protection-conditions diagram prepared by the lesson author; the boxes represent normative responsibilities, not proof that protection actually exists, nor an automatic determination of what silent people want."
         }
       ],
-      "diagramBrief": "Figure 1 consists of five protection boxes and three nonequivalences at the bottom: protection must be usable; staying, silence, and limited disclosure do not automatically settle questions of consent or loss. A separate Figure 2 is unnecessary: the mathematical construction already preserves both states in full prose.",
+      "diagramBrief": "Figure 1 consists of five protection boxes, one box on the principles of choice used alongside them, and three nonequivalences at the bottom: protection must be usable; staying, silence, and limited disclosure do not automatically settle questions of consent or loss. A separate Figure 2 is unnecessary: the mathematical construction already preserves both states in full prose.",
       "applicability": {
         "realCase": "applicable",
         "diagram": "applicable",
@@ -6697,7 +6697,7 @@
       "editionNote": "This page’s source text, section locations and lesson wording correspond to v3.0; historical research attachments and prior external-reading records retain their own versions and scopes.",
       "translationOf": {
         "language": "zh",
-        "lesson_sha256": "be5d7cea39480f68dfbcf7925d4183db11ea46494f97feb0d4487f52981bb0fb",
+        "lesson_sha256": "90227c98819ea31e1fb09107822ec281d54399043328b7904b3b7af76241fe68",
         "source_sha256": "0d9e445bcba84380a572d248dad4836013b735d7d33589f29ea0c6f1aeb61c10"
       }
     },
@@ -32945,7 +32945,7 @@
         },
         {
           "path": "/reading-assets/S-4-13/figures/c10-branches.png",
-          "alt": "Current uptake; carrier reproduction additionally requires multiple cycles; historical increment additionally requires a historical-increment test; historical-carrier traces additionally require a “Historical Trace Carriers” test; restricting the historical-increment route to a specific carrier requires both tests to yield support.",
+          "alt": "Four branches: current uptake, responsibility classification plus the channel specified by the channel-effect test; carrier reproduction, retention, replenishment or replacement across several periods, actual continuity, and causal evidence; historical-increment intertemporal reproduction, an added historical-increment test for the historical increment beyond the current representation; historical-carrier traces, an added “Historical Trace Carriers” test, recognizing candidate traces only within the carrier and window it supports; restricting the historical-increment route to a specific carrier requires both tests to yield support and the same historical variable defined in advance.",
           "caption": "An evidence-route diagram by the author of this guide; no actual personnel arrangements were made."
         }
       ],
@@ -33495,7 +33495,7 @@
       "editionNote": "This page’s source text, section locations and lesson wording correspond to v3.0; historical research attachments and prior external-reading records retain their own versions and scopes.",
       "translationOf": {
         "language": "zh",
-        "lesson_sha256": "a5c2e5b8c5dc1cccfa2d6bb8a3c49984c4105b44b66bf5fb64807cc3cac90167",
+        "lesson_sha256": "71c5a47a1ada1b0827df0de08763be88a9b8997cda416ebdc4c6b42d24acaea2",
         "source_sha256": "0d9e445bcba84380a572d248dad4836013b735d7d33589f29ea0c6f1aeb61c10"
       }
     },
@@ -46049,7 +46049,7 @@
       "editionNote": "This page’s source text, section locations and lesson wording correspond to v3.0; historical research attachments and prior external-reading records retain their own versions and scopes.",
       "translationOf": {
         "language": "zh",
-        "lesson_sha256": "ff640980bd1c07bf9ee731e9b6a90b5e5b18d9ace250cf3a63b3c790337c08b5",
+        "lesson_sha256": "89ee71d97229a0094b27c72c18c3087478bd512d7d8e74f39be903501d67b5e0",
         "source_sha256": "0d9e445bcba84380a572d248dad4836013b735d7d33589f29ea0c6f1aeb61c10"
       }
     },
@@ -55492,8 +55492,8 @@
       "figures": [
         {
           "path": "/reading-assets/S-7-3/figures/section-7-3.png",
-          "alt": "Identity and question: 5 items, who / what is asked / when to pause, scope and proposition role; inferential position: 7 items, four dependency types + conditional routes, permitted and prohibited inferences; scale and transfer: 7 items, nine axes / object / preservation and loss, additions and elevations that are prohibited; observation and effects: 9 items, signals / evidence / inputs and outputs, windows / uncertainty / positions; carriers and limits: 8 items, carrier / responsibility / normative ceilings, counterexamples / appeal / restoration; each route: 7 items, when / additional prerequisites and method requirements, conclusion and result ceiling. 5+7+7+9+8=36; the 7 items in each conditional route are nested content, not additional independent evidence.",
-          "caption": "8+7+7+9+8=39; the 7 items in each conditional route are nested content, not additional independent evidence."
+          "alt": "Identity and question: 5 items, who / what is asked / when to pause, scope and proposition role; inferential position: 7 items, four dependency types + conditional routes, permitted and prohibited inferences; scale and transfer: 7 items, nine axes / object / preservation and loss, items that must be added on elevation and elevations that are prohibited; observation and effects: 9 items, signals / evidence / inputs and outputs, windows / uncertainty / positions; carriers and limits: 8 items, carrier / responsibility / normative ceilings, counterexamples / appeal / restoration; each route: 7 items, when / additional prerequisites and method requirements, conclusion and result ceiling. 5+7+7+9+8=36; the 7 items in each conditional route are nested content, not additional independent evidence.",
+          "caption": "5+7+7+9+8=36; the 7 items in each conditional route are nested content, not additional independent evidence."
         }
       ],
       "diagramBrief": "The current deliverable is a static diagram; interaction has not yet been implemented. Any selection, switching, or clicking described below is only a design proposal for later. Parallel cards display different evidential responsibilities; position signifies neither sequence nor rank, and facts do not follow automatically from one card to another.",
@@ -61277,7 +61277,7 @@
       "figures": [
         {
           "path": "/reading-assets/S-7-3/figures/section-7-3-10.png",
-          "alt": "Shared checks: assessments of the orientation anchor/generative node/action uptake layer/feedback write-back may include missingness. Route one, applicability: a human intentional collective? Not all components mature. Route two, prototype description: itemized entry/observation/counterexample checks, without a universal second-regime requirement. Routes three/four/six: causation/additional history/carrier routes add evidence for the corresponding mechanism. Route five, orderly-exit conversion: independent path and complete conditions, without a universal threshold based on prototype numbers. Every route: no authorization for forced advancement and no personality or moral grading. This diagram routes conclusion responsibilities; it is not a left-to-right ladder of collective advancement.",
+          "alt": "Shared checks: assessments of the orientation anchor/generative node/action uptake layer/feedback write-back may include missingness. Route one, applicability: a human intentional collective? Not all components mature. Route two, prototype description: checks of entry/observation/counterexample/falsification, without a universal second-regime requirement. Routes three/four/six: causation/additional history/carrier routes add evidence for the corresponding mechanism. Route five, orderly-exit conversion: independent path and complete conditions, without a universal threshold based on prototype numbers. Every route: no authorization for advancement or elimination, and no personality or moral grading. This diagram routes conclusion responsibilities; it is not a left-to-right ladder of collective advancement.",
           "caption": "This diagram routes conclusion responsibilities; it is not a left-to-right ladder of collective advancement."
         }
       ],
@@ -61734,7 +61734,7 @@
       "editionNote": "This page’s source text, section locations and lesson wording correspond to v3.0; historical research attachments and prior external-reading records retain their own versions and scopes.",
       "translationOf": {
         "language": "zh",
-        "lesson_sha256": "5dfb9a599686f16c0b4b9091554a6157939d17b5618d3161c0541d16a036338d",
+        "lesson_sha256": "da59f96b4290525901f96f087a1894c9d67af2ded3dee11a4453a3d1382e293a",
         "source_sha256": "0d9e445bcba84380a572d248dad4836013b735d7d33589f29ea0c6f1aeb61c10"
       }
     },
@@ -63793,7 +63793,7 @@
       "figures": [
         {
           "path": "/reading-assets/S-8-2/figures/section-8-2.png",
-          "alt": "Fix first: object/identity criterion/scale profile, window/subsystem. Actual states may change: membership/boundaries/roles, still tracked under the identity criterion. If the criterion must change: a separate record plus preserved old materials; no joined trajectory before rechecking. Item-by-item materials: entry/exit/observations, counterexamples/falsification/coverage. Four missing-data states: unknown (not collected/conflicting/still indistinguishable after attempts)/unobservable, not applicable/withheld for protection. Classification and ceilings: missing evidence must not masquerade as mixed; descriptive and unauthorized. Fixing in advance does not guarantee execution; membership change does not automatically mean the identity criterion changes, and unknown is neither zero nor mixed.",
+          "alt": "Fix first: object/identity criterion/scale profile, window/subsystem. Actual states may change: membership/boundaries/roles, still tracked under the identity criterion. If the criterion must change: a separate record plus preserved old materials; no joined trajectory before rechecking. Item-by-item materials: entry/exit/observations, counterexamples/falsification/coverage. Four missing-data states: unknown/unobservable/not applicable, withheld for protection; a note below the box says that “unknown” must state whether the item is not yet collected, has conflicting sources, or is still indistinguishable after attempts. Classification and ceilings: missing evidence must not masquerade as mixed; descriptive and unauthorized. Fixing in advance does not guarantee execution; membership change does not automatically mean the identity criterion changes, and unknown is neither zero nor mixed.",
           "caption": "Fixing in advance does not guarantee execution; membership change does not automatically mean the identity criterion changes, and unknown is neither zero nor mixed."
         }
       ],
@@ -63927,7 +63927,7 @@
       "editionNote": "This page’s source text, section locations and lesson wording correspond to v3.0; historical research attachments and prior external-reading records retain their own versions and scopes.",
       "translationOf": {
         "language": "zh",
-        "lesson_sha256": "79a21565a9eda372d50890b5ee1067a3113f821360e3e7305642159f70881fe6",
+        "lesson_sha256": "d9a0d06644071e2c0ce5e313506abb245c4d16d76c212f55acc57af64ffbb648",
         "source_sha256": "0d9e445bcba84380a572d248dad4836013b735d7d33589f29ea0c6f1aeb61c10"
       }
     },
@@ -71864,7 +71864,7 @@
         },
         {
           "path": "/reading-assets/S-9-3/figures/evidence-status.png",
-          "alt": "Observation records differ from candidate explanations. Supported-hypothesis/disputed/unknown/retired statuses follow material, not a hierarchy of personalities.",
+          "alt": "Observation records are concrete, checkable behavior; they are neither personality conclusions nor a status of a personality hypothesis. A personality hypothesis is a candidate, a supported hypothesis, disputed, unknown, or retired, judged by the material, with no automatic promotion and no hierarchy of personalities.",
           "caption": "Diagram of evidential statuses, without automatic promotion arrows."
         },
         {
@@ -72037,7 +72037,7 @@
       "editionNote": "This page’s source text, section locations and lesson wording correspond to v3.0; historical research attachments and prior external-reading records retain their own versions and scopes.",
       "translationOf": {
         "language": "zh",
-        "lesson_sha256": "08f40297e3e8af0c6b821ff2209a842b291c8477065ff0c5931db653604adfed",
+        "lesson_sha256": "9f7738aa90cc33571d4d901d3cb9f75279b83522f15267d0e70fbf859025ae5d",
         "source_sha256": "0d9e445bcba84380a572d248dad4836013b735d7d33589f29ea0c6f1aeb61c10"
       }
     },
@@ -73910,7 +73910,7 @@
       "figures": [
         {
           "path": "/reading-assets/S-9-8/figures/privacy-purpose.png",
-          "alt": "State material scope, acquisition context, sensitivity, and refusal; changes in use require renewed checking, and silence remains unknown.",
+          "alt": "State material scope, acquisition context, sensitivity, and refusal; changes in use require renewed checking; silence is recorded under §2.9 as material not obtained (unobservable), not filled with personality inferences.",
           "caption": "A conceptual diagram based on §9.8, not a universal legal classification table or authorization for any actual processing."
         },
         {
@@ -74083,7 +74083,7 @@
       "editionNote": "This page’s source text, section locations and lesson wording correspond to v3.0; historical research attachments and prior external-reading records retain their own versions and scopes.",
       "translationOf": {
         "language": "zh",
-        "lesson_sha256": "e8ef9401bfede916874e7882eb48c31f46d903435f96558d9622e95f50e46b00",
+        "lesson_sha256": "4208b0c676eee1d7f2dfce5f4b1f9686be4de1acf29172ccd440dd6eba4e172d",
         "source_sha256": "0d9e445bcba84380a572d248dad4836013b735d7d33589f29ea0c6f1aeb61c10"
       }
     },
@@ -93308,8 +93308,8 @@
       "figures": [
         {
           "path": "/reading-assets/S-12-10/figures/section-12-10-1.png",
-          "alt": "State z1, qualified: left,preserve; common intersection {preserve}, allowing bounded choice with unknowns; state z2, qualified: right,preserve; remove unauthorized preserve, leaving z1={left}; empty intersection, insufficient single-round deterministic guarantee, with information or strategies checked separately; remove unauthorized preserve, leaving z2={right}. Formal construction: all qualified sets require prior checks of resources, protection, and valid permission; the diagram creates no preservation authorization.",
-          "caption": "Formal construction: all qualified sets require prior checks of resources, protection, and valid permission; the diagram creates no preservation authorization."
+          "alt": "State z1, qualified: left,preserve; common intersection {preserve}, allowing bounded choice with unknowns; state z2, qualified: right,preserve; remove unauthorized preserve, leaving z1={left}; empty intersection, insufficient single-round deterministic guarantee, with information or strategies checked separately; remove unauthorized preserve, leaving z2={right}. Formal construction: all qualified sets require prior checks of the rights floor, resources, and valid permission; the diagram creates no preservation authorization.",
+          "caption": "Formal construction: all qualified sets require prior checks of the rights floor, resources, and valid permission; the diagram creates no preservation authorization."
         }
       ],
       "diagramBrief": "The current deliverable is a static figure; interaction has not been implemented. References below to selecting, switching, or clicking are ideas for later design only. Qualified sets could be switched to show intersections, while also displaying evidence and validity duration for each qualification.",
@@ -93381,7 +93381,7 @@
       "editionNote": "This page’s source text, section locations and lesson wording correspond to v3.0; historical research attachments and prior external-reading records retain their own versions and scopes.",
       "translationOf": {
         "language": "zh",
-        "lesson_sha256": "b06e27e5ce8b9c95edb951484924766efe48bf5715dabb9900c7be4baa7e2060",
+        "lesson_sha256": "f3f7f65fcdbafec5c3e6560bd2fbd67e7488db099ef65e34e4fa454452ffa9cc",
         "source_sha256": "0d9e445bcba84380a572d248dad4836013b735d7d33589f29ea0c6f1aeb61c10"
       }
     },
@@ -112642,7 +112642,7 @@
       "figures": [
         {
           "path": "/reading-assets/S-16-4/figures/section-16-4.png",
-          "alt": "Cases and counterexamples, including unresolved/unknown/excluded; assertion record, scope/counterevidence/withdrawal conditions; conditional foresight, triggers/windows/results at expiry; separate case selection from detection, unknown ≠ zero, opportunity boundaries must be testable; retain version-disposition traces without overwriting old predictions and failures; verification of checkable records, identity/evidence/relationships, authorization/review/objections. Drawn by the lesson author based on 16.4; horizontal lines indicate relationships, not automatic evidence upgrades. The lower row shows corresponding checking obligations.",
+          "alt": "Cases and counterexamples, including unresolved/unknown/excluded; assertion record, scope/counterevidence/withdrawal conditions; conditional foresight, triggers/windows/results at expiry; separate case selection from detection, unknown ≠ zero, opportunity boundaries must be testable; retain version-disposition traces without overwriting old predictions and failures; seven kinds of record for governance changes, identity/evidence/interest relationships/authorization, external review/objections/version log. Drawn by the lesson author based on 16.4; horizontal lines indicate relationships, not automatic evidence upgrades. The lower row shows corresponding checking obligations.",
           "caption": "Drawn by the lesson author based on 16.4; horizontal lines indicate relationships, not automatic evidence upgrades. The lower row shows corresponding checking obligations."
         }
       ],
@@ -112713,7 +112713,7 @@
       "editionNote": "This page’s source text, section locations and lesson wording correspond to v3.0; historical research attachments and prior external-reading records retain their own versions and scopes.",
       "translationOf": {
         "language": "zh",
-        "lesson_sha256": "79bad6dfaf88017fb97beea10fa3b1ac7030e2d583728ff0e7b239e2a25abb7d",
+        "lesson_sha256": "e85cb6ba005d223f467b6f938db9793913b23817998db69c278e08bf393f2abe",
         "source_sha256": "0d9e445bcba84380a572d248dad4836013b735d7d33589f29ea0c6f1aeb61c10"
       }
     },
