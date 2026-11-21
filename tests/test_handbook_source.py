@@ -385,18 +385,22 @@ class BilingualHandbookTests(unittest.TestCase):
     def test_english_source_and_author_original_downloads_retain_bytes(self):
         downloads = WEBSITE / "public/downloads"
         self.assertEqual((downloads / builder.EN_FILE).read_bytes(), self.raw)
-        self.assertEqual((downloads / "xikari-conditions-en.original.md").read_bytes(),
-                         (ROOT / "source/en/upstream/xikari-conditions-en.md").read_bytes())
+        english = json.loads((ROOT / "source/en/source-manifest.json").read_text(encoding="utf-8"))
+        original = (downloads / "xikari-conditions-en.original.md").read_bytes()
+        self.assertEqual(hashlib.sha256(original).hexdigest(), english["revision_of"]["supplied_manuscript_sha256"])
+        self.assertEqual(self.manifest["author_original"]["sha256"], english["revision_of"]["supplied_manuscript_sha256"])
         self.assertEqual(self.manifest["source_sha256"], hashlib.sha256(self.raw).hexdigest())
         self.assertEqual(self.manifest["canonical_chinese_sha256"], builder.SOURCE_SHA256)
 
     def test_english_edition_names_the_chinese_text_it_translates(self):
-        # The reference translation follows v2 as first published; the Chinese was reworded later.
-        self.assertEqual(self.manifest["translates_chinese_sha256"], V2_SHA256)
-        self.assertEqual(self.manifest["source_date"], "2026-11-16")
+        # The reference edition follows v2.1; the author's English translation of v2 stays downloadable.
+        self.assertEqual(self.manifest["translates_chinese_sha256"], builder.SOURCE_SHA256)
+        self.assertEqual(self.manifest["theory_version"], "v2.1")
+        self.assertEqual(self.manifest["source_date"], "2026-11-20")
         self.assertNotIn("edition", self.manifest)
+        self.assertEqual(self.manifest["author_original"]["theory_version"], "v2")
         chinese = json.loads((WEBSITE / "public/source-map.json").read_text(encoding="utf-8"))
-        self.assertEqual(chinese["previous_edition"]["sha256"], self.manifest["translates_chinese_sha256"])
+        self.assertEqual(chinese["previous_edition"]["sha256"], self.manifest["author_original"]["translates_chinese_sha256"])
         self.assertNotIn("translates_chinese_sha256", chinese)
 
     def test_all_numbered_sections_keep_the_same_route_and_anchor_across_languages(self):
@@ -434,8 +438,20 @@ class BilingualHandbookTests(unittest.TestCase):
             observed.update(references)
             copied += "source-note-copies:start" in rendered
         self.assertEqual(observed, set(originals))
-        self.assertEqual(len(observed), 45)
-        self.assertGreater(copied, 0)
+        # The notes that only explained words the current wording dropped ("contract", "protocol") are gone.
+        self.assertEqual(len(observed), 26)
+        self.assertFalse([key for key in observed if key.startswith(("tn-contract", "tn-protocol"))])
+        # Every current note is defined on the page that cites it; copying is covered by the test below.
+        self.assertEqual(copied, 0)
+
+    def test_a_page_receives_translator_notes_defined_on_another_page(self):
+        sample = builder.Page("en/theory/sample.md", "Sample", 0, 3, None, 1)
+        lines = ["# Sample\n", "A sentence with a note.[^tn-sample]\n", "\n",
+                 "## Later\n", "\n", "[^tn-sample]: Translator's note: The note.\n"]
+        rendered = builder.render_page(sample, lines, {})
+        self.assertIn("<!-- source-note-copies:start -->", rendered)
+        self.assertIn("[^tn-sample]: Translator's note: The note.", rendered)
+        self.assertEqual(restore_original(rendered, sample), ["# Sample", "A sentence with a note.[^tn-sample]"])
 
     def test_inline_code_and_fenced_code_keep_literal_punctuation(self):
         sample = builder.Page("en/theory/sample.md", "Sample", 0, 7, None, 1)

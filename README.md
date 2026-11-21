@@ -259,7 +259,7 @@ python "$skillRoot/scripts/domain_cards.py" --library "$taskRoot/领域卡" list
 
 - **[中文精读站](https://xi-kari.github.io/xi-kari-skill/handbook/)**：v2.1 全文分为 65 个阅读页面、397 个编号小节；连同书前、分部导言等共 421 个阅读单元，均有中文讲解入口。原文与讲解分开呈现，概念、案例与正文可以搜索。
 - **[英文阅读站](https://xi-kari.github.io/xi-kari-skill/handbook/en/)**：完整英文参考正文与中文共用小节编号，全部 421 个网页讲解单元均有英文译文，包含论证、例子、问答和来源说明；配有英文导航、搜索、概念页与案例页。可以切换语言对照；原图配英文说明，历史研究附件保留中文并明确标注。
-- **[全文下载](https://xi-kari.github.io/xi-kari-skill/handbook/downloads.html)**：提供中文 v2.1 Markdown、英文参考译本所依据的 v2 原文、英文阅读稿和保留原始字节的作者英文原件。另保留明确标为第一版的旧 Word；它不对应现行正文。历史研究材料也保留各自版本与来源说明。
+- **[全文下载](https://xi-kari.github.io/xi-kari-skill/handbook/downloads.html)**：提供中文 v2.1 Markdown、按 v2.1 修订的英文参考译本、v2 原文，以及保留原始字节的作者 v2 英译原件。另保留明确标为第一版的旧 Word；它不对应现行正文。历史研究材料也保留各自版本与来源说明。
 - **[概念例解](https://xi-kari.github.io/xi-kari-skill/handbook/concepts/)**：从一个问题进入一项区别，例如“收到意见，就算形成反馈了吗？”“每个方案都可行，能一起实施吗？”
 - **[真实案例](https://xi-kari.github.io/xi-kari-skill/handbook/cases/)**：火星气候轨道器的单位接口、丰田安灯的响应流程、GitLab 的数据库恢复、弗林特的饮水投诉、飓风伊恩的预报锥等；案例总览按“先从哪个问题读起”给出阅读路线。
 - **[历史实测案例](https://github.com/xi-kari/xi-kari-skill/discussions?discussions_q=)**：Discussions 保留了基于 Xikari 8.3 的历史分析，供参考与讨论，不代表当前《Xikari-条件结构与转化论》及现行 Skill 的分析表现。

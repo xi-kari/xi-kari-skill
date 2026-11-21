@@ -8,7 +8,7 @@ title: "Appendix C Common Method Kernel and Cross-Disciplinary Bridging"
 
 # Appendix C Common Method Kernel and Cross-Disciplinary Bridging {#part-title-19}
 
-This appendix lists methodological responsibilities that can be shared when texts interoperate. Each text retains its own authoritative definitions and way of operating. The common kernel requires no shared chapter structure, artifact count, or numbering. It does not make one text independent empirical evidence for another.
+This appendix lists methodological responsibilities that can be shared when different texts are used together. Each text retains its own authoritative definitions and way of being used. The common kernel does not require the same chapter structure, the same number of outputs, or the same numbering. It does not make one text independent empirical evidence for another.
 
 </div>
 
@@ -19,14 +19,14 @@ This appendix lists methodological responsibilities that can be shared when text
 
 ## C.1 Method Kernel and Stable References {#section-c-1}
 
-| Chinese Reference | Content | Where to Find It |
+| Reference Name | Content | Where to Find It |
 | --- | --- | --- |
 | Definition layer | Objects, states, feedback, scales, circles, information status, and recasting | Framework definitions and authoritative definitions in *World Model* |
-| Method constraints CMC1–CMC3 | Task and representation, evidential status of materials, and facts and eligibility to act | §4.17 |
-| Conditional formal propositions F | Task recovery, closure, common feasible actions, composition of conversions, error, and dynamic refinement | §4.18–4.19 and this appendix |
-| Empirical question families G1–G4 | Grouping, channels, historical increments, and representational closure | Instance contracts in Part 4 |
-| Outcome and mechanism contracts C1–C12 | Outcome registration, mechanism composition, and bridging to normative procedures | The individual contracts in Part 4 |
-| Governance invariants | Freezing, evidence, baselines, authorization, protection, and the life cycle | Existing governance clauses in both texts |
+| Three common method constraints | Task and representation, evidential status of materials, and facts and eligibility to act | §4.17 |
+| Conditional formal propositions | Task recovery, closure, common feasible actions, composition of conversions, error, and dynamic refinement | §4.18–4.19 and this appendix |
+| Four empirical questions | Grouping, channels, historical increments, and representational closure | Pre-registration of formal tests in Part 4 |
+| Twelve conclusion rules | Records of outcome statuses, mechanism composition, and bridging to normative procedures | The individual conclusion rules in Part 4 |
+| Governance invariants | Finalizing before results, evidence, baselines, authorization, protection, and the life cycle | Existing governance clauses in both texts |
 
 </div>
 
@@ -37,7 +37,7 @@ This appendix lists methodological responsibilities that can be shared when text
 
 ## C.2 Common Method Constraints {#section-c-2}
 
-CMC1 requires the task, representation, horizon, environment, operations, and error to be declared together. Test static recovery, dynamic closure, and intervention sufficiency separately. CMC2 requires preserving the evidential status of materials, source lineage, inferential premises, and scope of support. Reprocessing material does not count as independent empirical evidence. CMC3 requires facts, value judgments, and eligibility to act to be established separately. See §4.17 for the full formulation.
+There are three common method constraints. The first is “Tasks and Representations Must Be Declared Together”: the task, representation, horizon, environment, operations, and error need to be declared together, and static recovery, dynamic closure, and intervention sufficiency need to be tested separately. The second is “The Status of Materials and Scope of Support Must Be Traceable”: the evidential status of materials, source lineage, inferential premises, and scope of support need to be preserved, and reprocessing material does not count as independent empirical evidence. The third is “Facts, Values, and Eligibility to Act Are Established Separately”: facts, value judgments, and eligibility to act need to be established separately. See §4.17 for the full formulation.
 
 The three constraints specify responsibilities for using models. They do not constitute three empirical laws of the world. Whether they reduce errors or impose unnecessary burdens in real tasks requires separate evaluation. Compliance with the procedures does not establish the framework’s effectiveness.
 
@@ -50,23 +50,25 @@ The three constraints specify responsibilities for using models. They do not con
 
 ## C.3 Shared Governance Invariants {#section-c-3}
 
-Invariant one. Freeze the record before results and only append afterward.
+There are nine shared governance invariants.
 
-Invariant two. Lack of support for a positive claim does not amount to support for the null model.
+Invariant one. Finalize the record before results appear, and after they appear only append to it.
 
-Invariant three. Definitions, contracts, internal teaching examples, and internal simulations cannot supply external empirical support on their own.
+Invariant two. Lack of support for a positive claim does not amount to support for the null model, that is, a comparison model without the claimed factor.
 
-Invariant four. The evidential status of materials, proposition role, artifact status, and whether fields are missing are orthogonal dimensions. Keep them separate.
+Invariant three. Definitions, conventions, internal teaching examples, and internal simulations cannot supply external empirical support on their own.
 
-Invariant five. A single artifact cannot automatically satisfy responsibilities for source tracing, modeling, foresight, evaluation, authorization, and execution.
+Invariant four. The evidential status of materials, proposition role, output status, and missing-data status are mutually independent dimensions. Keep them separate.
+
+Invariant five. A single output cannot automatically satisfy responsibilities for source tracing, modeling, foresight, evaluation, authorization, and execution.
 
 Invariant six. Model complexity must be subject to simplification, removal of unnecessary elements, and review of necessity suited to the task. Claims of predictive or empirical capability require comparison with a simple baseline and independent evaluation material. Formal proofs, interpretation of texts, and normative arguments are checked according to their own tasks. Inapplicable out-of-sample metrics must not be imposed on them.
 
 Invariant seven. Residuals generate only competing candidates. They do not automatically generate variables in reality.
 
-Invariant eight. Capabilities have domains of applicability and validity periods, and are subject to drift, suspension, rollback, and retirement.
+Invariant eight. Capabilities have domains of applicability and validity periods, and are subject to drift, suspension, restoration to a prior state, and retirement.
 
-Invariant nine. Aggregate results must not erase low-power positions, privacy, non-disclosure for protection, appeal, or exit.
+Invariant nine. Aggregate results must not erase low-power positions, privacy, withholding for protection, appeal, or exit.
 
 </div>
 
@@ -77,9 +79,9 @@ Invariant nine. Aggregate results must not erase low-power positions, privacy, n
 
 ## C.4 Preserving Differences Across Texts {#section-c-4}
 
-Interoperability should separately check proposition layers, empirical question-family contracts, null conclusions, scale closure, noncommutation tests, and inferential dependencies, as well as information status, artifact systems, typed unknowns, experimental evaluation, evidence of capability, and model life cycles. A complete contract in one text cannot be replaced by a similar name or case in the other. When the correspondence has yet to be established, keep the differences explicit.
+When the two texts are used together, the following should be checked separately: proposition layers, the pre-registration of tests of the four empirical questions, null conclusions, scale closure, noncommutation tests, and inferential premises; and information status, systems of outputs, unknowns classified by type, experimental evaluation, evidence of capability, and model life cycles. The complete definitions and rules of one text cannot be replaced by something with a similar name, or by a case, from the other. Where the correspondence has yet to be established, keep the differences explicit.
 
-The framework’s nine scale operators need not be aligned with the standard operator steps in *World Model*. The framework’s 14-section scale transformation record is also kept separate from the closed artifact system of *World Model*. The two share only the minimum meanings of what is preserved, changed, collapsed, or omitted, new unknowns, source lineage, domain of applicability, residuals, and stopping.
+The framework’s nine scale transformations (§5.5) need not be aligned with the standard transformation steps in *World Model*. The framework’s scale transformation record, which covers fourteen aspects (§5.7), is also kept separate from the closed system of outputs in *World Model*. The two share only the minimum meanings of what is preserved, changed, collapsed, or omitted, new unknowns, source lineage, domain of applicability, residuals, and stopping.
 
 </div>
 
@@ -105,7 +107,7 @@ See Appendix D for the framework’s map of applications by domain. Each domain 
 <div v-pre class="theory-source">
 
 
-## C.6 F1 Task Recovery and Worst-Case Error {#section-c-6}
+## C.6 Task Recovery and Worst-Case Error (F1) {#section-c-6}
 
 Let X be a nonempty set of source states, π:X→Y a deterministic representation with Y=π(X), and q:X→V the target. For each y∈Y, the preimage X\_y=&#123;x:π(x)=y&#125; is called a representation fiber. The decoder may use only y. It must not read the source state, identity labels, or undeclared history behind the scenes.
 
@@ -130,7 +132,7 @@ Suppose the target is binary, the loss is zero-one loss, and the finite set of s
 <div v-pre class="theory-source">
 
 
-## C.7 F4 Composition of Conversions and Actual Execution {#section-c-7}
+## C.7 Composition of Conversions and Actual Execution (F4) {#section-c-7}
 
 Let f:X→Z and h:Z→W, with the final query q already satisfying q=g∘f. The composition h∘f can still recover q if and only if g is constant on every fiber of h restricted to f(X). If q=k∘h∘f, intermediate values corresponding to the same final representation must have the same g value. Conversely, define k by the common g value on each final fiber. The condition concerns only the reachable image f(X). It imposes no constraint on intermediate values without a corresponding source state.
 
@@ -147,7 +149,7 @@ This counterexample does not require every real-world fault to be uniquely class
 <div v-pre class="theory-source">
 
 
-## C.8 F2 Closure and F5 Error Propagation {#section-c-8}
+## C.8 Closure and Error Propagation (F2, F5) {#section-c-8}
 
 Let F:X→X be deterministic one-step dynamics. There exists F̄:Y→Y satisfying π∘F=F̄∘π if and only if π(x)=π(x′) implies π(F(x))=π(F(x′)). The proof follows by replacing the target q in C.6 with π∘F. If the condition holds on the whole domain, then π∘F^t=F̄^t∘π for each nonnegative integer t. The zero-step case is immediate. To go from step t to step t+1, apply the commutation relation once.
 
@@ -246,13 +248,13 @@ This establishes that a historical predictive increment can arise from an omissi
 
 Whether conversions can compose to give the same final answer, whether causal effects can link into a chain, and whether actions can be jointly executed with available resources concern functions, joint responses, and sets of constraints, respectively. They can occur in the same workflow. A generic status of “connected” cannot make them interchangeable.
 
-See §2.4.2 for the causal counterexample. The types s∈&#123;0,1&#125; have equal weight, with m(a)=a(1−s) and y(a,m)=sm. The average effect from treatment to mediator and the average effect from mediator to outcome are both 1/2, whereas the effect of the full chain is 0 because different types carry the two effects. This rules out multiplying edge means unconditionally. It does not withdraw an independently identified total effect.
+See §2.4.2 for the causal counterexample. The types s∈&#123;0,1&#125; have equal weight, with m(a)=a(1−s) and y(a,m)=sm. The average effect from treatment to mediator and the average effect from mediator to outcome are both 1/2, whereas the effect of the full chain is 0 because different types carry the two effects. This rules out multiplying the means of the separate links unconditionally. It does not withdraw an independently identified total effect.
 
 The resource counterexample consists of two unit tasks, each taking a full period. Both must be completed before the end of the first period, which has capacity of only 1. Each task is feasible alone, but there is no feasible joint schedule. Joint execution becomes feasible if capacity in that period rises to 2, or if one deadline is legitimately moved to the second period and that period has capacity of 1. If both original deadlines remain, adding capacity in the second period cannot make up for the original deadline. The conclusion follows directly from the stated constraints. It does not certify real-world demand, capacity, or authorization.
 
-**F3 Common feasible action proposition.** For a finite, single-round deterministic task, let X\_y be a nonempty observation class and A\_ok(x) the set of eligible actions for each state. There exists an action depending only on y that is eligible for every x∈X\_y if and only if ∩\_&#123;x∈X\_y&#125;A\_ok(x) is nonempty.
+**Common feasible action proposition (F3).** For a finite, single-round deterministic task, let X\_y be a nonempty observation class and A\_ok(x) the set of eligible actions for each state. There exists an action depending only on y that is eligible for every x∈X\_y if and only if ∩\_&#123;x∈X\_y&#125;A\_ok(x) is nonempty.
 
-Proof. If such an action a exists, it belongs to the eligible set of every compatible state and therefore to the common intersection. Conversely, choose any a in the nonempty intersection. It is eligible in every compatible state, and choosing it does not require knowing which state actually holds. Nonemptiness of each state’s set separately is only a necessary condition. For example, if the eligible sets of two states are &#123;左&#125; and &#123;右&#125;, meaning left and right, respectively, each has an option but they share no action. If both allow an authorized preservation action, the intersection can be nonempty while the state remains incompletely identified.
+Proof. If such an action a exists, it belongs to the eligible set of every compatible state and therefore to the common intersection. Conversely, choose any a in the nonempty intersection. It is eligible in every compatible state, and choosing it does not require knowing which state actually holds. Nonemptiness of each state’s eligible set separately is only a necessary condition. For example, if the eligible sets of two states are &#123;左&#125; and &#123;右&#125;, meaning left and right, respectively, each has an option but they share no action. If both allow an authorized preservation action, the intersection can be nonempty while the state remains incompletely identified.
 
 The eligible sets in the proposition must already incorporate the resources, protections, and valid permissions required by the task. Writing an action in mathematical terms cannot substitute for these real-world conditions. The proposition concerns only the listed compatible states and cannot guarantee that unknown states will never occur. When undertaken lawfully, further observation, waiting, or preservation can change the information and policy sets. None of these occurs automatically. Probability-based choices that tolerate risk, randomization, and sequential policies are analyzed separately according to their own objectives. Representational sufficiency, computability, accessibility, implementability, resources, and authority to adopt must be justified separately for the specific use.
 
