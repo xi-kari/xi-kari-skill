@@ -3,6 +3,7 @@
   "id": "PATH-forced_rewrite",
   "type": "path",
   "title": "缺少保护的权力重写",
+  "title_en": "Rewriting by power without protection",
   "anchors": [
     "8.4",
     "8.2",

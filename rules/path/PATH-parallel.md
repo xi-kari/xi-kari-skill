@@ -3,6 +3,7 @@
   "id": "PATH-parallel",
   "type": "path",
   "title": "不同位置的并行状态",
+  "title_en": "Parallel states in different positions",
   "anchors": [
     "8.4",
     "8.2",

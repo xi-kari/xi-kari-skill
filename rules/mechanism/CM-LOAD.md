@@ -3,6 +3,7 @@
   "id": "CM-LOAD",
   "type": "mechanism",
   "title": "同型需求、容量与恢复缺口",
+  "title_en": "Demand of the same kind, capacity, and the recovery gap",
   "anchors": [
     "6.6",
     "6.11",

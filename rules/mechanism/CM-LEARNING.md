@@ -3,6 +3,7 @@
   "id": "CM-LEARNING",
   "type": "mechanism",
   "title": "更新是否保留并用于下一任务",
+  "title_en": "Whether an update is kept and used in the next task",
   "anchors": [
     "6.3",
     "6.4",

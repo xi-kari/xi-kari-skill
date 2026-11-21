@@ -3,6 +3,7 @@
   "id": "PATH-regression",
   "type": "path",
   "title": "相对自身基线的功能回退",
+  "title_en": "Regression of functions against the object's own baseline",
   "anchors": [
     "8.4",
     "8.2",

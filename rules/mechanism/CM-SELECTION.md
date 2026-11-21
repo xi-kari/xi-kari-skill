@@ -3,6 +3,7 @@
   "id": "CM-SELECTION",
   "type": "mechanism",
   "title": "变异是否经差异保留进入下一轮",
+  "title_en": "Whether variation enters the next round through differential retention",
   "anchors": [
     "6.8",
     "6.11"

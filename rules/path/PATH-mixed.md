@@ -3,6 +3,7 @@
   "id": "PATH-mixed",
   "type": "path",
   "title": "同一对象内的混合构型",
+  "title_en": "Mixed configurations within one object",
   "anchors": [
     "8.4",
     "8.2",

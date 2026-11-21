@@ -3,6 +3,7 @@
   "id": "CAS-MEMBER",
   "type": "cascade",
   "title": "重叠成员的逐跳传导",
+  "title_en": "Hop-by-hop transmission through overlapping members",
   "anchors": [
     "11.5",
     "11.6",

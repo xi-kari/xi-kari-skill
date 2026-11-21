@@ -3,6 +3,7 @@
   "id": "PATH-jump",
   "type": "path",
   "title": "非相邻配置的观察跳跃",
+  "title_en": "Observed jumps to a nonadjacent configuration",
   "anchors": [
     "8.4",
     "8.2",

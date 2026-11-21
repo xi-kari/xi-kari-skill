@@ -3,6 +3,7 @@
   "id": "SIG-PROPAGATION",
   "type": "signal",
   "title": "传播七要素与响应接续",
+  "title_en": "The seven elements of propagation and the responses that follow",
   "anchors": [
     "11.5",
     "11.6",

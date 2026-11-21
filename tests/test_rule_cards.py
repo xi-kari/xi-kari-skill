@@ -3,6 +3,8 @@ import importlib.util
 import json
 from pathlib import Path
 import re
+import shutil
+import tempfile
 import unittest
 
 
@@ -31,6 +33,67 @@ def section(text, title):
     if match is None:
         raise AssertionError(f'missing section: {title}')
     return match.group(1).strip()
+
+
+def card_meta(relative):
+    text = (ROOT / relative).read_text(encoding='utf-8-sig')
+    return json.loads(re.match(r'---\n(\{.*?\})\n---\n', text, re.S).group(1))
+
+
+class EnglishTitleTests(unittest.TestCase):
+    def test_every_card_and_its_index_row_carry_one_english_title(self):
+        index = json.loads((ROOT / 'rules/index.json').read_text(encoding='utf-8-sig'))
+        self.assertEqual(len(index['rules']), 41)
+        seen = set()
+        for row in index['rules']:
+            with self.subTest(card=row['id']):
+                meta = card_meta(row['file'])
+                title = meta.get('title_en')
+                self.assertIsInstance(title, str)
+                self.assertRegex(title, r'^[A-Z][^　-鿿]*[^.\s]$')
+                self.assertEqual(row.get('title_en'), title)
+                self.assertEqual(row.get('title'), meta.get('title'))
+                self.assertNotIn(title.lower(), seen)
+                seen.add(title.lower())
+
+    def test_english_guide_tells_how_to_name_a_card(self):
+        guide = (ROOT / 'references/english.md').read_text(encoding='utf-8')
+        load = card_meta('rules/mechanism/CM-LOAD.md')['title_en']
+        self.assertIn(f'CM-LOAD ({load})', guide)
+
+    def check_mutated_package(self, mutate):
+        with tempfile.TemporaryDirectory() as temp:
+            package = Path(temp)
+            for relative in ('source', 'modules', 'rules', 'cases', 'references', 'agents'):
+                shutil.copytree(ROOT / relative, package / relative)
+            mutate(package)
+            return lint.check(package)
+
+    def test_lint_rejects_an_index_title_that_differs_from_the_card(self):
+        def mutate(package):
+            path = package / 'rules/index.json'
+            index = json.loads(path.read_text(encoding='utf-8'))
+            index['rules'][0]['title_en'] = 'Something else'
+            path.write_text(json.dumps(index, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+        result = self.check_mutated_package(mutate)
+        self.assertFalse(result['ok'])
+        self.assertIn('rules/index.json: CM-FEEDBACK.title_en differs from card', result['errors'])
+
+    def test_lint_requires_an_english_title_on_every_card(self):
+        def mutate(package):
+            path = package / 'rules/mechanism/CM-LOAD.md'
+            text = path.read_text(encoding='utf-8')
+            title = card_meta('rules/mechanism/CM-LOAD.md')['title_en']
+            path.write_text(text.replace(f'  "title_en": "{title}",\n', '', 1), encoding='utf-8')
+            index_path = package / 'rules/index.json'
+            index = json.loads(index_path.read_text(encoding='utf-8'))
+            for row in index['rules']:
+                if row['id'] == 'CM-LOAD':
+                    del row['title_en']
+            index_path.write_text(json.dumps(index, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+        result = self.check_mutated_package(mutate)
+        self.assertFalse(result['ok'])
+        self.assertIn('rules/mechanism/CM-LOAD.md: title_en must be a non-empty string', result['errors'])
 
 
 class StateRuleCardTests(unittest.TestCase):

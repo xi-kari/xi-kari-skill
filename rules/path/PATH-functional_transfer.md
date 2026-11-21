@@ -3,6 +3,7 @@
   "id": "PATH-functional_transfer",
   "type": "path",
   "title": "核心功能转移与连续性",
+  "title_en": "Transfer of a core function and continuity",
   "anchors": [
     "8.4",
     "8.2",

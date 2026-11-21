@@ -3,6 +3,7 @@
   "id": "PATH-takeover",
   "type": "path",
   "title": "外部控制关键接口",
+  "title_en": "External control of key interfaces",
   "anchors": [
     "8.4",
     "8.2",

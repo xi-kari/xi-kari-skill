@@ -3,6 +3,7 @@
   "id": "CAS-MEANING",
   "type": "cascade",
   "title": "解释对信任与身份的传导",
+  "title_en": "How interpretation carries over to trust and identity",
   "anchors": [
     "11.5",
     "11.6",

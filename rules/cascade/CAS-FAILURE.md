@@ -3,6 +3,7 @@
   "id": "CAS-FAILURE",
   "type": "cascade",
   "title": "技术故障传导、恢复依赖与共同暴露",
+  "title_en": "Spread of technical failures, recovery dependencies, and common exposure",
   "anchors": [
     "6.13",
     "6.5",

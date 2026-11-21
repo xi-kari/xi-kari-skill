@@ -3,6 +3,7 @@
   "id": "CAS-PLATFORM",
   "type": "cascade",
   "title": "推荐与可见性的传播放大",
+  "title_en": "Amplified spread through recommendation and visibility",
   "anchors": [
     "11.5",
     "11.6",

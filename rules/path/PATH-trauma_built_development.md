@@ -3,6 +3,7 @@
   "id": "PATH-trauma_built_development",
   "type": "path",
   "title": "伤害条件下形成的结构",
+  "title_en": "Structures formed under harm",
   "anchors": [
     "8.4",
     "8.2",

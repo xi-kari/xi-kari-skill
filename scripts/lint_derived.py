@@ -277,6 +277,10 @@ def check(root: Path, previous_source: Path | None = None) -> dict:
                 value = meta.get(key)
                 if not isinstance(value, list) or any(not isinstance(x, str) or not x.strip() for x in value):
                     errors.append(f'{name}: {key} must be a string list')
+            for key in ('title', 'title_en'):
+                value = meta.get(key)
+                if not isinstance(value, str) or not value.strip():
+                    errors.append(f'{name}: {key} must be a non-empty string')
             key = meta.get('id')
             if isinstance(key, str):
                 if key in cards:
@@ -314,7 +318,7 @@ def check(root: Path, previous_source: Path | None = None) -> dict:
             name, meta = cards[key]
             if row.get('file', row.get('path')) != name:
                 errors.append(f'rules/index.json: incorrect file for {key}')
-            for field in ('type', 'anchors', 'status', 'applies_to', 'triggers', 'competes_with'):
+            for field in ('type', 'title', 'title_en', 'anchors', 'status', 'applies_to', 'triggers', 'competes_with'):
                 if row.get(field) != meta.get(field):
                     errors.append(f'rules/index.json: {key}.{field} differs from card')
         for missing in sorted(set(cards) - seen):

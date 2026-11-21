@@ -3,6 +3,7 @@
   "id": "CM-MAINTENANCE",
   "type": "mechanism",
   "title": "维护是否改变既定功能的保持",
+  "title_en": "Whether maintenance changes how an established function is kept up",
   "anchors": [
     "6.5",
     "6.10",

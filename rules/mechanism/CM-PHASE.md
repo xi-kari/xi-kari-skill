@@ -3,6 +3,7 @@
   "id": "CM-PHASE",
   "type": "mechanism",
   "title": "区间变化、触发与持续分支",
+  "title_en": "Change between intervals, triggers, and persisting branches",
   "anchors": [
     "6.7",
     "6.11",
