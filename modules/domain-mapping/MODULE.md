@@ -1,5 +1,5 @@
 ---
-{"id":"domain-mapping","title":"领域映射与方法适配","theory_sha256":"2128af7cfa4c63b58207521a375aa34c2aea230d47e1c04a5afec3334e290d28","reading":["1.3","1.10","3.4","5.10","13.1","D.01"]}
+{"id":"domain-mapping","title":"领域映射与方法适配","theory_sha256":"0d9e445bcba84380a572d248dad4836013b735d7d33589f29ea0c6f1aeb61c10","reading":["1.3","1.10","3.4","5.10","13.1","D.01"]}
 ---
 
 # 领域映射与方法适配
