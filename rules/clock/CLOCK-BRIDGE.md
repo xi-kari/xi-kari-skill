@@ -3,6 +3,7 @@
   "id": "CLOCK-BRIDGE",
   "type": "clock",
   "title": "跨时钟变化的接续",
+  "title_en": "Carrying changes across clocks",
   "anchors": [
     "6.12",
     "10.7",

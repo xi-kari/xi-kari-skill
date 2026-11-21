@@ -3,6 +3,8 @@
 The Chinese manuscript is the theory source. ``--lang en`` reads the bundled
 English reference edition, which shares every section and part identifier;
 ``--parallel`` prints the Chinese and English text of the same sections.
+``--page`` splits a long ``--section``, ``--part`` or ``--front`` selection
+into pages of whole lines.
 """
 
 from __future__ import annotations
@@ -179,6 +181,36 @@ def check_english(zh_manifest: dict, zh_sections: dict, zh_parts: dict) -> dict:
     return result
 
 
+def range_pages(rows: list[str], ranges: list[tuple[int, int]], size: int) -> list[tuple[int, int]]:
+    """Split line ranges into pages of whole lines of at most ``size`` characters.
+
+    A page ends after a blank line when one falls in its second half; a single
+    line longer than ``size`` forms a page of its own.
+    """
+    if size < 1:
+        raise ValueError("Chunk size must be positive")
+    pages = []
+    for start, end in ranges:
+        first = start
+        while first < end:
+            length = 0
+            last = first
+            blank = None
+            while last < end:
+                cost = len(rows[last]) + 1
+                if last > first and length + cost > size:
+                    break
+                length += cost
+                if not rows[last].strip() and length >= size // 2:
+                    blank = last
+                last += 1
+            if last < end and blank is not None:
+                last = blank + 1
+            pages.append((first, last))
+            first = last
+    return pages
+
+
 def selected_ranges(sections: dict, parts: dict, keys: list[str], numbers: list[int],
                     front: bool = False) -> list[tuple[int, int]]:
     ranges = []
@@ -229,7 +261,9 @@ def main() -> int:
     parser.add_argument("--check", action="store_true", help="Maintenance-only source identity check")
     parser.add_argument("--chunks", action="store_true", help="Show total chunks for sequential complete reading")
     parser.add_argument("--chunk", type=int, action="append", default=[], help="Read a complete-text chunk, starting at 1")
-    parser.add_argument("--chunk-size", type=int, default=6000, help="Maximum characters per chunk; keep fixed while reading")
+    parser.add_argument("--chunk-size", type=int, default=6000, help="Maximum characters per chunk or page; keep fixed while reading")
+    parser.add_argument("--page", type=int, action="append", default=[],
+                        help="With --section, --part or --front, read one page of the selection, starting at 1")
     parser.add_argument("--search", action="append", default=[], metavar="TERM",
                         help="Locate a literal term after full-source study; repeatable, all terms must appear on a line")
     parser.add_argument("--limit", type=int, default=20, help="Maximum reported search hits")
@@ -252,6 +286,10 @@ def main() -> int:
             raise ValueError("Search terms must not be empty")
         if args.parallel and not (args.section or args.part or args.front):
             raise ValueError("--parallel needs --section, --part or --front")
+        if args.page and not (args.section or args.part or args.front):
+            raise ValueError("--page needs --section, --part or --front")
+        if args.page and args.parallel:
+            raise ValueError("--page cannot be combined with --parallel; page each edition separately with --lang")
         for number in args.chunk:
             if not 1 <= number <= len(chunks):
                 raise ValueError(f"Unknown chunk: {number}; available: 1 through {len(chunks)}")
@@ -261,6 +299,12 @@ def main() -> int:
             editions = [(SOURCE, *load_edition(SOURCE)[2:]), (english, *load_edition(english)[2:])]
         planned = [(name, rows, selected_ranges(index, anchors, args.section, args.part, args.front))
                    for name, rows, index, anchors in editions]
+        if args.page:
+            planned = [(name, rows, range_pages(rows, ranges, args.chunk_size)) for name, rows, ranges in planned]
+            for name, rows, pages in planned:
+                for number in args.page:
+                    if not 1 <= number <= len(pages):
+                        raise ValueError(f"Unknown page: {number}; available: 1 through {len(pages)}")
         if args.search:
             order = sorted(sections.items(), key=lambda item: item[1]["start"])
             hits = search_lines(lines, order, args.search, args.limit, args.context)
@@ -305,6 +349,12 @@ def main() -> int:
             for key, item in sections.items():
                 print(f"{key}\t{item['start'] + 1}-{item['end']}\t{item['title']}")
         for name, rows, ranges in planned:
+            if args.page:
+                for number in args.page:
+                    start, end = ranges[number - 1]
+                    print(f"\n[{name.name} · lines {start + 1}-{end} · page {number}/{len(ranges)}]\n")
+                    print("\n".join(rows[start:end]))
+                continue
             for start, end in ranges:
                 print(f"\n[{name.name} · lines {start + 1}-{end}]\n")
                 print("\n".join(rows[start:end]))

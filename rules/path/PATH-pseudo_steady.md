@@ -3,6 +3,7 @@
   "id": "PATH-pseudo_steady",
   "type": "path",
   "title": "表面稳定与实际耗竭",
+  "title_en": "Surface stability and actual exhaustion",
   "anchors": [
     "8.4",
     "8.2",

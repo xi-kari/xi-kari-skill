@@ -3,6 +3,7 @@
   "id": "PATH-merge",
   "type": "path",
   "title": "合并与吸收的边界",
+  "title_en": "The boundaries of merger and absorption",
   "anchors": [
     "8.4",
     "8.2",

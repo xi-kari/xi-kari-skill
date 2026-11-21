@@ -3,6 +3,7 @@
   "id": "CAS-RESOURCE",
   "type": "cascade",
   "title": "共享资源的占用、释放与替代",
+  "title_en": "Occupation, release, and substitution of shared resources",
   "anchors": [
     "11.5",
     "11.6",

@@ -3,6 +3,7 @@
   "id": "PATH-dormancy",
   "type": "path",
   "title": "活动降低与可再激活载体",
+  "title_en": "Reduced activity and carriers that can be reactivated",
   "anchors": [
     "8.4",
     "8.2",

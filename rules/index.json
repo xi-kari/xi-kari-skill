@@ -5,6 +5,7 @@
       "id": "CM-FEEDBACK",
       "type": "mechanism",
       "title": "返回是否改变后续过程",
+      "title_en": "Whether what comes back changes the later process",
       "anchors": [
         "6.2",
         "6.2.1",
@@ -36,6 +37,7 @@
       "id": "CM-LEARNING",
       "type": "mechanism",
       "title": "更新是否保留并用于下一任务",
+      "title_en": "Whether an update is kept and used in the next task",
       "anchors": [
         "6.3",
         "6.4",
@@ -69,6 +71,7 @@
       "id": "CM-MAINTENANCE",
       "type": "mechanism",
       "title": "维护是否改变既定功能的保持",
+      "title_en": "Whether maintenance changes how an established function is kept up",
       "anchors": [
         "6.5",
         "6.10",
@@ -102,6 +105,7 @@
       "id": "CM-LOAD",
       "type": "mechanism",
       "title": "同型需求、容量与恢复缺口",
+      "title_en": "Demand of the same kind, capacity, and the recovery gap",
       "anchors": [
         "6.6",
         "6.11",
@@ -135,6 +139,7 @@
       "id": "CM-PHASE",
       "type": "mechanism",
       "title": "区间变化、触发与持续分支",
+      "title_en": "Change between intervals, triggers, and persisting branches",
       "anchors": [
         "6.7",
         "6.11",
@@ -166,6 +171,7 @@
       "id": "CM-SELECTION",
       "type": "mechanism",
       "title": "变异是否经差异保留进入下一轮",
+      "title_en": "Whether variation enters the next round through differential retention",
       "anchors": [
         "6.8",
         "6.11"
@@ -196,6 +202,7 @@
       "id": "PATH-mixed",
       "type": "path",
       "title": "同一对象内的混合构型",
+      "title_en": "Mixed configurations within one object",
       "anchors": [
         "8.4",
         "8.2",
@@ -220,6 +227,7 @@
       "id": "PATH-parallel",
       "type": "path",
       "title": "不同位置的并行状态",
+      "title_en": "Parallel states in different positions",
       "anchors": [
         "8.4",
         "8.2",
@@ -244,6 +252,7 @@
       "id": "PATH-jump",
       "type": "path",
       "title": "非相邻配置的观察跳跃",
+      "title_en": "Observed jumps to a nonadjacent configuration",
       "anchors": [
         "8.4",
         "8.2",
@@ -269,6 +278,7 @@
       "id": "PATH-regression",
       "type": "path",
       "title": "相对自身基线的功能回退",
+      "title_en": "Regression of functions against the object's own baseline",
       "anchors": [
         "8.4",
         "8.2",
@@ -294,6 +304,7 @@
       "id": "PATH-split",
       "type": "path",
       "title": "对象分裂与新界定",
+      "title_en": "Splitting of an object and its new definitions",
       "anchors": [
         "8.4",
         "8.2",
@@ -319,6 +330,7 @@
       "id": "PATH-merge",
       "type": "path",
       "title": "合并与吸收的边界",
+      "title_en": "The boundaries of merger and absorption",
       "anchors": [
         "8.4",
         "8.2",
@@ -344,6 +356,7 @@
       "id": "PATH-dormancy",
       "type": "path",
       "title": "活动降低与可再激活载体",
+      "title_en": "Reduced activity and carriers that can be reactivated",
       "anchors": [
         "8.4",
         "8.2",
@@ -369,6 +382,7 @@
       "id": "PATH-takeover",
       "type": "path",
       "title": "外部控制关键接口",
+      "title_en": "External control of key interfaces",
       "anchors": [
         "8.4",
         "8.2",
@@ -394,6 +408,7 @@
       "id": "PATH-functional_transfer",
       "type": "path",
       "title": "核心功能转移与连续性",
+      "title_en": "Transfer of a core function and continuity",
       "anchors": [
         "8.4",
         "8.2",
@@ -419,6 +434,7 @@
       "id": "PATH-paradigm_replacement",
       "type": "path",
       "title": "不同界定绕过旧对象",
+      "title_en": "A different definition bypassing the old object",
       "anchors": [
         "8.4",
         "8.2",
@@ -444,6 +460,7 @@
       "id": "PATH-trauma_built_development",
       "type": "path",
       "title": "伤害条件下形成的结构",
+      "title_en": "Structures formed under harm",
       "anchors": [
         "8.4",
         "8.2",
@@ -470,6 +487,7 @@
       "id": "PATH-pseudo_steady",
       "type": "path",
       "title": "表面稳定与实际耗竭",
+      "title_en": "Surface stability and actual exhaustion",
       "anchors": [
         "8.4",
         "8.2",
@@ -497,6 +515,7 @@
       "id": "PATH-forced_rewrite",
       "type": "path",
       "title": "缺少保护的权力重写",
+      "title_en": "Rewriting by power without protection",
       "anchors": [
         "8.4",
         "8.2",
@@ -525,6 +544,7 @@
       "id": "PATH-external_carrier_migration",
       "type": "path",
       "title": "向可承接系统迁移",
+      "title_en": "Migration to a system able to take up what moves",
       "anchors": [
         "8.4",
         "8.2",
@@ -551,6 +571,7 @@
       "id": "PATH-collapse",
       "type": "path",
       "title": "原界定的非计划断裂",
+      "title_en": "Unplanned breakdown of the original definition",
       "anchors": [
         "8.4",
         "8.2",
@@ -578,6 +599,7 @@
       "id": "S0",
       "type": "state-transition",
       "title": "锚点凝聚的候选出口",
+      "title_en": "Candidate exits from coalescence around an anchor",
       "anchors": [
         "8.1",
         "8.2",
@@ -605,6 +627,7 @@
       "id": "S1",
       "type": "state-transition",
       "title": "生成核心依赖的候选出口",
+      "title_en": "Candidate exits from dependence on a generative core",
       "anchors": [
         "8.1",
         "8.2",
@@ -634,6 +657,7 @@
       "id": "S2",
       "type": "state-transition",
       "title": "扩展与承接分化的候选出口",
+      "title_en": "Candidate exits from expansion and differentiated uptake",
       "anchors": [
         "8.1",
         "8.2",
@@ -662,6 +686,7 @@
       "id": "S3",
       "type": "state-transition",
       "title": "连通约束的候选出口",
+      "title_en": "Candidate exits from interconnected constraints",
       "anchors": [
         "8.1",
         "8.2",
@@ -690,6 +715,7 @@
       "id": "S4",
       "type": "state-transition",
       "title": "实际重构的开放出口",
+      "title_en": "Open exits from actual reconfiguration",
       "anchors": [
         "8.1",
         "8.2",
@@ -719,6 +745,7 @@
       "id": "S5",
       "type": "state-transition",
       "title": "高效协调的候选出口",
+      "title_en": "Candidate exits from efficient coordination",
       "anchors": [
         "8.1",
         "8.2",
@@ -747,6 +774,7 @@
       "id": "S6",
       "type": "state-transition",
       "title": "自适应平衡的退出条件",
+      "title_en": "Exit conditions for adaptive balance",
       "anchors": [
         "8.1",
         "8.2",
@@ -776,6 +804,7 @@
       "id": "X0",
       "type": "state-transition",
       "title": "有序退场的入口与完成",
+      "title_en": "Entry into and completion of orderly exit",
       "anchors": [
         "8.5",
         "8.5.1",
@@ -802,6 +831,7 @@
       "id": "CAS-MEMBER",
       "type": "cascade",
       "title": "重叠成员的逐跳传导",
+      "title_en": "Hop-by-hop transmission through overlapping members",
       "anchors": [
         "11.5",
         "11.6",
@@ -829,6 +859,7 @@
       "id": "CAS-RESOURCE",
       "type": "cascade",
       "title": "共享资源的占用、释放与替代",
+      "title_en": "Occupation, release, and substitution of shared resources",
       "anchors": [
         "11.5",
         "11.6",
@@ -857,6 +888,7 @@
       "id": "CAS-MEANING",
       "type": "cascade",
       "title": "解释对信任与身份的传导",
+      "title_en": "How interpretation carries over to trust and identity",
       "anchors": [
         "11.5",
         "11.6",
@@ -885,6 +917,7 @@
       "id": "CAS-INSTITUTION",
       "type": "cascade",
       "title": "规则下行与实际写回",
+      "title_en": "Rules passed downstream and actual write-back",
       "anchors": [
         "11.5",
         "11.6",
@@ -913,6 +946,7 @@
       "id": "CAS-PLATFORM",
       "type": "cascade",
       "title": "推荐与可见性的传播放大",
+      "title_en": "Amplified spread through recommendation and visibility",
       "anchors": [
         "11.5",
         "11.6",
@@ -941,6 +975,7 @@
       "id": "CAS-FAILURE",
       "type": "cascade",
       "title": "技术故障传导、恢复依赖与共同暴露",
+      "title_en": "Spread of technical failures, recovery dependencies, and common exposure",
       "anchors": [
         "6.13",
         "6.5",
@@ -969,6 +1004,7 @@
       "id": "CLOCK-BRIDGE",
       "type": "clock",
       "title": "跨时钟变化的接续",
+      "title_en": "Carrying changes across clocks",
       "anchors": [
         "6.12",
         "10.7",
@@ -1001,6 +1037,7 @@
       "id": "SIG-PROPAGATION",
       "type": "signal",
       "title": "传播七要素与响应接续",
+      "title_en": "The seven elements of propagation and the responses that follow",
       "anchors": [
         "11.5",
         "11.6",
@@ -1032,6 +1069,7 @@
       "id": "SIG-WARNING",
       "type": "signal",
       "title": "预警、依赖线索与承接",
+      "title_en": "Early warning, dependence cues, and uptake",
       "anchors": [
         "8.6",
         "12.6",
@@ -1060,6 +1098,7 @@
       "id": "SIG-EARLY-REVERSE",
       "type": "signal",
       "title": "事前信号与复核触发",
+      "title_en": "Signals fixed in advance and triggers for review",
       "anchors": [
         "12.6",
         "12.7"
@@ -1090,6 +1129,7 @@
       "id": "CM-ALLOCATION-CAPABILITY",
       "type": "mechanism",
       "title": "配置与能力的跨轮相互强化",
+      "title_en": "Mutual reinforcement of allocation and capability across rounds",
       "anchors": [
         "7.6.1",
         "7.6",
@@ -1124,6 +1164,7 @@
       "id": "PATH-formation-maintenance-recovery-replication",
       "type": "path",
       "title": "形成、维持、恢复与复制分别判断",
+      "title_en": "Formation, maintenance, recovery, and replication judged separately",
       "anchors": [
         "6.10.1",
         "6.5",

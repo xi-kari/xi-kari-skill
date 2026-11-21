@@ -3,6 +3,7 @@
   "id": "CM-ALLOCATION-CAPABILITY",
   "type": "mechanism",
   "title": "配置与能力的跨轮相互强化",
+  "title_en": "Mutual reinforcement of allocation and capability across rounds",
   "anchors": [
     "7.6.1",
     "7.6",

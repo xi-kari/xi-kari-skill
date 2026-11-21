@@ -3,6 +3,7 @@
   "id": "SIG-EARLY-REVERSE",
   "type": "signal",
   "title": "事前信号与复核触发",
+  "title_en": "Signals fixed in advance and triggers for review",
   "anchors": [
     "12.6",
     "12.7"

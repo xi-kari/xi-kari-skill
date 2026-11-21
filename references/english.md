@@ -7,6 +7,15 @@ Read this when the user writes in English, asks for English output, or quotes th
 - Answer in the language the user writes in or asks for, and keep it for follow-ups in the same task unless the user switches.
 - The working instructions — `SKILL.md`, `references/`, `modules/` and rule cards — are written in Chinese. Follow them as written. Do not restate them as a second English rule set or relax them because the answer is in English.
 
+## Requests in English
+
+The instructions name some requests by their Chinese wording. Read English requests the same way:
+
+- *Research*, *investigate* or *look into* — even in passing, as in “look into what happened” — asks for research, as 研究一下 and 调查一下 do, and calls the research entry.
+- *Look at*, *have a look* or *take a look* is an ordinary request, as 看看 and 帮我看一下 are: full study by default, and no research report unless research is asked for.
+- *In ten sentences*, *a light answer* or *a quick take*, or a quick judgment on an everyday question from a user who accepts that the source will not be read, selects the ten-sentence mode (`primer`).
+- *You may use layered reading*, *no need to read the whole book* or the like authorizes `layered`. It does not authorize reading the English edition in place of the Chinese.
+
 ## Two editions, one authority
 
 - `source/Xikari-条件结构与转化论.md` is the theory source and the only authority. Its definitions, conditions, exclusions, quantifiers, permissions and prohibitions govern.
@@ -19,6 +28,7 @@ Read this when the user writes in English, asks for English output, or quotes th
 
 - The reading rules in `SKILL.md` and [full-source-study.md](full-source-study.md) do not change. `full` mode is complete, ordered study of the Chinese source with `read_source.py`.
 - Reading the English edition in place of the Chinese source is not assumed to be equivalent. Like `layered`, it is a reading condition that may be used only in an explicitly authorized experiment, and it cannot become a default before a same-task, same-materials, same-model A/B comparison with tolerances fixed in advance and the author's decision on the result.
+- Permission for `layered` reading is not permission to read the English edition instead. In an English task, layered reading still reads the Chinese source; reading the English in its place needs its own explicit authorization.
 - Locating and quoting English wording after study:
 
 ```powershell
@@ -27,11 +37,13 @@ python "$skillRoot/scripts/read_source.py" --lang en --section 12.2
 python "$skillRoot/scripts/read_source.py" --lang en --search "action ceiling"
 ```
 
-`--parallel` prints the Chinese and then the English text of the same sections. `--lang en` works with `--section`, `--part`, `--front`, `--chunk`, `--chunks`, `--list` and `--search`. `--check` verifies both editions and reports whether the English edition translates the current Chinese wording or the earlier wording that the current text revises.
+`--parallel` prints the Chinese and then the English text of the same sections. `--lang en` works with `--section`, `--part`, `--front`, `--page`, `--chunk`, `--chunks`, `--list` and `--search`. `--check` verifies both editions and reports whether the English edition translates the current Chinese wording or the earlier wording that the current text revises.
 
 ## Terminology
 
 Use the renderings in [glossary-en.md](glossary-en.md) consistently: one concept, one English term. A rendering belongs to its specialized sense; ordinary uses of the same Chinese word take ordinary English. When a term may be unfamiliar, explain it in plain words at its first use in the answer instead of relying on the term alone.
+
+In an answer to a practical question, ordinary words carry the mechanism, as [communication.md](communication.md) asks: write who *takes over* or *picks up* the work rather than *uptake*. The glossary rendering belongs where the reader needs to find the concept in the theory, such as the method note. When a quotation you need contains such a term, keep the quotation as written and say beside it, in plain words, what the term means.
 
 These distinctions must survive in English:
 
@@ -120,11 +132,14 @@ When you quote the English edition, quote its words as written. In your own pros
 
 File names and command arguments stay as they are: `contract.md`, `state.md`, `snapshot.md`, `paths.md`, `forecasts.json`, `candidates.json`, `xi-kari-answer.md`.
 
+Rule cards are written in Chinese. Each card's header and `rules/index.json` give an English title, `title_en`. In an English method note, name a card by its ID and English title, for example CM-LOAD (Demand of the same kind, capacity, and the recovery gap).
+
 In an R8 answer the identity word travels with each candidate: *must* is used only for a consequence within a model that the sentence names; an untested empirical statement is a *candidate*, never a *finding*; *not found in the scope searched* always states the scope.
 
 ## Quoting
 
 - Quote the English edition word for word and give the section, for example: “Complexity does not amount to maturity.” (§10.10).
+- In an answer to a practical question (R2–R6 and R8), section numbers stay in the method note: quote briefly in the text without the §, and list each quotation's section in the method note. R1 and R7 answers, and passages that answer what a term of the theory means, give the § with the quotation.
 - When you translate a passage yourself because the edition appears to differ from the Chinese, mark it: (translated from the Chinese, §x.y).
 - Before a quotation decides an answer — a definition, a condition, a permission or a prohibition — read the same section with `--parallel` and confirm that the Chinese says the same.
 
@@ -140,4 +155,4 @@ In an R8 answer the identity word travels with each candidate: *must* is used on
 
 ## Style
 
-Write plain, precise English. The rules for complete answers, communication and presentation apply unchanged. Avoid stock phrases the source does not warrant — *delve into*, *it is important to note*, *crucial*, *pivotal*, *multifaceted*, *holistic*, *seamless*, *leverage*, *landscape*, *tapestry*, *realm*, *testament* — and do not add summary flourishes or triads the argument does not need.
+Write plain, precise English. The rules for complete answers, communication and presentation apply unchanged. Give the book's English title at its first mention in an answer, *Xikari: On Conditions, Structure, and Transformation*, and call it *the book* or *the theory* after that. Avoid stock phrases the source does not warrant — *delve into*, *it is important to note*, *crucial*, *pivotal*, *multifaceted*, *holistic*, *seamless*, *leverage*, *landscape*, *tapestry*, *realm*, *testament* — and do not add summary flourishes or triads the argument does not need.

@@ -3,6 +3,7 @@
   "id": "PATH-collapse",
   "type": "path",
   "title": "原界定的非计划断裂",
+  "title_en": "Unplanned breakdown of the original definition",
   "anchors": [
     "8.4",
     "8.2",

@@ -3,6 +3,7 @@
   "id": "PATH-formation-maintenance-recovery-replication",
   "type": "path",
   "title": "形成、维持、恢复与复制分别判断",
+  "title_en": "Formation, maintenance, recovery, and replication judged separately",
   "anchors": [
     "6.10.1",
     "6.5",

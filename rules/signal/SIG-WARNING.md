@@ -3,6 +3,7 @@
   "id": "SIG-WARNING",
   "type": "signal",
   "title": "预警、依赖线索与承接",
+  "title_en": "Early warning, dependence cues, and uptake",
   "anchors": [
     "8.6",
     "12.6",

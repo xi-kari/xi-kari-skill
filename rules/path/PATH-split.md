@@ -3,6 +3,7 @@
   "id": "PATH-split",
   "type": "path",
   "title": "对象分裂与新界定",
+  "title_en": "Splitting of an object and its new definitions",
   "anchors": [
     "8.4",
     "8.2",

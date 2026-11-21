@@ -3,6 +3,7 @@
   "id": "PATH-paradigm_replacement",
   "type": "path",
   "title": "不同界定绕过旧对象",
+  "title_en": "A different definition bypassing the old object",
   "anchors": [
     "8.4",
     "8.2",
