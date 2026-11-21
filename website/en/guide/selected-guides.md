@@ -14,7 +14,7 @@ Use the [searchable directory of all 421 lessons](/en/#lessons) to find a unit b
 | [§2.1.1](/en/theory/part-02#section-2-1-1) | Domain evidence keeps its own standing |
 | [§2.4.2](/en/theory/part-02#section-2-4-2) | Average effects do not automatically join into one chain |
 | [§2.4.3](/en/theory/part-02#section-2-4-3) | A valid status and its consequences need different evidence |
-| [§2.14](/en/theory/part-02#section-2-14) | Freeze a test without monopolizing the question |
+| [§2.14](/en/theory/part-02#section-2-14) | Fix a question without monopolizing it |
 | [§3.3](/en/theory/part-03#section-3-3) | Trace the return and the difference it causes |
 | [§4.5](/en/theory/part-04#section-4-5) | History may act through a sufficient present carrier |
 | [§4.6](/en/theory/part-04#section-4-6) | A useful prediction can fail under a new action |
