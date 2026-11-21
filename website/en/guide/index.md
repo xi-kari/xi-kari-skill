@@ -5,7 +5,7 @@ description: "Read the source and complete lesson translations, keeping theory, 
 
 # How to use this reading site
 
-The main reading path is the complete English reference edition of **Xikari: On Conditions, Structure, and Transformation**, theory v2, November 2026. Its 397 numbered sections preserve the order of the Chinese original, including all sixteen parts, Appendices A–D, and the references. The [Chinese source](/theory/) remains authoritative when wording differs.
+The main reading path is the complete English reference edition of **Xikari: On Conditions, Structure, and Transformation**, theory v2.1, November 2026. Its 397 numbered sections preserve the order of the Chinese original, including all sixteen parts, Appendices A–D, and the references. The [Chinese source](/theory/) remains authoritative when wording differs.
 
 ## Begin with ten sentences
 

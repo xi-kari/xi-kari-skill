@@ -27,7 +27,7 @@ Surge watches, warnings, and peak forecasts addressed that other target. At Fort
 
 [§3.4](/en/theory/part-03#section-3-4) requires a sufficiency judgment to specify its query or task family, horizon, environment, and admissible operations. A representation of the center’s likely track cannot alone answer a particular coast’s water-height question. NHC supplied separate products for separate hazards.
 
-[F1](/en/theory/part-04#section-4-18-1) gives a formal condition for recovering a target from a representation. This case illustrates the relevance of matching representation to task; it is not a formal empirical test of F1. The page supplies neither a complete state space and mapping nor paired records establishing identical cones with different surge answers.
+[The task-recovery proposition](/en/theory/part-04#section-4-18-1) gives a formal condition for recovering a target from a representation. This case illustrates the relevance of matching representation to task; it is not a formal empirical test of that proposition. The page supplies neither a complete state space and mapping nor paired records establishing identical cones with different surge answers.
 
 ## Forecast evidence is not evidence of every decision
 

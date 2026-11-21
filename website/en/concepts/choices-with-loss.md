@@ -13,7 +13,7 @@ State who bears the remaining losses, why their claims still hold, who owes miti
 
 First test the apparent lack of alternatives: who controls the scarcity, whether prior decisions can be challenged, and whether options were excluded merely because they cost the decision maker. If authority is insufficient, refer the matter to a subject with authority rather than treating that gap as proof of no alternative. This showing remains open to appeal and goes to review independent of the decision maker.
 
-Nonwaivable law and protection do not lapse because choices are painful. A claim that they cannot all be preserved must identify the conflicting requirements and excluded options for independent review. If that claim is not confirmed, return to options that do not cross those requirements. Even if confirmed, the framework does not endorse any option as authorized, and still-preservable protections continue. A competent actor needs its own applicable statutory or emergency authority, acts within the narrowest scope, bears responsibility, and sets expiry and subsequent review.
+Nonwaivable law and protection do not lapse because choices are painful. A claim that they cannot all be preserved must identify the conflicting requirements and excluded options for independent review. If that claim is not confirmed, return to options that do not cross those requirements. Even if confirmed, the framework does not endorse any option as “authorized”, and still-preservable protections continue. A competent actor needs its own applicable statutory or emergency authority, acts within the narrowest scope, bears responsibility, and sets expiry and subsequent review.
 
 ## Keep these judgments separate
 
@@ -41,4 +41,4 @@ No. The affected claims and subsequent responsibilities remain; the ledger must 
 
 - Nonwaivable requirements cannot be traded away by a framework score.
 
-Read the complete [source section §14.9.1](/en/theory/part-14#section-14-9-1) and its guide. This explanation follows theory v2; the [Chinese original](/en/downloads) remains authoritative.
+Read the complete [source section §14.9.1](/en/theory/part-14#section-14-9-1) and its guide. This explanation follows theory v2.1; the [Chinese original](/en/downloads) remains authoritative.

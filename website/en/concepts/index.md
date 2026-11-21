@@ -9,7 +9,7 @@ These pages explain distinctions in the theory through a small number of worked 
 
 - [Receiving a message is not yet effective feedback](./feedback) — Trace the return and its subsequent effect.
 
-- [Records, learning, and additional historical information](./history) — Separate formation, current carriers, and G3.
+- [Records, learning, and additional historical information](./history) — Separate formation, current carriers, and historical increments.
 
 - [Two effective links can still fail as a whole](./chain) — Check joint response instead of multiplying averages.
 
@@ -29,7 +29,7 @@ For the book in order, use the [contents](/en/). For translations of all 421 on-
 
 - [A valid status and its consequences need different evidence](./status-and-effects) — §2.4.3.
 
-- [Freeze a test without monopolizing the question](./reopening-questions) — §2.14.
+- [Fix a question without monopolizing it](./reopening-questions) — §2.14.
 
 - [Formation, maintenance, recovery, and replication are different outcomes](./four-outcomes) — §6.10.1.
 

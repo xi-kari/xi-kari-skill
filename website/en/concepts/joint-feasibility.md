@@ -21,7 +21,7 @@ These alternatives change different conditions. A later deadline cannot be silen
 
 ## A second problem: one action under incomplete information
 
-F3 concerns a related but distinct issue. Suppose the observation leaves two possible states. The acceptable action set is {left} in one and {right} in the other. Each state has an acceptable action, but their intersection is empty: no single action selected from this observation is acceptable in both.
+The common feasible action proposition (C.12) concerns a related but distinct issue. Suppose the observation leaves two possible states. The acceptable action set is {left} in one and {right} in the other. Each state has an acceptable action, but their intersection is empty: no single action selected from this observation is acceptable in both.
 
 If both states allow a validly authorized preservation action, the intersection can become nonempty without fully identifying the state. An additional observation may also help, but its cost, timeliness, risk, and availability must be assessed. Investigation is not automatically free or useful.
 

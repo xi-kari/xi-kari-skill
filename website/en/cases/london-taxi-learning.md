@@ -31,7 +31,7 @@ Training and qualification were not randomized. The sample was entirely male, tw
 
 [§6.3](/en/theory/part-06#section-6-3) allows ordinary learning to be supported by appropriate domain evidence without prior formal recognition by this framework. Its narrower feedback-mediated-learning claim requires a return causing an update, retention and later use, and relevant task evidence. This paper does not trace individual feedback events through that chain.
 
-[G3](/en/theory/part-04#section-4-5) asks whether history adds information or effects conditional on a declared current representation. A longitudinal design is not automatically that test. The study does not establish either a positive or a null G3 result, and this absence does not cancel its reported behavioral and imaging findings.
+[The historical-increment question](/en/theory/part-04#section-4-5) asks whether history adds information or effects beyond the stated current representation. A longitudinal design is not automatically that test. The study does not establish either a positive or a null result on that question, and this absence does not cancel its reported behavioral and imaging findings.
 
 ## Sources
 

@@ -17,7 +17,7 @@ The oral histories appear under related collections. Cornell received digital co
 
 The 2015 grant and the 2018 oral-history copy transfer therefore cannot fill the missing transfer date for the foundation’s own archive. Similar institutional names do not make two record groups the same object.
 
-## What X0 asks beyond custody
+## What orderly exit asks beyond custody
 
 [§8.5.2](/en/theory/part-08#section-8-5-2) checks orderly exit across the object and its orientation, core functions, people and relationships, resources, memory and evidence, debts and responsibility, and weak connections. Having a receiving archive addresses only part of memory and evidence.
 
@@ -27,7 +27,7 @@ The other dimensions require separate evidence. Cornell’s custodial role does 
 
 ## A bounded conclusion
 
-The material supports a narrower fact: there is an identified receiving institution for records and a described custodial arrangement. Overall X0 completion remains undetermined by these sources. Unknown does not mean failed; the same gap does not support a claim of failed exit.
+The material supports a narrower fact: there is an identified receiving institution for records and a described custodial arrangement. Overall completion of the orderly exit remains undetermined by these sources. Unknown does not mean failed; the same gap does not support a claim of failed exit.
 
 ## Sources
 

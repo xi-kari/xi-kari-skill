@@ -23,4 +23,4 @@ These English pages connect source-backed situations to distinctions in the book
 
 - [Democratic authorization](./democratic-authorization) — A v2 thematic guide and a clearly identified older Chinese report.
 
-A case can illustrate a question without testing the framework’s formal contracts. Corporate accounts, official audits, research studies, and archival descriptions have different scopes. Follow the citations for factual claims, and return to the [theory](/en/theory/) for its definitions and conditions.
+A case can illustrate a question without being a formal test of the framework. Corporate accounts, official audits, research studies, and archival descriptions have different scopes. Follow the citations for factual claims, and return to the [theory](/en/theory/) for its definitions and conditions.

@@ -23,7 +23,7 @@ This is a mathematical counterexample under specified functions, not a measured 
 | Do causal links support the effect of the chain as a whole? | Same-case correspondence, joint responses, common support, timing, capacity, and the endpoint. |
 | Can individually feasible tasks be executed together? | Shared resources, locations, deadlines, and valid permissions. |
 
-The [Mars Climate Orbiter case](../cases/mars-climate-orbiter) concerns a documented unit-interface failure. It is not an empirical instance of the two-type causal counterexample: NASA’s report did not estimate the two average effects above.
+The [Mars Climate Orbiter case](../cases/mars-climate-orbiter) concerns a documented unit-interface failure. It is not a real-world case of the two-type causal counterexample: NASA’s report did not estimate the two average effects above.
 
 The book’s education example in D.25 keeps a similar boundary: a person can really acquire skills while the local labor market offers no relevant job. Preserving the learning result helps identify the missing employment connection; neither the successful first step nor the unsuccessful endpoint should erase the other.
 
